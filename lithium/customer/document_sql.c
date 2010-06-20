@@ -71,7 +71,7 @@ int l_document_sql_update (i_resource *self, l_document *doc)
   /* Create query */
   desc_esc = i_postgres_escape (doc->desc_str);
   editor_esc = i_postgres_escape (doc->editor_str);
-  asprintf (&query, "UPDATE documents SET descr='%s', state='%i', editor='%s', version='%li' WHERE id='%li'",
+  asprintf (&query, "UPDATE documents SET descr='%s', state='%i', editor='%s', version='%li' WHERE id='%i'",
     desc_esc, doc->state, doc->editor_str, doc->version, doc->id);
   free (desc_esc);
   free (editor_esc);
@@ -80,7 +80,7 @@ int l_document_sql_update (i_resource *self, l_document *doc)
   num = i_pg_async_query_exec (self, conn, query, 0, l_document_sql_cb, NULL);
   free (query);
   if (num != 0)
-  { i_printf (1, "l_document_sql_update failed to execute UPDATE for doc %li", doc->id); return -1; }
+  { i_printf (1, "l_document_sql_update failed to execute UPDATE for doc %i", doc->id); return -1; }
 
   return 0;
 }
@@ -132,13 +132,13 @@ int l_document_sql_delete (i_resource *self, int doc_id)
   { i_printf (1, "l_document_sql_update failed to open SQL db connection"); return -1; }
 
   /* Create query */
-  asprintf (&query, "DELETE FROM documents WHERE id='%li'", doc_id);
+  asprintf (&query, "DELETE FROM documents WHERE id='%i'", doc_id);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_document_sql_cb, NULL);
   free (query);
   if (num != 0)
-  { i_printf (1, "l_document_sql_update failed to execute DELETE for doc %li", doc_id); return -1; }
+  { i_printf (1, "l_document_sql_update failed to execute DELETE for doc %i", doc_id); return -1; }
 
   return 0;
 }

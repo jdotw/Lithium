@@ -15,7 +15,7 @@ SDK="/Developer/SDKs/MacOSX10.5.sdk"
 ARCHTARGET="-arch i386 -arch ppc"
 OSTARGET="10.5"
 
-COREADMINSRCDIR="$HOME/Source/Core Admin"
+COREADMINSRCDIR="$PWD/../../core_admin"
 cd "$COREADMINSRCDIR"
 BUILDNUM=`agvtool mvers | grep '^Found CFBundleShortVersionString of'  | awk '{ print $4 }' | sed 's/\"//g'`
 echo "Build number is $BUILDNUM"
@@ -53,16 +53,10 @@ DSYM_PATH="$HOME/Source/Lithium/build_framework/packaging/dSYM Archives/Core/$BU
 mkdir -p "$DSYM_PATH"
 
 #
-# Checkout Lithium+Modules+Scripts from SVN
-#
-
-git clone ssh://git.lithiumcorp.com/git/LithiumCore.git lithium
-
-#
 # Build Lithium and Modules
 #
 
-cd lithium
+cd "$PWD/../.."
 
 util/makedistclean_all.sh
 
@@ -273,7 +267,7 @@ do
     CC="/Developer/usr/bin/clang" \
     CFLAGS="$NFRFLAG -O -gdwarf-2 -W -Wall -Wno-unused-parameter -Werror -mmacosx-version-min=$OSTARGET -isysroot $SDK $ARCHTARGET" \
     LDFLAGS="-Wl,-syslibroot,$SDK" \
-    ./configure $CONFIGURE_PATHS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History' --with-induction-includes=$FWPREFIX/Headers --with-lithium-includes=$FWPREFIX/Headers --with-postgres-includes=$DBFWPREFIX/Headers --with-postgres-libs=$DBFWPREFIX/Libraries --disable-dependency-tracking
+    ./configure $CONFIGURE_PATHS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History' --with-induction-includes=$FWPREFIX/Headers --with-lithium-includes=$FWPREFIX/Headers --with-postgres-includes=$DBFWPREFIX/Headers --with-postgres-libs=$DBFWPREFIX/Libraries --with-xml-includes=/usr/include/libxml2 --with-xml-libs=/usr/lib --with-curl-includes=$FWPREFIX/Headers --with-curl-libs=$FWPREFIX/Libraries --disable-dependency-tracking
     if [ $? -ne 0 ]; then
       echo "ERROR: $i failed to configure"
       exit
@@ -294,8 +288,6 @@ do
   fi
 done
 
-cd ..
-
 #
 # Clean up
 #
@@ -306,7 +298,7 @@ cd ..
 
 rm -rf '/Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/htdocs'
 mkdir -p '/Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/htdocs'
-cp -r $BASEDIR/lithium/htdocs/* '/Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/htdocs'
+cp -r $PWD/htdocs/* '/Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/htdocs'
 
 #
 # Copy scripts to /Lithium/share and /Lithium/var/lithium
@@ -314,17 +306,17 @@ cp -r $BASEDIR/lithium/htdocs/* '/Library/Lithium/LithiumCore.app/Contents/Resou
 
 rm -rf '/Library/Lithium/LithiumCore.app/Contents/Resources/ActionScripts'
 mkdir -p '/Library/Lithium/LithiumCore.app/Contents/Resources/ActionScripts'
-cp -r $BASEDIR/lithium/scripts/action_scripts '/Library/Lithium/LithiumCore.app/Contents/Resources/ActionScripts'
+cp -r $PWD/scripts/action_scripts '/Library/Lithium/LithiumCore.app/Contents/Resources/ActionScripts'
 
 rm -rf '/Library/Lithium/LithiumCore.app/Contents/Resources/ServiceScripts'
 mkdir -p '/Library/Lithium/LithiumCore.app/Contents/Resources/ServiceScripts'
-cp -r $BASEDIR/lithium/scripts/service_scripts '/Library/Lithium/LithiumCore.app/Contents/Resources/ServiceScripts'
+cp -r $PWD/scripts/service_scripts '/Library/Lithium/LithiumCore.app/Contents/Resources/ServiceScripts'
 
 mkdir -p '/Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts'
-cp -r $BASEDIR/lithium/scripts/lithium/*pl /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
-cp -r $BASEDIR/lithium/scripts/lithium/*sh /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
-cp $BASEDIR/lithium/scripts/lithium/repairweb.sh /Library/Lithium/LithiumCore.app/Contents/MacOS
-cp $BASEDIR/lithium/scripts/lithium/repairscripts.sh /Library/Lithium/LithiumCore.app/Contents/MacOS
-cp $BASEDIR/lithium/scripts/lithium/l49* /Library/Lithium/LithiumCore.app/Contents/MacOS
-cp $BASEDIR/lithium/scripts/lithium/l50* /Library/Lithium/LithiumCore.app/Contents/MacOS
+cp -r $PWD/scripts/lithium/*pl /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
+cp -r $PWD/scripts/lithium/*sh /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
+cp $PWD/scripts/lithium/repairweb.sh /Library/Lithium/LithiumCore.app/Contents/MacOS
+cp $PWD/scripts/lithium/repairscripts.sh /Library/Lithium/LithiumCore.app/Contents/MacOS
+cp $PWD/scripts/lithium/l49* /Library/Lithium/LithiumCore.app/Contents/MacOS
+cp $PWD/scripts/lithium/l50* /Library/Lithium/LithiumCore.app/Contents/MacOS
 

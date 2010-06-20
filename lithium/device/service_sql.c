@@ -117,7 +117,7 @@ int l_service_sql_delete (i_resource *self, int service_id)
   { i_printf (1, "l_service_sql_update failed to open SQL db connection"); return -1; }
 
   /* Create query */
-  asprintf (&query, "DELETE FROM services WHERE id='%li'", service_id);
+  asprintf (&query, "DELETE FROM services WHERE id='%i'", service_id);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_service_sql_cb, NULL);
@@ -458,7 +458,7 @@ i_callback* l_service_sql_log_load (i_resource *self, int service_id, int (*cbfu
   { i_printf (1, "l_service_sql_entity_load_list failed to open SQL database connection"); return NULL; }
 
   /* Query string */
-  asprintf (&query, "SELECT id, timestamp, comments FROM service_history WHERE service=%li LIMIT 250", service_id);
+  asprintf (&query, "SELECT id, timestamp, comments FROM service_history WHERE service=%i LIMIT 250", service_id);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_service_sql_log_load_cb, cb);

@@ -72,7 +72,7 @@ int xml_procpro_update (i_resource *self, i_xml_request *req)
   root_node = xmlNewNode (NULL, BAD_CAST "procpro_update");
   xmlDocSetRootElement (req->xml_out->doc, root_node);
   char *str;
-  asprintf (&str, "%i", procpro->id);
+  asprintf (&str, "%li", procpro->id);
   xmlNewChild (root_node, NULL, BAD_CAST "id", BAD_CAST str);
   free (str);
 

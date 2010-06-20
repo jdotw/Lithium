@@ -81,7 +81,7 @@ char* i_value_valstr_raw (unsigned short val_type, i_value *val)
       if (val->str) valstr = strdup (val->str);
       break;
     case VALTYPE_INTEGER:
-      asprintf (&valstr, "%i", val->integer);
+      asprintf (&valstr, "%li", val->integer);
       break;
     case VALTYPE_COUNT:
       asprintf (&valstr, "%lu", val->count);

@@ -136,7 +136,7 @@ xmlNodePtr i_entity_xml (i_entity *ent, unsigned short flags, time_t sync_versio
       asprintf (&str, "%u", ent->refresh_method);
       xmlNewChild (ent_node, NULL, BAD_CAST "refresh_method", BAD_CAST str);
       free (str);
-      asprintf (&str, "%u", ent->refresh_int_sec);
+      asprintf (&str, "%li", ent->refresh_int_sec);
       xmlNewChild (ent_node, NULL, BAD_CAST "refresh_int_sec", BAD_CAST str);
       free (str);
       asprintf (&str, "%u", ent->refresh_maxcolls);
@@ -151,10 +151,10 @@ xmlNodePtr i_entity_xml (i_entity *ent, unsigned short flags, time_t sync_versio
       asprintf (&str, "%u", ent->refresh_result);
       xmlNewChild (ent_node, NULL, BAD_CAST "refresh_result", BAD_CAST str);
       free (str);
-      asprintf (&str, "%lu", ent->refresh_tstamp.tv_sec);
+      asprintf (&str, "%li", ent->refresh_tstamp.tv_sec);
       xmlNewChild (ent_node, NULL, BAD_CAST "refresh_tstamp_sec", BAD_CAST str);
       free (str);
-      asprintf (&str, "%lu", ent->refresh_tstamp.tv_usec);
+      asprintf (&str, "%i", ent->refresh_tstamp.tv_usec);
       xmlNewChild (ent_node, NULL, BAD_CAST "refresh_tstamp_usec", BAD_CAST str);
       free (str);
     }

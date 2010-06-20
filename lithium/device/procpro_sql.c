@@ -115,7 +115,7 @@ int l_procpro_sql_delete (i_resource *self, int procpro_id)
   { i_printf (1, "l_procpro_sql_update failed to open SQL db connection"); return -1; }
 
   /* Create query */
-  asprintf (&query, "DELETE FROM procpro WHERE id='%li'", procpro_id);
+  asprintf (&query, "DELETE FROM procpro WHERE id='%i'", procpro_id);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_procpro_sql_cb, NULL);

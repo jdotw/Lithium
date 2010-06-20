@@ -7,7 +7,7 @@ if [ $UID -ne 0 ]; then
   exit 1
 fi
 
-COREADMINSRCDIR="$HOME/Source/Core Admin"
+COREADMINSRCDIR="$PWD/../../core_admin"
 cd "$COREADMINSRCDIR"
 BUILDNUM=`agvtool vers | grep '^ '  | sed 's/^    //g'`
 echo "Build number is $BUILDNUM"

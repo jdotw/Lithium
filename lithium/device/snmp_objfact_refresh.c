@@ -102,11 +102,11 @@ int l_snmp_objfact_refresh_walkcb (i_resource *self, l_snmp_session *session, st
         { 
           i_printf (1, "l_snmp_objfact_walkcb failed to convert received PDU variable into a unique name_str for object in container %s. Falling back to OID index for name %d", fact->cnt->name_str, pdu->variables->name[pdu->variables->name_length-1]);
           if (name_str) free (name_str);
-          asprintf (&name_str, "%d", pdu->variables->name[pdu->variables->name_length-1]);
+          asprintf (&name_str, "%lu", pdu->variables->name[pdu->variables->name_length-1]);
         }
         break;
       case OBJFACT_NAME_OID:
-        asprintf (&name_str, "%d", pdu->variables->name[pdu->variables->name_length-1]);
+        asprintf (&name_str, "%lu", pdu->variables->name[pdu->variables->name_length-1]);
         break;
       case OBJFACT_NAME_HEXSTRING:
         name_str = l_snmp_var_to_hexstr (pdu->variables);
@@ -114,7 +114,7 @@ int l_snmp_objfact_refresh_walkcb (i_resource *self, l_snmp_session *session, st
         { 
           i_printf (1, "l_snmp_objfact_walkcb failed to convert received PDU variable into a unique name_str (hex string) for object in container %s. Falling back to OID index for name %d", fact->cnt->name_str, pdu->variables->name[pdu->variables->name_length-1]);
           if (name_str) free (name_str);
-          asprintf (&name_str, "%d", pdu->variables->name[pdu->variables->name_length-1]);
+          asprintf (&name_str, "%lu", pdu->variables->name[pdu->variables->name_length-1]);
         }
         break;
       default:
@@ -142,12 +142,12 @@ int l_snmp_objfact_refresh_walkcb (i_resource *self, l_snmp_session *session, st
         char *temp_str;
         if (index_oidstr)
         {
-          asprintf (&temp_str, "%s.%i", index_oidstr, pdu->variables->name[fact->name_oid_len+i]);
+          asprintf (&temp_str, "%s.%lu", index_oidstr, pdu->variables->name[fact->name_oid_len+i]);
           free (index_oidstr);
           index_oidstr = temp_str;
         }
         else
-        { asprintf (&index_oidstr, "%i", pdu->variables->name[fact->name_oid_len+i]); }
+        { asprintf (&index_oidstr, "%lu", pdu->variables->name[fact->name_oid_len+i]); }
       }
 
       /* Append to the name and desc */
@@ -353,12 +353,12 @@ int l_snmp_objfact_refresh_walkcb (i_resource *self, l_snmp_session *session, st
             char *temp_str;
             if (index_oidstr)
             { 
-              asprintf (&temp_str, "%s.%i", index_oidstr, pdu->variables->name[fact->name_oid_len+i]); 
+              asprintf (&temp_str, "%s.%lu", index_oidstr, pdu->variables->name[fact->name_oid_len+i]); 
               free (index_oidstr);
               index_oidstr = temp_str;
             }
             else
-            { asprintf (&index_oidstr, "%i", pdu->variables->name[fact->name_oid_len+i]); }
+            { asprintf (&index_oidstr, "%lu", pdu->variables->name[fact->name_oid_len+i]); }
           }
 
           /* Call the fabfunc to fabricate */

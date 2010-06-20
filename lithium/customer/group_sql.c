@@ -65,7 +65,7 @@ int l_group_sql_update (i_resource *self, l_group *group)
 
   /* Create query */
   desc_esc = i_postgres_escape (group->desc_str);
-  asprintf (&query, "UPDATE groups SET descr='%s', parent='%i' WHERE id='%li'",
+  asprintf (&query, "UPDATE groups SET descr='%s', parent='%i' WHERE id='%i'",
     desc_esc, group->parent_id, group->id);
   free (desc_esc);
 
@@ -90,7 +90,7 @@ int l_group_sql_delete (i_resource *self, int group_id)
   { i_printf (1, "l_group_sql_update failed to open SQL db connection"); return -1; }
 
   /* Create query */
-  asprintf (&query, "DELETE FROM groups WHERE id='%li'", group_id);
+  asprintf (&query, "DELETE FROM groups WHERE id='%i'", group_id);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_group_sql_cb, NULL);

@@ -34,7 +34,7 @@ int v_inphase_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, st
 	if (!pdu || !pdu->variables || pdu->variables->name_length < 2) return -1;
 
   /* Object Configuration */
-  asprintf (&obj->desc_str, "Input Phase %i.%i", pdu->variables->name[pdu->variables->name_length-2], pdu->variables->name[pdu->variables->name_length-1]);
+  asprintf (&obj->desc_str, "Input Phase %lu.%lu", pdu->variables->name[pdu->variables->name_length-2], pdu->variables->name[pdu->variables->name_length-1]);
 
   /* Load/Apply Refresh config */
   num = i_entity_refresh_config_loadapply (self, ENTITY(obj), NULL);

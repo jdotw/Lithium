@@ -461,7 +461,7 @@ int l_vrack_sql_device_insert (i_resource *self, l_vrack *vrack, l_vrack_device 
   else 
   { asprintf (&dev_name, "NULL"); asprintf (&dev_desc, "NULL"); }
   
-  asprintf (&query, "INSERT INTO vrack_devices (doc, uuid, ru_index, size, color_red, color_green, color_blue, ent_type, site_name, site_desc, site_suburb, dev_name, dev_desc) VALUES ('%li', '%s', '%i', '%i', '%.2f', '%.2f', '%.2f', '%i', %s, %s, %s, %s, %s);",
+  asprintf (&query, "INSERT INTO vrack_devices (doc, uuid, ru_index, size, color_red, color_green, color_blue, ent_type, site_name, site_desc, site_suburb, dev_name, dev_desc) VALUES ('%i', '%s', '%i', '%i', '%.2f', '%.2f', '%.2f', '%i', %s, %s, %s, %s, %s);",
     vrack->doc_id, device->uuid_str, device->ru_index, device->size, 
     device->color_red, device->color_green, device->color_blue, 
     device->entdesc ? device->entdesc->type : 0, site_name, site_desc, site_suburb, dev_name, dev_desc);
@@ -492,7 +492,7 @@ int l_vrack_sql_device_delete (i_resource *self, long doc_id)
   { i_printf (1, "l_vrack_device_sql_delete failed to open SQL database connection"); return -1; }
 
   /* Create query */
-  asprintf (&query, "DELETE FROM vrack_devices WHERE doc='%i'", doc_id);
+  asprintf (&query, "DELETE FROM vrack_devices WHERE doc='%li'", doc_id);
 
   /* Exec query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_vrack_sql_cb, NULL);
@@ -598,7 +598,7 @@ int l_vrack_sql_cable_insert (i_resource *self, l_vrack *vrack, l_vrack_cable *c
   { asprintf (&b_obj_name, "'%s'",  cable->b_int_entdesc->obj_name); asprintf (&b_obj_desc, "'%s'", cable->b_int_entdesc->obj_desc); }
   else
   { asprintf (&b_obj_name, "NULL"); asprintf (&b_obj_desc, "NULL"); }
-  asprintf (&query, "INSERT INTO vrack_cables (doc, uuid, group_uuid, vlans, notes, locked, color_red, color_green, color_blue, a_ent_type, a_site_name, a_site_desc, a_site_suburb, a_dev_name, a_dev_desc, a_cnt_name, a_cnt_desc, a_obj_name, a_obj_desc, b_ent_type, b_site_name, b_site_desc, b_site_suburb, b_dev_name, b_dev_desc, b_cnt_name, b_cnt_desc, b_obj_name, b_obj_desc) VALUES ('%li', '%s', '%s', '%s', '%s', '%i', '%.2f', '%.2f', '%.2f', '%i', %s, %s, %s, %s, %s, %s, %s, %s, %s, '%i', %s, %s, %s, %s, %s, %s, %s, %s, %s);",
+  asprintf (&query, "INSERT INTO vrack_cables (doc, uuid, group_uuid, vlans, notes, locked, color_red, color_green, color_blue, a_ent_type, a_site_name, a_site_desc, a_site_suburb, a_dev_name, a_dev_desc, a_cnt_name, a_cnt_desc, a_obj_name, a_obj_desc, b_ent_type, b_site_name, b_site_desc, b_site_suburb, b_dev_name, b_dev_desc, b_cnt_name, b_cnt_desc, b_obj_name, b_obj_desc) VALUES ('%i', '%s', '%s', '%s', '%s', '%i', '%.2f', '%.2f', '%.2f', '%i', %s, %s, %s, %s, %s, %s, %s, %s, %s, '%i', %s, %s, %s, %s, %s, %s, %s, %s, %s);",
     vrack->doc_id, cable->uuid_str, cable->group_uuid_str, cable->vlans_str, cable->notes_str, cable->locked,
     cable->color_red, cable->color_green, cable->color_blue, 
     cable->a_int_entdesc ? cable->a_int_entdesc->type : 0, 
@@ -645,7 +645,7 @@ int l_vrack_sql_cable_delete (i_resource *self, long doc_id)
   { i_printf (1, "l_vrack_cable_sql_delete failed to open SQL database connection"); return -1; }
 
   /* Create query */
-  asprintf (&query, "DELETE FROM vrack_cables WHERE doc='%i'", doc_id);
+  asprintf (&query, "DELETE FROM vrack_cables WHERE doc='%li'", doc_id);
 
   /* Exec query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_vrack_sql_cb, NULL);
@@ -693,7 +693,7 @@ int l_vrack_sql_cablegroup_insert (i_resource *self, l_vrack *vrack, l_vrack_cab
   { i_printf (1, "l_vrack_sql_cablegroup_insert failed to open SQL database connection"); return -1; }
 
   /* Create query */
-  asprintf (&query, "INSERT INTO vrack_cablegroups (doc, uuid, descr) VALUES ('%li', '%s', '%s');",
+  asprintf (&query, "INSERT INTO vrack_cablegroups (doc, uuid, descr) VALUES ('%i', '%s', '%s');",
     vrack->doc_id, cablegroup->uuid_str, cablegroup->desc_str);
 
   /* Exec query */
@@ -717,7 +717,7 @@ int l_vrack_sql_cablegroup_delete (i_resource *self, long doc_id)
   { i_printf (1, "l_vrack_cablegroup_sql_delete failed to open SQL database connection"); return -1; }
 
   /* Create query */
-  asprintf (&query, "DELETE FROM vrack_cablegroups WHERE doc='%i'", doc_id);
+  asprintf (&query, "DELETE FROM vrack_cablegroups WHERE doc='%li'", doc_id);
 
   /* Exec query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_vrack_sql_cb, NULL);

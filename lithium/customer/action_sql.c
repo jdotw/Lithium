@@ -36,7 +36,7 @@ int l_action_sql_insert (i_resource *self, l_action *action)
   /* Create query */
   desc_esc = i_postgres_escape (action->desc_str);
   script_esc = i_postgres_escape (action->script_file);
-  asprintf (&query, "INSERT INTO actions (descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script) VALUES ('%s', '%i', '%i', '%li', '%i', '%li', '%i', '%i', '%i', '%i', '%s');",
+  asprintf (&query, "INSERT INTO actions (descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script) VALUES ('%s', '%i', '%i', '%li', '%i', '%i', '%i', '%i', '%i', '%i', '%s');",
     action->desc_str, action->enabled, action->activation, action->delay, action->rerun, action->rerun_delay, action->time_filter, action->day_mask, action->start_hour, action->end_hour, script_esc);
   free (desc_esc);
   free (script_esc);
@@ -69,7 +69,7 @@ int l_action_sql_update (i_resource *self, l_action *action)
   /* Create query */
   desc_esc = i_postgres_escape (action->desc_str);
   script_esc = i_postgres_escape (action->script_file);
-  asprintf (&query, "UPDATE actions SET descr='%s', enabled='%i', activation='%i', delay='%li', rerun='%i', rerundelay='%li', timefilter='%i', daymask='%i', starthour='%i', endhour='%i', script='%s' WHERE id='%li'",
+  asprintf (&query, "UPDATE actions SET descr='%s', enabled='%i', activation='%i', delay='%li', rerun='%i', rerundelay='%i', timefilter='%i', daymask='%i', starthour='%i', endhour='%i', script='%s' WHERE id='%li'",
     desc_esc, action->enabled, action->activation, action->delay, action->rerun, action->rerun_delay, action->time_filter, action->day_mask, action->start_hour, action->end_hour, script_esc, action->id);
   free (desc_esc);
   free (script_esc);
@@ -95,7 +95,7 @@ int l_action_sql_delete (i_resource *self, int action_id)
   { i_printf (1, "l_action_sql_update failed to open SQL db connection"); return -1; }
 
   /* Create query */
-  asprintf (&query, "DELETE FROM actions WHERE id='%li'", action_id);
+  asprintf (&query, "DELETE FROM actions WHERE id='%i'", action_id);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_action_sql_cb, NULL);
@@ -345,7 +345,7 @@ i_callback* l_action_sql_entity_load_list (i_resource *self, int action_id, int 
   { i_printf (1, "l_action_sql_entity_load_list failed to open SQL database connection"); return NULL; }
 
   /* Query string */
-  asprintf (&query, "SELECT type, site_name, site_desc, site_suburb, dev_name, dev_desc, cnt_name, cnt_desc, obj_name, obj_desc, met_name, met_desc, trg_name, trg_desc FROM action_entities WHERE action=%li", action_id);
+  asprintf (&query, "SELECT type, site_name, site_desc, site_suburb, dev_name, dev_desc, cnt_name, cnt_desc, obj_name, obj_desc, met_name, met_desc, trg_name, trg_desc FROM action_entities WHERE action=%i", action_id);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_action_sql_entity_list_cb, cb);
@@ -670,7 +670,7 @@ i_callback* l_action_sql_log_load (i_resource *self, int action_id, int (*cbfunc
   { i_printf (1, "l_action_sql_entity_load_list failed to open SQL database connection"); return NULL; }
 
   /* Query string */
-  asprintf (&query, "SELECT id, type, site_name, site_desc, site_suburb, dev_name, dev_desc, cnt_name, cnt_desc, obj_name, obj_desc, met_name, met_desc, trg_name, trg_desc, timestamp, comments FROM action_history WHERE action=%li LIMIT 250", action_id);
+  asprintf (&query, "SELECT id, type, site_name, site_desc, site_suburb, dev_name, dev_desc, cnt_name, cnt_desc, obj_name, obj_desc, met_name, met_desc, trg_name, trg_desc, timestamp, comments FROM action_history WHERE action=%i LIMIT 250", action_id);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_action_sql_log_load_cb, cb);

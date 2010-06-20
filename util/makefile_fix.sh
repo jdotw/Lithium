@@ -8,7 +8,7 @@ do
   if test -d $i; then
     cd $i
     echo "Updating $i"
-    cp ~/Source/Lithium/modules/$i/Makefile.am .
+    cp ~/Source/LithiumArchive/LithiumOld/lithium_xsnmp/lithium/$i/Makefile.am .
     cd ..
     echo "=============================================================="
   fi

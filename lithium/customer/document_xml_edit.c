@@ -127,7 +127,7 @@ int l_document_xml_edit_sqlcb (i_resource *self, i_list *list, void *passdata)
     xmlNewChild (root_node, NULL, BAD_CAST "state", BAD_CAST str);
     free (str);
     xmlNewChild (root_node, NULL, BAD_CAST "editor", BAD_CAST doc->editor_str);
-    asprintf (&str, "%i", doc->version);
+    asprintf (&str, "%li", doc->version);
     xmlNewChild (root_node, NULL, BAD_CAST "version", BAD_CAST str);
     free (str);
   }

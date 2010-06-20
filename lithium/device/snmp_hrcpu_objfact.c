@@ -30,7 +30,7 @@ int l_snmp_hrcpu_objfact_fab (i_resource *self, i_container *cnt, i_object *obj,
 
   /* Object Configuration */
   if (cnt->item_list)
-  { asprintf (&obj->desc_str, "CPU %i",  cnt->item_list->size+1); }
+  { asprintf (&obj->desc_str, "CPU %lu",  cnt->item_list->size+1); }
   else
   { asprintf (&obj->desc_str, "CPU 1"); }
   obj->mainform_func = l_snmp_hrcpu_objform;

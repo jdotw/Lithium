@@ -40,7 +40,7 @@ xmlNodePtr l_action_xml (l_action *action)
   asprintf (&str, "%i", action->rerun);
   xmlNewChild (action_node, NULL, BAD_CAST "rerun", BAD_CAST str);
   free (str);
-  asprintf (&str, "%li", action->rerun_delay);
+  asprintf (&str, "%i", action->rerun_delay);
   xmlNewChild (action_node, NULL, BAD_CAST "rerun_delay", BAD_CAST str);
   free (str);
   asprintf (&str, "%i", action->time_filter);
@@ -131,7 +131,7 @@ xmlNodePtr l_action_script_xml (l_action_script *script)
     xmlNodePtr var_node = l_action_configvar_xml (var);
     if (var_node) xmlAddChild (script_node, var_node);
   }
-  asprintf (&str, "%li", script->status);
+  asprintf (&str, "%i", script->status);
   xmlNewChild (script_node, NULL, BAD_CAST "status", BAD_CAST str);
   free (str);
 

@@ -249,7 +249,7 @@ l_lic_entitlement* l_lic_load_entitlement (i_resource *self)
         if (key->volume == 0)
         { volume_str = strdup (""); }
         else
-        { asprintf (&volume_str, "%i", key->volume); }
+        { asprintf (&volume_str, "%lu", key->volume); }
         if (strcmp(key->type_str, "CSTD") == 0)
         { 
           if (entitlement->limited == 0)

@@ -246,22 +246,4 @@ AC_OUTPUT(	Makefile 	\
         admin/Makefile \
         customer/Makefile \
         device/Makefile \
-        drone/Makefile \
-        drone/3com/Makefile \
-        drone/airport/Makefile \
-        drone/apcups/Makefile \
-        drone/cisco/Makefile \
-        drone/fcswitch/Makefile \
-        drone/filer/Makefile \
-        drone/foundry/Makefile \
-        drone/hp/Makefile \
-        drone/icmp/Makefile \
-        drone/infortrend/Makefile \
-        drone/liebert/Makefile \
-        drone/mgeups/Makefile \
-        drone/netsnmp/Makefile \
-        drone/printer/Makefile \
-        drone/snmpadv/Makefile \
-        drone/snmpbasic/Makefile \
-        drone/windows/Makefile \
         )

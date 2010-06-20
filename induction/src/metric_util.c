@@ -263,7 +263,7 @@ char* i_metric_valstr_raw (i_metric *met, i_metric_value *val)
       if (val->str) valstr = strdup (val->str);
       break;
     case METRIC_INTEGER:
-      asprintf (&valstr, "%i", val->integer);
+      asprintf (&valstr, "%li", val->integer);
       break;
     case METRIC_COUNT:
       asprintf (&valstr, "%lu", val->count);

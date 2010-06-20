@@ -110,7 +110,7 @@ xmlNodePtr l_service_script_xml (l_service_script *script)
     xmlNodePtr var_node = l_service_configvar_xml (var);
     if (var_node) xmlAddChild (script_node, var_node);
   }
-  asprintf (&str, "%li", script->status);
+  asprintf (&str, "%i", script->status);
   xmlNewChild (script_node, NULL, BAD_CAST "status", BAD_CAST str);
   free (str);
 

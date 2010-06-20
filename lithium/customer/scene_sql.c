@@ -340,7 +340,7 @@ int l_scene_sql_overlay_insert (i_resource *self, l_scene *scene, l_scene_overla
   else 
   { asprintf (&trg_name, "NULL"); asprintf (&trg_desc, "NULL"); }
   
-  asprintf (&query, "INSERT INTO scene_overlays (doc, uuid, x, y, width, height, ent_type, site_name, site_desc, site_suburb, dev_name, dev_desc, cnt_name, cnt_desc, obj_name, obj_desc, met_name, met_desc, trg_name, trg_desc, autosize) VALUES ('%li', '%s', '%.2f', '%.2f', '%.2f', '%.2f', '%i', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, '%i');",
+  asprintf (&query, "INSERT INTO scene_overlays (doc, uuid, x, y, width, height, ent_type, site_name, site_desc, site_suburb, dev_name, dev_desc, cnt_name, cnt_desc, obj_name, obj_desc, met_name, met_desc, trg_name, trg_desc, autosize) VALUES ('%i', '%s', '%.2f', '%.2f', '%.2f', '%.2f', '%i', %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, '%i');",
     scene->doc_id, overlay->uuid_str, overlay->x, overlay->y, overlay->width, overlay->height, 
     overlay->entdesc ? overlay->entdesc->type : 0, site_name, site_desc, site_suburb, dev_name, dev_desc, 
     cnt_name, cnt_desc, obj_name, obj_desc, met_name, met_desc, trg_name, trg_desc, overlay->autosize);
@@ -379,7 +379,7 @@ int l_scene_sql_overlay_delete (i_resource *self, long doc_id)
   { i_printf (1, "l_scene_overlay_sql_delete failed to open SQL database connection"); return -1; }
 
   /* Create query */
-  asprintf (&query, "DELETE FROM scene_overlays WHERE doc='%i'", doc_id);
+  asprintf (&query, "DELETE FROM scene_overlays WHERE doc='%li'", doc_id);
 
   /* Exec query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_scene_sql_cb, NULL);

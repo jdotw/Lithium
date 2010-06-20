@@ -189,14 +189,14 @@ v_cpu_item* v_cpu_create (i_resource *self)
     }
     else
     {
-      asprintf (&name_str, "cpu_%i", static_cnt->item_list->size);
-      asprintf (&desc_str, "CPU %i", static_cnt->item_list->size);
+      asprintf (&name_str, "cpu_%lu", static_cnt->item_list->size);
+      asprintf (&desc_str, "CPU %lu", static_cnt->item_list->size);
     }
   }
   else
   {
-      asprintf (&name_str, "cpu_%i", static_cnt->item_list->size+1);
-      asprintf (&desc_str, "CPU %i", static_cnt->item_list->size+1);
+      asprintf (&name_str, "cpu_%lu", static_cnt->item_list->size+1);
+      asprintf (&desc_str, "CPU %lu", static_cnt->item_list->size+1);
   }
 
   /* Create object */

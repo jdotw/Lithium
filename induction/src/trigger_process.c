@@ -57,7 +57,7 @@ int i_trigger_process (i_resource *self, i_trigger *trg)
     /* Set flag */
     trg->active = 1;
 
-    if (trg->opstate != trg->effect && trg->effect > ENTSTATE_NORMAL)
+    if (trg->opstate != (short) trg->effect && trg->effect > ENTSTATE_NORMAL)
     {
       /* Set flag */
       trg->active = 1;
