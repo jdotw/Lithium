@@ -14,14 +14,14 @@ fi
 # Variables 
 #
 
-PKGDIR="$HOME/Source/Lithium/build_framework/packaging"
-COREADMINSRCDIR="$HOME/Source/Core Admin"
-CONSOLESRCDIR="$HOME/Source/Console/Lithium Console"
-MAINSRCDIR="$HOME/Source/Lithium/build_framework"
-FSDIR="$HOME/Source/Lithium/build_framework/packaging/4. FileStorm Projects"
-DMGDIR="$HOME/Source/Lithium/build_framework/packaging/Disk Images"
-INSTALLERDIR="$HOME/Source/Lithium/build_framework/packaging/1. Applications/Core Installer"
-DSYMDIR="$HOME/Source/Lithium/build_framework/packaging/dSYM Archives"
+PKGDIR="$PWD"
+COREADMINSRCDIR="$PWD/../../core_admin"
+CONSOLESRCDIR="$PWD/../../console"
+MAINSRCDIR="$PWD/.."
+FSDIR="$PWD/4. FileStorm Projects"
+DMGDIR="$PWD/Disk Images"
+INSTALLERDIR="$PWD/1. Applications/Core Installer"
+DSYMDIR="$PWD/dSYM Archives"
 BASEDIR=$PWD
 
 #

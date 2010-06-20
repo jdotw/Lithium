@@ -13,10 +13,10 @@ fi
 # Variables
 # 
 
-PKGDIR="$HOME/Source/Lithium/build_framework/packaging"
-SRCDIR="$HOME/Source/Console/Lithium Console"
-FSDIR="$HOME/Source/Lithium/build_framework/packaging/4. FileStorm Projects"
-DSYMDIR="$HOME/Source/Lithium/build_framework/packaging/dSYM Archives"
+PKGDIR="$PWD"
+SRCDIR="$PWD/../../console"
+FSDIR="$PWD/4. FileStorm Projects"
+DSYMDIR="$PWD/dSYM Archives"
 BASEDIR=$PWD
 
 

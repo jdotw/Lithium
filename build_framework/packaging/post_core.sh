@@ -1,10 +1,10 @@
 #!/bin/bash
 
-PKGDIR="$HOME/Source/Lithium/build_framework/packaging"
-SRCDIR="$HOME/Source/Core Admin"
-FSDIR="$HOME/Source/Lithium/build_framework/packaging/4. FileStorm Projects"
-DSYMDIR="$HOME/Source/Lithium/build_framework/packaging/dSYM Archives"
-DMGDIR="$HOME/Source/Lithium/build_framework/packaging/Disk Images"
+PKGDIR="$PWD"
+SRCDIR="$PWD/../../core_admin"
+FSDIR="$PWD/4. FileStorm Projects"
+DSYMDIR="$PWD/dSYM Archives"
+DMGDIR="$PWD/Disk Images"
 BASEDIR=$PWD
 
 
