@@ -1,0 +1,119 @@
+#include <stdlib.h>
+#include <string.h>
+#include <libxml/parser.h>
+
+#include <induction.h>
+#include <induction/hashtable.h>
+#include <induction/postgresql.h>
+#include <induction/list.h>
+#include <induction/form.h>
+#include <induction/navtree.h>
+#include <induction/cement.h>
+#include <induction/callback.h>
+#include <induction/entity.h>
+#include <induction/entity_xml.h>
+#include <induction/customer.h>
+#include <induction/site.h>
+#include <induction/device.h>
+#include <induction/hierarchy.h>
+#include <induction/socket.h>
+#include <induction/message.h>
+#include <induction/timer.h>
+#include <induction/auth.h>
+#include <induction/xml.h>
+
+#include "service.h"
+
+/* Update an Action*/
+
+int xml_service_update (i_resource *self, i_xml_request *req)
+{
+  i_callback *cb;
+  char *id_str = NULL;
+
+  /* Check permission */
+  if (req->auth->level < AUTH_LEVEL_ADMIN)
+  { req->xml_out = i_xml_denied (); return 1; }
+
+  if (req->xml_in)
+  {
+    /* Action ID specified */
+    xmlNodePtr node;
+    xmlNodePtr root_node = NULL;
+
+    root_node = xmlDocGetRootElement (req->xml_in->doc);
+    for (node = root_node->children; node; node = node->next)
+    {
+      char *str;
+      str = (char *) xmlNodeListGetString (req->xml_in->doc, node->xmlChildrenNode, 1);
+      if (!strcmp((char *)node->name, "id") && str) id_str = strdup (str);
+      xmlFree (str);
+    }
+  }
+
+  if (!id_str)
+  { return -1; }
+
+  /* Load service */
+  cb = l_service_sql_load_list (self, id_str, NULL, NULL, l_service_xml_update_sqlcb, req);
+  free (id_str);
+  if (!cb) return -1;
+
+  return 0;
+}
+
+int l_service_xml_update_sqlcb (i_resource *self, i_list *list, void *passdata)
+{
+  int num;
+  l_service *service;
+  xmlNodePtr root_node;
+  i_xml_request *req = passdata;
+
+  /* Retrieve service */
+  i_list_move_head (list);
+  service = i_list_restore (list);
+  if (!service)
+  { i_xml_deliver (self, req); return -1; }
+
+  /* Interpret fields */
+  if (req->xml_in)
+  {
+    xmlNodePtr node;
+    xmlNodePtr root_node;
+
+    root_node = xmlDocGetRootElement (req->xml_in->doc);
+    for (node = root_node->children; node; node = node->next)
+    {
+      char *str;
+      str = (char *) xmlNodeListGetString (req->xml_in->doc, node->xmlChildrenNode, 1);
+      if (!strcmp((char *)node->name, "desc") && str)
+      { if (service->desc_str) free (service->desc_str); service->desc_str = strdup (str); }
+      if (!strcmp((char *)node->name, "enabled") && str)
+      { service->enabled = atoi (str); }
+      if (!strcmp((char *)node->name, "script_file") && str)
+      { if (service->script_file) free (service->script_file); service->script_file = strdup (str); }
+      xmlFree (str);
+    }
+  }
+
+  /* Update */
+  num = l_service_sql_update (self, service);
+  if (num != 0)
+  { i_xml_deliver (self, req); return -1; }
+
+  /* Update service and object */
+  l_service_object_update (self, service);
+  
+  /* Create return xml */
+  req->xml_out = i_xml_create ();
+  req->xml_out->doc = xmlNewDoc (BAD_CAST "1.0");
+  root_node = xmlNewNode (NULL, BAD_CAST "service_list");
+  xmlDocSetRootElement (req->xml_out->doc, root_node);
+  xmlNodePtr service_node = l_service_xml (service);
+  xmlAddChild (root_node, service_node);
+  i_xml_deliver (self, req);
+
+  return -1;  /* Dont keep service list */
+}
+
+

@@ -1,0 +1,12 @@
+*** Version 1.0.2 (October 2003)
+
+  - Added special iflist handling for PIX firewalls (ifLastChange)
+  - Added hardware and software inventory support
+
+*** Version 1.0.1 (October 2003)
+
+  - Added ip accounting clearing (via clogin)
+
+*** Version 1.0.0 (October 2003)
+  
+  - First version number forked from Lithium 4.5.2 release

@@ -1,0 +1,16 @@
+/Library/Perl/5.8.6/Net/SNMP.pm
+/Library/Perl/5.8.6/Net/SNMP/Dispatcher.pm
+/Library/Perl/5.8.6/Net/SNMP/Message.pm
+/Library/Perl/5.8.6/Net/SNMP/MessageProcessing.pm
+/Library/Perl/5.8.6/Net/SNMP/PDU.pm
+/Library/Perl/5.8.6/Net/SNMP/Security.pm
+/Library/Perl/5.8.6/Net/SNMP/Security/Community.pm
+/Library/Perl/5.8.6/Net/SNMP/Security/USM.pm
+/Library/Perl/5.8.6/Net/SNMP/Transport.pm
+/Library/Perl/5.8.6/Net/SNMP/Transport/TCP.pm
+/Library/Perl/5.8.6/Net/SNMP/Transport/TCP6.pm
+/Library/Perl/5.8.6/Net/SNMP/Transport/UDP.pm
+/Library/Perl/5.8.6/Net/SNMP/Transport/UDP6.pm
+/usr/bin/snmpkey
+/usr/local/man/man1/snmpkey.1
+/usr/local/man/man3/Net::SNMP.3pm

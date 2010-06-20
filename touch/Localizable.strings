@@ -1,0 +1,44 @@
+/* 
+   Localizable.strings
+   LithiumTouch
+
+   Created by James Wilson on 26/05/10.
+   Copyright 2010 LithiumCorp. All rights reserved.
+ */
+
+/* Global strings */
+
+/* For dialogs yes buttons */
+"Yes" = "Send Report";
+
+/* For dialogs no buttons */
+"No" = "No Thanks";
+
+/* For dialogs ok buttons */
+"Ok" = "Ok";
+
+/* Crash dialog */
+
+/* Title showing in the alert box when crash report data has been found */
+"CrashDataFoundTitle" = "Sorry about the Crash!";
+
+/* Description explaining that crash data has been found and ask the user if the data might be uplaoded to the developers server */
+"CrashDataFoundDescription" = "Please touch Send below to send us an anonymous Crash Report so we can fix this bug quickly.";
+
+/* Alert box button if the users wants to send crash data always automatically */
+"Always" = "Always Send";
+
+/* Text showing in a processing box that the crash data is being uploaded to the server */
+"Sending" = "Sending ...";
+
+/* Title for the alertview giving feedback about the crash */
+"CrashResponseTitle" = "Bug status";
+
+/* Full text telling the bug is fixed and will be available in the next release */
+"CrashResponseNextRelease" = "The bug that caused your problem is already solved and the solution will be included in the next version of YOURAPPNAME";
+
+/* Full text telling the bug is fixed and the new release is waiting at Apple */
+"CrashResponseWaitingApple" = "The bug that caused your problem is already solved and the new version of YOURAPPNAME is waiting for approval by Apple";
+
+/* Full text telling the bug is fixed and an update is available in the AppStore */
+"CrashResponseAvailable" = "The bug that caused your problem is already solved and the new version of YOURAPPNAME is available. Please update!";

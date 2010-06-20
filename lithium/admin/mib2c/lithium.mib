@@ -1,0 +1,995 @@
+LITHIUM-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    MODULE-IDENTITY, OBJECT-TYPE,
+        enterprises, Integer32, Counter32, Counter64, Gauge32
+        FROM SNMPv2-SMI
+        DisplayString 
+        FROM RFC1213-MIB; 
+
+        lcorp       MODULE-IDENTITY
+        LAST-UPDATED "0901311419Z"
+        ORGANIZATION "LithiumCorp Pty Ltd"
+        CONTACT-INFO "LithiumCorp Support
+              Postal: 40 Brooke St
+                      ENGADINE NSW 2233
+                      Australia
+                 Tel: +61 2 8517 1001
+              E-mail: support@lithiumcorp.com"
+     DESCRIPTION
+        "Lithium monitored device status MIB"
+       ::= { enterprises 20038 }
+
+   lithiumOidTree        OBJECT IDENTIFIER ::= { lcorp 1 }
+   lithiumProduction     OBJECT IDENTIFIER ::= { lithiumOidTree 1 }
+   lithiumExperimental   OBJECT IDENTIFIER ::= { lithiumOidTree 2 }
+
+  LcCustomerIndex ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "Represents the customer within a conceptual table."
+    SYNTAX         Unsigned32
+
+  LcSiteIndex ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "Represents the site within a conceptual table."
+    SYNTAX         Unsigned32
+
+  LcDeviceIndex ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "Represents the device within a conceptual table."
+    SYNTAX         Unsigned32
+
+  LcContainerIndex ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "Represents the container within a conceptual table."
+    SYNTAX         Unsigned32
+
+  LcObjectIndex ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "Represents the object within a conceptual table."
+    SYNTAX         Unsigned32
+
+  LcMetricIndex ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "Represents the metric within a conceptual table."
+    SYNTAX         Unsigned32
+
+  LcTriggerIndex ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "Represents the trigger within a conceptual table."
+    SYNTAX         Unsigned32
+
+  LcIncidentIndex ::= TEXTUAL-CONVENTION
+    STATUS         current
+    DESCRIPTION    "Represents the incident within a conceptual table."
+    SYNTAX         Unsigned32
+
+
+--  Customer Group
+
+  -- Lithium Customer table
+  -- This table contains one entry for each customer
+  -- configured on an intstall of Lithium Core
+
+  lcCustomerTable OBJECT-TYPE
+      SYNTAX      SEQUENCE OF lcCustomerEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "A table that contains, one entry for each customer being
+          monitored by the install of Lithium Core"
+  ::= { lithiumProduction 1 }
+
+  lcCustomerEntry OBJECT-TYPE
+      SYNTAX      LcCustomerEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "An entry containing customer status"
+      INDEX { lcCustomerIndex }
+  ::= { lcCustomerTable 1 }
+
+  LcCustomerEntry ::=
+
+      SEQUENCE {
+          lcCustomerIndex,
+              LcCustomerIndex,
+          lcCustomerName,
+              DisplayString,
+          lcCustomerDesc,
+              DisplayString,
+          lcCustomerAdminStatus
+              INTEGER,
+          lcCustomerOperStatus,
+              INTEGER
+      }
+
+  lcCustomerIndex OBJECT-TYPE
+      SYNTAX      LcCustomerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Customer"
+  ::= { lcCustomerEntry 1 }
+
+  lcCustomerName OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Short name for the entity"
+  ::= { lcCustomerEntry 2 }
+
+  lcCustomerDesc OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Description of the entity"
+  ::= { lcCustomerEntry 3 }
+
+  lcCustomerAdminStatus OBJECT-TYPE
+      SYNTAX      INTEGER {
+                      enabled (0),  -- Device is monitored
+                      offline (1),  -- Device is not monitored
+                      testing (2)   -- Device is monitored by no alerts
+                  }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The administrative state of the entity. The enabled(0) 
+          state indicates the entity is being monitored and incidents
+          will be raised for fault conditions. The offline(1) 
+          state indicates the entity is not being monitored. The
+          testing (2) state indicates that the entity is being 
+          monitored by no incidents will be raised."
+  ::= { lcCustomerEntry 4 }
+
+  lcCustomerOperStatus   OBJECT-TYPE
+      SYNTAX      INTEGER {
+          unknown     (-1),
+          normal      (0),
+          warning     (1),
+          impaired    (2),
+          failed      (3)
+      }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The current operational status of the entity."
+  ::= { lcCustomerEntry 5 }
+
+--  Site Group
+
+  -- Lithium Site table
+  -- This table contains one entry for each site
+  -- configured under a particular
+
+  lcSiteTable OBJECT-TYPE
+      SYNTAX      SEQUENCE OF lcSiteEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "A table that contains, one entry for each site being
+          monitored by the install of Lithium Core"
+  ::= { lithiumProduction 2 }
+
+  lcSiteEntry OBJECT-TYPE
+      SYNTAX      LcSiteEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "An entry containing site status"
+      INDEX { lcCustomerIndex, lcSiteIndex }
+  ::= { lcSiteTable 1 }
+
+  LcSiteEntry ::=
+
+      SEQUENCE {
+          lcCustomerIndex,
+              LcCustomerIndex,
+          lcSiteIndex,
+              LcSiteIndex,
+          lcSiteName,
+              DisplayString,
+          lcSiteDesc,
+              DisplayString,
+          lcSiteAdminStatus
+              INTEGER,
+          lcSiteOperStatus,
+              INTEGER
+      }
+
+  lcCustomerIndex OBJECT-TYPE
+      SYNTAX      LcCustomerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Customer"
+  ::= { lcSiteEntry 1 }
+
+  lcSiteIndex OBJECT-TYPE
+      SYNTAX      LcSiteIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Site"
+  ::= { lcSiteEntry 2 }
+
+  lcSiteName OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Short name for the entity"
+  ::= { lcSiteEntry 3 }
+
+  lcSiteDesc OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Description of the entity"
+  ::= { lcSiteEntry 4 }
+
+  lcSiteAdminStatus OBJECT-TYPE
+      SYNTAX      INTEGER {
+                      enabled (0),  -- Device is monitored
+                      offline (1),  -- Device is not monitored
+                      testing (2)   -- Device is monitored by no alerts
+                  }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The administrative state of the entity. The enabled(0) 
+          state indicates the entity is being monitored and incidents
+          will be raised for fault conditions. The offline(1) 
+          state indicates the entity is not being monitored. The
+          testing (2) state indicates that the entity is being 
+          monitored by no incidents will be raised."
+  ::= { lcSiteEntry 5 }
+
+  lcSiteOperStatus   OBJECT-TYPE
+      SYNTAX      INTEGER {
+          unknown     (-1),
+          normal      (0),
+          warning     (1),
+          impaired    (2),
+          failed      (3)
+      }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The current operational status of the entity."
+  ::= { lcSiteEntry 6 }
+
+--  Device Group
+
+  -- Lithium Device table
+  -- This table contains one entry for each device monitored
+  -- by an install of Lithium Core
+
+  lcDeviceTable OBJECT-TYPE
+      SYNTAX      SEQUENCE OF lcDeviceEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "A table that contains, one entry for each device being
+          monitored by the install of Lithium Core"
+  ::= { lithiumProduction 3 }
+
+  lcDeviceEntry OBJECT-TYPE
+      SYNTAX      LcDeviceEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "An entry containing device status"
+      INDEX { lcCustomerIndex, lcSiteIndex, lcDeviceIndex }
+  ::= { lcDeviceTable 1 }
+
+  LcDeviceEntry ::=
+
+      SEQUENCE {
+          lcCustomerIndex,
+              LcCustomerIndex,
+          lcSiteIndex,
+              LcSiteIndex,
+          lcDeviceIndex,
+              LcDeviceIndex,
+          lcDeviceName,
+              DisplayString,
+          lcDeviceDesc,
+              DisplayString,
+          lcDeviceAdminStatus
+              INTEGER,
+          lcDeviceOperStatus,
+              INTEGER
+      }
+
+  lcCustomerIndex OBJECT-TYPE
+      SYNTAX      LcCustomerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Customer"
+  ::= { lcDeviceEntry 1 }
+
+  lcSiteIndex OBJECT-TYPE
+      SYNTAX      LcSiteIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Site"
+  ::= { lcDeviceEntry 2 }
+
+  lcDeviceIndex OBJECT-TYPE
+      SYNTAX      LcDeviceIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Device"
+  ::= { lcDeviceEntry 3 }
+
+  lcDeviceName OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Short name for the entity"
+  ::= { lcDeviceEntry 4 }
+
+  lcDeviceDesc OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Description of the entity"
+  ::= { lcDeviceEntry 5 }
+
+  lcDeviceAdminStatus OBJECT-TYPE
+      SYNTAX      INTEGER {
+                      enabled (0),  -- Device is monitored
+                      offline (1),  -- Device is not monitored
+                      testing (2)   -- Device is monitored by no alerts
+                  }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The administrative state of the entity. The enabled(0) 
+          state indicates the entity is being monitored and incidents
+          will be raised for fault conditions. The offline(1) 
+          state indicates the entity is not being monitored. The
+          testing (2) state indicates that the entity is being 
+          monitored by no incidents will be raised."
+  ::= { lcDeviceEntry 6 }
+
+  lcDeviceOperStatus   OBJECT-TYPE
+      SYNTAX      INTEGER {
+          unknown     (-1),
+          normal      (0),
+          warning     (1),
+          impaired    (2),
+          failed      (3)
+      }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The current operational status of the entity."
+  ::= { lcDeviceEntry 7 }
+
+--  Container Group
+
+  -- Lithium Container table
+  -- This table contains one entry for each container under 
+  -- a monitored Device in Lithium Core
+
+  lcContainerTable OBJECT-TYPE
+      SYNTAX      SEQUENCE OF lcContainerEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "A table that contains, one entry for each Container under
+          a Device monitored by the install of Lithium Core"
+  ::= { lithiumProduction 4 }
+
+  lcContainerEntry OBJECT-TYPE
+      SYNTAX      LcContainerEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "An entry containing Container status"
+      INDEX { lcCustomerIndex, lcSiteIndex, lcDeviceIndex, lcContainerIndex }
+  ::= { lcContainerTable 1 }
+
+  LcContainerEntry ::=
+
+      SEQUENCE {
+          lcCustomerIndex,
+              LcCustomerIndex,
+          lcSiteIndex,
+              LcSiteIndex,
+          lcDeviceIndex,
+              LcDeviceIndex,
+          lcContainerIndex,
+              LcContainerIndex,
+          lcContainerName,
+              DisplayString,
+          lcContainerDesc,
+              DisplayString,
+          lcContainerAdminStatus
+              INTEGER,
+          lcContainerOperStatus,
+              INTEGER
+      }
+
+  lcCustomerIndex OBJECT-TYPE
+      SYNTAX      LcCustomerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Customer"
+  ::= { lcContainerEntry 1 }
+
+  lcSiteIndex OBJECT-TYPE
+      SYNTAX      LcSiteIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Site"
+  ::= { lcContainerEntry 2 }
+
+  lcDeviceIndex OBJECT-TYPE
+      SYNTAX      LcDeviceIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Device"
+  ::= { lcContainerEntry 3 }
+
+  lcContainerIndex OBJECT-TYPE
+      SYNTAX      LcContainerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Container"
+  ::= { lcContainerEntry 4 }
+
+  lcContainerName OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Short name for the entity"
+  ::= { lcContainerEntry 5 }
+
+  lcContainerDesc OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Description of the entity"
+  ::= { lcContainerEntry 6 }
+
+  lcContainerAdminStatus OBJECT-TYPE
+      SYNTAX      INTEGER {
+                      enabled (0),  -- Container is monitored
+                      offline (1),  -- Container is not monitored
+                      testing (2)   -- Container is monitored by no alerts
+                  }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The administrative state of the entity. The enabled(0) 
+          state indicates the entity is being monitored and incidents
+          will be raised for fault conditions. The offline(1) 
+          state indicates the entity is not being monitored. The
+          testing (2) state indicates that the entity is being 
+          monitored by no incidents will be raised."
+  ::= { lcContainerEntry 7 }
+
+  lcContainerOperStatus   OBJECT-TYPE
+      SYNTAX      INTEGER {
+          unknown     (-1),
+          normal      (0),
+          warning     (1),
+          impaired    (2),
+          failed      (3)
+      }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The current operational status of the entity."
+  ::= { lcContainerEntry 8 }
+
+--  Object Group
+
+  -- Lithium Object table
+  -- This table contains one entry for each Object under 
+  -- a monitored Device in Lithium Core
+
+  lcObjectTable OBJECT-TYPE
+      SYNTAX      SEQUENCE OF lcObjectEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "A table that contains, one entry for each Object under
+          a Device monitored by the install of Lithium Core"
+  ::= { lithiumProduction 5 }
+
+  lcObjectEntry OBJECT-TYPE
+      SYNTAX      LcObjectEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "An entry containing Object status"
+      INDEX { lcCustomerIndex, lcSiteIndex, lcDeviceIndex, lcContainerIndex, lcObjectIndex }
+  ::= { lcObjectTable 1 }
+
+  LcObjectEntry ::=
+
+      SEQUENCE {
+          lcCustomerIndex,
+              LcCustomerIndex,
+          lcSiteIndex,
+              LcSiteIndex,
+          lcDeviceIndex,
+              LcDeviceIndex,
+          lcContainerIndex,
+              LcContainerIndex,
+          lcObjectIndex,
+              LcObjectIndex,
+          lcObjectName,
+              DisplayString,
+          lcObjectDesc,
+              DisplayString,
+          lcObjectAdminStatus
+              INTEGER,
+          lcObjectOperStatus,
+              INTEGER
+      }
+
+  lcCustomerIndex OBJECT-TYPE
+      SYNTAX      LcCustomerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Customer"
+  ::= { lcObjectEntry 1 }
+
+  lcSiteIndex OBJECT-TYPE
+      SYNTAX      LcSiteIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Site"
+  ::= { lcObjectEntry 2 }
+
+  lcDeviceIndex OBJECT-TYPE
+      SYNTAX      LcDeviceIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Device"
+  ::= { lcObjectEntry 3 }
+
+  lcContainerIndex OBJECT-TYPE
+      SYNTAX      LcContainerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Container"
+  ::= { lcObjectEntry 4 }
+
+  lcObjectIndex OBJECT-TYPE
+      SYNTAX      LcObjectIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This object identifies the Object"
+  ::= { lcObjectEntry 5 }
+
+  lcObjectName OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Short name for the entity"
+  ::= { lcObjectEntry 6 }
+
+  lcObjectDesc OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Description of the entity"
+  ::= { lcObjectEntry 7 }
+
+  lcObjectAdminStatus OBJECT-TYPE
+      SYNTAX      INTEGER {
+                      enabled (0),  -- Object is monitored
+                      offline (1),  -- Object is not monitored
+                      testing (2)   -- Object is monitored by no alerts
+                  }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The administrative state of the entity. The enabled(0) 
+          state indicates the entity is being monitored and incidents
+          will be raised for fault conditions. The offline(1) 
+          state indicates the entity is not being monitored. The
+          testing (2) state indicates that the entity is being 
+          monitored by no incidents will be raised."
+  ::= { lcObjectEntry 8 }
+
+  lcObjectOperStatus   OBJECT-TYPE
+      SYNTAX      INTEGER {
+          unknown     (-1),
+          normal      (0),
+          warning     (1),
+          impaired    (2),
+          failed      (3)
+      }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The current operational status of the entity."
+  ::= { lcObjectEntry 9 }
+
+--  Metric Group
+
+  -- Lithium Metric table
+  -- This table contains one entry for each Metric under 
+  -- a monitored Device in Lithium Core
+
+  lcMetricTable OBJECT-TYPE
+      SYNTAX      SEQUENCE OF lcMetricEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "A table that contains, one entry for each Metric under
+          a Device monitored by the install of Lithium Core"
+  ::= { lithiumProduction 6 }
+
+  lcMetricEntry OBJECT-TYPE
+      SYNTAX      LcMetricEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "An entry containing Metric status"
+      INDEX { lcCustomerIndex, lcSiteIndex, lcDeviceIndex, lcContainerIndex, lcObjectIndex, lcMetricIndex }
+  ::= { lcMetricTable 1 }
+
+  LcMetricEntry ::=
+
+      SEQUENCE {
+          lcCustomerIndex,
+              LcCustomerIndex,
+          lcSiteIndex,
+              LcSiteIndex,
+          lcDeviceIndex,
+              LcDeviceIndex,
+          lcContainerIndex,
+              LcContainerIndex,
+          lcObjectIndex,
+              LcObjectIndex,
+          lcMetricIndex,
+              LcMetricIndex,
+          lcMetricName,
+              DisplayString,
+          lcMetricDesc,
+              DisplayString,
+          lcMetricAdminStatus
+              INTEGER,
+          lcMetricOperStatus,
+              INTEGER
+          lcMetricCurValue,
+              DisplayString,
+          lcMetricCurValueRaw,
+              DisplayString,
+      }
+
+  lcCustomerIndex OBJECT-TYPE
+      SYNTAX      LcCustomerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Metric identifies the Customer"
+  ::= { lcMetricEntry 1 }
+
+  lcSiteIndex OBJECT-TYPE
+      SYNTAX      LcSiteIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Metric identifies the Site"
+  ::= { lcMetricEntry 2 }
+
+  lcDeviceIndex OBJECT-TYPE
+      SYNTAX      LcDeviceIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Metric identifies the Device"
+  ::= { lcMetricEntry 3 }
+
+  lcContainerIndex OBJECT-TYPE
+      SYNTAX      LcContainerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Metric identifies the Container"
+  ::= { lcMetricEntry 4 }
+
+  lcObjectIndex OBJECT-TYPE
+      SYNTAX      LcObjectIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Object identifies the Metric"
+  ::= { lcMetricEntry 5 }
+
+  lcMetricIndex OBJECT-TYPE
+      SYNTAX      LcMetricIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Metric identifies the Metric"
+  ::= { lcMetricEntry 6 }
+
+  lcMetricName OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Short name for the entity"
+  ::= { lcMetricEntry 7 }
+
+  lcMetricDesc OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Description of the entity"
+  ::= { lcMetricEntry 8 }
+
+  lcMetricAdminStatus OBJECT-TYPE
+      SYNTAX      INTEGER {
+                      enabled (0),  -- Metric is monitored
+                      offline (1),  -- Metric is not monitored
+                      testing (2)   -- Metric is monitored by no alerts
+                  }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The administrative state of the entity. The enabled(0) 
+          state indicates the entity is being monitored and incidents
+          will be raised for fault conditions. The offline(1) 
+          state indicates the entity is not being monitored. The
+          testing (2) state indicates that the entity is being 
+          monitored by no incidents will be raised."
+  ::= { lcMetricEntry 9 }
+
+  lcMetricOperStatus   OBJECT-TYPE
+      SYNTAX      INTEGER {
+          unknown     (-1),
+          normal      (0),
+          warning     (1),
+          impaired    (2),
+          failed      (3)
+      }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The current operational status of the entity."
+  ::= { lcMetricEntry 10 }
+
+  lcMetricCurValue OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Current value for the metric"
+  ::= { lcMetricEntry 11 }
+
+  lcMetricCurValueRaw OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Current raw value for the metric"
+  ::= { lcMetricEntry 12 }
+
+
+--  Trigger Group
+
+  -- Lithium Trigger table
+  -- This table contains one entry for each Trigger under 
+  -- a monitored Device in Lithium Core
+
+  lcTriggerTable OBJECT-TYPE
+      SYNTAX      SEQUENCE OF lcTriggerEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "A table that contains, one entry for each Trigger under
+          a Device monitored by the install of Lithium Core"
+  ::= { lithiumProduction 7 }
+
+  lcTriggerEntry OBJECT-TYPE
+      SYNTAX      LcTriggerEntry
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "An entry containing Trigger status"
+      INDEX { lcCustomerIndex, lcSiteIndex, lcDeviceIndex, lcContainerIndex, lcObjectIndex, lcMetricIndex, lcTriggerIndex }
+  ::= { lcTriggerTable 1 }
+
+  LcTriggerEntry ::=
+
+      SEQUENCE {
+          lcCustomerIndex,
+              LcCustomerIndex,
+          lcSiteIndex,
+              LcSiteIndex,
+          lcDeviceIndex,
+              LcDeviceIndex,
+          lcContainerIndex,
+              LcContainerIndex,
+          lcObjectIndex,
+              LcObjectIndex,
+          lcMetricIndex,
+              LcMetricIndex,
+          lcTriggerIndex,
+              LcTriggerIndex,
+          lcTriggerName,
+              DisplayString,
+          lcTriggerDesc,
+              DisplayString,
+          lcTriggerAdminStatus
+              INTEGER,
+          lcTriggerOperStatus,
+              INTEGER
+      }
+
+  lcCustomerIndex OBJECT-TYPE
+      SYNTAX      LcCustomerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Trigger identifies the Customer"
+  ::= { lcTriggerEntry 1 }
+
+  lcSiteIndex OBJECT-TYPE
+      SYNTAX      LcSiteIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Trigger identifies the Site"
+  ::= { lcTriggerEntry 2 }
+
+  lcDeviceIndex OBJECT-TYPE
+      SYNTAX      LcDeviceIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Trigger identifies the Device"
+  ::= { lcTriggerEntry 3 }
+
+  lcContainerIndex OBJECT-TYPE
+      SYNTAX      LcContainerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Trigger identifies the Container"
+  ::= { lcTriggerEntry 4 }
+
+  lcObjectIndex OBJECT-TYPE
+      SYNTAX      LcObjectIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Object identifies the Trigger"
+  ::= { lcTriggerEntry 5 }
+
+  lcMetricIndex OBJECT-TYPE
+      SYNTAX      LcMetricIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Object identifies the Trigger"
+  ::= { lcTriggerEntry 6 }
+
+  lcTriggerIndex OBJECT-TYPE
+      SYNTAX      LcTriggerIndex
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+         "This Trigger identifies the Trigger"
+  ::= { lcTriggerEntry 7 }
+
+  lcTriggerName OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Short name for the entity"
+  ::= { lcTriggerEntry 8 }
+
+  lcTriggerDesc OBJECT-TYPE
+      SYNTAX DisplayString
+      ACCESS read-only
+      STATUS mandatory
+      DESCRIPTION
+      "Description of the entity"
+  ::= { lcTriggerEntry 9 }
+
+  lcTriggerAdminStatus OBJECT-TYPE
+      SYNTAX      INTEGER {
+                      enabled (0),  -- Trigger is monitored
+                      offline (1),  -- Trigger is not monitored
+                      testing (2)   -- Trigger is monitored by no alerts
+                  }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The administrative state of the entity. The enabled(0) 
+          state indicates the entity is being monitored and incidents
+          will be raised for fault conditions. The offline(1) 
+          state indicates the entity is not being monitored. The
+          testing (2) state indicates that the entity is being 
+          monitored by no incidents will be raised."
+  ::= { lcTriggerEntry 10 }
+
+  lcTriggerOperStatus   OBJECT-TYPE
+      SYNTAX      INTEGER {
+          unknown     (-1),
+          normal      (0),
+          warning     (1),
+          impaired    (2),
+          failed      (3)
+      }
+      MAX-ACCESS  read-only
+      STATUS      current
+      DESCRIPTION
+         "The current operational status of the entity."
+  ::= { lcTriggerEntry 11 }
+
+
+-- Related traps 
+
+    lcDeviceNormal NOTIFICATION-TYPE 
+        OBJECTS { lcDeviceAdminStatus, lcDeviceOperStatus } 
+        STATUS  current
+        DESCRIPTION 
+            "A lcDeviceNormal trap indicates that the device entity has
+            returned to a normal operational status"
+        ::= { lithiumProduction 0 0 }
+
+    lcDeviceWarning NOTIFICATION-TYPE 
+        OBJECTS { lcDeviceAdminStatus, lcDeviceOperStatus } 
+        STATUS  current
+        DESCRIPTION 
+            "A lcDeviceWarning trap indicates that the device entity has
+            reached a warning operational status"
+        ::= { lithiumProduction 0 1 }
+
+    lcDeviceImpaired NOTIFICATION-TYPE 
+        OBJECTS { lcDeviceAdminStatus, lcDeviceOperStatus } 
+        STATUS  current
+        DESCRIPTION 
+            "A lcDeviceImpaired trap indicates that the device entity has
+            reached an impaired operational status"
+        ::= { lithiumProduction 0 2 }
+
+    lcDeviceCritical NOTIFICATION-TYPE 
+        OBJECTS { lcDeviceAdminStatus, lcDeviceOperStatus } 
+        STATUS  current
+        DESCRIPTION 
+            "A lcDeviceCritical trap indicates that the device entity has
+            reached a critical operational status"
+        ::= { lithiumProduction 0 3 }
+
+-- End of Devices
+
+END
+

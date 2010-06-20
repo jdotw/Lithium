@@ -1,0 +1,906 @@
+Mon Aug 22 11:51:42 EST 2005  James Wilson <jwilson@lithiumcorp.com>
+
+  * RRD updates are now queued for 5min and 6hr intervals
+
+Mon Jun 06 16:47:39 EST 2005  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added adminstate change support
+
+Mon May 16 17:24:13 EST 2005  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added XML support (data retrieval)
+
+----[ 4.6.7 - 'Tone' ]------------------------------------------------
+
+Fri Dec 03 18:46:44 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * acsum no longer requires an initial x and y metric
+  * acsum can support parent refresh if flag it set
+
+----[ 4.6.6 - 'Worth' ]------------------------------------------------
+
+Mon Nov 08 19:21:38 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added route_list to i_interface
+  * i_interface->ip_list no longer auto created on create()
+
+----[ 4.6.5 - 'Coil' ]------------------------------------------------
+
+Sat Oct 23 13:36:15 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added kbase (1000/1024) support to rrd_graph
+  * metric_cgraph and metric_graph now supports kbase
+
+Sat Oct 23 13:18:27 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * Added alloc_unit support to metric_rrd_record
+  * metric_rrd_record uses valflt, not valstr now
+
+Wed Sep 15 17:41:27 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed i_value_valstr freeing the enumstr
+  * Re-ordered special handling in i_value_valstr
+  * Changed 48Hrs period string to read 'up to midnight,'
+  * Fixed trigger display in metric_graph
+
+----[ 4.6.4 - 'Flow' ]-------------------------------------------------
+
+Mon Sep 06 21:11:51 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * acdiff metric supports single metric diff (current - prev)
+
+Sun Sep 05 21:06:33 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * Improved filesystem root creation (lowered calls to mkdir)
+  * Improved rrd creation (lowered calls to stat)
+
+Sat Sep 04 19:34:59 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * 24 Hour time frames moved to 48 hours
+
+----[ 4.6.3 ]----------------------------------------------------------
+
+Sun May 09 21:42:39 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * i_entity_local_get no longer check for locality
+
+Thu Apr 29 19:25:17 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added customer-, site- and device- prefix handling to i_entity_path
+
+Wed Apr 28 21:06:27 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added i_exec for non-blocking system() 
+
+----[ 4.6.1 ]----------------------------------------------------------
+
+Sat Apr 24 22:56:49 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added admin customer handling to customer resource func
+
+Fri Apr 23 16:46:15 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed formatting of incident notifications
+
+Thu Apr 22 08:42:19 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added more debugging for refresh terminate segfault
+
+Wed Apr 21 12:56:17 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Fixed inc->ent not being NULLified in i_incident_clear
+
+Tue Apr 20 15:54:17 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * snmp_session_open no longer loads config, uses hard coded timeout
+    and retry values.
+
+----[ 4.6.0 ]----------------------------------------------------------
+
+Tue Mar 02 21:16:26 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * Added acmult metric
+
+Fri Jan 30 17:21:38 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added table index creation to container's metrics table
+
+Sat Jan 24 17:26:06 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Corrected UPDATE query for metric_record_sql
+
+Sat Jan 24 16:53:52 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Changed the i_ip struct so that it only represents
+    a single address with a single pair of str/addr values
+
+Sat Jan 24 15:48:45 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added rowcount/colcount form table util funcs
+
+Mon Jan 19 23:04:48 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Wrote the (untested) metric_load system
+
+Sun Jan 18 12:28:29 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added the 'frame' form item
+
+Sat Jan 17 19:38:23 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added the ability to specify which metric should have the
+    refreshcb added to it for diff, sum and percent autocalc
+    metrics.
+
+Sat Jan 17 18:39:35 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Fixed entity_refresh_children getting stuck and/or returning an
+    error when all child entities refresh immediately and return 1
+  * Fixed i_entity_refresh_timercb incorrectly classifying a 
+    return of 1 (already finished) as an error.
+
+Tue Jan 13 13:55:38 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Fixed incorrect return value in i_entity_refresh when the 
+    ref_func returns 1, i_entity_refresh must also return 1
+
+Sun Jan 11 21:41:28 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Fixed i_time_weekof to calculate the start of the day at the 
+  start of the week, instead of the ref_sec time on the first
+  day of the week.
+  * Fixed metric cgraphing only displaying one metrics values
+
+Sun Jan 11 21:21:04 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added 'WEEK' entity path period
+  * Added support for WEEK and 24HR rrd recording
+
+Sat Jan 10 13:27:50 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Completed re-work of rrd/rrdtool to be callback-centric
+  * Commands that perform an rrd operation now return a pointer
+    to the i_rrdtool_cmd struct for the op.
+
+Fri Jan 09 23:38:17 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Began re-work of rrdtool to make it callback-friendly
+  * i_form_create now accepts the reqdata as a param
+  * linked reqdata to work
+  * created item and form states for 'notready' items
+  * Added i_form_item_ready and notready funcs
+  * Changed i_form_deliver to check readiness of items and
+    set the form state to deliverable
+
+Thu Jan 08 18:22:16 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Began work on metric-centric graphing
+  * Added SQL recording 
+
+Thu Jan 08 00:18:06 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Re-worked parts of the entity_refresh_children to return it to
+    a purely linear operation modem without chance or race conditions
+    and segfaults. 
+
+Wed Jan 07 00:03:11 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added volume autocalc metric
+  * Added i_metric_period_validate 
+  * Removed oid_str from metric
+  * Remove index from object
+  * Added index to i_interface
+  * Fixed a potential race cond where a child entity could be 
+    queued for refres by the parent, but the child is deregd 
+    and or freed before the parents refresh op concludes. 
+    Added the i_entity_refresh_children_removechild func to handle
+    this. It is called from the entity_deregister and also 
+    entity_refresh_config_apply (just incase)
+
+Tue Jan 06 12:36:48 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * i_entity_refresh_config_apply will now only add a new refresh
+    timer if int_sec > 0 and no timer is currently present. If a
+    timer is present and int_sec > 0, the existing timer is adjusted
+
+Mon Jan 05 14:47:36 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added val and val_raw file recording for metrics
+  * Added period.rrd symlink for metric RRD recording
+  * Added i_name_parse to remove non-alphanumeric chars
+    from name_str style variables
+
+Mon Jan 05 14:35:45 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Corrected behaviour of i_list_pop. It now removes the LAST
+    record from the list.
+
+Mon Jan 05 12:07:51 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Standardised return/callback behaviour of i_entity_refresh
+  * Added i_metric_acsum for sum autocalc metrics
+
+Sun Jan 04 12:29:28 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added gauge metric type
+  * Created i_metric_valstr_raw for raw value strings
+  * i_metric_record_rrd now uses i_metric_valstr_raw
+
+Sun Jan 04 00:19:17 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Fixed i_list_push to properly insert data at front of list
+    (mimicks, in reverse, the behaviour of i_list_enqueue)
+
+Sun Jan 04 00:13:02 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added rate autocalc metric
+  * Added cement-based RRD system for metric recording
+
+Sat Jan 03 11:35:10 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Edited refresh method flags to PARENT/TIMER/EXTERNAL/NONE
+
+Fri Jan 02 00:21:51 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * More work on cement. 
+  * Added item_list to container
+
+Thu Jan 01 16:39:24 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * The very basics of the cement entity refresh system work
+
+Wed Dec 31 14:59:23 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Implemented the i_entity refresh system
+  * Heaps of 4.6/Cement shuffles and changes
+
+Sun Dec 28 21:09:38 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Worked on Cement structures based on further planning of metrics,
+    triggers, values and allocation units
+
+Sat Dec 27 23:36:24 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added trigger component to Cement
+  * Began fleshing out container registration and struct
+
+Sun Dec 14 23:01:47 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Completed header overhaul
+  * Changed bdb.h and version.h to be ./configure generated
+  * Improved centralisation of version number tracking 
+    (all in configure.in)
+
+Sun Dec 14 00:24:59 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Began overhaul of header files for 4.6.0
+  * Removed i_ prefix from headers
+  * Changes install path for header files to $includedir/induction
+  * Added CEMent basics
+
+Sun Nov 02 23:08:53 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed datasize calculation in inventory static regall
+
+Sun Nov 02 21:50:34 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added handling to register static inventory items for a device
+
+Sun Nov 02 13:37:34 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed i_postgres_escape reporting an error if PGescapeString
+    returned < 1. It is valid for it to return 0 if the strlen is 0 ("")
+
+Sun Nov 02 11:54:23 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added flags to i_inventory_item
+
+Sun Nov 02 00:14:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added i_hierarchy_get for remote hierarchy retrieval
+
+Sat Nov 01 21:22:52 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added refresh_callback to i_interface
+
+Sat Nov 01 20:23:04 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed ocured/occured typo
+
+Sat Nov 01 14:28:03 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added index long to i_inventory_item
+  * postgres_escape doesnt complain about a null stirng (just rtns NULL);
+  * postgres_escape returns a duped string of "" on NULL in_str
+
+Thu Oct 30 17:10:26 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Ported infstat-only security level changes from 4.5.4b to 4.5.5
+
+Wed Oct 29 12:58:41 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Change wording of configlink's "Restart Resource" to "Restart Lithium
+  Resource"
+
+Sun Oct 26 19:35:54 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added type integer and serial string to i_inventory_item and
+    updated supporting reg/dereg/create/free functions accordingly.
+  * Added string utilities for i_inventory_item type
+
+Sat Oct 25 15:22:44 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted i_swregistry code to i_inventory
+
+Thu Oct 23 19:57:23 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed ht->inuse not being decremented during a hashtable clean
+
+Tue Oct 21 00:08:05 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Merged the contents of the lithium device l_snmp_iflist_refresh_reqdata
+    struct into the i_interface struct to remove the need for a separate
+    reqdata struct
+
+Sun Oct 19 00:47:58 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * List sorted preserves current list->p
+
+Sat Oct 18 18:13:00 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * form_entry_add and form_textarea_add return form_item
+
+Thu Oct 16 00:00:33 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added form_textarea_add
+
+Tue Oct 14 20:22:42 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added BGCOLOR and FGCOLOR form options
+  * Added form_string_set_bgcolor and form_string_set_fgcolor
+
+Tue Oct 14 19:04:55 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * timer_select_timeout uses its return val to indicate the
+    validity of the passed timeout struct
+  * i_loop uses the return valu of timer_select_timeout to 
+    decide whether select should have a timeout or not
+
+Mon Oct 13 21:07:48 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Re-introduced version codenames
+
+Sun Oct 12 16:16:30 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added a passdata ptr to i_callback (to complement the data ptr)
+
+Sun Oct 12 11:28:35 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Correected ifdef in i_loop to check for DARWIN
+
+Sun Oct 12 11:21:58 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added a timeout threshold count to rrdtool execution
+  * Improved status setting in rrdtool execution
+
+Sat Oct 11 16:15:47 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * i_log removes old log file when enabled
+
+Sat Oct 11 16:11:12 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed i_rrdtool_exec to use i_timer_reset
+
+Fri Oct 10 15:08:39 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed i_list #defines to work in Panther
+
+Fri Oct 10 15:01:14 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated configure.in to detect OS X 10.3 (Panther)
+
+Wed Oct 08 22:15:58 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed the last of the static structs in i_resource.h
+
+Wed Oct 08 15:20:07 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * i_rrd_graph_dwmy only calls i_rrd_graph if a cobsolidated (rrd term)
+    data point has elapsed. These occur every step_seconds*RRA_steps
+
+Sat Oct 04 20:53:25 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added postgres session recycling 
+    (single session for customer database connections)
+  * Removed extraneous use of PG_FLAG_BEGIN|END
+
+Sun Sep 28 14:13:58 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Integrated bytecount structs into i_interface
+
+Sat Sep 27 20:31:17 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * i_hashtable_free can now be used as destructor (single void arg)
+
+Fri Sep 26 22:35:29 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added v_major, micro, minor patch and build variables to swreg entry
+
+Sun Sep 21 16:16:00 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added waitpid call to i_loop to clean up processes
+
+Sun Sep 21 01:44:28 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Temporarily disabled hiding of status formsection for devices when normal
+
+Sat Sep 20 18:29:23 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added _current vars for i_interface per second metrics
+
+Mon Sep 08 00:01:35 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed -l dependancies
+
+Sun Sep 07 22:17:05 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed sockaddr_un length calculation bug (now uses SUN_LEN)
+  * i_postgres_connect doesnt mind if there is no username/password configured
+
+Sat Sep 06 19:24:29 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Extensive re-work of configure.in to make it more portable
+  * Is now db3 and db4 compatible
+  * Builds properly on OS X and Linux
+  * Updated autogen.sh for new config format
+  * Builds properly on Linux
+
+Sat Sep 06 13:19:31 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed order of AC_ISC_POSIX and LIBTOOL
+
+Fri Sep 05 22:36:04 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Using i_config.h as the 'configure' generated config file
+
+Fri Sep 05 20:14:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Made i_string_datavolume less prone to overflow
+  * Fixed i_string_datarate to use doubles (not floats)
+
+Thu Sep 04 19:14:43 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Changed <postgres/libpq-fe.h> to <libpq-fe.h> and added configure rule to
+  find the location of the postgres header files.
+  * Removed call of autoheader from autogen
+  * autogen.sh checks for libtoolize and/or glibtoolize
+  * autogen.sh checks for db4/db.h and db.h
+
+Thu Sep 04 15:46:37 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed i_packet.h from induction.h
+  * Worked on autoconf/automake/libtool for OS X port
+
+Tue Sep 02 01:57:06 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * i_interface uses unsigned longs for counter/gauge32 values
+  * string_datavolume uses an unsigned long for the value
+
+Sat Aug 30 19:58:32 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Minor debug message fixes in db.c
+
+Sun Aug 24 16:37:23 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed calculation error in i_time_monthend
+
+Sun Aug 24 14:38:06 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added i_time_interval_string 
+
+Sat Aug 23 16:09:00 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * added -1 (N/A) to i_interface state str
+
+Sun Aug 17 13:44:45 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added sorted flag to i_list
+  * i_loop now dynamicly calcualtes the loop select timeout
+    based on the earliest timeout of the i_timer sub-system
+  * i_timer sub-system now sorts the timer list by earliest due
+
+Sat Aug 09 14:03:04 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added in/out_discards and in/out_errors to i_interface
+  * Added lastchange timestamp to i_interface
+  * Added in/out packets to i_interface
+
+Tue Aug 05 20:29:10 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Adjusted notification.c for customer-module based notification
+
+Sat Jul 26 19:05:11 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added swregistry related code (create/free and register/deregister)
+  * Passing a NULL res_addt_str to navform_link_add uses RES_ADDR(self)
+
+Sun Jul 20 17:39:18 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed a few memleaks here and there
+  * Fixed behavior of i_resource_terminate and its hashtable iterate
+
+Sun Jul 20 13:23:29 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed memleak in i_printf (print_str not freed in quiet mode)
+
+Sun Jul 20 12:54:44 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * configure.in checks CFLAGS variable before using default
+
+Sat Jul 19 14:25:02 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * i_log accepts a filename when enabled (optional)
+
+Fri Jul 18 20:13:25 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed many memleaks
+  * Removed packet.c and i_packet.h
+
+Fri Jul 18 15:09:50 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed memleak in message_read (msg not freed)
+
+Fri Jul 18 12:45:15 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Altered i_printf to always log, with the option to set a quiet flag
+
+Thu Jul 17 15:07:16 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed old autoconf/automake/libtool files
+  * Added autogen.sh to properly call auto(blah)
+  * Added release info to the actual .so file
+
+Sat Jul 12 19:59:45 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Moved availability and all snmp related code to lithium device module
+
+Tue May 20 14:44:20 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * changed snprintf_objid to sprintf_objid to be snmplib 4.2.3 compat
+
+Sat May 17 21:44:20 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * added i_ipregistry_remove
+  * res_terminate is now ip_registry aware
+
+Mon May 05 00:48:01 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Beginning of the ipregistry added
+
+Sun May 04 01:12:02 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * form_send now properly find the _submit form function
+
+Sat May 03 13:16:57 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added i_timer_reset
+
+Sun Apr 27 19:41:10 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed bugs in socket read/write handling
+
+Sun Apr 27 02:31:46 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Very basic form get/recv works
+  * Authentication works
+  * Many tweaks to i_msgproc, etc
+
+Sat Apr 26 19:48:27 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * sock is now passed to msgproc handlers/callbacks
+  * added fatal-event handling to msgproc
+  * converted all remaining forms to i_form_reqdata standard
+
+Fri Apr 25 21:25:58 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added new async form get/send handling mechanisms
+  * Began converting existing form_funcs to the new style
+
+Tue Apr 22 23:52:04 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated i_site to include a spawn_op pointer
+  * Updated i_site_free to cancel the spawn_op
+
+Tue Apr 22 01:03:52 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * 4.5.0 builds, now tweaking/fixing the new socket/message stuff
+  * At this point the core, customer_manager and client_handler run
+
+Mon Apr 21 12:48:44 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed bug in iflist_form_ifmain year bps display (was showing month)
+  * More socket/message conversion work
+
+Wed Mar 12 02:04:33 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * More conversion work (msg/socket)
+
+Sun Mar 09 12:29:01 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted resource registration system to new socket/msg system
+
+Sun Mar 09 01:07:56 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted resource spawn/destroy to new socket/msg system
+
+Sun Feb 09 22:52:50 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * More conversion to new socket/message system
+  * Removed all synchronous i_message functions
+
+Sun Feb 09 00:47:54 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Beginnings of the buffered in/out socket system, many many changes
+  * Start of work omn 4.5.0
+
+Thu Feb 06 17:11:35 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * fixed entity_str not being added to hierarchy data block
+
+Wed Feb 05 22:43:33 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * rrd heartbeat is properly calculated for staggered iflist refresh
+  * hierarchy includes resource addresses
+  * fixed bug in iflist rrd heartbeat tuning (retrofitted to 4.4.1)
+
+Mon Feb 03 16:12:56 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * iface state not current is counted as unavailable
+
+Sun Feb 02 12:35:46 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed many memleaks
+
+Sun Feb 02 01:36:52 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * iflist doesnt perform util monitoring for speed=0 interfaces
+  * Fixed 'avail;' bug
+  * Fixed form_snmp_hrstorage_storemain submit bug
+  * Changed 'Storage' to 'Processor' in hrprocess_formsection
+
+Sat Feb 01 23:12:07 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Queued single-process RRDtool interaction
+  * Fixed invalid free() in iflist_rrd
+
+Fri Jan 31 22:57:42 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added addr and config_form pointers to i_site
+
+Wed Jan 29 23:49:56 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added res_addr_str to configlink struct and subsystem
+  * Fixed configlink form title for different device types
+
+Tue Jan 28 00:03:45 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added addr and config_form pointers to i_device
+
+Sun Jan 26 15:03:02 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed all uses of waitpid
+  * rrdtool_exec doesnt install a socket callback for result checking
+  * upped timeout for hrswun timeout
+
+Sun Jan 26 12:42:54 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added configlink for availability
+  * Remove hrstorage_config_enable/disable 
+  * Integrated hrstorage_config_enable/disable into hrstorage_enable/disable
+
+Sun Jan 26 01:05:03 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added availability graphs for interfaces
+  * Tried libsnmp5, reverted back to libsnmp4 (bravo)
+  * removed ip_str from interface struct
+  * added ip pointer to interface struct
+
+Wed Jan 22 17:53:28 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Re-wrote the ipaddress section of snmp_iflist_list
+  * added the i_ip code (basics)
+  * i_interface struct now has a list of i_ip structs
+
+Tue Jan 21 23:49:26 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Setting status on interface state chang is now configurable
+  * l_vendor struct and set/get functions become i_vendor
+  * change the option add/remove routing for form_merge (non-dropdown)
+
+Tue Jan 21 14:29:54 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed hrswrun/iflist populate timeout bug (timeout didnt return -1)
+  * Fixed various mem leaks
+  * Fixed hrswrun/hrprocessor/hrstorage/iflist timer config bug
+  * Added more waitpid calls to clean up rrdtool instances
+  * Fixed many segfault bugs in refresh/populate code from hrstorage/swrun/iflist
+
+Mon Jan 20 17:34:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed bug in non-end-of-list i_list_store code
+  * Created i_form_merge function (works)
+  * i_form_send_process checks list of loaded modules for form_func
+
+Sun Jan 19 20:03:43 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * i_rrd_graph_dwmy does recent graph too now
+  * snmp_hrprocessor finished but not tested yet
+  * i_module system keeps trackof loaded modules
+  * i_form_get_process checks list of loaded modules for form_func
+
+Sun Jan 19 02:02:28 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Beginnings of hrprocessor code
+
+Thu Jan 16 14:26:36 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Changed hrswrun cpu graphs into a centi-seconds scale
+  * Added i_log system
+  * Modified i_printf to allow i_log_string functionality
+  * Added forms/viewer for i_log system
+  * Fixed passdata not working for navform
+
+Thu Jan 16 01:33:09 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * more hrswrun profile graphing/forms work
+  * linked most graphs to their thresholds
+  * changed version 4.3.4 to 4.4.0
+
+Wed Jan 15 17:59:23 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * hrswrun_profiles graphs memory
+  * generic day/week/month/year (dwmy) rrdtool graph generation added
+
+Tue Jan 14 17:49:30 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * iflist given rrdtool graphs and logging, mrtg no longer required
+  * hrswrun_profiles graphing started
+  * added main forms and navform links for interfaces/hrstores
+  * added 'last_recorded' field for thresholds
+
+Tue Jan 14 00:19:20 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * added site_id/device_id to hrswrun_profiles sql table
+  * misc grammar fixes here and there
+  * hwswrun_profiles work
+  * postgres_async fix to stop 'command already in progress' messages
+  * added hrswrun_probe
+
+Sun Jan 12 16:16:07 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * hrswrun profile sql interaction added
+  * misc form title changes
+  * hrswrun profile forms created
+
+Sat Jan 11 23:46:09 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Basics of process profiles
+
+Sat Jan 11 22:25:30 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * hrswrun refresh works and doesnt leak mem
+
+Sat Jan 11 01:53:48 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * hrswrun code gathers all variables
+
+Wed Jan 08 17:17:49 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Async RRDtool interaction works
+  * Fixed hrstorage->type retrieval
+  * CDROM storage devices have a -1 threshold by default
+  * Fixed memleak in i_configfile_open
+  * Beginning of hrswrun code
+
+Tue Jan 07 14:10:55 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Async postgres interaction  --  works. thanks gav.
+
+Mon Jan 06 13:32:54 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Iflist refresh wont occur until populate is finished
+  * iflist_list_populte set populate_in_progress flag properly
+  * hrstorage_list wont return list if populate is in progress
+
+Sun Jan 05 11:57:36 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * No status setting for thresholds of -1
+  * Configuration link added to navform for mainform_configlink
+  * Thresholds for response time
+  * Thresholds linked to postgres SQL database
+
+Sun Jan 05 00:22:15 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Brought configfile.c up to scratch
+  * Threshold sub-system works
+  * Added availability thresholds
+  * Added hrstorage thresholds
+  * Induction-based navigation form
+
+Fri Jan 03 10:59:57 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Changed color of line in hrstorage graph
+  * Added probe function for hrstorage
+  * Added probe function for iflist
+  * Adjusted formsection priority for iflist and htstorage
+  * Began work on the threshold system
+
+Thu Jan 02 23:52:21 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added rrd/graphing to snmp_hrstorage
+
+Wed Jan 01 21:48:10 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Initial-state checking for iflist
+
+Wed Jan 01 15:31:57 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Daily/Weekly/Monthly/Yearly resptime graph generation
+  * Full archival graph display for availability and resptime
+  * Minor string functions added
+  * Minor time functions added
+  * Availability uses self->root/availability path
+  * SNMP Resptime uses self->root/snmp_resptime path
+
+Wed Jan 01 01:59:46 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Daily/Weekly/Monthly/Yearly availability graph generation
+
+Tue Dec 31 17:45:26 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * iflist refresh will not occur unless populate is finished
+
+Mon Dec 30 23:23:29 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Graph info/legend for resptime and availability
+  * Links for graph in availability
+  * Links for graph in snmp_resptime
+  * Ability to add a title to an RRD graph
+
+Sun Dec 29 18:11:46 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * More memleak fixes in various places
+  * Major leak found in the list code, fixed.
+
+Sat Dec 28 23:36:11 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Image memleak fix
+
+Sat Dec 28 19:00:08 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed configupdates for snmp_resptime
+  * Fixed configupdates for availability
+  * Made resptime/avail graphs smaller for mainpage
+  * Various mem-leak hunting/fixing
+  * Reduced hashtable size for msghandlers to 50
+  * Reduced hashtable size for msgcallbacks to 50
+  * Added resptime formsection
+
+Sat Dec 28 01:49:50 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Added rrd graphing code
+  * Added snmp_resptime graph generation
+  * Added availability graph generation
+
+Fri Dec 27 16:59:38 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Added the device_defaultsubsystems functions
+
+Fri Dec 27 00:17:38 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Modified the availability system to be passive 
+  * Started work on the snmp_resptime system
+  * Tuned rrdtool code (still very basic)
+  * Revamped changelog/history files
+
+

@@ -1,0 +1,21 @@
+*** Lithium 4.5.5
+
+  - Merged swregitry into a hardware and software inventory system
+
+*** Lithium 4.5.3
+
+  - Added Infrastructure Status system to Customer module
+
+*** Lithium 4.5.2
+
+  - Improved interface list to include errors/discards/packets
+  - Improved SNMP functions to support ucd-snmp timeout/retries and
+    single-session per device handling session tracking
+  - Interface traffic volume tracking (bytecount) with all statistics
+    being stored in PostgreSQL
+
+*** Lithium 4.5.1
+
+  - Notification Manager merged with Customer resource
+  - Fixed email sending
+  - Separate History now kept for Lithium

@@ -1,0 +1,267 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(core_src/main.c)
+
+VERSION=5.0.8
+PACKAGE=lithium
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+
+AM_MAINTAINER_MODE
+
+AM_CONFIG_HEADER(include/config.h)
+
+dnl Compiler flags
+if test "${CFLAGS}" == "" ; then
+  CFLAGS="-g -O2 -pipe -W -Wall -Wno-unused-parameter -Werror"
+fi
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_ISC_POSIX
+AM_PROG_LIBTOOL
+AC_PROG_INSTALL
+AC_PROG_LN_S
+
+dnl Version defs
+AC_DEFINE_UNQUOTED(LITHIUM_VERSION, "${VERSION}")
+
+dnl Configuration headers
+AM_CONFIG_HEADER(include/lithium.h)
+AM_CONFIG_HEADER(device/snmp.h)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADER(unistd.h, , AC_MSG_ERROR([Error : Induction requires unistd.h]))
+AC_CHECK_HEADER(sys/stat.h, , AC_MSG_ERROR([Error : Induction requires sys/stat.h]))
+AC_CHECK_HEADER(sys/types.h, , AC_MSG_ERROR([Error : Induction requires sys/type.h]))
+AC_CHECK_HEADER(sys/ipc.h, , AC_MSG_ERROR([Error : Induction requires sys/ipc.h]))
+AC_CHECK_HEADER(sys/socket.h, , AC_MSG_ERROR([Error : Induction requires sys/socket.h]))
+AC_CHECK_HEADER(sys/wait.h, , AC_MSG_ERROR([Error : Induction requires sys/wait.h]))
+AC_CHECK_HEADER(fcntl.h, , AC_MSG_ERROR([Error : Induction requires fcntl.h]))
+AC_CHECK_HEADER(stdlib.h, , AC_MSG_ERROR([Error : Induction requires stdlib.h]))
+AC_CHECK_HEADER(syslog.h, , AC_MSG_ERROR([Error : Induction requires syslog.h]))
+AC_CHECK_HEADER(netinet/in.h, , AC_MSG_ERROR([Error : Induction requires netinet/in.h]))
+AC_CHECK_HEADER(netdb.h, , AC_MSG_ERROR([Error : Induction requires netdb.h]))
+AC_CHECK_HEADER(errno.h, , AC_MSG_ERROR([Error : Induction requires errno.h]))
+AC_CHECK_HEADER(string.h, , AC_MSG_ERROR([Error : Induction requires string.h]))
+
+dnl ###########################################
+dnl Check for postgresql
+
+AC_ARG_WITH(postgres-includes,
+            [  --with-postgres-includes Specify location of PostgreSQL headerfiles],
+            [postgres_incdir=$withval],
+            [postgres_auto_incdir=yes])
+
+if test $postgres_auto_incdir = "yes"; then
+  postgres_incdir=`pg_config --includedir`
+  if test ! $postgres_incdir; then
+    postgres_incdir="/usr/include"
+  fi
+fi
+
+postgres_header="$postgres_incdir/libpq-fe.h"
+echo "--------------------------------------------------------"
+echo "*   Looking for PostgreSQL header files in    $postgres_incdir"
+echo "*   Use --with-postgres-includes to set this location"
+
+CFLAGS="$CFLAGS -I$postgres_incdir"
+
+AC_CHECK_HEADER($postgres_header, , AC_MSG_ERROR([Error : lithium requires PostgreSQLs libpq-fe.h]))
+
+dnl ###########################################
+dnl Check for sqlite3
+
+AC_ARG_WITH(sqlite3-includes,
+            [  --with-sqlite3-includes Specify location of sqlite3 headerfiles],
+            [sqlite3_incdir=$withval],
+            [sqlite3_incdir=/usr/include])
+
+AC_ARG_WITH(sqlite3-libs,            [  --with-sqlite3-libs Specify location of sqlite3 libraries],
+            [sqlite3_libdir=$withval],
+            [sqlite3_libdir=/usr/lib])
+
+dnl sqlite3 lib location needed for version check
+
+sqlite3_header="$sqlite3_incdir/sqlite3.h"
+echo "--------------------------------------------------------"
+echo "*   Looking for sqlite3 header files in    $sqlite3_incdir"
+echo "*   Looking for sqlite3 library files in   $sqlite3_libdir"
+echo "*   Use --with-sqlite3-includes and --with-sqlite3-libs to set these locations"
+
+CFLAGS="$CFLAGS -I$sqlite3_incdir"
+old_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS -L$sqlite3_libdir"
+
+AC_CHECK_HEADER($sqlite3_header, , AC_MSG_ERROR([Error : lithium requires sqlite3QLs sqlite3.h]))
+AC_CHECK_LIB(sqlite3, sqlite3_open, AC_DEFINE(HAVE_LIBSQLITE3), AC_MSG_ERROR([Error : Induction requires Berkeley sqlite3]), )
+
+LDFLAGS="$old_ldflags"
+
+dnl ###########################################
+dnl Check for Berkeley DB
+
+AC_ARG_WITH(db-includes,
+            [  --with-db-includes Specify location of Berkeley DB headerfiles],
+            [db_incdir=$withval],
+            [db_incdir=/usr/include])
+
+AC_ARG_WITH(db-libs,
+            [  --with-db-libs Specify location of Berkeley DB libraries],
+            [db_libdir=$withval],
+            [db_libdir=/usr/lib])
+
+dnl DB lib location needed for version check
+
+db_subdir_header="$db_incdir/db4/db.h"
+db_header="$db_incdir/db.h"
+echo "--------------------------------------------------------"
+echo "*   Looking for Berkeley DB header files in    $db_incdir"
+echo "*   Looking for Berkeley DB library files in   $db_libdir"
+echo "*   Use --with-db-includes and --with-db-libs to set these locations"
+
+CFLAGS="$CFLAGS -I$db_incdir"
+old_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS -L$db_libdir"
+
+AC_CHECK_HEADER($db_subdir_header, AC_DEFINE(DB4_HEADER_SUBDIR), )
+AC_CHECK_LIB(db-4, db_version, AC_DEFINE(HAVE_LIBDB_4), AC_CHECK_LIB(db, db_version, AC_DEFINE(HAVE_LIBDB_4),AC_MSG_ERROR([Error : Induction requires Berkeley DB]), ), )
+
+LDFLAGS="$old_ldflags"
+
+dnl ###########################################
+dnl Check for DNS-SD
+
+AC_CHECK_HEADER(dns_sd.h, AC_DEFINE(HAVE_DNS_SD), )
+
+dnl ###########################################
+dnl Check for libdl
+
+AC_ARG_WITH(libdl-includes,
+            [  --with-libdl-includes Specify location of libdl headerfiles],
+            [libdl_incdir=$withval],
+            [libdl_incdir=/usr/include])
+
+libdl_header="$libdl_incdir/dlfcn.h"
+echo "--------------------------------------------------------"
+echo "*   Looking for libdl header files in     $libdl_incdir"
+echo "*   Use --with-libdl-includes to set this location"
+
+CFLAGS="$CFLAGS -I$libdl_incdir"
+
+AC_CHECK_HEADER($libdl_header, , AC_MSG_ERROR([Error : lithium requires libdl's dlfcn.h]))
+
+dnl ###########################################
+dnl Check for SNMP (ucd-snmp or net-snmp)
+
+AC_ARG_WITH(snmp-includes,
+            [  --with-snmp-includes Specify location of SNMP headerfiles],
+            [snmp_incdir=$withval],
+            [snmp_incdir=/usr/include])
+
+ucdsnmp_header="$snmp_incdir/ucd-snmp/ucd-snmp-config.h"
+netsnmp_header="$snmp_incdir/net-snmp/version.h"
+echo "--------------------------------------------------------"
+echo "*   Looking for SNMP header files in     $snmp_incdir"
+echo "*   Use --with-snmp-includes to set this location"
+
+CFLAGS="$CFLAGS -I$snmp_incdir"
+
+AC_CHECK_HEADER([$netsnmp_header], AC_DEFINE(NET_SNMP), [AC_CHECK_HEADER([$ucdsnmp_header], , AC_MSG_ERROR([Error : lithium requires headers from either ucd-snmp or net-snmp or similar]))])
+
+dnl ###########################################
+dnl Check for libxml2
+
+AC_ARG_WITH(xml-includes,
+            [  --with-xml-includes Specify location of libxml2 headerfiles],
+            [xml_incdir=$withval],
+            [xml_incdir=/usr/include])
+
+AC_ARG_WITH(xml-libs,
+            [  --with-xml-libs Specify location of libxml2 libraries],
+            [xml_libdir=$withval],
+            [xml_libdir=/usr/lib])
+
+xml_header="$xml_incdir/libxml/xmlexports.h"
+echo "--------------------------------------------------------"
+echo "*   Looking for libxml2 header files in    $xml_incdir"
+echo "*   Looking for libxml2 library files in   $xml_libdir"
+echo "*   Use --with-xml-includes and --with-xml-libs to set these locations"
+
+CFLAGS="$CFLAGS -I$xml_incdir"
+
+
+dnl ###########################################
+dnl Check for induction
+
+AC_ARG_WITH(induction-includes,
+            [  --with-induction-includes Specify location of induction headerfiles],
+            [induction_incdir=$withval],
+            [induction_incdir=/usr/include])
+
+induction_header="$induction_incdir/induction/version.h"
+echo "--------------------------------------------------------"
+echo "*   Looking for induction header files in     $induction_incdir"
+echo "*   Use --with-induction-includes to set this location"
+
+CFLAGS="$CFLAGS -I$induction_incdir"
+
+AC_CHECK_HEADER($induction_header, , AC_MSG_ERROR([Error : Induction requires induction's induction.h]))
+
+AC_CHECK_LIB(curl, curl_easy_init, , AC_MSG_ERROR([Error : construct requires libCURL]), )
+
+dnl ###########################################
+dnl Check nmap
+
+
+AC_CHECK_PROG(nmap, nmap, , )
+
+dnl ###########################################
+dnl Check platform
+
+echo "--------------------------------------------------------"
+case $host_os in
+  darwin*) echo "*   Darwin host detected ($host_os). Using -bundle -flat_namespace -undefined suppress link mode.";
+            LDFLAGS="-bundle -flat_namespace -undefined suppress $LDFLAGS";;
+  *) echo "*   Non-Darwin host detected ($host_os). Using -shared link mode.";
+            LDFLAGS="-shared $LDFLAGS";;
+esac
+
+dnl ###########################################
+dnl Set CoreStd/CoreMSP
+
+AC_ARG_WITH(coremsp,
+            [ --with-coremsp Enabled MSP build],
+            [msp_flag=-DCOREMSP], )
+CFLAGS="$CFLAGS $msp_flag"
+
+dnl ###########################################
+dnl Create makefiles
+
+echo "--------------------------------------------------------"
+AC_OUTPUT(	Makefile 	\
+        include/Makefile \
+		core_src/Makefile \
+		client_handler/Makefile \
+        admin/Makefile \
+        customer/Makefile \
+        device/Makefile \
+        drone/Makefile \
+        drone/3com/Makefile \
+        drone/airport/Makefile \
+        drone/apcups/Makefile \
+        drone/cisco/Makefile \
+        drone/fcswitch/Makefile \
+        drone/filer/Makefile \
+        drone/foundry/Makefile \
+        drone/hp/Makefile \
+        drone/icmp/Makefile \
+        drone/infortrend/Makefile \
+        drone/liebert/Makefile \
+        drone/mgeups/Makefile \
+        drone/netsnmp/Makefile \
+        drone/printer/Makefile \
+        drone/snmpadv/Makefile \
+        drone/snmpbasic/Makefile \
+        drone/windows/Makefile \
+        )

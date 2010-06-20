@@ -1,0 +1,44 @@
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
+
+#include <induction.h>
+#include <induction/list.h>
+#include <induction/timer.h>
+#include <induction/form.h>
+#include <induction/auth.h>
+#include <induction/navtree.h>
+#include <induction/navform.h>
+#include <induction/hierarchy.h>
+#include <induction/device.h>
+#include <induction/path.h>
+#include <lithium/snmp.h>
+
+#include "xsanvol.h"
+#include "xsansp.h"
+#include "xsannode.h"
+
+/* Item Struct Manipulation */
+
+v_xsannode_item* v_xsannode_item_create ()
+{
+  v_xsannode_item *item;
+
+  item = (v_xsannode_item *) malloc (sizeof(v_xsannode_item));
+  if (!item)
+  { i_printf (1, "v_xsannode_item_create failed to malloc v_xsannode_item struct"); return NULL; }
+  memset (item, 0, sizeof(v_xsannode_item));
+
+  return item;
+}
+
+void v_xsannode_item_free (void *itemptr)
+{
+  v_xsannode_item *item = itemptr;
+
+  if (!item) return;
+
+  free (item);
+}

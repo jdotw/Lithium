@@ -1,0 +1,33 @@
+----[ 4.6.6 - 'Worth' ]------------------------------------------------
+
+Sun Aug 22 14:50:49 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * Re-written for L462
+
+Wed Dec 24 13:40:01 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Builds under induction 4.6 headers
+
+Tue Oct 14 19:29:16 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed missing include of sys/types.h in rsvr_formsection
+  * Fixed missing include of sys/types.h in vsvr_formsection
+
+Mon Oct 13 12:14:47 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Forked version numbers for modules starting at 1.0.0
+
+Sun Oct 12 22:12:00 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Module is function and monitors admin/op state for all real and virtual 
+    servers and ports.
+
+Fri Oct 10 16:57:03 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated configure.in to detect OS X 10.3 (Panther)
+
+Thu Sep 11 21:26:58 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Created
+
+

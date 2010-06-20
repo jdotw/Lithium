@@ -1,0 +1,270 @@
+Wed May 18 15:20:01 EST 2005  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added host processor resources module
+  * Objfact can use OID as name, not just PDU 
+
+Mon May 16 17:26:07 EST 2005  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added form_device_remove
+  * Added XML site list 
+  * Added XML incident list
+
+----[ 4.6.7 - 'Tone' ]--------------------------------------------------
+
+Mon Nov 08 19:56:58 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * Generally tidied up form_main
+
+Mon Nov 08 19:49:45 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed form_main to display device list when site is specified
+
+----[ 4.6.5 - Coil ]--------------------------------------------------
+
+Sun May 09 20:20:56 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Removed all use of i_status
+
+Sun May 09 18:51:22 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Removed inventory static register all handler
+
+Sun May 09 12:27:20 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Integrated site module functionality into customer
+  * Converted to SQL-based site/device storage
+
+Wed Apr 28 21:01:23 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * l_email_send uses i_exec not system()
+  * DHCP system works
+
+Mon Apr 26 17:00:54 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * DHCP management subnet add/remove/edit/load works
+  * DHCO management range add/remove/edit/load works
+
+Sun Apr 25 22:32:25 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * Added ISC DHCP management system
+
+----[ 4.6.1 ]----------------------------------------------------------
+
+Thu Apr 22 15:57:03 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Fixed bug in ipregistry_remove where ip_entry was passwd to
+    entity_descriptor_string instead of ip_entry->ipent
+
+----[ 4.6.0 ]----------------------------------------------------------
+
+Tue Jan 06 15:18:19 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Fixed memleak in static inventory item registering (duplicate
+    hierarchy not being freed)
+
+Fri Jan 02 17:03:01 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Adjusted infstat status levels / affect levels to fit in
+    with the new standard of 4 levels (Green/yellow/orange/red)
+
+Mon Dec 29 15:40:02 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Converted to the name_str and desc_str variable standard
+
+Sun Dec 14 22:58:59 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Builds under 4.6.0 induction headers
+
+Fri Nov 14 22:06:26 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Began preliminary work on the 4.6 event system
+
+Sun Nov 02 21:40:02 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed 'Inf' values possible in ipreg networkmain and networklist
+
+Sun Nov 02 13:54:17 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added site table to ipregistry
+  * Fixed table destructors being applied to wrong tables in ipregistry
+
+Sun Nov 02 01:00:25 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Major overhaul of swreg into inventory almost complete
+  * Static entry adding added (almost finished)
+
+Thu Oct 30 17:09:52 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Ported infstat-only security level changes from 4.5.4b to 4.5.5
+
+Mon Oct 27 00:14:48 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed wording in inventory_form_vendormain (was more like
+    vendor list)
+
+Mon Oct 27 00:08:47 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Change inventory_form_productmain to be hw/sw/other item aware
+
+Sun Oct 26 23:32:33 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added code to inventory to make it more software+hardware aware
+  * Added support for hardware inventory items and serial numbers
+
+Sat Oct 25 15:23:01 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted swregistry to inventory
+
+Thu Oct 23 16:57:47 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed new basic hwreg code from Makefile for 4.5.4 release
+
+Mon Oct 20 12:31:56 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Cat list is secondary sorted by description (not name)
+
+Sun Oct 19 20:32:34 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Admin rights required to edit/remove/page users
+
+Sun Oct 19 20:28:46 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed last few bugs (known bugs) in infstat - ready for trial
+  * User security level is now configurable
+
+Sun Oct 19 01:04:10 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed many unused variables
+
+Sun Oct 19 01:00:24 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * infstat is functional, with some bugs
+
+Tue Oct 14 00:40:14 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * More work done on infstat
+
+Mon Oct 13 00:02:47 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * began work on infstat - generic infrastructure status system
+  * added pgsql_vacuum to regularly vacuum databasee (cheers Gav.)
+
+Fri Oct 10 00:11:49 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added swreg version tracking via SQL and relevant forms
+
+Sun Sep 28 01:31:11 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * swreg now functional
+
+Sun Sep 28 01:30:55 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added all forms and other functions for swreg
+
+Fri Sep 26 22:17:04 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Enabled swregistry
+
+Sun Sep 07 23:43:00 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Update pager hack to use message body, not subject
+
+Sun Sep 07 22:56:08 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Adding Orange-pager hack to CVS (from 4.5.1)
+
+Sun Sep 07 13:15:28 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Builds under OS X
+  * Removed search from IP registry
+
+Sun Aug 31 21:42:11 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed early site spawn for good (too evil)
+
+Tue Aug 05 20:12:39 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added more swregistry code (misc fixed and listsort)
+  * Moved email.c from notification manager to customer
+  * Moved sms.c from notification manager to customer
+  * Moved notification_handler.c to customer
+  * Functionality previous performed by notification_manager is now handled by
+    the customer module
+  * Improved error handling of l_email_send
+
+Sat Jul 19 14:18:02 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Event manager uses self->root/event_manager as its root dir
+
+Sat Jul 19 13:47:53 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed crash in the networklist form (maths error)
+  * Fixed incorrect calculation of network utilisation
+
+Fri Jul 18 00:33:13 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed use of global_resource_info
+  * Converted liblithium_xxx module names to xxx.so
+
+Sun May 25 00:56:32 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added networkmain to ipregistry
+  * More work on ipregistry support functions
+
+Sat May 17 21:44:01 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * IP registry is now functional with add/remove and some forms
+
+Mon May 05 00:48:11 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Basics of the ipregistry added
+
+Tue Apr 29 00:00:15 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * All forms now converted to 4.5.0 spec
+
+Sun Apr 27 02:33:10 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Builds and works under 4.5.0
+  * Most forms converted to 4.5.0 spec
+
+Tue Apr 22 01:05:37 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Builds again under 4.5.0
+
+Sat Feb 01 23:14:09 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Temporarily disabled early site spawn
+
+Fri Jan 31 19:08:01 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted to use of i_mainform
+  * Converted site_table to site_list
+
+Wed Jan 22 00:20:16 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added navform
+  * Added link to site list and user list
+  * Enabled logging
+
+Mon Jan 20 17:46:32 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added i_form_merge to form_resource_config
+
+Mon Jan 20 17:45:00 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added site_remove and site_edit forms
+
+Sat Jan 11 22:26:06 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Changed site_spawn delay to 5 seconds (was 20)
+
+Sat Jan 04 15:40:15 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * removed use of init_module
+
+Sat Jul 20 00:38:59 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Created
+
+

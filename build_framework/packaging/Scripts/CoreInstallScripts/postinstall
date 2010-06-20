@@ -1,0 +1,131 @@
+#!/bin/sh
+
+export PATH=/Library/Lithium/LithiumCore.app/Contents/MacOS:$PATH
+
+# Create Paths
+mkdir -m 0755 -p /Library/Logs/Lithium
+mkdir -m 0755 -p /Library/Logs/Lithium/ClientService
+chown lithium:lithium /Library/Logs/Lithium/ClientService
+mkdir -m 0755 -p /Library/Preferences/Lithium
+mkdir -m 0755 -p /Library/Preferences/Lithium/lithium
+mkdir -m 0755 -p /Library/Preferences/Lithium/lithium/module_builder
+mkdir -m 0755 -p /Library/Preferences/Lithium/postgres
+mkdir -m 0755 -p '/Library/Application Support/Lithium/Monitoring Data/History'
+mkdir -m 0755 -p '/Library/Application Support/Lithium/ClientService'
+
+# Import old configuration
+if [ -e /Lithium/etc/lithium/node.conf ]; then
+  cp /Lithium/etc/lithium/node.conf /Library/Preferences/Lithium/lithium/node.conf
+fi
+
+# Touch config and make it writeable by lithium
+touch /Library/Preferences/Lithium/lithium/node.conf
+chown lithium:admin /Library/Preferences/Lithium/lithium/node.conf
+chmod ug+rw /Library/Preferences/Lithium/lithium/node.conf
+chmod o-r /Library/Preferences/Lithium/lithium/node.conf
+
+# Fix port number in node.conf
+sed -e 's/port "5432"/port "51132"/g' -i '' /Library/Preferences/Lithium/lithium/node.conf
+sed -e 's/host "localhost"/host "\/tmp"/g' -i '' /Library/Preferences/Lithium/lithium/node.conf
+
+# Initialise if required
+PGPATH="/Library/Application Support/Lithium/Monitoring Data/Database"
+export PGDATA=$PGPATH
+if [ ! -e "$PGPATH/PG_VERSION" ]; then
+  echo "Initialising embedded PostgreSQL database"
+  mkdir 0700 -p "$PGPATH"
+  chown lithium:lithium "$PGPATH"
+  cd /Library/Lithium/LithiumCore.app/Contents/MacOS
+  sudo -u lithium /Library/Lithium/LithiumCore.app/Contents/MacOS/ipcclean
+  sudo -u lithium /Library/Lithium/LithiumCore.app/Contents/MacOS/initdb -D "$PGPATH"
+  if [ "$?" != "0" ]; then
+    echo "ERROR: Failed to initialise postgres database"
+    exit 1
+  fi
+  createusers=1
+else
+  # Ensure DB is owned correctly
+  echo "Setting file permissions on embedded PostgreSQL database"
+  echo "Apparently $PGPATH exists"
+  chown -R lithium:lithium "$PGPATH"
+  if [ "$?" != "0" ]; then
+    echo "Warning: Failed to set ownership of database"
+  fi
+fi
+
+# Copy LaunchDaemons
+rm /Library/LaunchDaemons/com.lithiumcorp.*
+cp /Library/Lithium/LithiumCore.app/Contents/Resources/LaunchDaemons/* /Library/LaunchDaemons
+chown root:admin /Library/LaunchDaemons/com.lithiumcorp*
+
+# Check sysctl.conf config
+grep 'Lithium 5.0.0' /etc/sysctl.conf
+if [ $? != 0 ]; then
+  echo "" >> /etc/sysctl.conf
+  echo "#Lithium 5.0.0 sysctl.conf additions" >> /etc/sysctl.conf
+  echo "kern.sysv.shmmax=524288000" >> /etc/sysctl.conf
+  echo "kern.sysv.shmmin=1" >> /etc/sysctl.conf
+  echo "kern.sysv.shmmni=64" >> /etc/sysctl.conf
+  echo "kern.sysv.shmseg=16" >> /etc/sysctl.conf
+  echo "kern.sysv.semmns=130" >> /etc/sysctl.conf
+  echo "kern.sysv.shmall=131072000" >> /etc/sysctl.conf
+  echo "kern.sysv.maxproc=4096" >> /etc/sysctl.conf
+  echo "kern.maxprocperuid=1024" >> /etc/sysctl.conf
+  
+  sysctl -w kern.sysv.shmmax=524288000
+  sysctl -w kern.sysv.shmmin=1
+  sysctl -w kern.sysv.shmmni=64
+  sysctl -w kern.sysv.shmseg=16
+  sysctl -w kern.sysv.semmns=130
+  sysctl -w kern.sysv.shmall=131072000
+  sysctl -w kern.sysv.maxproc=4096
+  sysctl -w kern.maxprocperuid=1024
+fi
+
+# SNMPD Agent-X Additions
+grep 'Lithium 5.0.0' /etc/snmp/snmpd.conf
+if [ $? != 0 ]; then
+  cp /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.pre-lithium
+  echo "" >> /etc/snmp/snmpd.conf
+  echo "#Lithium 5.0.0 snmpd.conf additions" >> /etc/snmp/snmpd.conf
+  echo "master agentx" >> /etc/snmp/snmpd.conf
+fi
+
+# Copy htdocs 
+HTDOCSPATH="/Library/Application Support/Lithium/ClientService/Resources"
+mkdir -m 0755 -p "$HTDOCSPATH"
+cp -r /Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/* "$HTDOCSPATH"
+chown lithium:lithium "$HTDOCSPATH/htdocs"
+chown lithium:lithium "$HTDOCSPATH/logs"
+
+# Set up SSL Certs 
+SSLPATH="$HTDOCSPATH/ssl"
+mkdir -m 0755 -p "$SSLPATH"
+SSLKEY="$SSLPATH/server.key"
+SSLCSR="$SSLPATH/server.csr"
+SSLCRT="$SSLPATH/server.crt"
+SSLHOSTNAME=`hostname`
+if [ ! -e "$SSLKEY" ]; then
+  openssl genrsa -des3 -passout pass:none -out "$SSLKEY" 1024
+  cp "$SSLKEY" "$SSLKEY.orig"
+  openssl rsa -in "$SSLKEY.orig" -passin pass:none -out "$SSLKEY"
+fi
+if [ ! -e "$SSLCRT" ]; then
+  openssl req -new -subj "/CN=$SSLHOSTNAME" -key "$SSLKEY" -out "$SSLCSR"
+  openssl x509 -req -days 365 -in "$SSLCSR" -signkey "$SSLKEY" -out "$SSLCRT"
+fi
+
+# Setting file permissions on HTDOCS
+/Library/Lithium/LithiumCore.app/Contents/MacOS/repairweb.sh
+
+# Fix Scripts
+/Library/Lithium/LithiumCore.app/Contents/MacOS/repairscripts.sh
+
+# Re-start Lithium
+echo "Restarting Lithium (database, clientd, mars, lithium)"
+launchctl load -w /Library/LaunchDaemons/com.lithiumcorp.database.plist
+launchctl load -w /Library/LaunchDaemons/com.lithiumcorp.clientd.plist
+launchctl load -w /Library/LaunchDaemons/com.lithiumcorp.mars.plist
+launchctl load -w /Library/LaunchDaemons/com.lithiumcorp.lithium.plist
+
+exit 0

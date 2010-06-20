@@ -1,0 +1,21 @@
+//
+//  LCUpperCaseTransformer.h
+//  Lithium Console
+//
+//  Created by James Wilson on 14/12/05.
+//  Copyright 2005 LithiumCorp Pty Ltd. All rights reserved. -- FIX Not ready for 5.0
+//
+
+#import <Cocoa/Cocoa.h>
+
+
+@interface LCUpperCaseTransformer : NSValueTransformer 
+{
+
+}
+
++ (Class) transformedValueClass;
++ (BOOL) allowsReverseTransformation;
+- (id) transformedValue:(id)value;
+
+@end

@@ -1,0 +1,57 @@
+*** Induction 4.5.3
+
+  -- Enhancements to forms including color for strings and tables
+
+*** Induction 4.5.2
+
+  -- Improved i_loop select() timeout handling
+  -- Ported to OS X
+  -- Software registry added
+
+*** Induction 4.5.1
+
+  -- Interim release to fix email-notification problem
+  -- Basic software registry is in the code but not enabled
+
+*** Induction 4.5.0
+
+  -- Buffered in-bound/out-bound sockets
+  -- Completely async i_message system (no more sync)
+  -- New form_get and form_send handler mechanisms (i_form_deliver, etc)
+  -- Useful again as of 28th April 2003
+
+*** Induction 4.4.1
+
+  -- Minor fixes and updates hierarchy system
+
+*** Induction 4.4.0
+
+  -- Non-blocking async postgres interaction
+  -- Postgres interaction response time monitoring
+  -- Non-blocking async rrdtool interaction
+  -- Running software (hrswrun) monitoring
+  -- Removed mrtg requirement
+  -- Logging sub-system
+
+*** Induction 4.3.3
+
+  -- Graphing for snmp_hrstorage
+  -- Threshold system (w/ SQL database)
+  -- Availability thresholds
+  -- Host Resources storage thresholds
+  -- Sub-system probing
+  -- Response time thresholds
+
+*** Induction 4.3.2
+
+  -- Archive graph viewing for availability
+  -- Archive graph viewing for snmp response time
+  -- Use of navigation menu
+  -- Improved look and feel
+
+*** Induction 4.3.1
+
+  -- Added support with rrdtool graphing
+  -- Added availability sub-system
+  -- Added snmp response time sub-system
+

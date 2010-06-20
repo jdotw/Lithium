@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# Create Library path
+mkdir -m 0755 -p /Library/Lithium
+chown root:admin /Library/Lithium
+
+# Create User GUID
+guidu="`uuidgen`"
+  
+# Create Group GUID
+guidg="`uuidgen`"
+
+# Check for Lithium user
+user="`dscl . -read /Users/lithium`"
+if [ "$?" != "0" ]; then
+
+  # Get UID 
+  uid="367"
+
+  # Get GID
+  gid="367"
+  
+  group="`dscl . -read /groups/lithium`"  
+  if [ "$?" != "0" ]; then
+    # Create lithium group
+    dscl . -create /Groups/lithium
+    dscl . -create /Groups/lithium realname "Lithium"
+    dscl . -create /Groups/lithium gid $gid
+    dscl . -create /Groups/lithium guid $guidg
+  fi
+
+  # Create lithium user
+  dscl . -create /Users/lithium
+  dscl . -create /Users/lithium uid $uid
+  dscl . -create /Users/lithium gid $gid
+  dscl . -create /Users/lithium guid $guidu
+  dscl . -create /Users/lithium realname "Lithium"
+  dscl . -create /Users/lithium shell "/bin/bash"
+  dscl . -append /Groups/lithium users "lithium"
+  dscl . -create /Users/lithium passwd "*"
+  
+fi
+
+# Script-fix
+dscl . -create /Users/lithium realname "Lithium"
+dscl . -create /Users/lithium shell "/bin/bash"
+dscl . -create /Users/lithium passwd "*"
+gguid_test="`dscl . -read /Groups/lithium guid`"
+if [ "$gguid_test" == "No such key: guid" ]; then
+  dscl . -create /Groups/lithium guid $guidg
+fi
+uguid_test="`dscl . -read /Users/lithium guid`"
+if [ "$uguid_test" == "No such key: guid" ]; then
+  dscl . -create /Users/lithium guid $guidu
+fi
+
+# Hide our user 
+hide="`defaults read /Library/Preferences/com.apple.loginwindow HiddenUsersList | grep lithium`"
+if [ "$?" != "0" ]; then
+  defaults write /Library/Preferences/com.apple.loginwindow HiddenUsersList -array-add lithium
+fi
+
+# Shut Lithium Down
+launchctl unload -w /Library/LaunchDaemons/com.lithiumcorp*
+
+exit 0

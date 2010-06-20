@@ -1,0 +1,132 @@
+----[ 4.6.7 - 'Tone'  ]------------------------------------------------
+----[ 4.6.6 - 'Worth' ]------------------------------------------------
+----[ 4.6.5 - 'Coil' ]------------------------------------------------
+
+----[ 4.6.4 - 'Flow' ]-------------------------------------------------
+
+----[ 4.6.1 ]----------------------------------------------------------
+
+Fri Apr 23 15:30:07 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added syslog handling of segfault
+
+Thu Apr 22 08:37:08 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Segfault signal handler pauses process for debug
+
+----[ 4.6.0 ]----------------------------------------------------------
+
+Sun Dec 14 23:01:17 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Builds under 4.6.0 induction headers
+  * Added construct version and induction version printing at startup
+
+Sat Oct 18 13:37:36 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added pre-2002 copyright statement
+
+Fri Oct 10 16:48:44 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added support for net-snmp
+
+Sat Oct 04 18:50:35 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated copyright year
+
+Sun Sep 28 15:45:41 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed various compiler warnings by including string.h
+
+Wed Sep 10 14:50:06 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed snmp test in configure.in
+
+Mon Sep 08 00:41:47 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added snmp and crypto lib deps
+
+Sat Sep 06 21:28:34 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated autogen.sh and configure.in for OS X
+  * Builds under OS X
+  * Builds under linux
+
+Fri Sep 05 22:41:08 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed postgres -I hack, fixed by i_config.h
+
+Fri Sep 05 22:29:50 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Copied new autogen.sh from induction
+  * hacked in -I/usr/include/postgresql for debian
+
+Sun Jul 20 13:06:22 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * configure.in now checks $CFLAGS before using default
+
+Fri Jul 18 20:18:45 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Improved mem usage
+  * Removed -lsnmp
+  * Removed -lm
+  * Removed -lpcap
+
+Fri Jul 18 12:07:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted to new automake/autoconf setup
+
+Thu Jul 17 00:09:16 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated configure.in (CFLAGS definition)
+  * module_path now defaults to $libdir/lithium
+
+Sun May 25 10:46:02 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added -lm to list of required libs 
+
+Sun May 04 00:53:49 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Enforced exit(2) on connection failure
+
+Sat Apr 26 20:20:25 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed funcexec stuff, connects and works now
+
+Wed Mar 12 02:06:43 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added use of i_loop for function exec
+
+Sun Jan 26 14:12:17 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Changed SIGCHLD handler to SIG_IGN
+
+Sun Jan 26 14:04:27 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added SIGCHLD handler to call waitpid
+
+Sun Jan 26 01:04:17 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added stdlib include to all files where exit is used
+
+Tue Jan 14 12:09:08 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated startup messages
+
+Sun Jan 05 14:02:50 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * removed usage-display on unknown opt
+  * Added '+' to getopt optstr to handle '-' in form args
+
+Sun Jan 05 00:41:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Used i_version instead of #defined version
+
+Sun Jun 02 01:06:06 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Change i_socket_unix/inet to i_socket
+
+Mon Apr 01 01:35:43 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * construct now send MSG_TERMINATE if connected to the client_handler
+
+

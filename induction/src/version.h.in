@@ -1,0 +1,5 @@
+/* Version */
+#undef INDUCTION_VERSION
+
+/* version.c */
+char* i_version ();

@@ -1,0 +1,116 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(src/qlogic.c)
+
+VERSION=5.0.8
+PACKAGE=vendor_fcswitch
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+
+AM_MAINTAINER_MODE
+
+AM_CONFIG_HEADER(src/config.h)
+
+dnl Compiler flags
+if test "${CFLAGS}" == "" ; then
+  CFLAGS="-O2 -pipe -W -Wall -Wno-unused-parameter"
+fi
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_ISC_POSIX
+AM_PROG_LIBTOOL
+AC_PROG_INSTALL
+AC_PROG_LN_S
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADER(unistd.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires unistd.h]))
+AC_CHECK_HEADER(sys/stat.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires sys/stat.h]))
+AC_CHECK_HEADER(sys/types.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires sys/type.h]))
+AC_CHECK_HEADER(sys/ipc.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires sys/ipc.h]))
+AC_CHECK_HEADER(sys/socket.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires sys/socket.h]))
+AC_CHECK_HEADER(sys/wait.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires sys/wait.h]))
+AC_CHECK_HEADER(fcntl.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires fcntl.h]))
+AC_CHECK_HEADER(stdlib.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires stdlib.h]))
+AC_CHECK_HEADER(syslog.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires syslog.h]))
+AC_CHECK_HEADER(netinet/in.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires netinet/in.h]))
+AC_CHECK_HEADER(netdb.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires netdb.h]))
+AC_CHECK_HEADER(errno.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires errno.h]))
+AC_CHECK_HEADER(string.h, , AC_MSG_ERROR([Error : vendor_fcswitch requires string.h]))
+
+dnl ###########################################
+dnl Check for postgresql
+
+AC_ARG_WITH(postgres-includes,
+            [  --with-postgres-includes Specify location of PostgreSQL headerfiles],
+            [postgres_incdir=$withval],
+            [postgres_auto_incdir=yes])
+
+if test $postgres_auto_incdir = "yes"; then
+  postgres_incdir=`pg_config --includedir`
+  if test ! $postgres_incdir; then
+    postgres_incdir="/usr/include"
+  fi
+fi
+
+postgres_header="$postgres_incdir/libpq-fe.h"
+echo "--------------------------------------------------------"
+echo "*   Looking for PostgreSQL header files in    $postgres_incdir"
+echo "*   Use --with-postgres-includes to set these locations"
+echo "--------------------------------------------------------"
+
+CFLAGS="$CFLAGS -I$postgres_incdir"
+
+AC_CHECK_HEADER($postgres_header, , AC_MSG_ERROR([Error : vendor_fcswitch requires PostgreSQLs libpq-fe.h]))
+
+dnl ###########################################
+dnl Check for induction
+
+AC_ARG_WITH(induction-includes,
+            [  --with-induction-includes Specify location of induction headerfiles],
+            [induction_incdir=$withval],
+            [induction_incdir=/usr/include])
+
+induction_header="$induction_incdir/induction/version.h"
+echo "--------------------------------------------------------"
+echo "*   Looking for induction header files in     $induction_incdir"
+echo "*   Use --with-induction-includes to set this locations"
+
+CFLAGS="$CFLAGS -I$induction_incdir"
+
+AC_CHECK_HEADER($induction_header, , AC_MSG_ERROR([Error : vendor_fcswitch requires induction's header files]))
+
+dnl ###########################################
+dnl Check for lithium
+
+AC_ARG_WITH(lithium-includes,
+            [  --with-lithium-includes Specify location of lithium headerfiles],
+            [lithium_incdir=$withval],
+            [lithium_incdir=/usr/include])
+
+lithium_header="$lithium_incdir/lithium/config.h"
+echo "--------------------------------------------------------"
+echo "*   Looking for lithium header files in   $lithium_incdir"
+echo "*   Use --with-lithium-includes to set this locations"
+
+CFLAGS="$CFLAGS -I$lithium_incdir"
+
+AC_CHECK_HEADER($lithium_header, , AC_MSG_ERROR([Error : vendor_fcswitch requires lithium's header files]))
+
+dnl ###########################################
+dnl Check platform
+
+echo "--------------------------------------------------------"
+case $host_os in
+  darwin*) echo "*   Darwin host detected ($host_os). Using -bundle -flat_namespace -undefined suppress link mode.";
+            LDFLAGS="-bundle -flat_namespace -undefined suppress $LDFLAGS";;
+  *) echo "*   Non-Darwin host detected ($host_os). Using -shared link mode.";
+            LDFLAGS="-shared $LDFLAGS";;
+esac
+
+dnl ###########################################
+dnl Create makefiles
+
+echo "--------------------------------------------------------"
+AC_OUTPUT(	Makefile 	\
+            src/Makefile)

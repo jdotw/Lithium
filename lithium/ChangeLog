@@ -1,0 +1,62 @@
+----[ 4.6.7 - 'Tone'  ]------------------------------------------------
+----[ 4.6.6 - 'Worth' ]------------------------------------------------
+
+----[ 4.6.5 - 'Coil' ]------------------------------------------------
+
+----[ 4.6.4 - 'Flow' ]-------------------------------------------------
+
+Sun May 09 11:59:37 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Retired site module
+  * Integrated site module into customer module
+
+Sun Dec 14 23:35:41 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Changed lithium.h to be ./configure generated
+
+Sat Oct 18 12:10:45 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed swregistry_sql_get not freeing callback in error state
+
+Fri Oct 10 16:52:10 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated configure.in to detect OS X 10.3 (Panther)
+
+Fri Oct 10 16:40:33 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added net-snmp support 
+
+Wed Sep 10 14:47:44 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed snmp test in configure.in
+
+Mon Sep 08 00:22:44 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Remove lib depends
+  * Added -flat_namespace -undefined suppress 
+  * Removed -shared from subdir makefiles
+
+Sun Sep 07 13:56:41 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Copied new autogen.sh from actuator
+  * Copied new configure.in from actuator
+  * config.h and lithium.h also get installed now
+
+Fri Sep 05 20:17:20 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added updated autogen.sh from induction
+
+Sun Jul 20 13:12:14 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * configure.in now checks $CFLAGS before using default
+
+Fri Jul 18 20:14:10 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed many memleaks and bugs
+  * device now links to libsnmp
+  * customer now links to libm
+
+Thu Jul 17 15:27:10 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated autoconf/automake/libtool setup
+

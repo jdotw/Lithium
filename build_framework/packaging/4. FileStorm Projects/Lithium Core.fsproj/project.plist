@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Auto Encode</key>
+	<string>FALSE</string>
+	<key>Auto Open</key>
+	<string>TRUE</string>
+	<key>Background Image Path</key>
+	<string>/Users/jwilson/Source/Lithium/build_framework/packaging/Resources/DMG Back 49.png</string>
+	<key>Build Format</key>
+	<string>DMG (OS X only)</string>
+	<key>Custom Icon Path</key>
+	<string></string>
+	<key>Disk Image Name</key>
+	<string>/Users/jwilson/Source/Lithium/build_framework/packaging/Disk Images/LithiumCore-5.0.B3.1042.dmg</string>
+	<key>Encode Format</key>
+	<string>None</string>
+	<key>Encryption Type</key>
+	<string>None</string>
+	<key>Finalize Format</key>
+	<string>Read-only with compression</string>
+	<key>Font Size</key>
+	<string>12</string>
+	<key>Icon Size</key>
+	<string>72</string>
+	<key>Image Size Extra</key>
+	<string>0</string>
+	<key>Image Size Type</key>
+	<string>Automatic</string>
+	<key>Internet Enable</key>
+	<string>FALSE</string>
+	<key>Item List</key>
+	<array>
+		<dict>
+			<key>Hidden</key>
+			<false/>
+			<key>Origin</key>
+			<string>{17, 76}</string>
+			<key>Path</key>
+			<string>DummyPackage.pkg</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+		<dict>
+			<key>Hidden</key>
+			<false/>
+			<key>Origin</key>
+			<string>{424, 77}</string>
+			<key>Path</key>
+			<string>/Users/jwilson/Source/Lithium/build_framework/packaging/1. Applications/Console/Release 10.6/Lithium Console.app</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+		<dict>
+			<key>Hidden</key>
+			<false/>
+			<key>Origin</key>
+			<string>{215, 76}</string>
+			<key>Path</key>
+			<string>/Users/jwilson/Source/Lithium/build_framework/packaging/1. Applications/Core Admin/Release/Lithium Core Admin.app</string>
+			<key>Type</key>
+			<string>File Item</string>
+		</dict>
+	</array>
+	<key>License List</key>
+	<array/>
+	<key>Lock Frame</key>
+	<string>TRUE</string>
+	<key>Project File Path</key>
+	<string>/Users/jwilson/Source/Lithium/build_framework/packaging/4. FileStorm Projects/</string>
+	<key>Show Toolbar</key>
+	<string>FALSE</string>
+	<key>Volume Name</key>
+	<string>Lithium Core Installer</string>
+	<key>Window Frame</key>
+	<string>{{64, 76}, {599, 419}}</string>
+</dict>
+</plist>

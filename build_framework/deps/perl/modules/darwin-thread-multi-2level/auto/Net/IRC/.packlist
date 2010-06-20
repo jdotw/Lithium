@@ -1,0 +1,10 @@
+/Library/Perl/5.8.6/Net/IRC.pm
+/Library/Perl/5.8.6/Net/IRC/Connection.pm
+/Library/Perl/5.8.6/Net/IRC/DCC.pm
+/Library/Perl/5.8.6/Net/IRC/Event.pm
+/Library/Perl/5.8.6/Net/IRC/EventQueue.pm
+/Library/Perl/5.8.6/Net/IRC/EventQueue/Entry.pm
+/usr/local/man/man3/Net::Connection.3pm
+/usr/local/man/man3/Net::DCC.3pm
+/usr/local/man/man3/Net::Event.3pm
+/usr/local/man/man3/Net::IRC.3pm

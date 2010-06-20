@@ -1,0 +1,989 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		10089B7011C1FDD900034DFC /* DevicesTab-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10089B6F11C1FDD900034DFC /* DevicesTab-iPad.xib */; };
+		102C692711BCE8F40032D043 /* LTDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C692511BCE8F40032D043 /* LTDeviceViewController.m */; };
+		102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C692611BCE8F40032D043 /* LTDeviceViewController.xib */; };
+		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
+		102C695811BD61170032D043 /* LTContainerIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C695611BD61170032D043 /* LTContainerIconViewController.xib */; };
+		105EDDDD11BC2FFE00B294B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */; };
+		105EDDFC11BC345200B294B4 /* devices.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDDF711BC345200B294B4 /* devices.png */; };
+		105EDDFD11BC345200B294B4 /* computer.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDDF811BC345200B294B4 /* computer.png */; };
+		105EDDFE11BC345200B294B4 /* incidents.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDDF911BC345200B294B4 /* incidents.png */; };
+		105EDDFF11BC345200B294B4 /* favorites.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDDFA11BC345200B294B4 /* favorites.png */; };
+		105EDE0011BC345200B294B4 /* groups.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDDFB11BC345200B294B4 /* groups.png */; };
+		105EDE0211BC34FC00B294B4 /* applications.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE0111BC34FC00B294B4 /* applications.png */; };
+		105EDE0411BC357000B294B4 /* xsan.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE0311BC357000B294B4 /* xsan.png */; };
+		105EDE0611BC35AB00B294B4 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE0511BC35AB00B294B4 /* settings.png */; };
+		105EDE5411BC38D100B294B4 /* LCXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE3411BC38D100B294B4 /* LCXMLNode.m */; };
+		105EDE5511BC38D100B294B4 /* LCXMLParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE3611BC38D100B294B4 /* LCXMLParseOperation.m */; };
+		105EDE5611BC38D100B294B4 /* LTAPIRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE3811BC38D100B294B4 /* LTAPIRequest.m */; };
+		105EDE5711BC38D100B294B4 /* LTCoreDeployment.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE3B11BC38D100B294B4 /* LTCoreDeployment.m */; };
+		105EDE5811BC38D100B294B4 /* LTCustomer.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE3D11BC38D100B294B4 /* LTCustomer.m */; };
+		105EDE5911BC38D100B294B4 /* LTEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE3F11BC38D100B294B4 /* LTEntity.m */; };
+		105EDE5A11BC38D100B294B4 /* LTMetricHistoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE4111BC38D100B294B4 /* LTMetricHistoryList.m */; };
+		105EDE5B11BC38D100B294B4 /* LTMetricValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE4311BC38D100B294B4 /* LTMetricValue.m */; };
+		105EDE5C11BC38D100B294B4 /* LTEntityDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE4511BC38D100B294B4 /* LTEntityDescriptor.m */; };
+		105EDE5D11BC38D100B294B4 /* LTIncident.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE4811BC38D100B294B4 /* LTIncident.m */; };
+		105EDE5E11BC38D100B294B4 /* LTIncidentList.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE4A11BC38D100B294B4 /* LTIncidentList.m */; };
+		105EDE5F11BC38D100B294B4 /* LTAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE4C11BC38D100B294B4 /* LTAction.m */; };
+		105EDE6011BC38D100B294B4 /* LTGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE4F11BC38D100B294B4 /* LTGroup.m */; };
+		105EDE6111BC38D100B294B4 /* LTGroupTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE5111BC38D100B294B4 /* LTGroupTree.m */; };
+		105EDE6211BC38D100B294B4 /* NSData-Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE5211BC38D100B294B4 /* NSData-Base64.m */; };
+		105EDE7111BC390A00B294B4 /* LTPushRegistrationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7011BC390A00B294B4 /* LTPushRegistrationRequest.m */; };
+		105EDECD11BC392000B294B4 /* DevicesTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE7411BC392000B294B4 /* DevicesTab.xib */; };
+		105EDECE11BC392000B294B4 /* LTEntityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7611BC392000B294B4 /* LTEntityTableViewController.m */; };
+		105EDECF11BC392000B294B4 /* LTEntityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7811BC392000B294B4 /* LTEntityTableViewCell.m */; };
+		105EDED011BC392000B294B4 /* LTMetricTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7A11BC392000B294B4 /* LTMetricTableViewCell.m */; };
+		105EDED111BC392000B294B4 /* LTMetricValuesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7E11BC392000B294B4 /* LTMetricValuesTableViewController.m */; };
+		105EDED211BC392000B294B4 /* MetricValues.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE7F11BC392000B294B4 /* MetricValues.xib */; };
+		105EDED311BC392000B294B4 /* slatebackbrowser.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE8011BC392000B294B4 /* slatebackbrowser.png */; };
+		105EDED411BC392000B294B4 /* mediumgraphback.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE8111BC392000B294B4 /* mediumgraphback.png */; };
+		105EDED511BC392000B294B4 /* largegraphback.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE8211BC392000B294B4 /* largegraphback.png */; };
+		105EDED611BC392000B294B4 /* LTMetricTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8411BC392000B294B4 /* LTMetricTableViewController.m */; };
+		105EDED711BC392000B294B4 /* LTMetricGraphRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8611BC392000B294B4 /* LTMetricGraphRequest.m */; };
+		105EDED811BC392000B294B4 /* MetricView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE8711BC392000B294B4 /* MetricView.xib */; };
+		105EDED911BC392000B294B4 /* LTMetricGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8911BC392000B294B4 /* LTMetricGraphView.m */; };
+		105EDEDA11BC392000B294B4 /* LTMetricGraphTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8B11BC392000B294B4 /* LTMetricGraphTableViewCell.m */; };
+		105EDEDB11BC392000B294B4 /* LTMetricLandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */; };
+		105EDEDC11BC392000B294B4 /* MetricLandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE8E11BC392000B294B4 /* MetricLandscape.xib */; };
+		105EDEDD11BC392000B294B4 /* LTMetricTableViewCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */; };
+		105EDEDE11BC392000B294B4 /* LTEntityRefreshProgressViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9211BC392000B294B4 /* LTEntityRefreshProgressViewCell.m */; };
+		105EDEDF11BC392000B294B4 /* GroupsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE9411BC392000B294B4 /* GroupsTab.xib */; };
+		105EDEE011BC392000B294B4 /* LTGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */; };
+		105EDEE111BC392000B294B4 /* IncidentsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE9811BC392000B294B4 /* IncidentsTab.xib */; };
+		105EDEE211BC392000B294B4 /* LTIncidentListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9A11BC392000B294B4 /* LTIncidentListTableViewController.m */; };
+		105EDEE311BC392000B294B4 /* LTIncidentListGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9C11BC392000B294B4 /* LTIncidentListGroup.m */; };
+		105EDEE411BC392000B294B4 /* LTIncidentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9E11BC392000B294B4 /* LTIncidentTableViewController.m */; };
+		105EDEE511BC392000B294B4 /* LTActionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEA011BC392000B294B4 /* LTActionTableViewController.m */; };
+		105EDEE611BC392000B294B4 /* LTActionInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEA211BC392000B294B4 /* LTActionInfoCell.m */; };
+		105EDEE711BC392000B294B4 /* tools_48.tif in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA311BC392000B294B4 /* tools_48.tif */; };
+		105EDEE811BC392000B294B4 /* tools_grey_48.tif in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA411BC392000B294B4 /* tools_grey_48.tif */; };
+		105EDEE911BC392000B294B4 /* tools_grey_16.tif in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA511BC392000B294B4 /* tools_grey_16.tif */; };
+		105EDEEA11BC392000B294B4 /* tools_16.tif in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA611BC392000B294B4 /* tools_16.tif */; };
+		105EDEEB11BC392000B294B4 /* FavoritesTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA811BC392000B294B4 /* FavoritesTab.xib */; };
+		105EDEEC11BC392000B294B4 /* LTFavoritesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEAA11BC392000B294B4 /* LTFavoritesTableViewController.m */; };
+		105EDEED11BC392000B294B4 /* SetupTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEAC11BC392000B294B4 /* SetupTab.xib */; };
+		105EDEEE11BC392000B294B4 /* LTSetupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEAE11BC392000B294B4 /* LTSetupTableViewController.m */; };
+		105EDEEF11BC392000B294B4 /* CoreEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEB011BC392000B294B4 /* CoreEditView.xib */; };
+		105EDEF011BC392000B294B4 /* LTCoreEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEB211BC392000B294B4 /* LTCoreEditTableViewController.m */; };
+		105EDEF111BC392000B294B4 /* LTAuthenticationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEB511BC392000B294B4 /* LTAuthenticationTableViewController.m */; };
+		105EDEF211BC392000B294B4 /* AuthenticationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEB611BC392000B294B4 /* AuthenticationView.xib */; };
+		105EDEF311BC392000B294B4 /* LTTwoLineTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEB911BC392000B294B4 /* LTTwoLineTableCell.m */; };
+		105EDEF411BC392000B294B4 /* LTLeftRightTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEBB11BC392000B294B4 /* LTLeftRightTableCell.m */; };
+		105EDEF511BC392000B294B4 /* CellLowerGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEBC11BC392000B294B4 /* CellLowerGradient.png */; };
+		105EDEF611BC392000B294B4 /* LTTableViewCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEBE11BC392000B294B4 /* LTTableViewCellBackground.m */; };
+		105EDEF711BC392000B294B4 /* LTTableViewCellSelectedBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEC011BC392000B294B4 /* LTTableViewCellSelectedBackground.m */; };
+		105EDEF811BC392000B294B4 /* LTTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEC211BC392000B294B4 /* LTTableViewController.m */; };
+		105EDEF911BC392000B294B4 /* LTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEC411BC392000B294B4 /* LTTableViewCell.m */; };
+		105EDEFA11BC392000B294B4 /* TableViewSectionHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEC511BC392000B294B4 /* TableViewSectionHeader.png */; };
+		105EDEFB11BC392000B294B4 /* LTTableViewSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEC711BC392000B294B4 /* LTTableViewSectionHeaderView.m */; };
+		105EDEFC11BC392000B294B4 /* Mesh.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEC811BC392000B294B4 /* Mesh.png */; };
+		105EDEFD11BC392000B294B4 /* LTTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDECA11BC392000B294B4 /* LTTableView.m */; };
+		105EDEFE11BC392000B294B4 /* LTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDECC11BC392000B294B4 /* LTTabBarController.m */; };
+		105EDF1811BC39DB00B294B4 /* push1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 105EDF1611BC39DB00B294B4 /* push1.caf */; };
+		105EDF1911BC39DB00B294B4 /* push2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 105EDF1711BC39DB00B294B4 /* push2.caf */; };
+		105EDF2211BC39FC00B294B4 /* RedDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 105EDF1D11BC39FC00B294B4 /* RedDot.tiff */; };
+		105EDF2311BC39FC00B294B4 /* BlueDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 105EDF1E11BC39FC00B294B4 /* BlueDot.tiff */; };
+		105EDF2411BC39FC00B294B4 /* GreenDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 105EDF1F11BC39FC00B294B4 /* GreenDot.tiff */; };
+		105EDF2511BC39FC00B294B4 /* YellowDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 105EDF2011BC39FC00B294B4 /* YellowDot.tiff */; };
+		105EDF2611BC39FC00B294B4 /* GreyDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 105EDF2111BC39FC00B294B4 /* GreyDot.tiff */; };
+		105EDF2811BC3A0E00B294B4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105EDF2711BC3A0E00B294B4 /* SystemConfiguration.framework */; };
+		105EDF5111BC3AF400B294B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105EDF5011BC3AF400B294B4 /* QuartzCore.framework */; };
+		106CB6E211BF79D000F3382D /* LTWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 106CB6E111BF79D000F3382D /* LTWindow.m */; };
+		106CBB1811C02BF400F3382D /* LTEntityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 106CBB1611C02BF400F3382D /* LTEntityViewController.m */; };
+		106CBB1911C02BF400F3382D /* LTEntityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 106CBB1711C02BF400F3382D /* LTEntityViewController.xib */; };
+		10934AB811BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934AB711BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m */; };
+		10934ABB11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934ABA11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m */; };
+		10934B2511BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934B2411BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m */; };
+		1095A27711BD9E63008EED5B /* LTGraphTiledLayerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1095A27611BD9E63008EED5B /* LTGraphTiledLayerDelegate.m */; };
+		10BAD5CC11C2C88900147DCA /* LTGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BAD5CB11C2C88900147DCA /* LTGraphView.m */; };
+		10C3F46F11BF541200CBD469 /* LTModalProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */; };
+		10C3F47011BF541200CBD469 /* LTModalProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */; };
+		10C3F54A11BF6A5F00CBD469 /* circuitback.png in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F54911BF6A5F00CBD469 /* circuitback.png */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2860E328111B887F00E27156 /* AppDelegate_Phone.m in Sources */ = {isa = PBXBuildFile; fileRef = 2860E326111B887F00E27156 /* AppDelegate_Phone.m */; };
+		2860E329111B887F00E27156 /* MainWindow_Phone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2860E327111B887F00E27156 /* MainWindow_Phone.xib */; };
+		2860E32E111B888700E27156 /* AppDelegate_Pad.m in Sources */ = {isa = PBXBuildFile; fileRef = 2860E32C111B888700E27156 /* AppDelegate_Pad.m */; };
+		2860E32F111B888700E27156 /* MainWindow_Pad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2860E32D111B888700E27156 /* MainWindow_Pad.xib */; };
+		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		10089B6F11C1FDD900034DFC /* DevicesTab-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "DevicesTab-iPad.xib"; path = "../DevicesTab-iPad.xib"; sourceTree = "<group>"; };
+		102C692411BCE8F40032D043 /* LTDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceViewController.h; sourceTree = "<group>"; };
+		102C692511BCE8F40032D043 /* LTDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceViewController.m; sourceTree = "<group>"; };
+		102C692611BCE8F40032D043 /* LTDeviceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTDeviceViewController.xib; sourceTree = "<group>"; };
+		102C695411BD61170032D043 /* LTContainerIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTContainerIconViewController.h; sourceTree = "<group>"; };
+		102C695511BD61170032D043 /* LTContainerIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTContainerIconViewController.m; sourceTree = "<group>"; };
+		102C695611BD61170032D043 /* LTContainerIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTContainerIconViewController.xib; sourceTree = "<group>"; };
+		105EDDDB11BC2FFE00B294B4 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		105EDDF711BC345200B294B4 /* devices.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = devices.png; sourceTree = "<group>"; };
+		105EDDF811BC345200B294B4 /* computer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = computer.png; sourceTree = "<group>"; };
+		105EDDF911BC345200B294B4 /* incidents.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = incidents.png; sourceTree = "<group>"; };
+		105EDDFA11BC345200B294B4 /* favorites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorites.png; sourceTree = "<group>"; };
+		105EDDFB11BC345200B294B4 /* groups.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = groups.png; sourceTree = "<group>"; };
+		105EDE0111BC34FC00B294B4 /* applications.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = applications.png; sourceTree = "<group>"; };
+		105EDE0311BC357000B294B4 /* xsan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xsan.png; sourceTree = "<group>"; };
+		105EDE0511BC35AB00B294B4 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
+		105EDE3311BC38D100B294B4 /* LCXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCXMLNode.h; sourceTree = "<group>"; };
+		105EDE3411BC38D100B294B4 /* LCXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCXMLNode.m; sourceTree = "<group>"; };
+		105EDE3511BC38D100B294B4 /* LCXMLParseOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCXMLParseOperation.h; sourceTree = "<group>"; };
+		105EDE3611BC38D100B294B4 /* LCXMLParseOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCXMLParseOperation.m; sourceTree = "<group>"; };
+		105EDE3711BC38D100B294B4 /* LTAPIRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTAPIRequest.h; sourceTree = "<group>"; };
+		105EDE3811BC38D100B294B4 /* LTAPIRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTAPIRequest.m; sourceTree = "<group>"; };
+		105EDE3A11BC38D100B294B4 /* LTCoreDeployment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTCoreDeployment.h; sourceTree = "<group>"; };
+		105EDE3B11BC38D100B294B4 /* LTCoreDeployment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTCoreDeployment.m; sourceTree = "<group>"; };
+		105EDE3C11BC38D100B294B4 /* LTCustomer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTCustomer.h; sourceTree = "<group>"; };
+		105EDE3D11BC38D100B294B4 /* LTCustomer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTCustomer.m; sourceTree = "<group>"; };
+		105EDE3E11BC38D100B294B4 /* LTEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntity.h; sourceTree = "<group>"; };
+		105EDE3F11BC38D100B294B4 /* LTEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntity.m; sourceTree = "<group>"; };
+		105EDE4011BC38D100B294B4 /* LTMetricHistoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricHistoryList.h; sourceTree = "<group>"; };
+		105EDE4111BC38D100B294B4 /* LTMetricHistoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricHistoryList.m; sourceTree = "<group>"; };
+		105EDE4211BC38D100B294B4 /* LTMetricValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricValue.h; sourceTree = "<group>"; };
+		105EDE4311BC38D100B294B4 /* LTMetricValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricValue.m; sourceTree = "<group>"; };
+		105EDE4411BC38D100B294B4 /* LTEntityDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityDescriptor.h; sourceTree = "<group>"; };
+		105EDE4511BC38D100B294B4 /* LTEntityDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityDescriptor.m; sourceTree = "<group>"; };
+		105EDE4711BC38D100B294B4 /* LTIncident.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIncident.h; sourceTree = "<group>"; };
+		105EDE4811BC38D100B294B4 /* LTIncident.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIncident.m; sourceTree = "<group>"; };
+		105EDE4911BC38D100B294B4 /* LTIncidentList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIncidentList.h; sourceTree = "<group>"; };
+		105EDE4A11BC38D100B294B4 /* LTIncidentList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIncidentList.m; sourceTree = "<group>"; };
+		105EDE4B11BC38D100B294B4 /* LTAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTAction.h; sourceTree = "<group>"; };
+		105EDE4C11BC38D100B294B4 /* LTAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTAction.m; sourceTree = "<group>"; };
+		105EDE4E11BC38D100B294B4 /* LTGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGroup.h; sourceTree = "<group>"; };
+		105EDE4F11BC38D100B294B4 /* LTGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGroup.m; sourceTree = "<group>"; };
+		105EDE5011BC38D100B294B4 /* LTGroupTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGroupTree.h; sourceTree = "<group>"; };
+		105EDE5111BC38D100B294B4 /* LTGroupTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGroupTree.m; sourceTree = "<group>"; };
+		105EDE5211BC38D100B294B4 /* NSData-Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData-Base64.m"; sourceTree = "<group>"; };
+		105EDE5311BC38D100B294B4 /* NSData-Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData-Base64.h"; sourceTree = "<group>"; };
+		105EDE6F11BC390A00B294B4 /* LTPushRegistrationRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTPushRegistrationRequest.h; sourceTree = "<group>"; };
+		105EDE7011BC390A00B294B4 /* LTPushRegistrationRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTPushRegistrationRequest.m; sourceTree = "<group>"; };
+		105EDE7411BC392000B294B4 /* DevicesTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DevicesTab.xib; sourceTree = "<group>"; };
+		105EDE7511BC392000B294B4 /* LTEntityTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityTableViewController.h; sourceTree = "<group>"; };
+		105EDE7611BC392000B294B4 /* LTEntityTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityTableViewController.m; sourceTree = "<group>"; };
+		105EDE7711BC392000B294B4 /* LTEntityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityTableViewCell.h; sourceTree = "<group>"; };
+		105EDE7811BC392000B294B4 /* LTEntityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityTableViewCell.m; sourceTree = "<group>"; };
+		105EDE7911BC392000B294B4 /* LTMetricTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricTableViewCell.h; sourceTree = "<group>"; };
+		105EDE7A11BC392000B294B4 /* LTMetricTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricTableViewCell.m; sourceTree = "<group>"; };
+		105EDE7D11BC392000B294B4 /* LTMetricValuesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricValuesTableViewController.h; sourceTree = "<group>"; };
+		105EDE7E11BC392000B294B4 /* LTMetricValuesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricValuesTableViewController.m; sourceTree = "<group>"; };
+		105EDE7F11BC392000B294B4 /* MetricValues.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MetricValues.xib; sourceTree = "<group>"; };
+		105EDE8011BC392000B294B4 /* slatebackbrowser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slatebackbrowser.png; sourceTree = "<group>"; };
+		105EDE8111BC392000B294B4 /* mediumgraphback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mediumgraphback.png; sourceTree = "<group>"; };
+		105EDE8211BC392000B294B4 /* largegraphback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = largegraphback.png; sourceTree = "<group>"; };
+		105EDE8311BC392000B294B4 /* LTMetricTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricTableViewController.h; sourceTree = "<group>"; };
+		105EDE8411BC392000B294B4 /* LTMetricTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricTableViewController.m; sourceTree = "<group>"; };
+		105EDE8511BC392000B294B4 /* LTMetricGraphRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricGraphRequest.h; sourceTree = "<group>"; };
+		105EDE8611BC392000B294B4 /* LTMetricGraphRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricGraphRequest.m; sourceTree = "<group>"; };
+		105EDE8711BC392000B294B4 /* MetricView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MetricView.xib; sourceTree = "<group>"; };
+		105EDE8811BC392000B294B4 /* LTMetricGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricGraphView.h; sourceTree = "<group>"; };
+		105EDE8911BC392000B294B4 /* LTMetricGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricGraphView.m; sourceTree = "<group>"; };
+		105EDE8A11BC392000B294B4 /* LTMetricGraphTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricGraphTableViewCell.h; sourceTree = "<group>"; };
+		105EDE8B11BC392000B294B4 /* LTMetricGraphTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricGraphTableViewCell.m; sourceTree = "<group>"; };
+		105EDE8C11BC392000B294B4 /* LTMetricLandscapeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricLandscapeViewController.h; sourceTree = "<group>"; };
+		105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricLandscapeViewController.m; sourceTree = "<group>"; };
+		105EDE8E11BC392000B294B4 /* MetricLandscape.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MetricLandscape.xib; sourceTree = "<group>"; };
+		105EDE8F11BC392000B294B4 /* LTMetricTableViewCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricTableViewCellBackground.h; sourceTree = "<group>"; };
+		105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricTableViewCellBackground.m; sourceTree = "<group>"; };
+		105EDE9111BC392000B294B4 /* LTEntityRefreshProgressViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityRefreshProgressViewCell.h; sourceTree = "<group>"; };
+		105EDE9211BC392000B294B4 /* LTEntityRefreshProgressViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityRefreshProgressViewCell.m; sourceTree = "<group>"; };
+		105EDE9411BC392000B294B4 /* GroupsTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupsTab.xib; sourceTree = "<group>"; };
+		105EDE9511BC392000B294B4 /* LTGroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGroupTableViewController.h; sourceTree = "<group>"; };
+		105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGroupTableViewController.m; sourceTree = "<group>"; };
+		105EDE9811BC392000B294B4 /* IncidentsTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IncidentsTab.xib; sourceTree = "<group>"; };
+		105EDE9911BC392000B294B4 /* LTIncidentListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIncidentListTableViewController.h; sourceTree = "<group>"; };
+		105EDE9A11BC392000B294B4 /* LTIncidentListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIncidentListTableViewController.m; sourceTree = "<group>"; };
+		105EDE9B11BC392000B294B4 /* LTIncidentListGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIncidentListGroup.h; sourceTree = "<group>"; };
+		105EDE9C11BC392000B294B4 /* LTIncidentListGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIncidentListGroup.m; sourceTree = "<group>"; };
+		105EDE9D11BC392000B294B4 /* LTIncidentTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIncidentTableViewController.h; sourceTree = "<group>"; };
+		105EDE9E11BC392000B294B4 /* LTIncidentTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIncidentTableViewController.m; sourceTree = "<group>"; };
+		105EDE9F11BC392000B294B4 /* LTActionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTActionTableViewController.h; sourceTree = "<group>"; };
+		105EDEA011BC392000B294B4 /* LTActionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTActionTableViewController.m; sourceTree = "<group>"; };
+		105EDEA111BC392000B294B4 /* LTActionInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTActionInfoCell.h; sourceTree = "<group>"; };
+		105EDEA211BC392000B294B4 /* LTActionInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTActionInfoCell.m; sourceTree = "<group>"; };
+		105EDEA311BC392000B294B4 /* tools_48.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tools_48.tif; sourceTree = "<group>"; };
+		105EDEA411BC392000B294B4 /* tools_grey_48.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tools_grey_48.tif; sourceTree = "<group>"; };
+		105EDEA511BC392000B294B4 /* tools_grey_16.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tools_grey_16.tif; sourceTree = "<group>"; };
+		105EDEA611BC392000B294B4 /* tools_16.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tools_16.tif; sourceTree = "<group>"; };
+		105EDEA811BC392000B294B4 /* FavoritesTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoritesTab.xib; sourceTree = "<group>"; };
+		105EDEA911BC392000B294B4 /* LTFavoritesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTFavoritesTableViewController.h; sourceTree = "<group>"; };
+		105EDEAA11BC392000B294B4 /* LTFavoritesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTFavoritesTableViewController.m; sourceTree = "<group>"; };
+		105EDEAC11BC392000B294B4 /* SetupTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetupTab.xib; sourceTree = "<group>"; };
+		105EDEAD11BC392000B294B4 /* LTSetupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSetupTableViewController.h; sourceTree = "<group>"; };
+		105EDEAE11BC392000B294B4 /* LTSetupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSetupTableViewController.m; sourceTree = "<group>"; };
+		105EDEB011BC392000B294B4 /* CoreEditView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoreEditView.xib; sourceTree = "<group>"; };
+		105EDEB111BC392000B294B4 /* LTCoreEditTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTCoreEditTableViewController.h; sourceTree = "<group>"; };
+		105EDEB211BC392000B294B4 /* LTCoreEditTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTCoreEditTableViewController.m; sourceTree = "<group>"; };
+		105EDEB411BC392000B294B4 /* LTAuthenticationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTAuthenticationTableViewController.h; sourceTree = "<group>"; };
+		105EDEB511BC392000B294B4 /* LTAuthenticationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTAuthenticationTableViewController.m; sourceTree = "<group>"; };
+		105EDEB611BC392000B294B4 /* AuthenticationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthenticationView.xib; sourceTree = "<group>"; };
+		105EDEB811BC392000B294B4 /* LTTwoLineTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTwoLineTableCell.h; sourceTree = "<group>"; };
+		105EDEB911BC392000B294B4 /* LTTwoLineTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTwoLineTableCell.m; sourceTree = "<group>"; };
+		105EDEBA11BC392000B294B4 /* LTLeftRightTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTLeftRightTableCell.h; sourceTree = "<group>"; };
+		105EDEBB11BC392000B294B4 /* LTLeftRightTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTLeftRightTableCell.m; sourceTree = "<group>"; };
+		105EDEBC11BC392000B294B4 /* CellLowerGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CellLowerGradient.png; sourceTree = "<group>"; };
+		105EDEBD11BC392000B294B4 /* LTTableViewCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTableViewCellBackground.h; sourceTree = "<group>"; };
+		105EDEBE11BC392000B294B4 /* LTTableViewCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableViewCellBackground.m; sourceTree = "<group>"; };
+		105EDEBF11BC392000B294B4 /* LTTableViewCellSelectedBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTableViewCellSelectedBackground.h; sourceTree = "<group>"; };
+		105EDEC011BC392000B294B4 /* LTTableViewCellSelectedBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableViewCellSelectedBackground.m; sourceTree = "<group>"; };
+		105EDEC111BC392000B294B4 /* LTTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTableViewController.h; sourceTree = "<group>"; };
+		105EDEC211BC392000B294B4 /* LTTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableViewController.m; sourceTree = "<group>"; };
+		105EDEC311BC392000B294B4 /* LTTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTableViewCell.h; sourceTree = "<group>"; };
+		105EDEC411BC392000B294B4 /* LTTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableViewCell.m; sourceTree = "<group>"; };
+		105EDEC511BC392000B294B4 /* TableViewSectionHeader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TableViewSectionHeader.png; sourceTree = "<group>"; };
+		105EDEC611BC392000B294B4 /* LTTableViewSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTableViewSectionHeaderView.h; sourceTree = "<group>"; };
+		105EDEC711BC392000B294B4 /* LTTableViewSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableViewSectionHeaderView.m; sourceTree = "<group>"; };
+		105EDEC811BC392000B294B4 /* Mesh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Mesh.png; sourceTree = "<group>"; };
+		105EDEC911BC392000B294B4 /* LTTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTableView.h; sourceTree = "<group>"; };
+		105EDECA11BC392000B294B4 /* LTTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableView.m; sourceTree = "<group>"; };
+		105EDECB11BC392000B294B4 /* LTTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTabBarController.h; sourceTree = "<group>"; };
+		105EDECC11BC392000B294B4 /* LTTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTabBarController.m; sourceTree = "<group>"; };
+		105EDF1611BC39DB00B294B4 /* push1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = push1.caf; sourceTree = "<group>"; };
+		105EDF1711BC39DB00B294B4 /* push2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = push2.caf; sourceTree = "<group>"; };
+		105EDF1D11BC39FC00B294B4 /* RedDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RedDot.tiff; sourceTree = "<group>"; };
+		105EDF1E11BC39FC00B294B4 /* BlueDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BlueDot.tiff; sourceTree = "<group>"; };
+		105EDF1F11BC39FC00B294B4 /* GreenDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = GreenDot.tiff; sourceTree = "<group>"; };
+		105EDF2011BC39FC00B294B4 /* YellowDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = YellowDot.tiff; sourceTree = "<group>"; };
+		105EDF2111BC39FC00B294B4 /* GreyDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = GreyDot.tiff; sourceTree = "<group>"; };
+		105EDF2711BC3A0E00B294B4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		105EDF5011BC3AF400B294B4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		106CB6E011BF79D000F3382D /* LTWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTWindow.h; sourceTree = "<group>"; };
+		106CB6E111BF79D000F3382D /* LTWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTWindow.m; sourceTree = "<group>"; };
+		106CBB1511C02BF400F3382D /* LTEntityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityViewController.h; sourceTree = "<group>"; };
+		106CBB1611C02BF400F3382D /* LTEntityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityViewController.m; sourceTree = "<group>"; };
+		106CBB1711C02BF400F3382D /* LTEntityViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTEntityViewController.xib; sourceTree = "<group>"; };
+		10934AB611BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphLegendTableViewCell.h; sourceTree = "<group>"; };
+		10934AB711BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphLegendTableViewCell.m; sourceTree = "<group>"; };
+		10934AB911BEA1F9009EF1F7 /* LTGraphLegendEntityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphLegendEntityView.h; sourceTree = "<group>"; };
+		10934ABA11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphLegendEntityView.m; sourceTree = "<group>"; };
+		10934B2311BEB0A0009EF1F7 /* LTGraphLegendTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphLegendTableViewController.h; sourceTree = "<group>"; };
+		10934B2411BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphLegendTableViewController.m; sourceTree = "<group>"; };
+		1095A27511BD9E63008EED5B /* LTGraphTiledLayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphTiledLayerDelegate.h; sourceTree = "<group>"; };
+		1095A27611BD9E63008EED5B /* LTGraphTiledLayerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphTiledLayerDelegate.m; sourceTree = "<group>"; };
+		10BAD5CA11C2C88900147DCA /* LTGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphView.h; sourceTree = "<group>"; };
+		10BAD5CB11C2C88900147DCA /* LTGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphView.m; sourceTree = "<group>"; };
+		10C3F46C11BF541200CBD469 /* LTModalProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTModalProgressViewController.h; sourceTree = "<group>"; };
+		10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTModalProgressViewController.m; sourceTree = "<group>"; };
+		10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTModalProgressViewController.xib; sourceTree = "<group>"; };
+		10C3F54911BF6A5F00CBD469 /* circuitback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circuitback.png; sourceTree = "<group>"; };
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D6058910D05DD3D006BFB54 /* Lithium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lithium.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2860E325111B887F00E27156 /* AppDelegate_Phone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_Phone.h; sourceTree = "<group>"; };
+		2860E326111B887F00E27156 /* AppDelegate_Phone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate_Phone.m; sourceTree = "<group>"; };
+		2860E327111B887F00E27156 /* MainWindow_Phone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow_Phone.xib; sourceTree = "<group>"; };
+		2860E32B111B888700E27156 /* AppDelegate_Pad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_Pad.h; sourceTree = "<group>"; };
+		2860E32C111B888700E27156 /* AppDelegate_Pad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate_Pad.m; sourceTree = "<group>"; };
+		2860E32D111B888700E27156 /* MainWindow_Pad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow_Pad.xib; sourceTree = "<group>"; };
+		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Shared/main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* LithiumTouchUniversal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LithiumTouchUniversal_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* LithiumTouchUniversal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LithiumTouchUniversal-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
+				105EDF2811BC3A0E00B294B4 /* SystemConfiguration.framework in Frameworks */,
+				105EDF5111BC3AF400B294B4 /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		102C692111BCE8BB0032D043 /* Device View */ = {
+			isa = PBXGroup;
+			children = (
+				10934AB011BEA0F5009EF1F7 /* Graph */,
+				102C695311BD60E40032D043 /* Container View */,
+				102C692411BCE8F40032D043 /* LTDeviceViewController.h */,
+				102C692511BCE8F40032D043 /* LTDeviceViewController.m */,
+				102C692611BCE8F40032D043 /* LTDeviceViewController.xib */,
+			);
+			name = "Device View";
+			sourceTree = "<group>";
+		};
+		102C695311BD60E40032D043 /* Container View */ = {
+			isa = PBXGroup;
+			children = (
+				102C695411BD61170032D043 /* LTContainerIconViewController.h */,
+				102C695511BD61170032D043 /* LTContainerIconViewController.m */,
+				102C695611BD61170032D043 /* LTContainerIconViewController.xib */,
+			);
+			name = "Container View";
+			sourceTree = "<group>";
+		};
+		105EDDF611BC344900B294B4 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				105EDDF711BC345200B294B4 /* devices.png */,
+				105EDDF811BC345200B294B4 /* computer.png */,
+				105EDDF911BC345200B294B4 /* incidents.png */,
+				105EDDFA11BC345200B294B4 /* favorites.png */,
+				105EDDFB11BC345200B294B4 /* groups.png */,
+				105EDE0111BC34FC00B294B4 /* applications.png */,
+				105EDE0311BC357000B294B4 /* xsan.png */,
+				105EDE0511BC35AB00B294B4 /* settings.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
+		105EDE3111BC38D100B294B4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE5211BC38D100B294B4 /* NSData-Base64.m */,
+				105EDE5311BC38D100B294B4 /* NSData-Base64.h */,
+				105EDE4D11BC38D100B294B4 /* Groups */,
+				105EDE4611BC38D100B294B4 /* Incidents */,
+				105EDE3911BC38D100B294B4 /* Entities */,
+				105EDE3211BC38D100B294B4 /* XML Parsing */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		105EDE3211BC38D100B294B4 /* XML Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE3311BC38D100B294B4 /* LCXMLNode.h */,
+				105EDE3411BC38D100B294B4 /* LCXMLNode.m */,
+				105EDE3511BC38D100B294B4 /* LCXMLParseOperation.h */,
+				105EDE3611BC38D100B294B4 /* LCXMLParseOperation.m */,
+				105EDE3711BC38D100B294B4 /* LTAPIRequest.h */,
+				105EDE3811BC38D100B294B4 /* LTAPIRequest.m */,
+			);
+			name = "XML Parsing";
+			sourceTree = "<group>";
+		};
+		105EDE3911BC38D100B294B4 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE3A11BC38D100B294B4 /* LTCoreDeployment.h */,
+				105EDE3B11BC38D100B294B4 /* LTCoreDeployment.m */,
+				105EDE3C11BC38D100B294B4 /* LTCustomer.h */,
+				105EDE3D11BC38D100B294B4 /* LTCustomer.m */,
+				105EDE3E11BC38D100B294B4 /* LTEntity.h */,
+				105EDE3F11BC38D100B294B4 /* LTEntity.m */,
+				105EDE4011BC38D100B294B4 /* LTMetricHistoryList.h */,
+				105EDE4111BC38D100B294B4 /* LTMetricHistoryList.m */,
+				105EDE4211BC38D100B294B4 /* LTMetricValue.h */,
+				105EDE4311BC38D100B294B4 /* LTMetricValue.m */,
+				105EDE4411BC38D100B294B4 /* LTEntityDescriptor.h */,
+				105EDE4511BC38D100B294B4 /* LTEntityDescriptor.m */,
+			);
+			name = Entities;
+			sourceTree = "<group>";
+		};
+		105EDE4611BC38D100B294B4 /* Incidents */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE4711BC38D100B294B4 /* LTIncident.h */,
+				105EDE4811BC38D100B294B4 /* LTIncident.m */,
+				105EDE4911BC38D100B294B4 /* LTIncidentList.h */,
+				105EDE4A11BC38D100B294B4 /* LTIncidentList.m */,
+				105EDE4B11BC38D100B294B4 /* LTAction.h */,
+				105EDE4C11BC38D100B294B4 /* LTAction.m */,
+			);
+			name = Incidents;
+			sourceTree = "<group>";
+		};
+		105EDE4D11BC38D100B294B4 /* Groups */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE4E11BC38D100B294B4 /* LTGroup.h */,
+				105EDE4F11BC38D100B294B4 /* LTGroup.m */,
+				105EDE5011BC38D100B294B4 /* LTGroupTree.h */,
+				105EDE5111BC38D100B294B4 /* LTGroupTree.m */,
+			);
+			name = Groups;
+			sourceTree = "<group>";
+		};
+		105EDE6E11BC390A00B294B4 /* Push Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE6F11BC390A00B294B4 /* LTPushRegistrationRequest.h */,
+				105EDE7011BC390A00B294B4 /* LTPushRegistrationRequest.m */,
+			);
+			name = "Push Notifications";
+			sourceTree = "<group>";
+		};
+		105EDE7211BC392000B294B4 /* UI Classes */ = {
+			isa = PBXGroup;
+			children = (
+				106CBB1411C02BD600F3382D /* Entity View (Popup) */,
+				10C3F46B11BF53FD00CBD469 /* Modal Progress */,
+				102C692111BCE8BB0032D043 /* Device View */,
+				105EDECB11BC392000B294B4 /* LTTabBarController.h */,
+				105EDECC11BC392000B294B4 /* LTTabBarController.m */,
+				105EDEB711BC392000B294B4 /* Generic Table View */,
+				105EDEB311BC392000B294B4 /* Authentication View */,
+				105EDEAB11BC392000B294B4 /* Setup Tab */,
+				105EDEA711BC392000B294B4 /* Favorites Tab */,
+				105EDE9711BC392000B294B4 /* Incidents Tab */,
+				105EDE9311BC392000B294B4 /* Groups Tab */,
+				105EDE7311BC392000B294B4 /* Devices Tab */,
+				106CB6E011BF79D000F3382D /* LTWindow.h */,
+				106CB6E111BF79D000F3382D /* LTWindow.m */,
+			);
+			name = "UI Classes";
+			sourceTree = "<group>";
+		};
+		105EDE7311BC392000B294B4 /* Devices Tab */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE7B11BC392000B294B4 /* Metric View */,
+				105EDE7411BC392000B294B4 /* DevicesTab.xib */,
+				105EDE7511BC392000B294B4 /* LTEntityTableViewController.h */,
+				105EDE7611BC392000B294B4 /* LTEntityTableViewController.m */,
+				105EDE7711BC392000B294B4 /* LTEntityTableViewCell.h */,
+				105EDE7811BC392000B294B4 /* LTEntityTableViewCell.m */,
+				105EDE7911BC392000B294B4 /* LTMetricTableViewCell.h */,
+				105EDE7A11BC392000B294B4 /* LTMetricTableViewCell.m */,
+				105EDE9111BC392000B294B4 /* LTEntityRefreshProgressViewCell.h */,
+				105EDE9211BC392000B294B4 /* LTEntityRefreshProgressViewCell.m */,
+			);
+			name = "Devices Tab";
+			sourceTree = "<group>";
+		};
+		105EDE7B11BC392000B294B4 /* Metric View */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE8011BC392000B294B4 /* slatebackbrowser.png */,
+				105EDE8111BC392000B294B4 /* mediumgraphback.png */,
+				105EDE8211BC392000B294B4 /* largegraphback.png */,
+				105EDE8311BC392000B294B4 /* LTMetricTableViewController.h */,
+				105EDE8411BC392000B294B4 /* LTMetricTableViewController.m */,
+				105EDE8511BC392000B294B4 /* LTMetricGraphRequest.h */,
+				105EDE8611BC392000B294B4 /* LTMetricGraphRequest.m */,
+				105EDE8711BC392000B294B4 /* MetricView.xib */,
+				105EDE8811BC392000B294B4 /* LTMetricGraphView.h */,
+				105EDE8911BC392000B294B4 /* LTMetricGraphView.m */,
+				105EDE8A11BC392000B294B4 /* LTMetricGraphTableViewCell.h */,
+				105EDE8B11BC392000B294B4 /* LTMetricGraphTableViewCell.m */,
+				105EDE8C11BC392000B294B4 /* LTMetricLandscapeViewController.h */,
+				105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */,
+				105EDE8E11BC392000B294B4 /* MetricLandscape.xib */,
+				105EDE8F11BC392000B294B4 /* LTMetricTableViewCellBackground.h */,
+				105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */,
+				105EDE7C11BC392000B294B4 /* Recent Values */,
+			);
+			name = "Metric View";
+			sourceTree = "<group>";
+		};
+		105EDE7C11BC392000B294B4 /* Recent Values */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE7D11BC392000B294B4 /* LTMetricValuesTableViewController.h */,
+				105EDE7E11BC392000B294B4 /* LTMetricValuesTableViewController.m */,
+				105EDE7F11BC392000B294B4 /* MetricValues.xib */,
+			);
+			name = "Recent Values";
+			sourceTree = "<group>";
+		};
+		105EDE9311BC392000B294B4 /* Groups Tab */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE9411BC392000B294B4 /* GroupsTab.xib */,
+				105EDE9511BC392000B294B4 /* LTGroupTableViewController.h */,
+				105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */,
+			);
+			name = "Groups Tab";
+			sourceTree = "<group>";
+		};
+		105EDE9711BC392000B294B4 /* Incidents Tab */ = {
+			isa = PBXGroup;
+			children = (
+				105EDE9811BC392000B294B4 /* IncidentsTab.xib */,
+				105EDE9911BC392000B294B4 /* LTIncidentListTableViewController.h */,
+				105EDE9A11BC392000B294B4 /* LTIncidentListTableViewController.m */,
+				105EDE9B11BC392000B294B4 /* LTIncidentListGroup.h */,
+				105EDE9C11BC392000B294B4 /* LTIncidentListGroup.m */,
+				105EDE9D11BC392000B294B4 /* LTIncidentTableViewController.h */,
+				105EDE9E11BC392000B294B4 /* LTIncidentTableViewController.m */,
+				105EDE9F11BC392000B294B4 /* LTActionTableViewController.h */,
+				105EDEA011BC392000B294B4 /* LTActionTableViewController.m */,
+				105EDEA111BC392000B294B4 /* LTActionInfoCell.h */,
+				105EDEA211BC392000B294B4 /* LTActionInfoCell.m */,
+				105EDEA311BC392000B294B4 /* tools_48.tif */,
+				105EDEA411BC392000B294B4 /* tools_grey_48.tif */,
+				105EDEA511BC392000B294B4 /* tools_grey_16.tif */,
+				105EDEA611BC392000B294B4 /* tools_16.tif */,
+			);
+			name = "Incidents Tab";
+			sourceTree = "<group>";
+		};
+		105EDEA711BC392000B294B4 /* Favorites Tab */ = {
+			isa = PBXGroup;
+			children = (
+				105EDEA811BC392000B294B4 /* FavoritesTab.xib */,
+				105EDEA911BC392000B294B4 /* LTFavoritesTableViewController.h */,
+				105EDEAA11BC392000B294B4 /* LTFavoritesTableViewController.m */,
+			);
+			name = "Favorites Tab";
+			sourceTree = "<group>";
+		};
+		105EDEAB11BC392000B294B4 /* Setup Tab */ = {
+			isa = PBXGroup;
+			children = (
+				105EDEAF11BC392000B294B4 /* Core Add and Edit */,
+				105EDEAC11BC392000B294B4 /* SetupTab.xib */,
+				105EDEAD11BC392000B294B4 /* LTSetupTableViewController.h */,
+				105EDEAE11BC392000B294B4 /* LTSetupTableViewController.m */,
+			);
+			name = "Setup Tab";
+			sourceTree = "<group>";
+		};
+		105EDEAF11BC392000B294B4 /* Core Add and Edit */ = {
+			isa = PBXGroup;
+			children = (
+				105EDEB011BC392000B294B4 /* CoreEditView.xib */,
+				105EDEB111BC392000B294B4 /* LTCoreEditTableViewController.h */,
+				105EDEB211BC392000B294B4 /* LTCoreEditTableViewController.m */,
+			);
+			name = "Core Add and Edit";
+			sourceTree = "<group>";
+		};
+		105EDEB311BC392000B294B4 /* Authentication View */ = {
+			isa = PBXGroup;
+			children = (
+				105EDEB411BC392000B294B4 /* LTAuthenticationTableViewController.h */,
+				105EDEB511BC392000B294B4 /* LTAuthenticationTableViewController.m */,
+				105EDEB611BC392000B294B4 /* AuthenticationView.xib */,
+			);
+			name = "Authentication View";
+			sourceTree = "<group>";
+		};
+		105EDEB711BC392000B294B4 /* Generic Table View */ = {
+			isa = PBXGroup;
+			children = (
+				105EDEB811BC392000B294B4 /* LTTwoLineTableCell.h */,
+				105EDEB911BC392000B294B4 /* LTTwoLineTableCell.m */,
+				105EDEBA11BC392000B294B4 /* LTLeftRightTableCell.h */,
+				105EDEBB11BC392000B294B4 /* LTLeftRightTableCell.m */,
+				105EDEBC11BC392000B294B4 /* CellLowerGradient.png */,
+				105EDEBD11BC392000B294B4 /* LTTableViewCellBackground.h */,
+				105EDEBE11BC392000B294B4 /* LTTableViewCellBackground.m */,
+				105EDEBF11BC392000B294B4 /* LTTableViewCellSelectedBackground.h */,
+				105EDEC011BC392000B294B4 /* LTTableViewCellSelectedBackground.m */,
+				105EDEC111BC392000B294B4 /* LTTableViewController.h */,
+				105EDEC211BC392000B294B4 /* LTTableViewController.m */,
+				105EDEC311BC392000B294B4 /* LTTableViewCell.h */,
+				105EDEC411BC392000B294B4 /* LTTableViewCell.m */,
+				105EDEC511BC392000B294B4 /* TableViewSectionHeader.png */,
+				105EDEC611BC392000B294B4 /* LTTableViewSectionHeaderView.h */,
+				105EDEC711BC392000B294B4 /* LTTableViewSectionHeaderView.m */,
+				105EDEC811BC392000B294B4 /* Mesh.png */,
+				105EDEC911BC392000B294B4 /* LTTableView.h */,
+				105EDECA11BC392000B294B4 /* LTTableView.m */,
+			);
+			name = "Generic Table View";
+			sourceTree = "<group>";
+		};
+		105EDF1411BC39C500B294B4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				10C3F54911BF6A5F00CBD469 /* circuitback.png */,
+				105EDF1C11BC39F200B294B4 /* Dots */,
+				105EDF1511BC39D100B294B4 /* Sounds */,
+				105EDDF611BC344900B294B4 /* Icons */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		105EDF1511BC39D100B294B4 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				105EDF1611BC39DB00B294B4 /* push1.caf */,
+				105EDF1711BC39DB00B294B4 /* push2.caf */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
+		105EDF1C11BC39F200B294B4 /* Dots */ = {
+			isa = PBXGroup;
+			children = (
+				105EDF1D11BC39FC00B294B4 /* RedDot.tiff */,
+				105EDF1E11BC39FC00B294B4 /* BlueDot.tiff */,
+				105EDF1F11BC39FC00B294B4 /* GreenDot.tiff */,
+				105EDF2011BC39FC00B294B4 /* YellowDot.tiff */,
+				105EDF2111BC39FC00B294B4 /* GreyDot.tiff */,
+			);
+			name = Dots;
+			sourceTree = "<group>";
+		};
+		106CBB1411C02BD600F3382D /* Entity View (Popup) */ = {
+			isa = PBXGroup;
+			children = (
+				106CBB1511C02BF400F3382D /* LTEntityViewController.h */,
+				106CBB1611C02BF400F3382D /* LTEntityViewController.m */,
+				106CBB1711C02BF400F3382D /* LTEntityViewController.xib */,
+			);
+			name = "Entity View (Popup)";
+			sourceTree = "<group>";
+		};
+		10934AB011BEA0F5009EF1F7 /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				10BAD5CA11C2C88900147DCA /* LTGraphView.h */,
+				10BAD5CB11C2C88900147DCA /* LTGraphView.m */,
+				1095A27511BD9E63008EED5B /* LTGraphTiledLayerDelegate.h */,
+				1095A27611BD9E63008EED5B /* LTGraphTiledLayerDelegate.m */,
+				10934AB611BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.h */,
+				10934AB711BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m */,
+				10934AB911BEA1F9009EF1F7 /* LTGraphLegendEntityView.h */,
+				10934ABA11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m */,
+				10934B2311BEB0A0009EF1F7 /* LTGraphLegendTableViewController.h */,
+				10934B2411BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m */,
+			);
+			name = Graph;
+			sourceTree = "<group>";
+		};
+		10C3F46B11BF53FD00CBD469 /* Modal Progress */ = {
+			isa = PBXGroup;
+			children = (
+				10C3F46C11BF541200CBD469 /* LTModalProgressViewController.h */,
+				10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */,
+				10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */,
+			);
+			name = "Modal Progress";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* Lithium.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2860E324111B887F00E27156 /* iPhone UI */ = {
+			isa = PBXGroup;
+			children = (
+				2860E325111B887F00E27156 /* AppDelegate_Phone.h */,
+				2860E326111B887F00E27156 /* AppDelegate_Phone.m */,
+				2860E327111B887F00E27156 /* MainWindow_Phone.xib */,
+			);
+			name = "iPhone UI";
+			path = iPhone;
+			sourceTree = "<group>";
+		};
+		2860E32A111B888700E27156 /* iPad UI */ = {
+			isa = PBXGroup;
+			children = (
+				2860E32B111B888700E27156 /* AppDelegate_Pad.h */,
+				2860E32C111B888700E27156 /* AppDelegate_Pad.m */,
+				2860E32D111B888700E27156 /* MainWindow_Pad.xib */,
+				10089B6F11C1FDD900034DFC /* DevicesTab-iPad.xib */,
+			);
+			name = "iPad UI";
+			path = iPad;
+			sourceTree = "<group>";
+		};
+		28EEBF621118D79A00187D67 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107310486CEB800E47090 /* LithiumTouchUniversal-Info.plist */,
+				105EDDDB11BC2FFE00B294B4 /* AppDelegate.h */,
+				105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */,
+			);
+			name = Shared;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				105EDF1411BC39C500B294B4 /* Resources */,
+				105EDE7211BC392000B294B4 /* UI Classes */,
+				105EDE6E11BC390A00B294B4 /* Push Notifications */,
+				105EDE3111BC38D100B294B4 /* Model */,
+				2860E32A111B888700E27156 /* iPad UI */,
+				2860E324111B887F00E27156 /* iPhone UI */,
+				28EEBF621118D79A00187D67 /* Shared */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* LithiumTouchUniversal_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
+				105EDF2711BC3A0E00B294B4 /* SystemConfiguration.framework */,
+				105EDF5011BC3AF400B294B4 /* QuartzCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* Lithium */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Lithium" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Lithium;
+			productName = LithiumTouchUniversal;
+			productReference = 1D6058910D05DD3D006BFB54 /* Lithium.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "LithiumTouchUniversal" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* Lithium */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2860E329111B887F00E27156 /* MainWindow_Phone.xib in Resources */,
+				2860E32F111B888700E27156 /* MainWindow_Pad.xib in Resources */,
+				105EDDFC11BC345200B294B4 /* devices.png in Resources */,
+				105EDDFD11BC345200B294B4 /* computer.png in Resources */,
+				105EDDFE11BC345200B294B4 /* incidents.png in Resources */,
+				105EDDFF11BC345200B294B4 /* favorites.png in Resources */,
+				105EDE0011BC345200B294B4 /* groups.png in Resources */,
+				105EDE0211BC34FC00B294B4 /* applications.png in Resources */,
+				105EDE0411BC357000B294B4 /* xsan.png in Resources */,
+				105EDE0611BC35AB00B294B4 /* settings.png in Resources */,
+				105EDECD11BC392000B294B4 /* DevicesTab.xib in Resources */,
+				105EDED211BC392000B294B4 /* MetricValues.xib in Resources */,
+				105EDED311BC392000B294B4 /* slatebackbrowser.png in Resources */,
+				105EDED411BC392000B294B4 /* mediumgraphback.png in Resources */,
+				105EDED511BC392000B294B4 /* largegraphback.png in Resources */,
+				105EDED811BC392000B294B4 /* MetricView.xib in Resources */,
+				105EDEDC11BC392000B294B4 /* MetricLandscape.xib in Resources */,
+				105EDEDF11BC392000B294B4 /* GroupsTab.xib in Resources */,
+				105EDEE111BC392000B294B4 /* IncidentsTab.xib in Resources */,
+				105EDEE711BC392000B294B4 /* tools_48.tif in Resources */,
+				105EDEE811BC392000B294B4 /* tools_grey_48.tif in Resources */,
+				105EDEE911BC392000B294B4 /* tools_grey_16.tif in Resources */,
+				105EDEEA11BC392000B294B4 /* tools_16.tif in Resources */,
+				105EDEEB11BC392000B294B4 /* FavoritesTab.xib in Resources */,
+				105EDEED11BC392000B294B4 /* SetupTab.xib in Resources */,
+				105EDEEF11BC392000B294B4 /* CoreEditView.xib in Resources */,
+				105EDEF211BC392000B294B4 /* AuthenticationView.xib in Resources */,
+				105EDEF511BC392000B294B4 /* CellLowerGradient.png in Resources */,
+				105EDEFA11BC392000B294B4 /* TableViewSectionHeader.png in Resources */,
+				105EDEFC11BC392000B294B4 /* Mesh.png in Resources */,
+				105EDF1811BC39DB00B294B4 /* push1.caf in Resources */,
+				105EDF1911BC39DB00B294B4 /* push2.caf in Resources */,
+				105EDF2211BC39FC00B294B4 /* RedDot.tiff in Resources */,
+				105EDF2311BC39FC00B294B4 /* BlueDot.tiff in Resources */,
+				105EDF2411BC39FC00B294B4 /* GreenDot.tiff in Resources */,
+				105EDF2511BC39FC00B294B4 /* YellowDot.tiff in Resources */,
+				105EDF2611BC39FC00B294B4 /* GreyDot.tiff in Resources */,
+				102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */,
+				102C695811BD61170032D043 /* LTContainerIconViewController.xib in Resources */,
+				10C3F47011BF541200CBD469 /* LTModalProgressViewController.xib in Resources */,
+				10C3F54A11BF6A5F00CBD469 /* circuitback.png in Resources */,
+				106CBB1911C02BF400F3382D /* LTEntityViewController.xib in Resources */,
+				10089B7011C1FDD900034DFC /* DevicesTab-iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				2860E328111B887F00E27156 /* AppDelegate_Phone.m in Sources */,
+				2860E32E111B888700E27156 /* AppDelegate_Pad.m in Sources */,
+				105EDDDD11BC2FFE00B294B4 /* AppDelegate.m in Sources */,
+				105EDE5411BC38D100B294B4 /* LCXMLNode.m in Sources */,
+				105EDE5511BC38D100B294B4 /* LCXMLParseOperation.m in Sources */,
+				105EDE5611BC38D100B294B4 /* LTAPIRequest.m in Sources */,
+				105EDE5711BC38D100B294B4 /* LTCoreDeployment.m in Sources */,
+				105EDE5811BC38D100B294B4 /* LTCustomer.m in Sources */,
+				105EDE5911BC38D100B294B4 /* LTEntity.m in Sources */,
+				105EDE5A11BC38D100B294B4 /* LTMetricHistoryList.m in Sources */,
+				105EDE5B11BC38D100B294B4 /* LTMetricValue.m in Sources */,
+				105EDE5C11BC38D100B294B4 /* LTEntityDescriptor.m in Sources */,
+				105EDE5D11BC38D100B294B4 /* LTIncident.m in Sources */,
+				105EDE5E11BC38D100B294B4 /* LTIncidentList.m in Sources */,
+				105EDE5F11BC38D100B294B4 /* LTAction.m in Sources */,
+				105EDE6011BC38D100B294B4 /* LTGroup.m in Sources */,
+				105EDE6111BC38D100B294B4 /* LTGroupTree.m in Sources */,
+				105EDE6211BC38D100B294B4 /* NSData-Base64.m in Sources */,
+				105EDE7111BC390A00B294B4 /* LTPushRegistrationRequest.m in Sources */,
+				105EDECE11BC392000B294B4 /* LTEntityTableViewController.m in Sources */,
+				105EDECF11BC392000B294B4 /* LTEntityTableViewCell.m in Sources */,
+				105EDED011BC392000B294B4 /* LTMetricTableViewCell.m in Sources */,
+				105EDED111BC392000B294B4 /* LTMetricValuesTableViewController.m in Sources */,
+				105EDED611BC392000B294B4 /* LTMetricTableViewController.m in Sources */,
+				105EDED711BC392000B294B4 /* LTMetricGraphRequest.m in Sources */,
+				105EDED911BC392000B294B4 /* LTMetricGraphView.m in Sources */,
+				105EDEDA11BC392000B294B4 /* LTMetricGraphTableViewCell.m in Sources */,
+				105EDEDB11BC392000B294B4 /* LTMetricLandscapeViewController.m in Sources */,
+				105EDEDD11BC392000B294B4 /* LTMetricTableViewCellBackground.m in Sources */,
+				105EDEDE11BC392000B294B4 /* LTEntityRefreshProgressViewCell.m in Sources */,
+				105EDEE011BC392000B294B4 /* LTGroupTableViewController.m in Sources */,
+				105EDEE211BC392000B294B4 /* LTIncidentListTableViewController.m in Sources */,
+				105EDEE311BC392000B294B4 /* LTIncidentListGroup.m in Sources */,
+				105EDEE411BC392000B294B4 /* LTIncidentTableViewController.m in Sources */,
+				105EDEE511BC392000B294B4 /* LTActionTableViewController.m in Sources */,
+				105EDEE611BC392000B294B4 /* LTActionInfoCell.m in Sources */,
+				105EDEEC11BC392000B294B4 /* LTFavoritesTableViewController.m in Sources */,
+				105EDEEE11BC392000B294B4 /* LTSetupTableViewController.m in Sources */,
+				105EDEF011BC392000B294B4 /* LTCoreEditTableViewController.m in Sources */,
+				105EDEF111BC392000B294B4 /* LTAuthenticationTableViewController.m in Sources */,
+				105EDEF311BC392000B294B4 /* LTTwoLineTableCell.m in Sources */,
+				105EDEF411BC392000B294B4 /* LTLeftRightTableCell.m in Sources */,
+				105EDEF611BC392000B294B4 /* LTTableViewCellBackground.m in Sources */,
+				105EDEF711BC392000B294B4 /* LTTableViewCellSelectedBackground.m in Sources */,
+				105EDEF811BC392000B294B4 /* LTTableViewController.m in Sources */,
+				105EDEF911BC392000B294B4 /* LTTableViewCell.m in Sources */,
+				105EDEFB11BC392000B294B4 /* LTTableViewSectionHeaderView.m in Sources */,
+				105EDEFD11BC392000B294B4 /* LTTableView.m in Sources */,
+				105EDEFE11BC392000B294B4 /* LTTabBarController.m in Sources */,
+				102C692711BCE8F40032D043 /* LTDeviceViewController.m in Sources */,
+				102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */,
+				1095A27711BD9E63008EED5B /* LTGraphTiledLayerDelegate.m in Sources */,
+				10934AB811BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m in Sources */,
+				10934ABB11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m in Sources */,
+				10934B2511BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m in Sources */,
+				10C3F46F11BF541200CBD469 /* LTModalProgressViewController.m in Sources */,
+				106CB6E211BF79D000F3382D /* LTWindow.m in Sources */,
+				106CBB1811C02BF400F3382D /* LTEntityViewController.m in Sources */,
+				10BAD5CC11C2C88900147DCA /* LTGraphView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = LithiumTouchUniversal_Prefix.pch;
+				INFOPLIST_FILE = "LithiumTouchUniversal-Info.plist";
+				PRODUCT_NAME = Lithium;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = LithiumTouchUniversal_Prefix.pch;
+				INFOPLIST_FILE = "LithiumTouchUniversal-Info.plist";
+				PRODUCT_NAME = Lithium;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Lithium" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "LithiumTouchUniversal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Library/Lithium/LithiumCore.app/Contents/MacOS:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin</string>
+    </dict>
+	<key>GroupName</key>
+    <string>wheel</string>
+	<key>Label</key>
+    <string>com.lithiumcorp.mars</string>
+	<key>OnDemand</key>
+	<false/>
+	<key>ProgramArguments</key>
+	<array>
+      <string>/Library/Lithium/LithiumCore.app/Contents/MacOS/lithium</string>
+		<string>-q</string>
+        <string>mars.so</string>
+	</array>
+	<key>ServiceDescription</key>
+    <string>Lithium Metric Archive and Retrieval System</string>
+	<key>UserName</key>
+    <string>root</string>
+</dict>
+</plist>

@@ -1,0 +1,262 @@
+----[ 4.6.7 - 'Tone'  ]------------------------------------------------
+
+Mon Dec 13 11:28:47 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed object factory for pixconn
+
+Sun Dec 05 18:26:00 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added handling for PIX use of old CPU mib
+
+----[ 4.6.6 - 'Worth' ]------------------------------------------------
+
+Mon Nov 08 18:32:58 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * IPAcct only enables for non-core devices
+
+Mon Nov 08 18:21:01 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Corrected '%' unit being used instead of dB in adsl cg
+
+Mon Nov 08 18:15:33 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * ADSL only enables for non-core devices
+  * Added support for snmp_route for core devices
+
+Mon Nov 08 14:28:42 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * adsl module works
+
+Mon Nov 08 14:16:58 EST 2004  James Wilson <jim@lithiumcorp.com>
+
+  * clogin command execution works
+
+Sun Oct 24 13:35:28 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Began work on clogin command execution
+
+----[ 4.6.5 - "Coil" ]-------------------------------------------------
+----[ 4.6.4 - "Flow" ]-------------------------------------------------
+----[ 4.6.3 ]----------------------------------------------------------
+----[ 4.6.2 ]----------------------------------------------------------
+----[ 4.6.1 ]----------------------------------------------------------
+
+Thu Apr 22 22:13:14 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Re-wrote ipacct refresh to use two consecutive walk operations
+
+Thu Apr 22 14:40:15 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Ensured all snmp_sessions are opened using session_open_device
+
+----[ 4.6.0 ]----------------------------------------------------------
+
+Wed Dec 24 13:23:23 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Builder under induction 4.6 headers
+
+Fri Nov 07 17:31:54 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * inventory_sw_refresh returns 0 if no sysdescr_str is in sysinfo
+
+Sun Nov 02 14:17:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed auth level for adding new profile link
+
+Sun Nov 02 01:04:11 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added card inventory item tracking (works)
+
+Sat Nov 01 20:18:55 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed occured/occurred typo
+
+Sun Oct 26 23:35:44 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Inventory interaction works under new inventory system
+
+Sat Oct 25 15:17:14 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted swreg interaction code to inventory interaction
+
+Fri Oct 24 19:31:13 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * pix iflist compiles
+
+Fri Oct 24 13:01:18 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed consecutie clearing of ipacct status not clearing
+    and also changed to reason string to ipacct_refresh_consecclear
+
+Thu Oct 23 16:36:53 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added dataage/lost info to ipacct form main
+
+Thu Oct 23 16:30:04 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * ipacct checks threshold and lost pkt/byte variables
+  * devices ipacct table is cleared if table >80% of threshold
+
+Tue Oct 21 00:04:41 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Began work on pix-specific iflist fixes (ifLastChange)
+
+Mon Oct 20 12:49:45 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * ipacct profile list and rule list is sorted by description
+
+Thu Oct 16 00:19:49 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Moved rrd updating to the end of ipacct_profile_data_update
+  * Fixed command not being free in ipacct_profile_sql_update/init
+
+Mon Oct 13 12:25:54 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Forked version numbers from lithium 4.5.2 to 1.0.0
+
+Sun Oct 12 00:42:41 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added provision for 3 refresh-collisions to occur in 
+    v_ipacct refresh before the refresh operation is terminated
+
+Fri Oct 10 16:53:21 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated configure.in to detect OS X 10.3 (Panther)
+
+Fri Oct 10 12:07:23 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added better handling of SNMP errors in ipacct_refresh
+
+Sat Oct 04 18:53:05 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added special handling of swreg platform_str/feature_str for pix
+
+Sat Oct 04 18:36:58 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed extraneous use of PG_FLAG_BEGIN|END
+
+Sun Sep 28 15:36:17 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted ipacct to async postgres interaction
+
+Sat Sep 27 16:17:45 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added swregistry interaction
+  * Registers vendor, product, version, feature and platform info for swreg
+
+Sun Sep 21 18:43:12 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * IP Accounting works.
+
+Sun Sep 21 01:04:45 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * More work on v_ipacct (profile, rules, data display, sql interaction). 
+
+Fri Sep 19 23:18:22 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * More work on v_ipacct (packet/byte counting and gathering)
+
+Sun Sep 14 23:07:31 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * More work on v_ipacct (profiles working, fetches info via snmp)
+
+Sun Sep 14 00:52:51 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * More work on v_ipacct
+
+Wed Sep 10 21:56:55 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Began work on v_ipacct
+
+Wed Sep 10 15:12:55 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Changed wording of lithium header check
+
+Sun Sep 07 14:20:30 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Builds under OS X
+  * Copied autogen.sh from lithium
+  * Copied configure.in from lithium
+  * Builds under Linux
+
+Fri Sep 05 22:44:17 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Copied new autogen.sh from induction
+
+Sun Aug 31 21:57:27 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Adjusted mainform position of cpu and mempool
+  * Enabled use of sysinfo
+
+Sun Aug 31 18:47:32 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Compiles with session-based lithium snmp lib
+
+Sun Jul 20 14:54:57 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed memleak in form_mempool_main (form_title not freed)
+  * Fixed memleak in form_cpu_main (form_title not freed)
+  * Fixed memleak in form_cpu_config (config not freed)
+  * Fixed memleak in form_mempool_config (config not freed)
+
+Sun Jul 20 13:14:28 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * configure.in now checks $CFLAGS before using default
+
+Sat Jul 19 18:57:29 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted to new automake autoconf setup
+  * Converted to l_snmp lib
+
+Sun May 04 12:48:57 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Builds under 4.5.0
+  * All forms converted to 4.5.0 spec
+  * Misc code changes to fit in with 4.5.0
+
+Wed Jan 29 23:54:25 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed mempool_config_enable/disable
+  * Removed cpu_config_enable/disable
+
+Mon Jan 20 23:51:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Revamped mempool section to have graphing via rrds
+
+Mon Jan 20 14:30:44 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added navform link for cpu load
+
+Sun Jan 19 22:53:55 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Revamped the cpu section to have graphing via rrds
+
+Tue Jan 14 17:35:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed mrtg
+
+Tue Jan 14 01:36:43 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Old MIB handling shouldnt register an availability failure (might still)
+
+Fri Jan 03 17:06:45 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Altered cpu/mem formsection priorities
+
+Mon Dec 30 23:47:05 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * mempool and cpu refresh count towards availability
+
+Mon Dec 30 23:09:52 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Added mainform section priorities
+
+Sat Dec 28 01:52:34 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Added a '%' after the memory percent listings
+
+Fri Dec 27 17:10:35 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Added use of i_device_defaultsubsystems
+
+

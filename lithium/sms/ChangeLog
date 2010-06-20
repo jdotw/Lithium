@@ -1,0 +1,18 @@
+Sun Sep 07 13:52:51 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Builds under OS X
+
+Sun May 04 00:28:28 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Builds under 4.5.0
+  * Converted all socket routines to the new async standard
+
+Thu May 01 00:45:10 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * All forms converted to 4.5.0 spec
+
+Mon Jan 20 18:02:10 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added i_form_merge to form_resource_config
+
+
