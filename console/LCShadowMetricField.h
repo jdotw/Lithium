@@ -25,7 +25,7 @@
 	NSImage *historyButtonTableImage;
 }
 
-@property (retain) LCMetric *metric;
+@property (nonatomic,retain) LCMetric *metric;
 @property (readonly) NSButton *historyButton;
 
 @end

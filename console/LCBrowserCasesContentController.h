@@ -36,8 +36,8 @@
 - (id) initInBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection"
-@property (retain) LCCase *selectedCase;
-@property (retain) NSArray *selectedCases;
+@property (nonatomic,retain) LCCase *selectedCase;
+@property (nonatomic,retain) NSArray *selectedCases;
 
 #pragma mark "Case Action Methods"
 - (IBAction) viewCaseClicked:(id)sender;
@@ -49,7 +49,7 @@
 
 #pragma mark "Properties"
 @property (readonly) LCCustomerList *customerList;
-@property (assign) LCBrowser2Controller *browser;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
 
 
 @end

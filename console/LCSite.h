@@ -28,14 +28,14 @@
 - (void) dealloc;
 - (Class) childClass;
 
-@property (retain) NSString *addressLine1;
-@property (retain) NSString *addressLine2;
-@property (retain) NSString *addressLine3;
-@property (retain) NSString *suburb;
-@property (retain) NSString *state;
-@property (retain) NSString *postcode;
-@property (retain) NSString *country;
-@property (assign) float longitude;
-@property (assign) float latitude;
+@property (nonatomic,retain) NSString *addressLine1;
+@property (nonatomic,retain) NSString *addressLine2;
+@property (nonatomic,retain) NSString *addressLine3;
+@property (nonatomic,retain) NSString *suburb;
+@property (nonatomic,retain) NSString *state;
+@property (nonatomic,retain) NSString *postcode;
+@property (nonatomic,retain) NSString *country;
+@property (nonatomic, assign) float longitude;
+@property (nonatomic, assign) float latitude;
 
 @end

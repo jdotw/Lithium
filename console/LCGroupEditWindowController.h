@@ -53,15 +53,15 @@
 - (IBAction) saveClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (copy) NSString *desc;
-@property (retain) LCGroup *group;
-@property (retain) LCGroup *parent;
-@property (retain) LCGroup *previousParent;
-@property (retain) LCCustomer *customer;
-@property (retain) LCEntity *entity;
-@property (assign) BOOL xmlOperationInProgress;
-@property (copy) NSString *status;
-@property (retain) NSWindow *windowForSheet;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic,retain) LCGroup *group;
+@property (nonatomic,retain) LCGroup *parent;
+@property (nonatomic,retain) LCGroup *previousParent;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,retain) LCEntity *entity;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
+@property (nonatomic,copy) NSString *status;
+@property (nonatomic,retain) NSWindow *windowForSheet;
 
 
 @end

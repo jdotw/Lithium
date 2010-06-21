@@ -29,6 +29,6 @@
 - (BOOL) allowDrop;
 - (void) setAllowDrop:(BOOL)flag;
 
-@property (retain) NSTableView *tableView;
+@property (nonatomic,retain) NSTableView *tableView;
 @property (getter=allowDrop,setter=setAllowDrop:) BOOL allowDrop;
 @end

@@ -26,7 +26,7 @@
 - (id) initWithContainer:(LCContainer *)initContainer;
 - (id) initWithObject:(LCObject *)initObject;
 
-@property (retain) LCContainer *container;
+@property (nonatomic,retain) LCContainer *container;
 @property (readonly) NSMutableArray *items;
 - (void) insertObject:(id)item inItemsAtIndex:(unsigned int)index;
 - (void) removeObjectFromItemsAtIndex:(unsigned int)index;

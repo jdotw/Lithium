@@ -21,6 +21,6 @@
 - (id) initWithAction:(id)initAction;
 
 #pragma mark "Accessor Methods"
-@property (assign) id action;
+@property (nonatomic, assign) id action;
 
 @end

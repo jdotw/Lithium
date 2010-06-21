@@ -31,7 +31,7 @@
 - (id) initWithDocument:(LCSSceneDocument *)initDocument inBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection"
-@property (retain) LCEntity *selectedEntity;
-@property (retain) LCSSceneOverlay *selectedOverlay;
+@property (nonatomic,retain) LCEntity *selectedEntity;
+@property (nonatomic,retain) LCSSceneOverlay *selectedOverlay;
 
 @end

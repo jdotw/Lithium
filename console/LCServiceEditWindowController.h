@@ -89,13 +89,13 @@
 - (void) showStep2;
 
 #pragma mark "Properties"
-@property (retain) LCService *service;
-@property (retain) LCDevice *device;
-@property (retain) NSWindow *windowForSheet;
-@property (assign) id delegate;
-@property (assign) int contentIndex;
-@property (assign) int stepIndex;
-@property (copy) NSString *assistantIdentifier;
+@property (nonatomic,retain) LCService *service;
+@property (nonatomic,retain) LCDevice *device;
+@property (nonatomic,retain) NSWindow *windowForSheet;
+@property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) int contentIndex;
+@property (nonatomic, assign) int stepIndex;
+@property (nonatomic,copy) NSString *assistantIdentifier;
 
 @end
 

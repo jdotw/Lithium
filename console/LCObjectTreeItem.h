@@ -23,11 +23,11 @@
 - (id) initWithObject:(LCObject *)initObject;
 
 #pragma mark Accessors
-@property (retain) LCObject *object;
+@property (nonatomic,retain) LCObject *object;
 @property (readonly) LCEntity *entity;
-@property (assign) float rowHeight;
-@property (copy) NSMutableArray *children;
-@property (assign) BOOL isObjectTreeLeaf;
+@property (nonatomic, assign) float rowHeight;
+@property (nonatomic,copy) NSMutableArray *children;
+@property (nonatomic, assign) BOOL isObjectTreeLeaf;
 - (NSString *) uniqueIdentifier;
 
 @end

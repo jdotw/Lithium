@@ -16,6 +16,6 @@
 	LCCaseList *caseList;
 }
 
-@property (retain) LCCaseList *caseList;
+@property (nonatomic,retain) LCCaseList *caseList;
 
 @end

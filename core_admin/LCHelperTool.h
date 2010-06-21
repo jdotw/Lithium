@@ -24,9 +24,9 @@
 
 - (void) startHelperToolCommand:(NSString *)command arguments:(NSArray *)arguments;
 
-@property (assign) id delegate; 
-@property (assign) float progress;
-@property (copy) NSString *status;
+@property (nonatomic,assign) id delegate; 
+@property (nonatomic,assign) float progress;
+@property (nonatomic,copy) NSString *status;
 @property (nonatomic, assign) BOOL successful;
 
 - (BOOL) processDataFromHelper:(NSString *)data;

@@ -18,6 +18,6 @@
 }
 
 #pragma mark "Accessor Methods"
-@property (assign) LCCase *cas;
+@property (nonatomic, assign) LCCase *cas;
 
 @end

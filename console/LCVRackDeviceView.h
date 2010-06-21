@@ -28,11 +28,11 @@
 - (id)initWithDevice:(LCVRackDevice *)newDevice inFrame:(NSRect)frame;
 - (void) removeViewAndContent;
 
-@property (retain) LCVRackDevice *rackDevice;
-@property (assign) LCBrowserVRackContentController *rackController;
-@property (assign) id rackView;
-@property (assign) BOOL isZoomView;
+@property (nonatomic,retain) LCVRackDevice *rackDevice;
+@property (nonatomic, assign) LCBrowserVRackContentController *rackController;
+@property (nonatomic, assign) id rackView;
+@property (nonatomic, assign) BOOL isZoomView;
 @property (readonly) float pointsPerRU;
-@property (assign) BOOL selected;
+@property (nonatomic, assign) BOOL selected;
 
 @end

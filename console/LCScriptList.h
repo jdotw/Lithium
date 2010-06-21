@@ -45,15 +45,15 @@
 - (NSString *) scriptType;
 
 #pragma mark "Properties"
-@property (retain) LCCustomer *customer;
-@property (assign) id task;
-@property (assign) id delegate;
-@property (copy) NSString *scriptType;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic, assign) id task;
+@property (nonatomic, assign) id delegate;
+@property (nonatomic,copy) NSString *scriptType;
 @property (readonly) NSMutableArray *scripts;
 - (void) insertObject:(LCScript *)script inScriptsAtIndex:(unsigned int)index;
 - (void) removeObjectFromScriptsAtIndex:(unsigned int)index;
 @property (readonly) NSMutableDictionary *scriptDict;
-@property (assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL refreshInProgress;
 
 
 @end

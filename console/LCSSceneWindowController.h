@@ -28,6 +28,6 @@
 - (IBAction) setBackgroundImageClicked:(id)sender;
 
 
-@property (retain) id sceneDocument;
-@property (retain) LCSSceneView *sceneView;
+@property (nonatomic,retain) id sceneDocument;
+@property (nonatomic,retain) LCSSceneView *sceneView;
 @end

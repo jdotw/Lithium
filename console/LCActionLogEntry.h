@@ -19,9 +19,9 @@
 }
 
 #pragma mark "Properties"
-@property (assign) int logID;
-@property (assign) int timestampSeconds;
-@property (copy) NSDate *timestamp;
-@property (copy) NSString *comment;
+@property (nonatomic, assign) int logID;
+@property (nonatomic, assign) int timestampSeconds;
+@property (nonatomic,copy) NSDate *timestamp;
+@property (nonatomic,copy) NSString *comment;
 
 @end

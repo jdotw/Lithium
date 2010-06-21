@@ -21,10 +21,10 @@
 	LCObject *object;
 }
 
-@property (assign) int profileID;
-@property (copy) NSString *desc;
-@property (copy) NSString *match;
-@property (copy) NSString *argumentsMatch;
-@property (retain) LCObject *object;
+@property (nonatomic, assign) int profileID;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic,copy) NSString *match;
+@property (nonatomic,copy) NSString *argumentsMatch;
+@property (nonatomic,retain) LCObject *object;
 
 @end

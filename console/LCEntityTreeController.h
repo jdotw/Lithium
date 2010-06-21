@@ -35,5 +35,5 @@
 	   toPasteboard:(NSPasteboard *)pboard;
 
 
-@property (retain) NSOutlineView *outlineView;
+@property (nonatomic,retain) NSOutlineView *outlineView;
 @end

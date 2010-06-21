@@ -30,6 +30,6 @@
 - (NSView *) view;
 
 
-@property (retain,getter=view) NSView *view;
-@property (retain) NSObjectController *objectController;
+@property (nonatomic,retain,getter=view) NSView *view;
+@property (nonatomic,retain) NSObjectController *objectController;
 @end

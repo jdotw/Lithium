@@ -27,11 +27,11 @@
 }
 
 #pragma mark "Properties"
-@property (assign) id task;
-@property (copy) NSString *name;
-@property (copy) NSString *desc;
-@property (copy) NSString *value;
-@property (assign) BOOL required;
-@property (copy) NSImage *requiredIcon;
+@property (nonatomic,assign) id task;
+@property (nonatomic,copy) NSString *name;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic,copy) NSString *value;
+@property (nonatomic,assign) BOOL required;
+@property (nonatomic,copy) NSImage *requiredIcon;
 
 @end

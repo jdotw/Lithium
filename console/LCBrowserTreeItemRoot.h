@@ -16,7 +16,7 @@
 	BOOL enabled;
 }
 
-@property (assign) int preferredIndex;
-@property (assign) BOOL enabled;
+@property (nonatomic,assign) int preferredIndex;
+@property (nonatomic,assign) BOOL enabled;
 
 @end

@@ -68,28 +68,28 @@
 - (NSImage *) actionIcon;
 
 #pragma mark "Property Methods"
-@property (assign) unsigned long incidentID;
-@property (assign) unsigned long caseID;
-@property (assign) int state;
-@property (assign) int type;
-@property (assign) BOOL isActive;
-@property (assign) BOOL isLive;
-@property (assign) BOOL hasCase;
-@property (assign) unsigned long startTimestamp;
-@property (copy) NSDate *startDate;
-@property (copy) NSString *startDateShortString;
-@property (assign) unsigned long endTimestamp;
-@property (copy) NSDate *endDate;
-@property (copy) NSString *endDateShortString;
-@property (assign) NSTimeInterval openTimeInterval;
+@property (nonatomic, assign) unsigned long incidentID;
+@property (nonatomic, assign) unsigned long caseID;
+@property (nonatomic, assign) int state;
+@property (nonatomic, assign) int type;
+@property (nonatomic, assign) BOOL isActive;
+@property (nonatomic, assign) BOOL isLive;
+@property (nonatomic, assign) BOOL hasCase;
+@property (nonatomic, assign) unsigned long startTimestamp;
+@property (nonatomic,copy) NSDate *startDate;
+@property (nonatomic,copy) NSString *startDateShortString;
+@property (nonatomic, assign) unsigned long endTimestamp;
+@property (nonatomic,copy) NSDate *endDate;
+@property (nonatomic,copy) NSString *endDateShortString;
+@property (nonatomic, assign) NSTimeInterval openTimeInterval;
 - (void) updateOpenTimeInterval;
-@property (copy) NSString *raisedValueString;
-@property (copy) NSString *clearedValueString;
-@property (retain) LCEntityDescriptor *entityDescriptor;
-@property (retain) LCEntity *entity;
-@property (assign) int relevanceScore;
-@property (assign) BOOL relatedSelected;
-@property (assign) BOOL relatedSelectionDisabled;
+@property (nonatomic,copy) NSString *raisedValueString;
+@property (nonatomic,copy) NSString *clearedValueString;
+@property (nonatomic,retain) LCEntityDescriptor *entityDescriptor;
+@property (nonatomic,retain) LCEntity *entity;
+@property (nonatomic, assign) int relevanceScore;
+@property (nonatomic, assign) BOOL relatedSelected;
+@property (nonatomic, assign) BOOL relatedSelectionDisabled;
 
 #pragma mark "General Accessors"
 - (NSArray *) incidents;

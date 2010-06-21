@@ -17,6 +17,6 @@
 	NSMutableDictionary *rowHeightDict;
 }
 
-@property (retain) LCEntityArrayController *containersArrayController;
-@property (retain) NSMutableDictionary *rowHeightDict;
+@property (nonatomic,retain) LCEntityArrayController *containersArrayController;
+@property (nonatomic,retain) NSMutableDictionary *rowHeightDict;
 @end

@@ -223,7 +223,7 @@
 {
 	NSEnumerator *selectedEnum = [[treeController selectedObjects] objectEnumerator];
 	LCEntity *entity;
-	while (entity = (LCEntity *)[[selectedEnum nextObject] entity])
+	while ((entity = (LCEntity *)[[selectedEnum nextObject] entity]))
 	{
 		[[LCMetricHistoryWindowController alloc] initWithMetric:[entity metric]];
 	}

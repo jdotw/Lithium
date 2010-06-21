@@ -48,13 +48,13 @@
 - (IBAction) cancelClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (retain) LCDevice *device;
-@property (retain) LCProcessProfile *profile;
-@property (retain) NSWindow *windowForSheet;
-@property (copy) NSString *desc;
-@property (copy) NSString *match;
-@property (copy) NSString *argumentsMatch;
-@property (assign) BOOL xmlOperationInProgress;
-@property (copy) NSString *status;
+@property (nonatomic,retain) LCDevice *device;
+@property (nonatomic,retain) LCProcessProfile *profile;
+@property (nonatomic,retain) NSWindow *windowForSheet;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic,copy) NSString *match;
+@property (nonatomic,copy) NSString *argumentsMatch;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
+@property (nonatomic,copy) NSString *status;
 
 @end

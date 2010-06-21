@@ -14,5 +14,5 @@
 	LCEntity *device;
 }
 
-@property (retain) LCEntity *device;
+@property (nonatomic,retain) LCEntity *device;
 @end

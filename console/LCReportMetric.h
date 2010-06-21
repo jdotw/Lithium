@@ -87,8 +87,8 @@
 -(void) setDeltaMetricRefreshCompleted:(BOOL)flag;
 
 @property (retain,getter=entity) LCReportEntity *entity;
-@property (retain) LCReportMetricHistory *metricHistory;
-@property (retain) LCReportMetricHistory *capPlanHistory;
+@property (nonatomic,retain) LCReportMetricHistory *metricHistory;
+@property (nonatomic,retain) LCReportMetricHistory *capPlanHistory;
 @property (assign,getter=referenceDate,setter=setReferenceDate:) NSDate *referenceDate;
 @property (getter=dataPeriod,setter=setDataPeriod:) int dataPeriod;
 @property (getter=calcDeltaValues,setter=setCalcDeltaValues:) BOOL calcDeltaValues;

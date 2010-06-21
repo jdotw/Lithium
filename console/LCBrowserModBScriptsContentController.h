@@ -16,6 +16,6 @@
 	LCModBScriptList *scriptList;
 }
 
-@property (retain) LCModBScriptList *scriptList;
+@property (nonatomic,retain) LCModBScriptList *scriptList;
 
 @end

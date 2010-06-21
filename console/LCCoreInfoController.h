@@ -85,22 +85,22 @@
 - (void) setRefreshInProgress:(BOOL)flag;
 
 
-@property (retain) LCLithiumSetupWindowController *setupController;
-@property (retain) NSWindow *restartSheet;
+@property (nonatomic,retain) LCLithiumSetupWindowController *setupController;
+@property (nonatomic,retain) NSWindow *restartSheet;
 @property (retain,getter=properties,setter=setProperties:) NSMutableDictionary *properties;
 @property (retain,getter=resources,setter=setResources:) NSMutableArray *resources;
 @property (retain,getter=resourceDictionary,setter=setResourceDictionary:) NSMutableDictionary *resourceDictionary;
-@property (retain) NSTimer *refreshTimer;
-@property (retain) LCXMLRequest *refreshXMLRequest;
-@property (retain) NSMutableDictionary *curXMLDictionary;
-@property (retain) NSString *curXMLElement;
-@property (retain) NSMutableString *curXMLString;
-@property (retain) NSMutableDictionary *xmlResDictionary;
+@property (nonatomic,retain) NSTimer *refreshTimer;
+@property (nonatomic,retain) LCXMLRequest *refreshXMLRequest;
+@property (nonatomic,retain) NSMutableDictionary *curXMLDictionary;
+@property (nonatomic,retain) NSString *curXMLElement;
+@property (nonatomic,retain) NSMutableString *curXMLString;
+@property (nonatomic,retain) NSMutableDictionary *xmlResDictionary;
 @property (getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
-@property (retain) NSURLConnection *urlConn;
-@property (retain) NSMutableData *receivedData;
+@property (nonatomic,retain) NSURLConnection *urlConn;
+@property (nonatomic,retain) NSMutableData *receivedData;
 @property BOOL refreshLocal;
 @property (retain,getter=startTime,setter=setStartTime:) NSString *startTime;
 @property (retain,getter=uptime,setter=setUptime:) NSString *uptime;
-@property (retain) NSTimer *uptimeUpdateTimer;
+@property (nonatomic,retain) NSTimer *uptimeUpdateTimer;
 @end

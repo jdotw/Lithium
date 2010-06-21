@@ -26,5 +26,5 @@
 #pragma mark "Hit Test"
 - (NSView *)hitTest:(NSPoint)aPoint;
 
-@property (retain) LCSSceneOverlay *overlay;
+@property (nonatomic,retain) LCSSceneOverlay *overlay;
 @end

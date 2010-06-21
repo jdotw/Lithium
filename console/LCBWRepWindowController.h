@@ -82,19 +82,19 @@
 - (IBAction) cancelRefreshClicked:(id)sender;
 
 @property (retain,getter=reportDocument) id reportDocument;
-@property (retain) NSObjectController *controllerAlias;
-@property (retain) LCBWRepItemTreeController *treeController;
-@property (retain) NSArrayController *arrayController;
-@property (retain) NSView *statsModeView;
-@property (retain) NSView *viewModeView;
-@property (retain) NSView *discardModeView;
-@property (retain) NSView *dateView;
-@property (retain) NSView *periodView;
-@property (retain) LCBackgroundView *backView;
-@property (retain) NSToolbar *toolbar;
-@property (retain) NSMutableDictionary *toolbarItems;
-@property (retain) NSMutableArray *toolbarSelectableItems;
-@property (retain) NSMutableArray *toolbarDefaultItems;
-@property (retain) NSWindow *refreshProgressSheet;
+@property (nonatomic,retain) NSObjectController *controllerAlias;
+@property (nonatomic,retain) LCBWRepItemTreeController *treeController;
+@property (nonatomic,retain) NSArrayController *arrayController;
+@property (nonatomic,retain) NSView *statsModeView;
+@property (nonatomic,retain) NSView *viewModeView;
+@property (nonatomic,retain) NSView *discardModeView;
+@property (nonatomic,retain) NSView *dateView;
+@property (nonatomic,retain) NSView *periodView;
+@property (nonatomic,retain) LCBackgroundView *backView;
+@property (nonatomic,retain) NSToolbar *toolbar;
+@property (nonatomic,retain) NSMutableDictionary *toolbarItems;
+@property (nonatomic,retain) NSMutableArray *toolbarSelectableItems;
+@property (nonatomic,retain) NSMutableArray *toolbarDefaultItems;
+@property (nonatomic,retain) NSWindow *refreshProgressSheet;
 @property (getter=refreshSheetShown,setter=setRefreshSheetShown:) BOOL refreshSheetShown;
 @end

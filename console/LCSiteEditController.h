@@ -62,7 +62,7 @@
 - (void) closeSheet;
 
 #pragma mark "UI Variable Accessors"
-@property (retain) NSWindow *windowForSheet;
+@property (nonatomic,retain) NSWindow *windowForSheet;
 
 #pragma mark "Validation"
 - (BOOL) validateInput;
@@ -75,25 +75,25 @@
 - (LCXMLRequest *) performRemove;
 
 #pragma mark "Site Property Methods"
-@property (copy) NSString *name;
-@property (copy) NSString *desc;
-@property (copy) NSString *addressLine1;
-@property (copy) NSString *addressLine2;
-@property (copy) NSString *addressLine3;
-@property (copy) NSString *suburb;
-@property (copy) NSString *state;
-@property (copy) NSString *postcode;
-@property (copy) NSString *country;
-@property (assign) float longitude;
-@property (assign) float latitude;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *desc;
+@property (nonatomic, copy) NSString *addressLine1;
+@property (nonatomic, copy) NSString *addressLine2;
+@property (nonatomic, copy) NSString *addressLine3;
+@property (nonatomic, copy) NSString *suburb;
+@property (nonatomic, copy) NSString *state;
+@property (nonatomic, copy) NSString *postcode;
+@property (nonatomic, copy) NSString *country;
+@property (nonatomic, assign) float longitude;
+@property (nonatomic, assign) float latitude;
 
 #pragma mark "Property Methods"
-@property (retain) LCCustomer *customer;
-@property (retain) LCSite *siteEntity;
+@property (nonatomic, retain) LCCustomer *customer;
+@property (nonatomic, retain) LCSite *siteEntity;
 - (void) updateLiveSite:(LCSite *)site;
 - (NSMutableDictionary *) siteProperties;
-@property (retain) NSString *statusString;
-@property (retain) NSImage *statusIcon;
-@property (assign) BOOL xmlOperationInProgress;
+@property (nonatomic, retain) NSString *statusString;
+@property (nonatomic, retain) NSImage *statusIcon;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
 
 @end

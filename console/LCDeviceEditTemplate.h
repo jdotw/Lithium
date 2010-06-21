@@ -33,18 +33,18 @@
 + (LCDeviceEditTemplate *) templateWithProperties:(NSDictionary *)initProperties;
 - (LCDeviceEditTemplate *) initWithProperties:(NSDictionary *)initProperties;
 
-@property (copy) NSString *name;
-@property (copy) NSString *desc;
-@property (copy) NSString *ipAddress;
-@property (copy) NSString *lomIpAddress;
-@property (assign) BOOL enabled;
+@property (nonatomic,copy) NSString *name;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic,copy) NSString *ipAddress;
+@property (nonatomic,copy) NSString *lomIpAddress;
+@property (nonatomic, assign) BOOL enabled;
 
-@property (copy) NSString *preferredModule;
+@property (nonatomic,copy) NSString *preferredModule;
 
-@property (retain) LCXMLRequest *xmlReq;
-@property (assign) BOOL xmlOperationInProgress;
+@property (nonatomic,retain) LCXMLRequest *xmlReq;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
 
-@property (copy) NSImage *resultIcon;
+@property (nonatomic,copy) NSImage *resultIcon;
 
 - (NSDictionary *) properties;
 

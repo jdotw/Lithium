@@ -28,5 +28,5 @@
 + (LCErrorLog *) masterLog;
 - (void) clearLog;
 
-@property (retain,getter=errors) NSMutableArray *errors;
+@property (nonatomic,retain,getter=errors) NSMutableArray *errors;
 @end

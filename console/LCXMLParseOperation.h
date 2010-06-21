@@ -20,8 +20,8 @@
 	NSMutableArray *nodeStack;
 }
 
-@property (copy) NSData *xmlData;
-@property (retain) id delegate;
-@property (retain) LCXMLNode *rootNode;
+@property (nonatomic,copy) NSData *xmlData;
+@property (nonatomic,retain) id delegate;
+@property (nonatomic,retain) LCXMLNode *rootNode;
 
 @end

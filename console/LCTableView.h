@@ -28,13 +28,13 @@
 	BOOL allowDeleteKey;
 }
 
-@property (retain) NSArrayController *tableContentController;
-@property (retain) NSString *tableContentKey;
-@property (retain) id doubleClickTarget;
-@property (retain) NSString *doubleClickTargetKey;
-@property (retain) NSString *doubleClickTargetSelectorName;
-@property (retain) id doubleClickArgument;
-@property (retain) NSString *doubleClickArgumentKey;
+@property (nonatomic,retain) NSArrayController *tableContentController;
+@property (nonatomic,retain) NSString *tableContentKey;
+@property (nonatomic,retain) id doubleClickTarget;
+@property (nonatomic,retain) NSString *doubleClickTargetKey;
+@property (nonatomic,retain) NSString *doubleClickTargetSelectorName;
+@property (nonatomic,retain) id doubleClickArgument;
+@property (nonatomic,retain) NSString *doubleClickArgumentKey;
 @property (nonatomic, assign) BOOL allowDeleteKey;
 
 @end

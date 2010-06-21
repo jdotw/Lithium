@@ -17,6 +17,6 @@
 	
 }
 
-@property (retain) LCIncidentList *incidentList;
+@property (nonatomic,retain) LCIncidentList *incidentList;
 
 @end

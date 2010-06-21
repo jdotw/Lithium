@@ -27,8 +27,8 @@
 
 #pragma mark "Properties"
 @property (readonly) LCCustomerList *customerList;
-@property (assign) LCBrowser2Controller *browser;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
 @property (readonly) NSMutableArray *racks;
-@property (copy) NSIndexSet *selectedRackIndexes;
+@property (nonatomic,copy) NSIndexSet *selectedRackIndexes;
 
 @end

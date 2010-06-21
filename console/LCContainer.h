@@ -22,9 +22,9 @@
 - (LCContainer *) init;
 - (Class) childClass;
 
-@property (assign) int itemListState;
+@property (nonatomic, assign) int itemListState;
 
-@property (assign) BOOL isModuleBuilder;
+@property (nonatomic, assign) BOOL isModuleBuilder;
 
 
 @end

@@ -34,7 +34,7 @@
 - (void) removeObjectFromUsesAtIndex:(unsigned int)index;
 - (NSMutableDictionary *) useDictionary;
 
-@property (retain,getter=object,setter=setObject:) LCEntity *object;
-@property (retain,getter=uses) NSMutableArray *uses;
-@property (retain,getter=useDictionary) NSMutableDictionary *useDictionary;
+@property (nonatomic,retain,getter=object,setter=setObject:) LCEntity *object;
+@property (nonatomic,retain,getter=uses) NSMutableArray *uses;
+@property (nonatomic,retain,getter=useDictionary) NSMutableDictionary *useDictionary;
 @end

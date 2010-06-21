@@ -30,13 +30,13 @@
 - (LCDeviceEditTemplate *) deviceTemplate;
 
 #pragma mark "Properties"
-@property (copy) NSString *displayString;
-@property (copy) NSString *ip;
-@property (copy) NSString *mask;
-@property (copy) NSString *network;
-@property (copy) NSString *hostname;
-@property (assign) BOOL boundToDevice;
-@property (assign) id parent;
+@property (nonatomic,copy) NSString *displayString;
+@property (nonatomic,copy) NSString *ip;
+@property (nonatomic,copy) NSString *mask;
+@property (nonatomic,copy) NSString *network;
+@property (nonatomic,copy) NSString *hostname;
+@property (nonatomic, assign) BOOL boundToDevice;
+@property (nonatomic, assign) id parent;
 
 
 @end

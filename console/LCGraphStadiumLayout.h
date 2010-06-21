@@ -17,6 +17,6 @@
 	LCGraphStadiumController *controller;
 }
 
-@property (assign) LCGraphStadiumController *controller;
+@property (nonatomic, assign) LCGraphStadiumController *controller;
 
 @end

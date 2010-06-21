@@ -14,5 +14,5 @@
 	NSTabViewItem *selectedTabViewItem;
 }
 
-@property (retain,getter=selectedTabViewItem) NSTabViewItem *selectedTabViewItem;
+@property (nonatomic,retain,getter=selectedTabViewItem) NSTabViewItem *selectedTabViewItem;
 @end

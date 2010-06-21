@@ -18,7 +18,7 @@
 	NSMutableArray *children;
 }
 
-@property (copy) NSString *name;
+@property (nonatomic,copy) NSString *name;
 @property (readonly) NSMutableString *value;
 
 @property (readonly) NSMutableDictionary *properties;

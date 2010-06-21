@@ -28,7 +28,7 @@
 }
 
 #pragma mark Thumbnail Accessors
-@property (copy) NSImage *thumbnail;
+@property (nonatomic,copy) NSImage *thumbnail;
 
 #pragma mark Rack Unit Accessors
 @property (readonly) NSMutableArray *rackUnits;

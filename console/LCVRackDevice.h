@@ -29,14 +29,14 @@
 - (id) initWithEntity:(LCEntity *)targetEntity;
 
 #pragma mark Colour
-@property (copy) NSColor *colour;
+@property (nonatomic,copy) NSColor *colour;
 - (NSColor *) colourWithAlpha:(float)alpha;
 
 #pragma mark Accessors
-@property (copy) NSString *uuid;
-@property (retain) LCEntity *entity;
-@property (assign) int hostRUindex;
-@property (assign) int size;
-@property (retain) id hostRU;
+@property (nonatomic,copy) NSString *uuid;
+@property (nonatomic,retain) LCEntity *entity;
+@property (nonatomic, assign) int hostRUindex;
+@property (nonatomic, assign) int size;
+@property (nonatomic,retain) id hostRU;
 
 @end

@@ -35,11 +35,11 @@
 - (void) lowPriorityRefresh;
 
 #pragma mark "Properties"
-@property (retain) id customer;
+@property (nonatomic,retain) id customer;
 @property (readonly) NSMutableArray *documents;
 - (void) insertObject:(LCDocument *)entity inDocumentsAtIndex:(unsigned int)index;
 - (void) removeObjectFromDocumentsAtIndex:(unsigned int)index;
 @property (readonly) NSMutableDictionary *documentDictionary;
-@property (assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL refreshInProgress;
 
 @end

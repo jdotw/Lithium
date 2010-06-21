@@ -20,5 +20,5 @@
 
 - (float) rowHeight;
 
-@property (retain) LCService *service;
+@property (nonatomic,retain) LCService *service;
 @end

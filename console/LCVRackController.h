@@ -27,7 +27,7 @@
 - (void) shutdown;
 
 #pragma mark Rack Methods
-@property (retain) LCVRackDocument *rack;
+@property (nonatomic,retain) LCVRackDocument *rack;
 
 #pragma mark Hover Entity Methods
 - (LCEntity *) hoverEntity;
@@ -105,22 +105,22 @@
 - (void) setCurrentMouseLocationInWindow:(NSPoint)newPoint;
 - (LCCustomerList *) customerList;
 
-@property (retain) LCVRackView *frontView;
-@property (retain) LCVRackView *backView;
-@property (retain) NSMutableArray *devFrontViews;
+@property (nonatomic,retain) LCVRackView *frontView;
+@property (nonatomic,retain) LCVRackView *backView;
+@property (nonatomic,retain) NSMutableArray *devFrontViews;
 @property (retain,getter=devBackViews) NSMutableArray *devBackViews;
-@property (retain) NSWindow *deviceColourSheet;
+@property (nonatomic,retain) NSWindow *deviceColourSheet;
 @property (retain,getter=cableView) LCVRackCableView *cableView;
-@property (retain) NSWindow *cableColourSheet;
+@property (nonatomic,retain) NSWindow *cableColourSheet;
 @property (getter=showCableStatus,setter=setShowCableStatus:) BOOL showCableStatus;
-@property (retain) NSArrayController *cableArrayController;
-@property (retain) NSArrayController *cableGroupArrayController;
+@property (nonatomic,retain) NSArrayController *cableArrayController;
+@property (nonatomic,retain) NSArrayController *cableGroupArrayController;
 @property (retain,getter=cableListFilterPredicate,setter=setCableListFilterPredicate:) NSPredicate *cableListFilterPredicate;
 @property (retain,getter=rackUnitMenu) NSMenu *rackUnitMenu;
 @property (retain,getter=deviceMenu) NSMenu *deviceMenu;
 @property (retain,getter=interfaceMenu) NSMenu *interfaceMenu;
 @property (retain,getter=cableMenu) NSMenu *cableMenu;
-@property (retain) NSWindow *window;
+@property (nonatomic,retain) NSWindow *window;
 @property (retain,getter=cableEndPointA) LCEntity *cableEndpointA;
 @property (getter=hoverObjectType,setter=setHoverObjectType:) int hoverObjectType;
 @end

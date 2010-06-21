@@ -46,11 +46,11 @@
 - (LCBWRepDocument *) reportDocument;
 - (void) setReportDocument:(LCBWRepDocument *)value;
 
-@property (retain) LCOutlineView *outlineView;
-@property (retain) NSMenu *groupMenu;
-@property (retain) NSMenu *deviceMenu;
-@property (retain) NSMenu *ifaceMenu;
-@property (retain) NSMenuItem *arrangeByDeviceMenuItem;
-@property (retain) NSTableColumn *descColumn;
+@property (nonatomic,retain) LCOutlineView *outlineView;
+@property (nonatomic,retain) NSMenu *groupMenu;
+@property (nonatomic,retain) NSMenu *deviceMenu;
+@property (nonatomic,retain) NSMenu *ifaceMenu;
+@property (nonatomic,retain) NSMenuItem *arrangeByDeviceMenuItem;
+@property (nonatomic,retain) NSTableColumn *descColumn;
 @property (retain,getter=reportDocument,setter=setReportDocument:) LCBWRepDocument *reportDocument;
 @end

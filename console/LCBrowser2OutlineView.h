@@ -23,14 +23,14 @@
 	IBOutlet NSMenuItem *manageServiceScriptsMenu;
 }
 
-@property (retain) id browserController;
-@property (retain) NSMenuItem *connectToMenu;
-@property (retain) NSMenuItem *addSiteMenu;
-@property (retain) NSMenuItem *editSiteMenu;
-@property (retain) NSMenuItem *removeSiteMenu;
-@property (retain) NSMenuItem *addDeviceMenu;
-@property (retain) NSMenuItem *editDeviceMenu;
-@property (retain) NSMenuItem *removeDeviceMenu;
-@property (retain) NSMenuItem *addServiceMenu;
-@property (retain) NSMenuItem *manageServiceScriptsMenu;
+@property (nonatomic,retain) id browserController;
+@property (nonatomic,retain) NSMenuItem *connectToMenu;
+@property (nonatomic,retain) NSMenuItem *addSiteMenu;
+@property (nonatomic,retain) NSMenuItem *editSiteMenu;
+@property (nonatomic,retain) NSMenuItem *removeSiteMenu;
+@property (nonatomic,retain) NSMenuItem *addDeviceMenu;
+@property (nonatomic,retain) NSMenuItem *editDeviceMenu;
+@property (nonatomic,retain) NSMenuItem *removeDeviceMenu;
+@property (nonatomic,retain) NSMenuItem *addServiceMenu;
+@property (nonatomic,retain) NSMenuItem *manageServiceScriptsMenu;
 @end

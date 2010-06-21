@@ -29,7 +29,7 @@ static LCActivityList *masterList = nil;
 + (LCActivityList *) masterInit
 {
 	masterList = [[LCActivityList list] retain];
-	return self;
+	return masterList;
 }
 
 #pragma mark "Accessor Methods"

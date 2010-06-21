@@ -130,18 +130,18 @@
 - (NSString *) incrementNumberInString:(NSString *)originalString;
 
 #pragma mark "General Accessors"
-@property (retain) LCDevice *deviceEntity;
-@property (copy) NSArray *devices;
-@property (retain) LCSite *siteEntity;
+@property (nonatomic, retain) LCDevice *deviceEntity;
+@property (nonatomic, copy) NSArray *devices;
+@property (nonatomic, retain) LCSite *siteEntity;
 
 #pragma mark "UI Variable Accessors"
-@property (assign) int mode;
-@property (assign) int mark;
-@property (assign) int credentialsSelectedTab;
-@property (assign) int snmpSelectedTab;
-@property (assign) int optionsSelectedTab;
-@property (assign) BOOL willUseSnmp;
-@property (retain) NSWindow *windowForSheet;
+@property (nonatomic, assign) int mode;
+@property (nonatomic, assign) int mark;
+@property (nonatomic, assign) int credentialsSelectedTab;
+@property (nonatomic, assign) int snmpSelectedTab;
+@property (nonatomic, assign) int optionsSelectedTab;
+@property (nonatomic, assign) BOOL willUseSnmp;
+@property (nonatomic, retain) NSWindow *windowForSheet;
 
 #pragma mark "UI Actions"
 - (IBAction) addClicked:(id)sender;
@@ -154,41 +154,41 @@
 - (IBAction) importToggleAllClicked:(id)sender;
 
 #pragma mark "Template Properties"
-@property (retain) LCDeviceEditTemplate *singleTemplate;
-@property (copy) NSArray *multipleTemplates;
+@property (nonatomic, retain) LCDeviceEditTemplate *singleTemplate;
+@property (nonatomic, copy) NSArray *multipleTemplates;
 
 #pragma mark "Device Property Methods"
-@property (copy) NSString *snmpCommunity;
-@property (assign) int snmpVersion;
-@property (assign) int snmpAuthMethod;
-@property (assign) int snmpPrivacyEncryption;
-@property (copy) NSString *snmpPrivPassword;
-@property (copy) NSString *snmpAuthPassword;
-@property (copy) NSString *username;
-@property (copy) NSString *password;
-@property (copy) NSString *confirmPassword;
-@property (assign) BOOL passwordsMatch;
-@property (copy) NSString *lomUsername;
-@property (copy) NSString *lomPassword;
-@property (copy) NSString *lomConfirmPassword;
-@property (assign) BOOL lomPasswordsMatch;
-@property (copy) NSString *profile;
-@property (copy) NSString *vendor;
-@property (assign) int refreshInterval;
-@property (assign) int osxProtocol;
-@property (assign) BOOL useIcmp;
-@property (assign) BOOL useLithiumSnmpExtensions;
-@property (assign) BOOL useNagios;
-@property (assign) BOOL useLom;
-@property (assign) BOOL isXsanClient;
-@property (assign) BOOL monitorProcessList;
+@property (nonatomic, copy) NSString *snmpCommunity;
+@property (nonatomic, assign) int snmpVersion;
+@property (nonatomic, assign) int snmpAuthMethod;
+@property (nonatomic, assign) int snmpPrivacyEncryption;
+@property (nonatomic, copy) NSString *snmpPrivPassword;
+@property (nonatomic, copy) NSString *snmpAuthPassword;
+@property (nonatomic, copy) NSString *username;
+@property (nonatomic, copy) NSString *password;
+@property (nonatomic, copy) NSString *confirmPassword;
+@property (nonatomic, assign) BOOL passwordsMatch;
+@property (nonatomic, copy) NSString *lomUsername;
+@property (nonatomic, copy) NSString *lomPassword;
+@property (nonatomic, copy) NSString *lomConfirmPassword;
+@property (nonatomic, assign) BOOL lomPasswordsMatch;
+@property (nonatomic, copy) NSString *profile;
+@property (nonatomic, copy) NSString *vendor;
+@property (nonatomic, assign) int refreshInterval;
+@property (nonatomic, assign) int osxProtocol;
+@property (nonatomic, assign) BOOL useIcmp;
+@property (nonatomic, assign) BOOL useLithiumSnmpExtensions;
+@property (nonatomic, assign) BOOL useNagios;
+@property (nonatomic, assign) BOOL useLom;
+@property (nonatomic, assign) BOOL isXsanClient;
+@property (nonatomic, assign) BOOL monitorProcessList;
 - (NSMutableDictionary *) devicePropertiesUsingTemplate:(LCDeviceEditTemplate *)template;
 - (void) updateLiveDeviceEntity:(LCDevice *)device usingTemplate:(LCDeviceEditTemplate *)template;
 
 #pragma mark "Module Methods"
 - (void) buildModuleMenuWithSelection:(NSString *)defaultSelection;
 - (IBAction) moduleMenuClicked:(id)sender;
-@property (copy) NSString *selectedModuleType;
+@property (nonatomic,copy) NSString *selectedModuleType;
 
 #pragma mark "UI Actions"
 - (IBAction) addClicked:(id)sender;
@@ -197,9 +197,9 @@
 - (IBAction) refreshVendorList:(id)sender;
 
 #pragma mark "Status String Accessors"
-@property (copy) NSString *statusString;
-@property (copy) NSImage *statusIcon;
-@property (assign) BOOL xmlOperationInProgress;
+@property (nonatomic,copy) NSString *statusString;
+@property (nonatomic,copy) NSImage *statusIcon;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
 
 #pragma mark "Validation"
 - (BOOL) validateInput;

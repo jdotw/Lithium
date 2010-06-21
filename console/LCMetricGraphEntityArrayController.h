@@ -22,6 +22,6 @@
 - (void) insertObject:(id)object atArrangedObjectIndex:(unsigned int)index;
 - (void) removeObjectsAtArrangedObjectIndexes:(NSIndexSet *)indexes;
 
-@property (retain) NSTableColumn *colourColumn;
-@property (assign) LCMetricGraphController *graphController;
+@property (nonatomic,retain) NSTableColumn *colourColumn;
+@property (nonatomic, assign) LCMetricGraphController *graphController;
 @end

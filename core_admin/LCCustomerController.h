@@ -59,21 +59,21 @@
 - (void) deleteAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 #pragma mark "Customer List"
-@property (readonly) NSMutableArray *customers;
-@property (readonly) NSMutableDictionary *customerDict;
+@property (nonatomic,readonly) NSMutableArray *customers;
+@property (nonatomic,readonly) NSMutableDictionary *customerDict;
 - (void) insertObject:(id)obj inCustomersAtIndex:(unsigned int)index;
 - (void) removeObjectFromCustomersAtIndex:(unsigned int)index;
 - (void) refreshCustomerList;
 
 #pragma mark "Properties"
-@property (copy) NSString *addCustomerDesc;
-@property (copy) NSString *addCustomerName;
-@property (copy) NSString *addCustomerURL;
-@property (assign) BOOL addCustomerSetNameAutomatically;
-@property (copy) NSString *addCustomerMailServer;
-@property (copy) NSString *addCustomerMailFrom;
-@property (copy) NSString *addCustomerMailTo;
-@property (assign) BOOL addCustomerEnablePush;
-@property (copy) NSArray *customerSortDescriptors;
+@property (nonatomic,copy) NSString *addCustomerDesc;
+@property (nonatomic,copy) NSString *addCustomerName;
+@property (nonatomic,copy) NSString *addCustomerURL;
+@property (nonatomic,assign) BOOL addCustomerSetNameAutomatically;
+@property (nonatomic,copy) NSString *addCustomerMailServer;
+@property (nonatomic,copy) NSString *addCustomerMailFrom;
+@property (nonatomic,copy) NSString *addCustomerMailTo;
+@property (nonatomic,assign) BOOL addCustomerEnablePush;
+@property (nonatomic,copy) NSArray *customerSortDescriptors;
 
 @end

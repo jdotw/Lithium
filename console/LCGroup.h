@@ -33,27 +33,27 @@
 }
 
 #pragma mark "Properties"
-@property (assign) int groupID;
-@property (assign) int parentID;
-@property (assign) LCGroup *parent;
-@property (retain) LCCustomer *customer;
-@property (copy) NSString *name;
-@property (copy) NSString *desc;
+@property (nonatomic, assign) int groupID;
+@property (nonatomic, assign) int parentID;
+@property (nonatomic, assign) LCGroup *parent;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,copy) NSString *name;
+@property (nonatomic,copy) NSString *desc;
 @property (readonly) NSMutableArray *children;
 - (void) insertObject:(id)child inChildrenAtIndex:(unsigned int)index;
 - (void) removeObjectFromChildrenAtIndex:(unsigned int)index;
 @property (readonly) NSMutableDictionary *childrenDictionary;
 @property (readonly) NSMutableArray *recentChildren;
-@property (copy) NSDate *refreshVersion;
+@property (nonatomic,copy) NSDate *refreshVersion;
 
 #pragma mark "Tree Item Properties"
-@property (copy) NSString *displayString;
-@property (assign) float rowHeight;
-@property (assign) BOOL isBrowserTreeLeaf;
+@property (nonatomic,copy) NSString *displayString;
+@property (nonatomic, assign) float rowHeight;
+@property (nonatomic, assign) BOOL isBrowserTreeLeaf;
 @property (readonly) NSImage *treeIcon;
-@property (assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL refreshInProgress;
 @property (readonly) BOOL selectable;
-@property (assign) int opState;
+@property (nonatomic, assign) int opState;
 @property (readonly) NSString *uniqueIdentifier;
 
 @end

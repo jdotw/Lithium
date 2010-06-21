@@ -22,6 +22,6 @@
 - (LCErrorLog *) errorLog;
 - (IBAction) clearLogClicked:(id)sender;
 
-@property (retain) LCBackgroundView *backView;
-@property (retain) NSObjectController *controllerAlias;
+@property (nonatomic,retain) LCBackgroundView *backView;
+@property (nonatomic,retain) NSObjectController *controllerAlias;
 @end

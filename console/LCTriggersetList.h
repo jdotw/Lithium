@@ -56,15 +56,15 @@
 - (void) setRefreshInProgress:(BOOL)flag;
 - (void) setDelegate:(id)newDelegate;
 
-@property (retain) LCEntity *obj;
-@property (retain) NSMutableArray *tsets;
-@property (retain) NSMutableDictionary *tsetDictionary;
-@property (retain) LCXMLRequest *refreshXMLRequest;
-@property (retain) LCTriggerset *curTset;
-@property (retain) LCTriggersetTrigger *curTrg;
-@property (retain) NSString *curXMLElement;
-@property (retain) NSMutableString *curXMLString;
-@property (retain) NSMutableDictionary *xmlIncidentDictionary;
-@property (getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
-@property (assign,setter=setDelegate:) id delegate;
+@property (nonatomic,retain) LCEntity *obj;
+@property (nonatomic,retain) NSMutableArray *tsets;
+@property (nonatomic,retain) NSMutableDictionary *tsetDictionary;
+@property (nonatomic,retain) LCXMLRequest *refreshXMLRequest;
+@property (nonatomic,retain) LCTriggerset *curTset;
+@property (nonatomic,retain) LCTriggersetTrigger *curTrg;
+@property (nonatomic,retain) NSString *curXMLElement;
+@property (nonatomic,retain) NSMutableString *curXMLString;
+@property (nonatomic,retain) NSMutableDictionary *xmlIncidentDictionary;
+@property (nonatomic,getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
+@property (nonatomic,assign,setter=setDelegate:) id delegate;
 @end

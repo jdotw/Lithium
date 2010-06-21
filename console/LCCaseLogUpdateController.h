@@ -27,7 +27,7 @@
 - (IBAction) recordClicked:(id)sender;
 - (IBAction) cancelClicked:(id)sender;
 
-@property (retain) LCCase *cas;
-@property (assign) BOOL closeFlag;
+@property (nonatomic,retain) LCCase *cas;
+@property (nonatomic, assign) BOOL closeFlag;
 
 @end

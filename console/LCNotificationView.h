@@ -20,5 +20,5 @@
 - (void) fadeNotificationWindow;
 
 @property (retain,getter=notificationText) NSString *note_str;
-@property (retain) NSTextView *text_view;
+@property (nonatomic,retain) NSTextView *text_view;
 @end

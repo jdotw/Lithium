@@ -78,33 +78,33 @@
 
 #pragma mark "Constructors"
 - (id) initWithDocument:(LCDocument *)initDocument inBrowser:(LCBrowser2Controller *)initBrowser;
-@property (retain) LCVRackDocument *rack;
+@property (nonatomic,retain) LCVRackDocument *rack;
 
 #pragma mark "Selection"
-@property (retain) LCEntity *selectedEntity;
-@property (retain) id selectedObject;
-@property (assign) BOOL deviceSelected;
-@property (assign) BOOL interfaceSelected;
-@property (assign) BOOL cableSelected;
+@property (nonatomic,retain) LCEntity *selectedEntity;
+@property (nonatomic,retain) id selectedObject;
+@property (nonatomic, assign) BOOL deviceSelected;
+@property (nonatomic, assign) BOOL interfaceSelected;
+@property (nonatomic, assign) BOOL cableSelected;
 
 #pragma mark "Cable Methods"
 - (void) resetCableViews;
 - (void) resizeCableViews;
 @property (readonly) LCVRackCableView *cableView;
 - (void) cableEndPointNominated:(LCEntity *)iface;
-@property (retain) LCEntity *cableEndPointA;
+@property (nonatomic,retain) LCEntity *cableEndPointA;
 - (NSMutableArray *) cablesForInterface:(LCEntity *)entity;
 - (IBAction) highlightCablesClicked:(id)sender;
-@property (retain) LCEntity *cableHighlightDevice;
+@property (nonatomic,retain) LCEntity *cableHighlightDevice;
 - (IBAction) removeCableClicked:(id)sender;
 - (IBAction) setCableColourClicked:(id)sender;
 - (IBAction) cableColourSheetCloseClicked:(id)sender;
-@property (assign) BOOL showCableStatus;
+@property (nonatomic, assign) BOOL showCableStatus;
 - (IBAction) cableAEndBrowseClicked:(id)sender;
 - (IBAction) cableAEndFaultHistoryClicked:(id)sender;
 - (IBAction) cableBEndBrowseClicked:(id)sender;
 - (IBAction) cableBEndFaultHistoryClicked:(id)sender;
-@property (retain) LCVRackCable *colorChangeCable;
+@property (nonatomic,retain) LCVRackCable *colorChangeCable;
 
 #pragma mark Device Methods
 - (void) resetDeviceViews;
@@ -116,7 +116,7 @@
 - (IBAction) deviceColourSheetCloseClicked:(id)sender;
 - (IBAction) deviceBrowseClicked:(id)sender;
 - (IBAction) deviceFaultHistoryClicked:(id)sender;
-@property (retain) LCVRackDevice *colorChangeDevice;
+@property (nonatomic,retain) LCVRackDevice *colorChangeDevice;
 
 #pragma mark "Interface Methods"
 - (IBAction) interfaceBrowseClicked:(id)sender;
@@ -131,8 +131,8 @@
 - (IBAction) deleteSelectedCableClicked:(id)sender;
 - (IBAction) lockAllCablesClicked:(id)sender;
 - (IBAction) unlockAllCablesClicked:(id)sender;
-@property (copy) NSString *cableListSearchString;
-@property (copy) NSPredicate *cableListFilterPredicate;
+@property (nonatomic,copy) NSString *cableListSearchString;
+@property (nonatomic,copy) NSPredicate *cableListFilterPredicate;
 
 #pragma mark "Accessor Methods"
 @property (readonly) NSMenu *rackUnitMenu;
@@ -141,7 +141,7 @@
 @property (readonly) NSMenu *cableMenu;
 @property (readonly) NSMutableArray *devBackViews;
 @property (readonly) NSMutableDictionary *devBackViewDict;
-@property (assign) NSPoint currentMouseLocationInWindow;
+@property (nonatomic, assign) NSPoint currentMouseLocationInWindow;
 @property (readonly) LCInsetView *insetView;
 - (LCCustomerList *) customerList;
 

@@ -40,24 +40,24 @@
 
 #pragma mark "Criteria Properites"
 - (void) removeAllCriteria;
-@property (retain) NSNumber *caseID;
-@property (retain) NSNumber *stateInteger;
-@property (retain) NSDate *startUpper;
-@property (retain) NSDate *startLower;
-@property (retain) NSDate *endUpper;
-@property (retain) NSDate *endLower;
-@property (retain) NSString *headline;
-@property (retain) NSString *owner;
-@property (retain) NSString *requester;
-@property (retain) LCEntity *entity;
+@property (nonatomic,retain) NSNumber *caseID;
+@property (nonatomic,retain) NSNumber *stateInteger;
+@property (nonatomic,retain) NSDate *startUpper;
+@property (nonatomic,retain) NSDate *startLower;
+@property (nonatomic,retain) NSDate *endUpper;
+@property (nonatomic,retain) NSDate *endLower;
+@property (nonatomic,retain) NSString *headline;
+@property (nonatomic,retain) NSString *owner;
+@property (nonatomic,retain) NSString *requester;
+@property (nonatomic,retain) LCEntity *entity;
 
 #pragma mark "Properties"
-@property (retain) id customer;
-@property (assign) id delegate;
+@property (nonatomic,retain) id customer;
+@property (nonatomic, assign) id delegate;
 @property (readonly) NSMutableArray *cases;
 - (void) insertObject:(id)cas inCasesAtIndex:(unsigned int)index;
 - (void) removeObjectFromCasesAtIndex:(unsigned int) index;
 @property (readonly) NSMutableDictionary *caseDictionary;
-@property (assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL refreshInProgress;
 
 @end

@@ -43,29 +43,29 @@
 - (id) initWithAEnd:(LCEntity *)initAEnd bEnd:(LCEntity *)initBEnd;
 
 #pragma mark "Color"
-@property (copy) NSString *uuid;
-@property (copy) NSColor *colour;
+@property (nonatomic,copy) NSString *uuid;
+@property (nonatomic,copy) NSColor *colour;
 - (NSColor *) colourWithAlpha:(float)alpha;
 - (NSColor *) opStateColourWithAlpha:(float)alpha;
 
 #pragma mark "User-entered Notes"
-@property (copy) NSString *vlans;
-@property (copy) NSString *notes;
+@property (nonatomic,copy) NSString *vlans;
+@property (nonatomic,copy) NSString *notes;
 
 #pragma mark Accessors
-@property (retain) LCEntity *aEndDevice;
-@property (retain) LCEntity *aEndInterface;
-@property (retain) LCEntity *bEndDevice;
-@property (retain) LCEntity *bEndInterface;
-@property (assign) BOOL highlighted;
-@property (retain) LCVRackCableGroup *cableGroup;
-@property (assign) BOOL locked;
-@property (assign) BOOL orphaned;
-@property (assign) float abSpeedIndicatorT;
+@property (nonatomic,retain) LCEntity *aEndDevice;
+@property (nonatomic,retain) LCEntity *aEndInterface;
+@property (nonatomic,retain) LCEntity *bEndDevice;
+@property (nonatomic,retain) LCEntity *bEndInterface;
+@property (nonatomic, assign) BOOL highlighted;
+@property (nonatomic,retain) LCVRackCableGroup *cableGroup;
+@property (nonatomic, assign) BOOL locked;
+@property (nonatomic, assign) BOOL orphaned;
+@property (nonatomic, assign) float abSpeedIndicatorT;
 - (void) incrementAbSpeedIndicatorT;
-@property (assign) int abSpeedIndex;
-@property (assign) float baSpeedIndicatorT;
+@property (nonatomic, assign) int abSpeedIndex;
+@property (nonatomic, assign) float baSpeedIndicatorT;
 - (void) incrementBaSpeedIndicatorT;
-@property (assign) int baSpeedIndex;
+@property (nonatomic, assign) int baSpeedIndex;
 
 @end

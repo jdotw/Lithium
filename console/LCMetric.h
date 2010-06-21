@@ -55,26 +55,26 @@
 - (Class) childClass;
 
 
-@property (assign) int metricType;
-@property (assign) int kBase;
-@property (assign) int recordMethod;
-@property (assign) BOOL recordEnabled;
-@property (assign) unsigned long allocationUnits;
-@property (copy) NSString *units;
-@property (assign) float maximumValue;
-@property (assign) float minimumValue;
-@property (assign) BOOL hasValueRange;
-@property (assign) BOOL showInSummary;
-@property (assign) float aggregateDelta;
-@property (assign) BOOL hasTriggers;
+@property (nonatomic, assign) int metricType;
+@property (nonatomic, assign) int kBase;
+@property (nonatomic, assign) int recordMethod;
+@property (nonatomic, assign) BOOL recordEnabled;
+@property (nonatomic, assign) unsigned long allocationUnits;
+@property (nonatomic,copy) NSString *units;
+@property (nonatomic, assign) float maximumValue;
+@property (nonatomic, assign) float minimumValue;
+@property (nonatomic, assign) BOOL hasValueRange;
+@property (nonatomic, assign) BOOL showInSummary;
+@property (nonatomic, assign) float aggregateDelta;
+@property (nonatomic, assign) BOOL hasTriggers;
 
-@property (assign) unsigned long lastRefreshTime;
-@property (assign) unsigned long lastNormalTime;
-@property (assign) unsigned long lastValueChangeTime;
-@property (assign) unsigned long lastStateChangeTime;
+@property (nonatomic, assign) unsigned long lastRefreshTime;
+@property (nonatomic, assign) unsigned long lastNormalTime;
+@property (nonatomic, assign) unsigned long lastValueChangeTime;
+@property (nonatomic, assign) unsigned long lastStateChangeTime;
 
-@property (retain) LCMetricValue *currentValue;
-@property (assign) int maximumValueCount;
+@property (nonatomic,retain) LCMetricValue *currentValue;
+@property (nonatomic, assign) int maximumValueCount;
 @property (readonly) NSMutableArray *metricValues;
 
 @property (readonly) BOOL isGraphable;

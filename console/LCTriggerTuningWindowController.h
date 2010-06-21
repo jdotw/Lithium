@@ -134,8 +134,8 @@
 #pragma mark "Accessors"
 @property (readonly) NSArray *conditions;
 @property (readonly) NSArray *effects;
-@property (retain) LCEntity *object;
-@property (retain) LCTriggersetAppRule *editAppRule;
-@property (retain) LCTriggersetValRule *editValRule;
+@property (nonatomic,retain) LCEntity *object;
+@property (nonatomic,retain) LCTriggersetAppRule *editAppRule;
+@property (nonatomic,retain) LCTriggersetValRule *editValRule;
 
 @end

@@ -54,14 +54,14 @@
 - (LCMetric *) metric;
 - (void) setMetric:(LCMetric *)newEntity;
 
-@property (retain,getter=history) LCMetricHistory *history;
-@property (retain) NSToolbar *toolbar;
-@property (retain) NSMutableDictionary *toolbarItems;
-@property (retain) NSMutableArray *toolbarSelectableItems;
-@property (retain) NSMutableArray *toolbarDefaultItems;
-@property (retain) NSView *dateSelectorView;
-@property (retain) NSView *periodSelectorView;
-@property (retain) NSView *refreshIndicatorView;
-@property (retain) LCBrowserTableView *tableView;
-@property (retain) LCBackgroundView *backView;
+@property (nonatomic,retain,getter=history) LCMetricHistory *history;
+@property (nonatomic,retain) NSToolbar *toolbar;
+@property (nonatomic,retain) NSMutableDictionary *toolbarItems;
+@property (nonatomic,retain) NSMutableArray *toolbarSelectableItems;
+@property (nonatomic,retain) NSMutableArray *toolbarDefaultItems;
+@property (nonatomic,retain) NSView *dateSelectorView;
+@property (nonatomic,retain) NSView *periodSelectorView;
+@property (nonatomic,retain) NSView *refreshIndicatorView;
+@property (nonatomic,retain) LCBrowserTableView *tableView;
+@property (nonatomic,retain) LCBackgroundView *backView;
 @end

@@ -49,8 +49,8 @@
 - (NSRect) restoreOverlayRect:(NSRect)translated;
 
 #pragma mark "Accessors"
-@property (retain) LCSSceneDocument *sceneDocument;
-@property (assign) id controller;
+@property (nonatomic,retain) LCSSceneDocument *sceneDocument;
+@property (nonatomic, assign) id controller;
 @property (readonly) NSMutableArray *overlayViews;
 @property (readonly) NSMutableDictionary *overlayViewDict;
 

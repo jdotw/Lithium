@@ -31,7 +31,7 @@
 - (NSColor *) backgroundTintColor;
 - (void) setBackgroundTintColor:(NSColor *)value;
 
-@property (copy) NSColor *backgroundTintColor;
-@property (assign) BOOL lightenWhenNotMainWindow;
+@property (nonatomic,copy) NSColor *backgroundTintColor;
+@property (nonatomic, assign) BOOL lightenWhenNotMainWindow;
 
 @end

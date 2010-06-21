@@ -47,6 +47,6 @@
 - (NSDictionary *) vendorDictionary;
 
 #pragma mark "General Accessor Methods"
-@property (assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL refreshInProgress;
 
 @end

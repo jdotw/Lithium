@@ -34,8 +34,8 @@
 - (NSArray *) children;
 - (NSString *) displayString;
 
-@property (retain,getter=objects) NSMutableArray *objects;
-@property (retain,getter=objectDictionary) NSMutableDictionary *objectDictionary;
-@property (readonly) NSString *sortString;
+@property (nonatomic,retain,getter=objects) NSMutableArray *objects;
+@property (nonatomic,retain,getter=objectDictionary) NSMutableDictionary *objectDictionary;
+@property (nonatomic,readonly) NSString *sortString;
 
 @end

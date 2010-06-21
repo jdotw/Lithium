@@ -18,6 +18,6 @@
 	IBOutlet LCBrowserTableView *tableView;
 }
 
-@property (retain) NSPredicate *filterPredicate;
+@property (nonatomic,retain) NSPredicate *filterPredicate;
 
 @end

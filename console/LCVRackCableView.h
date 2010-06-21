@@ -61,11 +61,11 @@
 - (BOOL) becomeFirstResponder;
 
 #pragma mark "Accessors"
-@property (assign) id rackController;
+@property (nonatomic, assign) id rackController;
 @property (readonly) NSMutableArray *paths;
-@property (assign) BOOL pathsValid;
-@property (assign) NSView *hitView;
-@property (retain) LCVRackCable *hoverCable;
+@property (nonatomic, assign) BOOL pathsValid;
+@property (nonatomic, assign) NSView *hitView;
+@property (nonatomic,retain) LCVRackCable *hoverCable;
 
 
 @end

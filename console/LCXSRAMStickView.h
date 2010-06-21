@@ -29,6 +29,6 @@
 #pragma mark "Drawing"
 - (void) drawRect:(NSRect)rect;
 
-@property (retain) LCEntity *stickObject;
-@property (retain) NSImage *stickImage;
+@property (nonatomic,retain) LCEntity *stickObject;
+@property (nonatomic,retain) NSImage *stickImage;
 @end

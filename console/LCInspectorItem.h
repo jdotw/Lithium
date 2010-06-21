@@ -44,16 +44,16 @@
 - (BOOL) leafNode;
 
 #pragma mark "Target Methods"
-@property (retain) id target;
+@property (nonatomic,retain) id target;
 
 #pragma mark "Controller Methods"
-@property (assign) id controller;
+@property (nonatomic, assign) id controller;
 
 #pragma mark "View Management"
 - (void) removedFromInspector;
 
 #pragma mark "Display String"
-@property (copy) NSString *displayString;
+@property (nonatomic,copy) NSString *displayString;
 
 #pragma mark "View Height Methods"
 - (void) adjustViewHeightsBy:(float)delta;
@@ -62,7 +62,7 @@
 #pragma mark "Accessors"
 @property (readonly) NSString *nibName;
 - (float) rowHeight;
-@property (assign) BOOL expandByDefault;
+@property (nonatomic, assign) BOOL expandByDefault;
 - (BOOL) allowsResize;
 
 @end

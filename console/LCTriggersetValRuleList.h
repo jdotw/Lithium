@@ -63,16 +63,16 @@
 - (void) setDelegate:(id)newDelegate;
 
 
-@property (retain) LCEntity *obj;
-@property (retain) id tset;
-@property (retain) id trg;
-@property (retain,getter=ruleDictionary) NSMutableDictionary *ruleDictionary;
-@property (retain) LCXMLRequest *refreshXMLRequest;
-@property (retain) LCTriggersetValRule *curRule;
-@property (retain) NSString *curXMLElement;
-@property (retain) NSMutableString *curXMLString;
-@property (getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
-@property (getter=initialRefreshCompleted,setter=setInitialRefreshCompleted:) BOOL initialRefreshCompleted;
-@property (retain) NSMutableDictionary *xmlRuleDict;
-@property (assign,setter=setDelegate:) id delegate;
+@property (nonatomic,retain) LCEntity *obj;
+@property (nonatomic,retain) id tset;
+@property (nonatomic,retain) id trg;
+@property (nonatomic,retain,getter=ruleDictionary) NSMutableDictionary *ruleDictionary;
+@property (nonatomic,retain) LCXMLRequest *refreshXMLRequest;
+@property (nonatomic,retain) LCTriggersetValRule *curRule;
+@property (nonatomic,retain) NSString *curXMLElement;
+@property (nonatomic,retain) NSMutableString *curXMLString;
+@property (nonatomic,getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
+@property (nonatomic,getter=initialRefreshCompleted,setter=setInitialRefreshCompleted:) BOOL initialRefreshCompleted;
+@property (nonatomic,retain) NSMutableDictionary *xmlRuleDict;
+@property (nonatomic,assign,setter=setDelegate:) id delegate;
 @end

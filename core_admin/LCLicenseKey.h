@@ -51,21 +51,21 @@
 - (BOOL) licensedForCustomerName:(NSString *)name;
 
 #pragma mark "Properties"
-@property (assign) int keyID;
-@property (assign) int status;
-@property (copy) NSString *encryptedKey;
-@property (assign) int serial;
-@property (copy) NSString *type;
-@property (copy) NSString *product;
-@property (copy) NSString *customerHash;
-@property (assign) int volume;
-@property (assign) int flags;
-@property (assign) int expiry;
-@property (assign) int version;
-@property (copy) NSString *expiryString;
-@property (copy) NSString *statusString;
-@property (copy) NSString *typeString;
-@property (copy) NSString *productString;
-@property (copy) NSString *customerName;
+@property (nonatomic,assign) int keyID;
+@property (nonatomic,assign) int status;
+@property (nonatomic,copy) NSString *encryptedKey;
+@property (nonatomic,assign) int serial;
+@property (nonatomic,copy) NSString *type;
+@property (nonatomic,copy) NSString *product;
+@property (nonatomic,copy) NSString *customerHash;
+@property (nonatomic,assign) int volume;
+@property (nonatomic,assign) int flags;
+@property (nonatomic,assign) int expiry;
+@property (nonatomic,assign) int version;
+@property (nonatomic,copy) NSString *expiryString;
+@property (nonatomic,copy) NSString *statusString;
+@property (nonatomic,copy) NSString *typeString;
+@property (nonatomic,copy) NSString *productString;
+@property (nonatomic,copy) NSString *customerName;
 
 @end

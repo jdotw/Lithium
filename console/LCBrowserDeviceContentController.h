@@ -62,8 +62,8 @@
 - (id) initWithDevice:(LCDevice *)initDevice inBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection (KVO Observable)"
-@property (assign) LCEntity *selectedEntity;
-@property (copy) NSArray *selectedEntities;
+@property (nonatomic, assign) LCEntity *selectedEntity;
+@property (nonatomic,copy) NSArray *selectedEntities;
 - (void) selectEntity:(LCEntity *)entity;
 
 #pragma mark "UI Actions"
@@ -100,11 +100,11 @@
 - (IBAction) removeProcessProfileClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (retain) LCDevice *device;
-@property (retain) LCContainerTree *containerTree;
-@property (retain) LCObjectTree *objectTree;
+@property (nonatomic,retain) LCDevice *device;
+@property (nonatomic,retain) LCContainerTree *containerTree;
+@property (nonatomic,retain) LCObjectTree *objectTree;
 @property (readonly) NSWindow *window;
-@property (assign) LCBrowser2Controller *browser;
-@property (assign) BOOL doNotScrollFlow;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
+@property (nonatomic, assign) BOOL doNotScrollFlow;
 
 @end

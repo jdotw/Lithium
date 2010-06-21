@@ -33,16 +33,16 @@
 - (void) getDocument;
 
 #pragma mark "Properties"
-@property (assign) int documentID;
-@property (copy) NSString *type;
-@property (copy) NSString *desc; 
-@property (copy) NSString *displayString;
-@property (assign) int state;
-@property (copy) NSString *editor;
-@property (assign) int version; 
-@property (copy) NSDate *refreshVersion;
-@property (assign) id customer;
-@property (assign) BOOL editing;
+@property (nonatomic, assign) int documentID;
+@property (nonatomic,copy) NSString *type;
+@property (nonatomic,copy) NSString *desc; 
+@property (nonatomic,copy) NSString *displayString;
+@property (nonatomic, assign) int state;
+@property (nonatomic,copy) NSString *editor;
+@property (nonatomic, assign) int version; 
+@property (nonatomic,copy) NSDate *refreshVersion;
+@property (nonatomic, assign) id customer;
+@property (nonatomic, assign) BOOL editing;
 
 
 @end

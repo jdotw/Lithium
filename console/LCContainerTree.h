@@ -24,7 +24,7 @@
 
 - (id) initWithDevice:(LCDevice *)initDevice;
 
-@property (retain) LCDevice *device;
+@property (nonatomic,retain) LCDevice *device;
 @property (readonly) NSMutableArray *items;
 - (void) insertObject:(id)item inItemsAtIndex:(unsigned int)index;
 - (void) removeObjectFromItemsAtIndex:(unsigned int)index;

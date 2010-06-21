@@ -38,14 +38,14 @@
 - (void) lowPriorityRefresh;
 
 #pragma mark "Properties"
-@property (retain) id cas;
-@property (assign) id delegate;
+@property (nonatomic,retain) id cas;
+@property (nonatomic, assign) id delegate;
 @property (readonly) NSMutableArray *logEntries;
 - (void) insertObject:(id)logentry inLogEntriesAtIndex:(unsigned int)index;
 - (void) removeObjectFromLogEntriesAtIndex:(unsigned int)index;
 @property (readonly) NSMutableDictionary *logEntryDictionary;
-@property (assign) BOOL refreshInProgress;
-@property (copy) NSDate *lastUpdated;
-@property (copy) NSString *lastUpdatedShortString;
+@property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic,copy) NSDate *lastUpdated;
+@property (nonatomic,copy) NSString *lastUpdatedShortString;
 
 @end

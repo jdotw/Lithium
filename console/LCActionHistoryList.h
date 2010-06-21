@@ -25,7 +25,7 @@
 - (id) initWithAction:(id)initAction;
 
 #pragma mark "Accessor Methods"
-@property (assign) id action;
-@property (assign) BOOL hasBeenRefreshed;
+@property (nonatomic, assign) id action;
+@property (nonatomic, assign) BOOL hasBeenRefreshed;
 
 @end

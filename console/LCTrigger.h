@@ -33,15 +33,15 @@
 
 - (LCTrigger *) init;
 
-@property (assign) int valueType;
-@property (assign) int triggerType;
-@property (assign) int effect;
-@property (assign) unsigned long duration;
-@property (assign) unsigned long activeTimeStamp;
-@property (assign) float xValue;
-@property (assign) float yValue;
-@property (copy) NSString *xValueString;
-@property (copy) NSString *yValueString;
+@property (nonatomic, assign) int valueType;
+@property (nonatomic, assign) int triggerType;
+@property (nonatomic, assign) int effect;
+@property (nonatomic, assign) unsigned long duration;
+@property (nonatomic, assign) unsigned long activeTimeStamp;
+@property (nonatomic, assign) float xValue;
+@property (nonatomic, assign) float yValue;
+@property (nonatomic,copy) NSString *xValueString;
+@property (nonatomic,copy) NSString *yValueString;
 
 - (void) updateDisplayValue;
 

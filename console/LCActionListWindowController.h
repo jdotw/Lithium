@@ -60,7 +60,7 @@
 - (LCAction *) selectedAction;
 
 #pragma mark "Accessors" 
-@property (retain) LCCustomer *customer;
-@property (retain) LCActionList *actionList;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,retain) LCActionList *actionList;
 
 @end

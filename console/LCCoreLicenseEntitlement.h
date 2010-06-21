@@ -47,21 +47,21 @@
 - (void) lowPriorityRefresh;
 
 #pragma mark "Accessors"
-@property (retain) LCCustomer *customer;
-@property (assign) BOOL refreshInProgress;
-@property (assign) BOOL isLicensed;
-@property (assign) int maxDevices;
-@property (assign) int deviceCount;
-@property (assign) int excessDevices;
-@property (assign) int expiry;
-@property (copy) NSString *expiryString;
-@property (copy) NSString *type;
-@property (copy) NSString *typeString;
-@property (assign) BOOL isNFR;
-@property (assign) int demoType;
-@property (assign) BOOL isDemo;
-@property (assign) BOOL isExpiredDemo;
-@property (assign) BOOL isFree;
-@property (assign) BOOL isLimited;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL isLicensed;
+@property (nonatomic, assign) int maxDevices;
+@property (nonatomic, assign) int deviceCount;
+@property (nonatomic, assign) int excessDevices;
+@property (nonatomic, assign) int expiry;
+@property (nonatomic,copy) NSString *expiryString;
+@property (nonatomic,copy) NSString *type;
+@property (nonatomic,copy) NSString *typeString;
+@property (nonatomic, assign) BOOL isNFR;
+@property (nonatomic, assign) int demoType;
+@property (nonatomic, assign) BOOL isDemo;
+@property (nonatomic, assign) BOOL isExpiredDemo;
+@property (nonatomic, assign) BOOL isFree;
+@property (nonatomic, assign) BOOL isLimited;
 
 @end

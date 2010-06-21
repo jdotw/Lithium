@@ -29,5 +29,5 @@
 
 @property (retain,getter=backgroundTintColor,setter=setBackgroundTintColor:) NSColor *backgroundTintColor;
 @property (getter=roundedSelection,setter=setRoundedSelection:) BOOL roundedSelection;
-@property (assign) BOOL denySelection;
+@property (nonatomic, assign) BOOL denySelection;
 @end

@@ -96,7 +96,7 @@
 - (void) setOutputCurrent:(NSString *)string;
 
 @property float animationT;
-@property (retain) NSTimer *animationTimer;
+@property (nonatomic,retain) NSTimer *animationTimer;
 @property (retain,getter=mainsVoltage,setter=setMainsVoltage:) NSString *mainsVoltage;
 @property (retain,getter=mainsFrequency,setter=setMainsFrequency:) NSString *mainsFrequency;
 @property (retain,getter=batteryCapacity,setter=setBatteryCapacity:) NSString *batteryCapacity;

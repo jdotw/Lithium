@@ -42,7 +42,7 @@
 -(LCGeneralMatrix *)getMatrixWithInitialRow:(int)i0 andFinalRow:(int)i1 initialColumn:(int)j0  finalColumn:(int)j1;
 
 -(void)writeDebug;
-@property (getter=rowDimension) int m;
-@property (getter=colDimension) int n;
-@property (getter=array) double *data;
+@property (nonatomic,getter=rowDimension) int m;
+@property (nonatomic,getter=colDimension) int n;
+@property (nonatomic,getter=array) double *data;
 @end

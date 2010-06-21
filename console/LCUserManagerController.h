@@ -61,20 +61,20 @@
 - (void) setXmlOperationInProgress:(BOOL)value;
 
 
-@property (retain) LCLithiumSetupWindowController *setupController;
-@property (retain) NSWindow *addUserSheet;
-@property (retain) NSWindow *removeUserSheet;
-@property (retain) NSWindow *editGlobalAdminSheet;
-@property (retain) NSArrayController *userArrayController;
-@property (retain) NSButton *saveButton;
-@property (retain) NSTextField *usernameField;
-@property (retain) NSTextField *passwordField;
+@property (nonatomic,retain) LCLithiumSetupWindowController *setupController;
+@property (nonatomic,retain) NSWindow *addUserSheet;
+@property (nonatomic,retain) NSWindow *removeUserSheet;
+@property (nonatomic,retain) NSWindow *editGlobalAdminSheet;
+@property (nonatomic,retain) NSArrayController *userArrayController;
+@property (nonatomic,retain) NSButton *saveButton;
+@property (nonatomic,retain) NSTextField *usernameField;
+@property (nonatomic,retain) NSTextField *passwordField;
 @property (retain,getter=editUser,setter=setEditUser:) LCUser *editUser;
-@property (retain) LCXMLRequest *updateXmlReq;
-@property (retain) LCXMLRequest *removeXmlReq;
+@property (nonatomic,retain) LCXMLRequest *updateXmlReq;
+@property (nonatomic,retain) LCXMLRequest *removeXmlReq;
 @property (getter=xmlOperationInProgress,setter=setXmlOperationInProgress:) BOOL xmlOperationInProgress;
-@property (retain) NSString *xmlElement;
-@property (retain) NSMutableString *xmlString;
+@property (nonatomic,retain) NSString *xmlElement;
+@property (nonatomic,retain) NSMutableString *xmlString;
 @property (retain,getter=resultString,setter=setResultString:) NSString *resultString;
 @property (retain,getter=resultIcon,setter=setResultIcon:) NSImage *resultIcon;
 @end

@@ -104,14 +104,14 @@
 - (IBAction) editActionsClicked:(id)sender;
 
 #pragma mark "Accessor Methods"
-@property (retain) LCIncident *incident;
+@property (nonatomic,retain) LCIncident *incident;
 @property (readonly) LCCaseList *caseList;
 @property (readonly) LCIncidentList *incidentList;
 @property (readonly) LCObjectTree *objectTree;
-@property (copy) NSArray *incidentArraySortDescriptors;
-@property (copy) NSArray *relatedIncidentArraySortDescriptors;
-@property (copy) NSArray *caseArraySortDescriptors;
-@property (assign) BOOL drawerVisible;
-@property (assign) LCAction *actionBeingExecuted;
+@property (nonatomic,copy) NSArray *incidentArraySortDescriptors;
+@property (nonatomic,copy) NSArray *relatedIncidentArraySortDescriptors;
+@property (nonatomic,copy) NSArray *caseArraySortDescriptors;
+@property (nonatomic, assign) BOOL drawerVisible;
+@property (nonatomic, assign) LCAction *actionBeingExecuted;
 
 @end

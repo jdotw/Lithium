@@ -33,8 +33,8 @@
 - (void) updateScriptConfigVariables:(id)script;
 
 #pragma mark "Accessor Methods"
-@property (assign) id task;
+@property (nonatomic, assign) id task;
 @property (readonly) NSMutableDictionary *variableDict;
-@property (assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL refreshInProgress;
 
 @end

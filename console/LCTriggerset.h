@@ -50,15 +50,15 @@
 - (NSArray *) appRuleEffects;
 - (NSArray *) valRuleEffects;
 
-@property (retain) LCEntity *obj;
-@property (retain,getter=properties) NSMutableDictionary *properties;
-@property (retain,getter=triggers) NSMutableArray *triggers;
-@property (retain,getter=triggerDictionary) NSMutableDictionary *triggerDictionary;
-@property (retain,getter=siteChoices) NSArray *siteChoices;
-@property (retain,getter=devChoices) NSArray *devChoices;
-@property (retain,getter=objChoices) NSArray *objChoices;
-@property (retain,getter=appRuleEffects) NSArray *appRuleEffects;
-@property (retain,getter=valRuleEffects) NSArray *valRuleEffects;
-@property (readonly) BOOL triggerBumpEligable;
+@property (nonatomic,retain) LCEntity *obj;
+@property (nonatomic,retain,getter=properties) NSMutableDictionary *properties;
+@property (nonatomic,retain,getter=triggers) NSMutableArray *triggers;
+@property (nonatomic,retain,getter=triggerDictionary) NSMutableDictionary *triggerDictionary;
+@property (nonatomic,retain,getter=siteChoices) NSArray *siteChoices;
+@property (nonatomic,retain,getter=devChoices) NSArray *devChoices;
+@property (nonatomic,retain,getter=objChoices) NSArray *objChoices;
+@property (nonatomic,retain,getter=appRuleEffects) NSArray *appRuleEffects;
+@property (nonatomic,retain,getter=valRuleEffects) NSArray *valRuleEffects;
+@property (nonatomic,readonly) BOOL triggerBumpEligable;
 
 @end

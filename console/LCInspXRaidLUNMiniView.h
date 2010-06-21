@@ -16,6 +16,6 @@
 	LCLun *lun;
 }
 
-@property (retain) LCLun *lun;
+@property (nonatomic,retain) LCLun *lun;
 
 @end

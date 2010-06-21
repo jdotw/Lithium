@@ -95,19 +95,19 @@
 - (BOOL) childrenPopulated;
 - (void) setChildrenPopulated:(BOOL)flag;
 
-@property (retain,getter=staticDeployments) NSMutableArray *staticDeployments;
-@property (retain,getter=dynamicDeployments) NSMutableArray *dynamicDeployments;
-@property (retain) NSMutableDictionary *dynamicDeploymentDict;
-@property (getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
-@property (retain) NSMutableDictionary *element_dict;
-@property (retain) NSString *curXMLElement;
-@property (retain) NSMutableString *curXMLString;
+@property (nonatomic,retain,getter=staticDeployments) NSMutableArray *staticDeployments;
+@property (nonatomic,retain,getter=dynamicDeployments) NSMutableArray *dynamicDeployments;
+@property (nonatomic,retain) NSMutableDictionary *dynamicDeploymentDict;
+@property (nonatomic,getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
+@property (nonatomic,retain) NSMutableDictionary *element_dict;
+@property (nonatomic,retain) NSString *curXMLElement;
+@property (nonatomic,retain) NSMutableString *curXMLString;
 @property BOOL testMode;
 @property unsigned int customersFound;
 @property BOOL encounteredError;
 @property NSModalSession msession;
-@property (retain) NSWindow *window;
-@property (retain) NSProgressIndicator *pbar;
-@property (getter=childrenPopulated,setter=setChildrenPopulated:) BOOL childrenPopulated;
+@property (nonatomic,retain) NSWindow *window;
+@property (nonatomic,retain) NSProgressIndicator *pbar;
+@property (nonatomic,getter=childrenPopulated,setter=setChildrenPopulated:) BOOL childrenPopulated;
 @end
 

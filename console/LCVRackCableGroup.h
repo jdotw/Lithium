@@ -17,7 +17,7 @@
 }
 
 #pragma mark "Accessors"
-@property (copy) NSString *uuid;
-@property (copy) NSString *desc;
+@property (nonatomic,copy) NSString *uuid;
+@property (nonatomic,copy) NSString *desc;
 
 @end

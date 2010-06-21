@@ -38,7 +38,7 @@
 - (IBAction) resetClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (retain) LCEntity *entity;
-@property (assign) BOOL xmlOperationInProgress;
+@property (nonatomic,retain) LCEntity *entity;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
 
 @end

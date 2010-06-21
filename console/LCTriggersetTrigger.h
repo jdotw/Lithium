@@ -50,7 +50,7 @@
 - (NSString *) adminState;
 - (NSString *) adminStateInteger;
 
-@property (retain,getter=triggerset) LCTriggerset *tset;
-@property (retain,getter=object) LCEntity *obj;
-@property (retain,getter=properties) NSMutableDictionary *properties;
+@property (nonatomic,retain,getter=triggerset) LCTriggerset *tset;
+@property (nonatomic,retain,getter=object) LCEntity *obj;
+@property (nonatomic,retain,getter=properties) NSMutableDictionary *properties;
 @end

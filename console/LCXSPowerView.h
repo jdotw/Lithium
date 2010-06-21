@@ -25,5 +25,5 @@
 #pragma mark "Drawing"
 - (void) drawRect:(NSRect)rect;
 
-@property (retain) LCEntity *powerObject;
+@property (nonatomic,retain) LCEntity *powerObject;
 @end

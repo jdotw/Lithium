@@ -16,8 +16,8 @@
 }
 
 + (LCCustomer *) customerWithName:(NSString *)initName desc:(NSString *)initDesc;
-@property (copy) NSString *name;
-@property (copy) NSString *desc;
+@property (nonatomic,copy) NSString *name;
+@property (nonatomic,copy) NSString *desc;
 
 
 @end

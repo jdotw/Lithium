@@ -17,6 +17,6 @@
 	LCServiceScriptList *scriptList;
 }
 
-@property (retain) LCServiceScriptList *scriptList;
+@property (nonatomic,retain) LCServiceScriptList *scriptList;
 
 @end

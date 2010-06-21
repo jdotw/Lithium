@@ -28,6 +28,6 @@
 - (id) initNewServiceForDevice:(LCDevice *)initDevice;
 
 #pragma mark "Accessors"
-@property (retain) LCObject *object;
+@property (nonatomic,retain) LCObject *object;
 
 @end

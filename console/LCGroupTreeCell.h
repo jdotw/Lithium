@@ -23,10 +23,10 @@
 }
 
 #pragma mark "Observed Object"
-@property (assign) id representedObject;
-@property (assign) BOOL firstRow;
-@property (assign) BOOL lastRow;
-@property (assign) BOOL expanded;
+@property (nonatomic, assign) id representedObject;
+@property (nonatomic, assign) BOOL firstRow;
+@property (nonatomic, assign) BOOL lastRow;
+@property (nonatomic, assign) BOOL expanded;
 
 
 @end

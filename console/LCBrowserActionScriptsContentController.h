@@ -17,6 +17,6 @@
 	LCActionScriptList *scriptList;
 }
 
-@property (retain) LCActionScriptList *scriptList;
+@property (nonatomic,retain) LCActionScriptList *scriptList;
 
 @end

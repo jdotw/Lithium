@@ -52,9 +52,9 @@
 
 - (int) maxParrallelRequests;
 
-@property (retain,getter=immediateQueue) NSMutableArray *immediateQueue;
-@property (retain,getter=parrallelQueue) NSMutableArray *parrallelQueue;
-@property (retain,getter=serialQueue) NSMutableArray *serialQueue;
+@property (nonatomic,retain,getter=immediateQueue) NSMutableArray *immediateQueue;
+@property (nonatomic,retain,getter=parrallelQueue) NSMutableArray *parrallelQueue;
+@property (nonatomic,retain,getter=serialQueue) NSMutableArray *serialQueue;
 @property int immediateInProgress;
 @property int parrellelInProgress;
 @property int serialInProgress;

@@ -39,8 +39,8 @@
 - (id) initInBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection"
-@property (retain) LCIncident *selectedIncident;
-@property (retain) NSArray *selectedIncidents;
+@property (nonatomic,retain) LCIncident *selectedIncident;
+@property (nonatomic,retain) NSArray *selectedIncidents;
 
 #pragma mark "UI Actions"
 - (IBAction) graphSelectedClicked:(NSMenuItem *)sender;
@@ -78,7 +78,7 @@
 
 #pragma mark "Properties"
 @property (readonly) LCCustomerList *customerList;
-@property (assign) LCBrowser2Controller *browser;
-@property (retain) LCObjectTree *objectTree;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
+@property (nonatomic,retain) LCObjectTree *objectTree;
 
 @end

@@ -20,6 +20,6 @@
 - (void) resetViews;
 - (void) resetSubviewsOnly;
 
-@property (retain) NSTableColumn *viewColumn;
-@property (retain) NSMutableArray *visibleViews;
+@property (nonatomic,retain) NSTableColumn *viewColumn;
+@property (nonatomic,retain) NSMutableArray *visibleViews;
 @end

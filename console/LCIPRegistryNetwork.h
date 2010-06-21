@@ -29,10 +29,10 @@
 - (void) removeObjectFromChildrenAtIndex:(unsigned int)index;
 
 #pragma mark "Properties"
-@property (copy) NSString *displayString;
-@property (copy) NSString *address;	
+@property (nonatomic,copy) NSString *displayString;
+@property (nonatomic,copy) NSString *address;	
 - (void) updateDisplayString;
-@property (assign) id parent;
+@property (nonatomic, assign) id parent;
 - (NSString *) uniqueIdentifier;
 
 @end

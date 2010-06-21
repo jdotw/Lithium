@@ -15,5 +15,5 @@
 	IBOutlet LCEntityViewController *viewController;
 }
 
-@property (retain) LCEntityViewController *viewController;
+@property (nonatomic,retain) LCEntityViewController *viewController;
 @end

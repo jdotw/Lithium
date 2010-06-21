@@ -35,15 +35,15 @@
 - (void) search;
 
 #pragma mark "Properties"
-@property (retain) LCEntity *entity;
-@property (copy) NSArray *keywords;
-@property (assign) int searchOperator;
-@property (assign) BOOL useRegex;
-@property (assign) int maximumType;
-@property (copy) NSString *searchString;
-@property (assign) BOOL searchInProgress;
-@property (readonly) NSMutableArray *results;
-@property (readonly) NSMutableDictionary *resultDict;
+@property (nonatomic,retain) LCEntity *entity;
+@property (nonatomic,copy) NSArray *keywords;
+@property (nonatomic,assign) int searchOperator;
+@property (nonatomic,assign) BOOL useRegex;
+@property (nonatomic,assign) int maximumType;
+@property (nonatomic,copy) NSString *searchString;
+@property (nonatomic,assign) BOOL searchInProgress;
+@property (nonatomic,readonly) NSMutableArray *results;
+@property (nonatomic,readonly) NSMutableDictionary *resultDict;
 - (void) insertObject:(LCEntity *)entity inResultsAtIndex:(unsigned int)index;
 - (void) removeObjectFromResultsAtIndex:(unsigned int)index;
 

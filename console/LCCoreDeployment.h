@@ -48,24 +48,24 @@
 - (void) displayAlert;
 
 #pragma mark "Reachability Methods"
-@property (assign) BOOL reachable;
+@property (nonatomic, assign) BOOL reachable;
 
 #pragma mark "General Properties"
-@property (copy) NSMutableDictionary *properties;
+@property (nonatomic,copy) NSMutableDictionary *properties;
 @property (readonly) NSString *url;
-@property (copy) NSString *address;
-@property (assign) int port;
-@property (assign) BOOL useSSL;
-@property (copy) NSString *version;
-@property (copy) NSString *status;
-@property (assign) BOOL isDynamic;
-@property (assign) BOOL refreshInProgress;
-@property (assign) int statusInteger;
-@property (copy) NSImage *statusIcon;
-@property (assign) BOOL errorEncountered;
+@property (nonatomic,copy) NSString *address;
+@property (nonatomic, assign) int port;
+@property (nonatomic, assign) BOOL useSSL;
+@property (nonatomic,copy) NSString *version;
+@property (nonatomic,copy) NSString *status;
+@property (nonatomic, assign) BOOL isDynamic;
+@property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic, assign) int statusInteger;
+@property (nonatomic,copy) NSImage *statusIcon;
+@property (nonatomic, assign) BOOL errorEncountered;
 @property (readonly) BOOL isCustomer;
 @property (readonly) NSArray *customers;
-@property (assign) BOOL disabled;
+@property (nonatomic, assign) BOOL disabled;
 @property (readonly) NSImage *discoveredIcon;
 @property (readonly) BOOL isDeployment;
 - (void) insertObject:(LCCustomer *)customer inCustomersAtIndex:(unsigned int)index;

@@ -32,12 +32,12 @@
 - (void) selectIncident:(LCIncident *)incident;
 - (BOOL) treeSelectionCanChangeToRepresent:(id)obj;
 
-@property (assign) NSView *bottomView;
-@property (assign) NSView *inspectorView;
-@property (assign) NSView *statusBarView;
+@property (nonatomic, assign) NSView *bottomView;
+@property (nonatomic, assign) NSView *inspectorView;
+@property (nonatomic, assign) NSView *statusBarView;
 @property (readonly) CGFloat preferredFixedComponentHeight;
 @property (readonly) CGFloat preferredInspectorWidth;
-@property (assign) int resizeMode;
-@property (copy) NSArray *sortStringDescriptors;
+@property (nonatomic, assign) int resizeMode;
+@property (nonatomic,copy) NSArray *sortStringDescriptors;
 
 @end

@@ -47,8 +47,8 @@
 		  forScriptType:(NSString *)initType;
 
 #pragma mark "Selection (KVO Observable)"
-@property (assign) LCScript *selectedScript;
-@property (copy) NSArray *selectedScripts;
+@property (nonatomic, assign) LCScript *selectedScript;
+@property (nonatomic,copy) NSArray *selectedScripts;
 
 #pragma mark "UI Actions"
 - (IBAction) uploadScriptClicked:(id)sender;
@@ -59,8 +59,8 @@
 - (IBAction) refreshScriptListClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (assign) LCBrowser2Controller *browser;
-@property (retain) LCCustomer *customer;
-@property (copy) NSString *type;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,copy) NSString *type;
 
 @end

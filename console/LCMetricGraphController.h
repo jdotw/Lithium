@@ -80,7 +80,7 @@
 
 #pragma mark "Window Title"
 - (void) updateTitle;
-@property (copy) NSString *windowTitle;
+@property (nonatomic,copy) NSString *windowTitle;
 
 #pragma mark "Metric Manipulation"
 @property (readonly) NSMutableArray *metricItems;
@@ -92,25 +92,25 @@
 
 #pragma mark "Timeframe Adjustment"
 - (IBAction) forwardAndBackClicked:(id)sender;
-@property (assign) int forwardAndBackMode;
+@property (nonatomic, assign) int forwardAndBackMode;
 
 #pragma mark "Accessor Methods"
-@property (assign) BOOL refreshInProgress;
-@property (copy) NSDate *referenceDate;
-@property (copy) NSString *referenceDateString;
-@property (assign) int graphPeriod;
-@property (assign) BOOL userCanSelectReferenceDate;
-@property (assign) int baselineType;
-@property (assign) float minValue;
-@property (assign) float maxValue;
-@property (assign) float baselineMinValue;
-@property (assign) float baselineMaxValue;
-@property (copy) NSString *imageURLString;
-@property (copy) NSPDFImageRep *graphPDFRep;
-@property (copy) NSPDFImageRep *baselinePDFRep;
-@property (assign) NSResponder *undoResponder;
-@property (copy) NSDate *lastRefresh;
-@property (assign) BOOL undoEnabled;
-@property (assign) BOOL getMinMaxAvgValues;
+@property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic,copy) NSDate *referenceDate;
+@property (nonatomic,copy) NSString *referenceDateString;
+@property (nonatomic, assign) int graphPeriod;
+@property (nonatomic, assign) BOOL userCanSelectReferenceDate;
+@property (nonatomic, assign) int baselineType;
+@property (nonatomic, assign) float minValue;
+@property (nonatomic, assign) float maxValue;
+@property (nonatomic, assign) float baselineMinValue;
+@property (nonatomic, assign) float baselineMaxValue;
+@property (nonatomic,copy) NSString *imageURLString;
+@property (nonatomic,copy) NSPDFImageRep *graphPDFRep;
+@property (nonatomic,copy) NSPDFImageRep *baselinePDFRep;
+@property (nonatomic, assign) NSResponder *undoResponder;
+@property (nonatomic,copy) NSDate *lastRefresh;
+@property (nonatomic, assign) BOOL undoEnabled;
+@property (nonatomic, assign) BOOL getMinMaxAvgValues;
 
 @end

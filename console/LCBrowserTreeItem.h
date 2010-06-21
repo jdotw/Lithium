@@ -23,17 +23,17 @@
 }
 
 #pragma mark Accessors
-@property (copy) NSString *displayString;
-@property (assign) float rowHeight;
-@property (copy) NSMutableArray *children;
+@property (nonatomic,copy) NSString *displayString;
+@property (nonatomic, assign) float rowHeight;
+@property (nonatomic, copy) NSMutableArray *children;
 - (void) insertObject:(id)obj inChildrenAtIndex:(unsigned int)index;
 - (void) removeObjectFromChildrenAtIndex:(unsigned int)index;
-@property (assign) BOOL isBrowserTreeLeaf;
-@property (copy) NSImage *treeIcon;
-@property (assign) BOOL refreshInProgress;
-@property (assign) BOOL selectable;
-@property (assign) int opState;
-@property (copy) NSString *uniqueIdentifier;
-@property (copy) NSString *sortString;
+@property (nonatomic, assign) BOOL isBrowserTreeLeaf;
+@property (nonatomic,copy) NSImage *treeIcon;
+@property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL selectable;
+@property (nonatomic, assign) int opState;
+@property (nonatomic,copy) NSString *uniqueIdentifier;
+@property (nonatomic,copy) NSString *sortString;
 
 @end

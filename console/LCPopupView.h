@@ -21,8 +21,8 @@
 + (NSBezierPath *) pathForPopupInRect:(NSRect)rect;
 
 @property (readonly) LCShadowTextField *textField;
-@property (assign) CGFloat triangleWidth;
-@property (assign) CGFloat roundedRadius;
+@property (nonatomic, assign) CGFloat triangleWidth;
+@property (nonatomic, assign) CGFloat roundedRadius;
 @property (readonly) NSRect usableRect;
 
 @end

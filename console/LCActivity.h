@@ -61,10 +61,10 @@
 - (NSNumber *) priority;
 - (void) setPriority:(NSNumber *)priority;
 
-@property (getter=activityID,setter=setActivityID:) unsigned long activityID;
-@property (assign,getter=customer,setter=setCustomer:) id customer;
-@property (assign,getter=delegate,setter=setDelegate:) id delegate;
-@property (getter=inProgress,setter=setInProgress:) BOOL inProgress;
-@property (getter=stopSelector,setter=setStopSelector:) SEL stopSelector;
-@property (retain,getter=properties) NSMutableDictionary *properties;
+@property (nonatomic,getter=activityID,setter=setActivityID:) unsigned long activityID;
+@property (nonatomic,assign,getter=customer,setter=setCustomer:) id customer;
+@property (nonatomic,assign,getter=delegate,setter=setDelegate:) id delegate;
+@property (nonatomic,getter=inProgress,setter=setInProgress:) BOOL inProgress;
+@property (nonatomic,getter=stopSelector,setter=setStopSelector:) SEL stopSelector;
+@property (nonatomic,retain,getter=properties) NSMutableDictionary *properties;
 @end

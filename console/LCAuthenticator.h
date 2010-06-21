@@ -69,19 +69,19 @@
 - (id) customer;
 - (void) setCustomer:(id)entity;
 
-@property (retain,getter=username) NSString *username;
-@property (retain,getter=password) NSString *password;
+@property (nonatomic,retain) NSString *username;
+@property (nonatomic,retain) NSString *password;
 @property BOOL nibloaded;
-@property (retain) NSWindow *window;
-@property (retain) NSTextField *infofield;
-@property (retain) NSTextField *custfield;
-@property (retain) NSTextField *unamefield;
-@property (retain) NSTextField *pwordfield;
-@property (retain) NSButton *okbutton;
-@property (retain) NSButton *cancelbutton;
-@property (retain) NSButton *disablebutton;
-@property (retain) NSButton *addToKeychainSwitch;
-@property (retain) NSButton *useAsDefaultSwitch;
-@property (retain) LCBackgroundView *backgroundView;
+@property (nonatomic,retain) NSWindow *window;
+@property (nonatomic,retain) NSTextField *infofield;
+@property (nonatomic,retain) NSTextField *custfield;
+@property (nonatomic,retain) NSTextField *unamefield;
+@property (nonatomic,retain) NSTextField *pwordfield;
+@property (nonatomic,retain) NSButton *okbutton;
+@property (nonatomic,retain) NSButton *cancelbutton;
+@property (nonatomic,retain) NSButton *disablebutton;
+@property (nonatomic,retain) NSButton *addToKeychainSwitch;
+@property (nonatomic,retain) NSButton *useAsDefaultSwitch;
+@property (nonatomic,retain) LCBackgroundView *backgroundView;
 @property BOOL retryreturn;
 @end

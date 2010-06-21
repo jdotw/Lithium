@@ -44,20 +44,20 @@
 
 #pragma mark "Properties"
 
-@property (assign) int taskID;
-@property (copy) NSString *desc;
-@property (assign) BOOL enabled;
-@property (copy) NSString *scriptName;
+@property (nonatomic, assign) int taskID;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic, assign) BOOL enabled;
+@property (nonatomic,copy) NSString *scriptName;
 
-@property (copy) NSString *taskType;
+@property (nonatomic,copy) NSString *taskType;
 
-@property (retain) LCEntity *hostEntity;
-@property (retain) LCCustomer *customer;
+@property (nonatomic,retain) LCEntity *hostEntity;
+@property (nonatomic,retain) LCCustomer *customer;
 
-@property (retain) LCScriptList *scriptList;
-@property (assign) LCScript *selectedScript;
+@property (nonatomic,retain) LCScriptList *scriptList;
+@property (nonatomic, assign) LCScript *selectedScript;
 
-@property (retain) LCScriptConfigVariableList *configVariables;
+@property (nonatomic,retain) LCScriptConfigVariableList *configVariables;
 
 @end
 

@@ -28,9 +28,9 @@
 #pragma mark "Entity Drawing"
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView forEntity:(LCEntity *)entity;
 
-@property (assign) id representedObject;
-@property (assign) BOOL lastRow;
-@property (assign) BOOL firstRow;
+@property (nonatomic, assign) id representedObject;
+@property (nonatomic, assign) BOOL lastRow;
+@property (nonatomic, assign) BOOL firstRow;
 
 
 @end

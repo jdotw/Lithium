@@ -57,12 +57,12 @@
 @property (readonly) NSMutableDictionary *objectDict;
 
 #pragma mark "Properties"
-@property (retain) LCEntity *source;
-@property (copy) NSString *xmlName;
-@property (assign) Class objectClass;
-@property (copy) NSString *indexKey;
-@property (copy) NSString *xmlIndexKey;
-@property (assign) BOOL refreshInProgress;
-@property (assign) BOOL allowCancelOfExistingRefresh;
+@property (nonatomic,retain) LCEntity *source;
+@property (nonatomic,copy) NSString *xmlName;
+@property (nonatomic, assign) Class objectClass;
+@property (nonatomic,copy) NSString *indexKey;
+@property (nonatomic,copy) NSString *xmlIndexKey;
+@property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL allowCancelOfExistingRefresh;
 
 @end

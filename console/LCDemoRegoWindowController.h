@@ -73,15 +73,15 @@
 - (void) uploadLicenseKey;
 
 #pragma mark "Accessors"
-@property (retain) LCCustomer *customer;
-@property (copy) NSString *firstname;
-@property (copy) NSString *lastname;
-@property (copy) NSString *company;
-@property (copy) NSString *email;
-@property (assign) int licenseIndex;
-@property (copy) NSString *licenseKey;
-@property (assign) BOOL regoInProgress;
-@property (copy) NSString *regoMessage;
-@property (copy) NSString *progressString;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,copy) NSString *firstname;
+@property (nonatomic,copy) NSString *lastname;
+@property (nonatomic,copy) NSString *company;
+@property (nonatomic,copy) NSString *email;
+@property (nonatomic, assign) int licenseIndex;
+@property (nonatomic,copy) NSString *licenseKey;
+@property (nonatomic, assign) BOOL regoInProgress;
+@property (nonatomic,copy) NSString *regoMessage;
+@property (nonatomic,copy) NSString *progressString;
 
 @end

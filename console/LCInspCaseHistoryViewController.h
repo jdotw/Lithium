@@ -20,6 +20,6 @@
 
 + (LCInspCaseHistoryViewController *) itemWithTarget:(id)initTarget caseList:(LCCaseList *)initCaseList;
 - (id) initWithTarget:(id)initTarget caseList:(LCCaseList *)initCaseList;
-@property (retain) LCCaseList *caseList;
+@property (nonatomic,retain) LCCaseList *caseList;
 
 @end

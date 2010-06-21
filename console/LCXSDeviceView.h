@@ -81,16 +81,16 @@
 - (void) resetDriveCageView;
 
 
-@property (retain) NSImage *xsBaseImage;
-@property (retain) NSMutableArray *driveViews;
-@property (retain) NSMutableArray *cpuViews;
-@property (retain) NSMutableArray *ramStickViews;
-@property (retain) NSMutableArray *blowerViews;
-@property (retain) NSMutableArray *powerViews;
-@property (retain) LCXSDriveCageView *driveCageView;
-@property (retain) LCXSLidView *lidView;
+@property (nonatomic,retain) NSImage *xsBaseImage;
+@property (nonatomic,retain) NSMutableArray *driveViews;
+@property (nonatomic,retain) NSMutableArray *cpuViews;
+@property (nonatomic,retain) NSMutableArray *ramStickViews;
+@property (nonatomic,retain) NSMutableArray *blowerViews;
+@property (nonatomic,retain) NSMutableArray *powerViews;
+@property (nonatomic,retain) LCXSDriveCageView *driveCageView;
+@property (nonatomic,retain) LCXSLidView *lidView;
 @property BOOL hideLid;
-@property (retain) LCXSAirFlowView *airFlowView;
-@property (retain) LCXSPowerVisorView *powerVisorView;
+@property (nonatomic,retain) LCXSAirFlowView *airFlowView;
+@property (nonatomic,retain) LCXSPowerVisorView *powerVisorView;
 @property BOOL hidePowerVisor;
 @end

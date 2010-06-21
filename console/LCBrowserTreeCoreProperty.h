@@ -18,7 +18,7 @@
 }
 
 - (LCBrowserTreeCoreProperty *) initWithCustomer:(LCCustomer *)initCustomer;
-@property (retain) LCCustomer *customer;
-@property (assign) Class contentControllerClass;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic, assign) Class contentControllerClass;
 
 @end

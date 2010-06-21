@@ -23,10 +23,10 @@
 + (LCMetricHistoryRow *) row;
 
 #pragma mark Accessors
-@property (copy) NSDate *timeStamp;
-@property (assign) float minimum;
-@property (assign) float average;
-@property (assign) float maximum;
+@property (nonatomic,copy) NSDate *timeStamp;
+@property (nonatomic, assign) float minimum;
+@property (nonatomic, assign) float average;
+@property (nonatomic, assign) float maximum;
 - (NSNumber *) minimumNumber;
 - (NSNumber *) averageNumber;
 - (NSNumber *) maximumNumber;

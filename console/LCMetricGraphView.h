@@ -46,24 +46,24 @@
 
 #pragma mark "Properties"
 @property (readonly) float timeLineHeight;
-@property (assign) float fontSize;
+@property (nonatomic, assign) float fontSize;
 @property (readonly) float border;
 @property (readonly) NSRect graphRect;
 @property (readonly) NSRect graphImageRect;
-@property (assign) int style;
-@property (assign) BOOL showDates;
+@property (nonatomic, assign) int style;
+@property (nonatomic, assign) BOOL showDates;
 
 #define GVSTYLE_DEFAULT 0
 #define GVSTYLE_STADIUM 1
 
-@property (assign) LCMetricGraphController *graphController;
-@property (assign) BOOL showTooManySourcesWarning;
-@property (copy) NSString *overlayLabel;
-@property (retain) NSImageView *primaryImageView;
-@property (retain) NSImageView *baselineImageView;
+@property (nonatomic, assign) LCMetricGraphController *graphController;
+@property (nonatomic, assign) BOOL showTooManySourcesWarning;
+@property (nonatomic,copy) NSString *overlayLabel;
+@property (nonatomic,retain) NSImageView *primaryImageView;
+@property (nonatomic,retain) NSImageView *baselineImageView;
 
-@property (assign) BOOL highlightBaselineView;
+@property (nonatomic, assign) BOOL highlightBaselineView;
 
-@property (assign) BOOL dragAndDropEnabled;
+@property (nonatomic, assign) BOOL dragAndDropEnabled;
 
 @end

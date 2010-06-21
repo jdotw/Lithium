@@ -55,11 +55,11 @@
 - (BOOL)validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)item;
 
 #pragma mark "Properties"
-@property (retain) LCDocument *document; 
-@property (assign) LCBrowser2Controller *browser;
-@property (assign) BOOL editing;
-@property (assign) BOOL xmlOperationInProgress;
-@property (copy) NSString *xmlAction;
+@property (nonatomic,retain) LCDocument *document; 
+@property (nonatomic, assign) LCBrowser2Controller *browser;
+@property (nonatomic, assign) BOOL editing;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
+@property (nonatomic,copy) NSString *xmlAction;
 
 
 @end

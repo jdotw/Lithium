@@ -74,24 +74,24 @@
 - (BOOL) cableGroupPanelVisible;
 - (void) setCableGroupPanelVisible:(BOOL)flag;
 
-@property (retain) id rackDocument;
-@property (retain) LCBackgroundView *backView;
+@property (nonatomic,retain) id rackDocument;
+@property (nonatomic,retain) LCBackgroundView *backView;
 @property (retain,getter=rackController) LCVRackController *rackController;
-@property (retain) NSObjectController *windowControllerAlias;
-@property (retain) NSDrawer *treeDrawer;
-@property (retain) NSDrawer *infoDrawer;
+@property (nonatomic,retain) NSObjectController *windowControllerAlias;
+@property (nonatomic,retain) NSDrawer *treeDrawer;
+@property (nonatomic,retain) NSDrawer *infoDrawer;
 @property BOOL infoShown;
 @property (getter=treeDrawerVisible,setter=setTreeDrawerVisible:) BOOL treeDrawerVisible;
 @property (getter=infoDrawerVisible,setter=setInfoDrawerVisible:) BOOL infoDrawerVisible;
 @property (getter=cableListPanelVisible,setter=setCableListPanelVisible:) BOOL cableListPanelVisible;
 @property (getter=cableGroupPanelVisible,setter=setCableGroupPanelVisible:) BOOL cableGroupPanelVisible;
-@property (retain) NSPanel *cableListPanel;
-@property (retain) NSTableColumn *cableColorColumn;
-@property (retain) NSScrollView *scrollView;
-@property (retain) LCContentView *contentView;
-@property (retain) NSToolbar *toolbar;
-@property (retain) NSMutableDictionary *toolbarItems;
-@property (retain) NSMutableArray *toolbarSelectableItems;
-@property (retain) NSMutableArray *toolbarDefaultItems;
-@property (retain) LCVRackDocument *rack;
+@property (nonatomic,retain) NSPanel *cableListPanel;
+@property (nonatomic,retain) NSTableColumn *cableColorColumn;
+@property (nonatomic,retain) NSScrollView *scrollView;
+@property (nonatomic,retain) LCContentView *contentView;
+@property (nonatomic,retain) NSToolbar *toolbar;
+@property (nonatomic,retain) NSMutableDictionary *toolbarItems;
+@property (nonatomic,retain) NSMutableArray *toolbarSelectableItems;
+@property (nonatomic,retain) NSMutableArray *toolbarDefaultItems;
+@property (nonatomic,retain) LCVRackDocument *rack;
 @end

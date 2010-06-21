@@ -21,8 +21,8 @@
 }
 
 #pragma mark "Properties"
-@property (assign) id representedObject;
-@property (assign) BOOL lastRow;
-@property (assign) BOOL firstRow;
+@property (nonatomic, assign) id representedObject;
+@property (nonatomic, assign) BOOL lastRow;
+@property (nonatomic, assign) BOOL firstRow;
 
 @end

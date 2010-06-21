@@ -143,19 +143,19 @@
                        context:(void *)context;
 
 #pragma mark "Tree Selection (Single Selection Only)"
-@property (assign) id treeSelectedObject;
-@property (assign) LCEntity *treeSelectedEntity;
+@property (nonatomic,assign) id treeSelectedObject;
+@property (nonatomic,assign) LCEntity *treeSelectedEntity;
 
 #pragma mark "Global Selection Methods (Not KVO Observable)"
-@property (readonly) LCEntity *selectedEntity;
-@property (readonly) NSArray *selectedEntities;
+@property (nonatomic,readonly) LCEntity *selectedEntity;
+@property (nonatomic,readonly) NSArray *selectedEntities;
 
 #pragma mark "Selection Management"
 - (void) selectEntity:(LCEntity *)entity;
 - (void) selectIncident:(LCIncident *)incident;
 
 #pragma mark "Content Pane Methods"
-@property (retain) LCBrowser2ContentViewController *contentViewController;
+@property (nonatomic,retain) LCBrowser2ContentViewController *contentViewController;
 
 #pragma mark "Toolbar Methods"
 - (IBAction) dummyClicked:(id)sender;
@@ -233,12 +233,12 @@
 - (void) refreshDeviceTimerFired;
 
 #pragma mark "Browser Tree Methods"
-@property (retain) LCBrowserTree *browserTree;
-@property (readonly) LCBrowserTreeOutlineView *browserTreeOutlineView;
+@property (nonatomic, retain) LCBrowserTree *browserTree;
+@property (nonatomic, readonly) LCBrowserTreeOutlineView *browserTreeOutlineView;
 
 #pragma mark "Search Methods"
-@property (retain) NSString *searchString;
-@property (retain) LCBrowserSearchContentController *searchContentController;
+@property (nonatomic, retain) NSString *searchString;
+@property (nonatomic, retain) LCBrowserSearchContentController *searchContentController;
 
 #pragma mark "Feedback Methods"
 - (IBAction) sendFeedbackClicked:(id)sender;

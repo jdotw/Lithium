@@ -21,7 +21,7 @@
 }
 
 #pragma mark "Properties"
-@property (copy) NSImage *backgroundImage;
+@property (nonatomic,copy) NSImage *backgroundImage;
 @property (readonly) NSMutableArray *overlays;
 - (void) insertObject:(LCSSceneOverlay *)overlay inOverlaysAtIndex:(unsigned int)index;
 - (void) removeObjectFromOverlaysAtIndex:(unsigned int)index;

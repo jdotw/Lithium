@@ -79,19 +79,19 @@
 - (void) setDiscardNanFor95th:(BOOL)value;
 
 #pragma mark "Accessor Methods"
-@property (retain) LCMetric *metric;
-@property (assign) BOOL refreshInProgress;
-@property (copy) NSDate *referenceDate;
-@property (assign) int graphPeriod;
-@property (assign) float minimum;
-@property (copy) NSNumber *minimumNumber;
-@property (copy) NSString *minimumString;
-@property (assign) float average;
-@property (copy) NSNumber *averageNumber;
-@property (copy) NSString *averageString;
-@property (assign) float maximum;
-@property (copy) NSNumber *maximumNumber;
-@property (copy) NSString *maximumString;
+@property (nonatomic,retain) LCMetric *metric;
+@property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic,copy) NSDate *referenceDate;
+@property (nonatomic, assign) int graphPeriod;
+@property (nonatomic, assign) float minimum;
+@property (nonatomic,copy) NSNumber *minimumNumber;
+@property (nonatomic,copy) NSString *minimumString;
+@property (nonatomic, assign) float average;
+@property (nonatomic,copy) NSNumber *averageNumber;
+@property (nonatomic,copy) NSString *averageString;
+@property (nonatomic, assign) float maximum;
+@property (nonatomic,copy) NSNumber *maximumNumber;
+@property (nonatomic,copy) NSString *maximumString;
 @property (readonly) NSMutableArray *rows;
 - (void) insertObject:(LCMetricHistoryRow *)row inRowsAtIndex:(unsigned int)index;
 - (void) removeObjectFromRowsAtIndex:(unsigned int)index;

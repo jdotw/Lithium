@@ -20,9 +20,9 @@
 
 - (id) initWithXmlNode:(LCXMLNode *)xmlNode;
 
-@property (assign) float value;
-@property (copy) NSString *valueString;
-@property (copy) NSString *rawValueString;
-@property (assign) unsigned long timestamp;
+@property (nonatomic, assign) float value;
+@property (nonatomic,copy) NSString *valueString;
+@property (nonatomic,copy) NSString *rawValueString;
+@property (nonatomic, assign) unsigned long timestamp;
 
 @end

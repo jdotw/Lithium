@@ -15,6 +15,6 @@
 	IBOutlet NSTableColumn *descColumn;
 }
 
-@property (retain) LCTableView *tableView;
-@property (retain) NSTableColumn *descColumn;
+@property (nonatomic,retain) LCTableView *tableView;
+@property (nonatomic,retain) NSTableColumn *descColumn;
 @end

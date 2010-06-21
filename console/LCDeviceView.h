@@ -19,6 +19,6 @@
 - (BOOL) drawWarnings;
 - (BOOL) hasWarnings;
 
-@property (retain) LCDevice *device;
+@property (nonatomic,retain) LCDevice *device;
 
 @end

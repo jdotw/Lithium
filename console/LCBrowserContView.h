@@ -16,7 +16,7 @@
 	BOOL initialFadeOutDone;
 }
 
-@property (retain) NSViewAnimation *fadeInAnim;
-@property (retain) NSViewAnimation *fadeOutAnim;
+@property (nonatomic,retain) NSViewAnimation *fadeInAnim;
+@property (nonatomic,retain) NSViewAnimation *fadeOutAnim;
 @property BOOL initialFadeOutDone;
 @end

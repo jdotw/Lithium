@@ -74,21 +74,21 @@
 - (BOOL) refreshInProgress;
 - (void) setRefreshInProgress:(BOOL)flag;
 
-@property (retain,getter=customer,setter=setCustomer:) id customer;
-@property (retain,getter=clients) NSMutableArray *clients;
-@property (retain) NSMutableDictionary *clientDictionary;
-@property (retain,getter=controllers) NSMutableArray *controllers;
-@property (retain) NSMutableDictionary *controllerDictionary;
-@property (retain,getter=volumes) NSMutableArray *volumes;
-@property (retain) NSMutableDictionary *volumeDictionary;
-@property (retain) LCXMLRequest *refreshXMLRequest;
-@property (retain) NSMutableDictionary *curXMLDictionary;
-@property (retain) NSMutableDictionary *xmlControllerDictionary;
-@property (retain) NSMutableDictionary *xmlClientDictionary;
-@property (retain) NSMutableDictionary *xmlVolumeDictionary;
-@property (retain) NSString *curXMLElement;
-@property (retain) NSMutableString *curXMLString;
-@property (getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
+@property (nonatomic,retain,getter=customer,setter=setCustomer:) id customer;
+@property (nonatomic,retain,getter=clients) NSMutableArray *clients;
+@property (nonatomic,retain) NSMutableDictionary *clientDictionary;
+@property (nonatomic,retain,getter=controllers) NSMutableArray *controllers;
+@property (nonatomic,retain) NSMutableDictionary *controllerDictionary;
+@property (nonatomic,retain,getter=volumes) NSMutableArray *volumes;
+@property (nonatomic,retain) NSMutableDictionary *volumeDictionary;
+@property (nonatomic,retain) LCXMLRequest *refreshXMLRequest;
+@property (nonatomic,retain) NSMutableDictionary *curXMLDictionary;
+@property (nonatomic,retain) NSMutableDictionary *xmlControllerDictionary;
+@property (nonatomic,retain) NSMutableDictionary *xmlClientDictionary;
+@property (nonatomic,retain) NSMutableDictionary *xmlVolumeDictionary;
+@property (nonatomic,retain) NSString *curXMLElement;
+@property (nonatomic,retain) NSMutableString *curXMLString;
+@property (nonatomic,getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
 @property BOOL inVolume;
 @property int computerType;
 @end

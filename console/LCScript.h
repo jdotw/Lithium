@@ -32,14 +32,14 @@
 - (id) initWithType:(NSString *)initType;
 
 #pragma mark "Properties"
-@property (copy) NSString *name;
-@property (copy) NSString *desc;
-@property (copy) NSString *info;
-@property (copy) NSString *installedVersion;
-@property (assign) int status;
-@property (copy) NSImage *statusIcon;
-@property (copy) NSString *statusString;
-@property (copy) NSString *type;
+@property (nonatomic,copy) NSString *name;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic,copy) NSString *info;
+@property (nonatomic,copy) NSString *installedVersion;
+@property (nonatomic, assign) int status;
+@property (nonatomic,copy) NSImage *statusIcon;
+@property (nonatomic,copy) NSString *statusString;
+@property (nonatomic,copy) NSString *type;
 @property (readonly) NSMutableArray *configVariables;
 - (void) insertObject:(LCScriptConfigVariable *)var inConfigVariablesAtIndex:(unsigned int)index;
 - (void) removeObjectFromConfigVariablesAtIndex:(unsigned int)index;

@@ -86,14 +86,14 @@
 - (void) showStep0;
 - (void) showStep1;
 - (void) showStep2;
-@property (assign) int contentIndex;
-@property (assign) int assistantIndex;
-@property (assign) int stepIndex;
+@property (nonatomic,assign) int contentIndex;
+@property (nonatomic,assign) int assistantIndex;
+@property (nonatomic,assign) int stepIndex;
 
 #pragma mark "Accessors"
-@property (retain) LCAction *action;
-@property (retain) LCCustomer *customer;
-@property (retain) NSWindow *windowForSheet;
-@property (assign) id delegate;
+@property (nonatomic,retain) LCAction *action;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,retain) NSWindow *windowForSheet;
+@property (nonatomic,assign) id delegate;
 
 @end

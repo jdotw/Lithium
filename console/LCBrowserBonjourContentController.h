@@ -34,13 +34,13 @@
 - (id) initInBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection"
-@property (retain) LCCustomer *selectedCustomer;
-@property (retain) LCSite *selectedSite;
-@property (retain) LCBonjourService *selectedService;
-@property (retain) NSArray *selectedServices;
+@property (nonatomic,retain) LCCustomer *selectedCustomer;
+@property (nonatomic,retain) LCSite *selectedSite;
+@property (nonatomic,retain) LCBonjourService *selectedService;
+@property (nonatomic,retain) NSArray *selectedServices;
 
 #pragma mark "Properties"
-@property (assign) LCBrowser2Controller *browser;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
 
 #pragma mark "UI Actions"
 - (IBAction) monitorDevicesClicked:(id)sender;

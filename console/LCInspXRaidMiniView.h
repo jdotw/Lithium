@@ -42,10 +42,10 @@
 - (void) updateImages;
 
 #pragma mark "Array Management"
-@property (assign) int numUnits;
-@property (retain) NSArray *raid1Arrays;
-@property (retain) NSArray *raid2Arrays;
-@property (retain) NSArray *metadataArrays;
-@property (assign) LCInspectorController *controller;
+@property (nonatomic, assign) int numUnits;
+@property (nonatomic, retain) NSArray *raid1Arrays;
+@property (nonatomic, retain) NSArray *raid2Arrays;
+@property (nonatomic,retain) NSArray *metadataArrays;
+@property (nonatomic, assign) LCInspectorController *controller;
 
 @end

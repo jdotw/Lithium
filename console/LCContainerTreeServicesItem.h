@@ -16,6 +16,6 @@
 	LCContainer *servicesContainer;
 }
 
-@property (retain) LCContainer *servicesContainer;
+@property (nonatomic,retain) LCContainer *servicesContainer;
 
 @end

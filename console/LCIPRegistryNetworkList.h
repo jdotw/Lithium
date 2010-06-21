@@ -46,16 +46,16 @@
 - (void) lowPriorityRefresh;
 
 #pragma mark "Properties"
-@property (retain) LCCustomer *customer;
-@property (copy) NSString *displayString;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,copy) NSString *displayString;
 - (void) updateDisplayString;
 @property (readonly) NSMutableArray *children;
 - (void) insertObject:(LCIPRegistryNetwork *)network inChildrenAtIndex:(unsigned int)index;
 - (void) removeObjectFromChildrenAtIndex:(unsigned int)index;
 @property (readonly) NSMutableDictionary *childDictionary;
-@property (assign) BOOL refreshInProgress;
-@property (assign) BOOL scanInProgress;
-@property (assign) id delegate;
+@property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL scanInProgress;
+@property (nonatomic, assign) id delegate;
 - (NSString *) uniqueIdentifier;
 
 @end

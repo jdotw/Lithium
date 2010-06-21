@@ -35,10 +35,10 @@
 
 - (void) updateCards;
 
-@property (retain) LCEntity *target;
-@property (copy) NSArray *metrics;
-@property (assign) LCMetric *focusMetric;
-@property (assign) double scrollValue;
+@property (nonatomic,retain) LCEntity *target;
+@property (nonatomic,copy) NSArray *metrics;
+@property (nonatomic, assign) LCMetric *focusMetric;
+@property (nonatomic, assign) double scrollValue;
 - (void) scrollToMetric:(LCMetric *)metric;
 - (void) scrollToObject:(LCObject *)object;
 @property (readonly) NSMutableArray *cards;
@@ -46,6 +46,6 @@
 - (void) removeObjectFromCardsAtIndex:(unsigned int)index;
 @property (readonly) NSMutableDictionary *cardDictionary;
 @property (readonly) CALayer *rootLayer;
-@property (assign) LCBrowserHorizontalScroller *scroller;
+@property (nonatomic, assign) LCBrowserHorizontalScroller *scroller;
 
 @end

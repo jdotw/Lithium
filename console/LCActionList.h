@@ -23,6 +23,6 @@
 - (LCActionList *) initWithCustomer:(LCCustomer *)initCustomer;
 
 #pragma mark "Accessor Methods"
-@property (retain) id customer;
+@property (nonatomic,retain) id customer;
 
 @end

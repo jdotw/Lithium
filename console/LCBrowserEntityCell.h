@@ -15,5 +15,5 @@
 	LCEntity  *entity;
 }
 
-@property (assign) LCEntity  *entity;
+@property (nonatomic, assign) LCEntity  *entity;
 @end

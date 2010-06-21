@@ -68,13 +68,13 @@
 - (NSArray *) caseArraySortDescriptors;
 - (void) setCaseArraySortDescriptors:(NSArray *)array;
 
-@property (retain,getter=entity,setter=setEntity:) LCEntity *entity;
-@property (retain) NSObjectController *controllerAlias;
-@property (retain) LCBackgroundView *backView;
-@property (retain,getter=caseList) LCCaseList *caseList;
-@property (retain,getter=incidentList) LCIncidentList *incidentList;
-@property (retain) NSToolbar *toolbar;
-@property (retain) NSMutableDictionary *toolbarItems;
-@property (retain) NSMutableArray *toolbarSelectableItems;
-@property (retain) NSMutableArray *toolbarDefaultItems;
+@property (nonatomic,retain,getter=entity,setter=setEntity:) LCEntity *entity;
+@property (nonatomic,retain) NSObjectController *controllerAlias;
+@property (nonatomic,retain) LCBackgroundView *backView;
+@property (nonatomic,retain,getter=caseList) LCCaseList *caseList;
+@property (nonatomic,retain,getter=incidentList) LCIncidentList *incidentList;
+@property (nonatomic,retain) NSToolbar *toolbar;
+@property (nonatomic,retain) NSMutableDictionary *toolbarItems;
+@property (nonatomic,retain) NSMutableArray *toolbarSelectableItems;
+@property (nonatomic,retain) NSMutableArray *toolbarDefaultItems;
 @end

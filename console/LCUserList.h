@@ -41,7 +41,7 @@
 @property (readonly) NSMutableDictionary *userDictionary;
 
 #pragma mark "General Properties"
-@property (assign) BOOL refreshInProgress;
-@property (retain) id customer;
+@property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic,retain) id customer;
 
 @end

@@ -15,6 +15,6 @@
 	LCGraphFlowController *controller;
 }
 
-@property (assign) LCGraphFlowController *controller;
+@property (nonatomic, assign) LCGraphFlowController *controller;
 
 @end

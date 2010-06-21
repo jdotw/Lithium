@@ -68,23 +68,23 @@
 #define ACTION_DAY_SUN 64
 
 #pragma mark "XML Methods"
-@property (assign) id updateDelegate;
+@property (nonatomic, assign) id updateDelegate;
 
 #pragma mark "Execute Script"
 - (void) execute;
-@property (assign) id executeDelegate;
-@property (copy) NSString *executeStatusString;
-@property (copy) NSString *executeScriptOutput;
-@property (copy) NSImage *executeStatusIcon;
+@property (nonatomic, assign) id executeDelegate;
+@property (nonatomic,copy) NSString *executeStatusString;
+@property (nonatomic,copy) NSString *executeScriptOutput;
+@property (nonatomic,copy) NSImage *executeStatusIcon;
 
 #pragma mark "Day Accessors"
-@property (assign) BOOL monday;
-@property (assign) BOOL tuesday;
-@property (assign) BOOL wednesday;
-@property (assign) BOOL thursday;
-@property (assign) BOOL friday;
-@property (assign) BOOL saturday;
-@property (assign) BOOL sunday;
+@property (nonatomic, assign) BOOL monday;
+@property (nonatomic, assign) BOOL tuesday;
+@property (nonatomic, assign) BOOL wednesday;
+@property (nonatomic, assign) BOOL thursday;
+@property (nonatomic, assign) BOOL friday;
+@property (nonatomic, assign) BOOL saturday;
+@property (nonatomic, assign) BOOL sunday;
 - (BOOL) monday;
 - (void) setMonday:(BOOL)value;
 - (BOOL) tuesday;
@@ -101,33 +101,33 @@
 - (void) setSunday:(BOOL)value;
 
 #pragma mark "Action Property Methods"
-@property (assign) int activationMode;
-@property (assign) int delay;
-@property (assign) BOOL willReRun;
-@property (assign) int reRunDelay;
-@property (assign) BOOL timeFiltered;
-@property (assign) int dayMask;
-@property (assign) int startHour;
-@property (assign) int endHour;
-@property (assign) int reRunCount;
-@property (assign) int runState;
-@property (assign) unsigned long runStartTimestamp;
-@property (assign) unsigned long runEndTimestamp;
+@property (nonatomic, assign) int activationMode;
+@property (nonatomic, assign) int delay;
+@property (nonatomic, assign) BOOL willReRun;
+@property (nonatomic, assign) int reRunDelay;
+@property (nonatomic, assign) BOOL timeFiltered;
+@property (nonatomic, assign) int dayMask;
+@property (nonatomic, assign) int startHour;
+@property (nonatomic, assign) int endHour;
+@property (nonatomic, assign) int reRunCount;
+@property (nonatomic, assign) int runState;
+@property (nonatomic, assign) unsigned long runStartTimestamp;
+@property (nonatomic, assign) unsigned long runEndTimestamp;
 
 #pragma mark "Dyanmic Property Methods"
-@property (copy) NSImage *actionIcon;
-@property (copy) NSString *executionString;
+@property (nonatomic,copy) NSImage *actionIcon;
+@property (nonatomic,copy) NSString *executionString;
 - (void) updateExecutionString;
-@property (copy) NSString *rerunString;
+@property (nonatomic,copy) NSString *rerunString;
 - (void) updateRerunString;
-@property (copy) NSString *behaviourString;
+@property (nonatomic,copy) NSString *behaviourString;
 - (void) updateBehaviourString;
-@property (copy) NSString *timeToExecutionString;
+@property (nonatomic,copy) NSString *timeToExecutionString;
 - (void) updateTimeToExecutionString;
 
 #pragma mark "Other Property Methods"
-@property (assign) id incident;
-@property (retain) LCActionEntityList *entityList;
-@property (retain) LCActionHistoryList *historyList;
+@property (nonatomic, assign) id incident;
+@property (nonatomic,retain) LCActionEntityList *entityList;
+@property (nonatomic,retain) LCActionHistoryList *historyList;
 
 @end

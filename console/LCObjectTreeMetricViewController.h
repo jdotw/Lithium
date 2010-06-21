@@ -25,7 +25,7 @@
 
 - (id) initWithMetric:(LCMetric *)initMetric;
 
-@property (retain) LCMetric *metric;
+@property (nonatomic,retain) LCMetric *metric;
 - (void)menuWillOpen:(NSMenu *)menu;
 - (void)menuDidClose:(NSMenu *)menu;
 - (IBAction) refreshDeviceClicked:(id)sender;

@@ -54,8 +54,8 @@
 - (IBAction) tableViewDoubleClicked:(id)sender;
 
 #pragma mark Accessors
-@property (retain) LCEntity *device;
-@property (assign) NSWindow *parentWindow;
-@property (assign) BOOL xmlOperationInProgress;
+@property (nonatomic,retain) LCEntity *device;
+@property (nonatomic, assign) NSWindow *parentWindow;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
 
 @end

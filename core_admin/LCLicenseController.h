@@ -64,23 +64,23 @@
 - (IBAction) cancelAddClicked:(id)sender;
 - (IBAction) deleteSelectedKeyClicked:(id)sender;
 
-@property (readonly) NSMutableArray *licenses;
+@property (nonatomic,readonly) NSMutableArray *licenses;
 - (void) insertObject:(id)obj inLicensesAtIndex:(unsigned int)index;
 - (void) removeObjectFromLicensesAtIndex:(unsigned int)index;
-@property (readonly) NSMutableDictionary *licenseDict;
-@property (copy) NSString *firstname;
-@property (copy) NSString *lastname;
-@property (copy) NSString *company;
-@property (copy) NSString *email;
-@property (assign) BOOL keyAlreadyActivated;
-@property (copy) NSString *licenseKeyString;
-@property (copy) NSString *signedKeyString;	
-@property (assign) BOOL xmlOperationInProgress;	
-@property (copy) NSString *progressString;
-@property (copy) NSString *errorMessage;
-@property (assign) int result;
-@property (copy) NSString *licenseType;
-@property (assign) BOOL keyIsBoundToCustomer;
-@property (retain) LCCustomer *customer;
+@property (nonatomic,readonly) NSMutableDictionary *licenseDict;
+@property (nonatomic,copy) NSString *firstname;
+@property (nonatomic,copy) NSString *lastname;
+@property (nonatomic,copy) NSString *company;
+@property (nonatomic,copy) NSString *email;
+@property (nonatomic,assign) BOOL keyAlreadyActivated;
+@property (nonatomic,copy) NSString *licenseKeyString;
+@property (nonatomic,copy) NSString *signedKeyString;	
+@property (nonatomic,assign) BOOL xmlOperationInProgress;	
+@property (nonatomic,copy) NSString *progressString;
+@property (nonatomic,copy) NSString *errorMessage;
+@property (nonatomic,assign) int result;
+@property (nonatomic,copy) NSString *licenseType;
+@property (nonatomic,assign) BOOL keyIsBoundToCustomer;
+@property (nonatomic,retain) LCCustomer *customer;
 
 @end

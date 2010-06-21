@@ -44,8 +44,8 @@
 - (id) initWithBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection (KVO Observable)"
-@property (assign) LCEntity *selectedEntity;
-@property (copy) NSArray *selectedEntities;
+@property (nonatomic, assign) LCEntity *selectedEntity;
+@property (nonatomic,copy) NSArray *selectedEntities;
 - (void) selectEntity:(LCEntity *)entity;
 
 #pragma mark "UI Actions"
@@ -63,10 +63,10 @@
 @property (readonly) NSMutableArray *objects;
 - (void) insertObject:(id)obj inObjectsAtIndex:(unsigned int)index;
 - (void) removeObjectFromObjectsAtIndex:(unsigned int)index;
-@property (retain) LCObjectTree *objectTree;
+@property (nonatomic,retain) LCObjectTree *objectTree;
 @property (readonly) NSWindow *window;
-@property (assign) LCBrowser2Controller *browser;
-@property (assign) BOOL doNotScrollFlow;
-@property (copy) NSString *stadiumTitle;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
+@property (nonatomic, assign) BOOL doNotScrollFlow;
+@property (nonatomic,copy) NSString *stadiumTitle;
 
 @end

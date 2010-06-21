@@ -17,7 +17,7 @@
 	NSMutableDictionary *entityViewControllers;	
 }
 
-@property (retain) NSTreeController *treeController;
-@property (retain) NSTableColumn *viewColumn;
-@property (retain) NSMutableDictionary *entityViewControllers;
+@property (nonatomic,retain) NSTreeController *treeController;
+@property (nonatomic,retain) NSTableColumn *viewColumn;
+@property (nonatomic,retain) NSMutableDictionary *entityViewControllers;
 @end

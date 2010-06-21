@@ -38,7 +38,7 @@
 - (BOOL) usingGeneric;
 - (void) setUsingGeneric:(BOOL)flag;
 
-@property (getter=usingGeneric,setter=setUsingGeneric:) BOOL usingGeneric;
-@property (retain,getter=view) NSView *view;
-@property (retain) NSObjectController *objectController;
+@property (nonatomic,getter=usingGeneric,setter=setUsingGeneric:) BOOL usingGeneric;
+@property (nonatomic,retain,getter=view) NSView *view;
+@property (nonatomic,retain) NSObjectController *objectController;
 @end

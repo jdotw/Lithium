@@ -16,6 +16,6 @@
 	NSMutableDictionary *viewControllerDictionary;
 }
 
-@property (retain) NSTableColumn *viewColumn;
-@property (retain) NSMutableDictionary *viewControllerDictionary;
+@property (nonatomic,retain) NSTableColumn *viewColumn;
+@property (nonatomic,retain) NSMutableDictionary *viewControllerDictionary;
 @end

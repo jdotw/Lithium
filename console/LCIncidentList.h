@@ -54,25 +54,25 @@
 - (NSMutableArray *) incidentsForEntity:(LCEntity *)entity;
 
 #pragma mark "Criteria Accessor Methods"
-@property (copy) NSNumber *incidentID;
-@property (copy) NSNumber *stateInteger;
-@property (copy) NSNumber *startUpperSeconds;
-@property (copy) NSNumber *startLowerSeconds;
-@property (copy) NSNumber *endUpperSeconds;
-@property (copy) NSNumber *endLowerSeconds;
-@property (retain) LCEntity *entity;
-@property (copy) NSNumber *adminStateInteger;
-@property (copy) NSNumber *opStateInteger;
-@property (copy) NSNumber *caseID;
-@property (copy) NSNumber *maxCount;
+@property (nonatomic,copy) NSNumber *incidentID;
+@property (nonatomic,copy) NSNumber *stateInteger;
+@property (nonatomic,copy) NSNumber *startUpperSeconds;
+@property (nonatomic,copy) NSNumber *startLowerSeconds;
+@property (nonatomic,copy) NSNumber *endUpperSeconds;
+@property (nonatomic,copy) NSNumber *endLowerSeconds;
+@property (nonatomic,retain) LCEntity *entity;
+@property (nonatomic,copy) NSNumber *adminStateInteger;
+@property (nonatomic,copy) NSNumber *opStateInteger;
+@property (nonatomic,copy) NSNumber *caseID;
+@property (nonatomic,copy) NSNumber *maxCount;
 
 #pragma mark "Relevance Scoring"
 - (void) scoreRelevanceToEntity:(LCEntity *)localEntity;
 
 #pragma mark "Property Methods"
-@property (retain) id customer;
-@property (assign) id delegate;
-@property (assign) BOOL isLiveList;
+@property (nonatomic,retain) id customer;
+@property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) BOOL isLiveList;
 @property (readonly) NSMutableDictionary *criteria;
 @property (readonly) NSMutableArray *incidents;
 - (void) insertObject:(LCIncident *)inc inIncidentsAtIndex:(unsigned int)index;

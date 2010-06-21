@@ -18,8 +18,8 @@
 	LCBrowserTreeCases *cases;
 }
 
-@property (retain) LCBrowserTreeIncidents *incidents;
-@property (retain) LCBrowserTreeCases *cases;
+@property (nonatomic,retain) LCBrowserTreeIncidents *incidents;
+@property (nonatomic,retain) LCBrowserTreeCases *cases;
 
 
 @end

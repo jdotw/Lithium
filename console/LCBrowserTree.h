@@ -58,19 +58,19 @@
 - (void) resetRootItems;
 - (void) insertObject:(LCBrowserTreeItem *)item inItemsAtIndex:(unsigned int)index;
 - (void) removeObjectFromItemsAtIndex:(unsigned int)index;
-@property (copy) NSMutableArray *items;
-@property (retain) NSTreeController *treeController;
-@property (assign) LCBrowserTreeOutlineView *outlineView;
+@property (nonatomic, copy) NSMutableArray *items;
+@property (nonatomic,retain) NSTreeController *treeController;
+@property (nonatomic, assign) LCBrowserTreeOutlineView *outlineView;
 @property BOOL xsanShown;
 @property BOOL servicesShown;
-@property (retain) LCBrowserTreeDevicesRoot *devicesRoot;
-@property (retain) LCBrowserTreeGroupsRoot *groupsRoot;
-@property (retain) LCBrowserTreeApplicationsRoot *appsRoot;
-@property (retain) LCBrowserTreeDocumentsRoot *documentsRoot;
-@property (retain) LCBrowserTreeFaultsRoot *faultsRoot;
-@property (retain) LCBrowserTreeDiscoveryRoot *discoveryRoot;
-@property (retain) LCBrowserTreeXsanRoot *xsanRoot;
-@property (retain) LCBrowserTreeCoresRoot *coresRoot;
-@property (copy) NSArray *sortDescriptors;
+@property (nonatomic,retain) LCBrowserTreeDevicesRoot *devicesRoot;
+@property (nonatomic,retain) LCBrowserTreeGroupsRoot *groupsRoot;
+@property (nonatomic,retain) LCBrowserTreeApplicationsRoot *appsRoot;
+@property (nonatomic,retain) LCBrowserTreeDocumentsRoot *documentsRoot;
+@property (nonatomic,retain) LCBrowserTreeFaultsRoot *faultsRoot;
+@property (nonatomic,retain) LCBrowserTreeDiscoveryRoot *discoveryRoot;
+@property (nonatomic,retain) LCBrowserTreeXsanRoot *xsanRoot;
+@property (nonatomic,retain) LCBrowserTreeCoresRoot *coresRoot;
+@property (nonatomic,copy) NSArray *sortDescriptors;
 
 @end

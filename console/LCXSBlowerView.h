@@ -30,6 +30,6 @@
 #pragma mark "Drawing"
 - (void) drawRect:(NSRect)rect;
 
-@property (retain) LCEntity *blowerObject;
-@property (retain) NSImage *blowerImage;
+@property (nonatomic,retain) LCEntity *blowerObject;
+@property (nonatomic,retain) NSImage *blowerImage;
 @end

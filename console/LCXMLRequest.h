@@ -108,18 +108,18 @@
 - (NSString *) lastPassword;
 - (void) setLastPassword:(NSString *)string;
 
-@property (assign,getter=customer,setter=setCustomer:) id cust;
-@property (retain,getter=xmlname) NSString *xmlname;
-@property (getter=refsec,setter=setRefsec:) NSTimeInterval refsec;
-@property (retain,getter=xmlout) NSXMLDocument *xmlout;
-@property (assign,setter=setXMLDelegate:) id xmldelegate;
-@property (assign) id threadedXmlDelegate;
+@property (nonatomic,assign,getter=customer,setter=setCustomer:) id cust;
+@property (nonatomic,retain,getter=xmlname) NSString *xmlname;
+@property (nonatomic,getter=refsec,setter=setRefsec:) NSTimeInterval refsec;
+@property (nonatomic,retain,getter=xmlout) NSXMLDocument *xmlout;
+@property (nonatomic,assign,setter=setXMLDelegate:) id xmldelegate;
+@property (nonatomic, assign) id threadedXmlDelegate;
 @property NSTimeInterval timeout;
-@property (getter=success,setter=setSuccess:) BOOL success;
-@property (getter=debug,setter=setDebug:) BOOL debug;
-@property (getter=inProgress,setter=setInProgress:) BOOL inProgress;
-@property (retain) NSURLConnection *urlConn;
-@property (retain) LCActivity *activity;
-@property (retain,getter=lastUsername,setter=setLastUsername:) NSString *lastUsername;
-@property (retain,getter=lastPassword,setter=setLastPassword:) NSString *lastPassword;
+@property (nonatomic,getter=success,setter=setSuccess:) BOOL success;
+@property (nonatomic,getter=debug,setter=setDebug:) BOOL debug;
+@property (nonatomic,getter=inProgress,setter=setInProgress:) BOOL inProgress;
+@property (nonatomic,retain) NSURLConnection *urlConn;
+@property (nonatomic,retain) LCActivity *activity;
+@property (nonatomic,retain,getter=lastUsername,setter=setLastUsername:) NSString *lastUsername;
+@property (nonatomic,retain,getter=lastPassword,setter=setLastPassword:) NSString *lastPassword;
 @end

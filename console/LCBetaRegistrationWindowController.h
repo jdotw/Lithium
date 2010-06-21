@@ -53,16 +53,16 @@
 - (void) sendRegistration;
 
 #pragma mark "Accessors"
-@property (copy) NSString *firstname;
-@property (copy) NSString *lastname;
-@property (copy) NSString *company;
-@property (copy) NSString *email;
-@property (copy) NSString *confirmEmail;
-@property (assign) BOOL hasiPhone;
-@property (copy) NSString *iphoneid;
-@property (assign) BOOL hasLicense;
-@property (copy) NSString *status;
-@property (copy) NSString *topTabTag;
-@property (assign) BOOL shouldShow;
+@property (nonatomic,copy) NSString *firstname;
+@property (nonatomic,copy) NSString *lastname;
+@property (nonatomic,copy) NSString *company;
+@property (nonatomic,copy) NSString *email;
+@property (nonatomic,copy) NSString *confirmEmail;
+@property (nonatomic, assign) BOOL hasiPhone;
+@property (nonatomic,copy) NSString *iphoneid;
+@property (nonatomic, assign) BOOL hasLicense;
+@property (nonatomic,copy) NSString *status;
+@property (nonatomic,copy) NSString *topTabTag;
+@property (nonatomic, assign) BOOL shouldShow;
 
 @end

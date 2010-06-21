@@ -60,7 +60,7 @@
 - (LCBrowser2Controller *) browserForSheet;
 	 
 #pragma mark "Operation Queue"
-@property (retain) NSOperationQueue *operationQueue;
+@property (nonatomic,retain) NSOperationQueue *operationQueue;
 
 #pragma mark "User Interface Methods"
 - (IBAction) newIncidentManager:(id)sender;
@@ -85,12 +85,12 @@
 
 #pragma mark "Properties"
 @property (readonly) NSMutableArray *persistentWindows;
-@property (retain) NSTimer *startupTimer;
-@property (assign) BOOL browserOpened;
-@property (assign) BOOL showingAssistant;
-@property (retain) SUUpdater *updater;
-@property (assign) NSMenu *executeActionMenu;
-@property (assign) NSMenu *processMonitorMenu;
+@property (nonatomic,retain) NSTimer *startupTimer;
+@property (nonatomic, assign) BOOL browserOpened;
+@property (nonatomic, assign) BOOL showingAssistant;
+@property (nonatomic,retain) SUUpdater *updater;
+@property (nonatomic, assign) NSMenu *executeActionMenu;
+@property (nonatomic, assign) NSMenu *processMonitorMenu;
 
 
 

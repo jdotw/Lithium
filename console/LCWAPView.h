@@ -50,7 +50,7 @@
                        context:(void *)context;
 
 
-@property (retain) NSTimer *animationTimer;
-@property (retain) NSMutableDictionary *clientDictionary;
+@property (nonatomic,retain) NSTimer *animationTimer;
+@property (nonatomic,retain) NSMutableDictionary *clientDictionary;
 @property float sweepAngle;
 @end

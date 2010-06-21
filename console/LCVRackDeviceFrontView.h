@@ -23,6 +23,6 @@
 - (void)drawRect:(NSRect)rect;
 
 #pragma mark "Properties"
-@property (assign) BOOL drawThumbnail;
+@property (nonatomic, assign) BOOL drawThumbnail;
 
 @end

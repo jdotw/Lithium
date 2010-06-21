@@ -17,6 +17,6 @@
 }
 
 - (LCBrowserTreeCoreCustomer *) initWithCustomer:(LCCustomer *)initCustomer;
-@property (retain) LCCustomer *customer;
+@property (nonatomic,retain) LCCustomer *customer;
 
 @end

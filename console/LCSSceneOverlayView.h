@@ -63,13 +63,13 @@
 - (LCEntity *) observedEntity;
 - (void) setObservedEntity:(LCEntity *)newEntity;
 
-@property (retain,getter=overlay) LCSSceneOverlay *overlay;
+@property (nonatomic,retain,getter=overlay) LCSSceneOverlay *overlay;
 @property BOOL mouseEntered;
-@property (getter=forceVisible,setter=setForceVisible:) BOOL forceVisible;
-@property (getter=autoExpanded) BOOL autoExpanded;
+@property (nonatomic,getter=forceVisible,setter=setForceVisible:) BOOL forceVisible;
+@property (nonatomic,getter=autoExpanded) BOOL autoExpanded;
 @property BOOL inResize;
 @property BOOL inMove;
-@property (retain) LCSSceneScrollerView *scrollView;
-@property (assign) BOOL selected;
+@property (nonatomic,retain) LCSSceneScrollerView *scrollView;
+@property (nonatomic, assign) BOOL selected;
 
 @end

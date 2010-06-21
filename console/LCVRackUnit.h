@@ -18,8 +18,8 @@
 }
 
 #pragma mark Accessors
-@property (assign) int ruIndex;
-@property (retain) id hostedDevice;
-@property (assign) NSRect rect;
+@property (nonatomic, assign) int ruIndex;
+@property (nonatomic,retain) id hostedDevice;
+@property (nonatomic, assign) NSRect rect;
 
 @end

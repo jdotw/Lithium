@@ -21,10 +21,10 @@
 	NSMutableDictionary *rowHeightDict;
 }
 
-@property (retain) NSTableColumn *viewColumn;
-@property (retain) NSMutableDictionary *viewControllerDictionary;
-@property (retain) LCEntityArrayController *containersArrayController;
-@property (retain) NSMenuItem *serviceMenuItem;
-@property (retain) id browserController;
-@property (retain) NSMutableDictionary *rowHeightDict;
+@property (nonatomic,retain) NSTableColumn *viewColumn;
+@property (nonatomic,retain) NSMutableDictionary *viewControllerDictionary;
+@property (nonatomic,retain) LCEntityArrayController *containersArrayController;
+@property (nonatomic,retain) NSMenuItem *serviceMenuItem;
+@property (nonatomic,retain) id browserController;
+@property (nonatomic,retain) NSMutableDictionary *rowHeightDict;
 @end

@@ -22,6 +22,6 @@
 - (void) dealloc;
 - (void) windowWillClose:(NSNotification *)notification;
 
-@property (retain) NSMutableArray *properties;
-@property (retain) NSObjectController *controllerAlias;
+@property (nonatomic,retain) NSMutableArray *properties;
+@property (nonatomic,retain) NSObjectController *controllerAlias;
 @end

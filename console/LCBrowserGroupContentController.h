@@ -42,19 +42,19 @@
 - (id) initWithGroup:(LCGroup *)initGroup inBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection (KVO Observable)"
-@property (assign) LCEntity *selectedEntity;
-@property (copy) NSArray *selectedEntities;
-@property (assign) id inspectorTarget;
+@property (nonatomic, assign) LCEntity *selectedEntity;
+@property (nonatomic,copy) NSArray *selectedEntities;
+@property (nonatomic, assign) id inspectorTarget;
 
 #pragma mark "Outline Item Methods"
 - (void) rebuildOutlineItemArray;
 
 #pragma mark "Properties"
-@property (retain) LCGroup *group;
+@property (nonatomic,retain) LCGroup *group;
 @property (readonly) NSMutableArray *outlineItems;
 - (void) insertObject:(id)item inOutlineItemsAtIndex:(unsigned int)index;
 - (void) removeObjectFromOutlineItemsAtIndex:(unsigned int)index;
 @property (readonly) NSWindow *window;
-@property (assign) LCBrowser2Controller *browser;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
 
 @end

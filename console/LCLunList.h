@@ -62,16 +62,16 @@
 - (BOOL) refreshInProgress;
 - (void) setRefreshInProgress:(BOOL)flag;
 
-@property (retain,getter=customer,setter=setCustomer:) id customer;
-@property (retain,getter=luns) NSMutableArray *luns;
-@property (retain,getter=lunDictionary) NSMutableDictionary *lunDictionary;
-@property (retain,getter=wwnDictionary) NSMutableDictionary *wwnDictionary;
-@property (retain) LCXMLRequest *refreshXMLRequest;
-@property (retain) NSMutableDictionary *curXMLDictionary;
-@property (retain) NSMutableDictionary *xmlLunDictionary;
-@property (retain) NSString *curXMLElement;
-@property (retain) NSMutableString *curXMLString;
-@property (getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
-@property (retain) NSString *curWwn;
+@property (nonatomic,retain,getter=customer,setter=setCustomer:) id customer;
+@property (nonatomic,retain,getter=luns) NSMutableArray *luns;
+@property (nonatomic,retain,getter=lunDictionary) NSMutableDictionary *lunDictionary;
+@property (nonatomic,retain,getter=wwnDictionary) NSMutableDictionary *wwnDictionary;
+@property (nonatomic,retain) LCXMLRequest *refreshXMLRequest;
+@property (nonatomic,retain) NSMutableDictionary *curXMLDictionary;
+@property (nonatomic,retain) NSMutableDictionary *xmlLunDictionary;
+@property (nonatomic,retain) NSString *curXMLElement;
+@property (nonatomic,retain) NSMutableString *curXMLString;
+@property (nonatomic,getter=refreshInProgress,setter=setRefreshInProgress:) BOOL refreshInProgress;
+@property (nonatomic,retain) NSString *curWwn;
 @property int curType;
 @end

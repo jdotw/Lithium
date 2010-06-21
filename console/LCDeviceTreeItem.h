@@ -18,11 +18,11 @@
 
 #pragma mark Properties
 @property (readonly) NSString *displayString;
-@property (assign) float rowHeight;
-@property (copy) NSMutableArray *children;
+@property (nonatomic, assign) float rowHeight;
+@property (nonatomic,copy) NSMutableArray *children;
 - (void) insertObject:(id)obj inChildrenAtIndex:(unsigned int)index;
 - (void) removeObjectFromChildrenAtIndex:(unsigned int)index;
-@property (assign) BOOL isDeviceTreeLeaf;
+@property (nonatomic, assign) BOOL isDeviceTreeLeaf;
 @property (readonly) BOOL selectable;
 @property (readonly) int opState;
 

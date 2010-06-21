@@ -16,6 +16,6 @@
 	LCCustomer *customer;
 }
 
-@property (retain) LCCustomer *customer;
+@property (nonatomic,retain) LCCustomer *customer;
 
 @end

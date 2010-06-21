@@ -47,9 +47,9 @@
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView forOtherObject:(id)object;
 
 #pragma mark "Observed Object"
-@property (assign) id representedObject;
-@property (assign) id parentRepresentedObject;
-@property (assign) BOOL outlineViewEnabled;
-@property (assign) BOOL selected;
+@property (nonatomic, assign) id representedObject;
+@property (nonatomic, assign) id parentRepresentedObject;
+@property (nonatomic, assign) BOOL outlineViewEnabled;
+@property (nonatomic, assign) BOOL selected;
 
 @end

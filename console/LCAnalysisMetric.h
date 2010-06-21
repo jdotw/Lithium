@@ -48,12 +48,12 @@
 -(void) dealloc;
 
 #pragma mark "Accessors"
-@property (retain) LCMetric *metric;
+@property (nonatomic,retain) LCMetric *metric;
 @property (readonly) LCEntity *entity;
-@property (assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL refreshInProgress;
 @property (readonly) NSMutableArray *triggers;
-@property (copy) NSDate *referenceDate;
-@property (assign) int datePeriod;
+@property (nonatomic,copy) NSDate *referenceDate;
+@property (nonatomic, assign) int datePeriod;
 
 #pragma mark "Populate and Process Matrices"
 -(void) populateAMatrixWithValues:(NSArray *)values;

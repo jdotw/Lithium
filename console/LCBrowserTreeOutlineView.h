@@ -62,19 +62,19 @@
 - (void) selectVRackDocument:(LCVRackDocument *)document;
 - (void) selectIncidentsItem;
 
-@property (retain) LCBrowserEntityCell *entityCell;
-@property (retain) LCTextFieldCell *textCell;
-@property (retain) NSMenu *devicesMenu;
-@property (retain) NSMenu *servicesMenu;
-@property (retain) NSMenuItem *connectToMenu;
-@property (retain) NSMenuItem *addSiteMenu;
-@property (retain) NSMenuItem *editSiteMenu;
-@property (retain) NSMenuItem *removeSiteMenu;
-@property (retain) NSMenuItem *addDeviceMenu;
-@property (retain) NSMenuItem *editDeviceMenu;
-@property (retain) NSMenuItem *removeDeviceMenu;
-@property (retain) NSMenuItem *addServiceMenu;
-@property (retain) NSMenuItem *manageServiceScriptsMenu;
-@property (assign) id browser;
+@property (nonatomic,retain) LCBrowserEntityCell *entityCell;
+@property (nonatomic,retain) LCTextFieldCell *textCell;
+@property (nonatomic,retain) NSMenu *devicesMenu;
+@property (nonatomic,retain) NSMenu *servicesMenu;
+@property (nonatomic,retain) NSMenuItem *connectToMenu;
+@property (nonatomic,retain) NSMenuItem *addSiteMenu;
+@property (nonatomic,retain) NSMenuItem *editSiteMenu;
+@property (nonatomic,retain) NSMenuItem *removeSiteMenu;
+@property (nonatomic,retain) NSMenuItem *addDeviceMenu;
+@property (nonatomic,retain) NSMenuItem *editDeviceMenu;
+@property (nonatomic,retain) NSMenuItem *removeDeviceMenu;
+@property (nonatomic,retain) NSMenuItem *addServiceMenu;
+@property (nonatomic,retain) NSMenuItem *manageServiceScriptsMenu;
+@property (nonatomic, assign) id browser;
 
 @end

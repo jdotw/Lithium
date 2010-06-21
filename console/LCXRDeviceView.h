@@ -54,12 +54,12 @@
 - (void) driveDidRaise:(LCXRDriveView *)driveView;
 - (void) driveDidLower:(LCXRDriveView *)driveView;
 
-@property (retain) NSImage *xsrBackImage;
-@property (retain) NSImage *driveBackImage;
-@property (retain) NSImage *driveBlankImage;
-@property (retain) NSImage *appleLogo;
-@property (retain) NSImage *boltImage;
-@property (retain) NSImage *arrayWindowImage;
-@property (retain) NSMutableArray *driveViews;
+@property (nonatomic,retain) NSImage *xsrBackImage;
+@property (nonatomic,retain) NSImage *driveBackImage;
+@property (nonatomic,retain) NSImage *driveBlankImage;
+@property (nonatomic,retain) NSImage *appleLogo;
+@property (nonatomic,retain) NSImage *boltImage;
+@property (nonatomic,retain) NSImage *arrayWindowImage;
+@property (nonatomic,retain) NSMutableArray *driveViews;
 @property (getter=scale,setter=setScale:) float scale;
 @end

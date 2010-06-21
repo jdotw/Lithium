@@ -44,8 +44,8 @@
 - (NSRect) rectForInterface:(LCEntity *)entity;
 
 #pragma mark Properties
-@property (retain) LCVRackInterface *hoverInterface;
-@property (retain) LCPopupView *popupView;
-@property (retain) LCEntity *selectedInterfaceEntity;
+@property (nonatomic,retain) LCVRackInterface *hoverInterface;
+@property (nonatomic,retain) LCPopupView *popupView;
+@property (nonatomic,retain) LCEntity *selectedInterfaceEntity;
 
 @end

@@ -19,10 +19,10 @@
 	id delegate;
 }
 
-@property (assign) id delegate;
+@property (nonatomic, assign) id delegate;
 @property (readonly) NSMutableArray *items;
 - (void) insertObject:(id)obj inItemsAtIndex:(unsigned int)index;
 - (void) removeObjectFromItemsAtIndex:(unsigned int)index;
-@property (assign) BOOL editing;
+@property (nonatomic, assign) BOOL editing;
 
 @end

@@ -98,10 +98,10 @@
 - (void) removeObjectFromGlobalEntityArrayAtIndex:(unsigned int)index;
 
 #pragma mark "User Auth Levels"
-@property (assign) int userAuthLevel;
-@property (assign) BOOL userIsAdmin;
-@property (assign) BOOL userIsNormal;
-@property (assign) BOOL userIsReadOnly;
+@property (nonatomic, assign) int userAuthLevel;
+@property (nonatomic, assign) BOOL userIsAdmin;
+@property (nonatomic, assign) BOOL userIsNormal;
+@property (nonatomic, assign) BOOL userIsReadOnly;
 
 #pragma mark "Accessor Methods"
 - (LCCaseList *) openCasesList;
@@ -118,18 +118,18 @@
 - (id) setupController;
 - (void) setSetupController:(id)controller;
 
-@property (retain) NSString *cluster;
-@property (retain) NSString *node;
-@property (retain) NSString *url;
-@property (retain) NSString *coreVersion;
-@property (retain) NSString *inductionVersion;
+@property (nonatomic,retain) NSString *cluster;
+@property (nonatomic,retain) NSString *node;
+@property (nonatomic,retain) NSString *url;
+@property (nonatomic,retain) NSString *coreVersion;
+@property (nonatomic,retain) NSString *inductionVersion;
 @property int licenseType;
-@property (assign) BOOL limitedLicense;
+@property (nonatomic, assign) BOOL limitedLicense;
 @property BOOL disabled;
 @property (readonly) LCCaseList *openCasesList;
-@property (retain) NSTimer *openCasesRefreshTimer;
+@property (nonatomic,retain) NSTimer *openCasesRefreshTimer;
 @property (readonly) LCIncidentList *activeIncidentsList;
-@property (retain) NSTimer *activeIncidentsRefreshTimer;
+@property (nonatomic,retain) NSTimer *activeIncidentsRefreshTimer;
 @property (readonly) LCVendorList *vendorList;
 @property (readonly) LCUserList *userList;
 @property (readonly) LCServiceList *serviceList;
@@ -138,13 +138,13 @@
 @property (readonly) LCLunList *lunList;
 @property (readonly) LCDocumentList *documentList;
 @property (readonly) LCGroupTree *groupTree;
-@property (copy) NSString *username;
-@property (copy) NSString *password;
+@property (nonatomic,copy) NSString *username;
+@property (nonatomic,copy) NSString *password;
 @property (readonly) NSMutableArray *globalEntityArray;
-@property (assign) id setupController;
-@property (retain) NSTimer *thawTimer;
+@property (nonatomic, assign) id setupController;
+@property (nonatomic,retain) NSTimer *thawTimer;
 @property (readonly) NSMutableArray *persistentWindows;
-@property (retain) NSTimer *customerRefreshTimer;
+@property (nonatomic,retain) NSTimer *customerRefreshTimer;
 
 
 @end

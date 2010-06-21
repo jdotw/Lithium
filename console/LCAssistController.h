@@ -72,14 +72,14 @@
 - (void) showFinished;
 
 #pragma mark "Accessors"
-@property (retain) LCCustomer *customer;
+@property (nonatomic,retain) LCCustomer *customer;
 - (LCEntity *) selectedSite;
 @property (readonly) NSMutableDictionary *devTaskDict;
 @property (readonly) NSMutableArray *devTasks;
 @property (readonly) NSMutableArray *enabledTasks;
-@property (assign) id currentDeviceTask;
-@property (assign) int indexBeforeSiteAdd;
-@property (assign) BOOL doNotShowAgain;
-@property (assign) LCSite *addToSiteSelection;
+@property (nonatomic, assign) id currentDeviceTask;
+@property (nonatomic, assign) int indexBeforeSiteAdd;
+@property (nonatomic, assign) BOOL doNotShowAgain;
+@property (nonatomic, assign) LCSite *addToSiteSelection;
 
 @end

@@ -22,6 +22,6 @@
 }
 
 #pragma mark "Accessor Methods"
-@property (assign) BOOL allowDrop;
+@property (nonatomic, assign) BOOL allowDrop;
 
 @end

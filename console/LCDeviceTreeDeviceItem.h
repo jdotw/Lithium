@@ -17,6 +17,6 @@
 }
 
 - (id) initWithDevice:(LCDevice *)initDevice;
-@property (retain) LCDevice *device;
+@property (nonatomic,retain) LCDevice *device;
 
 @end

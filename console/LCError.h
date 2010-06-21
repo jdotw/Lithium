@@ -30,8 +30,8 @@
 - (NSDate *) date;
 
 
-@property (retain,getter=date) NSDate *date;
-@property (retain,getter=error) NSString *error;
-@property (retain,getter=customerName) NSString *customerName;
-@property (retain,getter=fullText) NSString *fullText;
+@property (nonatomic,retain,getter=date) NSDate *date;
+@property (nonatomic,retain,getter=error) NSString *error;
+@property (nonatomic,retain,getter=customerName) NSString *customerName;
+@property (nonatomic,retain,getter=fullText) NSString *fullText;
 @end

@@ -36,11 +36,11 @@
 - (void) lowPriorityRefresh;
 
 #pragma mark "Accessors"
-@property (retain) LCCustomer *customer;
+@property (nonatomic,retain) LCCustomer *customer;
 @property (readonly) NSMutableArray *keys;
 - (void) insertObject:(LCCoreLicenseKey *)key inKeysAtIndex:(unsigned int)index;
 - (void) removeObjectFromKeysAtIndex:(unsigned int)index;
 @property (readonly) NSMutableDictionary *keyDictionary;
-@property (assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL refreshInProgress;
 
 @end

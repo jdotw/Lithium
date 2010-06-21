@@ -29,5 +29,5 @@
 - (unsigned long) allocateActivityID;
 
 @property unsigned long nextActivityID;
-@property (retain,getter=activities) NSMutableArray *activities;
+@property (nonatomic,retain,getter=activities) NSMutableArray *activities;
 @end

@@ -45,8 +45,8 @@
 - (id) initWithCustomer:(LCCustomer *)initCustomer inBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection (KVO Observable)"
-@property (assign) LCUser *selectedUser;
-@property (copy) NSArray *selectedUsers;
+@property (nonatomic, assign) LCUser *selectedUser;
+@property (nonatomic,copy) NSArray *selectedUsers;
 
 #pragma mark "UI Actions"
 - (IBAction) addNewUserClicked:(id)sender;
@@ -58,11 +58,11 @@
 - (IBAction) refreshUserListClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (assign) LCBrowser2Controller *browser;
-@property (retain) LCCustomer *customer;
-@property (retain) LCUser *editUser;
-@property (assign) BOOL editUserIsNew;
-@property (copy) NSString *editSheetStatus;
-@property (assign) BOOL xmlOperationInProgress;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,retain) LCUser *editUser;
+@property (nonatomic, assign) BOOL editUserIsNew;
+@property (nonatomic,copy) NSString *editSheetStatus;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
 
 @end

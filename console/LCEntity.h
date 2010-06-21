@@ -149,20 +149,20 @@
 
 #pragma mark "Sanctioned Properties"
 
-@property (retain) id parent;
-@property (retain) NSMutableDictionary *childrenDictionary;
-@property (assign) BOOL isOrphan;
+@property (nonatomic,retain) id parent;
+@property (nonatomic,retain) NSMutableDictionary *childrenDictionary;
+@property (nonatomic, assign) BOOL isOrphan;
 @property int type;
-@property (copy) NSString *name;
-@property (copy) NSString *desc;
-@property (copy) NSString *resourceAddressString;
+@property (nonatomic,copy) NSString *name;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic,copy) NSString *resourceAddressString;
 @property int opState;
 @property int adminState;
 @property int listPriority;
 @property int entityIndex;
 @property unsigned long version;
 @property unsigned long syncVersion;
-@property (copy) NSString *uuidString;
+@property (nonatomic,copy) NSString *uuidString;
 @property BOOL isLicensed;
 @property BOOL resourceStarted;
 @property BOOL presenceConfirmed;
@@ -171,24 +171,24 @@
 @property BOOL restartInProgress;
 @property BOOL initialRefreshPerformed;
 @property BOOL refreshSuccessful;
-@property (copy) NSDate *refreshVersionTag;
-@property (copy) NSDate *childRefreshVersionTag;
-@property (copy) NSDate *localRefreshVersionTag;
-@property (copy) NSDate *lastXmlRefresh;
-@property (retain) NSMutableArray *incidents;
-@property (copy) NSString *displayString;
-@property (copy) NSString *longDisplayString;
-@property (assign) int browserViewType;
-@property (copy) NSString *displayValue;
+@property (nonatomic,copy) NSDate *refreshVersionTag;
+@property (nonatomic,copy) NSDate *childRefreshVersionTag;
+@property (nonatomic,copy) NSDate *localRefreshVersionTag;
+@property (nonatomic,copy) NSDate *lastXmlRefresh;
+@property (nonatomic,retain) NSMutableArray *incidents;
+@property (nonatomic,copy) NSString *displayString;
+@property (nonatomic,copy) NSString *longDisplayString;
+@property (nonatomic, assign) int browserViewType;
+@property (nonatomic,copy) NSString *displayValue;
 @property (readonly) NSString *uniqueIdentifier;
 - (void) recursivelySetOpStateTo:(int)value;
 
 #pragma mark "Unsure Properties"
 
-@property (retain) NSMutableDictionary *properties;
+@property (nonatomic,retain) NSMutableDictionary *properties;
 @property BOOL entityViewNIBLoaded;
-@property (retain) NSView *entityView;
-@property (retain) NSObjectController *entityViewObjectController;
+@property (nonatomic,retain) NSView *entityView;
+@property (nonatomic,retain) NSObjectController *entityViewObjectController;
 @property BOOL versionWarningShown;
 @property BOOL assistShown;
 

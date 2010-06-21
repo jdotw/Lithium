@@ -63,7 +63,7 @@
 - (void) setTasks:(NSMutableArray *)value;
 - (void) insertObject:(id)obj inTasksAtIndex:(unsigned int)index;
 - (void) removeObjectFromTasksAtIndex:(unsigned int)index;
-@property (retain) LC49ImportTask *currentTask;
+@property (nonatomic,retain) LC49ImportTask *currentTask;
 
 
 @end

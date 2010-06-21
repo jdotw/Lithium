@@ -17,7 +17,7 @@
 }
 
 - (LCBrowserTreeCoreDeployment *) initWithDeployment:(LCCoreDeployment *)initDeployment;
-@property (retain) LCCoreDeployment *deployment;
+@property (nonatomic,retain) LCCoreDeployment *deployment;
 
 
 @end

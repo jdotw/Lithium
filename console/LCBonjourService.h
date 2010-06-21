@@ -24,10 +24,10 @@
 - (LCDeviceEditTemplate *) deviceTemplate;
 
 #pragma mark "Properties"
-@property (copy) NSString *name;
-@property (copy) NSString *displayString;
-@property (copy) NSString *ip;
+@property (nonatomic,copy) NSString *name;
+@property (nonatomic,copy) NSString *displayString;
+@property (nonatomic,copy) NSString *ip;
 - (void) updateDisplayString;
-@property (assign) id parent;
+@property (nonatomic, assign) id parent;
 
 @end

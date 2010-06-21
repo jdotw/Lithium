@@ -40,13 +40,13 @@
 - (void) updateHighestEntityOpState;
 
 #pragma mark "Accessor Methods"
-@property (assign) id cas;
-@property (assign) id delegate;
+@property (nonatomic, assign) id cas;
+@property (nonatomic, assign) id delegate;
 @property (readonly) NSMutableArray *entities;
 - (void) insertObject:(LCEntity *)entity inEntitiesAtIndex:(unsigned int)index;
 - (void) removeObjectFromEntitiesAtIndex:(unsigned int)index;
 @property (readonly) NSMutableDictionary *entityDictionary;
-@property (assign) BOOL refreshInProgress;
-@property (assign) int highestEntityOpStateInteger;
+@property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic, assign) int highestEntityOpStateInteger;
 
 @end

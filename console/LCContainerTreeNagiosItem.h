@@ -16,6 +16,6 @@
 	LCContainer *nagiosContainer;
 }
 
-@property (retain) LCContainer *nagiosContainer;
+@property (nonatomic,retain) LCContainer *nagiosContainer;
 
 @end

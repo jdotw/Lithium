@@ -55,15 +55,15 @@
 #pragma mark "Accessor Methods"
 @property (readonly) LCCustomerList *customerList;
 @property (nonatomic, retain) LCCustomer *customer;
-@property (assign) BOOL caseIDChecked;
-@property (assign) BOOL stateChecked;
-@property (assign) BOOL headlineChecked;
-@property (assign) BOOL ownerChecked;
-@property (assign) BOOL requesterChecked;
-@property (assign) BOOL openedBetweenChecked;
-@property (assign) BOOL closedBetweenChecked;
+@property (nonatomic, assign) BOOL caseIDChecked;
+@property (nonatomic, assign) BOOL stateChecked;
+@property (nonatomic, assign) BOOL headlineChecked;
+@property (nonatomic, assign) BOOL ownerChecked;
+@property (nonatomic, assign) BOOL requesterChecked;
+@property (nonatomic, assign) BOOL openedBetweenChecked;
+@property (nonatomic, assign) BOOL closedBetweenChecked;
 @property (readonly) NSMutableArray *sortItems;
-@property (retain) NSArray *sortDescriptorArray;
+@property (nonatomic,retain) NSArray *sortDescriptorArray;
 @property (readonly) LCCaseList *caseList;
 
 @property (nonatomic, assign) NSString *caseID;

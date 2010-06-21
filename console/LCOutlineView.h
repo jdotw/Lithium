@@ -28,16 +28,16 @@
 	NSString *expansionPreferencePrefix;
 }
 
-@property (retain) NSArrayController *outlineContentController;
-@property (retain) NSString *outlineContentKey;
-@property (retain) id doubleClickTarget;
-@property (retain) NSString *doubleClickTargetKey;
-@property (retain) NSString *doubleClickTargetSelectorName;
-@property (retain) id doubleClickArgument;
-@property (retain) NSString *doubleClickArgumentKey;
+@property (nonatomic,retain) NSArrayController *outlineContentController;
+@property (nonatomic,retain) NSString *outlineContentKey;
+@property (nonatomic,retain) id doubleClickTarget;
+@property (nonatomic,retain) NSString *doubleClickTargetKey;
+@property (nonatomic,retain) NSString *doubleClickTargetSelectorName;
+@property (nonatomic,retain) id doubleClickArgument;
+@property (nonatomic,retain) NSString *doubleClickArgumentKey;
 
 #pragma mark "Item Expansion"
-@property (copy) NSString *expansionPreferencePrefix;
+@property (nonatomic,copy) NSString *expansionPreferencePrefix;
 - (void) expandAllItemsUsingPreferences;
 - (BOOL) expandByDefault;
 

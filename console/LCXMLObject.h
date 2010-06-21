@@ -68,19 +68,19 @@
 - (void) XMLRequestFinished:(LCXMLRequest *)sender;
 
 #pragma mark "Property Methods"
-@property (retain) id xmlEntity;
-@property (copy) NSMutableDictionary *xmlTranslation;
-@property (assign) BOOL xmlRefreshInProgress;
-@property (assign) BOOL xmlAddInProgress;
-@property (assign) BOOL xmlUpdateInProgress;
-@property (assign) BOOL xmlDeleteInProgress;
-@property (assign) BOOL xmlOperationInProgress;
-@property (assign) BOOL xmlOperationSuccess;
-@property (copy) NSString *xmlStatusString;
+@property (nonatomic,retain) id xmlEntity;
+@property (nonatomic,copy) NSMutableDictionary *xmlTranslation;
+@property (nonatomic, assign) BOOL xmlRefreshInProgress;
+@property (nonatomic, assign) BOOL xmlAddInProgress;
+@property (nonatomic, assign) BOOL xmlUpdateInProgress;
+@property (nonatomic, assign) BOOL xmlDeleteInProgress;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
+@property (nonatomic, assign) BOOL xmlOperationSuccess;
+@property (nonatomic,copy) NSString *xmlStatusString;
 - (void) updateXmlInProgressFlag;
-@property (assign) id delegate;
-@property (assign) BOOL xmlUpdatingValues;
-@property (assign) BOOL debug;
-@property (copy) NSString *sortString;
+@property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) BOOL xmlUpdatingValues;
+@property (nonatomic, assign) BOOL debug;
+@property (nonatomic,copy) NSString *sortString;
 
 @end

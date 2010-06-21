@@ -66,8 +66,8 @@
 - (id) initWithCustomer:(LCCustomer *)initCustomer inBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection (KVO Observable)"
-@property (assign) LCCoreLicenseKey *selectedKey;
-@property (copy) NSArray *selectedKeys;
+@property (nonatomic, assign) LCCoreLicenseKey *selectedKey;
+@property (nonatomic,copy) NSArray *selectedKeys;
 
 #pragma mark "Misc UI Actions"
 - (IBAction) refreshClicked:(id)sender;
@@ -91,20 +91,20 @@
 - (IBAction) getDemoLicenseClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (assign) LCBrowser2Controller *browser;
-@property (retain) LCCustomer *customer;
-@property (retain) LCCoreLicenseKeyList *keyList;
-@property (retain) LCCoreLicenseEntitlement *entitlement;
-@property (copy) NSString *licenseKeyString;
-@property (copy) NSString *signedKeyString;
-@property (copy) NSString *firstname;
-@property (copy) NSString *lastname;
-@property (copy) NSString *company;
-@property (copy) NSString *email;
-@property (assign) BOOL xmlOperationInProgress;
-@property (copy) NSString *progressString;
-@property (copy) NSString *errorMessage;
-@property (copy) NSString *addResult;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,retain) LCCoreLicenseKeyList *keyList;
+@property (nonatomic,retain) LCCoreLicenseEntitlement *entitlement;
+@property (nonatomic,copy) NSString *licenseKeyString;
+@property (nonatomic,copy) NSString *signedKeyString;
+@property (nonatomic,copy) NSString *firstname;
+@property (nonatomic,copy) NSString *lastname;
+@property (nonatomic,copy) NSString *company;
+@property (nonatomic,copy) NSString *email;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
+@property (nonatomic,copy) NSString *progressString;
+@property (nonatomic,copy) NSString *errorMessage;
+@property (nonatomic,copy) NSString *addResult;
 
 
 @end

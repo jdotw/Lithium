@@ -15,7 +15,7 @@
 	LCMetric *metric;
 }
 
-@property (assign) NSTrackingRectTag trackTag;
-@property (retain) LCMetric *metric;
+@property (nonatomic, assign) NSTrackingRectTag trackTag;
+@property (nonatomic,retain) LCMetric *metric;
 
 @end

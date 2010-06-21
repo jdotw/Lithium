@@ -33,16 +33,16 @@
 - (void) insertObject:(LCMetricGraphController *)controller inGraphControllersAtIndex:(unsigned int)index;
 - (void) removeObjectFromGraphControllersAtIndex:(unsigned int)index;
 
-@property (assign) LCGraphStadiumController *stadiumController;
+@property (nonatomic, assign) LCGraphStadiumController *stadiumController;
 
-@property (assign) CALayer *sliceLayer;
-@property (assign) LCGraphStadiumSliceLayer *imageLayer;
-@property (assign) CALayer *reflectionLayer;
-@property (assign) CALayer *gradientLayer;
+@property (nonatomic, assign) CALayer *sliceLayer;
+@property (nonatomic, assign) LCGraphStadiumSliceLayer *imageLayer;
+@property (nonatomic, assign) CALayer *reflectionLayer;
+@property (nonatomic, assign) CALayer *gradientLayer;
 
-@property (assign) int index;
-@property (assign) int total;
-@property (assign) int rows;
+@property (nonatomic, assign) int index;
+@property (nonatomic, assign) int total;
+@property (nonatomic, assign) int rows;
 
 @property (readonly) NSMutableArray *labelLayers;
 

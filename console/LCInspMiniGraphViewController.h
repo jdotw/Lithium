@@ -23,6 +23,6 @@
 + (LCInspMiniGraphViewController *) itemWithTarget:(id)initTarget;
 - (id) initWithTarget:(id)initTarget;
 
-@property (assign) BOOL showDesc;
+@property (nonatomic, assign) BOOL showDesc;
 @property (readonly) NSArray *metrics;
 @end

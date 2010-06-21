@@ -22,7 +22,7 @@
 }
 
 #pragma mark "Target Methods"
-@property (retain) id target;
+@property (nonatomic, retain) id target;
 
 #pragma mark "Item Management"
 - (void) resetItems;

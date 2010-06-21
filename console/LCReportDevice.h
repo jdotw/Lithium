@@ -152,7 +152,7 @@
 @property (assign,getter=image,setter=setImage:) NSImage *image;
 @property (getter=includeInReport,setter=setIncludeInReport:) BOOL includeInReport;
 @property (getter=calcDeltaValues,setter=setCalcDeltaValues:) BOOL calcDeltaValues;
-@property (retain) NSMutableArray *outstandingEntities;
-@property (retain) NSMutableArray *outstandingInterfaces;
+@property (nonatomic,retain) NSMutableArray *outstandingEntities;
+@property (nonatomic,retain) NSMutableArray *outstandingInterfaces;
 @property (getter=capacityPlanningCompleted,setter=setCapacityPlanningCompleted:) BOOL capacityPlanningCompleted;
 @end

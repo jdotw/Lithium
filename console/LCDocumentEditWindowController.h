@@ -50,11 +50,11 @@
 - (IBAction) saveClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (copy) NSString *desc;
-@property (retain) LCDocument *doc;
-@property (retain) LCCustomer *customer;
-@property (assign) BOOL xmlOperationInProgress;
-@property (copy) NSString *status;
-@property (retain) NSWindow *windowForSheet;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic,retain) LCDocument *doc;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
+@property (nonatomic,copy) NSString *status;
+@property (nonatomic,retain) NSWindow *windowForSheet;
 
 @end

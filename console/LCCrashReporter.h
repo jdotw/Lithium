@@ -30,7 +30,7 @@
 - (NSString *) userEmail;
 - (void) setUserEmail:(NSString *)string;
 
-@property (retain) NSWindow *reporterSheet;
+@property (nonatomic,retain) NSWindow *reporterSheet;
 @property (retain,getter=userDescription,setter=setUserDescription:) NSString *userDescription;
 @property (retain,getter=userEmail,setter=setUserEmail:) NSString *userEmail;
 @end

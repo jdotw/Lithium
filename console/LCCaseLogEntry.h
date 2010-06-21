@@ -37,16 +37,16 @@
 - (void) record:(id)cas;
 
 #pragma mark "Accessor Methods"
-@property (assign) int entryID;
-@property (assign) int caseID;
-@property (assign) int type;
-@property (copy) NSString *typeString;
-@property (copy) NSString *author;
-@property (copy) NSDate *timestamp;
-@property (assign) long timestampSeconds;
-@property (assign) long timespentSeconds;
-@property (copy) NSString *entry;
-@property (copy) NSString *displayString;
+@property (nonatomic, assign) int entryID;
+@property (nonatomic, assign) int caseID;
+@property (nonatomic, assign) int type;
+@property (nonatomic,copy) NSString *typeString;
+@property (nonatomic,copy) NSString *author;
+@property (nonatomic,copy) NSDate *timestamp;
+@property (nonatomic, assign) long timestampSeconds;
+@property (nonatomic, assign) long timespentSeconds;
+@property (nonatomic,copy) NSString *entry;
+@property (nonatomic,copy) NSString *displayString;
 - (void) updateDisplayString;
 
 @end

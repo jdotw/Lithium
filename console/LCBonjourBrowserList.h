@@ -46,15 +46,15 @@
 - (void) lowPriorityRefresh;
 
 #pragma mark "Properties"
-@property (assign) id delegate;
-@property (retain) id customer;
-@property (copy) NSString *displayString;
+@property (nonatomic, assign) id delegate;
+@property (nonatomic,retain) id customer;
+@property (nonatomic,copy) NSString *displayString;
 - (void) updateDisplayString;
 @property (readonly) NSMutableArray *children;
 - (void) insertObject:(LCBonjourBrowser *)browser inChildrenAtIndex:(unsigned int)index;
 - (void) removeObjectFromChildrenAtIndex:(unsigned int)index;
 @property (readonly) NSMutableDictionary *childDictionary;
-@property (assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL refreshInProgress;
 - (NSString *) uniqueIdentifier;
 
 @end

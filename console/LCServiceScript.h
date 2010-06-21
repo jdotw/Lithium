@@ -23,7 +23,7 @@
 }
 
 #pragma mark "Properties"
-@property (assign) int port;
-@property (copy) NSString *protocol;
-@property (copy) NSString *transport;
+@property (nonatomic, assign) int port;
+@property (nonatomic,copy) NSString *protocol;
+@property (nonatomic,copy) NSString *transport;
 @end

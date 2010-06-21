@@ -35,8 +35,8 @@
 - (id) initWithCustomer:(LCCustomer *)initCustomer inBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection (KVO Observable)"
-@property (assign) LCAction *selectedAction;
-@property (copy) NSArray *selectedActions;
+@property (nonatomic, assign) LCAction *selectedAction;
+@property (nonatomic,copy) NSArray *selectedActions;
 
 #pragma mark "UI Actions"
 - (IBAction) addNewClicked:(id)sender;
@@ -46,8 +46,8 @@
 - (IBAction) refreshListClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (retain) LCActionList *actionList;
-@property (assign) LCBrowser2Controller *browser;
-@property (retain) LCCustomer *customer;
+@property (nonatomic,retain) LCActionList *actionList;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
+@property (nonatomic,retain) LCCustomer *customer;
 
 @end

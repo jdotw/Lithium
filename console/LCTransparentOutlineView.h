@@ -23,6 +23,6 @@
 - (NSBezierPath *) outlinePath:(NSRect)frame;
 - (void) highlightSelectionInClipRect:(NSRect)clipRect;
 
-@property (retain) NSColor *backgroundTintColor;
+@property (nonatomic,retain) NSColor *backgroundTintColor;
 
 @end

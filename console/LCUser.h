@@ -25,15 +25,15 @@
 }
 
 #pragma mark "Properties Accessors"
-@property (copy) NSString *username;
-@property (copy) NSString *fullname;
-@property (copy) NSString *password;
-@property (copy) NSString *confirmPassword;
-@property (copy) NSString *title;
-@property (copy) NSString *email;
-@property (copy) NSString *accessLevelString;
-@property (assign) int accessLevel;
-@property (assign) BOOL isGlobalAdmin;
-@property (assign) id customer;
+@property (nonatomic,copy) NSString *username;
+@property (nonatomic,copy) NSString *fullname;
+@property (nonatomic,copy) NSString *password;
+@property (nonatomic,copy) NSString *confirmPassword;
+@property (nonatomic,copy) NSString *title;
+@property (nonatomic,copy) NSString *email;
+@property (nonatomic,copy) NSString *accessLevelString;
+@property (nonatomic, assign) int accessLevel;
+@property (nonatomic, assign) BOOL isGlobalAdmin;
+@property (nonatomic, assign) id customer;
 
 @end

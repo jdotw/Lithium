@@ -80,11 +80,11 @@
 
 #pragma mark "Property Methods"
 @property (readonly) LCMetricGraphController *graphController;
-@property (copy) NSArray *initialEntities;
-@property (retain) LCEntity *initialEntity;
-@property (assign) int initialGraphPeriod;
-@property (copy) NSDate *initialReferenceDate;
-@property (assign) NSRect windowFrame;
-@property (assign) int dateDropDownTag;
+@property (nonatomic,copy) NSArray *initialEntities;
+@property (nonatomic,retain) LCEntity *initialEntity;
+@property (nonatomic, assign) int initialGraphPeriod;
+@property (nonatomic,copy) NSDate *initialReferenceDate;
+@property (nonatomic, assign) NSRect windowFrame;
+@property (nonatomic, assign) int dateDropDownTag;
 
 @end

@@ -17,6 +17,6 @@
 }
 
 - (id) initWithIncident:(LCIncident *)initIncident;
-@property (retain) LCIncident *incident;
+@property (nonatomic,retain) LCIncident *incident;
 
 @end

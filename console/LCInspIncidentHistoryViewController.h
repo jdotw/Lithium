@@ -20,6 +20,6 @@
 
 + (LCInspIncidentHistoryViewController *) itemWithTarget:(id)initTarget incidentList:(LCIncidentList *)initIncidentList;
 - (id) initWithTarget:(id)initTarget incidentList:(LCIncidentList *)initIncidentList;
-@property (retain) LCIncidentList *incidentList;
+@property (nonatomic,retain) LCIncidentList *incidentList;
 
 @end

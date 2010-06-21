@@ -48,16 +48,16 @@
 
 #pragma mark "Properties"
 
-@property (retain) LCEntity *target;
-@property (retain) LCEntity *selectedEntity;
-@property (copy) NSArray *targetArray;
-@property (copy) NSString *title;
+@property (nonatomic,retain) LCEntity *target;
+@property (nonatomic,retain) LCEntity *selectedEntity;
+@property (nonatomic,copy) NSArray *targetArray;
+@property (nonatomic,copy) NSString *title;
 
 @property (readonly) NSMutableDictionary *graphableObjects;
 @property (readonly) NSMutableArray *graphControllers;
 @property (readonly) NSMutableArray *slices;
 
-@property (assign) NSView *stadiumView;
+@property (nonatomic, assign) NSView *stadiumView;
 
 @property (readonly) LCGraphFlowController *flowController;
 @property (readonly) CAScrollLayer *bodyLayer;

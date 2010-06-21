@@ -28,16 +28,16 @@
 	IBOutlet NSArrayController *resultArrayController;
 }
 
-@property (assign) id browser;
-@property (copy) NSString *searchString;
+@property (nonatomic, assign) id browser;
+@property (nonatomic, copy) NSString *searchString;
 
-@property (readonly) NSMutableArray *sources;
+@property (nonatomic,readonly) NSMutableArray *sources;
 - (void) insertObject:(LCSearchSourceItem *)item inSourcesAtIndex:(unsigned int)index;
 - (void) removeObjectFromSourcesAtIndex:(unsigned int)index;
-@property (retain) LCSearchSourceItem *selectedSource;
+@property (nonatomic,retain) LCSearchSourceItem *selectedSource;
 
-@property (copy) NSArray *selectedEntities;
-@property (retain) LCEntity *selectedEntity;
+@property (nonatomic,copy) NSArray *selectedEntities;
+@property (nonatomic,retain) LCEntity *selectedEntity;
 
 
 @end

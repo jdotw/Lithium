@@ -115,6 +115,6 @@
 @property (retain,getter=interfaceList) NSMutableArray *interfaceList;
 @property (retain,getter=historyRefreshList) NSMutableArray *historyRefreshList;
 @property (retain,getter=referenceDate,setter=setReferenceDate:) NSDate *referenceDate;
-@property (retain) NSTimer *referenceDateChangeTimer;
-@property (retain) id windowController;
+@property (nonatomic,retain) NSTimer *referenceDateChangeTimer;
+@property (nonatomic,retain) id windowController;
 @end

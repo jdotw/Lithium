@@ -25,8 +25,8 @@
 - (id) initWithSite:(LCSite *)initSite;
 - (id) initWithCustomer:(LCCustomer *)initCustomer;
 
-@property (retain) LCSite *site;
-@property (retain) LCCustomer *customer;
+@property (nonatomic,retain) LCSite *site;
+@property (nonatomic,retain) LCCustomer *customer;
 @property (readonly) NSMutableArray *items;
 - (void) insertObject:(id)item inItemsAtIndex:(unsigned int)index;
 - (void) removeObjectFromItemsAtIndex:(unsigned int)index;

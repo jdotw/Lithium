@@ -24,9 +24,9 @@
 - (id) initWithEntity:(LCEntity *)initEntity atRect:(NSRect)initRect;
 
 #pragma mark Accessors
-@property (assign) NSRect rect;
-@property (retain) LCEntity *entity;
-@property (retain) NSBezierPath *path;
-@property (retain) NSView *deviceBackView;
+@property (nonatomic, assign) NSRect rect;
+@property (nonatomic,retain) LCEntity *entity;
+@property (nonatomic,retain) NSBezierPath *path;
+@property (nonatomic,retain) NSView *deviceBackView;
 
 @end

@@ -77,17 +77,17 @@
 - (IBAction) getDemoLicenseClicked:(id)sender;
 
 #pragma mark "Accessors"
-@property (retain) LCCoreLicenseKeyList *keyList;
-@property (retain) LCCoreLicenseEntitlement *entitlement;
-@property (copy) NSString *licenseKeyString;
-@property (copy) NSString *signedKeyString;
-@property (copy) NSString *firstname;
-@property (copy) NSString *lastname;
-@property (copy) NSString *company;
-@property (copy) NSString *email;
-@property (assign) BOOL xmlOperationInProgress;
-@property (copy) NSString *progressString;
-@property (copy) NSString *errorMessage;
-@property (copy) NSString *addResult;
+@property (nonatomic,retain) LCCoreLicenseKeyList *keyList;
+@property (nonatomic,retain) LCCoreLicenseEntitlement *entitlement;
+@property (nonatomic,copy) NSString *licenseKeyString;
+@property (nonatomic,copy) NSString *signedKeyString;
+@property (nonatomic,copy) NSString *firstname;
+@property (nonatomic,copy) NSString *lastname;
+@property (nonatomic,copy) NSString *company;
+@property (nonatomic,copy) NSString *email;
+@property (nonatomic, assign) BOOL xmlOperationInProgress;
+@property (nonatomic,copy) NSString *progressString;
+@property (nonatomic,copy) NSString *errorMessage;
+@property (nonatomic,copy) NSString *addResult;
 
 @end

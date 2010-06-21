@@ -34,7 +34,7 @@
 @property (nonatomic, copy) NSAttributedString *feedback;
 @property (nonatomic, copy) NSString *feedbackEmailAddress;
 @property (nonatomic, copy) NSString *feedbackStatus;
-@property (assign) BOOL feedbackTransmissionInProgress;
+@property (nonatomic, assign) BOOL feedbackTransmissionInProgress;
 
 
 @end

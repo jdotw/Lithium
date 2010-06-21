@@ -28,11 +28,11 @@
 - (void) search;
 
 #pragma mark "Properties"
-@property (retain) LCCustomer *customer;
-@property (copy) NSArray *searchRequests;
-@property (copy) NSString *displayString;
-@property (copy) NSString *searchString;
-@property (readonly) NSMutableArray *results;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,copy) NSArray *searchRequests;
+@property (nonatomic,copy) NSString *displayString;
+@property (nonatomic,copy) NSString *searchString;
+@property (nonatomic,readonly) NSMutableArray *results;
 - (void) insertObject:(LCEntity *)entity inResultsAtIndex:(unsigned int)index;
 - (void) removeObjectFromResultsAtIndex:(unsigned int)index;
 

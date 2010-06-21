@@ -29,10 +29,10 @@
 - (NSXMLNode *) xmlNode;
 
 #pragma mark Accessors
-@property (assign) NSRect frame;
-@property (retain) LCEntity *entity;
-@property (assign) BOOL autoSize;
-@property (copy) NSString *uuid;
+@property (nonatomic, assign) NSRect frame;
+@property (nonatomic,retain) LCEntity *entity;
+@property (nonatomic, assign) BOOL autoSize;
+@property (nonatomic,copy) NSString *uuid;
 + (NSSize) minimumSize;
 
 @end

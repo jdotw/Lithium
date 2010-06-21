@@ -305,7 +305,7 @@
 - (NSWindow *) window
 { 
 	NSResponder *nr = self;
-	while (nr = [nr nextResponder])
+	while ((nr = [nr nextResponder]))
 	{ if ([[nr class] isSubclassOfClass:[NSWindow class]]) return (NSWindow *) nr; }
 	return nil;
 }

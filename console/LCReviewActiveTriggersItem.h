@@ -21,7 +21,7 @@
 - (LCReviewActiveTriggersItem *) initForEntity:(LCEntity *)initEntity;
 
 #pragma mark "Accessors"
-@property (assign) BOOL selected;
-@property (retain) LCEntity *entity;
+@property (nonatomic, assign) BOOL selected;
+@property (nonatomic,retain) LCEntity *entity;
 
 @end

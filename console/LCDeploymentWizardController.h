@@ -51,8 +51,8 @@
 - (LCCoreDeployment *) deployment;
 - (void) setDeployment:(LCCoreDeployment *)newDep;
 
-@property (retain) LCBackgroundView *backgroundView;
-@property (retain) NSWindow *testSheet;
+@property (nonatomic,retain) LCBackgroundView *backgroundView;
+@property (nonatomic,retain) NSWindow *testSheet;
 @property (retain,getter=ipAddress,setter=setIpAddress:) NSString *ipAddress;
 @property (retain,getter=url,setter=setUrl:) NSString *url;
 @property (retain,getter=errorString,setter=setErrorString:) NSString *errorString;

@@ -23,10 +23,10 @@
 - (id) initWithEntity:(LCEntity *)initEntity;
 
 #pragma mark Accessors
-@property (retain) LCEntity *entity;
-@property (assign) float rowHeight;
-@property (copy) NSMutableArray *children;
-@property (assign) BOOL isGroupTreeLeaf;
+@property (nonatomic,retain) LCEntity *entity;
+@property (nonatomic, assign) float rowHeight;
+@property (nonatomic,copy) NSMutableArray *children;
+@property (nonatomic, assign) BOOL isGroupTreeLeaf;
 - (NSString *) uniqueIdentifier;
 
 

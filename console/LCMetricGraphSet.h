@@ -30,6 +30,6 @@
 @property (readonly) NSMutableArray *metrics;
 @property (readonly) NSMutableArray *devices;
 @property (readonly) NSMutableDictionary *properties;
-@property (copy) NSString *desc;
+@property (nonatomic,copy) NSString *desc;
 
 @end

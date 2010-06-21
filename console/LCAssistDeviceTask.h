@@ -35,13 +35,13 @@
 - (IBAction) addDeviceClicked:(id)sender;
 
 #pragma mark "Accessors"
-@property (retain) LCAssistController *controller;
-@property (assign) BOOL enabled;
-@property (copy) NSString *vendor;
-@property (copy) NSString *deviceType;
-@property (copy) NSString *blurb;
-@property (copy) NSString *requiredFieldsIdentifier;
-@property (copy) NSImage *thumbnail;
+@property (nonatomic,retain) LCAssistController *controller;
+@property (nonatomic, assign) BOOL enabled;
+@property (nonatomic,copy) NSString *vendor;
+@property (nonatomic,copy) NSString *deviceType;
+@property (nonatomic,copy) NSString *blurb;
+@property (nonatomic,copy) NSString *requiredFieldsIdentifier;
+@property (nonatomic,copy) NSImage *thumbnail;
 - (NSPredicate *) deviceFilter;
 
 @end

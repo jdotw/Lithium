@@ -16,6 +16,6 @@
 	LCBrowser2Controller *browser;
 }
 
-@property (assign) LCBrowser2Controller *browser;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
 
 @end

@@ -26,7 +26,7 @@
 - (LCActivityList *) activityList;
 - (NSMutableArray *) activitySortDescriptors;
 
-@property (retain) NSObjectController *controllerAlias;
-@property (retain) LCBackgroundView *backView;
-@property (retain,getter=activitySortDescriptors) NSMutableArray *activitySortDescriptors;
+@property (nonatomic,retain) NSObjectController *controllerAlias;
+@property (nonatomic,retain) LCBackgroundView *backView;
+@property (nonatomic,retain,getter=activitySortDescriptors) NSMutableArray *activitySortDescriptors;
 @end

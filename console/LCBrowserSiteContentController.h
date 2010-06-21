@@ -39,11 +39,11 @@
 - (id) initWithSite:(LCSite *)initSite inBrowser:(LCBrowser2Controller *)initBrowser;
 
 #pragma mark "Selection (KVO Observable)"
-@property (assign) LCEntity *selectedDevice;
-@property (copy) NSArray *selectedDevices;
-@property (assign) LCIncident *selectedIncident;
-@property (copy) NSArray *selectedIncidents;
-@property (assign) id inspectorTarget;
+@property (nonatomic, assign) LCEntity *selectedDevice;
+@property (nonatomic,copy) NSArray *selectedDevices;
+@property (nonatomic, assign) LCIncident *selectedIncident;
+@property (nonatomic,copy) NSArray *selectedIncidents;
+@property (nonatomic, assign) id inspectorTarget;
 
 #pragma mark "UI Actions"
 - (IBAction) graphSelectedClicked:(NSMenuItem *)sender;
@@ -58,9 +58,9 @@
 - (IBAction) deviceOutlineViewDoubleClicked:(NSArray *)selectedItems;
 
 #pragma mark "Properties"
-@property (retain) LCSite *site;
-@property (retain) LCDeviceTree *deviceTree;
+@property (nonatomic,retain) LCSite *site;
+@property (nonatomic,retain) LCDeviceTree *deviceTree;
 @property (readonly) NSWindow *window;
-@property (assign) LCBrowser2Controller *browser;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
 
 @end

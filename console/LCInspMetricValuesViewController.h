@@ -20,6 +20,6 @@
 + (LCInspMetricValuesViewController *) itemWithTarget:(id)initTarget metrics:(NSArray *)initMetrics;
 - (LCInspMetricValuesViewController *) initWithTarget:(id)initTarget metrics:(NSArray *)initMetrics;
 
-@property (copy) NSArray *metrics;
+@property (nonatomic,copy) NSArray *metrics;
 
 @end

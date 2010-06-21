@@ -34,11 +34,11 @@
 - (void) lowPriorityRefresh;
 
 #pragma mark "Properties"
-@property (retain) id customer;
+@property (nonatomic,retain) id customer;
 @property (readonly) NSMutableArray *groups;
 - (void) insertObject:(id)entity inGroupsAtIndex:(unsigned int)index;
 - (void) removeObjectFromGroupsAtIndex:(unsigned int)index;
 @property (readonly) NSMutableDictionary *groupDictionary;
-@property (assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL refreshInProgress;
 
 @end

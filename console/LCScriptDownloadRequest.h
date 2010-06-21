@@ -77,16 +77,16 @@
 
 
 @property (assign,getter=customer,setter=setCustomer:) id customer;
-@property (retain) NSString *type;
-@property (retain) NSString *scriptName;
-@property (retain) NSString *localFilename;
+@property (nonatomic,retain) NSString *type;
+@property (nonatomic,retain) NSString *scriptName;
+@property (nonatomic,retain) NSString *localFilename;
 @property (assign,getter=delegate,setter=setDelegate:) id delegate;
 @property (getter=success,setter=setSuccess:) BOOL success;
 @property (getter=inProgress,setter=setInProgress:) BOOL inProgress;
-@property (retain) NSURLConnection *urlConn;
-@property (retain) LCActivity *activity;
-@property (retain) NSString *curXMLElement;
-@property (retain) NSMutableString *curXMLString;
+@property (nonatomic,retain) NSURLConnection *urlConn;
+@property (nonatomic,retain) LCActivity *activity;
+@property (nonatomic,retain) NSString *curXMLElement;
+@property (nonatomic,retain) NSMutableString *curXMLString;
 @property (retain,getter=scriptOutput,setter=setScriptOutput:) NSString *scriptOutput;
 @property (retain,getter=progressString,setter=setProgressString:) NSString *progressString;
 @property (retain,getter=progressIcon,setter=setProgressIcon:) NSImage *progressIcon;

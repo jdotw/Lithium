@@ -41,11 +41,11 @@
 - (IBAction) cancelClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (retain) LCCustomer *customer;
-@property (retain) LCDocument *document;
-@property (assign) BOOL importInProgress;
-@property (copy) NSString *importStatusString;
-@property (retain) LCBrowser2Controller *browser;
+@property (nonatomic,retain) LCCustomer *customer;
+@property (nonatomic,retain) LCDocument *document;
+@property (nonatomic, assign) BOOL importInProgress;
+@property (nonatomic,copy) NSString *importStatusString;
+@property (nonatomic,retain) LCBrowser2Controller *browser;
 @property (readonly) LCCustomerList *customerList;
 
 @end

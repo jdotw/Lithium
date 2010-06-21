@@ -144,10 +144,10 @@
 - (NSArray*) toolbarSelectableItemIdentifiers: (NSToolbar*) theToolbar;
 
 #pragma mark "Refresh Routines"
-@property (assign) BOOL logEntryListAutoRefresh;
-@property (retain) NSTimer *logEntryListRefreshTimer;
-@property (assign) BOOL entityListAutoRefresh;
-@property (retain) NSTimer *entityListRefreshTimer;
+@property (nonatomic, assign) BOOL logEntryListAutoRefresh;
+@property (nonatomic,retain) NSTimer *logEntryListRefreshTimer;
+@property (nonatomic, assign) BOOL entityListAutoRefresh;
+@property (nonatomic,retain) NSTimer *entityListRefreshTimer;
 - (IBAction) refreshEntitiesClicked:(id)sender;
 - (IBAction) refreshLogEntriesClicked:(id)sender;
 
@@ -168,13 +168,13 @@
 - (IBAction) reOpenCaseCancelClicked:(id)sender;
 
 #pragma mark "Properties"
-@property (retain) LCCase *cas;
+@property (nonatomic,retain) LCCase *cas;
 @property (readonly) NSMutableArray *openEntityArray;
 - (void) insertObject:(LCEntity *)entity inOpenEntityArrayAtIndex:(unsigned int)index;
 - (void) removeObjectFromOpenEntityArrayAtIndex:(unsigned int)index;
-@property (copy) NSString *openCustomerString;
-@property (copy) NSString *openRequesterString;
-@property (copy) NSString *openHeadlineString;
+@property (nonatomic,copy) NSString *openCustomerString;
+@property (nonatomic,copy) NSString *openRequesterString;
+@property (nonatomic,copy) NSString *openHeadlineString;
 
 
 @end

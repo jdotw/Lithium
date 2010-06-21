@@ -47,7 +47,7 @@
 - (NSRect) rectForRack;
 
 #pragma mark General Accessors
-@property (assign) float pointsPerRU;
-@property (retain) id controller;
+@property (nonatomic, assign) float pointsPerRU;
+@property (nonatomic,retain) id controller;
 
 @end

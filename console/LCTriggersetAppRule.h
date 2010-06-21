@@ -94,14 +94,14 @@
 - (BOOL) exclusive;
 - (void) setExclusive:(BOOL)flag;
 
-@property (retain,getter=object) LCEntity *object;
-@property (retain,getter=triggerset) id triggerset;
-@property (retain,getter=properties,setter=setProperties:) NSMutableDictionary *properties;
-@property (retain) NSString *curXMLElement;
-@property (retain) NSMutableString *curXMLString;
-@property (getter=operationInProgress,setter=setOperationInProgress:) BOOL operationInProgress;
-@property (assign,setter=setDelegate:) id delegate;
+@property (nonatomic,retain,getter=object) LCEntity *object;
+@property (nonatomic,retain,getter=triggerset) id triggerset;
+@property (nonatomic,retain,getter=properties,setter=setProperties:) NSMutableDictionary *properties;
+@property (nonatomic,retain) NSString *curXMLElement;
+@property (nonatomic,retain) NSMutableString *curXMLString;
+@property (nonatomic,getter=operationInProgress,setter=setOperationInProgress:) BOOL operationInProgress;
+@property (nonatomic,assign,setter=setDelegate:) id delegate;
 @property BOOL blindUpdate;
-@property (getter=exclusive,setter=setExclusive:) BOOL exclusive;
+@property (nonatomic,getter=exclusive,setter=setExclusive:) BOOL exclusive;
 @property BOOL deleted;
 @end

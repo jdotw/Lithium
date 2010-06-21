@@ -41,10 +41,10 @@
 @property (readonly) CATextLayer *objLabelLayer;
 @property (readonly) CATextLayer *metLabelLayer;
 
-@property (retain) LCMetric *metric;
-@property (assign) LCGraphFlowController *flowController;
+@property (nonatomic,retain) LCMetric *metric;
+@property (nonatomic, assign) LCGraphFlowController *flowController;
 @property (readonly) LCMetricGraphController *graphController;
 
-@property (assign) int orientation;
+@property (nonatomic, assign) int orientation;
 
 @end

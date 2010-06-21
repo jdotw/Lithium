@@ -16,7 +16,7 @@
 	LCDocument *document;
 }
 
-@property (copy) NSString *title;
-@property (retain) LCDocument *document;
+@property (nonatomic,copy) NSString *title;
+@property (nonatomic,retain) LCDocument *document;
 
 @end

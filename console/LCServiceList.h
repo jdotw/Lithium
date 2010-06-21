@@ -22,6 +22,6 @@
 - (id) initWithCustomer:(id)initCustomer;
 	
 #pragma mark "Properties"
-@property (retain) id customer;
+@property (nonatomic,retain) id customer;
 
 @end

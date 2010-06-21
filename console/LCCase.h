@@ -63,33 +63,33 @@
 - (void) reOpenCaseWithLogEntry:(NSString *)logentry delegate:(id)delegate;
 
 #pragma mark "Refresh Methods"
-@property (assign) BOOL entityListAutoRefresh;
-@property (retain) NSTimer *entityListRefreshTimer;
-@property (assign) BOOL logEntryListAutoRefresh;
-@property (retain) NSTimer *logEntryListRefreshTimer;
+@property (nonatomic, assign) BOOL entityListAutoRefresh;
+@property (nonatomic,retain) NSTimer *entityListRefreshTimer;
+@property (nonatomic, assign) BOOL logEntryListAutoRefresh;
+@property (nonatomic,retain) NSTimer *logEntryListRefreshTimer;
 
 #pragma mark "View Controller Methods"
 - (id) viewController;
 
 #pragma mark "Properties"
-@property (retain) LCCustomer *customer;
+@property (nonatomic,retain) LCCustomer *customer;
 @property (readonly) LCCaseEntityList *entityList;
 @property (readonly) LCCaseLogEntryList *logEntryList;
-@property (assign) unsigned long caseID;
-@property (copy) NSString *requester;
-@property (copy) NSString *owner;
-@property (copy) NSString *headline;
-@property (assign) int state;
-@property (copy) NSString *stateString;
-@property (assign) long openDateSeconds;
-@property (copy) NSDate *openDate;
-@property (assign) long closeDateSeconds;
-@property (copy) NSDate *closeDate;
-@property (copy) NSString *openDateShortString;
-@property (copy) NSString *closeDateShortString;
-@property (assign) BOOL isClosed;
-@property (copy) NSString *fullIDString;
-@property (retain) LCCaseLogEntry *lastLogEntry;
+@property (nonatomic, assign) unsigned long caseID;
+@property (nonatomic,copy) NSString *requester;
+@property (nonatomic,copy) NSString *owner;
+@property (nonatomic,copy) NSString *headline;
+@property (nonatomic, assign) int state;
+@property (nonatomic,copy) NSString *stateString;
+@property (nonatomic, assign) long openDateSeconds;
+@property (nonatomic,copy) NSDate *openDate;
+@property (nonatomic, assign) long closeDateSeconds;
+@property (nonatomic,copy) NSDate *closeDate;
+@property (nonatomic,copy) NSString *openDateShortString;
+@property (nonatomic,copy) NSString *closeDateShortString;
+@property (nonatomic, assign) BOOL isClosed;
+@property (nonatomic,copy) NSString *fullIDString;
+@property (nonatomic,retain) LCCaseLogEntry *lastLogEntry;
 
 #define CASESTATE_OPEN 1
 #define CASESTATE_OPEN_STR @"1"

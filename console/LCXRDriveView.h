@@ -49,7 +49,7 @@
 - (id)initWithDrive:(LCObject *)initDrive slot:(int)index inFrame:(NSRect)frame;
 
 #pragma mark "Accessors"
-@property (assign) BOOL trackingRectEnabled;
+@property (nonatomic, assign) BOOL trackingRectEnabled;
 
 #pragma mark "Raise/Lower Operations"
 - (void) raise;

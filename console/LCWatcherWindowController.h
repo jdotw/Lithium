@@ -14,5 +14,5 @@
 	IBOutlet NSObjectController *controllerAlias;
 }
 
-@property (retain) NSObjectController *controllerAlias;
+@property (nonatomic,retain) NSObjectController *controllerAlias;
 @end

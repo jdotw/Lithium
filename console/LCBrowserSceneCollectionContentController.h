@@ -30,8 +30,8 @@
 
 #pragma mark "Properties"
 @property (readonly) LCCustomerList *customerList;
-@property (assign) LCBrowser2Controller *browser;
+@property (nonatomic, assign) LCBrowser2Controller *browser;
 @property (readonly) NSMutableArray *scenes;
-@property (copy) NSIndexSet *selectedSceneIndexes;
+@property (nonatomic,copy) NSIndexSet *selectedSceneIndexes;
 
 @end

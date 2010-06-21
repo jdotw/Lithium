@@ -20,8 +20,8 @@
 + (LCMetricGraphMetricItem *) itemForMetric:(LCMetric *)initMetric;
 - (id) initWithMetric:(LCMetric *)initMetric;
 
-@property (retain) LCMetric *metric;
-@property (retain) LCMetricHistory *history;
-@property (copy) NSColor *color;
+@property (nonatomic,retain) LCMetric *metric;
+@property (nonatomic,retain) LCMetricHistory *history;
+@property (nonatomic,copy) NSColor *color;
 
 @end
