@@ -65,7 +65,7 @@ glibtoolize -f -c
 aclocal
 autoconf
 automake -a -c -f
-CC="/Developer/usr/bin/clang" \
+CC="$CC" \
 CFLAGS="$NFRFLAG -O -gdwarf-2 -W -Wall -Wno-unused-parameter -Werror -mmacosx-version-min=$OSTARGET -isysroot $SDK $ARCHTARGET" \
 LDFLAGS="-Wl,-syslibroot,$SDK" \
 ./configure $CONFIGURE_PATHS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History' --with-db-includes=$FWPREFIX/Headers --with-db-libs=$FWPREFIX/Libraries --with-xml-includes=/usr/include/libxml2 --with-xml-libs=/usr/lib --with-postgres-includes=$DBFWPREFIX/Headers --with-postgres-libs=$DBFWPREFIX/Libraries --disable-dependency-tracking
@@ -92,7 +92,7 @@ glibtoolize -f -c
 aclocal
 autoconf
 automake -a -c -f
-CC="/Developer/usr/bin/clang" \
+CC="$CC" \
 CFLAGS="$NFRFLAG -O -gdwarf-2 -W -Wall -Wno-unused-parameter -Werror -mmacosx-version-min=$OSTARGET -isysroot $SDK $ARCHTARGET" \
 LDFLAGS="-Wl,-syslibroot,$SDK" \
 ./configure $CONFIGURE_PATHS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History' --with-induction-includes=$FWPREFIX/Headers --with-induction-libs=$FWPREFIX/Libraries --with-db-includes=$FWPREFIX/Headers --with-db-libs=$FWPREFIX/Libraries --with-xml-includes=/usr/include/libxml2 --with-xml-libs=/usr/lib --with-postgres-includes=$DBFWPREFIX/Headers --with-postgres-libs=$DBFWPREFIX/Libraries --disable-dependency-tracking
@@ -118,7 +118,7 @@ glibtoolize -f -c
 aclocal
 autoconf
 automake -a -c -f
-CC="/Developer/usr/bin/clang" \
+CC="$CC" \
 CFLAGS="$NFRFLAG -O -gdwarf-2 -W -Wall -Wno-unused-parameter -Werror -mmacosx-version-min=$OSTARGET -isysroot $SDK $ARCHTARGET" \
 LDFLAGS="-Wl,-syslibroot,$SDK" \
 ./configure $CONFIGURE_PATHS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History' --with-db-includes=$FWPREFIX/Headers --with-db-libs=$FWPREFIX/Libraries --with-induction-includes=$FWPREFIX/Headers --with-induction-libs=$FWPREFIX/Libraries --with-postgres-includes=$DBFWPREFIX/Headers --with-postgres-libs=$DBFWPREFIX/Libraries --with-crypt=crypto --with-xml-includes=/usr/include/libxml2 --with-xml-libs=/usr/lib --disable-dependency-tracking
@@ -144,7 +144,7 @@ glibtoolize -f -c
 aclocal
 autoconf
 automake -a -c -f
-CC="/Developer/usr/bin/clang" \
+CC="$CC" \
 CFLAGS="$NFRFLAG -O -gdwarf-2 -W -Wall -Wno-unused-parameter -Werror -mmacosx-version-min=$OSTARGET -isysroot $SDK $ARCHTARGET" \
 LDFLAGS="-Wl,-syslibroot,$SDK" \
 ./configure $CONFIGURE_PATHS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History' --with-db-includes=$FWPREFIX/Headers --with-db-libs=$FWPREFIX/Libraries --with-induction-includes=$FWPREFIX/Headers --with-induction-libs=$FWPREFIX/Libraries --with-postgres-includes=$DBFWPREFIX/Headers --with-postgres-libs=$DBFWPREFIX/Libraries --disable-dependency-tracking
@@ -170,7 +170,7 @@ glibtoolize -f -c
 aclocal
 autoconf
 automake -a -c -f
-CC="/Developer/usr/bin/clang" \
+CC="$CC" \
 CFLAGS="$NFRFLAG -O -gdwarf-2 -W -Wall -Wno-unused-parameter -Werror -mmacosx-version-min=$OSTARGET -isysroot $SDK $ARCHTARGET" \
 LDFLAGS="-Wl,-syslibroot,$SDK" \
 ./configure $CONFIGURE_PATHS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History' --with-db-includes=$FWPREFIX/Headers --with-db-libs=$FWPREFIX/Libraries --with-induction-includes=$FWPREFIX/Headers --with-induction-libs=$FWPREFIX/Libraries --with-crypt=crypto --with-xml-includes=/usr/include/libxml2 --with-xml-libs=/usr/lib --with-postgres-includes=$DBFWPREFIX/Headers --with-postgres-libs=$DBFWPREFIX/Libraries --disable-dependency-tracking $MSPFLAG
@@ -264,7 +264,7 @@ do
     aclocal
     autoconf
     automake -a -c -f
-    CC="/Developer/usr/bin/clang" \
+    CC="$CC" \
     CFLAGS="$NFRFLAG -O -gdwarf-2 -W -Wall -Wno-unused-parameter -Werror -mmacosx-version-min=$OSTARGET -isysroot $SDK $ARCHTARGET" \
     LDFLAGS="-Wl,-syslibroot,$SDK" \
     ./configure $CONFIGURE_PATHS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History' --with-induction-includes=$FWPREFIX/Headers --with-lithium-includes=$FWPREFIX/Headers --with-postgres-includes=$DBFWPREFIX/Headers --with-postgres-libs=$DBFWPREFIX/Libraries --with-xml-includes=/usr/include/libxml2 --with-xml-libs=/usr/lib --with-curl-includes=$FWPREFIX/Headers --with-curl-libs=$FWPREFIX/Libraries --disable-dependency-tracking
