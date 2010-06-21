@@ -13,7 +13,7 @@
 	<key>Custom Icon Path</key>
 	<string></string>
 	<key>Disk Image Name</key>
-	<string>/Users/jwilson/Source/Lithium/build_framework/packaging/Disk Images/LithiumCore-5.0.B3.1042.dmg</string>
+	<string>/Users/jwilson/Source/Lithium/build_framework/packaging/Disk Images/LithiumCore-5.0.8.dmg</string>
 	<key>Encode Format</key>
 	<string>None</string>
 	<key>Encryption Type</key>
@@ -38,7 +38,7 @@
 			<key>Origin</key>
 			<string>{17, 76}</string>
 			<key>Path</key>
-			<string>DummyPackage.pkg</string>
+			<string>/Users/jwilson/Source/Lithium/build_framework/packaging/1. Applications/Core Installer/Lithium-Core-5.0.8.pkg</string>
 			<key>Type</key>
 			<string>File Item</string>
 		</dict>
@@ -69,6 +69,8 @@
 	<string>TRUE</string>
 	<key>Project File Path</key>
 	<string>/Users/jwilson/Source/Lithium/build_framework/packaging/4. FileStorm Projects/</string>
+	<key>Remove SVN Files</key>
+	<string>FALSE</string>
 	<key>Show Toolbar</key>
 	<string>FALSE</string>
 	<key>Volume Name</key>
