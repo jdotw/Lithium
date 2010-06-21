@@ -169,12 +169,12 @@ int l_snmp_nsram_enable (i_resource *self)
     ram->wired->kbase = 1024;
     ram->wired->unit_str = strdup ("byte");
   
-    ram->wired = l_snmp_metric_create (self, real_obj, "wired", "Wired", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.3.1.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
-    ram->wired->record_defaultflag = 1;
-    ram->wired->alloc_unit = 1024 * 1024;
-    ram->wired->valstr_func = i_string_volume_metric;
-    ram->wired->kbase = 1024;
-    ram->wired->unit_str = strdup ("byte");
+    ram->active = l_snmp_metric_create (self, real_obj, "active", "Active", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.3.2.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
+    ram->active->record_defaultflag = 1;
+    ram->active->alloc_unit = 1024 * 1024;
+    ram->active->valstr_func = i_string_volume_metric;
+    ram->active->kbase = 1024;
+    ram->active->unit_str = strdup ("byte");
   
 //  ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.14.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
 //  ram->buffers->record_defaultflag = 1;
