@@ -109,7 +109,12 @@ int v_psu_enable (i_resource *self)
   i_triggerset_addtrg (self, tset, "overvolt", "Over Voltage", VALTYPE_FLOAT, TRGTYPE_GT, 12.6, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
   i_triggerset_addtrg (self, tset, "undervolt", "Under Voltage", VALTYPE_FLOAT, TRGTYPE_LT, 11.34, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
   i_triggerset_assign (self, static_cnt, tset);
-                
+
+  tset = i_triggerset_create ("power", "Power", "power");
+  tset->default_applyflag = 0;
+  i_triggerset_addtrg (self, tset, "low", "Low", VALTYPE_FLOAT, TRGTYPE_LT, 1.0, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "high", "High", VALTYPE_FLOAT, TRGTYPE_GT, 180.0, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+  i_triggerset_assign (self, static_cnt, tset);
 
   /* 
    * Item and objects 
