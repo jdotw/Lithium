@@ -140,9 +140,12 @@ int l_snmp_nsram_enable (i_resource *self)
   defrefconfig.refresh_int_sec = REFDEFAULT_REFINTSEC;
   defrefconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
 
-  /* 
-   * Real 
-   */
+  /* Check for Xsnmp */
+  if (l_snmp_xsnmp_enabled())
+  {
+    /*
+     * Use Xsnmp metrics 
+     */
 
 //  ram->real_total = l_snmp_metric_create (self, real_obj, "real_total", "Total", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.5.0", NULL, RECMETHOD_NONE, SMET_PARENTREFMETHOD);
 //  ram->real_total->alloc_unit = 1024;
@@ -159,12 +162,19 @@ int l_snmp_nsram_enable (i_resource *self)
 //  ram->real_avail->unit_str = strdup ("byte");
 //  ram->real_avail->hidden = 1;
 
-//  ram->shared = l_snmp_metric_create (self, real_obj, "shared", "Shared", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.13.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
-//  ram->shared->record_defaultflag = 1;
-//  ram->shared->alloc_unit = 1024;
-//  ram->shared->valstr_func = i_string_volume_metric;
-//  ram->shared->kbase = 1024;
-//  ram->shared->unit_str = strdup ("byte");
+    ram->wired = l_snmp_metric_create (self, real_obj, "wired", "Wired", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.3.1.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
+    ram->wired->record_defaultflag = 1;
+    ram->wired->alloc_unit = 1024 * 1024;
+    ram->wired->valstr_func = i_string_volume_metric;
+    ram->wired->kbase = 1024;
+    ram->wired->unit_str = strdup ("byte");
+  
+    ram->wired = l_snmp_metric_create (self, real_obj, "wired", "Wired", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.3.1.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
+    ram->wired->record_defaultflag = 1;
+    ram->wired->alloc_unit = 1024 * 1024;
+    ram->wired->valstr_func = i_string_volume_metric;
+    ram->wired->kbase = 1024;
+    ram->wired->unit_str = strdup ("byte");
   
 //  ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.14.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
 //  ram->buffers->record_defaultflag = 1;

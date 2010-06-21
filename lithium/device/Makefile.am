@@ -94,6 +94,7 @@ device_so_SOURCES = main.c \
 					snmp_nstcpconn.c \
 					snmp_nstcpconn_item.c \
 					snmp_nstcpconn_objfact.c \
+					snmp_xsnmp.c \
 					icmp.c \
 					icmp_item.c \
 					icmp_objfact.c \

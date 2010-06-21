@@ -119,16 +119,29 @@ int module_init (i_resource *self)
   num = l_service_enable (self);
   if (num != 0)
   { i_printf (1, "module_init failed to enable service sub-system"); return -1; }
-
-  /* Module Builder init */
-  num = l_modb_init (self);
-  if (num != 0)
-  { i_printf (1, "module_init failed to initialise module builder sub-systen (unrecoverable)"); return -1; }
   
-  /* Vendor initialisation */
-  num = l_vendor_init (self);
-  if (num != 0)
-  { i_printf (1, "module_init failed to initialise vendor module sub-system (unrecoverable)"); return -1; }
+  /* Check protocol */
+  if (self->hierarchy->dev->protocol == 0 && strcmp(self->hierarchy->dev->vendor_str, "xraid") != 0)
+  {
+    /* SNMP, Detect Xsnmp */
+    l_snmp_xsnmp_detect (self);
+  }
+  else
+  {
+    /* 
+     * Non-SNMP, proceed to enabling ModB and Vendor
+     */
+
+    /* Module Builder init */
+    num = l_modb_init (self);
+    if (num != 0)
+    { i_printf (1, "module_init failed to initialise module builder sub-systen (unrecoverable)"); return -1; }
+  
+    /* Vendor initialisation */
+    num = l_vendor_init (self);
+    if (num != 0)
+    { i_printf (1, "module_init failed to initialise vendor module sub-system (unrecoverable)"); return -1; }
+  }
 
   /* ICMP */
   if (self->hierarchy->dev->icmp)
