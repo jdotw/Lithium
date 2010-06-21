@@ -1,0 +1,212 @@
+/* device/snmp.h.  Generated from snmp.h.in by configure.  */
+#define NET_SNMP 1
+
+#ifdef NET_SNMP
+  #include <net-snmp/net-snmp-config.h>
+  #include <net-snmp/net-snmp-includes.h>
+#else
+  #include <ucd-snmp/ucd-snmp-config.h>
+  #include <ucd-snmp/ucd-snmp-includes.h>
+#endif
+
+/* snmp.c */
+
+#define SNMP_ERROR_NOERROR 0
+#define SNMP_ERROR_NULLPDU 1
+#define SNMP_ERROR_SENDFAILED 2
+#define SNMP_ERROR_TIMEOUT 3
+#define SNMP_ERROR_OIDNOTINCREASING 4
+
+int l_snmp_state ();
+struct i_object_s* l_snmp_availobj ();
+int l_snmp_enable (i_resource *self);
+int l_snmp_disable (i_resource *self);
+
+/* snmp_config.c */
+
+#define SESSION_HANDLING_SERIAL 0
+#define SESSION_HANDLING_PARRALLEL 1
+#define REQUEST_HANDLING_SERIAL 0
+#define REQUEST_HANDLING_PARRALLEL 1
+
+typedef struct
+{
+  int timeout_useconds;
+  int retries;
+} l_snmp_config;
+
+l_snmp_config* l_snmp_config_create ();
+void l_snmp_config_free (void *configptr);
+l_snmp_config* l_snmp_config_load (i_resource *self);
+int form_snmp_config (i_resource *self, i_form_reqdata *reqdata);
+int form_snmp_config_submit (i_resource *self, i_form_reqdata *reqdata);
+
+/* snmp_session.c */
+
+typedef struct l_snmp_session_s
+{
+  char *host_str;
+  char *community_str;
+
+  int usage;          /* Session usage. When this drops to 0 the session can be freed */
+  int error;          /* The active error code. 0=no error */
+  int device_session; /* 1 = session is open to the device being monitored */
+  int last_op_failed; /* 1 = last operation failed */
+
+  struct snmp_session *ss;
+} l_snmp_session;
+
+i_list* l_snmp_session_list ();
+i_list* l_snmp_session_close_queue ();
+
+l_snmp_session* l_snmp_session_create ();
+void l_snmp_session_free (void *session_ptr);
+
+l_snmp_session* l_snmp_session_open (i_resource *self, char *host_str, char *community_str, int version, int authmethod, int privenc, char *username, char *authpass_str, char *privpass_str);
+l_snmp_session* l_snmp_session_open_device (i_resource *self, struct i_device_s *device);
+int l_snmp_session_close (l_snmp_session *session);
+int l_snmp_session_reset_timeout (i_resource *self, struct snmp_session *ss);
+int l_snmp_session_close_queue_free ();
+
+char* l_snmp_session_error_str (l_snmp_session *session);
+
+/* snmp_fdset.c */
+
+int l_snmp_fdset_preprocessor (i_resource *self, fd_set *read_fdset, fd_set *write_fdset, fd_set *except_fdset, void *data);
+int l_snmp_fdset_postprocessor (i_resource *self, int select_num, fd_set *read_fdset, fd_set *write_fdset, fd_set *except_fdset, void *data);
+int l_snmp_fdset_snmptimeout_callback (i_resource *self, struct i_timer_s *timer, void *passdata);
+
+/* snmp_get.c */
+
+int l_snmp_get_oid (i_resource *self, l_snmp_session *session, oid *name, size_t name_size, int (*cbfunc) (i_resource *self, l_snmp_session *session, int reqid, struct snmp_pdu *pdu, void *passdata), void *passdata);
+int l_snmp_get_oid_str (i_resource *self, l_snmp_session *session, char *oid_str, int (*cbfunc) (i_resource *self, l_snmp_session *session, int reqid, struct snmp_pdu *pdu, void *passdata), void *passdata);
+
+/* snmp_pducallback.c */
+
+int l_snmp_pducallback_add (i_resource *self, l_snmp_session *session, int reqid, int (*callback_func) (i_resource *self, l_snmp_session *session, int reqid, struct snmp_pdu *pdu, void *passdata), void *passdata);
+int l_snmp_pducallback_remove_by_reqid (l_snmp_session *session, int reqid);
+int l_snmp_pducallback_process_pdu (int operation, struct snmp_session *sp, int reqid, struct snmp_pdu *pdu, void *magic);
+
+/* snmp_util.c */
+
+char* l_snmp_var_to_str (struct variable_list *var);
+char* l_snmp_var_to_hexstr (struct variable_list *var);
+char* l_snmp_var_to_hexnumstr (struct variable_list *var);
+char* l_snmp_get_string_from_pdu (struct snmp_pdu *pdu);
+char* l_snmp_get_string_from_vars (struct variable_list *vars);
+
+/* snmp_parse.c */
+int l_snmp_parse_oidstr (char *oid_str, oid *name, size_t *name_size);
+
+/* snmp_walk.c */
+
+#define CHECK_OID_INCREASE 1
+
+typedef struct
+{
+  int id;
+
+  i_list* reqid_list;
+
+  oid name[MAX_OID_LEN];
+  size_t name_length;
+  oid root[MAX_OID_LEN];
+  size_t root_length;
+
+  l_snmp_session *session;
+  int flags;
+
+  int (*callback_func) (i_resource *self, l_snmp_session *session, struct snmp_pdu *pdu, void *passdata);
+  void *passdata;
+} l_snmp_walk_reqdata;
+
+int l_snmp_walk (i_resource *self, l_snmp_session *session, char *root_str, int flags, int (*callback_func) (i_resource *self, l_snmp_session *session, struct snmp_pdu *pdu, void *data), void *passdata);
+int l_snmp_walk_get_next (i_resource *self, l_snmp_walk_reqdata *reqdata);
+int l_snmp_walk_get_next_callback (i_resource *self, l_snmp_session *session, int reqid, struct snmp_pdu *pdu, void *passdata);
+int l_snmp_walk_terminate (int walk_id);
+l_snmp_walk_reqdata* l_snmp_walk_reqdata_create ();
+void l_snmp_walk_reqdata_free (void *reqdataptr);
+int l_snmp_walk_reqlist_add (l_snmp_walk_reqdata *reqdata);
+int l_snmp_walk_reqlist_remove (int id);
+
+/* snmp_objfact.c */
+
+typedef struct l_snmp_objfact_s
+{
+  /* Factory identifers */
+  struct i_object_s *obj;                         /* This factories object */
+
+  /* Factory config */
+  struct i_device_s *dev;                         /* Active device */
+  struct i_container_s *cnt;                      /* Container to which objects will be regd */
+  char *name_oid_str;                             /* The 'name_str' OID */
+  oid name_oid[MAX_OID_LEN];                     /* The name_str OID in numeric format */
+  size_t name_oid_len;                            /* Length of the name_str OID */
+  time_t refresh_int_sec;                         /* Normal refresh interval */
+  time_t retry_int_sec;                           /* Failure re-try refresh interval */
+  unsigned short namesource;                      /* Where to get the object name from */
+  int enable_dupname_handling;                    /* 1 = The factory will append the oid_indexstr to the name_str */
+
+  /* Real-time data */
+  struct l_snmp_session_s *session;               /* SNMP Session */
+  int walkid;                                     /* Reqid of walk operation */
+  struct i_list_s *obj_list;                      /* List of objects, MUST be kept in index-order */
+  struct i_list_s *unreg_list;                    /* List of unregistered objects */
+  int first_refresh;                              /* 1 = The factory is undergoing its initial refresh */
+
+  /* Function */
+  int (*fabfunc) ();                              /* Facrication function */
+  int (*ctrlfunc) ();                             /* Control function */
+  int (*cleanfunc) ();                            /* Clean function */
+  void *passdata;                                 /* Passdata for all funcs */
+          
+} l_snmp_objfact;
+
+#define OBJFACT_DEF_REFRESH_INT 86400             /* 24 Hours */
+#define OBJFACT_DEF_RETRY_INT 300                 /* 2 Minutes */
+#define OBJFACT_NAME_PDU 0                        /* Use PDU for object name */
+#define OBJFACT_NAME_OID 1                        /* Use last octet of OID for object name */
+#define OBJFACT_NAME_HEXSTRING 2                  /* Use the received OCTET_STRING as a hex-string for the name */
+
+struct i_container_s* l_snmp_objfact_cnt ();
+int l_snmp_objfact_init (i_resource *self, struct i_device_s *dev);
+l_snmp_objfact* l_snmp_objfact_create (i_resource *self, char *name_str, char *desc_str);
+void l_snmp_objfact_free (void *factptr);
+int l_snmp_objfact_start (i_resource *self, l_snmp_objfact *fact);
+int l_snmp_objfact_stop (i_resource *self, l_snmp_objfact *fact);
+int l_snmp_objfact_normalrefcfg (i_resource *self, l_snmp_objfact *fact);
+int l_snmp_objfact_retryrefcfg (i_resource *self, l_snmp_objfact *fact);
+
+/* snmp_objfact_refresh.c */
+
+int l_snmp_objfact_refresh (i_resource *self, struct i_object_s *obj, int opcode);
+int l_snmp_objfact_refresh_walkcb (i_resource *self, struct l_snmp_session_s *session, struct snmp_pdu *pdu, void *passdata);
+
+/* snmp_metric.c */
+
+struct i_metric_s* l_snmp_metric_create (i_resource *self, struct i_object_s *obj, char *name_str, char *desc_str, int type, char *base_oid_str, char *index_oid_str, unsigned short record_method, unsigned short flags);
+
+#define SMET_PARENTREFMETHOD 1   /* Enforce use of REFMETHOD_PARENT for metric refresh 
+                                  * and DO NOT attempt to load a config
+                                  */
+
+/* snmp_metric_refresh.c */
+
+typedef struct l_snmp_metric_refresh_data_s
+{
+  /* Static Data */
+  char *oid_str;
+  oid name[MAX_OID_LEN];
+  size_t name_len;
+
+  /* Refresh Data */
+  struct l_snmp_session_s *session;
+  int reqid;
+} l_snmp_metric_refresh_data;
+
+l_snmp_metric_refresh_data* l_snmp_metric_refresh_data_create ();
+void l_snmp_metric_refresh_data_free (void *dataptr);
+int l_snmp_metric_refresh (i_resource *self, struct i_metric_s *met, int opcode);
+int l_snmp_metric_refresh_getcb (i_resource *self, l_snmp_session *session, int reqid, struct snmp_pdu *pdu, void *passdata);
+
+
