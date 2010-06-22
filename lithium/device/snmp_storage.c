@@ -91,7 +91,10 @@ int l_snmp_storage_enable (i_resource *self)
   }
   static_objfact->dev = self->hierarchy->dev;
   static_objfact->cnt = static_cnt;
-  static_objfact->name_oid_str = strdup (".1.3.6.1.2.1.25.2.3.1.3");
+  if (l_snmp_xsnmp_enabled())
+  { static_objfact->name_oid_str = strdup (".1.3.6.1.4.1.20038.2.1.4.1.1.3"); }
+  else
+  { static_objfact->name_oid_str = strdup (".1.3.6.1.2.1.25.2.3.1.3"); }
   static_objfact->fabfunc = l_snmp_storage_objfact_fab;
   static_objfact->ctrlfunc = l_snmp_storage_objfact_ctrl;
   static_objfact->cleanfunc = l_snmp_storage_objfact_clean;
