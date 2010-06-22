@@ -49,6 +49,7 @@ int l_snmp_hrfilesys_objfact_fab (i_resource *self, i_container *cnt, i_object *
     /* No matching store found, discard */
     return -1;
   }
+  obj->itemptr = store_item;
 
   /* Load/Apply Refresh config */
   num = i_entity_refresh_config_loadapply (self, ENTITY(obj), NULL);

@@ -31,22 +31,6 @@
 
 /* Object Factory Fabrication */
 
-void l_snmp_storage_apply_usedpc_tset (i_resource *self, i_object *obj)
-{
-  /* Percent Free Trigger */
-  if (!obj->hidden && !obj->tset_list)
-  {
-    obj->tset_list = i_list_create ();
-    obj->tset_ht = i_hashtable_create (30);
-    i_triggerset *tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
-    i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 80, NULL, 97, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
-    i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_RANGE, 97, NULL, 100, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
-    i_triggerset_addtrg (self, tset, "critical", "Critical", VALTYPE_FLOAT, TRGTYPE_GT, 100, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
-    i_triggerset_assign_obj (self, obj, tset);
-    i_triggerset_evalapprules_allsets (self, obj);
-  }
-}
-
 int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struct snmp_pdu *pdu, char *index_oidstr, void *passdata)
 {
   int num;
@@ -57,6 +41,9 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
   obj->desc_str = l_snmp_get_string_from_pdu (pdu);
   obj->mainform_func = l_snmp_storage_objform;
   obj->histform_func = l_snmp_storage_objform_hist;
+  obj->tset_list = i_list_create ();
+  obj->tset_ht = i_hashtable_create (30);
+  i_entity_refreshcb_add (ENTITY(obj), l_snmp_storage_obj_refcb, NULL);
 
   /* Check name */
   if ( 
@@ -99,6 +86,10 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
     if (l_snmp_xsnmp_enabled())
     {
       /* Use Xsnmp OIDs */
+      
+      i_triggerset *tset = i_triggerset_create ("smart_status", "SMART Status", "smart_status");
+      i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_INTEGER, TRGTYPE_EQUAL, 2, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+      i_triggerset_assign_obj (self, obj, tset);
 
       store->size = l_snmp_metric_create (self, obj, "size", "Size", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.4.1.1.4", index_oidstr, RECMETHOD_NONE, 0);
       store->size->alloc_unit = 1024 * 1024;
@@ -127,7 +118,6 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       store->writeable = l_snmp_metric_create (self, obj, "writeable", "Writeable", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.4.1.1.8", index_oidstr, RECMETHOD_NONE, 0);
       i_metric_enumstr_add (store->writeable, 0, "No");
       i_metric_enumstr_add (store->writeable, 1, "Yes");
-      i_entity_refreshcb_add (ENTITY(store->writeable), l_snmp_storage_writeable_refcb, NULL);
       store->removable = l_snmp_metric_create (self, obj, "removable", "Removable", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.4.1.1.9", index_oidstr, RECMETHOD_NONE, 0);
       i_metric_enumstr_add (store->removable, 0, "No");
       i_metric_enumstr_add (store->removable, 1, "Yes");
@@ -166,7 +156,6 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       i_metric_enumstr_add (store->type, 10, "Network");
 
       store->typeoid = l_snmp_metric_create (self, obj, "typeoid", "Type OID", METRIC_OID, ".1.3.6.1.2.1.25.2.3.1.2", index_oidstr, RECMETHOD_NONE, 0);
-      i_entity_refreshcb_add (ENTITY(store->typeoid), l_snmp_storage_typeoid_refcb, NULL);
 
       store->alloc_units = l_snmp_metric_create (self, obj, "alloc_units", "Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
       store->alloc_units->prio--;
