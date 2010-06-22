@@ -71,3 +71,27 @@ int l_snmp_storage_typeoid_refcb (i_resource *self, i_entity *ent, void *passdat
   
   return 0;
 }
+
+int l_snmp_storage_writeable_refcb (i_resource *self, i_entity *ent, void *passdata)
+{
+  /* Called when the writeable metric has been refresh to enable/disable metrics
+   *
+   * Always return 0
+   */
+
+  i_metric_value *val;
+  i_metric *met = (i_metric *) ent;
+
+  /* Get current value */
+  val = i_metric_curval (met);
+  if (!val) return 0;
+
+  /* Enable metrics depending on type */
+  if (val->integer == 1)
+  {
+    /* Volume is writeable, apply used_pc triggerset */
+    l_snmp_storage_apply_usedpc_tset (self, met->obj);
+  }
+  
+  return 0;
+}

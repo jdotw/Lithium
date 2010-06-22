@@ -12,6 +12,10 @@ typedef struct l_snmp_storage_item_s
   struct i_metric_s *free;
   struct i_metric_s *free_pc;
   struct i_metric_s *alloc_failures;
+  struct i_metric_s *writeable;
+  struct i_metric_s *removable;
+  struct i_metric_s *smart_status;
+  struct i_metric_s *smart_message;
 
   unsigned short tset_applied;
   
@@ -37,6 +41,7 @@ void l_snmp_storage_item_free (void *itemptr);
 
 /* snmp_storage_objfact.c */
 
+void l_snmp_storage_apply_usedpc_tset (i_resource *self, struct i_object_s *obj);
 int l_snmp_storage_objfact_fab (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj, struct snmp_pdu *pdu, char *index_oidstr, void *passdata);
 int l_snmp_storage_objfact_ctrl (i_resource *self, struct i_container_s *cnt, int result, void *passdata);
 int l_snmp_storage_objfact_clean (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj);
@@ -50,3 +55,4 @@ int l_snmp_storage_cntform (i_resource *self, struct i_entity_s *ent, i_form_req
 int l_snmp_storage_objform (i_resource *self, struct i_entity_s *ent, i_form_reqdata *reqdata);
 int l_snmp_storage_objform_hist (i_resource *self, struct i_entity_s *ent, i_form_reqdata *reqdata);
 int l_snmp_storage_typeoid_refcb (i_resource *self, struct i_entity_s *ent, void *passdata);
+int l_snmp_storage_writeable_refcb (i_resource *self, struct i_entity_s *ent, void *passdata);

@@ -31,6 +31,22 @@
 
 /* Object Factory Fabrication */
 
+void l_snmp_storage_apply_usedpc_tset (i_resource *self, i_object *obj)
+{
+  /* Percent Free Trigger */
+  if (!obj->hidden && !obj->tset_list)
+  {
+    obj->tset_list = i_list_create ();
+    obj->tset_ht = i_hashtable_create (30);
+    i_triggerset *tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
+    i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 80, NULL, 97, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+    i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_RANGE, 97, NULL, 100, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
+    i_triggerset_addtrg (self, tset, "critical", "Critical", VALTYPE_FLOAT, TRGTYPE_GT, 100, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+    i_triggerset_assign_obj (self, obj, tset);
+    i_triggerset_evalapprules_allsets (self, obj);
+  }
+}
+
 int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struct snmp_pdu *pdu, char *index_oidstr, void *passdata)
 {
   int num;
@@ -61,18 +77,6 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
     )
   { obj->hidden = 1; }
 
-  /* Percent Free Trigger */
-  if (!obj->hidden)
-  {
-    obj->tset_list = i_list_create ();
-    obj->tset_ht = i_hashtable_create (30);
-    i_triggerset *tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
-    i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 80, NULL, 97, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
-    i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_RANGE, 97, NULL, 100, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
-    i_triggerset_addtrg (self, tset, "critical", "Critical", VALTYPE_FLOAT, TRGTYPE_GT, 100, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
-    i_triggerset_assign_obj (self, obj, tset);
-  }
-
   /* Load/Apply Refresh config */
   num = i_entity_refresh_config_loadapply (self, ENTITY(obj), NULL);
   if (num != 0)
@@ -92,58 +96,105 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
 
   if (!obj->hidden)
   {
-    /* Type */
-    store->type = i_metric_create ("type", "Type", METRIC_INTEGER);
-    i_entity_register (self, ENTITY(obj), ENTITY(store->type));
-    memset (&refconfig, 0, sizeof(i_entity_refresh_config));
-    refconfig.refresh_method = REFMETHOD_EXTERNAL;
-    refconfig.refresh_int_sec = REFDEFAULT_REFINTSEC;
-    refconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
-    num = i_entity_refresh_config_apply (self, ENTITY(store->type), &refconfig);
-    i_metric_enumstr_add (store->type, 1, "Unknown");
-    i_metric_enumstr_add (store->type, 2, "RAM");
-    i_metric_enumstr_add (store->type, 3, "Virtual");
-    i_metric_enumstr_add (store->type, 4, "Fixed");
-    i_metric_enumstr_add (store->type, 5, "Removable");
-    i_metric_enumstr_add (store->type, 6, "Floppy");
-    i_metric_enumstr_add (store->type, 7, "Compact Disc");
-    i_metric_enumstr_add (store->type, 8, "RAM Disk");
-    i_metric_enumstr_add (store->type, 9, "Flash");
-    i_metric_enumstr_add (store->type, 10, "Network");
+    if (l_snmp_xsnmp_enabled())
+    {
+      /* Use Xsnmp OIDs */
 
-    store->typeoid = l_snmp_metric_create (self, obj, "typeoid", "Type OID", METRIC_OID, ".1.3.6.1.2.1.25.2.3.1.2", index_oidstr, RECMETHOD_NONE, 0);
-    i_entity_refreshcb_add (ENTITY(store->typeoid), l_snmp_storage_typeoid_refcb, NULL);
+      store->size = l_snmp_metric_create (self, obj, "size", "Size", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.4.1.1.4", index_oidstr, RECMETHOD_NONE, 0);
+      store->size->alloc_unit = 1024 * 1024;
+      store->size->valstr_func = i_string_volume_metric;
+      store->size->unit_str = strdup ("byte");
+      store->size->kbase = 1024;
+      store->size->summary_flag = 1;
 
-    store->alloc_units = l_snmp_metric_create (self, obj, "alloc_units", "Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
-    store->alloc_units->prio--;
+      store->used = l_snmp_metric_create (self, obj, "used", "Used", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.4.1.1.5", index_oidstr, RECMETHOD_RRD, 0);
+      store->used->record_defaultflag = 1;
+      store->used->alloc_unit = 1024 * 1024;
+      store->used->valstr_func = i_string_volume_metric;
+      store->used->unit_str = strdup ("byte");
+      store->used->kbase = 1024;
 
-    store->size = l_snmp_metric_create (self, obj, "size", "Size", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
-    store->size->alloc_unit_met = store->alloc_units;
-    store->size->valstr_func = i_string_volume_metric;
-    store->size->unit_str = strdup ("byte");
-    store->size->kbase = 1024;
+      store->free = l_snmp_metric_create (self, obj, "free", "Free", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.4.1.1.6", index_oidstr, RECMETHOD_NONE, 0);
+      store->free->alloc_unit = 1024 * 1024;
+      store->free->valstr_func = i_string_volume_metric;
+      store->free->unit_str = strdup ("byte");
+      store->free->kbase = 1024;
 
-    store->used = l_snmp_metric_create (self, obj, "used", "Used", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_NONE, 0);
-    store->used->alloc_unit_met = store->alloc_units;
-    store->used->valstr_func = i_string_volume_metric;
-    store->used->unit_str = strdup ("byte");
-    store->used->kbase = 1024;
+      store->used_pc = l_snmp_metric_create (self, obj, "used_pc", "Used Percent", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.4.1.1.7", index_oidstr, RECMETHOD_RRD, 0);
+      store->used_pc->record_defaultflag = 1;
+      store->used_pc->unit_str = strdup ("%");
 
-    store->used_pc = i_metric_acpcent_create (self, obj, "used_pc", "Used Percent", RECMETHOD_RRD, store->used, store->size, ACPCENT_REFCB_GAUGE);
-    store->used_pc->record_defaultflag = 1;
-    i_adminstate_change (self, ENTITY(store->used_pc), ENTADMIN_DISABLED);
+      store->writeable = l_snmp_metric_create (self, obj, "writeable", "Writeable", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.4.1.1.8", index_oidstr, RECMETHOD_NONE, 0);
+      i_metric_enumstr_add (store->writeable, 0, "No");
+      i_metric_enumstr_add (store->writeable, 1, "Yes");
+      i_entity_refreshcb_add (ENTITY(store->writeable), l_snmp_storage_writeable_refcb, NULL);
+      store->removable = l_snmp_metric_create (self, obj, "removable", "Removable", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.4.1.1.9", index_oidstr, RECMETHOD_NONE, 0);
+      i_metric_enumstr_add (store->removable, 0, "No");
+      i_metric_enumstr_add (store->removable, 1, "Yes");
+      store->bootable = l_snmp_metric_create (self, obj, "bootable", "Bootable", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.4.1.1.10", index_oidstr, RECMETHOD_NONE, 0);
+      i_metric_enumstr_add (store->bootable, 0, "No");
+      i_metric_enumstr_add (store->bootable, 1, "Yes");
 
-    store->free = i_metric_acdiff_create (self, obj, "free", "Free", METRIC_FLOAT, RECMETHOD_RRD, store->size, store->used, ACDIFF_REFCB_YMET);
-    store->free->valstr_func = i_string_volume_metric;
-    store->free->unit_str = strdup ("byte");
-    store->free->kbase = 1024;
-    store->free->record_defaultflag = 1;
+      store->smart_status = l_snmp_metric_create (self, obj, "smart_status", "SMART Status", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.4.1.1.11", index_oidstr, RECMETHOD_NONE, 0);
+      i_metric_enumstr_add (store->smart_status, -1, "Unknown");
+      i_metric_enumstr_add (store->smart_status, 0, "Not Supported");
+      i_metric_enumstr_add (store->smart_status, 1, "Verified");
+      i_metric_enumstr_add (store->smart_status, 2, "Warning");
+      store->smart_message = l_snmp_metric_create (self, obj, "smart_message", "SMART Message", METRIC_STRING, ".1.3.6.1.4.1.20038.2.1.4.1.1.12", index_oidstr, RECMETHOD_NONE, 0);
+    }
+    else
+    {
+      /* Use standard hrStorage OIDs */
 
-    store->free_pc = i_metric_acpcent_create (self, obj, "free_pc", "Free Percent", RECMETHOD_RRD, store->free, store->size, ACPCENT_REFCB_GAUGE);
+      /* Type */
+      store->type = i_metric_create ("type", "Type", METRIC_INTEGER);
+      i_entity_register (self, ENTITY(obj), ENTITY(store->type));
+      memset (&refconfig, 0, sizeof(i_entity_refresh_config));
+      refconfig.refresh_method = REFMETHOD_EXTERNAL;
+      refconfig.refresh_int_sec = REFDEFAULT_REFINTSEC;
+      refconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
+      num = i_entity_refresh_config_apply (self, ENTITY(store->type), &refconfig);
+      i_metric_enumstr_add (store->type, 1, "Unknown");
+      i_metric_enumstr_add (store->type, 2, "RAM");
+      i_metric_enumstr_add (store->type, 3, "Virtual");
+      i_metric_enumstr_add (store->type, 4, "Fixed");
+      i_metric_enumstr_add (store->type, 5, "Removable");
+      i_metric_enumstr_add (store->type, 6, "Floppy");
+      i_metric_enumstr_add (store->type, 7, "Compact Disc");
+      i_metric_enumstr_add (store->type, 8, "RAM Disk");
+      i_metric_enumstr_add (store->type, 9, "Flash");
+      i_metric_enumstr_add (store->type, 10, "Network");
 
-    //store->alloc_failures = l_snmp_metric_create (self, obj, "alloc_failures", "Allocation Failures", METRIC_COUNT, ".1.3.6.1.2.1.25.2.3.1.7", index_oidstr, RECMETHOD_NONE, 0);    
+      store->typeoid = l_snmp_metric_create (self, obj, "typeoid", "Type OID", METRIC_OID, ".1.3.6.1.2.1.25.2.3.1.2", index_oidstr, RECMETHOD_NONE, 0);
+      i_entity_refreshcb_add (ENTITY(store->typeoid), l_snmp_storage_typeoid_refcb, NULL);
+
+      store->alloc_units = l_snmp_metric_create (self, obj, "alloc_units", "Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
+      store->alloc_units->prio--;
+
+      store->size = l_snmp_metric_create (self, obj, "size", "Size", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
+      store->size->alloc_unit_met = store->alloc_units;
+      store->size->valstr_func = i_string_volume_metric;
+      store->size->unit_str = strdup ("byte");
+      store->size->kbase = 1024;
+
+      store->used = l_snmp_metric_create (self, obj, "used", "Used", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_NONE, 0);
+      store->used->alloc_unit_met = store->alloc_units;
+      store->used->valstr_func = i_string_volume_metric;
+      store->used->unit_str = strdup ("byte");
+      store->used->kbase = 1024;
+
+      store->used_pc = i_metric_acpcent_create (self, obj, "used_pc", "Used Percent", RECMETHOD_RRD, store->used, store->size, ACPCENT_REFCB_GAUGE);
+      store->used_pc->record_defaultflag = 1;
+
+      store->free = i_metric_acdiff_create (self, obj, "free", "Free", METRIC_FLOAT, RECMETHOD_RRD, store->size, store->used, ACDIFF_REFCB_YMET);
+      store->free->valstr_func = i_string_volume_metric;
+      store->free->unit_str = strdup ("byte");
+      store->free->kbase = 1024;
+      store->free->record_defaultflag = 1;
+
+      store->free_pc = i_metric_acpcent_create (self, obj, "free_pc", "Free Percent", RECMETHOD_RRD, store->free, store->size, ACPCENT_REFCB_GAUGE);
+    }
   }
-
   
   /*
    * End Metric Creation
@@ -315,46 +366,45 @@ int l_snmp_storage_objfact_ctrl (i_resource *self, i_container *cnt, int result,
     /* No errors, set item list state to NORMAL */
     cnt->item_list_state = ITEMLIST_STATE_NORMAL;
 
-    /* Enable file-system monitoring to augment storage info */
-    l_snmp_hrfilesys_enable (self);
-
-    /* Update the memory monitoring container */    
+    /* Non-Xsnmp specific */
     if (!l_snmp_xsnmp_enabled())
     {
+      /* Enable file-system monitoring to augment storage info */
+      l_snmp_hrfilesys_enable (self);
+      
+      /* Update the memory monitoring container */    
       i_container *ram_cnt = l_snmp_nsram_cnt();
       if (ram_cnt)
       {
-          i_object *real_obj = (i_object *) i_entity_child_get(ENTITY(ram_cnt), "master");
-          i_object *swap_obj = (i_object *) i_entity_child_get(ENTITY(ram_cnt), "swap");
-          l_snmp_nsram_item *ram = real_obj->itemptr;
+        i_object *real_obj = (i_object *) i_entity_child_get(ENTITY(ram_cnt), "master");
+        i_object *swap_obj = (i_object *) i_entity_child_get(ENTITY(ram_cnt), "swap");
+        l_snmp_nsram_item *ram = real_obj->itemptr;
 
-          if (ram->real_free) { i_entity_deregister (self, ENTITY(ram->real_free)); i_entity_free (ENTITY(ram->real_free)); }
-          if (ram->real_active) { i_entity_deregister (self, ENTITY(ram->real_active)); i_entity_free (ENTITY(ram->real_active)); }
-          if (ram->real_usedpc) { i_entity_deregister (self, ENTITY(ram->real_usedpc)); i_entity_free (ENTITY(ram->real_usedpc)); }
-          ram->real_free = i_metric_acsum_create (self, real_obj, "free", "Free", METRIC_GAUGE, RECMETHOD_RRD, NULL, NULL, 0);
-          if (ram->real_avail)  i_metric_acsum_addmet (ram->real_free, ram->real_avail, 1);
-          if (ram->buffers)  i_metric_acsum_addmet (ram->real_free, ram->buffers, 1);
-          if (ram->cached)  i_metric_acsum_addmet (ram->real_free, ram->cached, 1);
-          ram->real_free->record_defaultflag = 1;
-          ram->real_free->valstr_func = i_string_volume_metric;
-          ram->real_free->kbase = 1024;
-          ram->real_free->unit_str = strdup ("byte");
-    
-          ram->real_active = i_metric_acdiff_create (self, real_obj, "real_active", "Active", METRIC_FLOAT, RECMETHOD_RRD, ram->real_total, ram->real_free, ACDIFF_REFCB_YMET);
-          ram->real_active->valstr_func = i_string_volume_metric;
-          ram->real_active->unit_str = strdup ("byte");
-          ram->real_active->kbase = 1024;
-          ram->real_active->record_defaultflag = 1;
+        if (ram->real_free) { i_entity_deregister (self, ENTITY(ram->real_free)); i_entity_free (ENTITY(ram->real_free)); }
+        if (ram->real_active) { i_entity_deregister (self, ENTITY(ram->real_active)); i_entity_free (ENTITY(ram->real_active)); }
+        if (ram->real_usedpc) { i_entity_deregister (self, ENTITY(ram->real_usedpc)); i_entity_free (ENTITY(ram->real_usedpc)); }
+        ram->real_free = i_metric_acsum_create (self, real_obj, "free", "Free", METRIC_GAUGE, RECMETHOD_RRD, NULL, NULL, 0);
+        if (ram->real_avail)  i_metric_acsum_addmet (ram->real_free, ram->real_avail, 1);
+        if (ram->buffers)  i_metric_acsum_addmet (ram->real_free, ram->buffers, 1);
+        if (ram->cached)  i_metric_acsum_addmet (ram->real_free, ram->cached, 1);
+        ram->real_free->record_defaultflag = 1;
+        ram->real_free->valstr_func = i_string_volume_metric;
+        ram->real_free->kbase = 1024;
+        ram->real_free->unit_str = strdup ("byte");
+  
+        ram->real_active = i_metric_acdiff_create (self, real_obj, "real_active", "Active", METRIC_FLOAT, RECMETHOD_RRD, ram->real_total, ram->real_free, ACDIFF_REFCB_YMET);
+        ram->real_active->valstr_func = i_string_volume_metric;
+        ram->real_active->unit_str = strdup ("byte");
+        ram->real_active->kbase = 1024;
+        ram->real_active->record_defaultflag = 1;
 
-          ram->real_usedpc = i_metric_acpcent_create (self, real_obj, "real_usedpc", "Used Percent", RECMETHOD_RRD, ram->real_active, ram->real_total, ACPCENT_REFCB_GAUGE);
-          ram->real_usedpc->record_defaultflag = 1;
+        ram->real_usedpc = i_metric_acpcent_create (self, real_obj, "real_usedpc", "Used Percent", RECMETHOD_RRD, ram->real_active, ram->real_total, ACPCENT_REFCB_GAUGE);
+        ram->real_usedpc->record_defaultflag = 1;
 
-          i_triggerset_evalapprules_allsets (self, real_obj);
-          l_record_eval_recrules_obj (self, real_obj);
-          i_triggerset_evalapprules_allsets (self, swap_obj);
-          l_record_eval_recrules_obj (self, swap_obj);
-
-        }
+        i_triggerset_evalapprules_allsets (self, real_obj);
+        l_record_eval_recrules_obj (self, real_obj);
+        i_triggerset_evalapprules_allsets (self, swap_obj);
+        l_record_eval_recrules_obj (self, swap_obj);
       }
     }
   }

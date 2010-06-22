@@ -44,20 +44,10 @@ int l_snmp_hrfilesys_access_refcb (i_resource *self, i_entity *ent, void *passda
   if (!val) return 0;
 
   /* Enable/Disable metrics depending on access */
-  l_snmp_storage_item *store = (l_snmp_storage_item *) met->obj->itemptr;
-  if (val->integer == 2)
+  if (val->integer == 1)
   {
-    /* Resource is read-only, disable used_pc */
-    if (store->used_pc && store->used_pc->adminstate == ENTADMIN_ENABLED) 
-    {
-      i_printf (1, "l_snmp_hrfilesys_access_refcb disabling triggers for read-only storage resource '%s'", met->obj->desc_str);
-      i_adminstate_change (self, ENTITY(store->used_pc), ENTADMIN_DISABLED);
-    }
-  }
-  else if (val->integer == 1)
-  {
-    /* Resource is read/write, enable used_pc */
-    if (store->used_pc && store->used_pc->adminstate == ENTADMIN_DISABLED) i_adminstate_change (self, ENTITY(store->used_pc), ENTADMIN_ENABLED);
+    /* Resource is read/write, apply used_pc trigger set */
+    l_snmp_storage_apply_usedpc_tset (self, met->obj);
   }
   
   return 0;
