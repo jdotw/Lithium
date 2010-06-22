@@ -7,13 +7,17 @@ typedef struct l_snmp_nsram_item_s
   struct i_object_s *swap_obj;
 
   /* Real */
-  struct i_metric_s *real_total;        /* As reported by SNMP */
-  struct i_metric_s *real_avail;        /* Free as reported by SNMP */
-  struct i_metric_s *real_alloc;        /* Allocation for real/physical memory */
-  struct i_metric_s *real_used;         /* Used as reported by SNMP */
-  struct i_metric_s *real_free;         /* Available (calculated from free + cached + buffers) */
-  struct i_metric_s *real_active;       /* Active Used (calculated from total - free) */
+  struct i_metric_s *real_alloc;        /* Allocation units for real/physical memory */
+  struct i_metric_s *real_total;        /* Total amount of RAM */
+  struct i_metric_s *real_used;         /* Total Amount of RAM Used in any way (Wired + Active + Inactive) */
+  struct i_metric_s *real_free;         /* Completed unused RAM */
+  struct i_metric_s *real_wired;        /* Wired RAM (used by kernel) */
+  struct i_metric_s *real_active;       /* Active RAM (used by apps) */
+  struct i_metric_s *real_inactive;     /* Inactive RAM (can be freed) */
+  struct i_metric_s *real_avail;        /* RAM Available to apps (Free + Inactive) */
+  struct i_metric_s *real_unavail;      /* RAM Unavailable to apps (Total - Avail) */
   struct i_metric_s *real_usedpc;       /* Calculated on free/total */
+
   struct i_metric_s *shared;            /* As reported by SNMP -- Not on OS X*/
   struct i_metric_s *shared_alloc;      /* As reported by SNMP -- Not on OS X*/
   struct i_metric_s *cached;            /* As reported by SNMP -- Not on OS X */
