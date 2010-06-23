@@ -76,6 +76,7 @@ common_SOURCES = csv.c \
 				   xsaninfo_item.c \
 				   xsanvol.c \
 				   xsanvol_item.c \
+				   xsanvol_objfact.c \
 				   xsansp.c \
 				   xsansp_item.c \
 				   xsannode.c \

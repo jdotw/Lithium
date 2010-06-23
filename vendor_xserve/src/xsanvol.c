@@ -109,24 +109,52 @@ int v_xsanvol_enable (i_resource *self)
   static_cnt->item_list_state = ITEMLIST_STATE_NORMAL;
 
   /*
-   * Create Data Metrics 
+   * Setup data polling
    */
-  
-  v_data_item *dataitem = v_data_static_item();
-  
-  /* Standard refresh config */
-  memset (&defrefconfig, 0, sizeof(i_entity_refresh_config));
-  defrefconfig.refresh_method = REFMETHOD_PARENT;
-  defrefconfig.refresh_int_sec = REFDEFAULT_REFINTSEC;
-  defrefconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
 
-  /* Sysinfo metric */
-  dataitem->xsan_settings = i_metric_create ("xsan_settings", "Xsan Settings", METRIC_INTEGER);
-  i_metric_enumstr_add (dataitem->xsan_settings, 0, "Invalid");
-  i_metric_enumstr_add (dataitem->xsan_settings, 1, "Current");
-  i_entity_register (self, ENTITY(dataitem->obj), ENTITY(dataitem->xsan_settings));
-  i_entity_refresh_config_apply (self, ENTITY(dataitem->xsan_settings), &defrefconfig);
-  dataitem->xsan_settings->refresh_func = v_data_xsan_settings_refresh;
+  if (l_snmp_xsnmp_enabled())
+  {
+    /* Using Xsnmp -- nice. */
+
+    /* Create the object factory */
+    static_objfact = l_snmp_objfact_create (self, static_cnt->name_str, static_cnt->desc_str);
+    if (!static_objfact)
+    {
+      i_printf (1, "v_xsanvol_enable failed to call l_snmp_objfact_create to create the objfact"); 
+      l_snmp_storage_disable (self); 
+      return -1;
+    }
+    static_objfact->dev = self->hierarchy->dev;
+    static_objfact->cnt = static_cnt;
+    static_objfact->name_oid_str = strdup (".1.3.6.1.4.1.20038.2.1.1.1.1.2");
+    static_objfact->fabfunc = v_xsanvol_objfact_fab;
+    static_objfact->ctrlfunc = v_xsanvol_objfact_ctrl;
+    static_objfact->cleanfunc = v_xsanvol_objfact_clean;
+    num = l_snmp_objfact_start (self, static_objfact);
+    if (num != 0)
+    { 
+      i_printf (1, "v_xsanvol_enable failed to call l_snmp_objfact_start to start the object factory"); 
+    }
+  }
+  else
+  {
+    /* Using servermgrd -- evil. */
+    v_data_item *dataitem = v_data_static_item();
+  
+    /* Standard refresh config */
+    memset (&defrefconfig, 0, sizeof(i_entity_refresh_config));
+    defrefconfig.refresh_method = REFMETHOD_PARENT;
+    defrefconfig.refresh_int_sec = REFDEFAULT_REFINTSEC;
+    defrefconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
+
+    /* Sysinfo metric */
+    dataitem->xsan_settings = i_metric_create ("xsan_settings", "Xsan Settings", METRIC_INTEGER);
+    i_metric_enumstr_add (dataitem->xsan_settings, 0, "Invalid");
+    i_metric_enumstr_add (dataitem->xsan_settings, 1, "Current");
+    i_entity_register (self, ENTITY(dataitem->obj), ENTITY(dataitem->xsan_settings));
+    i_entity_refresh_config_apply (self, ENTITY(dataitem->xsan_settings), &defrefconfig);
+    dataitem->xsan_settings->refresh_func = v_data_xsan_settings_refresh;
+  }
   
   return 0;
 }

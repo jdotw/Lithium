@@ -65,5 +65,8 @@ int v_snmp_enable (i_resource *self)
     num = l_procpro_enable (self);
   }
 
+  if (l_snmp_xsnmp_enabled())
+  { v_xsanvol_enable(); }
+
   return 0;
 }
