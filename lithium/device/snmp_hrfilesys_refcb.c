@@ -44,6 +44,8 @@ int l_snmp_hrfilesys_access_refcb (i_resource *self, i_entity *ent, void *passda
   val = i_metric_curval (met);
   if (!val) return 0;
 
+  i_printf (1, "l_snmp_hrfilesys_access_refcb val=%p integer==%i usedpc_trigger_applied=%i", val, val->integer, store->usedpc_trigger_applied);
+
   /* Enable/Disable metrics depending on access */
   if (val->integer == 1 && !store->usedpc_trigger_applied)
   {
@@ -55,6 +57,7 @@ int l_snmp_hrfilesys_access_refcb (i_resource *self, i_entity *ent, void *passda
     i_triggerset_assign_obj (self, met->obj, tset);
     store->usedpc_trigger_applied = 1;
     i_triggerset_evalapprules_allsets (self, met->obj);
+    i_printf (1, "l_snmp_hrfilesys_access_refcb applying!");
   }
   
   return 0;

@@ -182,25 +182,24 @@ int l_snmp_nsram_enable (i_resource *self)
     ram->real_free->kbase = 1024;
     ram->real_free->unit_str = strdup ("byte");
 
-    ram->real_total = i_metric_acsum_create (self, real_obj, "real_total", "Total", METRIC_GAUGE, RECMETHOD_RRD, ram->real_used, ram->real_free, ACSUM_REFCB_YMET);
+    ram->real_total = i_metric_acsum_create (self, real_obj, "real_total", "Total", METRIC_FLOAT, RECMETHOD_RRD, ram->real_used, ram->real_free, ACSUM_REFCB_YMET);
     ram->real_total->record_defaultflag = 1;
     ram->real_total->valstr_func = i_string_volume_metric;
     ram->real_total->kbase = 1024;
     ram->real_total->unit_str = strdup ("byte");
   
-    ram->real_avail = i_metric_acsum_create (self, real_obj, "real_avail", "Available", METRIC_GAUGE, RECMETHOD_RRD, ram->real_free, ram->real_inactive, ACSUM_REFCB_YMET);
+    ram->real_avail = i_metric_acsum_create (self, real_obj, "real_avail", "Available", METRIC_FLOAT, RECMETHOD_RRD, ram->real_free, ram->real_inactive, ACSUM_REFCB_YMET);
     ram->real_avail->record_defaultflag = 1;
     ram->real_avail->valstr_func = i_string_volume_metric;
     ram->real_avail->kbase = 1024;
     ram->real_avail->unit_str = strdup ("byte");
   
-    ram->real_unavail = i_metric_acdiff_create (self, real_obj, "real_unavail", "Unavailable", METRIC_GAUGE, RECMETHOD_NONE, ram->real_total, ram->real_avail, ACDIFF_REFCB_YMET);
+    ram->real_unavail = i_metric_acdiff_create (self, real_obj, "real_unavail", "Unavailable", METRIC_FLOAT, RECMETHOD_NONE, ram->real_total, ram->real_avail, ACDIFF_REFCB_YMET);
     ram->real_unavail->valstr_func = i_string_volume_metric;
     ram->real_unavail->kbase = 1024;
     ram->real_unavail->unit_str = strdup ("byte");
-    ram->real_unavail->hidden = 1;
   
-    ram->real_usedpc = i_metric_acpcent_create (self, real_obj, "real_usedpc", "Used Percent", RECMETHOD_RRD, ram->real_unavail, ram->real_total, ACPCENT_REFCB_GAUGE);
+    ram->real_usedpc = i_metric_acpcent_create (self, real_obj, "real_usedpc", "Used Percent", RECMETHOD_RRD, ram->real_unavail, ram->real_total, ACPCENT_REFCB_MAX);
     ram->real_usedpc->record_defaultflag = 1;
   }
 

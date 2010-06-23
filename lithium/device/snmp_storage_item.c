@@ -31,6 +31,8 @@ l_snmp_storage_item* l_snmp_storage_item_create ()
   { i_printf (1, "l_snmp_storage_item_create failed to malloc l_snmp_storage_item struct"); return NULL; }
   memset (item, 0, sizeof(l_snmp_storage_item));
 
+  i_printf (1, "l_snmp_storage_item_create item is %p size is %lu and usedpc_trigger_applied is %i", item, sizeof(l_snmp_storage_item), item->usedpc_trigger_applied);
+
   return item;
 }
 
