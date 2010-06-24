@@ -62,6 +62,7 @@ cd ..
 rm -rf $HTTPD
 
 cp $BASEDIR/configs/httpd/clientd.conf /Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/clientd.conf
+cp $BASEDIR/configs/httpd/httpd-ssl.conf /Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/extra/httpd-ssl.conf
 
 # 
 # PHP
@@ -74,7 +75,7 @@ cd $PHP
 CFLAGS="$UB_CFLAGS" \
 LDFLAGS="$UB_LDFLAGS" \
 MACOSX_DEPLOYMENT_TARGET=$OSTARGET \
-./configure $CONFIGURE_PATHS --disable-dependency-tracking --with-apxs2=$PREFIX/Contents/MacOS/apxs --with-mysqli=/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Support/mysql_config --with-pgsql=/Library/Lithium/LithiumCore.app/Contents/MacOS
+./configure $CONFIGURE_PATHS --disable-xmlreader --without-pear --disable-xml --disable-dependency-tracking --with-apxs2=$PREFIX/Contents/MacOS/apxs --with-mysqli=/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Support/mysql_config --with-pgsql=/Library/Lithium/LithiumCore.app/Contents/MacOS
 if [ $? -ne 0 ]; then
   echo "ERROR: Failed to configure PHP"
   exit 1

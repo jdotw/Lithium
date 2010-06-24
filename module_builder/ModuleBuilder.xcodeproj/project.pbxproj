@@ -313,7 +313,7 @@
 		10EEA0520FA471D300822D1D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		10EEA06F0FA4731500822D1D /* MBModuleBuilderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBModuleBuilderController.h; sourceTree = "<group>"; };
 		10EEA0700FA4731500822D1D /* MBModuleBuilderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBModuleBuilderController.m; sourceTree = "<group>"; };
-		10EEA0810FA4754800822D1D /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = ../Console/Frameworks/Sparkle.framework; sourceTree = SOURCE_ROOT; };
+		10EEA0810FA4754800822D1D /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = ../frameworks/Sparkle.framework; sourceTree = SOURCE_ROOT; };
 		10F4F72C0F50E51C000043DE /* MBMetricPropertiesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBMetricPropertiesView.h; sourceTree = "<group>"; };
 		10F4F72D0F50E51C000043DE /* MBMetricPropertiesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBMetricPropertiesView.m; sourceTree = "<group>"; };
 		10F4F7B90F50F14C000043DE /* MetricProperties.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MetricProperties.xib; sourceTree = "<group>"; };
@@ -1077,10 +1077,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Console/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = ../frameworks;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -1099,10 +1096,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../Console/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = ../frameworks;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ModuleBuilder_Prefix.pch;
@@ -1133,7 +1127,7 @@
 					ppc,
 					i386,
 				);
-				CURRENT_PROJECT_VERSION = 201225;
+				CURRENT_PROJECT_VERSION = 201226;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

@@ -40,13 +40,13 @@
 	<key>CFBundleSignature</key>
 	<string>LCRP</string>
 	<key>CFBundleVersion</key>
-	<string>201225</string>
+	<string>201226</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.0.7</string>
+	<string>5.0.8</string>
 	<key>SUFeedURL</key>
 	<string>https://secure.lithiumcorp.com.au/tech/index.php/appcast/modb</string>
 </dict>
