@@ -21,7 +21,7 @@ int l_snmp_sysinfo_disable (i_resource *self);
 
 /* snmp_sysinfo_refcb.c */
 int l_snmp_sysinfo_uptime_refcb (i_resource *self, struct i_entity_s *ent, void *passdata);
-int l_snmp_sysinfo_descr_refcb (i_resource *self, i_entity *ent, void *passdata);
+int l_snmp_sysinfo_descr_refcb (i_resource *self, struct i_entity_s *ent, void *passdata);
 
 /* snmp_sysinfo_item.c */
 l_snmp_sysinfo_item* l_snmp_sysinfo_item_create ();
