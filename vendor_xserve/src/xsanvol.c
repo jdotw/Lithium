@@ -37,6 +37,7 @@
 /* Xsan Volumes Info */
 
 static i_container *static_cnt = NULL;
+static l_snmp_objfact *static_objfact = NULL;
 
 /* Variable Retrieval */
 
@@ -121,7 +122,6 @@ int v_xsanvol_enable (i_resource *self)
     if (!static_objfact)
     {
       i_printf (1, "v_xsanvol_enable failed to call l_snmp_objfact_create to create the objfact"); 
-      l_snmp_storage_disable (self); 
       return -1;
     }
     static_objfact->dev = self->hierarchy->dev;

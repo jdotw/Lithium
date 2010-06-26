@@ -38,6 +38,7 @@
 
 
 #include "snmp.h"
+#include "xsanvol.h"
 
 int v_snmp_enable (i_resource *self)
 {
@@ -66,7 +67,7 @@ int v_snmp_enable (i_resource *self)
   }
 
   if (l_snmp_xsnmp_enabled())
-  { v_xsanvol_enable(); }
+  { v_xsanvol_enable(self); }
 
   return 0;
 }

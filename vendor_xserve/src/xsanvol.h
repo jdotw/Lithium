@@ -1,6 +1,7 @@
 typedef struct v_xsanvol_item_s
 {
   struct i_object_s *obj;
+  int index;
 
   /* Config */
   struct i_metric_s *allocation_strategy;
@@ -70,3 +71,6 @@ int v_xsanvol_read_preempt_callback (i_resource *self, struct i_socket_s *sock, 
 v_xsanvol_item* v_xsanvol_item_create ();
 void v_xsanvol_item_free (void *itemptr);
 
+int v_xsanvol_objfact_fab (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj, struct snmp_pdu *pdu, char *index_oidstr, void *passdata);
+int v_xsanvol_objfact_ctrl (i_resource *self, struct i_container_s *cnt, int result, void *passdata);
+int v_xsanvol_objfact_clean (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj);
