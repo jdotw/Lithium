@@ -28,18 +28,14 @@
 static int static_enabled = 0;                        /* 0 = disabled / 1 = enabled */
 static i_container *static_cnt = NULL;                /* Cement Container */
 static l_snmp_objfact *static_objfact = NULL;         /* Object Factory Data */
-static int static_monitor_memory = 0;                 /* 0=Ignore memory objects */
 
 /* Variable Fetching */
 
 i_container* l_snmp_storage_cnt ()
 { return static_cnt; }
 
-int l_snmp_storage_monitor_memory ()
-{ return static_monitor_memory; }
-
-void l_snmp_storage_monitor_memory_set (int value)
-{ static_monitor_memory = value; }
+l_snmp_objfact* l_snmp_storage_objfact ()
+{ return static_objfact; }
 
 /* Sub-System Enable / Disable */
 
@@ -96,14 +92,29 @@ int l_snmp_storage_enable (i_resource *self)
   static_objfact->ctrlfunc = l_snmp_storage_objfact_ctrl;
   static_objfact->cleanfunc = l_snmp_storage_objfact_clean;
 
-  /* Start the object factory */
-  num = l_snmp_objfact_start (self, static_objfact);
-  if (num != 0)
-  { 
-    i_printf (1, "l_snmp_storage_enable failed to call l_snmp_objfact_start to start the object factory"); 
-    l_snmp_storage_disable (self); 
+  /* Get system info container */
+  i_container *sysinfo = (i_container *) i_entity_child_get(ENTITY(self->hierarchy->dev), "snmp_sysinfo");
+  if (!sysinfo)
+  {
+    /* System info container not enabled, start objfact now.
+     * Otherwise, do not start the objfact yet as we must wait
+     * to see if this host is running 10.4 before enabling the objfact.
+     * This is due to the crash in snmpd on 10.4 if you walk to far 
+     * info the storage resources mib 
+     */
+
+    /* Start the object factory */
+    i_printf (0, "l_snmp_storage_enable starting objfact immediately in the absence of sysinfo");
+    num = l_snmp_objfact_start (self, static_objfact);
+    if (num != 0)
+    { 
+      i_printf (1, "l_snmp_storage_enable failed to call l_snmp_objfact_start to start the object factory"); 
+      l_snmp_storage_disable (self); 
     return -1; 
+    }
   }
+  else
+  { i_printf (0, "l_snmp_storage_enable delaying start of object factory until sysinfo is populated"); }
 
   return 0;  
 }

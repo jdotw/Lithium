@@ -13,6 +13,7 @@ device_so_SOURCES = main.c \
                     devform.c \
 					metform.c \
 					trgform.c \
+					osx.c \
 					avail.c \
 					avail_item.c \
 					avail_cntform.c \

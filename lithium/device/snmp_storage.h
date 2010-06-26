@@ -27,8 +27,7 @@ typedef struct l_snmp_storage_item_s
 struct i_container_s* l_snmp_storage_cnt ();
 int l_snmp_storage_enable (i_resource *self);
 int l_snmp_storage_disable (i_resource *self);
-void l_snmp_storage_monitor_memory_set (int value);
-int l_snmp_storage_monitor_memory ();
+l_snmp_objfact* l_snmp_storage_objfact ();
 
 /* snmp_storage_item.c */
 
