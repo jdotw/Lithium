@@ -26,6 +26,11 @@
 
 /* snmp_hrfilesys - SNMP Host File System Sub-System */
 
+static int static_hrfilesys_enabled = 0;
+
+int l_snmp_hrfilesys_enabled()
+{ return static_hrfilesys_enabled; }
+
 /* Sub-System Enable */
 
 int l_snmp_hrfilesys_enable (i_resource *self)
@@ -76,6 +81,8 @@ int l_snmp_hrfilesys_enable (i_resource *self)
     i_printf (1, "l_snmp_hrfilesys_enable failed to call l_snmp_objfact_start to start the object factory"); 
     return -1; 
   }
+
+  static_hrfilesys_enabled = 1;
 
   return 0;  
 }

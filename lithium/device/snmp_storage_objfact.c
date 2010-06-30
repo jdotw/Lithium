@@ -20,6 +20,7 @@
 #include <induction/str.h>
 
 #include "snmp.h"
+#include "osx.h"
 #include "snmp_storage.h"
 #include "snmp_hrfilesys.h"
 #include "snmp_nsram.h"
@@ -154,9 +155,12 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
   if (num != 0)
   { i_printf (1, "l_snmp_storage_objfact_fab failed to enqueue storage item for object %s", obj->name_str); l_snmp_storage_item_free (store); return -1; }
   
-  /* Get RAM objects */
-  if (strstr(obj->desc_str, "emory") || strstr(obj->desc_str, "Swap"))
+  /* Get RAM objects 
+   * -- only for non-OSX or OS X > 10.5 due to snmpd bug in 10.4
+   */
+  if ((strstr(obj->desc_str, "emory") || strstr(obj->desc_str, "Swap")) && (!l_osx_present() || l_osx_version() >= 100500))
   {
+    
     if (!l_snmp_nsram_cnt()) l_snmp_nsram_enable (self);
     i_container *ram_cnt = l_snmp_nsram_cnt();
     i_object *real_obj = (i_object *) i_entity_child_get(ENTITY(ram_cnt), "master");
@@ -204,6 +208,7 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       if (ram->swap_total) { i_entity_deregister (self, ENTITY(ram->swap_total)); i_entity_free (ENTITY(ram->swap_total)); ram->swap_total = NULL; }
       if (ram->swap_used) { i_entity_deregister (self, ENTITY(ram->swap_used)); i_entity_free (ENTITY(ram->swap_used)); ram->swap_used = NULL; }
       if (ram->swap_avail) { i_entity_deregister (self, ENTITY(ram->swap_avail)); i_entity_free (ENTITY(ram->swap_avail)); ram->swap_avail = NULL; }
+      if (ram->swap_usedpc) { i_entity_deregister (self, ENTITY(ram->swap_usedpc)); i_entity_free (ENTITY(ram->swap_usedpc)); ram->swap_usedpc = NULL; }
 
       /* Swap Alloc units */
       ram->swap_alloc = l_snmp_metric_create (self, swap_obj, "swap_alloc", "Swap Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
@@ -307,7 +312,11 @@ int l_snmp_storage_objfact_ctrl (i_resource *self, i_container *cnt, int result,
     cnt->item_list_state = ITEMLIST_STATE_NORMAL;
 
     /* Enable file-system monitoring to augment storage info */
-    l_snmp_hrfilesys_enable (self);
+    if (!l_snmp_hrfilesys_enabled())
+    {
+      i_printf (1, "l_snmp_storage_objfact_ctrl enabling hrfilesys");
+      l_snmp_hrfilesys_enable (self);
+    }
 
     /* Update the memory monitoring container */    
     i_container *ram_cnt = l_snmp_nsram_cnt();

@@ -77,7 +77,6 @@ int module_entry (i_resource *self, i_form *config_form)
   if (num != 0)
   { i_printf (1, "windows vendor module_entry failed to enable l_snmp_nsram"); }
 
-//  l_snmp_storage_monitor_memory_set (1);
   num = l_snmp_storage_enable (self);
   if (num != 0)
   { i_printf (1, "windows vendor module_entry failed to enable l_snmp_storage"); }

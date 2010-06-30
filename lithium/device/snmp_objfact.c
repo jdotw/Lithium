@@ -169,6 +169,9 @@ int l_snmp_objfact_start (i_resource *self, l_snmp_objfact *fact)
     return -1; 
   }
 
+  /* Set state */
+  fact->started = 1;
+
   return 0;
 }
 

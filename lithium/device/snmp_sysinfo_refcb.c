@@ -19,8 +19,10 @@
 #include <induction/triggerset.h>
 
 #include "record.h"
+#include "osx.h"
 #include "snmp.h"
 #include "snmp_sysinfo.h"
+#include "snmp_storage.h"
 
 /* SNMP System Information MIB */
 
@@ -75,4 +77,56 @@ int l_snmp_sysinfo_uptime_refcb (i_resource *self, i_entity *ent, void *passdata
   }
 
   return 0;
+}
+
+int l_snmp_sysinfo_descr_refcb (i_resource *self, i_entity *ent, void *passdata)
+{
+  /* Called when sysDescr has been refreshed. 
+   *
+   * If a value is received, snmp_storage is enabled 
+   * and the objfact hasn't been started, we start it now.
+   * This is because snmp_storage must know about sysDescr to 
+   * determine what OIDs to enable/disable due to the bug in snmpd
+   * on Mac OS X 10.4.
+   * 
+   */
+
+  i_metric *met = (i_metric *) ent;
+
+  i_metric_value *val = i_metric_curval (met);
+  if (val && val->str)
+  {
+    /* Check version */
+    char *darwin_match_str = "Darwin Kernel Version ";
+    char *darwin_version = strstr(val->str, darwin_match_str);
+    if (darwin_version)
+    {
+      char *number_str = darwin_version + strlen(darwin_match_str);
+      int minor_number = (int) strtol(number_str, NULL, 10);
+      number_str = strstr(number_str, ".");
+      int point_number = 0;
+      if (number_str) point_number = (int) strtol(number_str+1, NULL, 10);
+      l_osx_set_present (1);
+      l_osx_set_version (100000 + ((minor_number - 4) * 100) + point_number);
+      i_printf (0, "OS X Version 10.%i.%i found (%i)", minor_number - 4, point_number, l_osx_version());
+    }
+
+    /* Start storage objfact is present and not running */
+    i_container *storage_cnt = l_snmp_storage_cnt ();
+    if (storage_cnt)
+    {
+      i_printf (0, "l_snmp_sysinfo_descr_refcb enabling l_snmp_storage_objfact now that sysDescr is known");
+      l_snmp_objfact *storage_objfact = l_snmp_storage_objfact();
+      if (storage_objfact && storage_objfact->started == 0)
+      { l_snmp_objfact_start (self, storage_objfact); }
+    }
+
+    /* Value received, callback no longer needed */
+    return -1;
+  }
+  else
+  {
+    /* No value yet, keep callback alive */
+    return 0;
+  }
 }

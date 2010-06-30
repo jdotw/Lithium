@@ -153,6 +153,7 @@ typedef struct l_snmp_objfact_s
   struct i_list_s *obj_list;                      /* List of objects, MUST be kept in index-order */
   struct i_list_s *unreg_list;                    /* List of unregistered objects */
   int first_refresh;                              /* 1 = The factory is undergoing its initial refresh */
+  int started;                                    /* Set to 1 when the objfact_start function is called */
 
   /* Function */
   int (*fabfunc) ();                              /* Facrication function */

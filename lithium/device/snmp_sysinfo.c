@@ -110,6 +110,7 @@ int l_snmp_sysinfo_enable (i_resource *self)
   i_entity_refreshcb_add (ENTITY(sysinfo->uptime), l_snmp_sysinfo_uptime_refcb, NULL);
   sysinfo->name = l_snmp_metric_create (self, static_obj, "name", "Name", METRIC_STRING, "sysName", "0", RECMETHOD_NONE, 0);
   sysinfo->descr = l_snmp_metric_create (self, static_obj, "descr", "Description", METRIC_STRING, "sysDescr", "0", RECMETHOD_NONE, 0);
+  i_entity_refreshcb_add (ENTITY(sysinfo->descr), l_snmp_sysinfo_descr_refcb, NULL);
   sysinfo->location = l_snmp_metric_create (self, static_obj, "location", "Location", METRIC_STRING, "sysLocation", "0", RECMETHOD_NONE, 0);
   sysinfo->contact = l_snmp_metric_create (self, static_obj, "contact", "Contact", METRIC_STRING, "sysContact", "0", RECMETHOD_NONE, 0);
   sysinfo->services = l_snmp_metric_create (self, static_obj, "services", "Services", METRIC_INTEGER, "sysServices", "0", RECMETHOD_NONE, 0);
