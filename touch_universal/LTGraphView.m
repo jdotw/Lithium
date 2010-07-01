@@ -12,22 +12,28 @@
 
 @implementation LTGraphView
 
-@synthesize graphScrollView, graphLayer, metrics, minLabels, avgLabels, maxLabels;
++ (Class)layerClass
+{
+	return [CATiledLayer class];
+}
+
+@synthesize metrics, minLabels, avgLabels, maxLabels;
 
 - (id)initWithFrame:(CGRect)frame 
 {
     if ((self = [super initWithFrame:frame])) 
 	{
-		graphTiledLayer = [CATiledLayer layer];
-		graphTiledLayer.tileSize = CGSizeMake(512.0, 512.0);
-		graphTiledLayer.levelsOfDetail = 1;
-		graphTiledLayer.levelsOfDetailBias = 1;
-		graphTiledLayer.frame = self.bounds;
-		[self.layer addSublayer:graphTiledLayer];
+		CATiledLayer *tiledLayer = (CATiledLayer *) self.layer;
+		tiledLayer.tileSize = CGSizeMake(512.0, 512.0);
+		tiledLayer.levelsOfDetail = 1;
+		tiledLayer.levelsOfDetailBias = 1;
+		tiledLayer.delegate = self;
 
 		minLabels = [[NSMutableArray array] retain];
 		avgLabels = [[NSMutableArray array] retain];
 		maxLabels = [[NSMutableArray array] retain];
+		
+		self.opaque = NO;
 		
 		UILongPressGestureRecognizer *longRecog = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(graphLongTouch:)];
 		[self addGestureRecognizer:longRecog];
@@ -61,8 +67,6 @@
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"GraphRefreshFinished" object:graphReq];
 	}
 	[graphRequestCache release];
-	[graphScrollView release];
-	[graphLayer release];
 	[metrics release];
 	[minLabels release];
 	[avgLabels release];
@@ -74,8 +78,10 @@
 {
 	/* Determine draw size */
 	CGRect clipRect = CGContextGetClipBoundingBox(ctx);
+	NSLog (@"layer %@ asked to draw in %@", layer, NSStringFromCGRect(clipRect));
 	
 	/* Time orientation */
+	UIScrollView *graphScrollView = (UIScrollView *) self.superview;
 	NSDate *now = [NSDate date];
 	CGFloat offset = graphScrollView.contentSize.width - CGRectGetMaxX(clipRect);
 	
@@ -161,9 +167,9 @@
 
 - (void) graphLoadFinished:(NSNotification *)note
 {
-	NSLog (@"Got graph");
 	LTMetricGraphRequest *graphReq = (LTMetricGraphRequest *) [note object];
-	[graphLayer setNeedsDisplayInRect:graphReq.rectToInvalidate];
+	NSLog (@"Got graph (%i bytes) -- %@", [graphReq.imageData length], [[NSString alloc] initWithData:graphReq.imageData encoding:NSUTF8StringEncoding]);
+	[self.layer setNeedsDisplayInRect:graphReq.rectToInvalidate];
 	
 	/* Determine scale based on min/max */
 	invalidated = NO;
@@ -173,7 +179,7 @@
 		{
 			/* New min value... invalidate layer */
 			NSLog (@"Got a new MIN");
-			[graphLayer setNeedsDisplayInRect:graphLayer.bounds];
+			[self.layer setNeedsDisplayInRect:self.layer.bounds];
 			invalidated = YES;
 			minValue = graphReq.minValue;
 		}
@@ -182,7 +188,7 @@
 			/* New max value.. invalidate layer */
 			NSLog (@"Got a new MAX");
 			invalidated = YES;
-			[graphLayer setNeedsDisplayInRect:graphLayer.bounds];
+			[self.layer setNeedsDisplayInRect:self.layer.bounds];
 			maxValue = graphReq.maxValue;
 		}
 	}
@@ -213,6 +219,16 @@
 	}
 }
 
-
+- (void) setMetrics:(NSArray *)value
+{
+	[metrics release];
+	metrics = [value retain];
+	
+	NSLog (@"Metrics is now %@", metrics);
+	
+	[graphRequestCache removeAllObjects];
+	NSLog (@"%@ Invalidating %@ in %@", self, self.layer, NSStringFromCGRect(self.layer.bounds));
+	[self.layer setNeedsDisplayInRect:self.layer.bounds];
+}
 
 @end

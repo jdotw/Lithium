@@ -28,3 +28,6 @@ v_xsannode_item* v_xsannode_create (i_resource *self, struct v_xsansp_item_s *sp
 v_xsannode_item* v_xsannode_item_create ();
 void v_xsannode_item_free (void *itemptr);
 
+int v_xsannode_objfact_fab (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj, struct snmp_pdu *pdu, char *index_oidstr, void *passdata);
+int v_xsannode_objfact_ctrl (i_resource *self, struct i_container_s *cnt, int result, void *passdata);
+int v_xsannode_objfact_clean (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj);

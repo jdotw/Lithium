@@ -1,5 +1,6 @@
 typedef struct v_xsanvisdisk_item_s
 {
+  int index;
   struct i_object_s *obj;
 
   /* WWN */
@@ -19,3 +20,6 @@ int v_xsanvisdisk_disable (i_resource *self);
 v_xsanvisdisk_item* v_xsanvisdisk_item_create ();
 void v_xsanvisdisk_item_free (void *itemptr);
 
+int v_xsanvisdisk_objfact_fab (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj, struct snmp_pdu *pdu, char *index_oidstr, void *passdata);
+int v_xsanvisdisk_objfact_ctrl (i_resource *self, struct i_container_s *cnt, int result, void *passdata);
+int v_xsanvisdisk_objfact_clean (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj);

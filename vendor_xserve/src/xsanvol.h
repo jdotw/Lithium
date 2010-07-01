@@ -51,11 +51,20 @@ typedef struct v_xsanvol_item_s
   struct i_metric_s *host_state;    /* 0=Unknown 1=NotMDC 2=ActiveMDC */
   
   /* Storage Pool Container */
-  struct i_container_s *sp_cnt;     /* A container called 'xsanvol_<name>' which contains xsansp objects (storage pools) */
+  struct i_container_s *sp_cnt;
+  struct l_snmp_objfact_s *sp_objfact;
+
+  /* Affinities Container */
+  struct i_container_s *affinity_cnt;
+  struct l_snmp_objfact_s *affinity_objfact;
+
+  /* LUNs Container */
+  struct i_container_s *lun_cnt;
+  struct l_snmp_objfact_s *lun_objfact;
 
   /* Raw volume name */
   char *raw_volume_name;
-
+  
 } v_xsanvol_item;
 
 struct i_container_s* v_xsanvol_cnt ();

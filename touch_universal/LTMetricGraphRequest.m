@@ -71,6 +71,9 @@
 	[xmlString appendFormat:@"<height>%@</height>", [NSString stringWithFormat:@"%.0f", size.height]];
 	[xmlString appendString:@"</graph>"];	
 	
+	NSLog(@"XML String is %@", xmlString);
+	NSLog(@"Path is %@", [self.metric urlForXml:@"xmlgraph_render" timestamp:0]);
+	
 	/* Refresh the incident list */
 	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[self.metric urlForXml:@"xmlgraph_render" timestamp:0]
 															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
