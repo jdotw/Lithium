@@ -37,6 +37,7 @@ int v_xsanvol_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, st
 {
   int num;
   v_xsanvol_item *vol;
+  i_triggerset *tset;
 
   /* Object Configuration */
   obj->desc_str = l_snmp_get_string_from_pdu (pdu);
@@ -57,8 +58,11 @@ int v_xsanvol_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, st
   /* 
    * Metric Creation 
    */
-
+   
   vol->state = l_snmp_metric_create (self, obj, "state", "State", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.1.1.1.4", index_oidstr, RECMETHOD_NONE, 0);
+  i_metric_enumstr_add (vol->state, 2, "Stopped");
+  i_metric_enumstr_add (vol->state, 1, "Registered");
+  i_metric_enumstr_add (vol->state, 0, "Unknown");
 
   vol->devices = l_snmp_metric_create (self, obj, "devices", "Disk Devices", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.1.1.1.15", index_oidstr, RECMETHOD_NONE, 0);
   vol->stripe_groups = l_snmp_metric_create (self, obj, "stripe_groups", "Stripe Groups", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.1.1.1.16", index_oidstr, RECMETHOD_NONE, 0);
@@ -143,17 +147,19 @@ int v_xsanvol_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, st
   i_entity_refresh_config_loadapply (self, ENTITY(vol->sp_cnt), &defrefconfig);
 
   /* Storage Pool Triggers */
-  i_triggerset *tset;
   tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
   i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 75, NULL, 85, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
   i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_GT, 85, NULL, 0, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
+  i_triggerset_assign (self, vol->sp_cnt, tset);
+  tset = i_triggerset_create ("status", "Status", "status");
+  i_triggerset_addtrg (self, tset, "not_up", "Not Up", VALTYPE_INTEGER, TRGTYPE_NOTEQUAL, 1, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
   i_triggerset_assign (self, vol->sp_cnt, tset);
 
   /*
    * Affinities Container and Storage Pool
    */
    
-  /* Create Container for Storage Pools */
+  /* Create Container for Affinities */
   asprintf (&cnt_name, "xsanvolaffinity_%s", obj->name_str);
   asprintf (&cnt_desc, "%s Affinities", obj->desc_str);
   i_name_parse (cnt_name);
@@ -165,7 +171,7 @@ int v_xsanvol_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, st
   vol->affinity_cnt->item_list = i_list_create ();
   vol->affinity_cnt->item_list_state = ITEMLIST_STATE_NORMAL;
    
-  /* Create SNMP Object Factory for storage pools */
+  /* Create SNMP Object Factory for Affinity */
   vol->affinity_objfact = l_snmp_objfact_create (self, vol->affinity_cnt->name_str, vol->affinity_cnt->desc_str);
   if (!vol->affinity_objfact)
   {
@@ -195,17 +201,18 @@ int v_xsanvol_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, st
   defrefconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
   i_entity_refresh_config_loadapply (self, ENTITY(vol->affinity_cnt), &defrefconfig);
 
-  /* Storage Pool Triggers */
+  /* Affinity Triggers */
   tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
   i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 75, NULL, 85, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
   i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_GT, 85, NULL, 0, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
   i_triggerset_assign (self, vol->affinity_cnt, tset);
+  
 
   /*
    * LUNs Container and Storage Pool
    */
    
-  /* Create Container for Storage Pools */
+  /* Create Container for LUNs */
   asprintf (&cnt_name, "xsanvolluns_%s", obj->name_str);
   asprintf (&cnt_desc, "%s LUNs", obj->desc_str);
   i_name_parse (cnt_name);
@@ -217,7 +224,7 @@ int v_xsanvol_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, st
   vol->lun_cnt->item_list = i_list_create ();
   vol->lun_cnt->item_list_state = ITEMLIST_STATE_NORMAL;
    
-  /* Create SNMP Object Factory for storage pools */
+  /* Create SNMP Object Factory for LUNs */
   vol->lun_objfact = l_snmp_objfact_create (self, vol->lun_cnt->name_str, vol->lun_cnt->desc_str);
   if (!vol->lun_objfact)
   {
@@ -247,10 +254,9 @@ int v_xsanvol_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, st
   defrefconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
   i_entity_refresh_config_loadapply (self, ENTITY(vol->lun_cnt), &defrefconfig);
 
-  /* Storage Pool Triggers */
-  tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
-  i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 75, NULL, 85, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
-  i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_GT, 85, NULL, 0, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
+  /* LUN Triggers */
+  tset = i_triggerset_create ("visible", "Visible", "visible");
+  i_triggerset_addtrg (self, tset, "not_visible", "Not Visible", VALTYPE_INTEGER, TRGTYPE_NOTEQUAL, 1, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
   i_triggerset_assign (self, vol->lun_cnt, tset);
 
 
