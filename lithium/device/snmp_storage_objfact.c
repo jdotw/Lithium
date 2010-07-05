@@ -71,7 +71,6 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
 
   /* Create storage item struct */
   store = l_snmp_storage_item_create ();
-  i_printf (1, "At creation store->usedpc_trigger_applied = %i", store->usedpc_trigger_applied);
   if (!store)
   { i_printf (1, "l_snmp_storage_objfact_fab failed to create storage item for object %s", obj->name_str); return -1; }
   obj->itemptr = store;

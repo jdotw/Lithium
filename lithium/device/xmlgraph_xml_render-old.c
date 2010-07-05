@@ -25,31 +25,6 @@
 
 #include "xmlgraph.h"
 
-typedef struct l_xmlgraph_entity_s
-{
-  i_entity_descriptor *entdesc;
-  i_metric *met;
-
-  char *unit_str;
-  
-} l_xmlgraph_entity;
-
-l_xmlgraph_entity* l_xmlgraph_entity_create ()
-{ 
-  l_xmlgraph_entity *g_ent = (l_xmlgraph_entity *) malloc (sizeof(l_xmlgraph_entity));
-  memset (g_ent, 0, sizeof(l_xmlgraph_entity));
-  return g_ent;
-}
-
-void l_xmlgraph_entity_free (void *entptr)
-{
-  l_xmlgraph_entity *g_ent = entptr;
-  if (!g_ent) return;
-  if (g_ent->entdesc) i_entity_descriptor_free (g_ent->entdesc);
-  if (g_ent->unit_str) free (g_ent->unit_str);
-  free (g_ent);
-}
-
 int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
 {
   int period = 0;
@@ -67,10 +42,10 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
   char *rrdargs;
   char *temp_str;
   char *imagefile;
-  char *imagefullpath;
   char *format = strdup ("PDF");
   char *width = strdup ("320");
   char *height = strdup ("240");
+  char *imagefullpath;
   char *y_label = NULL;
   char *fsroot;
   unsigned kbase = 1000;
@@ -79,9 +54,8 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
   xmlNodePtr node;
   xmlNodePtr root_node = NULL;
   i_list *ent_list;
-  int has_external_graphs = 0;
-  int has_percentages = 0;
-  
+  i_entity_descriptor *entdesc;
+
   double min_line = 0.0;     /* Used to encourage the graph canvas to a given size */
   int min_line_set = 0;
   double max_line = 0.0; 
@@ -89,7 +63,7 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
 
   /* Create ent_list */
   ent_list = i_list_create ();
-  i_list_set_destructor (ent_list, l_xmlgraph_entity_free);
+  i_list_set_destructor (ent_list, i_entity_descriptor_free);
   
   /* Get ref_sec, period and list of entity descriptor from XML */
   if (xmlreq->xml_in)
@@ -102,42 +76,13 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
       
       if (!strcmp((char *)node->name, "entity_descriptor"))
       { 
-        /* Create graph entity struct */
-        l_xmlgraph_entity *gent = l_xmlgraph_entity_create ();
-        gent->entdesc = i_entity_descriptor_fromxml (xmlreq->xml_in, node);
-        if (!gent->entdesc)
-        { 
-          i_printf (1, "xml_xmlgraph_render failed to convert an entity from xml"); 
-          l_xmlgraph_entity_free (gent);
-          continue; 
-        }
-
-        /* Extract extra fields */
-        xmlNodePtr ent_node;
-        for (ent_node = node->children; ent_node; ent_node=ent_node->next)
-        {
-          str = (char *) xmlNodeListGetString (xmlreq->xml_in->doc, ent_node->xmlChildrenNode, 1);
-          if (!strcmp((char *)ent_node->name, "units") && str)
-          { 
-            gent->unit_str = strdup (str); 
-          }
-          xmlFree (str);
-        }
-
-        /* Attempt to locate local entity.. it's OK for this to fail */
-        if (gent->entdesc)
-        { gent->met = (i_metric *) i_entity_local_get (self, (i_entity_address *)gent->entdesc); }
-        else
-        { gent->met = NULL; }
-        if (gent->met && gent->met->unit_str && !gent->unit_str)
-        { gent->unit_str = strdup (gent->met->unit_str); }
-        if (!gent->unit_str)
-        { gent->unit_str = strdup (""); }
-        if (!gent->met)
-        { has_external_graphs = 1; }
+        /* Create entity descriptor */
+        entdesc = i_entity_descriptor_fromxml (xmlreq->xml_in, node);
+        if (!entdesc)
+        { i_printf (1, "xml_xmlgraph_render failed to convert an entity from xml"); continue; }
 
         /* Enqueue entity descriptor */
-        i_list_enqueue (ent_list, gent);
+        i_list_enqueue (ent_list, entdesc);
 
         /* Move on */
         continue;
@@ -158,7 +103,7 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
   } 
   else
   {
-    i_printf (2, "xml_xmlgraph_render error, no xml data received");
+    i_printf (1, "xml_xmlgraph_render error, no xml data received");
     return -1;
   }
 
@@ -216,45 +161,53 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
   }
 
   /* Loop through entities */
-  l_xmlgraph_entity *gent;
-  for (i_list_move_head(ent_list); (gent=i_list_restore(ent_list))!=NULL; i_list_move_next(ent_list))
+  for (i_list_move_head(ent_list); (entdesc=i_list_restore(ent_list))!=NULL; i_list_move_next(ent_list))
   {
+    i_metric *met;
+    char *unit_str;
     char *min_colour;
     char *avg_colour;
     char *max_colour;
     char *rrdfullpath;
     char *metdefs_str;
     char *metrender_str;
+    
+    /* Get metric */
+    met = (i_metric *) i_entity_local_get (self, (i_entity_address *)entdesc);
+    if (!met)
+    { i_printf (1, "xml_xmlgraph_render failed to find local entity for metric"); continue; }
+
+    /* Unit string */
+    if (met->unit_str)
+    { unit_str = met->unit_str; }
+    else
+    { unit_str = ""; }
 
     /* Check if unit_str needs escaping */
-    if (!strcmp(gent->unit_str, "%"))
-    {
-      free (gent->unit_str);
-      gent->unit_str = strdup ("%%");
-      has_percentages = 1;
-    }
-    
+    if (!strcmp(unit_str, "%"))
+    { unit_str = "%%"; }
+
     /* Check for specified minimum value */
-    if (gent->met && gent->met->min_val)
+    if (met->min_val)
     {
-      double met_min = i_metric_valflt(gent->met, gent->met->min_val);
+      double met_min = i_metric_valflt(met, met->min_val);
       if (met_min < min_line) min_line = met_min;
       min_line_set = 1;
     }
 
     /* Check for specified maximum value */
-    if (gent->met && gent->met->max_val)
+    if (met->max_val)
     {
-      double met_max = i_metric_valflt(gent->met, gent->met->max_val);
+      double met_max = i_metric_valflt(met, met->max_val);
       if (met_max > max_line) max_line = met_max;
       max_line_set = 1;
     }
     
     /* Create fullpath string to RRD file */
-    fsroot = i_entity_path_extdev (self, gent->entdesc, ref_sec, path_flag);
+    fsroot = i_entity_path (self, ENTITY(met), ref_sec, path_flag);
     rrdfullpath = i_path_glue (fsroot, rrdfilename);
     free (fsroot);
-
+    
     /* Set colours */
     switch (metric_index)
     {
@@ -308,9 +261,8 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
     /* Set base (first) metric properties */
     if (metric_index == 0)
     {
-      y_label = strdup (gent->unit_str);
-      if (gent->met)
-      { kbase = gent->met->kbase; }
+      y_label = strdup (unit_str);
+      kbase = met->kbase;
     }
 
     /* Increment metric index */
@@ -324,18 +276,13 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
     }
     
     /* Check metric is recorded */
-    if (!gent->met || gent->met->record_method == RECMETHOD_RRD)
+    if (met->record_method == RECMETHOD_RRD)
     {
-      char *devdesc_esc;
       char *cntdesc_esc;
       char *objdesc_esc;
       char *metdesc_esc;
-      
       /* Create and append defs */
-      asprintf (&metdefs_str, "DEF:met%i_min='%s':%s:MIN DEF:met%i_avg='%s':%s:AVERAGE DEF:met%i_max='%s':%s:MAX",
-        metric_index, rrdfullpath, METRIC_RRD_DATASOURCE,
-        metric_index, rrdfullpath, METRIC_RRD_DATASOURCE,
-        metric_index, rrdfullpath, METRIC_RRD_DATASOURCE);
+      metdefs_str = i_metric_cgraph_defs (self, met, rrdfullpath);
       free (rrdfullpath);
       if (rrddefs)
       { 
@@ -348,45 +295,18 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
       { rrddefs = metdefs_str; }
 
       /* Create and append render arguments */
-      if (gent->entdesc->dev_desc)
-      { devdesc_esc = i_rrd_comment_escape (gent->entdesc->dev_desc); }
-      else
-      { devdesc_esc = strdup (""); }
-      if (gent->entdesc->cnt_desc)
-      { cntdesc_esc = i_rrd_comment_escape (gent->entdesc->cnt_desc); }
-      else
-      { cntdesc_esc = strdup (""); }
-      if (gent->entdesc->obj_desc)
-      { objdesc_esc = i_rrd_comment_escape (gent->entdesc->obj_desc); }
-      else
-      { objdesc_esc = strdup (""); }
-      if (gent->entdesc->met_desc)
-      { metdesc_esc = i_rrd_comment_escape (gent->entdesc->met_desc); }
-      else
-      { metdesc_esc = strdup (""); }
-      if (has_external_graphs == 0)
-      {
-        asprintf (&metrender_str, "\"LINE1:met%i_max#%s:Min.\" \"LINE1:met%i_avg#%s:Avg.\" \"LINE1:met%i_max#%s:Max.  %s %s %s \" \"GPRINT:met%i_min:MIN:Min %%.2lf%%s%s\" \"GPRINT:met%i_avg:AVERAGE:Avg %%.2lf%%s%s\" \"GPRINT:met%i_max:MAX:Max %%.2lf%%s%s\\n\" ",
-          metric_index, min_colour,
-          metric_index, avg_colour,
-          metric_index, max_colour,
-          cntdesc_esc, objdesc_esc, metdesc_esc,
-          metric_index, gent->unit_str,
-          metric_index, gent->unit_str,
-          metric_index, gent->unit_str);
-      }
-      else
-      {
-        asprintf (&metrender_str, "\"LINE1:met%i_max#%s:Min.\" \"LINE1:met%i_avg#%s:Avg.\" \"LINE1:met%i_max#%s:Max.  %s %s %s %s \" \"GPRINT:met%i_min:MIN:Min %%.2lf%%s%s\" \"GPRINT:met%i_avg:AVERAGE:Avg %%.2lf%%s%s\" \"GPRINT:met%i_max:MAX:Max %%.2lf%%s%s\\n\" ",
-          metric_index, min_colour,
-          metric_index, avg_colour,
-          metric_index, max_colour,
-          devdesc_esc, cntdesc_esc, objdesc_esc, metdesc_esc,
-          metric_index, gent->unit_str,
-          metric_index, gent->unit_str,
-          metric_index, gent->unit_str);
-      }
-      if (devdesc_esc) free (devdesc_esc);
+      cntdesc_esc = i_rrd_comment_escape (met->obj->cnt->desc_str);
+      objdesc_esc = i_rrd_comment_escape (met->obj->desc_str);
+      metdesc_esc = i_rrd_comment_escape (met->desc_str);
+//      asprintf (&metrender_str, "\"LINE1:met_%s_%s_min#%s:Min.\" \"LINE1:met_%s_%s_avg#%s:Avg.\" \"LINE1:met_%s_%s_max#%s:Max. \" \"GPRINT:met_%s_%s_min:MIN:Min %%.2lf%%s%s\" \"GPRINT:met_%s_%s_avg:AVERAGE:Avg %%.2lf%%s%s\" \"GPRINT:met_%s_%s_max:MAX:Max %%.2lf%%s%s\\n\" ",
+      asprintf (&metrender_str, "\"LINE1:met_%s_%s_min#%s:Min.\" \"LINE1:met_%s_%s_avg#%s:Avg.\" \"LINE1:met_%s_%s_max#%s:Max. \"",
+        met->obj->name_str, met->name_str, min_colour,
+        met->obj->name_str, met->name_str, avg_colour,
+        met->obj->name_str, met->name_str, max_colour); 
+////        cntdesc_esc, objdesc_esc, metdesc_esc,
+//        met->obj->name_str, met->name_str, unit_str,
+//        met->obj->name_str, met->name_str, unit_str,
+//        met->obj->name_str, met->name_str, unit_str);
       if (cntdesc_esc) free (cntdesc_esc);
       if (objdesc_esc) free (objdesc_esc);
       if (metdesc_esc) free (metdesc_esc);
@@ -404,7 +324,7 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
 
   /* Free entity list */
   i_list_free (ent_list);
-  
+
   /* Create min/max line args */
   char *min_max_line_args;
   if (min_line_set && max_line_set) asprintf (&min_max_line_args, "LINE1:%f LINE1:%f", min_line, max_line);
@@ -412,15 +332,9 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
   else if (max_line_set) asprintf (&min_max_line_args, "LINE1:%f", max_line);
   else min_max_line_args = strdup("");
 
+
   /* Create full RRD args */
   asprintf (&rrdargs, "--imgformat %s --width=%s --height=%s %s %s %s", format, width, height, rrddefs, renderargs, min_max_line_args);
-  if (has_percentages && !min_line_set && !max_line_set)
-  { 
-    char *tmp;
-    asprintf (&tmp, "%s LINE1:100 LINE1:0", rrdargs);
-    free (rrdargs);
-    rrdargs = tmp;
-  }
   free (rrddefs);
   free (renderargs);
   free (height);
@@ -438,7 +352,7 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
   /* Create return XML */
   xmlreq->xml_out = i_xml_create ();
   xmlreq->xml_out->doc = xmlNewDoc (BAD_CAST "1.0");
-  root_node = xmlNewNode(NULL, BAD_CAST "xmlgraph");
+  root_node = xmlNewNode(NULL, BAD_CAST "pdfgraph");
   xmlDocSetRootElement (xmlreq->xml_out->doc, root_node);
 
   /* Add filename to xml */
@@ -455,7 +369,7 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
   if (y_label) free (y_label);
   if (!cmd)
   {
-    i_printf (1, "xml_xmlgraph_render failed to render graph");
+    i_printf (1, "xml_pdfgraph_render failed to render graph");
     return -1;
   }
 

@@ -13,6 +13,56 @@
 
 @implementation LTAPIRequest
 
+- (void) main
+{
+	/* The subclass will create a urlRequest for us to use, then call [super main] */
+	
+	/* Execute the API Request */
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+//	[appDelegate performSelectorOnMainThread:@selector(apiCallDidBegin:)
+//								  withObject:self
+//							   waitUntilDone:NO
+//									   modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
+
+	if ([delegate respondsToSelector:@selector(apiCallDidBegin:)])
+	{
+		[delegate performSelectorOnMainThread:@selector(apiCallDidBegin:)
+									  withObject:self
+								   waitUntilDone:NO
+										   modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
+	}		
+	
+	/* Create import pool */
+//	NSAutoreleasePool *importPool = [[NSAutoreleasePool alloc] init];
+
+	/* Execute the subclass-created request */
+	finished = NO;
+	if (debug) NSLog (@"%@ - Fetching %@", self, [urlReq URL]);
+	NSURLConnection *urlConn = [NSURLConnection connectionWithRequest:urlReq delegate:self];
+	if (urlConn != nil)
+	{
+		/* Run main run-loop until connection loads */
+		while (!finished)
+		{ [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]; }
+	}
+	
+	/* Signal completion to delegates */
+//	[appDelegate performSelectorOnMainThread:@selector(apiCallDidFinish:)
+//								  withObject:self
+//							   waitUntilDone:NO
+//									   modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
+	if (delegate && [delegate respondsToSelector:@selector(apiCallDidFinish:)])
+	{
+		[delegate performSelectorOnMainThread:@selector(apiCallDidFinish:)
+								   withObject:self
+								waitUntilDone:NO
+										modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
+	}
+	
+	/* Clean up */
+//	[importPool drain];
+}
+
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *) space 
 {
 	if([[space authenticationMethod] isEqualToString:NSURLAuthenticationMethodServerTrust]) 
@@ -62,5 +112,6 @@
 
 @synthesize customer;
 @synthesize refreshInProgress;
+@synthesize delegate;
 
 @end

@@ -189,42 +189,7 @@ i_rrdtool_cmd* i_rrd_graph (i_resource *self, char *filename, time_t start_sec, 
 
 i_rrdtool_cmd* i_rrd_pdfgraph (i_resource *self, char *imagepath, time_t start_sec, time_t end_sec, char *y_label, unsigned int kbase, char *args, int (*cbfunc) (), void *passdata)
 {
-  char *start_str;
-  char *end_str;
-  char *command_str;
-  char *y_label_str;
-  i_rrdtool_cmd *cmd;
-
-  /* Time Strings */
-
-  if (start_sec > 0)
-  { asprintf (&start_str, "--start=%li", start_sec); }
-  else
-  { start_str = strdup (""); }
-
-  if (end_sec > 0)
-  { asprintf (&end_str, "--end=%li", end_sec); }
-  else
-  { end_str = strdup (""); }
-
-  /* Label String */
-  if (y_label)
-  { asprintf (&y_label_str, "--vertical-label=\"%s\"", y_label); }
-  else
-  { y_label_str = strdup (""); }
-
-  /* Create command string */
-  asprintf (&command_str, "graphv '%s' -a PDF -E --only-graph --full-size-mode --font DEFAULT:8:Arial -c FONT#FFFFFFDD -c CANVAS#00000000 -c BACK#00000000 -c SHADEA#00000000 -c SHADEB#00000000 -b %u %s %s %s %s", imagepath, kbase, start_str, end_str, y_label_str, args);
-  free (start_str);
-  free (end_str);
-  free (y_label_str);
-
-  cmd = i_rrdtool_exec (self, imagepath, command_str, RRDFLAG_URGENT, cbfunc, passdata);
-  free (command_str);
-  if (!cmd)
-  { i_printf (1, "i_rrd_pdfgraph failed to execute rrdtool"); return NULL; }
-
-  return cmd;
+  return i_rrd_xmlgraph (self, imagepath, start_sec, end_sec, y_label, kbase, args, cbfunc, passdata);
 }
 
 /* XML Graph */

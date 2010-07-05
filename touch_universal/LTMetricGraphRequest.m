@@ -37,6 +37,12 @@
 
 - (void) refresh
 {
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+	[appDelegate.operationQueue addOperation:self];
+}
+
+- (void) main
+{
 	/* Check state */
 	if (refreshInProgress || ![(LTCoreDeployment *)customer.coreDeployment enabled])
 	{
@@ -75,15 +81,15 @@
 	NSLog(@"Path is %@", [self.metric urlForXml:@"xmlgraph_render" timestamp:0]);
 	
 	/* Refresh the incident list */
-	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[self.metric urlForXml:@"xmlgraph_render" timestamp:0]
-															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-														 timeoutInterval:60.0];
+	urlReq = [NSMutableURLRequest requestWithURL:[self.metric urlForXml:@"xmlgraph_render" timestamp:0]
+									 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+								 timeoutInterval:60.0];
 
 	/* Outbound XML doc to be sent */
 	NSString *formBoundary = [[NSProcessInfo processInfo] globallyUniqueString];
 	NSString *boundaryString = [NSString stringWithFormat: @"multipart/form-data; boundary=%@", formBoundary];
-	[theRequest addValue:boundaryString forHTTPHeaderField:@"Content-Type"];
-	[theRequest setHTTPMethod: @"POST"];
+	[urlReq addValue:boundaryString forHTTPHeaderField:@"Content-Type"];
+	[urlReq setHTTPMethod: @"POST"];
 	NSMutableData *postData = [NSMutableData data];
 	[postData appendData:[[NSString stringWithFormat:@"--%@\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	[postData appendData:[@"Content-Disposition: form-data; name=\"xmlfile\"; filename=\"ltouch.xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
@@ -92,27 +98,13 @@
 	[xmlString replaceOccurrencesOfString:@"\n" withString:@"&#xD;&#xA;" options:NSCaseInsensitiveSearch range:NSMakeRange(0,[xmlString length])];
 	[postData appendData:[xmlString dataUsingEncoding:NSUTF8StringEncoding]];
 	[postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	[theRequest setHTTPBody:postData];
+	[urlReq setHTTPBody:postData];
 	
 	refreshStage = 1;
-	finished = NO;
-	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
-	if (theConnection) 
-	{
-		refreshInProgress = YES;
-		receivedData=[[NSMutableData data] retain];
-		
-		if (synchronous)
-		{
-			while (!finished)
-			{ [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]; }			
-		}
-	} 
-	else 
-	{
-		/* FIX */
-		NSLog (@"ERROR: Failed to download console.php");
-	}
+	refreshInProgress = YES;
+	receivedData=[[NSMutableData data] retain];
+	
+	[super main];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -128,7 +120,7 @@
 		/* Clean-up */
 		[parser release];
 		[curXmlString release];
-		[connection release];
+//		[connection release];
 		[receivedData release];
 		
 		/* Retrieve the PDF */
@@ -138,6 +130,7 @@
 																  cachePolicy:NSURLRequestReloadIgnoringCacheData
 															  timeoutInterval:30.0];
 		NSURLConnection *urlConn = [[NSURLConnection connectionWithRequest:urlRequest delegate:self] retain];
+		NSLog (@"%@ Created second stage (%@ / %@)", self, connection, urlRequest);
 		if (urlConn)
 		{
 			/* Set up data */
@@ -157,7 +150,7 @@
 
 		/* Post Notification */
 		refreshInProgress = NO;
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"GraphRefreshFinished" object:self];
+//		[[NSNotificationCenter defaultCenter] postNotificationName:@"GraphRefreshFinished" object:self];
 		
 		finished = YES;
 	}

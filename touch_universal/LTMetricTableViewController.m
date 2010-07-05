@@ -547,6 +547,7 @@
 	[incidentList refresh];
 	
 	landscapeGraphRequest.metric = metric;
+	
 	[landscapeGraphRequest refresh];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self

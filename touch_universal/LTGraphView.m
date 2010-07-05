@@ -126,6 +126,7 @@
 	{
 		/* Configure graph request */
 		graphReq = [[LTMetricGraphRequest alloc] init];
+		graphReq.delegate = self;
 		[graphRequestCache setObject:graphReq forKey:[NSNumber numberWithFloat:offset]];
 		CGFloat secondsPerPixel = (1.0 * 86400) / CGRectGetWidth(graphScrollView.frame);
 		graphReq.size = CGSizeMake(clipRect.size.width, graphScrollView.frame.size.height);
@@ -144,7 +145,7 @@
 		
 		/* Perform refresh */
 		NSLog (@"STarting load");
-		[graphReq performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];
+		[graphReq refresh];
 	}
 }
 
@@ -165,9 +166,8 @@
 	}
 }
 
-- (void) graphLoadFinished:(NSNotification *)note
+- (void) apiCallDidFinish:(LTMetricGraphRequest *)graphReq
 {
-	LTMetricGraphRequest *graphReq = (LTMetricGraphRequest *) [note object];
 	NSLog (@"Got graph (%i bytes) -- %@", [graphReq.imageData length], [[NSString alloc] initWithData:graphReq.imageData encoding:NSUTF8StringEncoding]);
 	[self.layer setNeedsDisplayInRect:graphReq.rectToInvalidate];
 	
@@ -225,6 +225,10 @@
 	metrics = [value retain];
 	
 	NSLog (@"Metrics is now %@", metrics);
+	
+	minMaxSet = NO;
+	maxValue = 0.0;
+	minValue = 0.0;
 	
 	[graphRequestCache removeAllObjects];
 	NSLog (@"%@ Invalidating %@ in %@", self, self.layer, NSStringFromCGRect(self.layer.bounds));
