@@ -38,26 +38,24 @@ int l_snmp_hrfilesys_access_refcb (i_resource *self, i_entity *ent, void *passda
 
   i_metric_value *val;
   i_metric *met = (i_metric *) ent;
+  l_snmp_storage_item *store = (l_snmp_storage_item *) met->obj->itemptr;
 
   /* Get current value */
   val = i_metric_curval (met);
   if (!val) return 0;
 
   /* Enable/Disable metrics depending on access */
-  l_snmp_storage_item *store = (l_snmp_storage_item *) met->obj->itemptr;
-  if (val->integer == 2)
+  if (val->integer == 1 && !store->usedpc_trigger_applied)
   {
-    /* Resource is read-only, disable used_pc */
-    if (store->used_pc && store->used_pc->adminstate == ENTADMIN_ENABLED) 
-    {
-      i_printf (1, "l_snmp_hrfilesys_access_refcb disabling triggers for read-only storage resource '%s'", met->obj->desc_str);
-      i_adminstate_change (self, ENTITY(store->used_pc), ENTADMIN_DISABLED);
-    }
-  }
-  else if (val->integer == 1)
-  {
-    /* Resource is read/write, enable used_pc */
-    if (store->used_pc && store->used_pc->adminstate == ENTADMIN_DISABLED) i_adminstate_change (self, ENTITY(store->used_pc), ENTADMIN_ENABLED);
+    /* Resource is read/write, apply used_pc trigger set */
+    i_triggerset *tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
+    i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 80, NULL, 97, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+    i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_RANGE, 97, NULL, 100, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
+    i_triggerset_addtrg (self, tset, "critical", "Critical", VALTYPE_FLOAT, TRGTYPE_GT, 100, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+    i_triggerset_assign_obj (self, met->obj, tset);
+    store->usedpc_trigger_applied = 1;
+    i_triggerset_evalapprules_allsets (self, met->obj);
+    i_printf (1, "l_snmp_hrfilesys_access_refcb applying!");
   }
   
   return 0;

@@ -59,9 +59,7 @@
 {
 	CGRect contentRect = CGRectMake(0.0, 0.0, 8000.0, graphScrollView.frame.size.height);
 	graphView.frame = contentRect;
-	graphTiledLayer.frame = contentRect;
 	graphScrollView.contentSize = contentRect.size;
-	[graphTiledLayer setNeedsDisplayInRect:contentRect];
 }
 
 - (void) viewDidLoad
@@ -208,13 +206,13 @@
 	/* Reset graph layer */
 	[graphView setMetrics:selectedContainer.graphableMetrics];
 	
-	LTGraphTiledLayerDelegate *tileDelegate = [[LTGraphTiledLayerDelegate alloc] init];
-	tileDelegate.graphScrollView = graphScrollView;
-	tileDelegate.metrics = 
-	tileDelegate.graphLayer = graphTiledLayer;
-	[graphScrollView scrollRectToVisible:CGRectMake(CGRectGetMaxX(contentRect) - CGRectGetWidth(graphScrollView.frame),
+//	LTGraphTiledLayerDelegate *tileDelegate = [[LTGraphTiledLayerDelegate alloc] init];
+//	tileDelegate.graphScrollView = graphScrollView;
+//	tileDelegate.metrics = 
+//	tileDelegate.graphLayer = graphTiledLayer;
+	[graphScrollView scrollRectToVisible:CGRectMake(graphScrollView.contentSize.width - CGRectGetWidth(graphScrollView.frame),
 													0.0, CGRectGetWidth(graphScrollView.frame), CGRectGetHeight(graphScrollView.frame)) animated:NO];
-	[graphTiledLayer setNeedsDisplayInRect:graphTiledLayer.frame];
+//	[graphTiledLayer setNeedsDisplayInRect:graphTiledLayer.frame];
 
 	/* Reset legend tableview */
 	graphLegendTableViewController.entities = selectedContainer.graphableMetrics;

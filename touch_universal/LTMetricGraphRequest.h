@@ -33,8 +33,6 @@
 	NSMutableString *curXmlString;
 }
 
-- (void) refresh;
-
 @property (readonly) NSMutableArray *metrics;
 @property (assign) LTEntity *metric;
 @property (assign) CGSize size;
@@ -46,5 +44,7 @@
 @property (assign) int endSec;
 @property (assign) BOOL synchronous;
 @property (assign) CGRect rectToInvalidate;
+
+- (void) refresh;
 
 @end

@@ -36,8 +36,9 @@
 #include <lithium/snmp_nstcpconn.h>
 #include <lithium/procpro.h>
 
-
 #include "snmp.h"
+#include "xsanvol.h"
+#include "xsanvisdisk.h"
 
 int v_snmp_enable (i_resource *self)
 {
@@ -63,6 +64,12 @@ int v_snmp_enable (i_resource *self)
   { 
     num = l_snmp_swrun_enable (self); 
     num = l_procpro_enable (self);
+  }
+
+  if (l_snmp_xsnmp_enabled())
+  { 
+    v_xsanvol_enable(self); 
+    // v_xsanvisdisk_enable(self); 
   }
 
   return 0;

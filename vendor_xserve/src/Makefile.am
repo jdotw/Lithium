@@ -76,12 +76,18 @@ common_SOURCES = csv.c \
 				   xsaninfo_item.c \
 				   xsanvol.c \
 				   xsanvol_item.c \
+				   xsanvol_objfact.c \
+				   xsanaffinity_item.c \
+				   xsanaffinity_objfact.c \
 				   xsansp.c \
 				   xsansp_item.c \
+				   xsansp_objfact.c \
 				   xsannode.c \
 				   xsannode_item.c \
+				   xsannode_objfact.c \
 				   xsanvisdisk.c \
 				   xsanvisdisk_item.c \
+				   xsanvisdisk_objfact.c \
 				   data.c \
 				   data_item.c \
 				   data_info_state.c \

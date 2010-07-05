@@ -1,0 +1,47 @@
+MBAPN24251001 Two Way Ltd Two Way Ltd    550 - NSW 330 / VIC 220  31/10/2007 Active 79372 3269212 
+MBAIB24597004 NYK Logistics (Australia) Pty Ltd NYK Logistics (Australia) Pty Ltd  104 SOUTH TCE ADELAIDE ISDN Backup Adelaide 30/01/2009 Active 71865 3420282 
+MBAPN9599001 QLD Nurses Union Of Employees QLD Nurses Union of Employees    Macquarie Bus. Anywhere PSTN PIPN Access 30/11/2006 Active 75967 3163716 
+MBAPN7531001 FBR Management Services Pty Ltd FBR Management Services Pty Ltd    MT Bus. Anywhere PSTN PIPN Access 23/10/2006 Active 72219 3165690 
+MBAPI9674001 General Mills Australia Pty Ltd General Mills Australia Pty Ltd    Macquarie Telecom BAPSTN Internet Access 23/02/2007 Active 72479 3206166 
+
+MBAPN12217001 University Co-Operative Bookshop Ltd University Co-op Bookshop Ltd (Data)    Macquarie Telecom Dial-up 29/01/2008 Active 75433 3327297 
+MBAIA20960001 ITW - Hobart Food Equipment ITW-Hobart Food Equipment  6 COMMERCIAL CRT TULLAMARINE Tulla Business Anywhere ISDN Access 18/12/2009 Active 76206 3685479 
+MBAIB10692001 John Danks & Son Pty Ltd John Danks & Son Pty Ltd  8-10 Butu Wargun DRV Pemulwuy Pemulwuy ISDN Backup 18/11/2009 Active 64647 3536413 
+MBAPN5238001 ULTRADATA AUSTRALIA PTY. LIMITED. Ultradata Australia Pty Ltd    Business Anywhere PSTN Access  8/05/2007 Active 39557 3162460 
+MBAPN21238001 Spotless Services Limited Spotless Services Australia (Data)    Business Anywhere PSTN Access 31/03/2008 Active 72509 3315500 
+
+MBAIB10692002 John Danks & Son Pty Ltd John Danks & Son Pty Ltd  24 Tomah RD Welshpool Welshpool BA ISDN Backup 5/11/2009 Active 64647 3536495 
+MBAIB10692003 John Danks & Son Pty Ltd John Danks & Son Pty Ltd  15 HUNTINGWOOD DRV HUNTINGWOOD Huntingwood BA ISDN Backup 5/11/2009 Active 64647 3536506 
+MBAIB10692004 John Danks & Son Pty Ltd John Danks & Son Pty Ltd  426 LOWER DANDENONG ROAD  Braeside BA ISDN Backup 5/11/2009 Active 64647 3537036 
+MBAIB10692005 John Danks & Son Pty Ltd John Danks & Son Pty Ltd  98 South Park DRV Dandenong South Dandenong South BA ISDN Backup 6/10/2009 Active 64647 3540074 
+MBAPI24319001 Inchcape Shipping Services Pty Ltd Inchcape Shipping Services Pty Ltd    PSTN Internet Access 14/11/2007 Active 66957 3287277 
+
+MBAPN7085001 ZIP Heaters (Aust) Pty Ltd ZIP Heaters (Aust) Pty Ltd    Macquarie Telecom Business Anywhere PSTN 30/11/2006 Active 66282 3160071 
+MBAPN8147001 Omron Electronics Pty Ltd Omron Electronics Pty Ltd    MCT Business Anywhere PSTN PIPN Access 28/08/2006 Active 66822 3158588 
+MBAPN24178001 Data #3 Limited Data #3 Limited    Business Anywhere PSTN PIPN Access 24/09/2007 Active 68875 3305702 
+MBAIA7904003 The Trustee Wise Thomas Unit Trust for Adidem P/L ta The Body Sh Adidem Pty Ltd t/a The Body Shop  The Body Shop Northlakes Shop 1128 Cnr Anzac and Northlakes DRV Mango Hill Mango Hill ISDN 128k Bus Anywhere 30/11/2007 Active 63434 3321622 
+MBAIA7904002 The Trustee Wise Thomas Unit Trust for Adidem P/L ta The Body Sh Adidem Pty Ltd t/a The Body Shop  Shop 149/510 Westfield Shoping To 111 Westlakes BLV Westlakes West Lakes Bus Anywhere ISDN Access  2/10/2007 Active 63434 3295764 
+
+MBAPN10692001 John Danks & Son Pty Ltd John Danks & Son Pty Ltd    MT Business Anywhere PSTN PIPN Access 16/01/2007 Active 64647 3203430 
+MBAIB10179002 ORIX AUSTRALIA CORPORATION LIMITED ORIX Australia Corporate Ltd  779 Kingford Smith DRV Eagle Farm ISDN Backup Eagle Farm 10/10/2007 Active 59522 3197721 
+MBAIB10179005 ORIX AUSTRALIA CORPORATION LIMITED ORIX Australia Corporate Ltd  Level 7 East 50 Grenfell STREET Adeliade Business Anywhere ISDN Backup Adelaide 26/08/2008 Active 59522 3419743 
+MBAIB10179004 ORIX AUSTRALIA CORPORATION LIMITED ORIX Australia Corporate Ltd  25A Kewdale RD Kewdale ISDN Backup Kewdale 17/08/2007 Active 59522 3197723 
+MBAPN11729001 The Trustee for I-Labs Discretionary Trust Infinity Labs Pty Ltd - Data    Business Anywhere PSTN PIPN Access 20/09/2007 Active 67844 3206467 
+
+MBAIB24597003 NYK Logistics (Australia) Pty Ltd NYK Logistics (Australia) Pty Ltd  678 VICTORIA ST RICHMOND ISDN Backup Richmond 1/06/2009 Active 50381 3420281 
+MBAPN21064002 Bunzl Ltd Bunzl Limited    Macquarie Bus. Anywhere PSTN PIPN Access 30/11/2006 Active 65606 3192388 
+MBAPN21064001 Bunzl Ltd Bunzl Limited    Macquarie Bus. Anywhere PSTN PIPN Access 30/11/2006 Active 65606 3168422 
+MBAPF21064001 Bunzl Ltd Bunzl Limited  37 Rocco Dr SCORESBY Macquarie Bus Anywhere PSTN Frame Access 12/12/2006 Active 65606 3163516 
+MBAPN9378001 B Braun Australia Pty Ltd B Braun Australia Pty Ltd    Business Anywhere PSTN PIPN Access 29/01/2008 Active 66098 3342260 
+
+MBAPN10081001 Gilbarco Australia Limited Gilbarco Veeder Root - NSW    Macquarie Bus. Anywhere PSTN PIPN Access 30/11/2006 Active 62752 3166656 
+MBAIA10179001 ORIX AUSTRALIA CORPORATION LIMITED ORIX Australia Corporate Ltd  46 Huntingwood DRV Huntingwood IPVPN 128k ISDN Huntingwood NSW 17/08/2007 Active 64679 3111186 
+MBAPN21155001 Wattyl Australia Pty Ltd Wattyl Ltd    Business Anywhere PSTN PIPN Access 1/11/2006 Active 58705 3171204 
+MBAIB23648002 Iron Mountain Australia Pty Ltd Iron Mountain Australia Pty Ltd  Unit 2 887 Stuart HWY Berrimah Backup Berrimah Business Anywhere ISDN 24/02/2009 Active 41695 3367796 
+MBAPN9463001 SX Trailers Pty Ltd SX Trailers Pty Ltd    Macquarie Bus. Anywhere PSTN PIPN Access 23/01/2007 Active 60691 3167791 
+
+MBAIB24597001 NYK Logistics (Australia) Pty Ltd NYK Logistics (Australia) Pty Ltd  1 FIGTREE DRV HOMEBUSH BAY ISDN Backup Homebush 30/01/2009 Active 50381 3420279 
+MBAPN23586001 ADCO Constructions ADCO Constructions (NSW)    Business Anywhere PIPN Access  22/01/2007 Active 58070 3206171 
+MBAPI23706001 The Bailey Group Pty Ltd The Bailey Group Pty Ltd    Internet Dial-up PSTN 23/07/2007 Active 51906 3279732 
+MBAIB23648001 Iron Mountain Australia Pty Ltd Iron Mountain Australia Pty Ltd  Lot 5924 Olive PL Pinelands Bus. Anywhere ISDN Backup Access From 01 8/09/2008 Active 41695 3358498 
+MBAPN12708001 Kresta Holdings Limited Kresta Holdings    2000 WA IT-9240-2000-210-1000 28/09/2006 Active 49495 3162185 

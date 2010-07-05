@@ -140,85 +140,72 @@ int l_snmp_nsram_enable (i_resource *self)
   defrefconfig.refresh_int_sec = REFDEFAULT_REFINTSEC;
   defrefconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
 
-  /* 
-   * Real 
-   */
+  /* Check for Xsnmp */
+  if (l_snmp_xsnmp_enabled())
+  {
+    /*
+     * Use Xsnmp metrics 
+     */
 
-//  ram->real_total = l_snmp_metric_create (self, real_obj, "real_total", "Total", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.5.0", NULL, RECMETHOD_NONE, SMET_PARENTREFMETHOD);
-//  ram->real_total->alloc_unit = 1024;
-//  ram->real_total->valstr_func = i_string_volume_metric;
-//  ram->real_total->kbase = 1024;
-//  ram->real_total->unit_str = strdup ("byte");
-//  ram->real_total->summary_flag = 1;
- 
-//  ram->real_avail = l_snmp_metric_create (self, real_obj, "real_avail", "Available", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.6.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
-//  ram->real_avail->record_defaultflag = 1;
-//  ram->real_avail->alloc_unit = 1024;
-//  ram->real_avail->valstr_func = i_string_volume_metric;
-//  ram->real_avail->kbase = 1024;
-//  ram->real_avail->unit_str = strdup ("byte");
-//  ram->real_avail->hidden = 1;
-
-//  ram->shared = l_snmp_metric_create (self, real_obj, "shared", "Shared", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.13.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
-//  ram->shared->record_defaultflag = 1;
-//  ram->shared->alloc_unit = 1024;
-//  ram->shared->valstr_func = i_string_volume_metric;
-//  ram->shared->kbase = 1024;
-//  ram->shared->unit_str = strdup ("byte");
+    ram->real_wired = l_snmp_metric_create (self, real_obj, "real_wired", "Wired", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.3.1.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
+    ram->real_wired->record_defaultflag = 1;
+    ram->real_wired->alloc_unit = 1024 * 1024;
+    ram->real_wired->valstr_func = i_string_volume_metric;
+    ram->real_wired->kbase = 1024;
+    ram->real_wired->unit_str = strdup ("byte");
   
-//  ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.14.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
-//  ram->buffers->record_defaultflag = 1;
-//  ram->buffers->alloc_unit = 1024;
-//  ram->buffers->valstr_func = i_string_volume_metric;
-//  ram->buffers->kbase = 1024;
-//  ram->buffers->unit_str = strdup ("byte");
+    ram->real_active = l_snmp_metric_create (self, real_obj, "real_active", "Active", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.3.2.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
+    ram->real_active->record_defaultflag = 1;
+    ram->real_active->alloc_unit = 1024 * 1024;
+    ram->real_active->valstr_func = i_string_volume_metric;
+    ram->real_active->kbase = 1024;
+    ram->real_active->unit_str = strdup ("byte");
   
-//  ram->cached = l_snmp_metric_create (self, real_obj, "cached", "Cached", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.15.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
-//  ram->cached->record_defaultflag = 1;
-//  ram->cached->alloc_unit = 1024;
-//  ram->cached->valstr_func = i_string_volume_metric;
-//  ram->cached->kbase = 1024;
-//  ram->cached->unit_str = strdup ("byte");
+    ram->real_inactive = l_snmp_metric_create (self, real_obj, "real_inactive", "Inactive", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.3.3.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
+    ram->real_inactive->record_defaultflag = 1;
+    ram->real_inactive->alloc_unit = 1024 * 1024;
+    ram->real_inactive->valstr_func = i_string_volume_metric;
+    ram->real_inactive->kbase = 1024;
+    ram->real_inactive->unit_str = strdup ("byte");
+  
+    ram->real_used = l_snmp_metric_create (self, real_obj, "real_used", "Used", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.3.4.0", NULL, RECMETHOD_NONE, SMET_PARENTREFMETHOD);
+    ram->real_used->alloc_unit = 1024 * 1024;
+    ram->real_used->valstr_func = i_string_volume_metric;
+    ram->real_used->kbase = 1024;
+    ram->real_used->unit_str = strdup ("byte");
+    ram->real_used->hidden = 1;
+  
+    ram->real_free = l_snmp_metric_create (self, real_obj, "real_free", "Unused", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.3.5.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
+    ram->real_free->record_defaultflag = 1;
+    ram->real_free->alloc_unit = 1024 * 1024;
+    ram->real_free->valstr_func = i_string_volume_metric;
+    ram->real_free->kbase = 1024;
+    ram->real_free->unit_str = strdup ("byte");
 
-//  ram->real_free = i_metric_acsum_create (self, real_obj, "free", "Free", METRIC_GAUGE, RECMETHOD_RRD, ram->real_avail, ram->buffers, 0);
-//  i_metric_acsum_addmet (ram->real_free, ram->cached, 1);
-//  ram->real_free->record_defaultflag = 1;
-//  ram->real_free->valstr_func = i_string_volume_metric;
-//  ram->real_free->kbase = 1024;
-//  ram->real_free->unit_str = strdup ("byte");
-
-//  ram->real_used = i_metric_acdiff_create (self, real_obj, "real_used", "Used", METRIC_FLOAT, RECMETHOD_NONE, ram->real_total, ram->real_free, ACDIFF_REFCB_YMET);
-//  ram->real_used->valstr_func = i_string_volume_metric;
-//  ram->real_used->kbase = 1024;
-//  ram->real_used->unit_str = strdup ("byte");
-
-//  ram->real_usedpc = i_metric_acpcent_create (self, real_obj, "real_usedpc", "Used Percent", RECMETHOD_RRD, ram->real_used, ram->real_total, ACPCENT_REFCB_GAUGE);
-//  ram->real_usedpc->record_defaultflag = 1;
+    ram->real_total = i_metric_acsum_create (self, real_obj, "real_total", "Total", METRIC_FLOAT, RECMETHOD_RRD, ram->real_used, ram->real_free, ACSUM_REFCB_YMET);
+    ram->real_total->record_defaultflag = 1;
+    ram->real_total->valstr_func = i_string_volume_metric;
+    ram->real_total->kbase = 1024;
+    ram->real_total->unit_str = strdup ("byte");
+  
+    ram->real_avail = i_metric_acsum_create (self, real_obj, "real_avail", "Available", METRIC_FLOAT, RECMETHOD_RRD, ram->real_free, ram->real_inactive, ACSUM_REFCB_YMET);
+    ram->real_avail->record_defaultflag = 1;
+    ram->real_avail->valstr_func = i_string_volume_metric;
+    ram->real_avail->kbase = 1024;
+    ram->real_avail->unit_str = strdup ("byte");
+  
+    ram->real_unavail = i_metric_acdiff_create (self, real_obj, "real_unavail", "Unavailable", METRIC_FLOAT, RECMETHOD_NONE, ram->real_total, ram->real_avail, ACDIFF_REFCB_YMET);
+    ram->real_unavail->valstr_func = i_string_volume_metric;
+    ram->real_unavail->kbase = 1024;
+    ram->real_unavail->unit_str = strdup ("byte");
+  
+    ram->real_usedpc = i_metric_acpcent_create (self, real_obj, "real_usedpc", "Used Percent", RECMETHOD_RRD, ram->real_unavail, ram->real_total, ACPCENT_REFCB_MAX);
+    ram->real_usedpc->record_defaultflag = 1;
+  }
 
   /* 
    * Swap 
    */
-
-//  ram->swap_total = l_snmp_metric_create (self, swap_obj, "swap_total", "Total", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.3.0", NULL, RECMETHOD_NONE, SMET_PARENTREFMETHOD);
-//  ram->swap_total->alloc_unit = 1024;
-//  ram->swap_total->valstr_func = i_string_volume_metric;
-//  ram->swap_total->kbase = 1024;
-//  ram->swap_total->unit_str = strdup ("byte");
-  
-//  ram->swap_avail = l_snmp_metric_create (self, swap_obj, "swap_avail", "Available", METRIC_GAUGE, ".1.3.6.1.4.1.2021.4.4.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
-//  ram->swap_avail->record_defaultflag = 1;
-//  ram->swap_avail->alloc_unit = 1024;
-//  ram->swap_avail->valstr_func = i_string_volume_metric;
-//  ram->swap_avail->kbase = 1024;
-//  ram->swap_avail->unit_str = strdup ("byte");
-
-//  ram->swap_used = i_metric_acdiff_create (self, swap_obj, "swap_used", "Swap Used", METRIC_FLOAT, RECMETHOD_NONE, ram->swap_total, ram->swap_avail, ACDIFF_REFCB_YMET);
-//  ram->swap_used->valstr_func = i_string_volume_metric;
-//  ram->swap_used->kbase = 1024;
-//  ram->swap_used->unit_str = strdup ("byte");
-
-//  ram->swap_usedpc = i_metric_acpcent_create (self, swap_obj, "swap_usedpc", "Swap Used Percent", RECMETHOD_RRD, ram->swap_used, ram->swap_total, ACPCENT_REFCB_GAUGE);
-//  ram->swap_usedpc->record_defaultflag = 1;
 
   ram->swap_in = l_snmp_metric_create (self, swap_obj, "swap_in", "Swapping In", METRIC_GAUGE, ".1.3.6.1.4.1.2021.11.3.0", NULL, RECMETHOD_RRD, SMET_PARENTREFMETHOD);
   ram->swap_in->record_defaultflag = 1;

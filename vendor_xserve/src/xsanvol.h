@@ -1,6 +1,7 @@
 typedef struct v_xsanvol_item_s
 {
   struct i_object_s *obj;
+  int index;
 
   /* Config */
   struct i_metric_s *allocation_strategy;
@@ -50,11 +51,20 @@ typedef struct v_xsanvol_item_s
   struct i_metric_s *host_state;    /* 0=Unknown 1=NotMDC 2=ActiveMDC */
   
   /* Storage Pool Container */
-  struct i_container_s *sp_cnt;     /* A container called 'xsanvol_<name>' which contains xsansp objects (storage pools) */
+  struct i_container_s *sp_cnt;
+  struct l_snmp_objfact_s *sp_objfact;
+
+  /* Affinities Container */
+  struct i_container_s *affinity_cnt;
+  struct l_snmp_objfact_s *affinity_objfact;
+
+  /* LUNs Container */
+  struct i_container_s *lun_cnt;
+  struct l_snmp_objfact_s *lun_objfact;
 
   /* Raw volume name */
   char *raw_volume_name;
-
+  
 } v_xsanvol_item;
 
 struct i_container_s* v_xsanvol_cnt ();
@@ -70,3 +80,6 @@ int v_xsanvol_read_preempt_callback (i_resource *self, struct i_socket_s *sock, 
 v_xsanvol_item* v_xsanvol_item_create ();
 void v_xsanvol_item_free (void *itemptr);
 
+int v_xsanvol_objfact_fab (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj, struct snmp_pdu *pdu, char *index_oidstr, void *passdata);
+int v_xsanvol_objfact_ctrl (i_resource *self, struct i_container_s *cnt, int result, void *passdata);
+int v_xsanvol_objfact_clean (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj);

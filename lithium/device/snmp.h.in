@@ -209,4 +209,6 @@ void l_snmp_metric_refresh_data_free (void *dataptr);
 int l_snmp_metric_refresh (i_resource *self, struct i_metric_s *met, int opcode);
 int l_snmp_metric_refresh_getcb (i_resource *self, l_snmp_session *session, int reqid, struct snmp_pdu *pdu, void *passdata);
 
-
+/* snmp_xsnmp.c */
+int l_snmp_xsnmp_enabled ();
+int l_snmp_xsnmp_detect (i_resource *self);

@@ -139,10 +139,12 @@ int i_metric_record_rrd_queued (i_resource *self, i_metric *met, unsigned short 
       char *maxstr = NULL;
       char *minstr = NULL;
       
-      if (met->met_type == METRIC_COUNT)
-      { dststr = "COUNTER"; }
-      else
-      { dststr = "GAUGE"; }
+//      if (met->met_type == METRIC_COUNT)
+//      { dststr = "COUNTER"; }
+//      else
+//      { dststr = "GAUGE"; }
+
+      dststr = "GAUGE";
 
       /* Check for min_val minimum value */
       if (met->min_val)

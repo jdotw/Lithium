@@ -34,6 +34,7 @@
 /* Xsan Volumes Info */
 
 static i_container *static_cnt = NULL;
+static l_snmp_objfact *static_objfact = NULL;
 
 /* Variable Retrieval */
 
@@ -96,6 +97,29 @@ int v_xsanvisdisk_enable (i_resource *self)
   { i_printf (1, "v_xsanvisdisk_enable failed to create item_list"); v_xsanvisdisk_disable (self); return -1; }
   static_cnt->item_list_state = ITEMLIST_STATE_NORMAL;
 
+  if (l_snmp_xsnmp_enabled())
+  {
+    /* Using Xsnmp -- nice. */
+
+    /* Create the object factory */
+    static_objfact = l_snmp_objfact_create (self, static_cnt->name_str, static_cnt->desc_str);
+    if (!static_objfact)
+    {
+      i_printf (1, "v_xsanvisdisk_enable failed to call l_snmp_objfact_create to create the objfact"); 
+      return -1;
+    }
+    static_objfact->dev = self->hierarchy->dev;
+    static_objfact->cnt = static_cnt;
+    static_objfact->name_oid_str = strdup (".1.3.6.1.4.1.20038.2.1.1.3.1.4");
+    static_objfact->fabfunc = v_xsanvisdisk_objfact_fab;
+    static_objfact->ctrlfunc = v_xsanvisdisk_objfact_ctrl;
+    static_objfact->cleanfunc = v_xsanvisdisk_objfact_clean;
+    num = l_snmp_objfact_start (self, static_objfact);
+    if (num != 0)
+    { 
+      i_printf (1, "v_xsanvisdisk_enable failed to call l_snmp_objfact_start to start the object factory"); 
+    }
+  }
   
   return 0;
 }

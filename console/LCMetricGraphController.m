@@ -293,7 +293,7 @@
 	refreshXMLRequest = [[LCXMLRequest requestWithCriteria:[metric customer]
 												  resource:[[metric device] resourceAddress]
 													entity:[metric entityAddress] 
-												   xmlname:@"pdfgraph_render" 
+												   xmlname:@"xmlgraph_render" 
 													refsec:0 
 													xmlout:xmlDoc] retain];
 	[refreshXMLRequest setDelegate:self];
@@ -343,7 +343,7 @@
 		baselineXMLRequest = [[LCXMLRequest requestWithCriteria:[metric customer]
 													   resource:[[metric device] resourceAddress]
 														 entity:[metric entityAddress] 
-													   xmlname:@"pdfgraph_render" 
+													   xmlname:@"xmlgraph_render" 
 														 refsec:0 
 														 xmlout:baselineDoc] retain];
 		[baselineXMLRequest setDelegate:self];

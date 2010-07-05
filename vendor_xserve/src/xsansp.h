@@ -1,6 +1,7 @@
 typedef struct v_xsansp_item_s
 {
   struct i_object_s *obj;
+  unsigned long index;
 
   /* Config */
   struct i_metric_s *affinity;
@@ -35,3 +36,6 @@ v_xsansp_item* v_xsansp_create (i_resource *self, struct v_xsanvol_item_s *vol, 
 v_xsansp_item* v_xsansp_item_create ();
 void v_xsansp_item_free (void *itemptr);
 
+int v_xsansp_objfact_fab (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj, struct snmp_pdu *pdu, char *index_oidstr, void *passdata);
+int v_xsansp_objfact_ctrl (i_resource *self, struct i_container_s *cnt, int result, void *passdata);
+int v_xsansp_objfact_clean (i_resource *self, struct i_container_s *cnt, struct i_object_s *obj);

@@ -10,15 +10,21 @@
 
 @class LTCustomer;
 
-@interface LTAPIRequest : NSObject 
+@interface LTAPIRequest : NSOperation 
 {
+	NSMutableURLRequest *urlReq;
+	
 	NSMutableData *receivedData;
 	LTCustomer *customer;
 	
 	BOOL refreshInProgress;
 	BOOL finished;
+	BOOL debug;
+	
+	id delegate;
 }
 
+@property (nonatomic, assign) id delegate;
 @property (nonatomic, retain) LTCustomer *customer;
 @property (nonatomic, assign) BOOL refreshInProgress;
 
