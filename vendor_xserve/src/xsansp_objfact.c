@@ -59,6 +59,8 @@ int v_xsansp_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, str
    */
 
   sp->status = l_snmp_metric_create (self, obj, "status", "Status", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.1.2.1.4", index_oidstr, RECMETHOD_NONE, 0);
+  i_metric_enumstr_add (sp->status, 1, "Up");
+  i_metric_enumstr_add (sp->status, 0, "Unknown");
 
   sp->bytes_total = l_snmp_metric_create (self, obj, "bytes_total", "Size", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.1.2.1.21", index_oidstr, RECMETHOD_NONE, 0);
   sp->bytes_total->alloc_unit = 1024 * 1024;

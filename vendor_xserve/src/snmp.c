@@ -69,7 +69,7 @@ int v_snmp_enable (i_resource *self)
   if (l_snmp_xsnmp_enabled())
   { 
     v_xsanvol_enable(self); 
-    v_xsanvisdisk_enable(self); 
+    // v_xsanvisdisk_enable(self); 
   }
 
   return 0;

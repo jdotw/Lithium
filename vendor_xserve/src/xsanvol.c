@@ -87,6 +87,7 @@ int v_xsanvol_enable (i_resource *self)
   /*
    * Triggers
    */
+   
   i_triggerset *tset;
 
   tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
@@ -98,6 +99,9 @@ int v_xsanvol_enable (i_resource *self)
   i_triggerset_addtrg (self, tset, "mdcfailover", "MDC Failed Over", VALTYPE_INTEGER, TRGTYPE_EQUAL, 1, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
   i_triggerset_assign (self, static_cnt, tset);
   
+  tset = i_triggerset_create ("state", "State", "state");
+  i_triggerset_addtrg (self, tset, "not_registered", "Not Registered", VALTYPE_INTEGER, TRGTYPE_NOTEQUAL, 1, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+  i_triggerset_assign (self, static_cnt, tset);
 
   /* 
    * Item and objects 

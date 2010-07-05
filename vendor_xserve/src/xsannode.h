@@ -7,15 +7,17 @@ typedef struct v_xsannode_item_s
 
   /* Config */
   struct i_metric_s *noderotationindex;
-  struct i_metric_s *blockdev;
+  struct i_metric_s *blockdev;            /* /dev/rdisk(etc) */
   struct i_metric_s *hostnumber;
-  struct i_metric_s *hostinquiry;
-  struct i_metric_s *lun;
+  struct i_metric_s *hostinquiry;         /* Info label */
+  struct i_metric_s *lun;                 
+  struct i_metric_s *sectors;
   struct i_metric_s *maxsectors;
   struct i_metric_s *sectorsize;
-  struct i_metric_s *wwn;
-  struct i_metric_s *size;
+  struct i_metric_s *wwn;                 /* 'Serial' from Xsnmp */
+  struct i_metric_s *size;                /* In bytes */
   struct i_metric_s *unlabeled;
+  struct i_metric_s *visible;
 
   int lun_registered;
 
