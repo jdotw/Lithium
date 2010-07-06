@@ -259,7 +259,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     close(fd1[0]);
     close(fd2[1]);
     
-    /* DEBUG */
+    /* DEBUG (for printing what an action is doing) 
     if (proc->entaddr_str)
     {
       char *incid_str;
@@ -300,10 +300,9 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     } 
     else
     {
-      /* No incident */
       i_debug ("Action (parent - no inc): 'env '%s' '%s' %s'", perlenv, fullpath, proc->command_str);
     }
-    /* END DEBUG */
+     END DEBUG */
 
     /* Create 'socket' struct for the readfd */
     proc->sock = i_socket_create ();

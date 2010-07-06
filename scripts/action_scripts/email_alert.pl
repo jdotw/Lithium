@@ -29,6 +29,14 @@ use Net::IRC;
                                  'name' => 'recipients',
                                  'required' => '1',
                                  'desc' => 'Recipients (comma-separated)'
+                              },
+                              {
+                                 'name' => 'smtp_username',
+                                 'desc' => 'SMTP Auth Username'
+                              },
+                              {
+                                 'name' => 'smtp_password',
+                                 'desc' => 'SMTP Auth Password'
                               }
                  ]
             );
@@ -355,9 +363,12 @@ sub sendEmail ()
   my $replyto = %variables->{replyto}->{value};
   my $mailhost = %variables->{mailhost}->{value};
   my $sender = %variables->{sender}->{value};
+  my $smtp_username = %variables->{smtp_username}->{value};
+  my $smtp_password = %variables->{smtp_password}->{value};
 
   # Send email using SMTP
-  $smtp = Net::SMTP->new("$mailhost");
+  $smtp = Net::SMTP->new("$mailhost", Debug => 1);
+  $smtp->auth("$smtp_username", "$smtp_password") if defined($smtp_username);
   $smtp->mail("$sender");
   $smtp->recipient(@recipients, { SkipBad => 1 });
   $smtp->data();
@@ -368,6 +379,8 @@ sub sendEmail ()
   $smtp->datasend("$textContent\n");
   $smtp->dataend();
   $smtp->quit;
+  
+  
 }
 sub generateConfig 
 {
