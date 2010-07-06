@@ -248,11 +248,62 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
   if (proc->pid < 0)
   { i_printf (1, "l_action_exec failed to call fork()"); l_action_proc_free (proc); return -1; }
 
+  /* Create fill path */
+  char *perlenv = "PERL5LIB=/Library/Lithium/LithiumCore.app/Contents/Resources/Perl";
+  char *fullpath;
+  asprintf (&fullpath, "%s/action_scripts/%s", self->root, proc->script_file);
+
   if (proc->pid > 0)
   {
     /* Parent Process */
     close(fd1[0]);
     close(fd2[1]);
+    
+    /* DEBUG */
+    if (proc->entaddr_str)
+    {
+      char *incid_str;
+      char *opstate_str;
+      char *runcount_str;
+      char *start_str;
+      char *end_str;
+      char *highest_opstate_str;
+      char *lowest_opstate_str;
+      char *prev_opstate_str;
+      char *last_transition_str;
+      char *last_occurrence_str;
+      char *occurrences_str;
+      char *inc_count_str;
+      char uuid_str[37];
+      uuid_unparse_lower (self->hierarchy->cust->uuid, uuid_str);
+      asprintf (&incid_str, "%li", proc->incid);
+      asprintf (&opstate_str, "%i", proc->opstate);
+      asprintf (&runcount_str, "%i", proc->run_count);
+      asprintf (&start_str, "%li", proc->start_sec);
+      asprintf (&end_str, "%li", proc->end_sec);
+      asprintf (&highest_opstate_str, "%i", proc->highest_opstate);
+      asprintf (&lowest_opstate_str, "%i", proc->lowest_opstate);
+      asprintf (&prev_opstate_str, "%i", proc->prev_opstate);
+      asprintf (&last_transition_str, "%li", proc->last_transition_sec);
+      asprintf (&last_occurrence_str, "%li", proc->last_occurrence_sec);
+      asprintf (&occurrences_str, "%i", proc->occurrences);
+      asprintf (&inc_count_str, "%i", proc->incident_count);
+      i_debug ("Action (parent): 'env '%s' '%s' %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s'",
+        perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str,
+        opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc,
+        proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str,
+        lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A",
+        last_transition_str, last_occurrence_str, occurrences_str,
+        proc->entity_url ? : "None", proc->metric_url ? : "None",
+        inc_count_str, proc->incident_url ? : "None", uuid_str,
+        proc->temp_config_file);
+    } 
+    else
+    {
+      /* No incident */
+      i_debug ("Action (parent - no inc): 'env '%s' '%s' %s'", perlenv, fullpath, proc->command_str);
+    }
+    /* END DEBUG */
 
     /* Create 'socket' struct for the readfd */
     proc->sock = i_socket_create ();
@@ -290,12 +341,8 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
       close(fd2[1]);
     } 
 
-    /* Create fill path */
-    char *fullpath;
-    asprintf (&fullpath, "%s/action_scripts/%s", self->root, proc->script_file);
 
     /* Exec */
-    char *perlenv = "PERL5LIB=/Library/Lithium/LithiumCore.app/Contents/Resources/Perl";
     if (proc->entaddr_str)
     {
       /* Incident specified */
@@ -329,7 +376,17 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
 
       if (proc->temp_config_file && strlen(proc->temp_config_file) > 0)
       {
-        num = execlp ("env", "env", perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
+        i_debug ("Action (conf): 'env %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s'", 
+          perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
+          opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
+          proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
+          lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A", 
+          last_transition_str, last_occurrence_str, occurrences_str, 
+          proc->entity_url ? : "None", proc->metric_url ? : "None", 
+          inc_count_str, proc->incident_url ? : "None", uuid_str,
+          proc->temp_config_file); 
+        num = execlp ("env", "env", 
+          perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
           opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
           proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
           lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A", 
@@ -340,6 +397,14 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
       }
       else
       {
+        i_debug ("Action (no conf): 'env %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s'", 
+          perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
+          opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
+          proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
+          lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A", 
+          last_transition_str, last_occurrence_str, occurrences_str, 
+          proc->entity_url ? : "None", proc->metric_url ? : "None", 
+          inc_count_str, proc->incident_url ? : "None", uuid_str); 
         num = execlp ("env", "env", perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
           opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
           proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
@@ -365,17 +430,18 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     else
     {
       /* No incident */
+      i_debug ("Action (no inc): 'env %s %s %s'", perlenv, fullpath, proc->command_str);
       num = execlp ("env", "env", perlenv, fullpath, proc->command_str, NULL); 
     }
-    free (fullpath);
     if (num == -1)
     {
       fprintf (stdout, "execlp error");
     } 
-      
     
     exit (1);
   } 
+
+  free (fullpath);
 
   return -1;      /* Return -1 to destroy variable list */
 }

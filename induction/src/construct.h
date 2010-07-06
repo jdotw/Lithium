@@ -10,7 +10,8 @@ typedef struct i_construct_s
 	char *module_path;
 	char *log_path;
 	char *module_name;
-	struct i_module_s *module;
+    struct i_module_s *module;
+    int heartbeat_failed;         /* Processing being killed due to heartbeat failure */
 } i_construct;
 
 i_construct* i_construct_create (i_construct *clone, char *module_name);

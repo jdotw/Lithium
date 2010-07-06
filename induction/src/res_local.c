@@ -368,8 +368,26 @@ int i_resource_local_terminate (i_hashtable *res_table, i_resource_address *res_
   /* Destroy the construct */
   if (res->construct)
   {
-    if (res->construct->pid > 0) { kill (res->construct->pid, SIGTERM); } /* DEBUG: Original */
-//    if (res->construct->pid > 0) { kill (res->construct->pid, SIGABRT); } /* DEBUG to find hangs */
+    if (res->construct->heartbeat_failed)
+    {
+      /* Heartbeat failure, perform stack trace and then kill */
+      pid_t child_pid = fork ();
+      if (child_pid == 0)
+      {
+        /* Child process forked to perform a hung process log */
+        char *command_str;
+        asprintf (&command_str, "/Library/Lithium/LithiumCore.app/Contents/MacOS/hang_reporter.sh %i", res->construct->pid);
+        execlp ("/bin/sh", "sh", "-c", command_str, NULL);
+        free (command_str);
+        exit (0);
+      }
+    }
+    else
+    {
+      /* Normal process termination */
+      if (res->construct->pid > 0) { kill (res->construct->pid, SIGTERM); } /* DEBUG: Original */
+      //if (res->construct->pid > 0) { kill (res->construct->pid, SIGABRT); } /* DEBUG to find hangs */
+    }
     i_construct_free (res->construct);
     res->construct = NULL;
   }

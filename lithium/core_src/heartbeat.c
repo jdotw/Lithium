@@ -35,6 +35,7 @@ int l_heartbeat_timer (i_resource *self, i_timer *timer, void *passdata)
     if (res->construct)
     {
       i_printf (0, "l_heartbeat_timer resource %i:%i:%s has no heartbeat -- restarting (pid %i)", res->type, res->ident_int, res->ident_str, res->construct->pid);
+      res->construct->heartbeat_failed = 1;
     }
     res->heartbeat_timer = NULL;
     res->heartbeatfail_count++;

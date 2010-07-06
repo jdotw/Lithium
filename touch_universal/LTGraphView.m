@@ -25,7 +25,7 @@
 	{
 		CATiledLayer *tiledLayer = (CATiledLayer *) self.layer;
 		tiledLayer.tileSize = CGSizeMake(512.0, 512.0);
-		tiledLayer.levelsOfDetail = 1;
+		tiledLayer.levelsOfDetail = 4;
 		tiledLayer.levelsOfDetailBias = 1;
 		tiledLayer.delegate = self;
 

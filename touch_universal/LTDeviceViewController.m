@@ -76,7 +76,7 @@
 	[graphScrollView addSubview:graphView];
 	graphScrollView.contentSize = graphView.frame.size;	
 	graphScrollView.maximumZoomScale = 1.0;
-	graphScrollView.minimumZoomScale = 1.0;
+	graphScrollView.minimumZoomScale = 10.0;
 	graphScrollView.delegate = self;
 	[graphScrollView scrollRectToVisible:CGRectMake(CGRectGetMaxX(contentRect) - CGRectGetWidth(graphScrollView.frame),
 													0.0, CGRectGetWidth(graphScrollView.frame), CGRectGetHeight(graphScrollView.frame)) animated:NO];
