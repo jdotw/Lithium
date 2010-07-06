@@ -10,7 +10,7 @@ CONFIGURE_PATHS="--prefix=$PREFIX --bindir=$PREFIX/Contents/MacOS --sbindir=$PRE
 
 echo "Paths is $CONFIGURE_PATHS"
 
-CC="/Developer/usr/bin/clang"
+CC="/Developer/usr/bin/gcc"
 SDK="/Developer/SDKs/MacOSX10.5.sdk"
 ARCHTARGET="-arch i386 -arch ppc"
 OSTARGET="10.5"
