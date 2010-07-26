@@ -31,6 +31,7 @@
 #include "output.h"
 #include "outphase.h"
 #include "device.h"
+#include "intenv.h"
 
 void module_info ()
 {
@@ -99,6 +100,10 @@ int module_entry (i_resource *self, i_form *config_form)
   num = v_device_enable (self);
   if (num != 0)
   { i_printf (1, "apcups vendor module_entry failed to enable device sub-system"); return -1; }
+  
+  num = v_intenv_enable (self);
+  if (num != 0)
+  { i_printf (1, "apcups vendor module_entry failed to enable intenv sub-system"); return -1; }
   
   num = l_snmp_iface_enable (self);
   if (num != 0)

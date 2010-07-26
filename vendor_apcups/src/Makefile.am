@@ -19,6 +19,9 @@ apcups_so_SOURCES = main.c \
 					inphase.c \
 					inphase_item.c \
 					inphase_objfact.c \
+					intenv.c \
+					intenv_objfact.c \
+					intenv_item.c \
 					device.c \
 					device_objfact.c \
 					device_item.c
