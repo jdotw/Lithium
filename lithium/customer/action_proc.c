@@ -375,6 +375,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
 
       if (proc->temp_config_file && strlen(proc->temp_config_file) > 0)
       {
+        /*
         i_debug ("Action (conf): 'env %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s'", 
           perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
           opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
@@ -384,6 +385,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
           proc->entity_url ? : "None", proc->metric_url ? : "None", 
           inc_count_str, proc->incident_url ? : "None", uuid_str,
           proc->temp_config_file); 
+          */
         num = execlp ("env", "env", 
           perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
           opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
@@ -396,6 +398,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
       }
       else
       {
+        /*
         i_debug ("Action (no conf): 'env %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s'", 
           perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
           opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
@@ -403,7 +406,8 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
           lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A", 
           last_transition_str, last_occurrence_str, occurrences_str, 
           proc->entity_url ? : "None", proc->metric_url ? : "None", 
-          inc_count_str, proc->incident_url ? : "None", uuid_str); 
+          inc_count_str, proc->incident_url ? : "None", uuid_str);
+         */ 
         num = execlp ("env", "env", perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
           opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
           proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
@@ -429,7 +433,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     else
     {
       /* No incident */
-      i_debug ("Action (no inc): 'env %s %s %s'", perlenv, fullpath, proc->command_str);
+//      i_debug ("Action (no inc): 'env %s %s %s'", perlenv, fullpath, proc->command_str);
       num = execlp ("env", "env", perlenv, fullpath, proc->command_str, NULL); 
     }
     if (num == -1)
