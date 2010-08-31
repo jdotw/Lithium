@@ -54,7 +54,6 @@
 		105EDEDB11BC392000B294B4 /* LTMetricLandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */; };
 		105EDEDC11BC392000B294B4 /* MetricLandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE8E11BC392000B294B4 /* MetricLandscape.xib */; };
 		105EDEDD11BC392000B294B4 /* LTMetricTableViewCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */; };
-		105EDEDE11BC392000B294B4 /* LTEntityRefreshProgressViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9211BC392000B294B4 /* LTEntityRefreshProgressViewCell.m */; };
 		105EDEDF11BC392000B294B4 /* GroupsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE9411BC392000B294B4 /* GroupsTab.xib */; };
 		105EDEE011BC392000B294B4 /* LTGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */; };
 		105EDEE111BC392000B294B4 /* IncidentsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE9811BC392000B294B4 /* IncidentsTab.xib */; };
@@ -194,8 +193,6 @@
 		105EDE8E11BC392000B294B4 /* MetricLandscape.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MetricLandscape.xib; sourceTree = "<group>"; };
 		105EDE8F11BC392000B294B4 /* LTMetricTableViewCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricTableViewCellBackground.h; sourceTree = "<group>"; };
 		105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricTableViewCellBackground.m; sourceTree = "<group>"; };
-		105EDE9111BC392000B294B4 /* LTEntityRefreshProgressViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityRefreshProgressViewCell.h; sourceTree = "<group>"; };
-		105EDE9211BC392000B294B4 /* LTEntityRefreshProgressViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityRefreshProgressViewCell.m; sourceTree = "<group>"; };
 		105EDE9411BC392000B294B4 /* GroupsTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupsTab.xib; sourceTree = "<group>"; };
 		105EDE9511BC392000B294B4 /* LTGroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGroupTableViewController.h; sourceTree = "<group>"; };
 		105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGroupTableViewController.m; sourceTree = "<group>"; };
@@ -453,8 +450,6 @@
 				105EDE7811BC392000B294B4 /* LTEntityTableViewCell.m */,
 				105EDE7911BC392000B294B4 /* LTMetricTableViewCell.h */,
 				105EDE7A11BC392000B294B4 /* LTMetricTableViewCell.m */,
-				105EDE9111BC392000B294B4 /* LTEntityRefreshProgressViewCell.h */,
-				105EDE9211BC392000B294B4 /* LTEntityRefreshProgressViewCell.m */,
 			);
 			name = "Devices Tab";
 			sourceTree = "<group>";
@@ -866,7 +861,6 @@
 				105EDEDA11BC392000B294B4 /* LTMetricGraphTableViewCell.m in Sources */,
 				105EDEDB11BC392000B294B4 /* LTMetricLandscapeViewController.m in Sources */,
 				105EDEDD11BC392000B294B4 /* LTMetricTableViewCellBackground.m in Sources */,
-				105EDEDE11BC392000B294B4 /* LTEntityRefreshProgressViewCell.m in Sources */,
 				105EDEE011BC392000B294B4 /* LTGroupTableViewController.m in Sources */,
 				105EDEE211BC392000B294B4 /* LTIncidentListTableViewController.m in Sources */,
 				105EDEE311BC392000B294B4 /* LTIncidentListGroup.m in Sources */,

@@ -250,6 +250,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	
 	/* Post Notification */
 	self.refreshInProgress = NO;
+	self.hasBeenRefreshed = YES;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];
 	
 	/* Update Status */

@@ -133,14 +133,14 @@
 	[self refreshTimerFired:nil];
 	if (!hasAppeared)
 	{
-		if ([children count] == 1)
-		{
-			LTEntity *singleEntity = [children objectAtIndex:0];
-			LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithStyle:[LTTableView defaultCellStyle]];
-			vc.entity = singleEntity;
-			[self.navigationController pushViewController:vc animated:NO];
-			[vc release];
-		}
+//		if ([children count] == 1)
+//		{
+//			LTEntity *singleEntity = [children objectAtIndex:0];
+//			LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithStyle:[LTTableView defaultCellStyle]];
+//			vc.entity = singleEntity;
+//			[self.navigationController pushViewController:vc animated:NO];
+//			[vc release];
+//		}
 		hasAppeared = YES;
 	}
 }
@@ -290,7 +290,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if ([children count] == 0 && entity.refreshInProgress)
-	{ return [self.tableView frame].size.height; }
+	{ return 200.0; }
 	else
 	{ 
 		if (tableView.frame.size.height > 600)

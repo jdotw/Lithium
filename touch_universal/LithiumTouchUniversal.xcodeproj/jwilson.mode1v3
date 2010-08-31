@@ -202,7 +202,7 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
-				<string>100817E511E1F9C700E7316E</string>
+				<string>10A624391219535D000D903B</string>
 				<key>PBXProjectModuleLabel</key>
 				<string>LTDeviceViewController.m</string>
 				<key>PBXSplitModuleInNavigatorKey</key>
@@ -210,16 +210,16 @@
 					<key>Split0</key>
 					<dict>
 						<key>PBXProjectModuleGUID</key>
-						<string>100817E611E1F9C700E7316E</string>
+						<string>10A6243A1219535D000D903B</string>
 						<key>PBXProjectModuleLabel</key>
 						<string>LTDeviceViewController.m</string>
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>100817E711E1F9C700E7316E</string>
+						<string>10A6243B1219535D000D903B</string>
 						<key>history</key>
 						<array>
-							<string>100817D411E1B66400E7316E</string>
+							<string>10A624371218D34A000D903B</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -242,24 +242,24 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
-				<string>100817E811E1F9C700E7316E</string>
+				<string>10A624111218D0F8000D903B</string>
 				<key>PBXProjectModuleLabel</key>
-				<string>LTGraphView.m</string>
+				<string>LTTableViewCell.m</string>
 				<key>PBXSplitModuleInNavigatorKey</key>
 				<dict>
 					<key>Split0</key>
 					<dict>
 						<key>PBXProjectModuleGUID</key>
-						<string>100817E911E1F9C700E7316E</string>
+						<string>10A624121218D0F8000D903B</string>
 						<key>PBXProjectModuleLabel</key>
-						<string>LTGraphView.m</string>
+						<string>LTTableViewCell.m</string>
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>100817EB11E1F9C700E7316E</string>
+						<string>10A6243C1219535D000D903B</string>
 						<key>history</key>
 						<array>
-							<string>100817EA11E1F9C700E7316E</string>
+							<string>10A623FF1218D034000D903B</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -271,11 +271,51 @@
 			<key>Geometry</key>
 			<dict>
 				<key>Frame</key>
-				<string>{{0, 20}, {1362, 808}}</string>
+				<string>{{0, 20}, {804, 790}}</string>
 				<key>PBXModuleWindowStatusBarHidden2</key>
 				<false/>
 				<key>RubberWindowFrame</key>
-				<string>454 87 1362 849 0 0 1920 1178 </string>
+				<string>152 279 804 831 0 0 1920 1178 </string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Content</key>
+			<dict>
+				<key>PBXProjectModuleGUID</key>
+				<string>10A623F81218CF19000D903B</string>
+				<key>PBXProjectModuleLabel</key>
+				<string>LTEntity.m</string>
+				<key>PBXSplitModuleInNavigatorKey</key>
+				<dict>
+					<key>Split0</key>
+					<dict>
+						<key>PBXProjectModuleGUID</key>
+						<string>10A623F91218CF19000D903B</string>
+						<key>PBXProjectModuleLabel</key>
+						<string>LTEntity.m</string>
+						<key>_historyCapacity</key>
+						<integer>0</integer>
+						<key>bookmark</key>
+						<string>10A6243D1219535D000D903B</string>
+						<key>history</key>
+						<array>
+							<string>10A623F41218CF05000D903B</string>
+						</array>
+					</dict>
+					<key>SplitCount</key>
+					<string>1</string>
+				</dict>
+				<key>StatusBarVisibility</key>
+				<true/>
+			</dict>
+			<key>Geometry</key>
+			<dict>
+				<key>Frame</key>
+				<string>{{0, 20}, {1744, 805}}</string>
+				<key>PBXModuleWindowStatusBarHidden2</key>
+				<false/>
+				<key>RubberWindowFrame</key>
+				<string>148 56 1744 846 0 0 1920 1178 </string>
 			</dict>
 		</dict>
 	</array>
@@ -415,7 +455,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>LTAPIRequest.m</string>
+								<string>LTTableViewCell.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -423,7 +463,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>LTAPIRequest.m</string>
+										<string>LTTableViewCell.m</string>
+										<key>_historyCapacity</key>
+										<integer>0</integer>
+										<key>bookmark</key>
+										<string>10A624381219535D000D903B</string>
 										<key>history</key>
 										<array>
 											<string>105EDDE911BC329B00B294B4</string>
@@ -445,14 +489,11 @@
 											<string>105EDFF511BC416A00B294B4</string>
 											<string>105EDFF611BC416A00B294B4</string>
 											<string>105EE10511BC651200B294B4</string>
-											<string>105EE10611BC651200B294B4</string>
-											<string>105EE10711BC651200B294B4</string>
 											<string>102C693B11BCEC540032D043</string>
 											<string>1095A31111BDA900008EED5B</string>
 											<string>1095A3CF11BDB8FD008EED5B</string>
 											<string>1095A3D011BDB8FD008EED5B</string>
 											<string>10934AE211BEA49D009EF1F7</string>
-											<string>10934B3711BEB48B009EF1F7</string>
 											<string>10934B8411BEBB6C009EF1F7</string>
 											<string>10934D7E11BEF533009EF1F7</string>
 											<string>10934D7F11BEF533009EF1F7</string>
@@ -463,9 +504,7 @@
 											<string>106CB65C11BF6FB700F3382D</string>
 											<string>106CB67E11BF74E700F3382D</string>
 											<string>106CB67F11BF74E700F3382D</string>
-											<string>106CB6B311BF77C300F3382D</string>
 											<string>106CB6EB11BF7A2600F3382D</string>
-											<string>106CB7BD11BFE06C00F3382D</string>
 											<string>106CBA9411C029A700F3382D</string>
 											<string>106CBACC11C02A8400F3382D</string>
 											<string>106CBACD11C02A8400F3382D</string>
@@ -480,7 +519,6 @@
 											<string>10089BBB11C2032F00034DFC</string>
 											<string>10089BBD11C2032F00034DFC</string>
 											<string>10BAD44611C20E5E00147DCA</string>
-											<string>10BAD48D11C29AFE00147DCA</string>
 											<string>10BAD48F11C29AFE00147DCA</string>
 											<string>10BAD51311C2A37000147DCA</string>
 											<string>10BAD61611C2CB7F00147DCA</string>
@@ -493,6 +531,11 @@
 											<string>10AA4AE411DDC7C50053EBA3</string>
 											<string>10AA4CB011E15FA40053EBA3</string>
 											<string>10AA4C9611E142260053EBA3</string>
+											<string>10A623EE1218CE9A000D903B</string>
+											<string>10A624081218D0F8000D903B</string>
+											<string>10A624091218D0F8000D903B</string>
+											<string>10A6240A1218D0F8000D903B</string>
+											<string>106CB7BD11BFE06C00F3382D</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -504,14 +547,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {904, 524}}</string>
+								<string>{{0, 0}, {904, 517}}</string>
 								<key>RubberWindowFrame</key>
 								<string>368 298 1228 819 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>524pt</string>
+							<string>517pt</string>
 						</dict>
 						<dict>
 							<key>BecomeActive</key>
@@ -526,14 +569,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 529}, {904, 249}}</string>
+								<string>{{0, 522}, {904, 256}}</string>
 								<key>RubberWindowFrame</key>
 								<string>368 298 1228 819 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>249pt</string>
+							<string>256pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -552,9 +595,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>100817C611E1B60300E7316E</string>
+				<string>10A623BF1218CC79000D903B</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>100817C711E1B60300E7316E</string>
+				<string>10A623C01218CC79000D903B</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -692,14 +735,16 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>100817ED11E1F9C700E7316E</string>
-		<string>100817EE11E1F9C700E7316E</string>
+		<string>10A623E61218CDA7000D903B</string>
+		<string>10A623E71218CDA7000D903B</string>
 		<string>105EDDB711BC2E1400B294B4</string>
 		<string>1CD10A99069EF8BA00B06720</string>
+		<string>10A623F81218CF19000D903B</string>
 		<string>1C78EAAD065D492600B07095</string>
-		<string>100817E811E1F9C700E7316E</string>
-		<string>100817E511E1F9C700E7316E</string>
+		<string>10A624111218D0F8000D903B</string>
+		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>/Users/jwilson/Source/Lithium/touch_universal/LithiumTouchUniversal.xcodeproj</string>
+		<string>10A624391219535D000D903B</string>
 	</array>
 	<key>WindowString</key>
 	<string>368 298 1228 819 0 0 1920 1178 </string>
@@ -779,7 +824,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>105EDDB711BC2E1400B294B4</string>
-				<string>100817C811E1B60300E7316E</string>
+				<string>10A623C31218CC79000D903B</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -901,13 +946,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>100817C911E1B60300E7316E</string>
+				<string>10A623C41218CC79000D903B</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>100817CA11E1B60300E7316E</string>
-				<string>100817CB11E1B60300E7316E</string>
-				<string>100817CC11E1B60300E7316E</string>
-				<string>100817CD11E1B60300E7316E</string>
-				<string>100817CE11E1B60300E7316E</string>
+				<string>10A623C51218CC79000D903B</string>
+				<string>10A623C61218CC79000D903B</string>
+				<string>10A623C71218CC79000D903B</string>
+				<string>10A623C81218CC79000D903B</string>
+				<string>10A623C91218CC79000D903B</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -941,7 +986,7 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>LTAPIRequest.m</string>
+										<string>LTGroupTableViewController.m</string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -950,7 +995,7 @@
 										<key>Frame</key>
 										<string>{{0, 0}, {1132, 632}}</string>
 										<key>RubberWindowFrame</key>
-										<string>764 123 1132 890 0 0 1920 1178 </string>
+										<string>437 20 1132 890 0 0 1920 1178 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXNavigatorGroup</string>
@@ -974,7 +1019,7 @@
 								<key>Frame</key>
 								<string>{{0, 637}, {1132, 212}}</string>
 								<key>RubberWindowFrame</key>
-								<string>764 123 1132 890 0 0 1920 1178 </string>
+								<string>437 20 1132 890 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXProjectFindModule</string>
@@ -997,13 +1042,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C530D57069F1CE1000CFCEE</string>
-				<string>10AA4C8011E141300053EBA3</string>
-				<string>10AA4C8111E141300053EBA3</string>
+				<string>10A623F11218CE9A000D903B</string>
+				<string>10A623F21218CE9A000D903B</string>
 				<string>1CDD528C0622207200134675</string>
 				<string>1CD0528E0623707200166675</string>
 			</array>
 			<key>WindowString</key>
-			<string>764 123 1132 890 0 0 1920 1178 </string>
+			<string>437 20 1132 890 0 0 1920 1178 </string>
 			<key>WindowToolGUID</key>
 			<string>1C530D57069F1CE1000CFCEE</string>
 			<key>WindowToolIsVisible</key>
@@ -1063,7 +1108,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>100817EC11E1F9C700E7316E</string>
+				<string>10A623E41218CDA7000D903B</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
