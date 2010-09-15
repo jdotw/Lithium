@@ -12,7 +12,6 @@
 
 #import "LTMetricGraphTableViewCell.h"
 #import "LTIncident.h"
-#import "LTTwoLineTableCell.h"
 #import "LTMetricLandscapeViewController.h"
 #import "LTMetricValuesTableViewController.h"
 #import "LTActionTableViewController.h"
@@ -82,6 +81,8 @@
 	{
 		[metric refresh];
 	}
+	[incidentList refresh];
+	[landscapeGraphRequest refresh];
 }
 
 - (void)viewWillDisappear:(BOOL)animated 
@@ -220,14 +221,14 @@
 			CellIdentifier = @"Graph";
 			break;
 		case SECTION_RECENT:
-			CellIdentifier = @"TwoLine";
+			CellIdentifier = @"Subtitle";
 			break;
 		case SECTION_ACTIONS:
-			CellIdentifier = @"TwoLine";
+			CellIdentifier = @"Subtitle";
 			break;
 		case SECTION_FAULTS:
 			if (indexPath.row < incidentList.incidents.count)
-			{ CellIdentifier = @"TwoLine"; }
+			{ CellIdentifier = @"Subtitle"; }
 			else
 			{ CellIdentifier = @"Cell"; }
 			break;
@@ -241,14 +242,13 @@
 		if ([CellIdentifier isEqualToString:@"Graph"])
 		{
 			graphViewCell = [[LTMetricGraphTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-			graphViewCell.graphView.metric = metric;
+			graphViewCell.graphView.metrics = [NSArray arrayWithObject:metric];
 			cell = graphViewCell;
 		}
-		else if ([CellIdentifier isEqualToString:@"TwoLine"])
+		else if ([CellIdentifier isEqualToString:@"Subtitle"])
 		{
-			LTTwoLineTableCell *twoLineCell = [[LTTwoLineTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-			cell = twoLineCell;
-			[twoLineCell autorelease];
+			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+			[cell autorelease];
 		}
 		else
 		{ cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease]; }
@@ -270,9 +270,8 @@
 			NSArray *sortedValues = [metric.values sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
 			NSString *string = [NSString stringWithFormat:@"%@ - %@", [[sortedValues objectAtIndex:0] stringValue], [[sortedValues lastObject] stringValue]];
 			NSTimeInterval elapsedTime = [[(LTMetricValue *)[metric.values lastObject] timestamp] timeIntervalSinceDate:[(LTMetricValue *)[metric.values objectAtIndex:0] timestamp]];
-			LTTwoLineTableCell *twoLineCell = (LTTwoLineTableCell *) cell;
-			twoLineCell.topLineLabel.text = string;
-			twoLineCell.bottomLineLabel.text = [NSString stringWithFormat:@"Over the last %@", [self intervalString:elapsedTime]];
+			cell.textLabel.text = string;
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"Over the last %@", [self intervalString:elapsedTime]];
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		}
 	}
@@ -280,17 +279,16 @@
 	{
 		/* Action */
 		LTAction *action = [incident.actions objectAtIndex:indexPath.row];
-		LTTwoLineTableCell *twoLineCell = (LTTwoLineTableCell *)cell;
-		twoLineCell.topLineLabel.text = action.desc;
+		cell.textLabel.text = action.desc;
 		if (action.runState == 0)
-		{ twoLineCell.bottomLineLabel.text = @"Action is dormant"; }
+		{ cell.detailTextLabel.text = @"Action is dormant"; }
 		else
-		{ twoLineCell.bottomLineLabel.text = [NSString stringWithFormat:@"Action is scheduled to run or re-run"]; }
-		twoLineCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		{ cell.detailTextLabel.text = [NSString stringWithFormat:@"Action is scheduled to run or re-run"]; }
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		if (action.runState == 0)
-		{ twoLineCell.dotImage = [UIImage imageNamed:@"tools_grey_16.tif"]; }
+		{ cell.imageView.image = [UIImage imageNamed:@"tools_grey_16.tif"]; }
 		else
-		{ twoLineCell.dotImage = [UIImage imageNamed:@"tools_16.tif"]; }
+		{ cell.imageView.image = [UIImage imageNamed:@"tools_16.tif"]; }
 	}
 	else if ([self sectionTypeForSection:indexPath.section] == SECTION_FAULTS)
 	{
@@ -299,38 +297,37 @@
 		NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
 		[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
 		[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-		LTTwoLineTableCell *twoLineCell = (LTTwoLineTableCell *)cell;
 		if (pastIncident.endDate)
 		{
 			NSTimeInterval timeInterval = [pastIncident.endDate timeIntervalSinceDate:pastIncident.startDate];
-			twoLineCell.topLineLabel.text = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:pastIncident.startDate]];
-			twoLineCell.bottomLineLabel.text = [NSString stringWithFormat:@"Metric reached or exceeded %@ for %@", pastIncident.raisedValue, [self intervalString:timeInterval]];
+			cell.textLabel.text = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:pastIncident.startDate]];
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"Metric reached or exceeded %@ for %@", pastIncident.raisedValue, [self intervalString:timeInterval]];
 		}
 		else
 		{
-			twoLineCell.topLineLabel.text = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:pastIncident.startDate]];				
-			twoLineCell.bottomLineLabel.text = [NSString stringWithFormat:@"Metric reached or exceeded %@", pastIncident.raisedValue];
+			cell.textLabel.text = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:pastIncident.startDate]];				
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"Metric reached or exceeded %@", pastIncident.raisedValue];
 		}
-		twoLineCell.accessoryType = UITableViewCellAccessoryNone;
+		cell.accessoryType = UITableViewCellAccessoryNone;
 		switch (pastIncident.entityDescriptor.opState)
 		{
 			case -2:
-				twoLineCell.dotImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
+				cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
 				break;				
 			case 0:
-				twoLineCell.dotImage = [UIImage imageNamed:@"GreenDot.tiff"];
+				cell.imageView.image = [UIImage imageNamed:@"GreenDot.tiff"];
 				break;
 			case 1:
-				twoLineCell.dotImage = [UIImage imageNamed:@"YellowDot.tiff"];
+				cell.imageView.image = [UIImage imageNamed:@"YellowDot.tiff"];
 				break;
 			case 2:
-				twoLineCell.dotImage = [UIImage imageNamed:@"YellowDot.tiff"];
+				cell.imageView.image = [UIImage imageNamed:@"YellowDot.tiff"];
 				break;
 			case 3:
-				twoLineCell.dotImage = [UIImage imageNamed:@"RedDot.tiff"];
+				cell.imageView.image = [UIImage imageNamed:@"RedDot.tiff"];
 				break;
 			default:
-				twoLineCell.dotImage = [UIImage imageNamed:@"GreyDot.tiff"];
+				cell.imageView.image = [UIImage imageNamed:@"GreyDot.tiff"];
 		}
 	}
 
@@ -544,11 +541,8 @@
 	
 	incidentList.customer = metric.customer;
 	incidentList.entity = metric;
-	[incidentList refresh];
 	
-	landscapeGraphRequest.metric = metric;
-	
-	[landscapeGraphRequest refresh];
+	landscapeGraphRequest.metric = metric;	
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(metricRefreshFinished:)

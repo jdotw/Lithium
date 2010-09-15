@@ -32,13 +32,16 @@
 
 - (void) entityRefreshFinished:(NSNotification *)note
 {
+	NSLog (@"%@ got RefreshFinished on thread %@ (%@)", self, [NSThread currentThread], [NSThread mainThread]);
 	progressLabel.text = @"Finished.";
-	[self dismissModalViewControllerAnimated:YES];
+//	NSLog (@"Dismissing %@ from %@", self, self.navigationController);
+//	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)note
 {
-	progressLabel.text = entity.xmlStatus;
+	NSLog (@"%@ got Status updated", self);
+//	progressLabel.text = entity.xmlStatus;
 }
 
 - (void) setEntity:(LTEntity *)value
@@ -46,12 +49,14 @@
 	[entity release];
 	entity = [value retain];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(entityRefreshFinished:)
-												 name:@"RefreshFinished" object:entity];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(entityRefreshStatusUpdated:)
-												 name:@"LTEntityXmlStatusChanged" object:entity];	
+	NSLog (@"Listening for RefreshFinished on %@", entity);
+	
+//	[[NSNotificationCenter defaultCenter] addObserver:self
+//											 selector:@selector(entityRefreshFinished:)
+//												 name:@"RefreshFinished" object:entity];
+//	[[NSNotificationCenter defaultCenter] addObserver:self
+//											 selector:@selector(entityRefreshStatusUpdated:)
+//												 name:@"LTEntityXmlStatusChanged" object:entity];	
 	
 }
 

@@ -8,7 +8,6 @@
 
 #import "LTMetricValuesTableViewController.h"
 #import "LTMetricValue.h"
-#import "LTLeftRightTableCell.h"
 
 @implementation LTMetricValuesTableViewController
 
@@ -104,27 +103,27 @@
 		value = [historyList.values objectAtIndex:indexPath.row];
 	}
     
-    LTLeftRightTableCell *cell = (LTLeftRightTableCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-        cell = [[[LTLeftRightTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Set up the cell...
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
 	[dateFormatter setDateFormat:@"MMM-d HH:mm:ss"];
-	cell.leftLabel.text = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:value.timestamp]];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:value.timestamp]];
 	if (indexPath.section == 0)
 	{
-		cell.rightLabel.text = value.stringValue;
+		cell.detailTextLabel.text = value.stringValue;
 	}
 	else
 	{
 		NSString *valueString = [NSString stringWithFormat:@"%.2f", value.avgValue];
 		if ([valueString isEqualToString:@"nan"]) 
-		{ cell.rightLabel.text = [NSString stringWithFormat:@"---"]; }
+		{ cell.detailTextLabel.text = [NSString stringWithFormat:@"---"]; }
 		else
-		{ cell.rightLabel.text = valueString; }
+		{ cell.detailTextLabel.text = valueString; }
 	}
 
     return cell;

@@ -248,14 +248,16 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	/* Clean-up */
     [receivedData release];
 	
-	/* Post Notification */
-	self.refreshInProgress = NO;
-	self.hasBeenRefreshed = YES;
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];
-	
 	/* Update Status */
 	self.xmlStatus = @"Done.";
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
+
+	/* Post Notification */
+	self.refreshInProgress = NO;
+	self.hasBeenRefreshed = YES;
+	NSLog (@"Posting RefreshFinished for %@", self);
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];
+	
 }
 
 - (void) updateEntityUsingXMLNode:(LCXMLNode *)node

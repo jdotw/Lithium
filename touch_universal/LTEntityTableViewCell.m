@@ -28,10 +28,10 @@
 		}
 		else
 		{
-			self.textLabel.textColor = [UIColor whiteColor];
-			self.textLabel.highlightedTextColor = [UIColor whiteColor];
-			self.textLabel.shadowColor = [UIColor blackColor];
-			self.textLabel.shadowOffset = CGSizeMake(0.0, -1.0);		
+//			self.textLabel.textColor = [UIColor whiteColor];
+//			self.textLabel.highlightedTextColor = [UIColor whiteColor];
+//			self.textLabel.shadowColor = [UIColor blackColor];
+//			self.textLabel.shadowOffset = CGSizeMake(0.0, -1.0);		
 		}
     }
     return self;

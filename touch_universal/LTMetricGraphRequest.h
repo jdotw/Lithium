@@ -27,7 +27,6 @@
 	float minValue;
 	float maxValue;
 	NSString *graphInfo;
-	
 	int refreshStage;		/* 1=XML 2=PDF */
 	NSString *imageFile;
 	NSMutableString *curXmlString;

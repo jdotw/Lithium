@@ -95,7 +95,7 @@
 		/* Configure graph request */
 		graphReq = [[LTMetricGraphRequest alloc] init];
 		[graphRequestCache setObject:graphReq forKey:[NSNumber numberWithFloat:offset]];
-		CGFloat secondsPerPixel = (1.0 * 86400) / CGRectGetWidth(graphScrollView.frame);
+		CGFloat secondsPerPixel = (0.5 * 86400) / CGRectGetWidth(graphScrollView.frame);
 		graphReq.size = CGSizeMake(clipRect.size.width, graphScrollView.frame.size.height);
 		graphReq.endSec = (int) [now timeIntervalSince1970] - (offset * secondsPerPixel);
 		graphReq.startSec = graphReq.endSec - (clipRect.size.width * secondsPerPixel);

@@ -7,7 +7,6 @@
 //
 
 #import "LTFavoritesTableViewController.h"
-#import "LTTwoLineTableCell.h"
 #import "LTMetricTableViewCell.h"
 #import "LTEntityTableViewCell.h"
 #import "LTMetricTableViewController.h"
@@ -325,8 +324,8 @@
 		{
 			graphViewCell = [(LTMetricGraphTableViewCell *) [[LTMetricGraphTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 		}
-		graphViewCell.graphView.metric = displayEntity;
-		graphViewCell.graphView.graphViewStyle = 1;
+		graphViewCell.graphView.metrics = [NSArray arrayWithObject:displayEntity];
+//		graphViewCell.graphView.graphViewStyle = 1;
 		
 		cell = graphViewCell;
 	}
@@ -336,7 +335,7 @@
 		LTMetricTableViewCell *metricCell = (LTMetricTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (metricCell == nil) 
 		{
-			metricCell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			metricCell = [[[LTMetricTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
 		}
 		metricCell.showFullLocation = YES;
 		if (indexPath.section == 0)

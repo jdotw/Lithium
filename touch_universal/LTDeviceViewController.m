@@ -99,18 +99,7 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
-	[super viewWillAppear:animated];
-	if (!self.device.hasBeenRefreshed)
-	{
-		[self.device refresh];
-		if (self.device.refreshInProgress)
-		{
-			LTModalProgressViewController *vc = [[LTModalProgressViewController alloc] initWithNibName:@"LTModalProgressViewController" bundle:nil];
-			vc.entity = self.device;
-			vc.modalPresentationStyle = UIModalPresentationFormSheet;
-			[self.navigationController presentModalViewController:vc animated:YES];
-		}
-	}
+	[super viewDidAppear:animated];
 	NSLog (@"At did appear we're at %@", NSStringFromCGRect([graphScrollView frame]));
 }
 
@@ -143,6 +132,8 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(entityRefreshStatusUpdated:)
 												 name:@"LTEntityXmlStatusChanged" object:self.device];	
+	
+	[self.device refresh];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

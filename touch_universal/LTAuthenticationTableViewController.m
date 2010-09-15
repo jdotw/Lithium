@@ -147,7 +147,7 @@
 
 - (UITextField *)createTextField
 {
-	CGRect frame = CGRectMake(0.0, 0.0, 280, 23);
+	CGRect frame = CGRectMake(0.0, 0.0, 0.5 * [self tableView].frame.size.width, 23);
 	UITextField *returnTextField = [[UITextField alloc] initWithFrame:frame];
     
 	returnTextField.borderStyle = UITextBorderStyleNone;

@@ -22,8 +22,8 @@
 		)
 	{
 		/* iPad */
-		UIImage *image = [UIImage imageNamed:@"circuitback.png"];
-		[image drawInRect:self.bounds blendMode:kCGBlendModeSourceAtop alpha:0.2];	
+//		UIImage *image = [UIImage imageNamed:@"circuitback.png"];
+//		[image drawInRect:self.bounds blendMode:kCGBlendModeSourceAtop alpha:0.2];	
 	}
 	else
 	{

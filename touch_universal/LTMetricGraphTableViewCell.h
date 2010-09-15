@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LTGraphView.h"
 
-#import "LTMetricGraphView.h"
+@class LTGraphView;
 
 @interface LTMetricGraphTableViewCell : UITableViewCell 
 {
-	LTMetricGraphView *graphView;
+	LTGraphView *graphView;
 	UIScrollView *scrollView;
 }
 
-@property (retain) LTMetricGraphView *graphView;
+@property (retain) LTGraphView *graphView;
 
 @end

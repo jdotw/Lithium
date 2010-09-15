@@ -477,11 +477,7 @@
 	{ viableEntity = [viableEntity.children objectAtIndex:0]; }
 	
 	UIViewController *viewController;
-#ifdef UI_USER_INTERFACE_IDIOM
-	if (viableEntity.type == 6 && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#else
 	if (viableEntity.type == 6)
-#endif		
 	{
 		/* Metric */
 		LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithNibName:@"DevicesTab" bundle:nil];

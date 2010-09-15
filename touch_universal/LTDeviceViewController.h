@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "LTEntity.h"
 
-@class LTGraphLegendTableViewController, LTGraphView;
+@class LTGraphLegendTableViewController, LTGraphView, LTModalProgressViewController;
 
 @interface LTDeviceViewController : UIViewController <UIScrollViewDelegate>
 {
@@ -32,6 +32,8 @@
 	
 	LTEntity *selectedContainer;
 	NSArray *selectedContainerGraphableMetrics;
+	
+	LTModalProgressViewController *modalProgressViewController;
 }
 
 - (id) initWithDevice:(LTEntity *)device;

@@ -9,9 +9,7 @@
 #import "LTTableViewController.h"
 
 #import "LTMetricTableViewCell.h"
-#import "LTTwoLineTableCell.h"
 #import "LTTableViewSectionHeaderView.h"
-#import "LTLeftRightTableCell.h"
 #import "LTEntityRefreshProgressViewCell.h"
 
 @implementation LTTableViewController
@@ -113,19 +111,6 @@
 		metricCell.currentValueLabel.backgroundColor = [UIColor clearColor];
 		metricCell.deviceLabel.backgroundColor = [UIColor clearColor];
 	}	
-	else if ([[cell class] isSubclassOfClass:[LTTwoLineTableCell class]])
-	{
-		LTTwoLineTableCell *twoLineCell = (LTTwoLineTableCell *)cell;
-		twoLineCell.topLineLabel.backgroundColor = [UIColor clearColor];
-		twoLineCell.bottomLineLabel.backgroundColor = [UIColor clearColor];
-		twoLineCell.rightLabel.backgroundColor = [UIColor clearColor];
-	}
-	else if ([[cell class] isSubclassOfClass:[LTLeftRightTableCell class]])
-	{
-		LTLeftRightTableCell *lrCell = (LTLeftRightTableCell *) cell;
-		lrCell.leftLabel.backgroundColor = [UIColor clearColor];
-		lrCell.rightLabel.backgroundColor = [UIColor clearColor];
-	}
 	else if ([[cell class] isSubclassOfClass:[LTEntityRefreshProgressViewCell class]])
 	{
 		LTEntityRefreshProgressViewCell *progressCell = (LTEntityRefreshProgressViewCell *) cell;

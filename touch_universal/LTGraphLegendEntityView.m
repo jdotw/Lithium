@@ -8,7 +8,7 @@
 
 #import "LTGraphLegendEntityView.h"
 #import "LTEntity.h"
-#import "LTEntityViewController.h"
+#import "LTEntityTableViewController.h"
 
 
 @implementation LTGraphLegendEntityView
@@ -46,7 +46,7 @@
 - (void) legendTapped:(UITapGestureRecognizer *)gestureRecog
 {
 	/* Draw pop-over for the entity */
-	LTEntityViewController *vc = [[LTEntityViewController alloc] initWithNibName:@"LTEntityViewController" bundle:nil];
+	LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithStyle:UITableViewStylePlain];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
 	vc.entity = self.entity.parent;
 	UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:nav];

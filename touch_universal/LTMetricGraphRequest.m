@@ -38,7 +38,10 @@
 - (void) refresh
 {
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	[appDelegate.operationQueue addOperation:self];
+	if (![[appDelegate.operationQueue operations] containsObject:self])
+	{
+		[appDelegate.operationQueue addOperation:self];
+	}
 }
 
 - (void) main

@@ -263,8 +263,8 @@
 	{ CellIdentifier = @"Metric"; }
 	else if (displayEntity)
 	{ CellIdentifier = @"Entity"; }
-//	else 
-//	{ CellIdentifier = @"Refresh"; }
+	else 
+	{ CellIdentifier = @"Refresh"; }
     LTMetricTableViewCell *cell = (LTMetricTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
@@ -278,11 +278,11 @@
 			cell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
 		}
-//		else if ([CellIdentifier isEqualToString:@"Refresh"])
-//		{
-//			cell = [[[LTEntityRefreshProgressViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-//			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//		}
+		else if ([CellIdentifier isEqualToString:@"Refresh"])
+		{
+			cell = [[[LTEntityRefreshProgressViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		}
 		if (displayEntity) cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     

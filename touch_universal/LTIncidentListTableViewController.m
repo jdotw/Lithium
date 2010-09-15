@@ -10,7 +10,6 @@
 
 #import "LTCoreDeployment.h"
 #import "LTCustomer.h"
-#import "LTTwoLineTableCell.h"
 #import "LTIncidentListGroup.h"
 #import "AppDelegate.h"
 #import "LTIncidentTableViewController.h"
@@ -321,7 +320,7 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {	
-    NSString *CellIdentifier = @"TwoLine";
+    NSString *CellIdentifier = @"Default";
 	
 	if (sortedChildren.count < 1)
 	{ 
@@ -344,10 +343,10 @@
 		return cell;
 	}
     
-    LTTwoLineTableCell *cell = (LTTwoLineTableCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-		cell = [[[LTTwoLineTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
 	
     // Set up the cell...
@@ -356,37 +355,37 @@
 	if (sortSegment.selectedSegmentIndex == 0)
 	{
 		/* By-Device Display */
-		cell.topLineLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@", incident.entityDescriptor.cntDesc, incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.entityDescriptor.trgDesc];
-		cell.bottomLineLabel.text = [NSString stringWithFormat:@"Reached or exceeded %@ for %@", incident.raisedValue, [self incidentActiveIntervalString:incident]];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@", incident.entityDescriptor.cntDesc, incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.entityDescriptor.trgDesc];
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"Reached or exceeded %@ for %@", incident.raisedValue, [self incidentActiveIntervalString:incident]];
 	}
 	else
 	{
 		/* By-Time Display */
 		if (![incident.entityDescriptor.siteName isEqualToString:@"default"])
-		{ cell.topLineLabel.text = [NSString stringWithFormat:@"%@ %@ @ %@", incident.entityDescriptor.devDesc, incident.entityDescriptor.cntDesc, incident.entityDescriptor.siteDesc]; }
+		{ cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ @ %@", incident.entityDescriptor.devDesc, incident.entityDescriptor.cntDesc, incident.entityDescriptor.siteDesc]; }
 		else
-		{ cell.topLineLabel.text = [NSString stringWithFormat:@"%@ %@", incident.entityDescriptor.devDesc, incident.entityDescriptor.cntDesc]; } 
-		cell.bottomLineLabel.text = [NSString stringWithFormat:@"%@ %@ Reached or exceeded %@", incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.raisedValue];
+		{ cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", incident.entityDescriptor.devDesc, incident.entityDescriptor.cntDesc]; } 
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ Reached or exceeded %@", incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.raisedValue];
 	}
 	switch (incident.entityDescriptor.opState)
 	{
 		case -2:
-			cell.dotImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
+			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
 			break;			
 		case 0:
-			cell.dotImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
+			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
 			break;
 		case 1:
-			cell.dotImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
+			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
 			break;
 		case 2:
-			cell.dotImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
+			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
 			break;
 		case 3:
-			cell.dotImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
+			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
 			break;
 		default:
-			cell.dotImage = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
+			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
 	}
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	

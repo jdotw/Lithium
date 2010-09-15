@@ -12,13 +12,13 @@
 
 @interface LTMetricTableViewCell : LTEntityTableViewCell 
 {
-    UILabel *metricLabel;
-	UILabel *deviceLabel;
     UILabel *currentValueLabel;
 	
 	BOOL showFullLocation;
 	BOOL showCurrentValue;
 }
+
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 
 @property (retain) UILabel *metricLabel;
 @property (retain) UILabel *deviceLabel;
@@ -26,6 +26,5 @@
 @property (assign) BOOL showFullLocation;
 @property (assign) BOOL showCurrentValue;
 
-- (UILabel *)newLabelWithPrimaryColor:(UIColor *)primaryColor selectedColor:(UIColor *)selectedColor fontSize:(CGFloat)fontSize bold:(BOOL)bold;
 
 @end

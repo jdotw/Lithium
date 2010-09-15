@@ -80,10 +80,25 @@
 	CGRect clipRect = CGContextGetClipBoundingBox(ctx);
 	NSLog (@"layer %@ asked to draw in %@", layer, NSStringFromCGRect(clipRect));
 	
+	/* Dimensions */
+	CGFloat zoomScale = 1.0;
+	CGSize contentSize;
+	if ([[self.superview class] isSubclassOfClass:[UIScrollView class]])
+	{
+		UIScrollView *graphScrollView = (UIScrollView *) self.superview;
+		contentSize = graphScrollView.contentSize;
+		zoomScale = graphScrollView.zoomScale;
+	}
+	else
+	{
+		contentSize = self.superview.bounds.size;
+	}
+
+	
 	/* Time orientation */
-	UIScrollView *graphScrollView = (UIScrollView *) self.superview;
 	NSDate *now = [NSDate date];
-	CGFloat offset = graphScrollView.contentSize.width - CGRectGetMaxX(clipRect);
+	CGFloat offset = contentSize.width - CGRectGetMaxX(clipRect);
+	CGFloat secondsPerPixel = (zoomScale * 86400) / CGRectGetWidth(self.superview.frame);
 	
 	/* Check for cached request */
 	if (!graphRequestCache) graphRequestCache = [[NSMutableDictionary dictionary] retain];
@@ -94,6 +109,8 @@
 		CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)[graphReq imageData]);
 		if (provider)
 		{
+			CGContextSaveGState (ctx);
+			
 			CGFloat yScale = 1.0;
 			CGFloat yOffset = 0.0;
 			if (minMaxSet)
@@ -104,20 +121,25 @@
 				yScale = 1.0 / (maxValue / (graphReq.maxValue - graphReq.minValue));
 			}
 			
+			CGFloat graphImageMargin = 10.0;	/* Top and bottom padding/margin for graph */
+			
 			CGPDFDocumentRef documentRef = CGPDFDocumentCreateWithProvider(provider);
 			CFRelease(provider);
 			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
-			CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), 0.0, 
-										  clipRect.size.width, graphScrollView.contentSize.height);
+			CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), graphImageMargin, 
+										  clipRect.size.width, contentSize.height - (2 * graphImageMargin));
 			CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.0);
 			CGContextFillRect(ctx, CGContextGetClipBoundingBox(ctx));
-			CGContextTranslateCTM(ctx, 0.0, layer.bounds.size.height - yOffset);
+			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));
 			CGContextScaleCTM(ctx, 1.0, -1.0 * yScale);
 			CGContextConcatCTM(ctx, CGPDFPageGetDrawingTransform(pageRef, kCGPDFCropBox, imageRect, 0, false));
 			NSLog (@"Drawing imageRect %@ in clip %@ with scale %f and yOffset %f", NSStringFromCGRect(imageRect), NSStringFromCGRect(clipRect), yScale, yOffset);
 			
 			CGContextDrawPDFPage(ctx, pageRef);
+			
+			CGContextRestoreGState(ctx);
 		}
+		
 		
 		if (invalidated) NSLog (@"\n\n========================================\n\n");
 		else NSLog (@"----------------------------------------");		
@@ -128,8 +150,7 @@
 		graphReq = [[LTMetricGraphRequest alloc] init];
 		graphReq.delegate = self;
 		[graphRequestCache setObject:graphReq forKey:[NSNumber numberWithFloat:offset]];
-		CGFloat secondsPerPixel = (1.0 * 86400) / CGRectGetWidth(graphScrollView.frame);
-		graphReq.size = CGSizeMake(clipRect.size.width, graphScrollView.frame.size.height);
+		graphReq.size = CGSizeMake(clipRect.size.width, self.superview.frame.size.height);
 		graphReq.endSec = (int) [now timeIntervalSince1970] - (offset * secondsPerPixel);
 		graphReq.startSec = graphReq.endSec - (clipRect.size.width * secondsPerPixel);
 		graphReq.rectToInvalidate = clipRect;
@@ -147,6 +168,70 @@
 		NSLog (@"STarting load");
 		[graphReq refresh];
 	}
+	
+	/* Common date/time variables */
+	NSDate *sliceEndDate = [NSDate dateWithTimeIntervalSince1970:([now timeIntervalSince1970] - (offset * secondsPerPixel))];
+	NSDateComponents *endDateComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit|NSHourCalendarUnit fromDate:sliceEndDate];
+	
+	/* Draw time line */
+	int hour = [endDateComponents hour];
+	NSString *hourString = [NSString stringWithFormat:@"%.2i:00", hour];
+	CGSize hourStringSize = [hourString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:10.0] constrainedToSize:CGSizeMake(100.0, 12.0) lineBreakMode:UILineBreakModeClip];
+	CGRect hourRect = CGRectMake(CGRectGetMaxX(clipRect) - (([endDateComponents minute] * 60.0) / secondsPerPixel), 
+								 CGRectGetHeight(self.superview.frame) - 10.0, 
+								 hourStringSize.width, hourStringSize.height);
+	CGContextSelectFont (ctx, "Helvetica-Bold", 10.0, kCGEncodingMacRoman);
+	CGContextSetTextDrawingMode (ctx, kCGTextFill);
+	CGContextSetTextMatrix(ctx, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
+	while (CGRectGetMaxX(hourRect) > CGRectGetMinX(clipRect))
+	{
+		/* Draw current hour */
+		NSLog (@"Drawing %@ at %@ for clip %@", hourString, NSStringFromCGRect(hourRect), NSStringFromCGRect(clipRect));
+		CGContextSetRGBFillColor (ctx, 0, 0, 0, .5);
+		CGContextShowTextAtPoint (ctx, hourRect.origin.x, hourRect.origin.y, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
+		CGContextSetRGBFillColor (ctx, 1, 1, 1, .5);
+		CGContextShowTextAtPoint (ctx, hourRect.origin.x, hourRect.origin.y+1, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
+		
+		/* Move (back) to prev hour */
+		if (hour == 0) hour = 23;
+		else hour -= 1;
+		hourString = [NSString stringWithFormat:@"%.2i:00", hour];
+		hourStringSize = [hourString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:10.0] constrainedToSize:CGSizeMake(100.0, 12.0) lineBreakMode:UILineBreakModeClip];
+		hourRect = CGRectMake(hourRect.origin.x - ((60 * 60) / secondsPerPixel), hourRect.origin.y, 
+							  hourStringSize.width, hourStringSize.height);
+	}
+
+	/* Draw date line */
+	NSDate *dateToDraw = sliceEndDate;
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+	[formatter setDateStyle:NSDateFormatterMediumStyle];
+	[formatter setTimeStyle:NSDateFormatterNoStyle];
+	NSString *dateString = [formatter stringForObjectValue:dateToDraw];
+	CGSize dateStringSize = [dateString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14.0] constrainedToSize:CGSizeMake(200.0, 12.0) lineBreakMode:UILineBreakModeClip];
+	CGRect dateRect = CGRectMake(CGRectGetMaxX(clipRect) - ((([endDateComponents minute] * 60.0) + ([endDateComponents hour] * 60.0 * 60.0)) / secondsPerPixel), 
+								 CGRectGetHeight(self.superview.frame) - 40.0, 
+								 dateStringSize.width, hourStringSize.height);
+	CGContextSelectFont (ctx, "Helvetica-Bold", 14.0, kCGEncodingMacRoman);
+	CGContextSetTextDrawingMode (ctx, kCGTextFill);
+	CGContextSetTextMatrix(ctx, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
+	while (CGRectGetMaxX(dateRect) > CGRectGetMinX(clipRect))
+	{
+		/* Draw current date */
+		NSLog (@"Drawing %@ at %@ for clip %@", dateString, NSStringFromCGRect(dateRect), NSStringFromCGRect(clipRect));
+		CGContextSetRGBFillColor (ctx, 0, 0, 0, .5);
+		CGContextShowTextAtPoint (ctx, dateRect.origin.x, dateRect.origin.y, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
+		CGContextSetRGBFillColor (ctx, 1, 1, 1, .5);
+		CGContextShowTextAtPoint (ctx, dateRect.origin.x, dateRect.origin.y+1, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
+		
+		/* Move (back) to prev date */
+		dateToDraw = [dateToDraw dateByAddingTimeInterval:-86400.0];
+		dateString = [formatter stringForObjectValue:dateToDraw];
+		dateStringSize = [dateString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14.0] constrainedToSize:CGSizeMake(120.0, 12.0) lineBreakMode:UILineBreakModeClip];
+		dateRect = CGRectMake(dateRect.origin.x - (86400.0 / secondsPerPixel), dateRect.origin.y, 
+							  dateStringSize.width, dateStringSize.height);
+	}
+	
 }
 
 - (void) updateMinMaxLabels

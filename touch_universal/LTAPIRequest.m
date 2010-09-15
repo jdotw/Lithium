@@ -18,7 +18,7 @@
 	/* The subclass will create a urlRequest for us to use, then call [super main] */
 	
 	/* Execute the API Request */
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+//	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 //	[appDelegate performSelectorOnMainThread:@selector(apiCallDidBegin:)
 //								  withObject:self
 //							   waitUntilDone:NO
