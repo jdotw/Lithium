@@ -155,7 +155,8 @@
 { return [properties objectForKey:@"curval"]; }
 - (void) setValue:(NSString *)string
 { 
-	[properties setObject:string forKey:@"curval"]; 
+	if (string) [properties setObject:string forKey:@"curval"]; 
+	else [properties removeObjectForKey:<#(id)aKey#>
 }
 
 - (int) pduType

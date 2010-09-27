@@ -42,6 +42,7 @@ int walk_pdu_callback (int operation, struct snmp_session *ss, int reqid, struct
 	self.retries = 1;
 	self.timeoutSeconds = 30;
 	self.replaceExistingScan = YES;
+	self.checkOIDIncreasing = YES;
 	
 	return self;
 }
@@ -187,9 +188,9 @@ int walk_pdu_callback (int operation, struct snmp_session *ss, int reqid, struct
 						oidCount++;
 						
 						/* Check OID is increasing */
-						if (snmp_oid_compare(name, name_length, vars->name, vars->name_length) >= 0)
+						if (self.checkOIDIncreasing && snmp_oid_compare(name, name_length, vars->name, vars->name_length) >= 0)
 						{
-							NSLog (@"OID Not increasing, ending walk.");
+							NSLog (@"OID Not increasing (checking enabled), ending walk.");
 							endOfMib = YES;
 						}
 						else 
@@ -410,7 +411,7 @@ int walk_pdu_callback (int operation, struct snmp_session *ss, int reqid, struct
 
 @synthesize delegate, document, walkInProgress, oidsReceived, replaceExistingScan;
 @synthesize ip, community, snmpVersion, bulkwalk, startOid;
-@synthesize timeoutSeconds, retries, sessionOpen, canUseBulkWalk;
+@synthesize timeoutSeconds, retries, sessionOpen, canUseBulkWalk, checkOIDIncreasing;
 - (void) setSnmpVersion:(long)value
 {
 	snmpVersion = value;

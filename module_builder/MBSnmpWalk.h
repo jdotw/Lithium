@@ -38,6 +38,7 @@
 	BOOL replaceExistingScan;
 	int timeoutSeconds;
 	int retries;
+	BOOL checkOIDIncreasing;
 	
 	/* SNMP Session */
 	struct snmp_session *session;
@@ -83,6 +84,7 @@
 @property (nonatomic, assign) BOOL sessionOpen;
 @property (nonatomic, assign) BOOL walkInProgress;
 @property (nonatomic, assign) int oidsReceived;
+@property (nonatomic, assign) BOOL checkOIDIncreasing;
 
 
 @end

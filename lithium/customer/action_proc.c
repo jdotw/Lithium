@@ -259,51 +259,6 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     close(fd1[0]);
     close(fd2[1]);
     
-    /* DEBUG (for printing what an action is doing) 
-    if (proc->entaddr_str)
-    {
-      char *incid_str;
-      char *opstate_str;
-      char *runcount_str;
-      char *start_str;
-      char *end_str;
-      char *highest_opstate_str;
-      char *lowest_opstate_str;
-      char *prev_opstate_str;
-      char *last_transition_str;
-      char *last_occurrence_str;
-      char *occurrences_str;
-      char *inc_count_str;
-      char uuid_str[37];
-      uuid_unparse_lower (self->hierarchy->cust->uuid, uuid_str);
-      asprintf (&incid_str, "%li", proc->incid);
-      asprintf (&opstate_str, "%i", proc->opstate);
-      asprintf (&runcount_str, "%i", proc->run_count);
-      asprintf (&start_str, "%li", proc->start_sec);
-      asprintf (&end_str, "%li", proc->end_sec);
-      asprintf (&highest_opstate_str, "%i", proc->highest_opstate);
-      asprintf (&lowest_opstate_str, "%i", proc->lowest_opstate);
-      asprintf (&prev_opstate_str, "%i", proc->prev_opstate);
-      asprintf (&last_transition_str, "%li", proc->last_transition_sec);
-      asprintf (&last_occurrence_str, "%li", proc->last_occurrence_sec);
-      asprintf (&occurrences_str, "%i", proc->occurrences);
-      asprintf (&inc_count_str, "%i", proc->incident_count);
-      i_debug ("Action (parent): 'env '%s' '%s' %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s'",
-        perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str,
-        opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc,
-        proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str,
-        lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A",
-        last_transition_str, last_occurrence_str, occurrences_str,
-        proc->entity_url ? : "None", proc->metric_url ? : "None",
-        inc_count_str, proc->incident_url ? : "None", uuid_str,
-        proc->temp_config_file);
-    } 
-    else
-    {
-      i_debug ("Action (parent - no inc): 'env '%s' '%s' %s'", perlenv, fullpath, proc->command_str);
-    }
-     END DEBUG */
-
     /* Create 'socket' struct for the readfd */
     proc->sock = i_socket_create ();
     if (!proc->sock)
@@ -340,8 +295,8 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
       close(fd2[1]);
     } 
 
-
     /* Exec */
+    char *shell_command;
     if (proc->entaddr_str)
     {
       /* Incident specified */
@@ -357,6 +312,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
       char *last_occurrence_str;
       char *occurrences_str;
       char *inc_count_str;
+      char *config_file_str;
       char uuid_str[37];
       uuid_unparse_lower (self->hierarchy->cust->uuid, uuid_str);
 
@@ -372,51 +328,22 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
       asprintf (&last_occurrence_str, "%li", proc->last_occurrence_sec);
       asprintf (&occurrences_str, "%i", proc->occurrences);
       asprintf (&inc_count_str, "%i", proc->incident_count);
-
       if (proc->temp_config_file && strlen(proc->temp_config_file) > 0)
-      {
-        /*
-        i_debug ("Action (conf): 'env %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s'", 
-          perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
-          opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
-          proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
-          lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A", 
-          last_transition_str, last_occurrence_str, occurrences_str, 
-          proc->entity_url ? : "None", proc->metric_url ? : "None", 
-          inc_count_str, proc->incident_url ? : "None", uuid_str,
-          proc->temp_config_file); 
-          */
-        num = execlp ("env", "env", 
-          perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
-          opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
-          proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
-          lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A", 
-          last_transition_str, last_occurrence_str, occurrences_str, 
-          proc->entity_url ? : "None", proc->metric_url ? : "None", 
-          inc_count_str, proc->incident_url ? : "None", uuid_str,
-          proc->temp_config_file, NULL); 
-      }
+      { asprintf(&config_file_str, " '%s'", proc->temp_config_file); }
       else
-      {
-        /*
-        i_debug ("Action (no conf): 'env %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s'", 
-          perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
-          opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
-          proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
-          lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A", 
-          last_transition_str, last_occurrence_str, occurrences_str, 
-          proc->entity_url ? : "None", proc->metric_url ? : "None", 
-          inc_count_str, proc->incident_url ? : "None", uuid_str);
-         */ 
-        num = execlp ("env", "env", perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
-          opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
-          proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
-          lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A", 
-          last_transition_str, last_occurrence_str, occurrences_str, 
-          proc->entity_url ? : "None", proc->metric_url ? : "None", 
-          inc_count_str, proc->incident_url ? : "None", uuid_str,
-          NULL);
-      }
+      { asprintf(&config_file_str, ""); }
+
+      asprintf (&shell_command, "env '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s'%s 2>&1",
+        perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
+        opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
+        proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
+        lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A", 
+        last_transition_str, last_occurrence_str, occurrences_str, 
+        proc->entity_url ? : "None", proc->metric_url ? : "None", 
+        inc_count_str, proc->incident_url ? : "None", uuid_str,
+        config_file_str); 
+
+      free (config_file_str);
       free (incid_str);
       free (opstate_str);
       free (runcount_str);
@@ -433,9 +360,12 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     else
     {
       /* No incident */
-//      i_debug ("Action (no inc): 'env %s %s %s'", perlenv, fullpath, proc->command_str);
-      num = execlp ("env", "env", perlenv, fullpath, proc->command_str, NULL); 
+      asprintf (&shell_command, "env '%s' '%s' '%s'", perlenv, fullpath, proc->command_str);
     }
+    
+    i_printf (1, "l_action_exec_configvar_cb executing: %s", shell_command);
+
+    num = execlp("sh", "sh", "-c", shell_command, NULL);
     if (num == -1)
     {
       fprintf (stdout, "execlp error");
@@ -488,6 +418,10 @@ int l_action_exec_socketcb (i_resource *self, i_socket *sock, void *passdata)
   if (readcount < 1)
   { 
     /* Failed to read from child, command must be complete */
+    
+    /* DEBUG -- Email Problems */
+    i_printf (1, "l_action_exec_socketcb received '%s'", proc->output_str);
+    /* END DEBUG */
 
     /* Run callback */
     if (proc->cb && proc->cb->func)
@@ -516,6 +450,7 @@ int l_action_exec_socketcb (i_resource *self, i_socket *sock, void *passdata)
       /* New string */
       proc->output_str = strdup (output);
     }
+
   }
 
   /* Cleanup */

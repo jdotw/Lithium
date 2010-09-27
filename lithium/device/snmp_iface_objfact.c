@@ -102,7 +102,6 @@ int l_snmp_iface_objfact_fab (i_resource *self, i_container *cnt, i_object *obj,
   iface->bps_out = i_metric_acrate_create (self, obj, "bps_out", "Output Bits Per Second", "bit/s", RECMETHOD_RRD, iface->octets_out, ACRATE_MOD_BYTETOBIT);
   iface->bps_out->record_defaultflag = 1;
 
-  /*
   iface->mb_day_in = i_metric_acvol_create (self, obj, "mb_day_in", "Input Data Volume (Daily Total)", "bytes", (1024 * 1024), RECMETHOD_SQL, iface->octets_in, iface->sysuptime, iface->discont, VALPERIOD_DAY);
   iface->mb_day_in->kbase = 1024;
   iface->mb_day_in->record_defaultflag = 1;
@@ -115,7 +114,6 @@ int l_snmp_iface_objfact_fab (i_resource *self, i_container *cnt, i_object *obj,
   iface->mb_month_out = i_metric_acvol_create (self, obj, "mb_month_out", "Output Data Volume (Monthly Total)", "bytes", (1024 * 1024), RECMETHOD_SQL, iface->octets_out, iface->sysuptime, iface->discont, VALPERIOD_MONTH);
   iface->mb_month_out->kbase = 1024;
   iface->mb_month_out->record_defaultflag = 1;
-  */
 
   /* Utilisation */
   iface->utilpc_in = i_metric_acpcent_create (self, obj, "utilpc_in", "Input Utilisation", RECMETHOD_RRD, iface->bps_in, iface->speed, ACPCENT_REFCB_GAUGE);
