@@ -140,7 +140,12 @@ int l_snmp_nsram_enable (i_resource *self)
   defrefconfig.refresh_int_sec = REFDEFAULT_REFINTSEC;
   defrefconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
 
-  /* Check for Xsnmp */
+  /* Check for Xsnmp 
+   *
+   * - If Xsnmp is enabled, the static Xsnmp OIDs are used
+   * - If Xsnmp is not enabled then the RAM info is taken from
+   *   storage resources objects found during Storage Resource object creation
+   */
   if (l_snmp_xsnmp_enabled())
   {
     /*

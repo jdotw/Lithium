@@ -42,6 +42,8 @@
 	NSString *emailFrom;
 	NSString *emailServer;
 	NSString *emailTo;
+	NSString *smtpUsername;
+	NSString *smtpPassword;
 	BOOL pushEnabled;
 	
 	NSAlert *alert;
@@ -81,6 +83,8 @@
 @property (copy) NSString *emailServer;
 @property (copy) NSString *emailTo;
 @property (assign) BOOL pushEnabled;
+@property (copy) NSString *smtpUsername;
+@property (copy) NSString *smtpPassword;
 
 
 @end

@@ -521,7 +521,38 @@ int gethostname(char *name, size_t namelen);
 			[cancelButton setHidden:NO];
 			return;
 		}	
-		
+		if (self.smtpUsername)
+		{
+			query = [NSString stringWithFormat:@"INSERT INTO action_configvars (action, name, value) VALUES ('%i', 'smtp_username', '%s')",
+					 action_id, [smtpUsername UTF8String]];
+			res = PQexec (conn, [query UTF8String]);
+			if (!res || PQresultStatus(res) != PGRES_COMMAND_OK)
+			{
+				[self setDbStatus:@"Failed."];
+				[self setStatus:@"Failed to add email alert smtp username configuration record to database."];
+				[self setStatusIcon:[NSImage imageNamed:@"stop_32.tif"]];
+				[self setSetupInProgress:NO];
+				[backButton setHidden:NO];
+				[cancelButton setHidden:NO];
+				return;
+			}	
+		}
+		if (self.smtpPassword)
+		{
+			query = [NSString stringWithFormat:@"INSERT INTO action_configvars (action, name, value) VALUES ('%i', 'smtp_password', '%s')",
+					 action_id, [smtpPassword UTF8String]];
+			res = PQexec (conn, [query UTF8String]);
+			if (!res || PQresultStatus(res) != PGRES_COMMAND_OK)
+			{
+				[self setDbStatus:@"Failed."];
+				[self setStatus:@"Failed to add email alert smtp password configuration record to database."];
+				[self setStatusIcon:[NSImage imageNamed:@"stop_32.tif"]];
+				[self setSetupInProgress:NO];
+				[backButton setHidden:NO];
+				[cancelButton setHidden:NO];
+				return;
+			}	
+		}
 	}
 	if (pushEnabled)
 	{
@@ -667,5 +698,6 @@ int gethostname(char *name, size_t namelen);
 @synthesize emailTo;
 @synthesize emailServer;
 @synthesize pushEnabled;
+@synthesize smtpUsername, smtpPassword;
 
 @end

@@ -81,6 +81,9 @@ int l_refresh_device_refcb (i_resource *self, i_entity *ent, void *passdata)
     { i_printf (1, "l_refresh_device_refcb failed to call i_entity_refresh_config_loadapply for device entity"); }
   }
 
+  /* Attempt to close the SNMP session used for the device */
+  if (l_snmp_state()) l_snmp_session_close_device (self);
+
   return 0;   /* Keep CB alive */
 }
 

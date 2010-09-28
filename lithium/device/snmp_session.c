@@ -5,6 +5,7 @@
 #include <induction/list.h>
 #include <induction/auth.h>
 #include <induction/timer.h>
+#include <induction/cement.h>
 #include <induction/device.h>
 #include <induction/object.h>
 #include <induction/path.h>
@@ -200,7 +201,11 @@ l_snmp_session* l_snmp_session_open_device (i_resource *self, i_device *device)
 {
   l_snmp_session *sess;
 
-  if (static_device_session) return static_device_session;
+  if (static_device_session) 
+  {
+    static_device_session->usage++;
+    return static_device_session;
+  }
 
   /* Open Session */
   sess = l_snmp_session_open (self, device->ip_str, device->snmpcomm_str, device->snmpversion, device->snmpauthmethod, device->snmpprivenc, device->username_str, device->snmpauthpass_str, device->snmpprivpass_str);
@@ -209,6 +214,7 @@ l_snmp_session* l_snmp_session_open_device (i_resource *self, i_device *device)
 
   /* Set Device Flag */
   sess->device_session = 1;
+  sess->deviceptr = device;
   static_device_session = sess;
 
   return sess;
@@ -220,7 +226,22 @@ int l_snmp_session_close (l_snmp_session *session)
 
   if (l_snmp_state() == 0 || !session) return -1;
 
-  if (session == static_device_session) return 0;
+  if (session == static_device_session && session->usage >= 0) 
+  {
+    /* Session is a device session and it is in use or has
+     * been used recentlty. Keep it open for now to cache session
+     */
+    static_device_session->usage--;
+    return 0;
+  }
+  else if (session == static_device_session && session->usage == -1)
+  {
+    /* Session is a device session and is to be closed as the 
+     * usage has been set to -1 (do not cache)
+     */
+    static_device_session = NULL;
+    /* Proceed with normal closure */
+  }
 
   /* Remove from session list */
   num = i_list_search (static_session_list, session);
@@ -243,6 +264,18 @@ int l_snmp_session_close (l_snmp_session *session)
   /* Free the sesession structt */
   l_snmp_session_free (session);
 
+  return 0;
+}
+
+int l_snmp_session_close_device (i_resource *self)
+{
+  /* Attempt to close the device session if it is not currently in use */
+  if (static_device_session && static_device_session->usage < 1)
+  {
+    static_device_session->usage = -1;     /* Set usage to -1 to indicate 'do not cache' */
+    l_snmp_session_close(static_device_session);
+  }
+    
   return 0;
 }
 

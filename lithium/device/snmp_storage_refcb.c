@@ -57,8 +57,8 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
       /* Volume is writeable, apply used_pc triggerset */
       i_triggerset *tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
       i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 80, NULL, 97, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
-      i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_RANGE, 97, NULL, 100, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
-      i_triggerset_addtrg (self, tset, "critical", "Critical", VALTYPE_FLOAT, TRGTYPE_GT, 100, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+      i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_RANGE, 97, NULL, 99, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
+      i_triggerset_addtrg (self, tset, "critical", "Critical", VALTYPE_FLOAT, TRGTYPE_GT, 99, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
       i_triggerset_assign_obj (self, obj, tset);
       store->usedpc_trigger_applied = 1;
       i_triggerset_evalapprules_allsets (self, obj);

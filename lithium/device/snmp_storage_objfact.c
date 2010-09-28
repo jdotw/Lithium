@@ -213,7 +213,7 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       l_snmp_nsram_item *ram = real_obj->itemptr;
 
       /* Check for memory resource */
-      if ((strcmp(obj->desc_str, "Physical memory") == 0 || strcmp(obj->desc_str, "Real Memory") == 0))
+      if (strcmp(obj->desc_str, "Physical memory") == 0 || strcmp(obj->desc_str, "Real Memory") == 0 || strcmp(obj->desc_str, "Physical Memory") == 0)
       {
         /* Clean */
         if (ram->real_alloc) { i_entity_deregister (self, ENTITY(ram->real_alloc)); i_entity_free (ENTITY(ram->real_alloc)); ram->real_alloc = NULL; }

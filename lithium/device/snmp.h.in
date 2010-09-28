@@ -50,6 +50,7 @@ typedef struct l_snmp_session_s
   int usage;          /* Session usage. When this drops to 0 the session can be freed */
   int error;          /* The active error code. 0=no error */
   int device_session; /* 1 = session is open to the device being monitored */
+  void *deviceptr;    /* Opaque pointer to associated device structure */
   int last_op_failed; /* 1 = last operation failed */
 
   struct snmp_session *ss;
@@ -64,6 +65,7 @@ void l_snmp_session_free (void *session_ptr);
 l_snmp_session* l_snmp_session_open (i_resource *self, char *host_str, char *community_str, int version, int authmethod, int privenc, char *username, char *authpass_str, char *privpass_str);
 l_snmp_session* l_snmp_session_open_device (i_resource *self, struct i_device_s *device);
 int l_snmp_session_close (l_snmp_session *session);
+int l_snmp_session_close_device (i_resource *self);
 int l_snmp_session_reset_timeout (i_resource *self, struct snmp_session *ss);
 int l_snmp_session_close_queue_free ();
 

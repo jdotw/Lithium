@@ -71,7 +71,7 @@ int v_supplies_class_refcb (i_resource *self, i_metric *met, void *passdata)
 
         tset = i_triggerset_create ("fill_pc", "Fill Level", "fill_pc");
         i_triggerset_addtrg (self, tset, "high", "High", VALTYPE_FLOAT, TRGTYPE_RANGE, 80, NULL, 99, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
-        i_triggerset_addtrg (self, tset, "full", "Full", VALTYPE_FLOAT, TRGTYPE_GT, 100, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+        i_triggerset_addtrg (self, tset, "full", "Full", VALTYPE_FLOAT, TRGTYPE_GT, 99, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
         i_triggerset_assign (self, met->obj->cnt, tset);
       }
     }

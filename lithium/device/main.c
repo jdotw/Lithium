@@ -121,7 +121,7 @@ int module_init (i_resource *self)
   { i_printf (1, "module_init failed to enable service sub-system"); return -1; }
   
   /* Check protocol */
-  if (self->hierarchy->dev->protocol == 0 && strcmp(self->hierarchy->dev->vendor_str, "xraid") != 0)
+  if (self->hierarchy->dev->protocol == 0 && strcmp(self->hierarchy->dev->vendor_str, "xraid") != 0 && strcmp(self->hierarchy->dev->vendor_str, "icmp") != 0)
   {
     /* SNMP, Detect Xsnmp */
     l_snmp_xsnmp_detect (self);
