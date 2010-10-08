@@ -149,14 +149,17 @@
 - (NSString *) baseName
 { return [properties objectForKey:@"base_name"]; }
 - (void) setBaseName:(NSString *)string
-{ [properties setObject:string forKey:@"base_name"]; }
+{ 
+	if (string) [properties setObject:string forKey:@"base_name"]; 
+	else [properties removeObjectForKey:@"base_name"];
+}
 
 - (NSString *) value
 { return [properties objectForKey:@"curval"]; }
 - (void) setValue:(NSString *)string
 { 
 	if (string) [properties setObject:string forKey:@"curval"]; 
-	else [properties removeObjectForKey:<#(id)aKey#>
+	else [properties removeObjectForKey:@"curval"];
 }
 
 - (int) pduType
@@ -167,12 +170,18 @@
 - (NSString *) oid
 { return [properties objectForKey:@"oid"]; }
 - (void) setOid:(NSString *)string
-{ [properties setObject:string forKey:@"oid"]; }
+{ 
+	if (string) [properties setObject:string forKey:@"oid"]; 
+	else [properties removeObjectForKey:@"oid"];
+}
 
 - (NSString *) baseOid
 { return [properties objectForKey:@"base_oid"]; }
 - (void) setBaseOid:(NSString *)string
-{ [properties setObject:string forKey:@"base_oid"]; }
+{ 
+	if (string) [properties setObject:string forKey:@"base_oid"]; 
+	else [properties removeObjectForKey:@"base_oid"];
+}
 
 - (NSString *) description
 { 
@@ -209,7 +218,11 @@
 - (NSString *) mibName
 { return [properties objectForKey:@"mibName"]; }
 - (void) setMibName:(NSString *)string
-{ [properties setObject:string forKey:@"mibName"]; }
+{ 
+	if (string) [properties setObject:string forKey:@"mibName"]; 
+	else [properties removeObjectForKey:@"mibName"];
+	
+}
 
 - (BOOL) startOfSection
 { return [[properties objectForKey:@"startOfSection"] boolValue]; }
@@ -219,12 +232,18 @@
 - (NSString *) commonPrefix
 { return [properties objectForKey:@"commonPrefix"]; }
 - (void) setCommonPrefix:(NSString *)value
-{ [properties setObject:[value copy] forKey:@"commonPrefix"]; }
+{ 
+	if (value) [properties setObject:[value copy] forKey:@"commonPrefix"]; 
+	else [properties removeObjectForKey:@"commonPrefix"];
+}
 
 - (NSString *) displayName
 { return [properties objectForKey:@"displayName"]; }
 - (void) setDisplayName:(NSString *)value
-{ [properties setObject:[value copy] forKey:@"displayName"]; }
+{ 
+	if (value) [properties setObject:[value copy] forKey:@"displayName"]; 
+	else [properties removeObjectForKey:@"displayName"];
+}
 
 - (NSImage *) displayImage
 { return [NSImage imageNamed:@"marker_16.png"]; }

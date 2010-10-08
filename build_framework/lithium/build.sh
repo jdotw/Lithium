@@ -18,7 +18,8 @@ OSTARGET="10.5"
 COREADMINSRCDIR="$PWD/../../core_admin"
 cd "$COREADMINSRCDIR"
 BUILDNUM=`agvtool mvers | grep '^Found CFBundleShortVersionString of'  | awk '{ print $4 }' | sed 's/\"//g'`
-echo "Build number is $BUILDNUM"
+BUILDNUM_SHORT=`agvtool vers | grep '^ '  | sed 's/^    //g'`
+echo "Build number is $BUILDNUM ($BUILDNUM_SHORT)"
 cd $BASEDIR
 
 # 
@@ -49,7 +50,7 @@ fi
 # Create dSYM paths
 # 
 
-DSYM_PATH="$HOME/Source/Lithium/build_framework/packaging/dSYM Archives/Core/$BUILDNUM"
+DSYM_PATH="$HOME/Source/Lithium/build_framework/packaging/dSYM Archives/Core/$BUILDNUM-$BUILDNUM_SHORT"
 mkdir -p "$DSYM_PATH"
 
 #

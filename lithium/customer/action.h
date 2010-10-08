@@ -19,6 +19,7 @@ typedef struct l_action_s
   int rerun_max;              /* Maximum re-runs */
   int rerun_delay;            /* Delay between re-running */
   int casecancels;            /* 1=Binding to a case cancels action, 2=Binding to a case cancels rerun */
+  int log_output;             /* Log the output from the script */
 
   /* Filter */
   int time_filter;            /* 0=All day, 1=Time filtered */
@@ -88,6 +89,7 @@ typedef struct l_action_proc_s
   /* Script */
   char *script_file;            /* File to execute */
   char *output_str;              /* The output from the script */
+  int log_output;               /* 1=Log output of script */
 
   /* Command line args */
   char *command_str;            /* Command to be executed */

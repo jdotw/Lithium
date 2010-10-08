@@ -2237,7 +2237,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
-				CURRENT_PROJECT_VERSION = 1124;
+				CURRENT_PROJECT_VERSION = 1127;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				LIBRARY_SEARCH_PATHS = /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumDatabase.framework/Libraries;
 				SDKROOT = macosx10.5;
@@ -2248,7 +2248,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CURRENT_PROJECT_VERSION = 1124;
+				CURRENT_PROJECT_VERSION = 1127;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;

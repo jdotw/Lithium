@@ -44,6 +44,16 @@ int l_action_enable (i_resource *self)
     { i_printf (1, "l_action_enable failed to create actions table (%s)", PQresultErrorMessage (pgres)); }
   }
   PQclear (pgres);
+  pgres = PQexec (pgconn, "SELECT column_name from information_schema.columns WHERE table_name='actions' AND column_name='log_output' ORDER BY ordinal_position");
+  if (!pgres || PQresultStatus(pgres) != PGRES_TUPLES_OK || (PQntuples(pgres)) < 1)
+  {
+    if (pgres) { PQclear(pgres); pgres = NULL; }
+    i_printf (0, "l_action_enable version-specific check: 'log_output' column missing, attempting to add it");
+    pgres = PQexec (pgconn, "ALTER TABLE actions ADD COLUMN log_output integer");
+    if (!pgres || PQresultStatus(pgres) != PGRES_COMMAND_OK)    
+    { i_printf (1, "l_action_enable failed to add log_output column (%s)", PQresultErrorMessage (pgres)); }
+  }
+  if (pgres) { PQclear(pgres); pgres = NULL; }
 
   /* Check action_entities table */
   pgres = PQexec (pgconn, "SELECT relname FROM pg_class WHERE relname = 'action_entities' AND relkind = 'r'");

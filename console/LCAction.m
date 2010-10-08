@@ -62,6 +62,7 @@
 		[self.xmlTranslation setObject:@"runState" forKey:@"runstate"];
 		[self.xmlTranslation setObject:@"runStartTimestamp" forKey:@"start_sec"];
 		[self.xmlTranslation setObject:@"runEndTimestamp" forKey:@"end_sec"];
+		[self.xmlTranslation setObject:@"logOutput" forKey:@"log_output"];
 	}
 	return self;
 }
@@ -338,6 +339,7 @@
 
 @synthesize startHour;
 @synthesize endHour;
+@synthesize logOutput;
 
 @synthesize reRunCount;
 - (void) setReRunCount:(int)value

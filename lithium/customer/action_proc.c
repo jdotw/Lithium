@@ -130,6 +130,7 @@ l_action_proc* l_action_exec (i_resource *self, char *script_file, char *command
   }
   if (action)
   {
+    proc->log_output = action->log_output;
     proc->run_count = action->run_count;
     action->run_count++;
     proc->actionid = action->id;
@@ -202,10 +203,13 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     l_action_configvar *var;
     for (i_list_move_head(list); (var=i_list_restore(list))!=NULL; i_list_move_next(list))
     {
-      xmlNodePtr varNode = xmlNewNode (NULL, BAD_CAST "variable");
-      xmlNewChild (varNode, NULL, BAD_CAST "name", BAD_CAST var->name_str);
-      xmlNewChild (varNode, NULL, BAD_CAST "value", BAD_CAST var->value_str);
-      xmlAddChild (root_node, varNode);
+      if (var->value_str && strlen(var->value_str) > 0)
+      {
+        xmlNodePtr varNode = xmlNewNode (NULL, BAD_CAST "variable");
+        xmlNewChild (varNode, NULL, BAD_CAST "name", BAD_CAST var->name_str);
+        xmlNewChild (varNode, NULL, BAD_CAST "value", BAD_CAST var->value_str);
+        xmlAddChild (root_node, varNode);
+      }
     }
     
     /* Add Defaults */
@@ -231,6 +235,29 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     /* Write to file */
     xmlSaveFile (proc->temp_config_file, xml->doc);
     i_xml_free (xml);
+
+    /* Read and log the config file is logging is enabled */
+    if (proc->log_output)
+    {
+      int config_fd = open(proc->temp_config_file, O_RDONLY);
+      if (config_fd > 0)
+      {
+        off_t file_size = lseek(config_fd, 0, SEEK_END);
+        if (file_size > 0)
+        {
+          char *file_text = malloc(file_size);
+          lseek(config_fd, 0, SEEK_SET);
+          ssize_t bytes_read = read(config_fd, file_text, file_size);
+          if (bytes_read > 0)
+          {
+            file_text[bytes_read] = '\0';
+            i_printf (1, "l_action_exec (action output logging enabled) using config file: '%s'", file_text);
+          }
+          free (file_text);
+        }
+        close (config_fd);
+      }
+    }
   }
   
   /* Create pipes */
@@ -362,8 +389,11 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
       /* No incident */
       asprintf (&shell_command, "env '%s' '%s' '%s'", perlenv, fullpath, proc->command_str);
     }
-    
-    i_printf (1, "l_action_exec_configvar_cb executing: %s", shell_command);
+
+    if (proc->log_output)
+    {
+      i_printf (1, "l_action_exec_configvar_cb (action output logging enabled) executing: %s", shell_command);
+    }
 
     num = execlp("sh", "sh", "-c", shell_command, NULL);
     if (num == -1)
@@ -419,9 +449,11 @@ int l_action_exec_socketcb (i_resource *self, i_socket *sock, void *passdata)
   { 
     /* Failed to read from child, command must be complete */
     
-    /* DEBUG -- Email Problems */
-    i_printf (1, "l_action_exec_socketcb received '%s'", proc->output_str);
-    /* END DEBUG */
+    /* Log output if enabled */
+    if (proc->log_output)
+    {
+      i_printf (1, "l_action_exec_socketcb (action output logging enabled) received '%s'", proc->output_str);
+    }
 
     /* Run callback */
     if (proc->cb && proc->cb->func)

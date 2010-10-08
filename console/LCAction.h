@@ -30,6 +30,7 @@
 	int runState;
 	unsigned long runStartTimestamp;
 	unsigned long runEndTimestamp;
+	BOOL logOutput;
 	
 	/* Dynamic properties */
 	NSString *executionString;
@@ -113,6 +114,7 @@
 @property (nonatomic, assign) int runState;
 @property (nonatomic, assign) unsigned long runStartTimestamp;
 @property (nonatomic, assign) unsigned long runEndTimestamp;
+@property (nonatomic, assign) BOOL logOutput;
 
 #pragma mark "Dyanmic Property Methods"
 @property (nonatomic,copy) NSImage *actionIcon;

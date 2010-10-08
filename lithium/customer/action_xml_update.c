@@ -58,6 +58,7 @@ int xml_action_update (i_resource *self, i_xml_request *req)
     else if (!strcmp((char *)node->name, "start_hour") && str) action->start_hour = atoi (str);
     else if (!strcmp((char *)node->name, "end_hour") && str) action->end_hour = atoi (str);
     else if (!strcmp((char *)node->name, "script_file") && str) action->script_file = strdup (str);
+    else if (!strcmp((char *)node->name, "log_output") && str) action->log_output = atoi (str);
     else if (!strcmp((char *)node->name, "config_variable"))
     { 
       l_action_configvar *var = l_action_configvar_fromxml (req->xml_in, node);

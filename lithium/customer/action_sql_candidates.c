@@ -86,7 +86,7 @@ i_callback* l_action_sql_load_candidates (i_resource *self, i_incident *inc, int
   else if (now_tm->tm_wday == 6) daymask = 32;
 
   /* Create query */
-  asprintf (&query, "SELECT actions.id, actions.descr, actions.enabled, actions.activation, actions.delay, actions.rerun, actions.rerundelay, actions.timefilter, actions.daymask, actions.starthour, actions.endhour, actions.script, sum(CASE WHEN action_entities.action=actions.id THEN 1 ELSE 0 END) AS entities FROM actions, action_entities WHERE enabled='1' AND (daymask & %i) > 0 AND (timefilter='0' OR (starthour >= %i AND endhour < %i)) GROUP BY actions.id, actions.descr, actions.enabled, actions.activation, actions.delay, actions.rerun, actions.rerundelay, actions.timefilter, actions.daymask, actions.starthour, actions.endhour, actions.script", daymask, now_tm->tm_hour, now_tm->tm_hour);
+  asprintf (&query, "SELECT actions.id, actions.descr, actions.enabled, actions.activation, actions.delay, actions.rerun, actions.rerundelay, actions.timefilter, actions.daymask, actions.starthour, actions.endhour, actions.script, actions.log_output, sum(CASE WHEN action_entities.action=actions.id THEN 1 ELSE 0 END) AS entities FROM actions, action_entities WHERE enabled='1' AND (daymask & %i) > 0 AND (timefilter='0' OR (starthour >= %i AND endhour < %i)) GROUP BY actions.id, actions.descr, actions.enabled, actions.activation, actions.delay, actions.rerun, actions.rerundelay, actions.timefilter, actions.daymask, actions.starthour, actions.endhour, actions.script, actions.log_output", daymask, now_tm->tm_hour, now_tm->tm_hour);
 
   /* Create incident/entity match string 
    *
@@ -139,6 +139,7 @@ int l_action_sql_load_candidates_actioncb (i_resource *self, i_pg_async_conn *co
     char *start_hour_str;
     char *end_hour_str;
     char *script_str;
+    char *log_output_str;
     char *entities_str;
     l_action *action;
 
@@ -155,7 +156,8 @@ int l_action_sql_load_candidates_actioncb (i_resource *self, i_pg_async_conn *co
     start_hour_str = PQgetvalue (res, row, 9);
     end_hour_str = PQgetvalue (res, row, 10);
     script_str = PQgetvalue (res, row, 11);
-    entities_str = PQgetvalue (res, row, 12);
+    log_output_str = PQgetvalue (res, row, 12);
+    entities_str = PQgetvalue (res, row, 13);
 
     /* Create action */
     action = l_action_create ();
@@ -171,6 +173,7 @@ int l_action_sql_load_candidates_actioncb (i_resource *self, i_pg_async_conn *co
     if (start_hour_str) action->start_hour= atoi (start_hour_str);
     if (end_hour_str) action->end_hour = atoi (end_hour_str);
     if (script_str) action->script_file = strdup (script_str);
+    if (log_output_str) action->log_output = atoi (log_output_str);
     if (entities_str) action->entity_count = atoi (entities_str);
 
     /* Enqueue */

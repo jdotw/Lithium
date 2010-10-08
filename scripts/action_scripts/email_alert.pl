@@ -37,6 +37,10 @@ use Net::IRC;
                               {
                                  'name' => 'smtp_password',
                                  'desc' => 'SMTP Auth Password'
+                              },
+                              {
+                                 'name' => 'smtp_debug',
+                                 'desc' => 'Enable SMTP Debug Logging'
                               }
                  ]
             );
@@ -367,7 +371,7 @@ sub sendEmail ()
   my $smtp_password = %variables->{smtp_password}->{value};
 
   # Send email using SMTP
-  $smtp = Net::SMTP->new("$mailhost", Debug => 1);
+  $smtp = Net::SMTP->new("$mailhost", Debug => %variables->{smtp_debug}->{value});
   $smtp->auth("$smtp_username", "$smtp_password") if defined($smtp_username);
   $smtp->mail("$sender");
   $smtp->recipient(@recipients, { SkipBad => 1 });

@@ -40,7 +40,7 @@
 	<key>CFBundleSignature</key>
 	<string>LCRP</string>
 	<key>CFBundleVersion</key>
-	<string>201227</string>
+	<string>201228</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

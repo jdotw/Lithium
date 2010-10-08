@@ -62,6 +62,9 @@ xmlNodePtr l_action_xml (l_action *action)
   xmlNewChild (action_node, NULL, BAD_CAST "runstate", BAD_CAST str);
   free (str);
   if (action->script_file) xmlNewChild (action_node, NULL, BAD_CAST "script_file", BAD_CAST action->script_file);
+  asprintf (&str, "%i", action->log_output);
+  xmlNewChild (action_node, NULL, BAD_CAST "log_output", BAD_CAST str);
+  free (str);
 
   return action_node;
 }
@@ -80,7 +83,7 @@ xmlNodePtr l_action_configvar_xml (l_action_configvar *var)
   free (str);
   if (var->name_str) xmlNewChild (var_node, NULL, BAD_CAST "name", BAD_CAST var->name_str);
   if (var->desc_str) xmlNewChild (var_node, NULL, BAD_CAST "desc", BAD_CAST var->desc_str);
-  if (var->value_str) xmlNewChild (var_node, NULL, BAD_CAST "value", BAD_CAST var->value_str);
+  if (var->value_str && strlen(var->value_str) > 0) xmlNewChild (var_node, NULL, BAD_CAST "value", BAD_CAST var->value_str);
   asprintf (&str, "%i", var->required);
   xmlNewChild (var_node, NULL, BAD_CAST "required", BAD_CAST str);
   free (str);
@@ -103,7 +106,7 @@ l_action_configvar* l_action_configvar_fromxml (i_xml *xml, xmlNodePtr var_node)
     if (!strcmp((char *)node->name, "id") && str) var->id = atol (str);
     else if (!strcmp((char *)node->name, "name") && str) var->name_str = strdup (str);
     else if (!strcmp((char *)node->name, "desc") && str) var->desc_str = strdup (str);
-    else if (!strcmp((char *)node->name, "value") && str) var->value_str = strdup (str);
+    else if (!strcmp((char *)node->name, "value") && str && strlen(str) > 0) var->value_str = strdup (str);
     else if (!strcmp((char *)node->name, "required") && str) var->required = atoi (str);
 
     xmlFree (str);

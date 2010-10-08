@@ -128,12 +128,12 @@
 	id lastObject = nil;
 	NSMutableArray *seenObjects = [NSMutableArray array];
 	
-	/* Refresh existing and add new */
+	/* Loop through each object in the received XML */
 	for (LCXMLNode *childNode in rootNode.children)
 	{
 		if ([childNode.name isEqualToString:@"entity_descriptor"])
 		{
-			/* Entity Object */
+			/* Entity Object -- Add Entity Object from Descriptor */
 			LCEntityDescriptor *entDesc = [LCEntityDescriptor descriptorWithXmlNode:childNode];
 			LCEntity *entity = [entDesc locateEntity:YES];
 			if (![objects containsObject:entity])

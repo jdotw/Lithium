@@ -13,7 +13,7 @@
 	<key>Custom Icon Path</key>
 	<string></string>
 	<key>Disk Image Name</key>
-	<string>/Users/jwilson/Source/Lithium/build_framework/packaging/Disk Images/LithiumModB-5.0.8.dmg</string>
+	<string>/Users/jwilson/Source/Lithium/build_framework/packaging/Disk Images/LithiumModB-5.0.9.201228.dmg</string>
 	<key>Encode Format</key>
 	<string>None</string>
 	<key>Encryption Type</key>
@@ -54,7 +54,7 @@
 	<key>Show Toolbar</key>
 	<string>FALSE</string>
 	<key>Volume Name</key>
-	<string>ModuleBuilder 5.0.8</string>
+	<string>ModuleBuilder 5.0.9.201228</string>
 	<key>Window Frame</key>
 	<string>{{64, 76}, {595, 419}}</string>
 </dict>

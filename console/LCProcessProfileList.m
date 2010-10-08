@@ -37,4 +37,15 @@
 	[entity normalPriorityRefresh];
 }
 
+- (void) xmlParserDidFinish:(LCXMLNode *)rootNode
+{
+	[super xmlParserDidFinish:rootNode];
+
+	/* Refresh each process */
+	for (LCEntity *entity in self.objects)
+	{
+		[entity highPriorityRefresh];
+	}
+}
+
 @end

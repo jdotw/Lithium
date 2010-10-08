@@ -73,14 +73,22 @@ void l_snmp_metric_refresh_data_free (void *dataptr)
 
 int l_snmp_metric_refresh (i_resource *self, i_metric *met, int opcode)
 { 
-  l_snmp_metric_refresh_data *data = met->refresh_data;
+  l_snmp_metric_refresh_data *data = met ? met->refresh_data : NULL;
 
   /* Check data */
   if (!data)
   {
     /* This should never happen */ 
-    i_printf (1, "l_snmp_metric_refresh called with NULL met->refresh data for metric %s:%s:%s", 
-      met->obj->cnt->name_str, met->obj->name_str, met->name_str);
+    if (met && met->obj && met->obj->cnt)
+    {
+      i_printf (1, "l_snmp_metric_refresh called with NULL met->refresh data for metric %s:%s:%s", 
+        met->obj->cnt->name_str, met->obj->name_str, met->name_str);
+    }
+    else
+    {
+      i_printf (1, "l_snmp_metric_refresh called with MULL met, obj or container");
+    }
+    return -1;
   }
 
   /* Process refresh */

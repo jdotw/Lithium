@@ -38,6 +38,17 @@
 	[super dealloc];
 }
 
+- (void) xmlParserDidFinish:(LCXMLNode *)rootNode
+{
+	[super xmlParserDidFinish:rootNode];
+	
+	/* Refresh each process */
+	for (LCEntity *entity in self.objects)
+	{
+		[entity highPriorityRefresh];
+	}
+}
+
 #pragma mark "Properties"
 
 @synthesize customer;

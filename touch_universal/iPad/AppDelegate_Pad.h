@@ -10,7 +10,10 @@
 #import "AppDelegate.h"
 
 @interface AppDelegate_Pad : AppDelegate {
+	
 }
+
+@property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
 
 @end
 

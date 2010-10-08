@@ -38,7 +38,7 @@
 			<key>Origin</key>
 			<string>{17, 76}</string>
 			<key>Path</key>
-			<string>/Users/jwilson/Source/Lithium/build_framework/packaging/1. Applications/Core Installer/Lithium-Core-5.0.8.pkg</string>
+			<string>DummyPackage.pkg</string>
 			<key>Type</key>
 			<string>File Item</string>
 		</dict>

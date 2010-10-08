@@ -36,8 +36,8 @@ int l_action_sql_insert (i_resource *self, l_action *action)
   /* Create query */
   desc_esc = i_postgres_escape (action->desc_str);
   script_esc = i_postgres_escape (action->script_file);
-  asprintf (&query, "INSERT INTO actions (descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script) VALUES ('%s', '%i', '%i', '%li', '%i', '%i', '%i', '%i', '%i', '%i', '%s');",
-    action->desc_str, action->enabled, action->activation, action->delay, action->rerun, action->rerun_delay, action->time_filter, action->day_mask, action->start_hour, action->end_hour, script_esc);
+  asprintf (&query, "INSERT INTO actions (descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script, log_output) VALUES ('%s', '%i', '%i', '%li', '%i', '%i', '%i', '%i', '%i', '%i', '%s', '%i');",
+    action->desc_str, action->enabled, action->activation, action->delay, action->rerun, action->rerun_delay, action->time_filter, action->day_mask, action->start_hour, action->end_hour, script_esc, action->log_output);
   free (desc_esc);
   free (script_esc);
 
@@ -69,8 +69,8 @@ int l_action_sql_update (i_resource *self, l_action *action)
   /* Create query */
   desc_esc = i_postgres_escape (action->desc_str);
   script_esc = i_postgres_escape (action->script_file);
-  asprintf (&query, "UPDATE actions SET descr='%s', enabled='%i', activation='%i', delay='%li', rerun='%i', rerundelay='%i', timefilter='%i', daymask='%i', starthour='%i', endhour='%i', script='%s' WHERE id='%li'",
-    desc_esc, action->enabled, action->activation, action->delay, action->rerun, action->rerun_delay, action->time_filter, action->day_mask, action->start_hour, action->end_hour, script_esc, action->id);
+  asprintf (&query, "UPDATE actions SET descr='%s', enabled='%i', activation='%i', delay='%li', rerun='%i', rerundelay='%i', timefilter='%i', daymask='%i', starthour='%i', endhour='%i', script='%s', log_output='%i' WHERE id='%li'",
+    desc_esc, action->enabled, action->activation, action->delay, action->rerun, action->rerun_delay, action->time_filter, action->day_mask, action->start_hour, action->end_hour, script_esc, action->log_output, action->id);
   free (desc_esc);
   free (script_esc);
 
@@ -125,13 +125,13 @@ i_callback* l_action_sql_load_list (i_resource *self, char *id_str, int (*cbfunc
   { i_printf (1, "l_action_sql_load_list failed to open SQL database connection"); return NULL; }
 
   /* Create query */
+  asprintf (&query, "SELECT id, descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script, log_output FROM actions");
   if (id_str)
   {
-    asprintf (&query, "SELECT id, descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script FROM actions WHERE id='%s'", id_str);
-  }
-  else
-  {
-    asprintf (&query, "SELECT id, descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script FROM actions");
+    char *tmp;
+    asprintf (&tmp, "%s WHERE id='%s'", query, id_str);
+    free (query);
+    query = tmp;
   }
 
   /* Execute query */
@@ -180,6 +180,7 @@ int l_action_sql_load_cb (i_resource *self, i_pg_async_conn *conn, int operation
     char *start_hour_str;
     char *end_hour_str;
     char *script_str;
+    char *log_output_str;
     l_action *action;
 
     /* Fields */
@@ -195,6 +196,7 @@ int l_action_sql_load_cb (i_resource *self, i_pg_async_conn *conn, int operation
     start_hour_str = PQgetvalue (res, row, 9);
     end_hour_str = PQgetvalue (res, row, 10);
     script_str = PQgetvalue (res, row, 11);
+    log_output_str = PQgetvalue (res, row, 12);
 
     /* Create action */
     action = l_action_create ();
@@ -210,6 +212,7 @@ int l_action_sql_load_cb (i_resource *self, i_pg_async_conn *conn, int operation
     if (start_hour_str) action->start_hour= atoi (start_hour_str);
     if (end_hour_str) action->end_hour = atoi (end_hour_str);
     if (script_str) action->script_file = strdup (script_str);
+    if (log_output_str) action->log_output = atoi (log_output_str);
 
     /* Enqueue */
     i_list_enqueue (list, action);

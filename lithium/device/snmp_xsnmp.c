@@ -81,7 +81,7 @@ int l_snmp_xsnmp_detect_oid_callback (i_resource *self, l_snmp_session *session,
     static_retry_timer = i_timer_create (self, 30, 0, l_snmp_xsnmp_detect_retry_callback, NULL);
     return -1;
   }
-  else if (pdu && pdu->variables->type == ASN_GAUGE)
+  else if (pdu && pdu->variables && pdu->variables->type == ASN_GAUGE)
   {
     /* Xsnmp Enabled */
     char *version_str = l_snmp_get_string_from_pdu (pdu);

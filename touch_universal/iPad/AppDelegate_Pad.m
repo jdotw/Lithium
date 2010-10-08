@@ -10,12 +10,15 @@
 
 @implementation AppDelegate_Pad
 
+@synthesize splitViewController;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions 
 {   
 	[super application:application didFinishLaunchingWithOptions:launchOptions];
 	
     // Override point for customization after application launch
-    [window makeKeyAndVisible];
+	[self.window addSubview:splitViewController.view];
+    [self.window makeKeyAndVisible];
 	
 	return YES;
 }
