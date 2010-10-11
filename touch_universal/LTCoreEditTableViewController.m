@@ -24,7 +24,7 @@
 
 - (id) initWithCoreToEdit:(LTCoreDeployment *)initCore
 {
-	self = [super initWithNibName:@"CoreEditView" bundle:nil];
+	self = [super initWithStyle:UITableViewStyleGrouped];
 	if (!self) return nil;
 	
 	self.editCore = initCore;
@@ -84,13 +84,10 @@
 }
 */
 
-/*
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
-*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview

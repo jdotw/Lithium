@@ -180,7 +180,7 @@
 
 - (IBAction) addNewCoreTouched:(id)sender
 {
-	LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithNibName:@"CoreEditView" bundle:nil];
+	LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
 	[self.navigationController presentModalViewController:navController animated:YES];
 	[controller release];

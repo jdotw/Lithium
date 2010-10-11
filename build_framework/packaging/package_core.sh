@@ -37,24 +37,13 @@ rm -f *.pkg
 rm -f *.zip
 
 #
-# Get Build Numbers
+# Increment and Get Core Build Numbers
 #
 
 cd "$COREADMINSRCDIR"
+agvtool bump -all
 COREBUILDNUM=`agvtool mvers | grep '^Found CFBundleShortVersionString of'  | awk '{ print $4 }' | sed 's/\"//g'`
 echo "Core Build number is $COREBUILDNUM"
-
-cd "$CONSOLESRCDIR"
-CONSOLEBUILDNUM=`agvtool mvers | grep '^Found CFBundleShortVersionString of'  | awk '{ print $4 }' | sed 's/\"//g'`
-echo "Console Build number is $CONSOLEBUILDNUM"
-
-#
-# Build-Specific Clean
-# 
-
-sudo rm -rf "$DSYMDIR/Core/$COREBUILDNUM"
-sudo rm -rf "$DSYMDIR/Core Admin/$COREBUILDNUM"
-sudo rm -rf "$DSYMDIR/Console/$CONSOLEBUILDNUM"
 
 #
 # Build Lithium Core
@@ -68,7 +57,7 @@ if [ $? -ne 0 ]; then
 fi
 
 #
-# Build Console
+# Build Console and Get Build Version
 #
 
 cd "$PKGDIR"
@@ -77,6 +66,11 @@ if [ $? -ne 0 ]; then
   echo "ERROR: Failed to package Lithium Console"
   exit 1
 fi
+
+cd "$CONSOLESRCDIR"
+agvtool bump -all
+CONSOLEBUILDNUM=`agvtool mvers | grep '^Found CFBundleShortVersionString of'  | awk '{ print $4 }' | sed 's/\"//g'`
+echo "Console Build number is $CONSOLEBUILDNUM"
 
 #
 # Build Core Admin

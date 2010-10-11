@@ -105,6 +105,11 @@
 		10C3F46F11BF541200CBD469 /* LTModalProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */; };
 		10C3F47011BF541200CBD469 /* LTModalProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */; };
 		10C3F54A11BF6A5F00CBD469 /* circuitback.png in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F54911BF6A5F00CBD469 /* circuitback.png */; };
+		10F5C00A126290760071CD01 /* LTSummaryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F5C008126290760071CD01 /* LTSummaryTableViewController.m */; };
+		10F5C00B126290760071CD01 /* LTSummaryTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F5C009126290760071CD01 /* LTSummaryTableViewController.xib */; };
+		10F5C02A1263A6240071CD01 /* LTIconTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F5C0291263A6240071CD01 /* LTIconTableViewController.m */; };
+		10F5C02D1263A6390071CD01 /* LTIconTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F5C02C1263A6390071CD01 /* LTIconTableViewCell.m */; };
+		10F5C05B1263A9350071CD01 /* LTIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F5C05A1263A9350071CD01 /* LTIconView.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -268,6 +273,15 @@
 		10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTModalProgressViewController.m; sourceTree = "<group>"; };
 		10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTModalProgressViewController.xib; sourceTree = "<group>"; };
 		10C3F54911BF6A5F00CBD469 /* circuitback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circuitback.png; sourceTree = "<group>"; };
+		10F5C007126290760071CD01 /* LTSummaryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSummaryTableViewController.h; sourceTree = "<group>"; };
+		10F5C008126290760071CD01 /* LTSummaryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSummaryTableViewController.m; sourceTree = "<group>"; };
+		10F5C009126290760071CD01 /* LTSummaryTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTSummaryTableViewController.xib; sourceTree = "<group>"; };
+		10F5C0281263A6240071CD01 /* LTIconTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIconTableViewController.h; sourceTree = "<group>"; };
+		10F5C0291263A6240071CD01 /* LTIconTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIconTableViewController.m; sourceTree = "<group>"; };
+		10F5C02B1263A6390071CD01 /* LTIconTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIconTableViewCell.h; sourceTree = "<group>"; };
+		10F5C02C1263A6390071CD01 /* LTIconTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIconTableViewCell.m; sourceTree = "<group>"; };
+		10F5C0591263A9350071CD01 /* LTIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIconView.h; sourceTree = "<group>"; };
+		10F5C05A1263A9350071CD01 /* LTIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIconView.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* Lithium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lithium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -418,6 +432,7 @@
 		105EDE7211BC392000B294B4 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
+				10F5C0061262905C0071CD01 /* Summary (iPad) */,
 				106CBB1411C02BD600F3382D /* Entity View (Popup) */,
 				10C3F46B11BF53FD00CBD469 /* Modal Progress */,
 				102C692111BCE8BB0032D043 /* Device View */,
@@ -657,6 +672,30 @@
 			name = "Modal Progress";
 			sourceTree = "<group>";
 		};
+		10F5C0061262905C0071CD01 /* Summary (iPad) */ = {
+			isa = PBXGroup;
+			children = (
+				10F5C0271263A5FC0071CD01 /* Icon TableView */,
+				10F5C007126290760071CD01 /* LTSummaryTableViewController.h */,
+				10F5C008126290760071CD01 /* LTSummaryTableViewController.m */,
+				10F5C009126290760071CD01 /* LTSummaryTableViewController.xib */,
+			);
+			name = "Summary (iPad)";
+			sourceTree = "<group>";
+		};
+		10F5C0271263A5FC0071CD01 /* Icon TableView */ = {
+			isa = PBXGroup;
+			children = (
+				10F5C0281263A6240071CD01 /* LTIconTableViewController.h */,
+				10F5C0291263A6240071CD01 /* LTIconTableViewController.m */,
+				10F5C02B1263A6390071CD01 /* LTIconTableViewCell.h */,
+				10F5C02C1263A6390071CD01 /* LTIconTableViewCell.m */,
+				10F5C0591263A9350071CD01 /* LTIconView.h */,
+				10F5C05A1263A9350071CD01 /* LTIconView.m */,
+			);
+			name = "Icon TableView";
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -830,6 +869,7 @@
 				10089B7011C1FDD900034DFC /* DevicesTab-iPad.xib in Resources */,
 				10BFFBE41235F09100723DF4 /* IncidentsTab-iPad.xib in Resources */,
 				10BFFC2B1235F24F00723DF4 /* GroupsTab-iPad.xib in Resources */,
+				10F5C00B126290760071CD01 /* LTSummaryTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -897,6 +937,10 @@
 				106CB6E211BF79D000F3382D /* LTWindow.m in Sources */,
 				10BAD5CC11C2C88900147DCA /* LTGraphView.m in Sources */,
 				10BFF6DE1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m in Sources */,
+				10F5C00A126290760071CD01 /* LTSummaryTableViewController.m in Sources */,
+				10F5C02A1263A6240071CD01 /* LTIconTableViewController.m in Sources */,
+				10F5C02D1263A6390071CD01 /* LTIconTableViewCell.m in Sources */,
+				10F5C05B1263A9350071CD01 /* LTIconView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

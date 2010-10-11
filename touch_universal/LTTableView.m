@@ -24,7 +24,7 @@
 	)
 	{
 		/* iPad */
-		return UITableViewStyleGrouped;
+		return UITableViewStylePlain;
 	}
 	else
 	{

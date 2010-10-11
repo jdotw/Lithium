@@ -656,7 +656,7 @@
 
 - (IBAction) addNewCoreTouched:(id)sender
 {
-	LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithNibName:@"CoreEditView" bundle:nil];
+	LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
 	navController.navigationBar.tintColor = [UIColor colorWithWhite:120.0/255.0 alpha:1.0];
 #ifdef UI_USER_INTERFACE_IDIOM
