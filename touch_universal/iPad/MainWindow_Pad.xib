@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="110"/>
 			<integer value="2"/>
-			<integer value="151"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -921,7 +921,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>LTWindow</string>
-					<string>{{329, 91}, {768, 1024}}</string>
+					<string>{{399, 91}, {768, 1024}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>LTEntityTableViewController</string>
@@ -1087,6 +1087,14 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">LTIconTableViewController</string>
+					<string key="superclassName">UITableViewController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">LTIconTableViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">LTIncidentListTableViewController</string>
 					<string key="superclassName">LTTableViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -1115,7 +1123,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">LTSummaryTableViewController</string>
-					<string key="superclassName">UITableViewController</string>
+					<string key="superclassName">LTIconTableViewController</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">LTSummaryTableViewController.h</string>
