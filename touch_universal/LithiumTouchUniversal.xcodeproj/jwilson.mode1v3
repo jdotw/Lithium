@@ -216,11 +216,11 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>10F5C0731263BEC30071CD01</string>
+						<string>1019DFC512642C98006D929B</string>
 						<key>history</key>
 						<array>
 							<string>10F5C06C1263AB680071CD01</string>
-							<string>10F5C06D1263AB680071CD01</string>
+							<string>10F5C0731263BEC30071CD01</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -257,10 +257,10 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>10F5C0741263BEC30071CD01</string>
+						<string>1019DFC612642C98006D929B</string>
 						<key>history</key>
 						<array>
-							<string>10F5C0261263A5E80071CD01</string>
+							<string>10F5C0741263BEC30071CD01</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -426,7 +426,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>10F5C0721263BEC30071CD01</string>
+										<string>1019DFC412642C98006D929B</string>
 										<key>history</key>
 										<array>
 											<string>105EDDE911BC329B00B294B4</string>
@@ -497,7 +497,7 @@
 											<string>10F5C0651263AB680071CD01</string>
 											<string>10F5C0661263AB680071CD01</string>
 											<string>10F5C0671263AB680071CD01</string>
-											<string>10F5C0681263AB680071CD01</string>
+											<string>10F5C0721263BEC30071CD01</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -509,14 +509,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {904, 619}}</string>
+								<string>{{0, 0}, {904, 615}}</string>
 								<key>RubberWindowFrame</key>
 								<string>82 292 1228 819 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>619pt</string>
+							<string>615pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -529,14 +529,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 624}, {904, 154}}</string>
+								<string>{{0, 620}, {904, 158}}</string>
 								<key>RubberWindowFrame</key>
 								<string>82 292 1228 819 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>154pt</string>
+							<string>158pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -555,9 +555,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>10F5BFB712616AB80071CD01</string>
+				<string>1019DFBF12642C40006D929B</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>10F5BFB812616AB80071CD01</string>
+				<string>1019DFC012642C40006D929B</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -695,12 +695,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>10F5BFE712628F790071CD01</string>
-		<string>10F5BFE812628F790071CD01</string>
-		<string>1C530D57069F1CE1000CFCEE</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>105EDDB711BC2E1400B294B4</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>10F5C06F1263AB680071CD01</string>
 		<string>10F5C06A1263AB680071CD01</string>
 		<string>/Users/jwilson/Source/Lithium/touch_universal/LithiumTouchUniversal.xcodeproj</string>
@@ -722,14 +717,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>LTIconTableViewController.m</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -785,7 +778,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>105EDDB711BC2E1400B294B4</string>
-				<string>10F5BFBA12616AB80071CD01</string>
+				<string>1019DFC312642C40006D929B</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
