@@ -8,24 +8,20 @@
 
 #import "LTIconTableViewController.h"
 #import "LTIconTableViewCell.h"
+#import "LTIconView.h"
 
 @implementation LTIconTableViewController
 
-@synthesize iconRowCell;
+@synthesize iconRowCell, rowHeight;
 #define ICON_COUNT 174
 
 #pragma mark -
 #pragma mark Initialization
 
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if ((self = [super initWithStyle:style])) {
-    }
-    return self;
+- (void) awakeFromNib
+{
+	rowHeight = 100.0;
 }
-*/
-
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -82,16 +78,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
+	NSLog (@"Rows %i", ICON_COUNT / [self.iconRowCell itemsPerRowAtHeight:self.rowHeight]);
 	return (ICON_COUNT / [self.iconRowCell itemsPerRowAtHeight:self.rowHeight]);
 }
 
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+{ 
     static NSString *CellIdentifier = @"Cell";
     
-    LTIconTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    LTIconTableViewCell *cell = (LTIconTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[LTIconTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
@@ -101,9 +98,11 @@
 	int i;
 	for (i=0; i < [self.iconRowCell itemsPerRowAtHeight:self.rowHeight]; i++)
 	{
-		
-	}
-	
+		LTIconView *iconView = [[LTIconView alloc] initWithFrame:CGRectZero];
+		[cell addSubview:iconView];
+		[iconView release];
+	}	
+	[cell setNeedsLayout];
     
     return cell;
 }
