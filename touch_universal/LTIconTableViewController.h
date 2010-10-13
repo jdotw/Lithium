@@ -14,7 +14,7 @@
 	
 }
 
-@property (nonatomic, assign) Class iconRowCell;
 @property (nonatomic, assign) CGFloat rowHeight;
+@property (nonatomic, retain) IBOutlet UISlider *rowHeightSlider;
 
 @end

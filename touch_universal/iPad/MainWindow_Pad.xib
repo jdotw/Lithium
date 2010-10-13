@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="110"/>
+			<integer value="151"/>
 			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -401,7 +401,9 @@
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
-										<float key="IBUIValue">0.5</float>
+										<float key="IBUIValue">200</float>
+										<float key="IBUIMinValue">10</float>
+										<float key="IBUIMaxValue">1000</float>
 									</object>
 									<reference key="IBUINavigationItem" ref="642885102"/>
 								</object>
@@ -539,6 +541,14 @@
 						<reference key="destination" ref="593210721"/>
 					</object>
 					<int key="connectionID">142</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">rowHeightSlider</string>
+						<reference key="source" ref="593210721"/>
+						<reference key="destination" ref="644443566"/>
+					</object>
+					<int key="connectionID">152</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -972,7 +982,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">151</int>
+			<int key="maxID">152</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1089,6 +1099,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">LTIconTableViewController</string>
 					<string key="superclassName">UITableViewController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">rowHeightSlider</string>
+						<string key="NS.object.0">UISlider</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">rowHeightSlider</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">rowHeightSlider</string>
+							<string key="candidateClassName">UISlider</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">LTIconTableViewController.h</string>

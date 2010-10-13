@@ -21,6 +21,8 @@
 
 - (void)drawRect:(CGRect)rect 
 {
+	[[UIColor whiteColor] setFill];
+	UIRectFill(self.bounds);
 	UIBezierPath *bezier = [UIBezierPath bezierPathWithOvalInRect:self.bounds];
 	[[UIColor blueColor] setFill];
 	[bezier fill];

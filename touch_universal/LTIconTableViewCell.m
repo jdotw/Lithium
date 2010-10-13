@@ -27,9 +27,9 @@
     // Configure the view for the selected state
 }
 
-+ (int) itemsPerRowAtHeight:(CGFloat)height
++ (int) itemsPerRowAtHeight:(CGFloat)height width:(CGFloat)width
 {
-	return height / 4;
+	return (int) width / height;
 }
 
 - (void)dealloc {
@@ -39,10 +39,13 @@
 - (void) layoutSubviews
 {
 	/* Lays out views equidistant horizontally */
-	CGFloat viewWidth = self.bounds.size.width / [[self superclass] itemsPerRowAtHeight:self.bounds.size.height];	
+	CGFloat viewWidth = self.bounds.size.width / [[self subviews] count];	
+	NSLog (@"Laying out views with viewWidth is %f and height is %f", viewWidth, CGRectGetHeight(self.bounds));
 	for (UIView *view in [self subviews])
 	{
-		view.frame = CGRectMake([[self subviews] indexOfObject:view] * viewWidth, CGRectGetMinY(self.bounds), viewWidth, CGRectGetHeight(self.bounds));
+		view.frame = CGRectMake(([[self subviews] indexOfObject:view] * viewWidth),
+								CGRectGetMinY(self.bounds), 
+								CGRectGetHeight(self.bounds), CGRectGetHeight(self.bounds));
 	}
 }
 

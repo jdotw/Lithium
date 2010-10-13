@@ -7,14 +7,22 @@
 //
 
 #import "LTSummaryTableViewController.h"
+#import "LTIconTableViewCell.h"
+#import "LTIconView.h"
 
-#define ICON_COUNT 134
+#define ICON_COUNT 1340
 
 @implementation LTSummaryTableViewController
 
 
 #pragma mark -
 #pragma mark View lifecycle
+
+- (void) awakeFromNib
+{
+	[super awakeFromNib];
+}
+
 
 /*
 - (void)viewDidLoad {
@@ -59,32 +67,86 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 1;
+#define DATA_INCIDENTS 1
+#define DATA_FAVORITES 2
+#define DATA_DEVICES 3
+
+- (int) dataTypeInSection:(NSInteger)section
+{
+	if (section == 0)
+	{
+		if ([incidents count] > 0) return DATA_INCIDENTS;
+		else if ([favorites count] > 0) return DATA_FAVORITES;
+		else return DATA_DEVICES;
+	}
+	else if (section == 1)
+	{
+		if ([favorites count] > 0) return DATA_FAVORITES;
+		else return DATA_DEVICES;
+	}
+	else
+	{
+		return DATA_DEVICES;
+	}
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+{
+	int sections = 1;
+	if ([incidents count] > 0) sections++;
+	if ([favorites count] > 0) sections++;
+    return sections;
+}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return 1;
+- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	switch ([self dataTypeInSection:section]) {
+		case DATA_INCIDENTS:
+			return @"Incidents";
+		case DATA_FAVORITES:
+			return @"Favorites";
+		case DATA_DEVICES:
+			return @"All Devices";
+		default:
+			return nil;
+	}
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+	switch (section) {
+		case 0:
+			return 0;
+		default:
+			return (ICON_COUNT / [LTIconTableViewCell itemsPerRowAtHeight:self.rowHeight width:self.tableView.contentSize.width]);
+	}
 }
 
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+{ 
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    LTIconTableViewCell *cell = (LTIconTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[LTIconTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell...
+	[cell removeAllSubviews];
+	int i;
+	for (i=0; i < [LTIconTableViewCell itemsPerRowAtHeight:self.rowHeight width:self.tableView.contentSize.width]; i++)
+	{
+		LTIconView *iconView = [[LTIconView alloc] initWithFrame:CGRectZero];
+		[cell addSubview:iconView];
+		[iconView release];
+	}	
+	[cell setNeedsLayout];
     
     return cell;
 }
+
 
 
 /*

@@ -10,8 +10,11 @@
 
 #import "LTIconTableViewController.h"
 
-@interface LTSummaryTableViewController : LTIconTableViewController {
-
+@interface LTSummaryTableViewController : LTIconTableViewController 
+{
+	NSArray *incidents;
+	NSArray *favorites;
+	NSArray *devices;
 }
 
 

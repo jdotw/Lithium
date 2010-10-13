@@ -12,15 +12,28 @@
 
 @implementation LTIconTableViewController
 
-@synthesize iconRowCell, rowHeight;
-#define ICON_COUNT 174
+@synthesize rowHeight, rowHeightSlider;
 
 #pragma mark -
 #pragma mark Initialization
 
 - (void) awakeFromNib
 {
-	rowHeight = 100.0;
+	self.rowHeight = 100.0;
+	self.rowHeightSlider.value = 100.0;
+	[self.rowHeightSlider addTarget:self 
+							 action:@selector(rowHeightSliderMoved:)
+				   forControlEvents:UIControlEventValueChanged];
+	
+}
+
+#pragma mark - 
+#pragma mark Row Height
+
+- (void) rowHeightSliderMoved:(id)sender
+{
+	self.rowHeight = self.rowHeightSlider.value;
+	[self.tableView reloadData];
 }
 
 #pragma mark -
@@ -78,8 +91,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	NSLog (@"Rows %i", ICON_COUNT / [self.iconRowCell itemsPerRowAtHeight:self.rowHeight]);
-	return (ICON_COUNT / [self.iconRowCell itemsPerRowAtHeight:self.rowHeight]);
+	return 0;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return self.rowHeight;
 }
 
 
@@ -88,21 +105,12 @@
 { 
     static NSString *CellIdentifier = @"Cell";
     
-    LTIconTableViewCell *cell = (LTIconTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[LTIconTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell...
-	[cell removeAllSubviews];
-	int i;
-	for (i=0; i < [self.iconRowCell itemsPerRowAtHeight:self.rowHeight]; i++)
-	{
-		LTIconView *iconView = [[LTIconView alloc] initWithFrame:CGRectZero];
-		[cell addSubview:iconView];
-		[iconView release];
-	}	
-	[cell setNeedsLayout];
     
     return cell;
 }

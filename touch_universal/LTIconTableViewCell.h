@@ -13,7 +13,7 @@
 {
 }
 
-+ (int) itemsPerRowAtHeight:(CGFloat)height;
++ (int) itemsPerRowAtHeight:(CGFloat)height width:(CGFloat)width;
 - (void) removeAllSubviews;
 
 @end
