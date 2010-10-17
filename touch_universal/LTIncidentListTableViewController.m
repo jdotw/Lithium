@@ -186,6 +186,8 @@
 		[self.navigationController.tabBarItem setBadgeValue:nil];
 		[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 	}
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"IncidentArrayRebuilt" object:self];
 }
 
 - (IBAction) refreshTouched:(id)sender

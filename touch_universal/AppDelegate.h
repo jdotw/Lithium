@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class LTAuthenticationTableViewController, LTFavoritesTableViewController, LTCoreDeployment;
+@class LTAuthenticationTableViewController, LTFavoritesTableViewController, LTCoreDeployment, LTIncidentListTableViewController;
 
 @interface AppDelegate : NSObject <UIApplicationDelegate> 
 {
@@ -18,6 +18,7 @@
 	NSMutableArray *coreDeployments;
 	LTAuthenticationTableViewController *authViewController;
 	IBOutlet LTFavoritesTableViewController *favoritesController;
+	IBOutlet LTIncidentListTableViewController *incidentsController;
 	
 	/* State */
 	BOOL isActive;
@@ -33,6 +34,8 @@
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 @property (retain) LTAuthenticationTableViewController *authViewController;
 @property (assign) LTFavoritesTableViewController *favoritesController;
+@property (assign) LTIncidentListTableViewController *incidentsController;
+
 
 @property (copy) NSMutableArray *coreDeployments;
 - (void) addCore:(LTCoreDeployment *)core;

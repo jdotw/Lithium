@@ -19,8 +19,7 @@
 
 - (void) awakeFromNib
 {
-	self.rowHeight = 100.0;
-	self.rowHeightSlider.value = 100.0;
+	self.rowHeight = self.rowHeightSlider.value;
 	[self.rowHeightSlider addTarget:self 
 							 action:@selector(rowHeightSliderMoved:)
 				   forControlEvents:UIControlEventValueChanged];

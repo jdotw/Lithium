@@ -54,6 +54,9 @@ i_callback* l_action_sql_load_candidates (i_resource *self, i_incident *inc, int
   i_callback *cb;
   l_action_sql_load_candidate_req *req;
 
+  /* DEBUG */
+  i_printf (0, "DEBUG: l_action_sql_load_candidates called for incident inc->id=%li", inc->id);
+
   /* Create req */
   req = (l_action_sql_load_candidate_req *) malloc (sizeof(l_action_sql_load_candidate_req));
   memset (req, 0, sizeof(l_action_sql_load_candidate_req));
@@ -94,6 +97,9 @@ i_callback* l_action_sql_load_candidates (i_resource *self, i_incident *inc, int
    */
   asprintf (&req->incident_match_str, "(site_name='%s' OR site_name IS NULL) AND (dev_name='%s' OR dev_name IS NULL) AND (cnt_name='%s' OR cnt_name IS NULL) AND (obj_name='%s' OR obj_name IS NULL) AND (met_name='%s' OR met_name IS NULL) AND (trg_name='%s' OR trg_name IS NULL)", inc->ent->site_name, inc->ent->dev_name, inc->ent->cnt_name, inc->ent->obj_name, inc->ent->met_name, inc->ent->trg_name);
 
+  /* DEBUG */
+  i_printf (0, "DEBUG l_action_sql_load_candidates using query '%s'", query);
+
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_action_sql_load_candidates_actioncb, cb);
   free (query);
@@ -125,6 +131,7 @@ int l_action_sql_load_candidates_actioncb (i_resource *self, i_pg_async_conn *co
 
   /* Loops through each record */
   row_count = PQntuples (res);
+  i_printf (0, "DEBUG l_action_sql_load_candidates_actioncb called with row_count %i", row_count);
   for (row=0; row < row_count; row++)
   {
     char *id_str;
@@ -186,6 +193,8 @@ int l_action_sql_load_candidates_actioncb (i_resource *self, i_pg_async_conn *co
        * Add our ID to the match string for
        * the second SQL query
        */
+
+      i_printf (0, "DEBUG l_action_sql_load_candidates_actioncb action %li is entity filtered (entity count is %i)", action->id, action->entity_count);
       
       if (action_id_match)
       {
@@ -202,6 +211,7 @@ int l_action_sql_load_candidates_actioncb (i_resource *self, i_pg_async_conn *co
     else
     {
       /* There are no entities to filter. Mark for execution */
+      i_printf (0, "DEBUG l_action_sql_load_candidates_actioncb is eligable for execution -- no entity filter");
       action->execute_flag = 1;
     }
   }
@@ -227,6 +237,9 @@ int l_action_sql_load_candidates_actioncb (i_resource *self, i_pg_async_conn *co
     asprintf (&query_str, "SELECT action FROM action_entities WHERE (%s) AND (%s)", req->incident_match_str, action_id_match);
     free (action_id_match);
 
+    /* DEBUG */
+    i_printf (0, "DEBUG l_action_sql_load_candidates_actioncb performing additional query using string '%s'", query_str);
+
     /* Execute query */
     num = i_pg_async_query_exec (self, second_conn, query_str, 0, l_action_sql_load_candidates_idcb, cb);
     free (query_str);
@@ -240,6 +253,9 @@ int l_action_sql_load_candidates_actioncb (i_resource *self, i_pg_async_conn *co
      * We can now run the callback
      */
     
+    /* DEBUG */
+    i_printf (0, "DEBUG l_action_sql_load_candidates_actioncb running callback immediately with no further query");
+
     /* Run Callback */
     if (cb->func)
     {
@@ -286,6 +302,7 @@ int l_action_sql_load_candidates_idcb (i_resource *self, i_pg_async_conn *conn, 
 
   /* Loops through each record */
   row_count = PQntuples (res);
+  i_printf (0, "DEBUG l_action_sql_load_candidates_idcb called with row_count %i", row_count);
   for (row=0; row < row_count; row++)
   {
     char *id_str;
@@ -296,6 +313,7 @@ int l_action_sql_load_candidates_idcb (i_resource *self, i_pg_async_conn *conn, 
 
     /* Create action */
     id = atol (id_str);
+    i_printf (0, "DEBUG l_action_sql_load_candidates_idcb iterating for action %li", id);
 
     /* Go looking for a matching action */
     l_action *action;
@@ -305,6 +323,7 @@ int l_action_sql_load_candidates_idcb (i_resource *self, i_pg_async_conn *conn, 
       {
         /* Match! */
         action->execute_flag = 1;
+        i_printf (0, "DEBUG l_action_sql_load_candidates_idcb matched action, action %li is now valid for execution", action->id);
         break;
       }
     }
@@ -321,12 +340,16 @@ int l_action_sql_load_candidates_idcb (i_resource *self, i_pg_async_conn *conn, 
   for (i_list_move_head(req->list); (action=i_list_restore(req->list))!=NULL; i_list_move_next(req->list))
   {
     if (action->execute_flag == 0)
-    { i_list_delete (req->list); }
+    { 
+      i_printf (0, "DEBUG l_action_sql_load_candidates_idcb removing action %li because it is invalid", action->id);
+      i_list_delete (req->list); 
+    }
   }
 
   /* Run Callback */
   if (cb->func)
   {
+    i_printf (0, "DEBUG l_action_sql_load_candidates_idcb running callback with list size %i", req->list->size);
     num = cb->func (self, req->list, cb->passdata);
     if (num != 0)
     {

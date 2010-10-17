@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		10089B7011C1FDD900034DFC /* DevicesTab-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10089B6F11C1FDD900034DFC /* DevicesTab-iPad.xib */; };
+		1029D941126642950057330C /* LTSummaryIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1029D940126642950057330C /* LTSummaryIconView.m */; };
 		102C692711BCE8F40032D043 /* LTDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C692511BCE8F40032D043 /* LTDeviceViewController.m */; };
 		102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C692611BCE8F40032D043 /* LTDeviceViewController.xib */; };
 		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
@@ -122,6 +123,8 @@
 
 /* Begin PBXFileReference section */
 		10089B6F11C1FDD900034DFC /* DevicesTab-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "DevicesTab-iPad.xib"; path = "../DevicesTab-iPad.xib"; sourceTree = "<group>"; };
+		1029D93F126642950057330C /* LTSummaryIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSummaryIconView.h; sourceTree = "<group>"; };
+		1029D940126642950057330C /* LTSummaryIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSummaryIconView.m; sourceTree = "<group>"; };
 		102C692411BCE8F40032D043 /* LTDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceViewController.h; sourceTree = "<group>"; };
 		102C692511BCE8F40032D043 /* LTDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceViewController.m; sourceTree = "<group>"; };
 		102C692611BCE8F40032D043 /* LTDeviceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTDeviceViewController.xib; sourceTree = "<group>"; };
@@ -433,7 +436,6 @@
 			isa = PBXGroup;
 			children = (
 				10F5C0061262905C0071CD01 /* Summary (iPad) */,
-				106CBB1411C02BD600F3382D /* Entity View (Popup) */,
 				10C3F46B11BF53FD00CBD469 /* Modal Progress */,
 				102C692111BCE8BB0032D043 /* Device View */,
 				105EDECB11BC392000B294B4 /* LTTabBarController.h */,
@@ -631,13 +633,6 @@
 			name = Dots;
 			sourceTree = "<group>";
 		};
-		106CBB1411C02BD600F3382D /* Entity View (Popup) */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Entity View (Popup)";
-			sourceTree = "<group>";
-		};
 		10934AB011BEA0F5009EF1F7 /* Graph */ = {
 			isa = PBXGroup;
 			children = (
@@ -679,6 +674,8 @@
 				10F5C007126290760071CD01 /* LTSummaryTableViewController.h */,
 				10F5C008126290760071CD01 /* LTSummaryTableViewController.m */,
 				10F5C009126290760071CD01 /* LTSummaryTableViewController.xib */,
+				1029D93F126642950057330C /* LTSummaryIconView.h */,
+				1029D940126642950057330C /* LTSummaryIconView.m */,
 			);
 			name = "Summary (iPad)";
 			sourceTree = "<group>";
@@ -941,6 +938,7 @@
 				10F5C02A1263A6240071CD01 /* LTIconTableViewController.m in Sources */,
 				10F5C02D1263A6390071CD01 /* LTIconTableViewCell.m in Sources */,
 				10F5C05B1263A9350071CD01 /* LTIconView.m in Sources */,
+				1029D941126642950057330C /* LTSummaryIconView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,6 +20,7 @@
 #import "LTFavoritesTableViewController.h"
 #import "LTDeviceViewController.h"
 #import "LTTableView.h"
+#import "AppDelegate_Pad.h"
 
 @interface LTEntityTableViewController (private)
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
@@ -476,36 +477,31 @@
 	if (viableEntity.type == 4 && viableEntity.children.count == 1)
 	{ viableEntity = [viableEntity.children objectAtIndex:0]; }
 	
-	UIViewController *viewController;
 	if (viableEntity.type == 6)
 	{
 		/* Metric */
 		LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithNibName:@"DevicesTab" bundle:nil];
 		metricView.metric = viableEntity;
-		viewController = metricView;	
+		[self.navigationController pushViewController:metricView animated:YES];
+		[metricView release];
 	}
-#ifdef UI_USER_INTERFACE_IDIOM
 	else if (viableEntity.type == 3 && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 	{
 		/* Device and iPad */
+		AppDelegate_Pad *appDelegate = (AppDelegate_Pad *) [[UIApplication sharedApplication] delegate];
 		LTDeviceViewController *devView = [[LTDeviceViewController alloc] initWithDevice:viableEntity];
-		viewController = devView;
+		[appDelegate displayEntityInDetailView:viableEntity];
+		[devView release];
 	}
-#endif
 	else
 	{
-		UITableViewStyle style;
-		if (viableEntity.type > 3) style = UITableViewStylePlain;
-		else style = [LTTableView defaultCellStyle];
-		LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithStyle:style];
+		/* Default Handling, push new VC */
+		LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithStyle:UITableViewStylePlain];
 		anotherViewController.entity = viableEntity;
-		viewController = anotherViewController;
-		[anotherViewController.tableView setNeedsDisplay];
+		[anotherViewController.tableView setNeedsDisplay];		
+		[self.navigationController pushViewController:anotherViewController animated:YES];
+		[anotherViewController release];
 	}	
-	
-	if (self.externalNavigationController) [self.externalNavigationController pushViewController:viewController animated:YES];
-	else [self.navigationController pushViewController:viewController animated:YES];
-	[viewController release];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath 

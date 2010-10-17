@@ -137,7 +137,9 @@
 				[childDict setObject:curCustomer forKey:curCustomer.name];
 				[curCustomer refresh];
 				[curCustomer.incidentList refresh];
-				[curCustomer autorelease];			
+				[curCustomer autorelease];	
+				
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCustomerAdded" object:curCustomer];
 			}
 		}			
 			

@@ -521,11 +521,23 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	LTEntity *entity = self;
 	if (entity.type >= 3)
 	{
-		while (entity.type > 3)
-		{ 
-			entity = entity.parent; 
+		if (self.parent)
+		{
+			/* A parent is present, this must be a live entity */
+			while (entity.type > 3)
+			{ 
+				entity = entity.parent; 
+			}
+			return entity;
 		}
-		return entity;
+		else if (self.customer)
+		{
+			/* Entity must be a stand-alone (such as off an incident) */
+			LTEntity *site = [self.customer.childDict objectForKey:self.entityDescriptor.siteName];
+			LTEntity *device = [site.childDict objectForKey:self.entityDescriptor.devName];
+			return device;
+		}
+		else return nil;
 	}
 	else
 	{ return nil; }

@@ -38,6 +38,12 @@
 	[super dealloc];
 }
 
+- (void) xmlParserDidFinish:(LCXMLNode *)rootNode
+{
+	[super xmlParserDidFinish:rootNode];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCustomerRefreshFinished" object:self];
+}
+
 @synthesize url;
 @synthesize cluster;
 @synthesize node;

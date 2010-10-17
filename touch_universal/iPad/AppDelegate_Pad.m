@@ -7,10 +7,11 @@
 //
 
 #import "AppDelegate_Pad.h"
+#import "LTDeviceViewController.h"
 
 @implementation AppDelegate_Pad
 
-@synthesize splitViewController;
+@synthesize splitViewController, detailNavigationController, summaryNavItem;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions 
 {   
@@ -29,5 +30,21 @@
     [super dealloc];
 }
 
+- (void) displayEntityInDetailView:(LTEntity *)entity
+{
+	/* Pushes a device view onto the detail navigation controller */
+	BOOL animatePush = YES;
+	if ([[detailNavigationController topViewController] class] == [LTDeviceViewController class])
+	{
+		/* Top controller is already a device view, dont animate */
+		[self.detailNavigationController popViewControllerAnimated:NO];
+		animatePush = NO;
+	}
+	
+	
+	LTDeviceViewController *devVC = [[LTDeviceViewController alloc] initWithDevice:entity.device];
+	[self.detailNavigationController pushViewController:devVC animated:animatePush];
+	[devVC release];
+}
 
 @end

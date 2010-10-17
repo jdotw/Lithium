@@ -33,12 +33,17 @@
 	LTEntity *selectedContainer;
 	NSArray *selectedContainerGraphableMetrics;
 	
+	BOOL performingInitialRefresh;
 	LTModalProgressViewController *modalProgressViewController;
+	
+	LTEntity *highlightEntity;
 }
 
 - (id) initWithDevice:(LTEntity *)device;
 
+
 @property (nonatomic,retain) LTEntity *device;
 @property (nonatomic,retain) LTEntity *selectedContainer;
+@property (nonatomic,retain) LTEntity *highlightEntity;
 
 @end

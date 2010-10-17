@@ -109,6 +109,7 @@
 	{
 		[self rebuildContainerScrollView];
 	}
+	
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)note

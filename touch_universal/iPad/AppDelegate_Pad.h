@@ -9,11 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-@interface AppDelegate_Pad : AppDelegate {
+@class LTEntity, LTDeviceViewController;
+
+@interface AppDelegate_Pad : AppDelegate 
+{
 	
 }
 
 @property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
+@property (nonatomic, retain) IBOutlet UINavigationController *detailNavigationController;
+@property (nonatomic, retain) IBOutlet UINavigationItem *summaryNavItem;
+
+- (void) displayEntityInDetailView:(LTEntity *)entity;
 
 @end
 

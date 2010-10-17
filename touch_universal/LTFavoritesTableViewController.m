@@ -15,6 +15,8 @@
 
 @implementation LTFavoritesTableViewController
 
+@synthesize displayFavorites;
+
 - (void) awakeFromNib
 {
 	[super awakeFromNib];
@@ -230,6 +232,8 @@
 			[displayOrphans addObject:orphan];
 		}
 	}
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayFavoritesRebuilt" object:self];
 }
 
 - (void) entityRefreshFinished:(NSNotification *)notification

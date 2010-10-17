@@ -60,6 +60,7 @@
 - (void) refresh;
 - (void) setXmlValue:(id)value forKey:(NSString *)key;
 - (void) updateEntityUsingXMLNode:(LCXMLNode *)node;
+- (void) xmlParserDidFinish:(LCXMLNode *)rootNode;
 - (NSString *) urlPrefix;
 - (NSURL *) urlForXml:(NSString *)xmlName timestamp:(int)urlRefSec;
 
@@ -109,5 +110,6 @@
 @property (readonly) UIImage *icon;
 
 @property (readonly) NSArray *graphableMetrics;
+
 
 @end

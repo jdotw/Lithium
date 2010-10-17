@@ -40,10 +40,9 @@
 {
 	/* Lays out views equidistant horizontally */
 	CGFloat viewWidth = self.bounds.size.width / [[self subviews] count];	
-	NSLog (@"Laying out views with viewWidth is %f and height is %f", viewWidth, CGRectGetHeight(self.bounds));
 	for (UIView *view in [self subviews])
 	{
-		view.frame = CGRectMake(([[self subviews] indexOfObject:view] * viewWidth),
+		view.frame = CGRectMake(([[self subviews] indexOfObject:view] * viewWidth) + (0.5 * (viewWidth - CGRectGetHeight(self.bounds))),
 								CGRectGetMinY(self.bounds), 
 								CGRectGetHeight(self.bounds), CGRectGetHeight(self.bounds));
 	}

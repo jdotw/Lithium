@@ -7,13 +7,22 @@
 //
 
 #import "LTSummaryTableViewController.h"
+#import "LTSummaryIconView.h"
 #import "LTIconTableViewCell.h"
 #import "LTIconView.h"
+#import "LTEntity.h"
+#import "LTCoreDeployment.h"
+#import "LTCustomer.h"
+#import "AppDelegate.h"
+#import "LTFavoritesTableViewController.h"
+#import "LTIncidentListTableViewController.h"
+#import "LTIncidentListGroup.h"
 
-#define ICON_COUNT 1340
+@interface LTSummaryTableViewController (Private)
+- (void) rebuildDevicesArray;
+@end
 
 @implementation LTSummaryTableViewController
-
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -21,8 +30,12 @@
 - (void) awakeFromNib
 {
 	[super awakeFromNib];
+	[self rebuildDevicesArray];
+	[[self tableView] setAllowsSelection:NO];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(customerRefreshFinished:) name:@"LTCustomerRefreshFinished" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incidentArrayRebuilt:) name:@"IncidentArrayRebuilt" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(favoritesRebuilt:) name:@"DisplayFavoritesRebuilt" object:nil];
 }
-
 
 /*
 - (void)viewDidLoad {
@@ -41,16 +54,20 @@
     [super viewWillAppear:animated];
 }
 */
-/*
-- (void)viewDidAppear:(BOOL)animated {
+
+
+- (void)viewDidAppear:(BOOL)animated 
+{
     [super viewDidAppear:animated];
 }
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
+
+
+- (void)viewWillDisappear:(BOOL)animated 
+{
     [super viewWillDisappear:animated];
+	if (sidePopoverController) [sidePopoverController dismissPopoverAnimated:YES];
 }
-*/
+
 /*
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
@@ -73,15 +90,16 @@
 
 - (int) dataTypeInSection:(NSInteger)section
 {
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 	if (section == 0)
 	{
 		if ([incidents count] > 0) return DATA_INCIDENTS;
-		else if ([favorites count] > 0) return DATA_FAVORITES;
+		else if ([appDelegate.favoritesController.displayFavorites count] > 0) return DATA_FAVORITES;
 		else return DATA_DEVICES;
 	}
 	else if (section == 1)
 	{
-		if ([favorites count] > 0) return DATA_FAVORITES;
+		if ([appDelegate.favoritesController.displayFavorites count] > 0) return DATA_FAVORITES;
 		else return DATA_DEVICES;
 	}
 	else
@@ -92,9 +110,10 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 	int sections = 1;
 	if ([incidents count] > 0) sections++;
-	if ([favorites count] > 0) sections++;
+	if ([appDelegate.favoritesController.displayFavorites count] > 0) sections++;
     return sections;
 }
 
@@ -114,18 +133,32 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	switch (section) {
-		case 0:
-			return 0;
-		default:
-			return (ICON_COUNT / [LTIconTableViewCell itemsPerRowAtHeight:self.rowHeight width:self.tableView.contentSize.width]);
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+	NSArray *sourceArray = nil;
+	switch ([self dataTypeInSection:section]) {
+		case DATA_INCIDENTS:
+			sourceArray = incidents;
+			break;
+		case DATA_FAVORITES:
+			sourceArray = appDelegate.favoritesController.displayFavorites;
+			break;
+		case DATA_DEVICES:
+			sourceArray = devices;
+			break;
 	}
+	
+	int itemsPerRow = [LTIconTableViewCell itemsPerRowAtHeight:self.rowHeight width:self.tableView.contentSize.width];
+	int rows = [sourceArray count] / itemsPerRow;
+	if ([sourceArray count] % itemsPerRow) rows++;
+	
+	return rows;
 }
 
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 { 
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
     static NSString *CellIdentifier = @"Cell";
     
     LTIconTableViewCell *cell = (LTIconTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -134,96 +167,194 @@
     }
     
     // Configure the cell...
+	NSArray *entityArray;
+	switch ([self dataTypeInSection:indexPath.section]) 
+	{
+		case DATA_INCIDENTS:
+			entityArray = incidents;
+			break;
+		case DATA_FAVORITES:
+			entityArray = appDelegate.favoritesController.displayFavorites;
+			break;
+		case DATA_DEVICES:
+			entityArray = devices;
+			break;
+		default:
+			entityArray = nil;
+			break;
+	}
 	[cell removeAllSubviews];
 	int i;
-	for (i=0; i < [LTIconTableViewCell itemsPerRowAtHeight:self.rowHeight width:self.tableView.contentSize.width]; i++)
+	int itemsPerRow = [LTIconTableViewCell itemsPerRowAtHeight:self.rowHeight width:self.tableView.contentSize.width];
+	for (i=0; i < itemsPerRow; i++)
 	{
-		LTIconView *iconView = [[LTIconView alloc] initWithFrame:CGRectZero];
-		[cell addSubview:iconView];
-		[iconView release];
+		int index = i + (indexPath.row * itemsPerRow);
+		if (index < [entityArray count])
+		{
+			LTEntity *entity = [entityArray objectAtIndex:index];
+			LTSummaryIconView *iconView = [[LTSummaryIconView alloc] initWithEntity:entity];
+			[cell addSubview:iconView];
+			[iconView release];
+			[iconView setNeedsLayout];
+		}
 	}	
 	[cell setNeedsLayout];
     
     return cell;
 }
 
-
-
-/*
-// Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return NO;
 }
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-	/*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-	 [self.navigationController pushViewController:detailViewController animated:YES];
-	 [detailViewController release];
-	 */
+- (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	/* Disable row selection */
+	return nil;
 }
-
 
 #pragma mark -
 #pragma mark Memory management
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning 
+{
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
     
     // Relinquish ownership any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
+- (void)viewDidUnload 
+{
     // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
     // For example: self.myOutlet = nil;
 }
 
 
-- (void)dealloc {
+- (void)dealloc 
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTCustomerRefreshFinished" object:nil];
+	[devices release];
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Entity Array Management
+
+- (void) customerRefreshFinished:(NSNotification *)note
+{
+	/* Called whenever a customer entity has been refreshed */
+	[self rebuildDevicesArray];
+}
+
+- (void) rebuildDevicesArray
+{
+	/* Rebuilds the devices array */
+	if (!devices) devices = [[NSMutableArray array] retain];
+	LTEntity *lastDevice = nil;
+	NSMutableArray *seenDevices = [NSMutableArray array];
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+	for (LTCoreDeployment *coreDeployment in appDelegate.coreDeployments)
+	{
+		for (LTCustomer *customer in coreDeployment.children)
+		{
+			for (LTEntity *site in customer.children)
+			{
+				for (LTEntity *device in site.children)
+				{
+					if (![devices containsObject:device])
+					{
+						if (lastDevice)
+						{ [devices insertObject:device atIndex:[devices indexOfObject:lastDevice]+1]; }
+						else 
+						{ [devices insertObject:device atIndex:[devices count]]; }
+					}
+					[seenDevices addObject:device];
+					lastDevice = device;
+				}
+			}
+		}
+	}
+	if ([seenDevices count] < [devices count])
+	{
+		NSMutableArray *obsoleteDevices = [NSMutableArray array];
+		for (LTEntity *device in devices)
+		{
+			if (![seenDevices containsObject:device]) [obsoleteDevices addObject:device];
+		}
+		for (LTEntity *obsoleteDevice in obsoleteDevices)
+		{
+			[devices removeObjectAtIndex:[devices indexOfObject:obsoleteDevice]];
+		}
+	}
+	[self.tableView reloadData];
+}
+
+- (void) incidentArrayRebuilt:(NSNotification *)note
+{
+	if (!incidents)
+	{
+		incidents = [[NSMutableArray array] retain];
+	}
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];	
+	NSMutableArray *seen = [NSMutableArray array];
+	for (LTIncidentListGroup *group in appDelegate.incidentsController.sortedChildren)
+	{
+		for (LTIncident *inc in group.children)
+		{
+			if (![incidents containsObject:inc.metric])
+			{ [incidents addObject:inc.metric]; }
+			if (![seen containsObject:inc.metric])
+			{ [seen addObject:inc.metric]; }
+		}
+	}
+	if (seen.count < incidents.count)
+	{
+		NSMutableArray *obsolete = [NSMutableArray array];
+		for (LTEntity *entity in incidents)
+		{
+			if (![seen containsObject:entity])
+			{ [obsolete addObject:entity]; }
+		}
+		for (LTEntity *entity in obsolete)
+		{
+			[incidents removeObject:entity];
+		}
+	}
+	
+	NSLog (@"Incidents rebuilt as %@", incidents);
+				
+	[self.tableView reloadData];
+}
+
+- (void) favoritesRebuilt:(NSNotification *)note
+{
+	[self.tableView reloadData];
+}
+
+#pragma mark -
+#pragma mark SplitView Delegate
+
+- (void) splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
+{
+	barButtonItem.enabled = YES;
+	barButtonItem.title = @"Stuff";
+	self.navigationItem.leftBarButtonItem = barButtonItem;
+	sidePopoverController = pc;
+	sidePopoverBarButtonItem = barButtonItem;
+}
+
+- (void) splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+	self.navigationItem.leftBarButtonItem = nil;
+	sidePopoverController = nil;
+	sidePopoverBarButtonItem = nil;
+}
 
 @end
 

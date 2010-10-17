@@ -10,11 +10,13 @@
 
 #import "LTIconTableViewController.h"
 
-@interface LTSummaryTableViewController : LTIconTableViewController 
+@interface LTSummaryTableViewController : LTIconTableViewController <UISplitViewControllerDelegate>
 {
-	NSArray *incidents;
-	NSArray *favorites;
-	NSArray *devices;
+	NSMutableArray *devices;
+	NSMutableArray *incidents;
+	
+	UIPopoverController *sidePopoverController;
+	UIBarButtonItem *sidePopoverBarButtonItem;
 }
 
 

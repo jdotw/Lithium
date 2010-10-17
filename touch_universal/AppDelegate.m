@@ -128,7 +128,7 @@
 	[coreDeployments addObject:core];
 	[core refresh];
 	[self saveCoreDeployments];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"CoreDeploymentAdded" object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"CoreDeploymentAdded" object:core];
 }
 - (void) removeCore:(LTCoreDeployment *)core
 {
@@ -144,7 +144,7 @@
 @synthesize authViewController;
 @synthesize isActive;
 
-@synthesize favoritesController;
+@synthesize favoritesController, incidentsController;
 
 @synthesize pushToken;
 

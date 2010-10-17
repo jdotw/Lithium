@@ -26,5 +26,7 @@
 - (void) bindFavoritesFromDevice:(LTEntity *)device;
 - (void) rebuildDisplayFavorites;
 
+@property (nonatomic, retain) NSMutableArray *displayFavorites;
+
 
 @end
