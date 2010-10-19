@@ -370,7 +370,7 @@ double i_metric_valflt (i_metric *met, i_metric_value *val)
     /* Fetch current value */
     val = i_metric_curval (met);
     if (!val)
-    { return 0; }
+    { return 0.0; }
   }
 
   /* Create floating point representation */

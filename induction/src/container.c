@@ -118,7 +118,7 @@ int i_container_register_sqlselectcb (i_resource *self, i_pg_async_conn *conn, i
 
     /* Create query */
     cnt_esc = i_postgres_escape (cntname_str);
-    asprintf (&query, "CREATE TABLE %s_metrics (site varchar, device varchar, object varchar, metric varchar, mday int, month int, year int, valstr varchar, valnum numeric, tstamp integer)", cnt_esc);
+    asprintf (&query, "CREATE TABLE %s_metrics (record_id serial PRIMARY KEY, site varchar, device varchar, object varchar, metric varchar, mday int, month int, year int, valstr varchar, valnum numeric, tstamp integer)", cnt_esc);
     free (cnt_esc);
 
     /* Exec query */

@@ -18,7 +18,7 @@ DBFWPREFIX=/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumDatabase.
 CONFIGURE_PATHS="--prefix=$PREFIX --bindir=$PREFIX/Contents/MacOS --sbindir=$PREFIX/Contents/MacOS --libexecdir=$PREFIX/Contents/MacOS --datadir=$PREFIX/Resources --sysconfdir=/Library/Preferences/Lithium --sharedstatedir=$PREFIX/Resources --libdir=$FWPREFIX/Libraries --includedir=$FWPREFIX/Headers --oldincludedir=$FWPREFIX/Headers --infodir=$PREFIX/Resources --mandir=$PREFIX/Resources"
 
 CFLAGS="-gdwarf-2 -arch i386 -W -Wall -Wno-unused-parameter -Werror -Wno-format -DDEBUG" \
-CC="/Developer/usr/bin/clang" \
+CC="/Developer/usr/bin/distcc" \
 ./configure $CONFIGURE_PATHS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History' \
 --with-db-includes=$FWPREFIX/Headers --with-db-libs=$FWPREFIX/Libraries \
 --with-induction-includes=$FWPREFIX/Headers --with-induction-libs=$FWPREFIX/Libraries \

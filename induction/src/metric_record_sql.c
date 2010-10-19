@@ -50,6 +50,7 @@ void i_metric_record_sql_data_free (void *dataptr)
   if (data->tablestr) free (data->tablestr);
   if (data->metnamestr) free (data->metnamestr);
   if (data->objnamestr) free (data->objnamestr);
+  if (data->met_addr) i_entity_address_free(data->met_addr);
 
   free (data);
 }
@@ -127,6 +128,8 @@ int i_metric_record_sql (i_resource *self, i_metric *met)
   data->metnamestr = strdup (met->name_str);
   data->objnamestr = strdup (met->obj->name_str);
   data->tstamp_sec = time (NULL);
+  data->record_id = met->sql_record_id;
+  data->met_addr = i_entity_address_duplicate(ENT_ADDR(met));
   
   /* Create table str */
   asprintf (&data->tablestr, "%s_metrics", met->obj->cnt->name_str); 
@@ -189,10 +192,39 @@ int i_metric_record_sql (i_resource *self, i_metric *met)
       return -1;
   }
 
-  /* Create the 'UPDATE' query str */
-  asprintf (&query, "UPDATE %s SET valstr='%s', valnum='%.2f', tstamp='%li' WHERE site='%s' AND device='%s' AND object='%s' AND metric='%s' AND mday='%i' AND month='%i' AND year='%i'",
-    data->tablestr, data->valstr, data->valflt, data->tstamp_sec, self->hierarchy->site_id, self->hierarchy->device_id, met->obj->name_str, met->name_str, 
-    data->mday, data->month, data->year);
+  if (data->record_id == 0)
+  {
+    /* An existing record ID for the current row has not been found yet 
+     *
+     * THis is an expensive query and should only be done once to find the
+     * exiting record_id that matches the current reporting period
+     * mday/month/year
+     */
+
+    asprintf (&query, "SELECT record_id FROM %s WHERE site='%s' AND device='%s' AND object='%s' AND metric='%s' AND mday='%i' AND month='%i' AND year='%i'", data->tablestr, self->hierarchy->site_id, self->hierarchy->device_id, met->obj->name_str, met->name_str, data->mday, data->month, data->year);
+    i_debug ("metric_record_sql performing a SELECT using '%s'", query);
+  }
+  else if (met->sql_record_mday != data->mday || 
+    met->sql_record_month != data->month ||
+    met->sql_record_year != data->year ||
+    met->sql_record_id == -1)
+  {
+    /* There has been a change in mday/month/year recording period, 
+     * or an INSERT has been forced (record_id == -1) and hence
+     * a new row needs to be inserted for the record 
+     */
+    asprintf (&query, "INSERT INTO %s (site, device, object, metric, mday, month, year, valstr, valnum, tstamp) VALUES ('%s', '%s', '%s', '%s', '%i', '%i', '%i', '%s', '%.2f', '%li')", data->tablestr, self->hierarchy->site_id, self->hierarchy->device_id, met->obj->name_str, met->name_str, data->mday, data->month, data->year, data->valstr, data->valflt, data->tstamp_sec);
+    data->did_insert = 1;   /* Makes sure the updated record_id is captured */
+    i_debug ("metric_record_sql performing an INSERT using '%s'", query);
+  }
+  else
+  {
+    /* A record row exists and is valid, simply use an UPDATE */
+    asprintf (&query, "UPDATE %s SET valstr='%s', valnum='%.2f', tstamp='%li' WHERE record_id='%i'",
+      data->tablestr, data->valstr, data->valflt, data->tstamp_sec, data->record_id);
+    i_debug ("metric_record_sql performing an UPDATE using '%s'", query);
+    data->did_insert = 0;
+  }
 
   /* Open database connection */
   conn = i_pg_async_conn_open_customer (self);
@@ -206,7 +238,7 @@ int i_metric_record_sql (i_resource *self, i_metric *met)
   }
   
   /* Execute the update */
-  num = i_pg_async_query_exec (self, conn, query, 0, i_metric_record_sql_updatecb, data);
+  num = i_pg_async_query_exec (self, conn, query, 0, i_metric_record_sqlcb, data);
   free (query);
   if (num != 0)
   {
@@ -221,63 +253,56 @@ int i_metric_record_sql (i_resource *self, i_metric *met)
   return 0;
 }
 
-int i_metric_record_sql_updatecb (i_resource *self, i_pg_async_conn *conn, int operation, PGresult *result, void *passdata)
+int i_metric_record_sqlcb (i_resource *self, i_pg_async_conn *conn, int operation, PGresult *result, void *passdata)
 {
-  int num;
-  char *cmdtuples;
   i_metric_record_sql_data *data = passdata;
+  i_metric *met = (i_metric *) i_entity_local_get(self, data->met_addr);
 
-  /* Check how many rows were affected */
-  if (result) 
-  { cmdtuples = PQcmdTuples (result); }
-  else 
-  { cmdtuples = NULL; }
-  if (!cmdtuples || atoi(cmdtuples) == 0)
+  if (data->record_id == 0)
   {
-    /* No rows affected, perform the INSERT query for 
-     * this value. This is necessary when this value is
-     * the first entry for a given period.
+    /* No record_id is known, this must be the SELECT call done 
+     * to try and find the existing row for this metric at this time
      */
-    char *query;
-
-    /* Create INSERT query str */
-    asprintf (&query, "INSERT INTO %s (site, device, object, metric, mday, month, year, valstr, valnum, tstamp) VALUES ('%s', '%s', '%s', '%s', '%i', '%i', '%i', '%s', '%.2f', '%li')",
-      data->tablestr, self->hierarchy->site_id, self->hierarchy->device_id, data->objnamestr, data->metnamestr,
-      data->mday, data->month, data->year, data->valstr, data->valflt, data->tstamp_sec);
-
-    /* Execute the INSERT query */
-    num = i_pg_async_query_exec (self, conn, query, 0, i_metric_record_sql_insertcb, data);
-    free (query);
-    if (num != 0)
+    if (result && PQresultStatus(result) == PGRES_TUPLES_OK && (PQntuples(result)) > 0)
     {
-      i_printf (1, "i_metric_record_sql_updatecb failed to execute INSERT query for %s %s",
-        i_entity_typestr(data->ent_type), data->metnamestr);
-      i_metric_record_sql_data_free (data);
-      free (query);
-      i_pg_async_conn_close (conn);
-      return -1;
+      /* An existing and current row was found, use it. */
+      char *id_str = PQgetvalue(result, 0, 0);
+      if (met) met->sql_record_id = atol(id_str);
+      if (met) i_debug ("i_metric_record_sqlcb got sql_record_id as %i", met->sql_record_id);
+    }
+    else
+    {
+      /* No ID was found, set the sql_record_id to -1 to force an INSERT */
+      if (met) met->sql_record_id = -1;
+      i_debug ("i_metric_record_sqlcb forcing an INSERT");
     }
   }
-  else
+  else if (data->did_insert == 1)
   {
-    /* Update was successful */
-    i_pg_async_conn_close (conn);
-    i_metric_record_sql_data_free (data);
+    /* An INSERT was performed, so the new record_id needs to be captured */
+    PGconn *pgsync = i_pg_connect_customer(self);
+    if (pgsync)
+    {
+      PGresult *syncres = PQexec (pgsync, "SELECT lastval()");
+      if (syncres && PQresultStatus(syncres) == PGRES_TUPLES_OK && (PQntuples(syncres)) > 0)
+      {
+        char *id_str = PQgetvalue(syncres, 0, 0);
+        if (met) met->sql_record_id = atol(id_str);
+      }
+      PQclear(syncres);
+    }
+    i_pg_close(pgsync);
   }
 
-  return 0;
-}
-
-int i_metric_record_sql_insertcb (i_resource *self, i_pg_async_conn *conn, int operation, PGresult *result, void *passdata)
-{
-  i_metric_record_sql_data *data = passdata;
-
-  if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
+  /* Update the sql_record_mday/month/year values to current */
+  if (met)
   {
-    i_printf (1, "i_metric_record_sql_insertcb failed to execute INSERT query for %s %s",
-      i_entity_typestr(data->ent_type), data->metnamestr);
+    met->sql_record_mday = data->mday;
+    met->sql_record_month = data->month;
+    met->sql_record_year = data->year;
   }
 
+  /* Cleanup */  
   i_pg_async_conn_close (conn);
   i_metric_record_sql_data_free (data);
 

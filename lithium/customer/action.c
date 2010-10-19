@@ -63,11 +63,6 @@ int l_action_enable (i_resource *self)
     pgres = PQexec (pgconn, "CREATE TABLE action_entities (id serial, action integer, type integer, site_name varchar, site_desc varchar, site_suburb varchar, dev_name varchar, dev_desc varchar, cnt_name varchar, cnt_desc varchar, obj_name varchar, obj_desc varchar, met_name varchar, met_desc varchar, trg_name varchar, trg_desc varchar)");
     if (!pgres || PQresultStatus(pgres) != PGRES_COMMAND_OK)
     { i_printf (1, "l_action_enable failed to create entities table (%s)", PQresultErrorMessage (pgres)); }
-
-    /* Create Dummy Record FIX: Not sure why this is needed.... but it is. */
-    pgres = PQexec (pgconn, "INSERT INTO action_entities (action) VALUES ('0')");
-    if (!pgres || PQresultStatus(pgres) != PGRES_COMMAND_OK)
-    { i_printf (1, "l_action_enable failed to insert dummy action_entities record (%s)", PQresultErrorMessage (pgres)); }
   }
   PQclear (pgres);
 

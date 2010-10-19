@@ -55,7 +55,7 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
     strcmp(obj->desc_str, "/net") == 0 || 
     strcmp(obj->desc_str, "/home") == 0 || 
     strcmp(obj->desc_str, "/.vol") == 0 || 
-    strcmp(obj->desc_str, "/Network") == 0 || 
+    strstr(obj->desc_str, "/Network/") || 
     strstr(obj->desc_str, "/automount/") ||
     strstr(obj->desc_str, "Swap Space") ||
     strstr(obj->desc_str, "Memory") || 

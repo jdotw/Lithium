@@ -139,6 +139,12 @@ typedef struct i_metric_s
   /* Incident */
   struct i_incident_s *op_inc;          /* Operational state incident */
 
+  /* SQL Recording */
+  int sql_record_id;                    /* The record ID of the current row for SQL recording */
+  int sql_record_mday;                  /* The mday of the last SQL record operation -- i.e the current row id */
+  int sql_record_month;                 /* The month of the last SQL record operation */
+  int sql_record_year;                  /* The year of the last SQL record operation */
+
 } i_metric;
 
 typedef struct i_metric_value_s
@@ -262,13 +268,15 @@ typedef struct i_metric_record_sql_data_s
   char *tablestr;
   char *metnamestr;
   char *objnamestr;
+  int record_id;              /* The current SQL record_id of the row being used to record this metric */
+  int did_insert;             /* 1 = INSERT query used */
+  struct i_entity_address_s *met_addr;
 } i_metric_record_sql_data;
 
 i_metric_record_sql_data* i_metric_record_sql_data_create ();
 void i_metric_record_sql_data_free (void *dataptr);
 int i_metric_record_sql (i_resource *self, i_metric *met);
-int i_metric_record_sql_updatecb ();
-int i_metric_record_sql_insertcb ();
+int i_metric_record_sqlcb ();
 
 /* metric_load.c */
 struct i_callback_s* i_metric_load (i_resource *self, struct i_metric_s *met, unsigned short period, time_t ref_sec, int (*cbfunc) (), void *passdata);

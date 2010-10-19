@@ -89,7 +89,9 @@ i_callback* l_action_sql_load_candidates (i_resource *self, i_incident *inc, int
   else if (now_tm->tm_wday == 6) daymask = 32;
 
   /* Create query */
-  asprintf (&query, "SELECT actions.id, actions.descr, actions.enabled, actions.activation, actions.delay, actions.rerun, actions.rerundelay, actions.timefilter, actions.daymask, actions.starthour, actions.endhour, actions.script, actions.log_output, sum(CASE WHEN action_entities.action=actions.id THEN 1 ELSE 0 END) AS entities FROM actions, action_entities WHERE enabled='1' AND (daymask & %i) > 0 AND (timefilter='0' OR (starthour >= %i AND endhour < %i)) GROUP BY actions.id, actions.descr, actions.enabled, actions.activation, actions.delay, actions.rerun, actions.rerundelay, actions.timefilter, actions.daymask, actions.starthour, actions.endhour, actions.script, actions.log_output", daymask, now_tm->tm_hour, now_tm->tm_hour);
+  //  asprintf (&query, "SELECT actions.id, actions.descr, actions.enabled, actions.activation, actions.delay, actions.rerun, actions.rerundelay, actions.timefilter, actions.daymask, actions.starthour, actions.endhour, actions.script, actions.log_output, sum(CASE WHEN action_entities.action=actions.id THEN 1 ELSE 0 END) AS entities FROM actions, action_entities WHERE enabled='1' AND (daymask & %i) > 0 AND (timefilter='0' OR (starthour >= %i AND endhour < %i)) GROUP BY actions.id, actions.descr, actions.enabled, actions.activation, actions.delay, actions.rerun, actions.rerundelay, actions.timefilter, actions.daymask, actions.starthour, actions.endhour, actions.script, actions.log_output", daymask, now_tm->tm_hour, now_tm->tm_hour); OLD Way -- Buggy use of GROUP BY
+
+  asprintf (&query, "SELECT id, descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script, log_output, (SELECT count(*) FROM action_entities WHERE action_entities.action=actions.id) AS entities FROM actions WHERE enabled='1' AND (daymask & %i) > 0 AND (timefilter='0' OR (starthour >= %i AND endhour < %i))", daymask, now_tm->tm_hour, now_tm->tm_hour);
 
   /* Create incident/entity match string 
    *
