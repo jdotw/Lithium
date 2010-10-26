@@ -530,7 +530,7 @@ int i_resource_local_restart (i_resource *self, i_hashtable *res_table, i_resour
 
   if (!self || !res) return -1;
   
-  i_printf (1, "i_resource_local_restart res->fast_restart_count is %i", res->fast_restart_count);
+  i_printf (1, "i_resource_local_restart res->fast_restart_count for %i:%i:%s is %i", res->type, res->ident_int, res->ident_str, res->fast_restart_count);
 
   /* Check for a fast-restart condition */
   
@@ -564,7 +564,7 @@ int i_resource_local_restart (i_resource *self, i_hashtable *res_table, i_resour
 
   gettimeofday (&now, NULL);
 
-  i_printf (1, "i_resource_local_restart i_time_diff_seconds between restarts is %i", i_time_diff_seconds(&now, &res->spawn_time));
+  i_printf (1, "i_resource_local_restart i_time_diff_seconds between restarts for %i:%i:%s is %i", res->type, res->ident_int, res->ident_str, i_time_diff_seconds(&now, &res->spawn_time));
 
   if ((i_time_diff_seconds(&now, &res->spawn_time)) < RES_FAST_RESTART_SECONDS)		/* Is this a fast restart */
     res->fast_restart_count++;

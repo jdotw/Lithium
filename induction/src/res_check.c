@@ -45,7 +45,10 @@ void i_resource_local_waiting_check_single (i_resource *self, i_hashtable *res_t
   gettimeofday (&now, NULL);
 
   if ((now.tv_sec - res->spawn_time.tv_sec) > RES_WAITING_REGISTER_TIMEOUT_SEC)
+  {
+    i_printf (0, "i_resource_local_waiting_check_single restarting %i:%i:%s due to register timeout being exceeded", res->type, res->ident_int, res->ident_str);
     i_resource_local_restart (self, res_table, res);
+  }
 }
 
 void i_resource_local_check_single (i_resource *self, i_hashtable *res_table, i_resource *res)

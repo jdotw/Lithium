@@ -377,6 +377,8 @@ int i_entity_xmlsync_enable (i_resource *self, i_entity *entity, time_t refresh_
 int i_entity_xmlsync_disable (i_resource *self, i_entity *entity)
 {
   i_timer_remove (entity->xmlsync_timer);
+  entity->xmlsync_timer = NULL;
+   entity->xmlsync_delegate = NULL;
   return 0;
 }
 

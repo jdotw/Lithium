@@ -67,9 +67,6 @@ i_device* l_device_add (i_resource *self, i_site *site, char *name_str, char *de
   if (num != 0)
   { i_printf (1, "l_device_add failed to register entity for device %s", dev->name_str); i_entity_free (ENTITY(dev)); return NULL; }
 
-  /* Enable XML Sync */
-  i_entity_xmlsync_enable (self, ENTITY(dev), dev->refresh_interval / 2, NULL);
-
   /* License */
   dev->licensed = l_lic_take (self, ENTITY(dev));
 
@@ -442,8 +439,6 @@ int l_device_loadall_timercb (i_resource *self, i_timer *timer, void *passdata)
     return 0;
   }
   
-  /* Enable XML Sync */
-  i_entity_xmlsync_enable (self, ENTITY(dev), dev->refresh_interval / 2, NULL);
 
   /* (Re)start device resource */
   num = l_device_res_restart (self, dev);
