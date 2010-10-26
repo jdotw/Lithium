@@ -28,3 +28,11 @@ libtool
 *.la
 stamp-h1
 .*.swp
+induction/src/bdb.h
+induction/src/build_config.h
+induction/src/stamp-h[0-9]*
+induction/src/version.h
+lithium/device/snmp.h
+lithium/device/stamp-h[0-9]*
+lithium/include/lithium.h
+lithium/include/stamp-h[0-9]*

@@ -202,7 +202,6 @@ int i_metric_record_sql (i_resource *self, i_metric *met)
      */
 
     asprintf (&query, "SELECT record_id FROM %s WHERE site='%s' AND device='%s' AND object='%s' AND metric='%s' AND mday='%i' AND month='%i' AND year='%i'", data->tablestr, self->hierarchy->site_id, self->hierarchy->device_id, met->obj->name_str, met->name_str, data->mday, data->month, data->year);
-    i_debug ("metric_record_sql performing a SELECT using '%s'", query);
   }
   else if (met->sql_record_mday != data->mday || 
     met->sql_record_month != data->month ||
@@ -215,14 +214,12 @@ int i_metric_record_sql (i_resource *self, i_metric *met)
      */
     asprintf (&query, "INSERT INTO %s (site, device, object, metric, mday, month, year, valstr, valnum, tstamp) VALUES ('%s', '%s', '%s', '%s', '%i', '%i', '%i', '%s', '%.2f', '%li')", data->tablestr, self->hierarchy->site_id, self->hierarchy->device_id, met->obj->name_str, met->name_str, data->mday, data->month, data->year, data->valstr, data->valflt, data->tstamp_sec);
     data->did_insert = 1;   /* Makes sure the updated record_id is captured */
-    i_debug ("metric_record_sql performing an INSERT using '%s'", query);
   }
   else
   {
     /* A record row exists and is valid, simply use an UPDATE */
     asprintf (&query, "UPDATE %s SET valstr='%s', valnum='%.2f', tstamp='%li' WHERE record_id='%i'",
       data->tablestr, data->valstr, data->valflt, data->tstamp_sec, data->record_id);
-    i_debug ("metric_record_sql performing an UPDATE using '%s'", query);
     data->did_insert = 0;
   }
 
@@ -268,13 +265,11 @@ int i_metric_record_sqlcb (i_resource *self, i_pg_async_conn *conn, int operatio
       /* An existing and current row was found, use it. */
       char *id_str = PQgetvalue(result, 0, 0);
       if (met) met->sql_record_id = atol(id_str);
-      if (met) i_debug ("i_metric_record_sqlcb got sql_record_id as %i", met->sql_record_id);
     }
     else
     {
       /* No ID was found, set the sql_record_id to -1 to force an INSERT */
       if (met) met->sql_record_id = -1;
-      i_debug ("i_metric_record_sqlcb forcing an INSERT");
     }
   }
   else if (data->did_insert == 1)
