@@ -131,6 +131,12 @@ int i_container_register_sqlselectcb (i_resource *self, i_pg_async_conn *conn, i
       free (cntname_str);
       return -1;
     }
+
+    /* Create index */
+    asprintf (&query, "CREATE INDEX %s_metrics_select_idx ON %s_metrics (site, device, object, metric, mday, month, year)", cntname_str, cntname_str);
+    num = i_pg_async_query_exec (self, conn, query, 0, i_container_register_sqlcreatecb, cntname_str);
+    free (query);
+    if (num != 0) i_printf (1, "i_container_register_sqlselectcb warning, failed to create INDEX on table %s_metrics", cntname_str);
   }
   else
   {
