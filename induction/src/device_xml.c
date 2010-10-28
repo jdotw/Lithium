@@ -98,6 +98,9 @@ void i_device_xml (i_entity *ent, xmlNodePtr ent_node)
   asprintf (&str, "%i", dev->mark);
   xmlNewChild (ent_node, NULL, BAD_CAST "mark", BAD_CAST str);
   free (str);
+  asprintf (&str, "%i", dev->minimum_action_severity);
+  xmlNewChild (ent_node, NULL, BAD_CAST "minimum_action_severity", BAD_CAST str);
+  free (str);
 
   /* Refresh info */
   if (global_self->type == RES_DEVICE)

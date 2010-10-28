@@ -196,8 +196,7 @@ int i_resource_local_incoming_write_callback (i_resource *self, i_socket *sock, 
 
   if (self->type != RES_CLIENT_HANDLER_CORE)
   {
-    i_printf (2, "i_resource_local_incoming_write_callback successfully attached resource %i:%i:%s", 
-      cbdata->res->type, cbdata->res->ident_int, cbdata->res->ident_str);
+    i_printf (1, "i_resource_local_incoming_write_callback successfully attached resource %i:%i:%s in %li seconds", cbdata->res->type, cbdata->res->ident_int, cbdata->res->ident_str, cbdata->res->life_sign.tv_sec - cbdata->res->spawn_time.tv_sec);
   }
 
   if (cbdata->callback_func)

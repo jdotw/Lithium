@@ -74,7 +74,6 @@ int module_entry (i_resource *self)
   char *sock_path;
   char *str;
   i_hashtable *res_table;
-  i_timer *timer;
 
   i_printf (0, "module_entry entered");
 
@@ -95,8 +94,9 @@ int module_entry (i_resource *self)
   global_res_table = res_table;
   i_hashtable_set_destructor (res_table, i_resource_free);
 
-  timer = i_timer_add (self, RES_CHECK_INTERVAL_SEC, 0, i_resource_local_check_all, res_table);
-  if (!timer) { i_printf (1, "module_entry unable to add resource check timer"); return -1; }
+//  i_timer *timer;
+//  timer = i_timer_add (self, RES_CHECK_INTERVAL_SEC, 0, i_resource_local_check_all, res_table);
+//  if (!timer) { i_printf (1, "module_entry unable to add resource check timer"); return -1; }
 
   /* Create the core listener socket */
   sock_path = i_path_socket("lithium", "core");

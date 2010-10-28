@@ -306,7 +306,7 @@ int i_entity_xmlsync_xmlcb (i_resource *self, i_xml *xml, int result, void *pass
     struct timeval tv_end;
     gettimeofday (&tv_end, NULL);
     static_xmlsync_rssmem = static_xmlsync_rssmem + (rss_end - rss_start);
-    if (self->perflog) i_printf (0, "PERF: i_entity_xmlsync_xmlcb after parse of XML from %i:%s(%s) took %i seconds RSS usage increased %.2fKbytes (total now %.0fkB / %.0fkB = %.1f%%)", 
+    i_debug ("PERF: i_entity_xmlsync_xmlcb after parse of XML from %i:%s(%s) took %i seconds RSS usage increased %.2fKbytes (total now %.0fkB / %.0fkB = %.1f%%)", 
       entity->ent_type, entity->name_str, entity->desc_str, 
       tv_end.tv_sec - tv_start.tv_sec, rss_end - rss_start,
       static_xmlsync_rssmem, rss_end, (static_xmlsync_rssmem / rss_end) * 100.0);

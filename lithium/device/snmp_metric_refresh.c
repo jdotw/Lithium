@@ -99,7 +99,7 @@ int l_snmp_metric_refresh (i_resource *self, i_metric *met, int opcode)
       data->session = l_snmp_session_open_device (self, met->obj->cnt->dev);
       if (!data || !data->session)
       { 
-        i_printf (1, "l_snmp_metric_refresh failed to open SNMP session to %s for %s %s",
+        i_printf (2, "l_snmp_metric_refresh failed to open SNMP session to %s for %s %s",
           met->obj->cnt->dev->name_str, i_entity_typestr (met->ent_type), met->name_str);
         return -1;
       }

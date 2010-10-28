@@ -106,6 +106,7 @@ typedef struct i_device_s
   int nagios;
   int lom;
   int xsan;
+  int minimum_action_severity;                  /* The minimum incident severeity for which an action should be fired */
 
   /* Licensed */
   int licensed;                                 /* 0=Not-Licensed / 1=Licensed */

@@ -44,7 +44,7 @@ int l_device_res_restart (i_resource *self, i_device *dev)
   }
 
   /* Disable entity sync */
-  i_entity_xmlsync_disable(self, ENTITY(dev));
+//  i_entity_xmlsync_disable(self, ENTITY(dev));
 
   /* Destroy existing resource */
   l_device_res_destroy (self, dev);
@@ -97,11 +97,11 @@ int l_device_res_restart_spawncb (i_resource *self, i_resource_address *addr, vo
     dev->resaddr = i_resource_address_duplicate (addr);
 
     /* Log */
-    i_printf (2, "l_device_res_restart_spawncb device resource %s online at %s:%s:%i:%i:%s",
+    i_printf (1, "l_device_res_restart_spawncb device resource %s online at %s:%s:%i:%i:%s",
       dev->name_str, addr->plexus, addr->node, addr->type, addr->ident_int, addr->ident_str);
     
     /* Enable XML Sync */
-    i_entity_xmlsync_enable (self, ENTITY(dev), dev->refresh_interval, NULL);
+//    i_entity_xmlsync_enable (self, ENTITY(dev), dev->refresh_interval, NULL);
   }
   else if (dev && !addr)
   {

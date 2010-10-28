@@ -20,5 +20,5 @@
 #define CORE_SOCKET_SWAP listener = self->core_socket; self->core_socket = hub_controller->core_socket;
 #define CORE_SOCKET_SWAP_BACK self->core_socket = listener;
 
-#define RES_CHECK_INTERVAL_SEC 1
+#define RES_CHECK_INTERVAL_SEC 60
         

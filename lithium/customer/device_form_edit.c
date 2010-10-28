@@ -285,7 +285,7 @@ int form_device_edit_submit (i_resource *self, i_form_reqdata *reqdata)
       i_form_frame_start (reqdata->form_out, "device_edit", "Add New Device");
 
       /* Create device */
-      device = l_device_add (self, site, (char *) name_opt->data, (char *) desc_opt->data, (char *) ip_opt->data, (char *) lom_ip_opt->data, 1, (char *) snmpcomm_opt->data, NULL, NULL, 0, 0, (char *) username_opt->data, (char *) password_opt->data, (char *) lom_username_opt->data, (char *) lom_password_opt->data, (char *) vendor_opt->data, (char *) profile_opt->data, refresh_interval, 0, 0, 0, 0, 0, 0, 0);
+      device = l_device_add (self, site, (char *) name_opt->data, (char *) desc_opt->data, (char *) ip_opt->data, (char *) lom_ip_opt->data, 1, (char *) snmpcomm_opt->data, NULL, NULL, 0, 0, (char *) username_opt->data, (char *) password_opt->data, (char *) lom_username_opt->data, (char *) lom_password_opt->data, (char *) vendor_opt->data, (char *) profile_opt->data, refresh_interval, 0, 0, 0, 0, 0, 0, 0, 1);
       if (device)
       { i_form_string_add (reqdata->form_out, "msg", "Success", "Successfully added device"); }
       else

@@ -115,7 +115,6 @@ int l_snmp_sysinfo_descr_refcb (i_resource *self, i_entity *ent, void *passdata)
     i_container *storage_cnt = l_snmp_storage_cnt ();
     if (storage_cnt)
     {
-      i_printf (0, "l_snmp_sysinfo_descr_refcb enabling l_snmp_storage_objfact now that sysDescr is known");
       l_snmp_objfact *storage_objfact = l_snmp_storage_objfact();
       if (storage_objfact && storage_objfact->started == 0)
       { l_snmp_objfact_start (self, storage_objfact); }

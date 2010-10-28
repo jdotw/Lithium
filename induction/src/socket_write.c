@@ -44,6 +44,7 @@ i_socket_data* i_socket_write (i_resource *self, i_socket *sock, void *data, int
   op->offset = 0;
   op->callback_func = callback_func;
   op->passdata = passdata;
+  gettimeofday(&op->queued_tstamp, NULL);
 
   /* Install write callback is necessary */
 
@@ -97,14 +98,16 @@ int i_socket_write_socket_callback (i_resource *self, i_socket *sock, void *pass
    */
 
   int num;
-  int count;
-  i_socket_data *op;
-  struct timeval timeout;
-  fd_set fdset;
-  
-  i_list_move_head (sock->write_pending);
 
-  op = i_list_restore (sock->write_pending);
+  /*
+   * Though this looks ineffient, the write-one-op-at-a-time
+   * is done because after performing the write and calling the
+   * callback, we don't know if the socket actually still exists
+   */
+
+  /* De-queue write op */
+  i_list_move_head (sock->write_pending);
+  i_socket_data *op = i_list_restore (sock->write_pending);
   if (!op)
   { 
     i_printf (1, "i_socket_write_socket_callback failed to restore first pending write operation"); 
@@ -115,25 +118,8 @@ int i_socket_write_socket_callback (i_resource *self, i_socket *sock, void *pass
     return -1;
   }
 
-  /* Call select to make sure there really is
-   * something to read. This is done to ensure that 
-   * this function hasnt been called prematurely.
-   */
-
-  FD_ZERO (&fdset);
-  FD_SET (sock->sockfd, &fdset);
-  timeout.tv_sec = 0;
-  timeout.tv_usec = 0;
-  num = select (sock->sockfd+1, NULL, &fdset, NULL, &timeout);
-  if (num < 1)
-  {
-    /* This function was called prematurely */
-    return 0;
-  }
-
   /* Attempt to write */
-
-  count = write (sock->sockfd, op->data + op->offset, op->datasize - op->offset);
+  int count = write (sock->sockfd, op->data + op->offset, op->datasize - op->offset);
   if (count > 0)
   {
     /* Some (if not all) data sent */
@@ -143,6 +129,9 @@ int i_socket_write_socket_callback (i_resource *self, i_socket *sock, void *pass
       /* Write operation complete */
       int ret_val;
       i_socket_data *dup_op;
+      struct timeval now;
+
+      gettimeofday(&now, NULL);
 
       dup_op = i_socket_data_duplicate (op);
       num = i_list_search (sock->write_pending, op);
@@ -171,6 +160,7 @@ int i_socket_write_socket_callback (i_resource *self, i_socket *sock, void *pass
 
       return ret_val;
     }
+
   }
   else if (count == -1)    
   {
