@@ -34,6 +34,15 @@ int module_init (i_resource *self)
   if (num != 0)
   { i_printf (1, "module_init failed to initialise rrd"); return -1; }
 
+#if (defined (__i386__) || defined( __x86_64__ ))
+  /* Fork to start rrdcached */
+  pid_t child = fork ();
+  if (child == 0)
+  {
+    execl("/Library/Lithium/LithiumCore.app/Contents/MacOS/lcrrdcached", "lcrrdcached", "-g", "-l", "/var/tmp/.lcrrdcached.sock", "-p", "/var/tmp/.lcrrdcached.pid", NULL);
+  }
+#endif
+
   /* Create socket */
   sock = i_socket_create ();
   sock->sockfd = socket(AF_INET, SOCK_DGRAM, 0);

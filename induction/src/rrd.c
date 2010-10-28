@@ -107,8 +107,12 @@ i_rrdtool_cmd* i_rrd_update (i_resource *self, int priority, char *filename, cha
 {
   int num;
   char *command_str;
-
-  asprintf (&command_str, "update '%s' %s\n", filename, arg_str);
+#if (defined (__i386__) || defined( __x86_64__ ))
+  char *daemon_str = "--daemon /var/tmp/.lcrrdcached.sock";
+#else
+  char *daemon_str = "";
+#endif
+  asprintf (&command_str, "update '%s' %s %s\n", filename, daemon_str, arg_str);
 
   size_t data_len = strlen(command_str) + 1 + sizeof(uint32_t);
   char *data = (char *) malloc (data_len);
@@ -126,7 +130,7 @@ i_rrdtool_cmd* i_rrd_update (i_resource *self, int priority, char *filename, cha
   if (num < (int) strlen(command_str))
   { i_printf (0, "i_rrd_update failed to send whole update packet to MARS. Sent %i bytes of %i", num, strlen(command_str)); }
   free (command_str);
-  
+
   return NULL;
 }
 
@@ -139,6 +143,11 @@ i_rrdtool_cmd* i_rrd_graph (i_resource *self, char *filename, time_t start_sec, 
   char *title_str;
   char *font_str;
   i_rrdtool_cmd *cmd;
+#if (defined (__i386__) || defined( __x86_64__ ))
+  char *daemon_str = "--daemon /var/tmp/.lcrrdcached.sock";
+#else
+  char *daemon_str = "";
+#endif
                   
   /* Time Strings */
 
@@ -169,7 +178,7 @@ i_rrdtool_cmd* i_rrd_graph (i_resource *self, char *filename, time_t start_sec, 
   /* Font */
   font_str = strdup ("");
 
-  asprintf (&command_str, "graph '%s' -a PNG -E -c FONT#010101FF -c CANVAS#FFFFFF00 -c BACK#F6F6F600 -c SHADEA#F6F6F600 -c SHADEB#F6F6F600 -b %u %s %s %s %s %s %s", filename, kbase, start_str, end_str, title_str, y_label_str, font_str, arg_str);
+  asprintf (&command_str, "graph '%s' %s -a PNG -E -c FONT#010101FF -c CANVAS#FFFFFF00 -c BACK#F6F6F600 -c SHADEA#F6F6F600 -c SHADEB#F6F6F600 -b %u %s %s %s %s %s %s", filename, daemon_str, kbase, start_str, end_str, title_str, y_label_str, font_str, arg_str);
 
   free (start_str);
   free (end_str);
@@ -202,6 +211,11 @@ i_rrdtool_cmd* i_rrd_xmlgraph (i_resource *self, char *imagepath, time_t start_s
   char *y_label_str;
   char *font_str;
   i_rrdtool_cmd *cmd;
+#if (defined (__i386__) || defined( __x86_64__ ))
+  char *daemon_str = "--daemon /var/tmp/.lcrrdcached.sock";
+#else
+  char *daemon_str = "";
+#endif
 
   /* Time Strings */
 
@@ -225,7 +239,7 @@ i_rrdtool_cmd* i_rrd_xmlgraph (i_resource *self, char *imagepath, time_t start_s
   font_str = strdup ("");
   
   /* Create command string */
-  asprintf (&command_str, "graphv '%s' -E --only-graph --full-size-mode -g --font DEFAULT:8:Arial -c FONT#010101FF -c CANVAS#00000000 -c BACK#00000000 -c SHADEA#00000000 -c SHADEB#00000000 -b %u %s %s %s %s", imagepath, kbase, start_str, end_str, y_label_str, args);
+  asprintf (&command_str, "graphv '%s' %s -E --only-graph --full-size-mode -g --font DEFAULT:8:Arial -c FONT#010101FF -c CANVAS#00000000 -c BACK#00000000 -c SHADEA#00000000 -c SHADEB#00000000 -b %u %s %s %s %s", imagepath, daemon_str, kbase, start_str, end_str, y_label_str, args);
   free (start_str);
   free (end_str);
   free (y_label_str);
@@ -247,6 +261,11 @@ i_rrdtool_cmd* i_rrd_xport (i_resource *self, time_t start_sec, time_t end_sec, 
   char *end_str;
   char *command_str;
   i_rrdtool_cmd *cmd;
+#if (defined (__i386__) || defined( __x86_64__ ))
+  char *daemon_str = "--daemon /var/tmp/.lcrrdcached.sock";
+#else
+  char *daemon_str = "";
+#endif
 
   /* Time Strings */
   if (start_sec > 0)
@@ -259,7 +278,7 @@ i_rrdtool_cmd* i_rrd_xport (i_resource *self, time_t start_sec, time_t end_sec, 
   { end_str = strdup (""); }
 
   /* Create command string */
-  asprintf (&command_str, "xport %s %s DEF:default_min='%s':default:MIN DEF:default_avg='%s':default:AVERAGE DEF:default_max='%s':default:MAX XPORT:default_min:Minimum XPORT:default_avg:Average XPORT:default_max:Maximum", start_str, end_str, rrdfullpath, rrdfullpath, rrdfullpath);
+  asprintf (&command_str, "xport %s %s %s DEF:default_min='%s':default:MIN DEF:default_avg='%s':default:AVERAGE DEF:default_max='%s':default:MAX XPORT:default_min:Minimum XPORT:default_avg:Average XPORT:default_max:Maximum", start_str, end_str, daemon_str, rrdfullpath, rrdfullpath, rrdfullpath);
   free (start_str);
   free (end_str);
 
