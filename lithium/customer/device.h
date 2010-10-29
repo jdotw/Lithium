@@ -2,7 +2,7 @@
 
 #define DEVICE_MODULE "device.so"
 
-struct i_device_s* l_device_add (i_resource *self, struct i_site_s *site, char *name_str, char *desc_str, char *ip_str, char *lom_ip_str, int snmpversion, char *snmpcomm_str, char *snmpauthpass_str, char *snmpprivpass_str, int snmpauthmethod, int snmpprivenc, char *username_str, char *password_str, char *lom_username_str, char *lom_password_str, char *vendor_str, char *profile_str, long refresh_interval, int protocol, int icmp, int lithiumsnmp, int swrun, int nagios, int lom, int xsan);
+struct i_device_s* l_device_add (i_resource *self, struct i_site_s *site, char *name_str, char *desc_str, char *ip_str, char *lom_ip_str, int snmpversion, char *snmpcomm_str, char *snmpauthpass_str, char *snmpprivpass_str, int snmpauthmethod, int snmpprivenc, char *username_str, char *password_str, char *lom_username_str, char *lom_password_str, char *vendor_str, char *profile_str, long refresh_interval, int protocol, int icmp, int lithiumsnmp, int swrun, int nagios, int lom, int xsan, int min_action_sev);
 int l_device_update (i_resource *self, struct i_device_s *dev);
 int l_device_remove (i_resource *self, struct i_device_s *dev);
 int l_device_sqlcb ();

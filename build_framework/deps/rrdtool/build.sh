@@ -12,6 +12,7 @@ if [ -e "cache/lcrrdtool" ]; then
   mkdir -p $LITHIUMPATH
   cp cache/lcrrdtool $LITHIUMPATH/lcrrdtool
   cp cache/lcrrdupdate $LITHIUMPATH/lcrrdupdate
+  cp cache/lcrrdcached $LITHIUMPATH/lcrrdcached
   echo "[OK] Used cached LCRRDtool Build"
   exit 0
 fi

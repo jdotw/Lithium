@@ -57,6 +57,8 @@ typedef struct i_socket_data_s
 
   int (*callback_func) ();          /* Callback */
   void *passdata;                   /* Callback data */
+
+  struct timeval queued_tstamp;            /* The time the write op was queued */
 } i_socket_data;
 
 /* socket.c */

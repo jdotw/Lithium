@@ -128,7 +128,20 @@ int m_rrd_proc_sockcb (i_resource *self, i_socket *sock, void *passdata)
     if (strstr(line, "ERROR"))
     {
       if (!strstr(line, "illegal attempt to update using time"))
-      { i_printf (1, "m_rrd_proc_sockcb rrdtool error response: %s", line); }
+      {
+        if (strstr(line, "Unable to connect to rrdcached"))
+        {
+          /* Cached is not responding, terminate ourselves in an attempt to
+           * restart it 
+           * */
+          i_printf(1, "m_rrd_proc_sockcb rrdcachd has become unreachable, terminating");
+          exit(1);
+        }
+        else
+        {
+          i_printf (1, "m_rrd_proc_sockcb rrdtool error response: %s", line); 
+        }
+      }
     }
     
     /* Return process to the free proc list */

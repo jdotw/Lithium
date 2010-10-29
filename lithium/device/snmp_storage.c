@@ -116,8 +116,6 @@ int l_snmp_storage_enable (i_resource *self)
     return -1; 
     }
   }
-  else
-  { i_printf (0, "l_snmp_storage_enable delaying start of object factory until sysinfo is populated"); }
 
   return 0;  
 }

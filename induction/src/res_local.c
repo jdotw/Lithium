@@ -265,6 +265,8 @@ int i_resource_local_spawn (i_resource *self, i_resource *res)
     return -1;
   }
 
+  i_printf (0, "i_resource_local_spawn spawned resource for %i:%i:%s", res->type, res->ident_int, res->ident_str);
+
   return 0;
 }
 
@@ -385,7 +387,10 @@ int i_resource_local_terminate (i_hashtable *res_table, i_resource_address *res_
     else
     {
       /* Normal process termination */
-      if (res->construct->pid > 0) { kill (res->construct->pid, SIGTERM); } /* DEBUG: Original */
+//      if (res->construct->pid > 0) { 
+//        i_printf (0, "i_resource_local_terminate attempting to kill PID %i for %i:%i:%s", res->construct->pid, res->type, res->ident_int, res->ident_str);
+//        kill (res->construct->pid, SIGTERM); 
+//      } /* DEBUG: Original */
       //if (res->construct->pid > 0) { kill (res->construct->pid, SIGABRT); } /* DEBUG to find hangs */
     }
     i_construct_free (res->construct);

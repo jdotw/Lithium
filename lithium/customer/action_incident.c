@@ -7,6 +7,9 @@
 #include <induction/cement.h>
 #include <induction/message.h>
 #include <induction/entity.h>
+#include <induction/hierarchy.h>
+#include <induction/device.h>
+#include <induction/site.h>
 #include <induction/container.h>
 #include <induction/object.h>
 #include <induction/metric.h>
@@ -21,6 +24,19 @@
 
 int l_action_incident_report (i_resource *self, i_incident *inc)
 {
+  /* Confirm minimum severity is met */
+  i_site *site = (i_site *) i_entity_child_get(ENTITY(self->hierarchy->cust), inc->met->site_name);
+  if (!site) { i_printf (1, "l_action_incident_report failed to find site %s", inc->met->site_name); return 0; }
+  i_device *dev = (i_device *) i_entity_child_get(ENTITY(site), inc->met->dev_name);
+  if (!dev) { i_printf (1, "l_action_incident_report failed to find device %s", inc->met->dev_name); return 0; }
+  if (inc->met->opstate < dev->minimum_action_severity)
+  {
+    i_printf (1, "l_action_incident_report suppressed action for incident %li as the severity %i is lower than the devices (%s) minimum_action_severity (%i)", 
+      inc->id, inc->met->opstate, dev->desc_str,
+      dev->minimum_action_severity);
+    return 0;
+  }
+
   /* Load list of candidates */
   if (inc->action_list)
   {
@@ -153,6 +169,19 @@ int l_action_incident_reruntimercb (i_resource *self, i_timer *timer, void *pass
 
 int l_action_incident_transition (i_resource *self, i_incident *inc)
 {
+  /* Confirm minimum severity is met */
+  i_site *site = (i_site *) i_entity_child_get(ENTITY(self->hierarchy->cust), inc->met->site_name);
+  if (!site) { i_printf (1, "l_action_incident_report failed to find site %s", inc->met->site_name); return 0; }
+  i_device *dev = (i_device *) i_entity_child_get(ENTITY(site), inc->met->dev_name);
+  if (!dev) { i_printf (1, "l_action_incident_report failed to find device %s", inc->met->dev_name); return 0; }
+  if (inc->highest_opstate < dev->minimum_action_severity)
+  {
+    i_printf (1, "l_action_incident_transition suppressed action for incident %li as the highest severity %i is lower than the devices (%s) minimum_action_severity (%i)", 
+      inc->id, inc->highest_opstate, dev->desc_str,
+      dev->minimum_action_severity);
+    return 0;
+  }
+
   /* Process each of the incidents candidate actions */
   l_action *action;
   for (i_list_move_head(inc->action_list); (action=i_list_restore(inc->action_list))!=NULL; i_list_move_next(inc->action_list))
@@ -175,6 +204,19 @@ int l_action_incident_transition (i_resource *self, i_incident *inc)
 
 int l_action_incident_clear (i_resource *self, i_incident *inc)
 {
+  /* Confirm minimum severity is met */
+  i_site *site = (i_site *) i_entity_child_get(ENTITY(self->hierarchy->cust), inc->met->site_name);
+  if (!site) { i_printf (1, "l_action_incident_report failed to find site %s", inc->met->site_name); return 0; }
+  i_device *dev = (i_device *) i_entity_child_get(ENTITY(site), inc->met->dev_name);
+  if (!dev) { i_printf (1, "l_action_incident_report failed to find device %s", inc->met->dev_name); return 0; }
+  if (inc->highest_opstate < dev->minimum_action_severity)
+  {
+    i_printf (1, "l_action_incident_clear suppressed action for incident %li as the highest severity %i is lower than the devices (%s) minimum_action_severity (%i)", 
+      inc->id, inc->highest_opstate, dev->desc_str,
+      dev->minimum_action_severity);
+    return 0;
+  }
+
   /* Process each of the incidents candidate actions */
   l_action *action;
   for (i_list_move_head(inc->action_list); (action=i_list_restore(inc->action_list))!=NULL; i_list_move_next(inc->action_list))

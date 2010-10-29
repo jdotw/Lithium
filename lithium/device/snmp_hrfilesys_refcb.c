@@ -55,7 +55,6 @@ int l_snmp_hrfilesys_access_refcb (i_resource *self, i_entity *ent, void *passda
     i_triggerset_assign_obj (self, met->obj, tset);
     store->usedpc_trigger_applied = 1;
     i_triggerset_evalapprules_allsets (self, met->obj);
-    i_printf (1, "l_snmp_hrfilesys_access_refcb applying!");
   }
   
   return 0;

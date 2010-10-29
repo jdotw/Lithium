@@ -18,6 +18,7 @@ static i_list *static_session_list = NULL;
 static i_list *static_close_queue = NULL;
 
 static l_snmp_session *static_device_session = NULL;
+static int static_last_device_open_failed = 0;
 
 /* Variable/Pointer Fetching */
 
@@ -176,7 +177,7 @@ l_snmp_session* l_snmp_session_open (i_resource *self, char *host_str, char *com
   session->ss = snmp_open (&ss);
   if (!session->ss)
   { 
-    i_printf (1, "l_snmp_session_open failed to open SNMP session to %s", host_str); 
+    i_printf (2, "l_snmp_session_open failed to open SNMP session to %s", host_str); 
     l_snmp_session_free (session); 
     l_avail_record_fail (availobj);
     return NULL; 
@@ -210,7 +211,14 @@ l_snmp_session* l_snmp_session_open_device (i_resource *self, i_device *device)
   /* Open Session */
   sess = l_snmp_session_open (self, device->ip_str, device->snmpcomm_str, device->snmpversion, device->snmpauthmethod, device->snmpprivenc, device->username_str, device->snmpauthpass_str, device->snmpprivpass_str);
   if (!sess)
-  { i_printf (1, "l_snmp_session_open_device failed to open session"); return NULL; }
+  { 
+    if (!static_last_device_open_failed)
+    {
+      i_printf (1, "l_snmp_session_open_device failed to open session"); 
+    }
+    static_last_device_open_failed = 1;
+    return NULL; 
+  }
 
   /* Set Device Flag */
   sess->device_session = 1;

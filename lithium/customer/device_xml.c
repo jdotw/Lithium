@@ -51,6 +51,7 @@ int xml_device_update (i_resource *self, i_xml_request *req)
   int nagios = 0;
   int lom = 0;
   int xsan = 0;
+  int minimum_action_severity = 1;
   i_site *site;
   i_device *device;
   i_device *dup_device = NULL;
@@ -97,6 +98,7 @@ int xml_device_update (i_resource *self, i_xml_request *req)
       else if (!strcmp((char *)node->name, "nagios") && str) nagios = atoi (str);
       else if (!strcmp((char *)node->name, "lom") && str) lom = atoi (str);
       else if (!strcmp((char *)node->name, "xsan") && str) xsan = atoi (str);
+      else if (!strcmp((char *)node->name, "minimum_action_severity") && str) minimum_action_severity = atoi (str);
       else if (!strcmp((char *)node->name, "site_name") && str) sitename_str = strdup(str);
       else if (!strcmp((char *)node->name, "duplicated_from") && str)
       {
@@ -159,6 +161,7 @@ int xml_device_update (i_resource *self, i_xml_request *req)
     device->nagios = nagios;
     device->lom = lom;
     device->xsan = xsan;
+    device->minimum_action_severity = minimum_action_severity;
     l_device_update (self, device);
   }
   else
@@ -177,7 +180,7 @@ int xml_device_update (i_resource *self, i_xml_request *req)
     { password_str = strdup (dup_device->password_str); }
 
     /* Add Device */   
-    device = l_device_add (self, site, name_str, desc_str, ip_str, lom_ip_str, snmpversion, snmpcomm_str, snmpauthpass_str, snmpprivpass_str, snmpauthmethod, snmpprivenc, username_str, password_str, lom_username_str, lom_password_str, vendor_str, profile_str, refresh_interval, protocol, icmp, lithiumsnmp, swrun, nagios, lom, xsan);
+    device = l_device_add (self, site, name_str, desc_str, ip_str, lom_ip_str, snmpversion, snmpcomm_str, snmpauthpass_str, snmpprivpass_str, snmpauthmethod, snmpprivenc, username_str, password_str, lom_username_str, lom_password_str, vendor_str, profile_str, refresh_interval, protocol, icmp, lithiumsnmp, swrun, nagios, lom, xsan, minimum_action_severity);
 
     /* Check result */
     if (!device)

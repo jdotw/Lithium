@@ -39,7 +39,7 @@
 
 static int start_delay = 5;
 
-i_device* l_device_add (i_resource *self, i_site *site, char *name_str, char *desc_str, char *ip_str, char *lom_ip_str, int snmpversion, char *snmpcomm_str, char *snmpauthpass_str, char *snmpprivpass_str, int snmpauthmethod, int snmpprivenc, char *username_str, char *password_str, char *lom_username_str, char *lom_password_str, char *vendor_str, char *profile_str, long refresh_interval, int protocol, int icmp, int lithiumsnmp, int swrun, int nagios, int lom, int xsan)
+i_device* l_device_add (i_resource *self, i_site *site, char *name_str, char *desc_str, char *ip_str, char *lom_ip_str, int snmpversion, char *snmpcomm_str, char *snmpauthpass_str, char *snmpprivpass_str, int snmpauthmethod, int snmpprivenc, char *username_str, char *password_str, char *lom_username_str, char *lom_password_str, char *vendor_str, char *profile_str, long refresh_interval, int protocol, int icmp, int lithiumsnmp, int swrun, int nagios, int lom, int xsan, int min_action_sev)
 {
   int num;
   i_device *dev;
@@ -61,6 +61,7 @@ i_device* l_device_add (i_resource *self, i_site *site, char *name_str, char *de
   dev->nagios = nagios;
   dev->lom = lom;
   dev->xsan = xsan;
+  dev->minimum_action_severity = min_action_sev;
   
   /* Register device */
   num = i_entity_register (self, ENTITY(site), ENTITY(dev));
@@ -97,8 +98,8 @@ i_device* l_device_add (i_resource *self, i_site *site, char *name_str, char *de
     uuid_unparse_lower (dev->uuid, uuid_str);
 
     /* Create query */
-    asprintf (&query, "INSERT INTO devices (site, name, descr, ip, lom_ip, snmpversion, snmpcomm, snmpauthpass, snmpprivpass, snmpauthmethod, snmpprivenc, username, password, lom_username, lom_password, vendor, profile, refresh_interval, protocol, icmp, lithiumsnmp, swrun, nagios, lom, xsan, uuid) VALUES ('%s', '%s', '%s', '%s', '%s', '%i', '%s', '%s', '%s', '%i', '%i', '%s', '%s', '%s', '%s', '%s', '%s', '%li', '%i', '%i', '%i', '%i', '%i', '%i', '%i', '%s')", 
-      site_esc, name_esc, desc_esc, ip_esc, lom_ip_esc, dev->snmpversion, snmpcomm_esc, snmpauthpass_esc, snmpprivpass_esc, dev->snmpauthmethod, dev->snmpprivenc, username_esc, password_esc, lom_username_esc, lom_password_esc, vendor_esc, profile_esc, dev->refresh_interval, dev->protocol, dev->icmp, dev->lithiumsnmp, dev->swrun, dev->nagios, dev->lom, dev->xsan, uuid_str);
+    asprintf (&query, "INSERT INTO devices (site, name, descr, ip, lom_ip, snmpversion, snmpcomm, snmpauthpass, snmpprivpass, snmpauthmethod, snmpprivenc, username, password, lom_username, lom_password, vendor, profile, refresh_interval, protocol, icmp, lithiumsnmp, swrun, nagios, lom, xsan, uuid, minimum_action_severity) VALUES ('%s', '%s', '%s', '%s', '%s', '%i', '%s', '%s', '%s', '%i', '%i', '%s', '%s', '%s', '%s', '%s', '%s', '%li', '%i', '%i', '%i', '%i', '%i', '%i', '%i', '%s', '%i')", 
+      site_esc, name_esc, desc_esc, ip_esc, lom_ip_esc, dev->snmpversion, snmpcomm_esc, snmpauthpass_esc, snmpprivpass_esc, dev->snmpauthmethod, dev->snmpprivenc, username_esc, password_esc, lom_username_esc, lom_password_esc, vendor_esc, profile_esc, dev->refresh_interval, dev->protocol, dev->icmp, dev->lithiumsnmp, dev->swrun, dev->nagios, dev->lom, dev->xsan, uuid_str, dev->minimum_action_severity);
     free (site_esc);
     free (name_esc);
     free (desc_esc);
@@ -163,8 +164,8 @@ int l_device_update (i_resource *self, i_device *dev)
   char *lom_password_esc = i_postgres_escape (dev->lom_password_str);
   char *vendor_esc = i_postgres_escape (dev->vendor_str);
   char *profile_esc = i_postgres_escape (dev->profile_str);
-  asprintf (&query, "UPDATE devices SET descr='%s', ip='%s', lom_ip='%s', snmpversion='%i', snmpcomm='%s', snmpauthpass='%s', snmpprivpass='%s', snmpauthmethod='%i', snmpprivenc='%i', username='%s', password='%s', lom_username='%s', lom_password='%s', vendor='%s', profile='%s', refresh_interval='%li', protocol='%i', icmp='%i', lithiumsnmp='%i', swrun='%i', nagios='%i', lom='%i', xsan='%i'  WHERE site='%s' AND name='%s'", 
-    desc_esc, ip_esc, lom_ip_esc, dev->snmpversion, snmpcomm_esc, snmpauthpass_esc, snmpprivpass_esc, dev->snmpauthmethod, dev->snmpprivenc, username_esc, password_esc, lom_username_esc, lom_password_esc, vendor_esc, profile_esc, dev->refresh_interval, dev->protocol, dev->icmp, dev->lithiumsnmp, dev->swrun, dev->nagios, dev->lom, dev->xsan, site_esc, name_esc); 
+  asprintf (&query, "UPDATE devices SET descr='%s', ip='%s', lom_ip='%s', snmpversion='%i', snmpcomm='%s', snmpauthpass='%s', snmpprivpass='%s', snmpauthmethod='%i', snmpprivenc='%i', username='%s', password='%s', lom_username='%s', lom_password='%s', vendor='%s', profile='%s', refresh_interval='%li', protocol='%i', icmp='%i', lithiumsnmp='%i', swrun='%i', nagios='%i', lom='%i', xsan='%i', minimum_action_severity='%i'  WHERE site='%s' AND name='%s'", 
+    desc_esc, ip_esc, lom_ip_esc, dev->snmpversion, snmpcomm_esc, snmpauthpass_esc, snmpprivpass_esc, dev->snmpauthmethod, dev->snmpprivenc, username_esc, password_esc, lom_username_esc, lom_password_esc, vendor_esc, profile_esc, dev->refresh_interval, dev->protocol, dev->icmp, dev->lithiumsnmp, dev->swrun, dev->nagios, dev->lom, dev->xsan, dev->minimum_action_severity, site_esc, name_esc); 
   asprintf (&group_query, "UPDATE group_entities SET dev_desc='%s' WHERE site_name='%s' AND dev_name='%s'", desc_esc, site_esc, name_esc);
   free (site_esc);
   free (name_esc);
@@ -292,7 +293,7 @@ int l_device_loadall (i_resource *self, i_site *site)
   { i_printf (1, "l_device_loadall failed to connect to SQL database"); return -1; }
 
   /* Load all devices */
-  asprintf (&query, "SELECT DISTINCT ON (name) name, descr, ip, lom_ip, snmpversion, snmpcomm, snmpauthpass, snmpprivpass, snmpauthmethod, snmpprivenc, username, password, lom_username, lom_password, vendor, profile, refresh_interval, protocol, icmp, lithiumsnmp, swrun, nagios, lom, xsan, uuid, mark FROM devices WHERE site='%s'", site->name_str);
+  asprintf (&query, "SELECT DISTINCT ON (name) name, descr, ip, lom_ip, snmpversion, snmpcomm, snmpauthpass, snmpprivpass, snmpauthmethod, snmpprivenc, username, password, lom_username, lom_password, vendor, profile, refresh_interval, protocol, icmp, lithiumsnmp, swrun, nagios, lom, xsan, uuid, mark, minimum_action_severity FROM devices WHERE site='%s'", site->name_str);
   res = PQexec (pgconn, query);
   free (query);
   if (!res || PQresultStatus(res) != PGRES_TUPLES_OK)
@@ -334,6 +335,7 @@ int l_device_loadall (i_resource *self, i_site *site)
     int xsan = 0;
     char *uuid_str;
     int mark = 0;
+    int minimum_action_severity = 1;
     i_device *dev;
 
     /* Fields */
@@ -368,6 +370,7 @@ int l_device_loadall (i_resource *self, i_site *site)
     if (PQgetvalue (res, row, 23)) xsan = atoi (PQgetvalue (res, row, 23));
     uuid_str = PQgetvalue (res, row, 24);
     if (PQgetvalue (res, row, 25)) mark = atoi (PQgetvalue (res, row, 25));
+    if (PQgetvalue (res, row, 26)) minimum_action_severity = atoi (PQgetvalue (res, row, 26));
 
     /* Create device */
     dev = i_device_create (name_str, desc_str, ip_str, lom_ip_str, snmpcomm_str, username_str, password_str, lom_username_str, lom_password_str, vendor_str, profile_str, refresh_interval);
@@ -387,6 +390,7 @@ int l_device_loadall (i_resource *self, i_site *site)
     dev->xsan = xsan;
     uuid_parse (uuid_str, dev->uuid);
     dev->mark = mark;
+    dev->minimum_action_severity = minimum_action_severity;
 
     /* Register device */
     num = i_entity_register (self, ENTITY(site), ENTITY(dev));
@@ -649,6 +653,18 @@ int l_device_initsql (i_resource *self)
     if (result) { PQclear(result); result = NULL; }
     result = PQexec (pgconn, "INSERT INTO actions (descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script) VALUES ('Default iPhone Push Notification Action', '1', '1', '0', '0', '0', '0', '127', '0', '0', 'push_alert.pl')");
     /* END DEBUG HACK FIX */
+  }
+  if (result) { PQclear(result); result = NULL; }
+
+  /* 5.0.9 - Added 'minimum_action_severity' */
+  result = PQexec (pgconn, "SELECT column_name from information_schema.columns WHERE table_name='devices' AND column_name='minimum_action_severity' ORDER BY ordinal_position");
+  if (!result || PQresultStatus(result) != PGRES_TUPLES_OK || (PQntuples(result)) < 1)
+  {
+    if (result) { PQclear(result); result = NULL; }
+    i_printf (0, "l_device_initsql version-specific check: 'minimum_action_severity' column missing, attempting to add it");
+    result = PQexec (pgconn, "ALTER TABLE devices ADD COLUMN minimum_action_severity integer DEFAULT 1");
+    if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
+    { i_printf (1, "l_device_initsql failed to add minimum_action_severity column (%s)", PQresultErrorMessage (result)); }
   }
   if (result) { PQclear(result); result = NULL; }
 

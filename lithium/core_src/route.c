@@ -13,8 +13,8 @@ void l_route_message (i_resource *self, i_hashtable *res_table, i_resource *res,
 
   if (!msg->dst || !msg->src) return;
 
-  i_printf (2, "l_resource_msg_route called to route msg from %s:%s:%i:%i:%s to %s:%s:%i:%i:%s",
-    msg->src->plexus, msg->src->node, msg->src->type, msg->src->ident_int, msg->src->ident_str,
+  i_printf (2, "l_resource_msg_route called to route msg %li from %s:%s:%i:%i:%s to %s:%s:%i:%i:%s",
+    msg->msgid, msg->src->plexus, msg->src->node, msg->src->type, msg->src->ident_int, msg->src->ident_str,
     msg->dst->plexus, msg->dst->node, msg->dst->type, msg->dst->ident_int, msg->dst->ident_str);
     
   dst_res = i_resource_local_get (res_table, msg->dst);
@@ -86,6 +86,9 @@ void l_route_message (i_resource *self, i_hashtable *res_table, i_resource *res,
     return; 
   }
 
-  i_printf (2, "l_resource_msg_route msg routed successfully");
+  i_printf (2, "l_resource_msg_route msg %li from %s:%s:%i:%i:%s to %s:%s:%i:%i:%s routed successfully",
+    msg->msgid, msg->src->plexus, msg->src->node, msg->src->type, msg->src->ident_int, msg->src->ident_str,
+    msg->dst->plexus, msg->dst->node, msg->dst->type, msg->dst->ident_int, msg->dst->ident_str);
+    
 
 }

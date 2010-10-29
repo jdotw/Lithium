@@ -30,13 +30,13 @@ int i_msgproc_process (i_resource *self, i_socket *sock, i_message *msg)
 
   switch ((msg->flags & (MSG_FLAG_REQ|MSG_FLAG_RESP)))
   {
-    case MSG_FLAG_REQ:  i_printf (2, "i_msgproc_process received a request msg");
+    case MSG_FLAG_REQ:  i_printf (2, "i_msgproc_process received a request msg (%li)", msg->msgid);
                         i_msgproc_process_request (self, sock, msg);
                         break;
-    case MSG_FLAG_RESP: i_printf (2, "i_msgproc_process received a response msg");
+    case MSG_FLAG_RESP: i_printf (2, "i_msgproc_process received a response msg (%li)", msg->msgid);
                         i_msgproc_process_response (self, sock, msg);
                         break;
-    default: i_printf (2, "i_msgproc_process received a message with neither MSG_FLAG_REQ or MSG_FLAG_RESP flag set");
+    default: i_printf (0, "i_msgproc_process received a message (%li) with neither MSG_FLAG_REQ or MSG_FLAG_RESP flag set", msg->msgid);
   }
 
   return 0;

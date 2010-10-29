@@ -15,6 +15,7 @@
 #include <induction/timer.h>
 
 #include "rrd.h"
+#include "rrdcached.h"
 #include "socket.h"
 #include "status.h"
 
@@ -33,6 +34,11 @@ int module_init (i_resource *self)
   num = m_rrd_init (self);
   if (num != 0)
   { i_printf (1, "module_init failed to initialise rrd"); return -1; }
+
+#if (defined (__i386__) || defined( __x86_64__ ))
+  /* Fork to start rrdcached */
+  m_rrdcached_spawn(self);
+#endif
 
   /* Create socket */
   sock = i_socket_create ();

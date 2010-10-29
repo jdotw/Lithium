@@ -71,11 +71,11 @@ int i_resource_local_check_all (i_resource *self, i_timer *timer, void *tableptr
 
   i_hashtable *res_table = tableptr;
   
-  i_printf (2, "i_resource_local_check_all running");
+  i_printf (1, "i_resource_local_check_all running");
   
   i_hashtable_iterate (self, res_table, i_resource_local_check_single);
   
-  i_printf (2, "i_resource_local_check_all completed");
+  i_printf (1, "i_resource_local_check_all completed");
 
   return 0;
 }

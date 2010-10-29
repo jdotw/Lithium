@@ -169,9 +169,9 @@ int l_resource_spawn_handler (i_resource *self, i_socket *sock, i_message *msg, 
   }
 
   /* Announce */
-  i_printf (2, "l_resource_spawn_handler successfully created %s:%s:%i:%i:%s for %s:%s:%i:%i:%s",
+  i_printf (2, "l_resource_spawn_handler successfully created %s:%s:%i:%i:%s for %s:%s:%i:%i:%s (req msgid is %li, response msgid is %li)",
     new_res->plexus, new_res->node, new_res->type, new_res->ident_int, new_res->ident_str,
-    msg->src->plexus, msg->src->node, msg->src->type, msg->src->ident_int, msg->src->ident_str);
+    msg->src->plexus, msg->src->node, msg->src->type, msg->src->ident_int, msg->src->ident_str, msg->msgid, msgid);
 
   return 0;
 }

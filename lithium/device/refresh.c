@@ -82,7 +82,7 @@ int l_refresh_device_refcb (i_resource *self, i_entity *ent, void *passdata)
   }
 
   /* Attempt to close the SNMP session used for the device */
-  if (l_snmp_state()) l_snmp_session_close_device (self);
+//  if (l_snmp_state()) l_snmp_session_close_device (self);
 
   return 0;   /* Keep CB alive */
 }

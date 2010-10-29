@@ -48,7 +48,7 @@ int i_metric_record_rrd (i_resource *self, i_metric *met)
   /* Enqueue value */
   double valflt = i_metric_valflt (met, curval);
   if (!met->rrd_update_args)
-  { asprintf (&met->rrd_update_args, "-t %s %li:%f", METRIC_RRD_DATASOURCE, curval->tstamp.tv_sec, valflt); }
+  { asprintf (&met->rrd_update_args, "%li:%f", curval->tstamp.tv_sec, valflt); }
   else
   {
     char *temp;

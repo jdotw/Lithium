@@ -98,8 +98,8 @@ i_customer* l_customer_add (i_resource *self, char *name_str, char *desc_str, ch
   }
   
   /* Enable XML Sync */
-  if (l_snmpagent_is_enabled())
-  { i_entity_xmlsync_enable (self, ENTITY(cust), 60, l_snmpagent_xmlsync_delegate); }
+//  if (l_snmpagent_is_enabled())
+//  { i_entity_xmlsync_enable (self, ENTITY(cust), 60, l_snmpagent_xmlsync_delegate); }
 
   /* Open SQL Conn */
   conn = i_pg_async_conn_open (self, "lithium");
@@ -302,8 +302,8 @@ int l_customer_loadall (i_resource *self)
     }
 
     /* Enable XML Sync */
-    if (l_snmpagent_is_enabled())
-    { i_entity_xmlsync_enable (self, ENTITY(cust), 60, l_snmpagent_xmlsync_delegate); }
+//    if (l_snmpagent_is_enabled())
+//    { i_entity_xmlsync_enable (self, ENTITY(cust), 60, l_snmpagent_xmlsync_delegate); }
 
     /* (Re)start Customer Resource */
     num = l_customer_res_restart (self, cust);
