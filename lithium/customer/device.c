@@ -92,8 +92,8 @@ i_device* l_device_add (i_resource *self, i_site *site, char *name_str, char *de
     char *lom_password_esc = i_postgres_escape (dev->lom_password_str);
     char *vendor_esc = i_postgres_escape (dev->vendor_str);
     char *profile_esc = i_postgres_escape (dev->profile_str);
-    char uuid_str[37];
     char *query;
+    char uuid_str[37];
 
     uuid_unparse_lower (dev->uuid, uuid_str);
 

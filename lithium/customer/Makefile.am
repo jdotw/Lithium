@@ -198,6 +198,7 @@ customer_so_SOURCES = main.c \
  					  action_xml_execute.c \
  					  action_xml_history.c \
  					  action_xml_cancel.c \
+					  action_xml_minimum_severity.c \
  					  script_exec.c \
  					  script_xml_delete.c \
  					  script_xml_download.c \

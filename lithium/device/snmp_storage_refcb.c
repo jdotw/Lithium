@@ -48,7 +48,6 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
 
     /* Get current value */
     val = i_metric_curval (store->writeable);
-    i_printf (1, "l_snmp_storage_obj_refcb val=%p val->integer=%i usedpc_trigger_applied=%i", val, val ? val->integer : -1, store->usedpc_trigger_applied);
     if (!val) return 0;
 
     /* Enable metrics depending on type */
@@ -62,7 +61,6 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
       i_triggerset_assign_obj (self, obj, tset);
       store->usedpc_trigger_applied = 1;
       i_triggerset_evalapprules_allsets (self, obj);
-      i_printf (1, "*** Applying");
     }
   }
   else
