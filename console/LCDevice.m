@@ -50,6 +50,7 @@
 	[self.xmlTranslation setObject:@"useNagios" forKey:@"nagios"];
 	[self.xmlTranslation setObject:@"useLom" forKey:@"lom"];
 	[self.xmlTranslation setObject:@"isXsanClient" forKey:@"xsan"];
+	[self.xmlTranslation setObject:@"minimumActionSeverity" forKey:@"minimum_action_severity"];
 
 	self.browserViewType = 2;
 	self.willUseSNMP = YES;
@@ -256,6 +257,29 @@
 @synthesize refreshTimeStamp;
 
 @synthesize willUseSNMP;
-
+@synthesize minimumActionSeverity;
+- (void) setMinimumActionSeverity:(int)value
+{
+	minimumActionSeverity = value;
+	if (!self.xmlUpdatingValues)
+	{
+		NSXMLElement *rootNode = (NSXMLElement *) [NSXMLNode elementWithName:@"update"];
+		NSXMLDocument *xmlDoc = [NSXMLDocument documentWithRootElement:rootNode];
+		[xmlDoc setVersion:@"1.0"];
+		[xmlDoc setCharacterEncoding:@"UTF-8"];
+		[rootNode addChild:[NSXMLNode elementWithName:@"minimum_action_severity"
+										  stringValue:[NSString stringWithFormat:@"%i", self.minimumActionSeverity]]]; 
+		LCXMLRequest *xmlReq = [LCXMLRequest requestWithCriteria:self.customer
+														resource:[self.customer resourceAddress]
+														  entity:[self entityAddress]
+														 xmlname:@"action_device_minimum_severity_update"
+														  refsec:0
+														  xmlout:xmlDoc];
+		[xmlReq setDebug:YES];
+		[xmlReq setPriority:XMLREQ_PRIO_HIGH];
+		[xmlReq performAsyncRequest];
+		NSLog (@"Sending minimumActionSeverityUpdate for %@ to %i", self, self.minimumActionSeverity);
+	}
+}
 
 @end

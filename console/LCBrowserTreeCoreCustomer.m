@@ -16,6 +16,7 @@
 #import "LCBrowserActionScriptsContentController.h"
 #import "LCBrowserModBScriptsContentController.h"
 #import "LCBrowserActionsContentController.h"
+#import "LCBrowserActionFilterContentController.h"
 
 @interface LCBrowserTreeCoreCustomer (private)
 
@@ -72,6 +73,13 @@
 	property.treeIcon = [NSImage imageNamed:@"tools_script_16.tif"];
 	[self insertObject:property inChildrenAtIndex:children.count];
 	[property autorelease];	
+
+	property = [(LCBrowserTreeCoreProperty *)[LCBrowserTreeCoreProperty alloc] initWithCustomer:customer];
+	property.displayString = @"Action Filter";
+	property.contentControllerClass = [LCBrowserActionFilterContentController class];
+	property.treeIcon = [NSImage imageNamed:@"tools_filter_16.tif"];
+	[self insertObject:property inChildrenAtIndex:children.count];
+	[property autorelease];		
 
 	property = [(LCBrowserTreeCoreProperty *)[LCBrowserTreeCoreProperty alloc] initWithCustomer:customer];
 	property.displayString = @"Service Scripts";

@@ -182,6 +182,8 @@
 @property (nonatomic,copy) NSString *displayValue;
 @property (readonly) NSString *uniqueIdentifier;
 - (void) recursivelySetOpStateTo:(int)value;
+@property (nonatomic,readonly) BOOL actionFilterLeaf;
+
 
 #pragma mark "Unsure Properties"
 

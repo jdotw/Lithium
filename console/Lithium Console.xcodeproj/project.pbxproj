@@ -16,6 +16,8 @@
 		100790461036C56A007A9A9E /* tools_16.tif in Resources */ = {isa = PBXBuildFile; fileRef = 100790451036C56A007A9A9E /* tools_16.tif */; };
 		1009ED260F3BEE82006A34A9 /* LCMetricGraphCompareButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1009ED250F3BEE82006A34A9 /* LCMetricGraphCompareButton.m */; };
 		100AC79D104F0E9C00CD0C05 /* LCVRackCablePopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 100AC79C104F0E9C00CD0C05 /* LCVRackCablePopupView.m */; };
+		1012A5CA1277712F00B8529A /* LCBrowserActionFilterContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1012A5C91277712F00B8529A /* LCBrowserActionFilterContentController.m */; };
+		1012A5D11277C0FE00B8529A /* ActionFilterContents.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1012A5D01277C0FE00B8529A /* ActionFilterContents.xib */; };
 		1019F65A10295D55009127B2 /* LCBrowserUsersContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1019F65910295D55009127B2 /* LCBrowserUsersContentController.m */; };
 		1019F66A102960CA009127B2 /* UsersContent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1019F669102960CA009127B2 /* UsersContent.xib */; };
 		101A88AC102D7F5200EC7C36 /* LicenseContent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 101A88AB102D7F5200EC7C36 /* LicenseContent.xib */; };
@@ -617,6 +619,8 @@
 		1065EA250F8F43310074B480 /* LCInspRelatedIncidentsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1065EA240F8F43310074B480 /* LCInspRelatedIncidentsItem.m */; };
 		1065EA290F8F433C0074B480 /* LCInspRelatedIncidentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1065EA280F8F433C0074B480 /* LCInspRelatedIncidentsViewController.m */; };
 		1065EA2E0F8F435B0074B480 /* InspectorRelatedIncidentsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1065EA2D0F8F435B0074B480 /* InspectorRelatedIncidentsView.xib */; };
+		1067ABC6127A6F91005A57B5 /* LCShadowPopupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1067ABC5127A6F91005A57B5 /* LCShadowPopupCell.m */; };
+		1067ABD4127A7282005A57B5 /* LCShadowComboBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1067ABD3127A7282005A57B5 /* LCShadowComboBoxCell.m */; };
 		10699EAB0FB52142009963C6 /* LCBrowserBonjourContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10699EAA0FB52142009963C6 /* LCBrowserBonjourContentController.m */; };
 		10699EAD0FB521A1009963C6 /* BonjourContent.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10699EAC0FB521A1009963C6 /* BonjourContent.xib */; };
 		1069A0400FB57D2E009963C6 /* LCDeviceEditTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1069A03F0FB57D2E009963C6 /* LCDeviceEditTemplate.m */; };
@@ -830,6 +834,9 @@
 		1009ED250F3BEE82006A34A9 /* LCMetricGraphCompareButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCMetricGraphCompareButton.m; sourceTree = "<group>"; };
 		100AC79B104F0E9C00CD0C05 /* LCVRackCablePopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCVRackCablePopupView.h; sourceTree = "<group>"; };
 		100AC79C104F0E9C00CD0C05 /* LCVRackCablePopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCVRackCablePopupView.m; sourceTree = "<group>"; };
+		1012A5C81277712F00B8529A /* LCBrowserActionFilterContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCBrowserActionFilterContentController.h; sourceTree = "<group>"; };
+		1012A5C91277712F00B8529A /* LCBrowserActionFilterContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCBrowserActionFilterContentController.m; sourceTree = "<group>"; };
+		1012A5D01277C0FE00B8529A /* ActionFilterContents.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActionFilterContents.xib; sourceTree = "<group>"; };
 		1019F65810295D55009127B2 /* LCBrowserUsersContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCBrowserUsersContentController.h; sourceTree = "<group>"; };
 		1019F65910295D55009127B2 /* LCBrowserUsersContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCBrowserUsersContentController.m; sourceTree = "<group>"; };
 		1019F669102960CA009127B2 /* UsersContent.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UsersContent.xib; sourceTree = "<group>"; };
@@ -1851,6 +1858,10 @@
 		1065EA270F8F433C0074B480 /* LCInspRelatedIncidentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCInspRelatedIncidentsViewController.h; sourceTree = "<group>"; };
 		1065EA280F8F433C0074B480 /* LCInspRelatedIncidentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCInspRelatedIncidentsViewController.m; sourceTree = "<group>"; };
 		1065EA2D0F8F435B0074B480 /* InspectorRelatedIncidentsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InspectorRelatedIncidentsView.xib; sourceTree = "<group>"; };
+		1067ABC4127A6F91005A57B5 /* LCShadowPopupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCShadowPopupCell.h; sourceTree = "<group>"; };
+		1067ABC5127A6F91005A57B5 /* LCShadowPopupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCShadowPopupCell.m; sourceTree = "<group>"; };
+		1067ABD2127A7282005A57B5 /* LCShadowComboBoxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCShadowComboBoxCell.h; sourceTree = "<group>"; };
+		1067ABD3127A7282005A57B5 /* LCShadowComboBoxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCShadowComboBoxCell.m; sourceTree = "<group>"; };
 		10699EA90FB52142009963C6 /* LCBrowserBonjourContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCBrowserBonjourContentController.h; sourceTree = "<group>"; };
 		10699EAA0FB52142009963C6 /* LCBrowserBonjourContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCBrowserBonjourContentController.m; sourceTree = "<group>"; };
 		10699EAC0FB521A1009963C6 /* BonjourContent.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BonjourContent.xib; sourceTree = "<group>"; };
@@ -3260,6 +3271,10 @@
 				1032DF320E85ED0E00C66029 /* LCWhiteTextField.m */,
 				1032DF330E85ED0E00C66029 /* LCWhiteTextFieldCell.h */,
 				1032DF340E85ED0E00C66029 /* LCWhiteTextFieldCell.m */,
+				1067ABC4127A6F91005A57B5 /* LCShadowPopupCell.h */,
+				1067ABC5127A6F91005A57B5 /* LCShadowPopupCell.m */,
+				1067ABD2127A7282005A57B5 /* LCShadowComboBoxCell.h */,
+				1067ABD3127A7282005A57B5 /* LCShadowComboBoxCell.m */,
 			);
 			name = "Custom Controls";
 			sourceTree = "<group>";
@@ -4379,6 +4394,9 @@
 				106AA9F01033693200F43246 /* ActionsContent.xib */,
 				106AA9F21033694100F43246 /* LCBrowserActionsContentController.h */,
 				106AA9F31033694100F43246 /* LCBrowserActionsContentController.m */,
+				1012A5C81277712F00B8529A /* LCBrowserActionFilterContentController.h */,
+				1012A5C91277712F00B8529A /* LCBrowserActionFilterContentController.m */,
+				1012A5D01277C0FE00B8529A /* ActionFilterContents.xib */,
 			);
 			name = "Actions Content";
 			sourceTree = "<group>";
@@ -5491,6 +5509,7 @@
 				1032891D1075521A00337C11 /* mesh.png in Resources */,
 				107D848110BB257F00045CD8 /* NoDot.tif in Resources */,
 				1060968110E2CB0200422A30 /* CaseSearchWindow.xib in Resources */,
+				1012A5D11277C0FE00B8529A /* ActionFilterContents.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5940,6 +5959,9 @@
 				101F5BD0111A510000B12AF7 /* CALayer-PDF.m in Sources */,
 				106A58A7111BE15B0051BB52 /* NSDate-Ago.m in Sources */,
 				106A58AF111BE1BD0051BB52 /* LCDateAgoTranformer.m in Sources */,
+				1012A5CA1277712F00B8529A /* LCBrowserActionFilterContentController.m in Sources */,
+				1067ABC6127A6F91005A57B5 /* LCShadowPopupCell.m in Sources */,
+				1067ABD4127A7282005A57B5 /* LCShadowComboBoxCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

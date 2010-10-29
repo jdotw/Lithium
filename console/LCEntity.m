@@ -1111,6 +1111,12 @@
 - (NSString *) uniqueIdentifier
 { return [[self entityAddress] addressString]; }
 
+- (BOOL) actionFilterLeaf
+{
+	if (self.type >= 3) return YES;
+	else return NO;
+}
+
 #pragma mark "Legacy Accessors FIX"
 
 - (NSString *) typeInteger		

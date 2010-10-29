@@ -37,6 +37,7 @@
 	BOOL useLom;
 	BOOL isXsanClient;
 	int mark;					/* 0=Production, -2=Testing, -3=OutOfService */
+	int minimumActionSeverity;	/* The lowest incident severity for actions to fire */
 	
 	/* Dynamic properties */
 	BOOL willUseSNMP;
@@ -97,7 +98,7 @@
 @property (nonatomic, assign) BOOL isInTesting;
 @property (nonatomic, assign) BOOL isInProduction;
 @property (nonatomic, assign) BOOL isOutOfService;
-
+@property (nonatomic, assign) int minimumActionSeverity;
 
 @property (readonly) NSMutableArray *services;
 - (void) insertObject:(id)service inServicesAtIndex:(unsigned int)index;
