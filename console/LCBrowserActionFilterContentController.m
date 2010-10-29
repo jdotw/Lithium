@@ -7,7 +7,7 @@
 //
 
 #import "LCBrowserActionFilterContentController.h"
-
+#import "LCTransparentOutlineView.h"
 
 @implementation LCBrowserActionFilterContentController
 
@@ -30,6 +30,7 @@
 	[self loadView];
 	
 	/* Observe Selection */
+	[outlineView expandAllItemsUsingPreferences];
 	[treeController addObserver:self 
 					 forKeyPath:@"selection" 
 						options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) 

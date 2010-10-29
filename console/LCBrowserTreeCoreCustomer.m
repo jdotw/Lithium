@@ -77,7 +77,7 @@
 	property = [(LCBrowserTreeCoreProperty *)[LCBrowserTreeCoreProperty alloc] initWithCustomer:customer];
 	property.displayString = @"Action Filter";
 	property.contentControllerClass = [LCBrowserActionFilterContentController class];
-	property.treeIcon = [NSImage imageNamed:@"tools_filter_16.tif"];
+	property.treeIcon = [NSImage imageNamed:@"tools_16.tif"];
 	[self insertObject:property inChildrenAtIndex:children.count];
 	[property autorelease];		
 

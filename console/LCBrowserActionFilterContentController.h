@@ -14,6 +14,8 @@
 #import "LCEntity.h"
 #import "LCDevice.h"
 
+@class LCTransparentOutlineView;
+
 @interface LCBrowserActionFilterContentController : LCBrowser2ContentViewController 
 {
 	/* Objects */
@@ -21,6 +23,7 @@
 	LCBrowser2Controller *browser;
 	
 	/* UI Elements */
+	IBOutlet LCTransparentOutlineView *outlineView;
 	IBOutlet NSTreeController *treeController;
 	
 	/* Selection */
