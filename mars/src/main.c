@@ -15,6 +15,7 @@
 #include <induction/timer.h>
 
 #include "rrd.h"
+#include "rrdcached.h"
 #include "socket.h"
 #include "status.h"
 
@@ -36,11 +37,7 @@ int module_init (i_resource *self)
 
 #if (defined (__i386__) || defined( __x86_64__ ))
   /* Fork to start rrdcached */
-  pid_t child = fork ();
-  if (child == 0)
-  {
-    execl("/Library/Lithium/LithiumCore.app/Contents/MacOS/lcrrdcached", "lcrrdcached", "-g", "-l", "/var/tmp/.lcrrdcached.sock", "-p", "/var/tmp/.lcrrdcached.pid", NULL);
-  }
+  m_rrdcached_spawn(self);
 #endif
 
   /* Create socket */

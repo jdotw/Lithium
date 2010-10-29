@@ -5,5 +5,6 @@ mars_so_SOURCES = main.c	\
 				  socket.c	\
 				  status.c	\
 				  rrd.c \
-				  rrd_proc.c
+				  rrd_proc.c \
+				  rrdcached.c
 
