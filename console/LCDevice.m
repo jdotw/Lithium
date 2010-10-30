@@ -54,6 +54,7 @@
 
 	self.browserViewType = 2;
 	self.willUseSNMP = YES;
+	minimumActionSeverity = 1;
 	
 	return self;
 }
