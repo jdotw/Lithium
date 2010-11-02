@@ -62,7 +62,9 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
+	[super viewDidAppear:animated];
 	[self entityRefreshStatusUpdated:nil];	
+	NSLog (@"%@ did appear", self);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

@@ -8,6 +8,7 @@
 
 #import "LTGraphLegendTableViewCell.h"
 #import "LTGraphLegendEntityView.h"
+#import "LTEntity.h"
 
 @implementation LTGraphLegendTableViewCell
 
@@ -19,6 +20,7 @@
 	{
         // Initialization code
 		entityViews = [[NSMutableArray array] retain];
+		entityViewDict = [[NSMutableDictionary dictionary] retain];
     }
     return self;
 }
@@ -35,6 +37,7 @@
 {
 	[entities release];
 	[entityViews release];
+	[entityViewDict release];
     [super dealloc];
 }
 
@@ -49,12 +52,14 @@
 		[entityView removeFromSuperview];
 	}
 	[entityViews removeAllObjects];
+	[entityViewDict removeAllObjects];
 	for (LTEntity *entity in entities)
 	{
 		LTGraphLegendEntityView *entityView = [[LTGraphLegendEntityView alloc] initWithFrame:CGRectZero];
 		entityView.entity = entity;
 		[self addSubview:entityView];
 		[entityViews addObject:entityView];
+		[entityViewDict setObject:entityView forKey:entity.entityAddress];
 		[entityView release];
 	}
 	[self setNeedsLayout];
@@ -78,9 +83,13 @@
 									  CGRectGetMinY(self.bounds), 
 									  viewWidth, 
 									  CGRectGetHeight(self.bounds));
-		NSLog(@"Entity frame is %@", NSStringFromCGRect(entityView.frame));
 		[entityView setNeedsLayout];
 	}
+}
+
+- (LTGraphLegendEntityView *) viewForEntity:(LTEntity *)entity
+{
+	return [entityViewDict objectForKey:entity.entityAddress];
 }
 
 @end

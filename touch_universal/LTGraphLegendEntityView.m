@@ -43,15 +43,20 @@
     return self;
 }
 
-- (void) legendTapped:(UITapGestureRecognizer *)gestureRecog
+- (void) presentPopoverForEntityFromRect:(CGRect)rect
 {
 	/* Draw pop-over for the entity */
 	LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithStyle:UITableViewStylePlain];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
 	vc.entity = self.entity.parent;
 	UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:nav];
+	[popover presentPopoverFromRect:rect inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];	
+}
+
+- (void) legendTapped:(UITapGestureRecognizer *)gestureRecog
+{
 	CGPoint touchPoint = [gestureRecog locationOfTouch:0 inView:self];
-	[popover presentPopoverFromRect:CGRectMake(touchPoint.x, touchPoint.y, 1.0, 1.0) inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	[self presentPopoverForEntityFromRect:CGRectMake(touchPoint.x, touchPoint.y, 1.0, 1.0)];
 }
 
 - (void) layoutSubviews

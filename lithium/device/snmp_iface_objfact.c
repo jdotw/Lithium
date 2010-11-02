@@ -16,6 +16,8 @@
 #include <induction/metric.h>
 #include <induction/navtree.h>
 #include <induction/str.h>
+#include <induction/configfile.h>
+#include <induction/files.h>
 
 #include "navtree.h"
 #include "snmp.h"
@@ -29,6 +31,8 @@
  */
 
 /* Object Factory Fabrication */
+
+static int static_sql_recording_enabled = -1;
 
 int l_snmp_iface_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struct snmp_pdu *pdu, char *index_oidstr, void *passdata)
 {
@@ -102,19 +106,37 @@ int l_snmp_iface_objfact_fab (i_resource *self, i_container *cnt, i_object *obj,
   iface->bps_out = i_metric_acrate_create (self, obj, "bps_out", "Output Bits Per Second", "bit/s", RECMETHOD_RRD, iface->octets_out, ACRATE_MOD_BYTETOBIT);
   iface->bps_out->record_defaultflag = 1;
 
+
   /* Volume metrics (SQL recorded) */
-  iface->mb_day_in = i_metric_acvol_create (self, obj, "mb_day_in", "Input Data Volume (Daily Total)", "bytes", (1024 * 1024), RECMETHOD_SQL, iface->octets_in, iface->sysuptime, iface->discont, VALPERIOD_DAY);
-  iface->mb_day_in->kbase = 1024;
-  iface->mb_day_in->record_defaultflag = 1;
-  iface->mb_day_out = i_metric_acvol_create (self, obj, "mb_day_out", "Output Data Volume (Daily Total)", "bytes", (1024 * 1024), RECMETHOD_SQL, iface->octets_out, iface->sysuptime, iface->discont, VALPERIOD_DAY);
-  iface->mb_day_out->kbase = 1024;
-  iface->mb_day_out->record_defaultflag = 1;
-  iface->mb_month_in = i_metric_acvol_create (self, obj, "mb_month_in", "Input Data Volume (Monthly Total)", "bytes", (1024 * 1024), RECMETHOD_SQL, iface->octets_in, iface->sysuptime, iface->discont, VALPERIOD_MONTH);
-  iface->mb_month_in->kbase = 1024;
-  iface->mb_month_in->record_defaultflag = 1;
-  iface->mb_month_out = i_metric_acvol_create (self, obj, "mb_month_out", "Output Data Volume (Monthly Total)", "bytes", (1024 * 1024), RECMETHOD_SQL, iface->octets_out, iface->sysuptime, iface->discont, VALPERIOD_MONTH);
-  iface->mb_month_out->kbase = 1024;
-  iface->mb_month_out->record_defaultflag = 1;
+  if (static_sql_recording_enabled == -1)
+  {
+    char *str = i_configfile_get (self, NODECONF_FILE, "recording", "sql", 0);
+    if (str && atoi(str)==1) 
+    {
+      static_sql_recording_enabled = 1;
+      i_printf (0, "l_snmp_iface_objfact_fab SQL recording of day/month volume totals is ENABLED");
+    }
+    else 
+    {
+      static_sql_recording_enabled = 0;
+      i_printf (0, "l_snmp_iface_objfact_fab SQL recording of day/month volume totals is disabled");
+    }
+  }
+  if (static_sql_recording_enabled)
+  {
+    iface->mb_day_in = i_metric_acvol_create (self, obj, "mb_day_in", "Input Data Volume (Daily Total)", "bytes", (1024 * 1024), RECMETHOD_SQL, iface->octets_in, iface->sysuptime, iface->discont, VALPERIOD_DAY);
+    iface->mb_day_in->kbase = 1024;
+    iface->mb_day_in->record_defaultflag = 1;
+    iface->mb_day_out = i_metric_acvol_create (self, obj, "mb_day_out", "Output Data Volume (Daily Total)", "bytes", (1024 * 1024), RECMETHOD_SQL, iface->octets_out, iface->sysuptime, iface->discont, VALPERIOD_DAY);
+    iface->mb_day_out->kbase = 1024;
+    iface->mb_day_out->record_defaultflag = 1;
+    iface->mb_month_in = i_metric_acvol_create (self, obj, "mb_month_in", "Input Data Volume (Monthly Total)", "bytes", (1024 * 1024), RECMETHOD_SQL, iface->octets_in, iface->sysuptime, iface->discont, VALPERIOD_MONTH);
+    iface->mb_month_in->kbase = 1024;
+    iface->mb_month_in->record_defaultflag = 1;
+    iface->mb_month_out = i_metric_acvol_create (self, obj, "mb_month_out", "Output Data Volume (Monthly Total)", "bytes", (1024 * 1024), RECMETHOD_SQL, iface->octets_out, iface->sysuptime, iface->discont, VALPERIOD_MONTH);
+    iface->mb_month_out->kbase = 1024;
+    iface->mb_month_out->record_defaultflag = 1;
+  }
 
   /* Utilisation */
   iface->utilpc_in = i_metric_acpcent_create (self, obj, "utilpc_in", "Input Utilisation", RECMETHOD_RRD, iface->bps_in, iface->speed, ACPCENT_REFCB_GAUGE);

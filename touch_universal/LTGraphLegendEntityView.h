@@ -22,5 +22,6 @@
 @property (nonatomic,retain) UIColor *swatchColor;
 @property (nonatomic,retain) LTEntity *entity;
 
+- (void) presentPopoverForEntityFromRect:(CGRect)rect;
 
 @end

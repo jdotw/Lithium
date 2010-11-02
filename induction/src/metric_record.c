@@ -15,6 +15,8 @@
 #include "container.h"
 #include "object.h"
 #include "metric.h"
+#include "files.h"
+#include "configfile.h"
 
 /** \addtogroup metric_record Recording and Graphing
  * @ingroup metric
@@ -24,6 +26,8 @@
 /* 
  * Metric Recording (RRD and SQL)
  */
+
+static int static_sql_recording_enabled = -1;
 
 int i_metric_record (i_resource *self, i_metric *met)
 {
@@ -124,7 +128,21 @@ int i_metric_record (i_resource *self, i_metric *met)
    * If the RECMETHOD_SQL flag is set, the
    * i_metric_record_sql func is called
    */
-  if (met->record_method & RECMETHOD_SQL && met->record_enabled == 1)
+  if (static_sql_recording_enabled == -1)
+  {
+    char *str = i_configfile_get (self, NODECONF_FILE, "recording", "sql", 0);
+    if (str && atoi(str)==1) 
+    {
+      static_sql_recording_enabled = 1;
+      i_printf (0, "i_metric_record SQL recording of metrics ENABLED");
+    }
+    else 
+    {
+      static_sql_recording_enabled = 0;
+      i_printf (0, "i_metric_record SQL recording of metrics disabled");
+    }
+  }
+  if (static_sql_recording_enabled && met->record_method & RECMETHOD_SQL && met->record_enabled == 1)
   {
     num = i_metric_record_sql (self, met);
     if (num != 0)

@@ -12,6 +12,14 @@
 #import "LCXMLNode.h"
 #import "LTAPIRequest.h"
 
+#define ENT_CUSTOMER 1
+#define ENT_SITE 2
+#define ENT_DEVICE 3
+#define ENT_CONTAINER 4
+#define ENT_OBJECT 5
+#define ENT_METRIC 6
+#define ENT_TRIGGER 7
+
 @class LTCustomer, LTCoreDeployment, LTEntityDescriptor;
 
 @interface LTEntity : LTAPIRequest
@@ -63,7 +71,10 @@
 - (void) xmlParserDidFinish:(LCXMLNode *)rootNode;
 - (NSString *) urlPrefix;
 - (NSURL *) urlForXml:(NSString *)xmlName timestamp:(int)urlRefSec;
-
+- (LTEntity *) parentOfType:(int)type;
+- (LTEntity *) locateChildUsingEntityDescriptor:(LTEntityDescriptor *)entDesc;
+- (LTEntity *) locateChildType:(int)childType usingEntityDescriptor:(LTEntityDescriptor *)entDesc;
+	 
 @property (assign) int type;
 @property (copy) NSString *name;
 @property (copy) NSString *desc;
@@ -110,6 +121,7 @@
 @property (readonly) UIImage *icon;
 
 @property (readonly) NSArray *graphableMetrics;
+
 
 
 @end

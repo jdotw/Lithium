@@ -1,37 +1,37 @@
-//
-//  LTContainerIconViewController.m
+    //
+//  LTObjectIconViewController.m
 //  LithiumTouchUniversal
 //
-//  Created by James Wilson on 7/06/10.
+//  Created by James Wilson on 2/11/10.
 //  Copyright 2010 LithiumCorp. All rights reserved.
 //
 
-#import "LTContainerIconViewController.h"
+#import "LTObjectIconViewController.h"
 #import "LTEntity.h"
 
-@implementation LTContainerIconViewController
+@implementation LTObjectIconViewController
 
-@synthesize container=_container, selected, delegate;
+@synthesize object=_object, selected, delegate;
 
-- (id) initWithContainer:(LTEntity *)container
+- (id) initWithObject:(LTEntity *)object
 {
-	self = [[LTContainerIconViewController alloc] initWithNibName:@"LTContainerIconViewController" bundle:nil];
+	self = [[LTObjectIconViewController alloc] initWithNibName:@"LTObjectIconViewController" bundle:nil];
 	if (!self) return nil;
 	
-	self.container = container;
+	self.object = object;
 	
 	return self;
 }
 
-- (void) setContainer:(LTEntity *)entity
+- (void) setObject:(LTEntity *)value
 {
 	[self loadView];
 	
-	[_container release];
-	_container = [entity retain];
+	[_object release];
+	_object = [value retain];
 	
-	label.text = self.container.desc;
-	imageView.image = self.container.icon;
+	label.text = self.object.desc;
+	imageView.image = self.object.icon;
 }
 
 - (void) setSelected:(BOOL)value
@@ -48,9 +48,9 @@
 
 - (IBAction) iconTapped:(id)sender
 {
-	if ([delegate respondsToSelector:@selector(setSelectedContainer:)])
+	if ([delegate respondsToSelector:@selector(setSelectedObject:)])
 	{
-		[delegate performSelector:@selector(setSelectedContainer:) withObject:self.container];
+		[delegate performSelector:@selector(setSelectedObject:) withObject:self.object];
 	}
 }
 
@@ -68,13 +68,11 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-
 - (void)viewDidUnload {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-
 
 - (void)dealloc {
     [super dealloc];

@@ -9,6 +9,8 @@
 #import "LTGraphLegendTableViewController.h"
 #import "LTGraphLegendTableViewCell.h"
 #import "LTEntity.h"
+#import "LTGraphLegendEntityView.h"
+#import "LTGraphLegendTableViewCell.h"
 
 @implementation LTGraphLegendTableViewController
 
@@ -85,7 +87,6 @@
     // Return the number of rows in the section.
 	int rows = entities.count / entitiesPerRow;
 	if (entities.count % entitiesPerRow) rows++;
-	NSLog (@"%@ rows is %i", self, rows);
 	return rows;
 }
 
@@ -247,6 +248,43 @@
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Entity Highlight
+
+- (void) highlightEntity:(LTEntity *)entity
+{
+	/* Scrolls the tableview to the row, then shows a pop-over
+	 * for the entity with the entity drilled down
+	 */
+	
+	/* First we need to find the parent of the specified entity
+	 * that is a peer to the level of the entities being
+	 * used in the legend. For example, containers may be 
+	 * used in the legend but the entity may be a metric.
+	 *
+	 * We assume here that all entities in 'self.entities' are of the same type
+	 */
+	
+	LTEntity *legendPeer = [entities objectAtIndex:0];
+	if (!legendPeer) return;
+	NSLog (@"Got legendPeer as %i:%@, asking %i:%@ for a parent of type %i", legendPeer.type, legendPeer.desc, entity.type, entity.desc, legendPeer.type);
+	LTEntity *legendParent = [entity parentOfType:legendPeer.type];
+	if (!legendParent) return;
+	
+	/* Row */
+	NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:([entities indexOfObject:legendParent] / entitiesPerRow) inSection:0];
+	
+	/* Scroll to row */
+	[self.tableView scrollToRowAtIndexPath:rowIndexPath
+						  atScrollPosition:UITableViewScrollPositionMiddle
+								  animated:NO];
+	
+	/* Create pop-over */
+	LTGraphLegendTableViewCell *cell = (LTGraphLegendTableViewCell *) [self.tableView cellForRowAtIndexPath:rowIndexPath];
+	LTGraphLegendEntityView *entityView = [cell viewForEntity:legendParent];
+	[entityView presentPopoverForEntityFromRect:entityView.bounds];
+}
 
 @end
+
 

@@ -27,6 +27,8 @@
 	BOOL authExternal;
 	
 	NSAlert *alert;
+	
+	BOOL sqlMetricRecording;
 }
 
 + (LCConfigController *) masterController;
@@ -59,5 +61,7 @@
 - (void) setHttpRoot:(NSString *)string;
 - (BOOL) authExternal;
 - (void) setAuthExternal:(BOOL)flag;
+- (BOOL) sqlMetricRecording;
+- (void) setSqlMetricRecording:(BOOL)flag;
 
 @end

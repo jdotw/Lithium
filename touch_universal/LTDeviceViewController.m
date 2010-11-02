@@ -13,10 +13,11 @@
 #import "LTGraphLegendTableViewController.h"
 #import "LTModalProgressViewController.h"
 #import "LTGraphView.h"
+#import "LTObjectIconViewController.h"
 
 @implementation LTDeviceViewController
 
-@synthesize device=_device, selectedContainer;
+@synthesize device=_device, selectedContainer, selectedObject, entityToHighlight;
 
 - (id) initWithDevice:(LTEntity *)device
 {
@@ -24,6 +25,16 @@
 	if (!self) return nil;
 	
 	self.device = device;
+	
+	return self;
+}
+
+- (id) initWithEntityToHighlight:(LTEntity *)initEntityToHighlight
+{
+	self = [self initWithDevice:initEntityToHighlight.device];
+	if (!self) return nil;
+	
+	self.entityToHighlight = initEntityToHighlight;
 	
 	return self;
 }
@@ -53,6 +64,33 @@
 		[vc release];
 	}
 	containerScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
+}
+
+- (void) rebuildObjectScrollView
+{
+	for (LTObjectIconViewController *vc in objectIconViewControllers)
+	{
+		[vc.view removeFromSuperview];
+	}
+	[objectIconViewControllers removeAllObjects];
+	
+	CGFloat contentWidth = 0.0;
+	CGFloat contentHeight = 0.0;
+	for (LTEntity *object in self.selectedContainer.children)
+	{
+		LTObjectIconViewController *vc = [[LTObjectIconViewController alloc] initWithObject:object];
+		[objectScrollView addSubview:vc.view];
+		CGRect viewFrame = vc.view.frame;
+		viewFrame.origin.x = vc.view.frame.size.width * objectIconViewControllers.count;
+		viewFrame.origin.y = 0.0;
+		contentWidth = viewFrame.origin.x + viewFrame.size.width;
+		if (viewFrame.size.height > contentHeight) contentHeight = viewFrame.size.height;
+		vc.view.frame = viewFrame;
+		vc.delegate = self;
+		[objectIconViewControllers addObject:vc];
+		[vc release];
+	}
+	objectScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
 }
 
 - (void) resizeAndInvalidateScrollViewContent
@@ -86,6 +124,7 @@
 	/* Setup the container scrollview */
 	containerIconViewControllers = [[NSMutableArray array] retain];
 	[self rebuildContainerScrollView];
+	objectIconViewControllers = [[NSMutableArray array] retain];
 	
 	self.navigationItem.title = self.device.desc;
 }
@@ -95,12 +134,32 @@
 	[super viewWillAppear:animated];
 	[self resizeAndInvalidateScrollViewContent];
 	NSLog (@"At will appear we're at %@", NSStringFromCGRect([graphScrollView frame]));	
+	
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
 	NSLog (@"At did appear we're at %@", NSStringFromCGRect([graphScrollView frame]));
+	if (!viewHasAppearedBefore)
+	{
+		/* First time the view will appear */
+		if (!self.device.hasBeenRefreshed)
+		{
+			/* Need to show a modal refresh */
+			modalRefreshInProgress = YES;
+			modalProgressViewController = [[LTModalProgressViewController alloc] initWithNibName:@"LTModalProgressViewController" bundle:nil];
+			modalProgressViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+			[self.navigationController presentModalViewController:modalProgressViewController animated:YES];
+		}
+		else if (self.entityToHighlight)
+		{
+			/* Device is already refreshed and we have something to highlight */
+			[self highlightEntity:self.entityToHighlight];
+			self.entityToHighlight = nil;
+		}			
+		viewHasAppearedBefore = YES;
+	}
 }
 
 - (void) entityRefreshFinished:(NSNotification *)note
@@ -109,7 +168,17 @@
 	{
 		[self rebuildContainerScrollView];
 	}
-	
+	if (modalRefreshInProgress)
+	{
+		NSLog (@"Attempting to dismiss %@", modalProgressViewController);
+		[modalProgressViewController dismissModalViewControllerAnimated:YES];
+	}
+	if (self.entityToHighlight)
+	{
+		/* Device is already refreshed and we have something to highlight */
+		[self highlightEntity:self.entityToHighlight];
+		self.entityToHighlight = nil;
+	}			
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)note
@@ -182,6 +251,9 @@
 	[selectedContainer release];
 	selectedContainer = [value retain];
 	
+	/* Rebuild object list */
+	[self rebuildObjectScrollView];
+	
 	/* Set selection on container icon */
 	for (LTContainerIconViewController *vc in containerIconViewControllers)
 	{
@@ -197,18 +269,77 @@
 	
 	/* Reset graph layer */
 	[graphView setMetrics:selectedContainer.graphableMetrics];
-	
-//	LTGraphTiledLayerDelegate *tileDelegate = [[LTGraphTiledLayerDelegate alloc] init];
-//	tileDelegate.graphScrollView = graphScrollView;
-//	tileDelegate.metrics = 
-//	tileDelegate.graphLayer = graphTiledLayer;
 	[graphScrollView scrollRectToVisible:CGRectMake(graphScrollView.contentSize.width - CGRectGetWidth(graphScrollView.frame),
 													0.0, CGRectGetWidth(graphScrollView.frame), CGRectGetHeight(graphScrollView.frame)) animated:NO];
-//	[graphTiledLayer setNeedsDisplayInRect:graphTiledLayer.frame];
 
 	/* Reset legend tableview */
 	graphLegendTableViewController.entities = selectedContainer.graphableMetrics;
+}
+
+- (void) setSelectedObject:(LTEntity *)value
+{
+	[selectedObject release];
+	selectedObject = [value retain];
 	
+	/* Set selection on container icon */
+	for (LTObjectIconViewController *vc in objectIconViewControllers)
+	{
+		if (vc.object == selectedObject) 
+		{
+			vc.selected = YES;
+		}
+		else
+		{
+			vc.selected = NO;
+		}
+	}
+	
+	/* Reset graph layer */
+	[graphView setMetrics:selectedObject.graphableMetrics];
+	[graphScrollView scrollRectToVisible:CGRectMake(graphScrollView.contentSize.width - CGRectGetWidth(graphScrollView.frame),
+													0.0, CGRectGetWidth(graphScrollView.frame), CGRectGetHeight(graphScrollView.frame)) animated:NO];
+	
+	/* Reset legend tableview */
+	graphLegendTableViewController.entities = selectedObject.graphableMetrics;
+}
+
+- (void) highlightEntity:(LTEntity *)entity
+{
+	/* Performs selections and pop-ups as if the 
+	 * user had drilled-down to this entity
+	 */
+	
+	/* Locate the live entity */
+	LTEntity *liveEntity = [self.device locateChildUsingEntityDescriptor:entity.entityDescriptor];
+	
+	/* Select Container */
+	LTEntity *container = [liveEntity parentOfType:4];
+	if (container)
+	{
+		/* Select the container */
+		[self setSelectedContainer:container];
+		for (LTContainerIconViewController *vc in containerIconViewControllers)
+		{
+			if (vc.selected)
+			{
+				[containerScrollView scrollRectToVisible:vc.view.frame animated:NO];
+				break;
+			}
+		}
+	}
+	
+	/* Check to see if we're graphable */
+	LTEntity *metric = [liveEntity parentOfType:6];
+	if ([container.graphableMetrics containsObject:metric])
+	{
+		/* We're graphable */
+		[graphLegendTableViewController highlightEntity:metric];
+	}
+	else if ([container.graphableMetrics count] > 0)
+	{
+		/* The specified metric isn't graphable, use the first graphable */
+		[graphLegendTableViewController highlightEntity:[container.graphableMetrics objectAtIndex:0]];
+	}
 }
 
 @end

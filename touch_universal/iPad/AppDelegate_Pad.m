@@ -42,7 +42,7 @@
 	}
 	
 	
-	LTDeviceViewController *devVC = [[LTDeviceViewController alloc] initWithDevice:entity.device];
+	LTDeviceViewController *devVC = [[LTDeviceViewController alloc] initWithEntityToHighlight:entity];
 	[self.detailNavigationController pushViewController:devVC animated:animatePush];
 	[devVC release];
 }

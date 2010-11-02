@@ -95,6 +95,8 @@
 		105EDF2811BC3A0E00B294B4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105EDF2711BC3A0E00B294B4 /* SystemConfiguration.framework */; };
 		105EDF5111BC3AF400B294B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105EDF5011BC3AF400B294B4 /* QuartzCore.framework */; };
 		106CB6E211BF79D000F3382D /* LTWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 106CB6E111BF79D000F3382D /* LTWindow.m */; };
+		107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107C3276127FB97F00C2321F /* LTObjectIconViewController.m */; };
+		107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */; };
 		10934AB811BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934AB711BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m */; };
 		10934ABB11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934ABA11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m */; };
 		10934B2511BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934B2411BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m */; };
@@ -258,6 +260,9 @@
 		105EDF5011BC3AF400B294B4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		106CB6E011BF79D000F3382D /* LTWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTWindow.h; sourceTree = "<group>"; };
 		106CB6E111BF79D000F3382D /* LTWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTWindow.m; sourceTree = "<group>"; };
+		107C3275127FB97F00C2321F /* LTObjectIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTObjectIconViewController.h; sourceTree = "<group>"; };
+		107C3276127FB97F00C2321F /* LTObjectIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTObjectIconViewController.m; sourceTree = "<group>"; };
+		107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTObjectIconViewController.xib; sourceTree = "<group>"; };
 		10934AB611BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphLegendTableViewCell.h; sourceTree = "<group>"; };
 		10934AB711BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphLegendTableViewCell.m; sourceTree = "<group>"; };
 		10934AB911BEA1F9009EF1F7 /* LTGraphLegendEntityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphLegendEntityView.h; sourceTree = "<group>"; };
@@ -323,6 +328,7 @@
 				102C692511BCE8F40032D043 /* LTDeviceViewController.m */,
 				102C692611BCE8F40032D043 /* LTDeviceViewController.xib */,
 				102C695311BD60E40032D043 /* Container View */,
+				107C3271127FB95400C2321F /* Object View */,
 				10934AB011BEA0F5009EF1F7 /* Graph */,
 				10BFFA2B1235DE4500723DF4 /* Graph Legend */,
 			);
@@ -633,6 +639,16 @@
 			name = Dots;
 			sourceTree = "<group>";
 		};
+		107C3271127FB95400C2321F /* Object View */ = {
+			isa = PBXGroup;
+			children = (
+				107C3275127FB97F00C2321F /* LTObjectIconViewController.h */,
+				107C3276127FB97F00C2321F /* LTObjectIconViewController.m */,
+				107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */,
+			);
+			name = "Object View";
+			sourceTree = "<group>";
+		};
 		10934AB011BEA0F5009EF1F7 /* Graph */ = {
 			isa = PBXGroup;
 			children = (
@@ -867,6 +883,7 @@
 				10BFFBE41235F09100723DF4 /* IncidentsTab-iPad.xib in Resources */,
 				10BFFC2B1235F24F00723DF4 /* GroupsTab-iPad.xib in Resources */,
 				10F5C00B126290760071CD01 /* LTSummaryTableViewController.xib in Resources */,
+				107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -939,6 +956,7 @@
 				10F5C02D1263A6390071CD01 /* LTIconTableViewCell.m in Sources */,
 				10F5C05B1263A9350071CD01 /* LTIconView.m in Sources */,
 				1029D941126642950057330C /* LTSummaryIconView.m in Sources */,
+				107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

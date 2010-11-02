@@ -180,6 +180,10 @@ static LCConfigController *masterController;
 				if ([value intValue] == 0) [self setAuthExternal:NO];
 				else [self setAuthExternal:YES];
 				break;
+			case 35:
+				if ([value intValue] == 1) [self setSqlMetricRecording:YES];
+				else [self setSqlMetricRecording:NO];
+				break;
 		}
 		
 		/* Increment */
@@ -231,6 +235,12 @@ static LCConfigController *masterController;
 	if (authExternal) [config appendFormat:@"  external \"1\"\n"];
 	else [config appendFormat:@"  external \"0\"\n"];
 	[config appendFormat:@"</authentication>\n\n"];
+
+	/* SQL Recording */
+	[config appendFormat:@"<section recording>\n"];
+	if (sqlMetricRecording) [config appendFormat:@"  sql \"1\"\n"];
+	else [config appendFormat:@"  sql \"0\"\n"];
+	[config appendFormat:@"</recording>\n\n"];	
 	
 	/* Write */
 	return config;
@@ -324,5 +334,14 @@ static LCConfigController *masterController;
 
 - (void) setAuthExternal:(BOOL)flag
 { authExternal = flag; }
+
+- (BOOL) sqlMetricRecording
+{
+	return sqlMetricRecording;
+}
+- (void) setSqlMetricRecording:(BOOL)flag
+{
+	sqlMetricRecording = flag;
+}
 
 @end

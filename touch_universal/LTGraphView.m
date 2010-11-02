@@ -78,7 +78,6 @@
 {
 	/* Determine draw size */
 	CGRect clipRect = CGContextGetClipBoundingBox(ctx);
-	NSLog (@"layer %@ asked to draw in %@", layer, NSStringFromCGRect(clipRect));
 	
 	/* Dimensions */
 	CGFloat zoomScale = 1.0;
@@ -115,7 +114,6 @@
 			CGFloat yOffset = 0.0;
 			if (minMaxSet)
 			{
-				NSLog (@"layer height is %f for scale calc", layer.frame.size.height);
 				yOffset = layer.frame.size.height * (graphReq.minValue / (maxValue - minValue));
 				
 				yScale = 1.0 / (maxValue / (graphReq.maxValue - graphReq.minValue));
@@ -133,22 +131,18 @@
 			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));
 			CGContextScaleCTM(ctx, 1.0, -1.0 * yScale);
 			CGContextConcatCTM(ctx, CGPDFPageGetDrawingTransform(pageRef, kCGPDFCropBox, imageRect, 0, false));
-			NSLog (@"Drawing imageRect %@ in clip %@ with scale %f and yOffset %f", NSStringFromCGRect(imageRect), NSStringFromCGRect(clipRect), yScale, yOffset);
 			
 			CGContextDrawPDFPage(ctx, pageRef);
 			
 			CGContextRestoreGState(ctx);
 		}
-		
-		
-		if (invalidated) NSLog (@"\n\n========================================\n\n");
-		else NSLog (@"----------------------------------------");		
 	}
 	else if (!graphReq)
 	{
 		/* Configure graph request */
 		graphReq = [[LTMetricGraphRequest alloc] init];
 		graphReq.delegate = self;
+		NSLog (@"Existing req is %p", [graphRequestCache objectForKey:[NSNumber numberWithFloat:offset]]);
 		[graphRequestCache setObject:graphReq forKey:[NSNumber numberWithFloat:offset]];
 		graphReq.size = CGSizeMake(clipRect.size.width, self.superview.frame.size.height);
 		graphReq.endSec = (int) [now timeIntervalSince1970] - (offset * secondsPerPixel);
@@ -165,7 +159,6 @@
 												   object:graphReq];
 		
 		/* Perform refresh */
-		NSLog (@"STarting load");
 		[graphReq refresh];
 	}
 	
@@ -186,7 +179,6 @@
 	while (CGRectGetMaxX(hourRect) > CGRectGetMinX(clipRect))
 	{
 		/* Draw current hour */
-		NSLog (@"Drawing %@ at %@ for clip %@", hourString, NSStringFromCGRect(hourRect), NSStringFromCGRect(clipRect));
 		CGContextSetRGBFillColor (ctx, 0, 0, 0, .5);
 		CGContextShowTextAtPoint (ctx, hourRect.origin.x, hourRect.origin.y, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
 		CGContextSetRGBFillColor (ctx, 1, 1, 1, .5);
@@ -218,7 +210,6 @@
 	while (CGRectGetMaxX(dateRect) > CGRectGetMinX(clipRect))
 	{
 		/* Draw current date */
-		NSLog (@"Drawing %@ at %@ for clip %@", dateString, NSStringFromCGRect(dateRect), NSStringFromCGRect(clipRect));
 		CGContextSetRGBFillColor (ctx, 0, 0, 0, .5);
 		CGContextShowTextAtPoint (ctx, dateRect.origin.x, dateRect.origin.y, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
 		CGContextSetRGBFillColor (ctx, 1, 1, 1, .5);
@@ -253,7 +244,6 @@
 
 - (void) apiCallDidFinish:(LTMetricGraphRequest *)graphReq
 {
-	NSLog (@"Got graph (%i bytes) -- %@", [graphReq.imageData length], [[NSString alloc] initWithData:graphReq.imageData encoding:NSUTF8StringEncoding]);
 	[self.layer setNeedsDisplayInRect:graphReq.rectToInvalidate];
 	
 	/* Determine scale based on min/max */
@@ -263,7 +253,6 @@
 		if (graphReq.minValue < minValue)
 		{
 			/* New min value... invalidate layer */
-			NSLog (@"Got a new MIN");
 			[self.layer setNeedsDisplayInRect:self.layer.bounds];
 			invalidated = YES;
 			minValue = graphReq.minValue;
@@ -271,7 +260,6 @@
 		if (graphReq.maxValue > maxValue)
 		{
 			/* New max value.. invalidate layer */
-			NSLog (@"Got a new MAX");
 			invalidated = YES;
 			[self.layer setNeedsDisplayInRect:self.layer.bounds];
 			maxValue = graphReq.maxValue;
@@ -308,15 +296,12 @@
 {
 	[metrics release];
 	metrics = [value retain];
-	
-	NSLog (@"Metrics is now %@", metrics);
-	
+		
 	minMaxSet = NO;
 	maxValue = 0.0;
 	minValue = 0.0;
 	
 	[graphRequestCache removeAllObjects];
-	NSLog (@"%@ Invalidating %@ in %@", self, self.layer, NSStringFromCGRect(self.layer.bounds));
 	[self.layer setNeedsDisplayInRect:self.layer.bounds];
 }
 

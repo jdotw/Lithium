@@ -726,6 +726,7 @@
 	}
 
 	entity = [value retain];
+	self.navigationItem.title = entity.desc;
 	[self sortAndFilterChildren];
 
 	if (entity)

@@ -8,14 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class LTEntity;
 
 @interface LTGraphLegendTableViewController : UITableViewController 
 {
 	NSArray *entities;		/* The metrics being shown in the graph */
 	int entitiesPerRow;		/* Default is 2 */
+	
+	
 }
 
 @property (nonatomic, retain) NSArray *entities;
 @property (nonatomic, assign) int entitiesPerRow;
+
+- (void) highlightEntity:(LTEntity *)entity;
 
 @end

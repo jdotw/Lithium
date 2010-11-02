@@ -542,6 +542,15 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	else
 	{ return nil; }
 }
+- (LTEntity *) parentOfType:(int)parentType
+{
+	/* Will return self if self.type == type */
+	if (parentType > self.type) return nil;
+	LTEntity *entity = self;
+	while (entity && entity.type > parentType)
+	{ entity = entity.parent; }
+	return entity;
+}
 @synthesize adminState;
 @synthesize opState;
 @synthesize currentValue;
@@ -597,7 +606,48 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (UIImage *) icon
 {
-	return [UIImage imageNamed:@"computer.pmg"];
+	return [UIImage imageNamed:@"computer.png"];
+}
+
+- (LTEntity *) locateChildUsingEntityDescriptor:(LTEntityDescriptor *)entDesc 
+{
+	return [self locateChildType:entDesc.type usingEntityDescriptor:entDesc];
+}
+
+- (LTEntity *) locateChildType:(int)childType usingEntityDescriptor:(LTEntityDescriptor *)entDesc 
+{
+	if (childType < self.type) return nil;
+	LTEntity *child = self;
+	while (child && child.type < childType)
+	{
+		NSString *childName = nil;
+		switch (child.type) {
+			case 1:
+				childName = entDesc.siteName;
+				break;
+			case 2:
+				childName = entDesc.devName;
+				break;
+			case 3:
+				childName = entDesc.cntName;
+				break;
+			case 4:
+				childName = entDesc.objName;
+				break;
+			case 5:
+				childName = entDesc.metName;
+				break;
+			case 6:
+				childName = entDesc.trgName;
+				break;
+		}
+		if (childName)
+		{
+			child = [child.childDict objectForKey:childName];
+		}
+		else return nil;
+	}
+	return child;
 }
 
 @end

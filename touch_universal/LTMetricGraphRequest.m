@@ -80,9 +80,6 @@
 	[xmlString appendFormat:@"<height>%@</height>", [NSString stringWithFormat:@"%.0f", size.height]];
 	[xmlString appendString:@"</graph>"];	
 	
-	NSLog(@"XML String is %@", xmlString);
-	NSLog(@"Path is %@", [self.metric urlForXml:@"xmlgraph_render" timestamp:0]);
-	
 	/* Refresh the incident list */
 	urlReq = [NSMutableURLRequest requestWithURL:[self.metric urlForXml:@"xmlgraph_render" timestamp:0]
 									 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
@@ -133,7 +130,6 @@
 																  cachePolicy:NSURLRequestReloadIgnoringCacheData
 															  timeoutInterval:30.0];
 		NSURLConnection *urlConn = [[NSURLConnection connectionWithRequest:urlRequest delegate:self] retain];
-		NSLog (@"%@ Created second stage (%@ / %@)", self, connection, urlRequest);
 		if (urlConn)
 		{
 			/* Set up data */

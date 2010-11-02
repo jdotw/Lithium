@@ -28,7 +28,6 @@
 
 - (void) dealloc
 {
-	NSLog (@"%@ DEALLOC!", self);
 	for (LTMetricGraphRequest *graphReq in [graphRequestCache allValues])
 	{
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"GraphRefreshFinished" object:graphReq];
@@ -66,7 +65,6 @@
 			CGFloat yOffset = 0.0;
 			if (minMaxSet)
 			{
-				NSLog (@"layer height is %f for scale calc", layer.frame.size.height);
 				yOffset = layer.frame.size.height * (graphReq.minValue / (maxValue - minValue));
 				
 				yScale = 1.0 / (maxValue / (graphReq.maxValue - graphReq.minValue));
@@ -82,13 +80,9 @@
 			CGContextTranslateCTM(ctx, 0.0, layer.bounds.size.height - yOffset);
 			CGContextScaleCTM(ctx, 1.0, -1.0 * yScale);
 			CGContextConcatCTM(ctx, CGPDFPageGetDrawingTransform(pageRef, kCGPDFCropBox, imageRect, 0, false));
-			NSLog (@"Drawing imageRect %@ in clip %@ with scale %f and yOffset %f", NSStringFromCGRect(imageRect), NSStringFromCGRect(clipRect), yScale, yOffset);
 			
 			CGContextDrawPDFPage(ctx, pageRef);
-		}
-		
-		if (invalidated) NSLog (@"\n\n========================================\n\n");
-		else NSLog (@"----------------------------------------");		
+		}		
 	}
 	else if (!graphReq)
 	{
@@ -111,7 +105,6 @@
 												   object:graphReq];
 		
 		/* Perform refresh */
-		NSLog (@"STarting load");
 		[graphReq performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];
 	}
 }
@@ -135,7 +128,6 @@
 
 - (void) graphLoadFinished:(NSNotification *)note
 {
-	NSLog (@"Got graph");
 	LTMetricGraphRequest *graphReq = (LTMetricGraphRequest *) [note object];
 	[graphLayer setNeedsDisplayInRect:graphReq.rectToInvalidate];
 	
@@ -146,7 +138,6 @@
 		if (graphReq.minValue < minValue)
 		{
 			/* New min value... invalidate layer */
-			NSLog (@"Got a new MIN");
 			[graphLayer setNeedsDisplayInRect:graphLayer.bounds];
 			invalidated = YES;
 			minValue = graphReq.minValue;
@@ -154,7 +145,6 @@
 		if (graphReq.maxValue > maxValue)
 		{
 			/* New max value.. invalidate layer */
-			NSLog (@"Got a new MAX");
 			invalidated = YES;
 			[graphLayer setNeedsDisplayInRect:graphLayer.bounds];
 			maxValue = graphReq.maxValue;
