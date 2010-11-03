@@ -171,7 +171,7 @@
 	if (modalRefreshInProgress)
 	{
 		NSLog (@"Attempting to dismiss %@", modalProgressViewController);
-		[modalProgressViewController dismissModalViewControllerAnimated:YES];
+		[self.navigationController dismissModalViewControllerAnimated:YES];
 	}
 	if (self.entityToHighlight)
 	{

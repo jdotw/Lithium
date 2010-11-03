@@ -20,6 +20,10 @@
 	
 	self.container = container;
 	
+	UITapGestureRecognizer *longRecog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iconHeldLong:)];
+	[longRecog setCancelsTouchesInView:YES];
+	[self.view addGestureRecognizer:longRecog];
+	
 	return self;
 }
 
@@ -54,6 +58,10 @@
 	}
 }
 
+- (void) iconHeldLong:(UIGestureRecognizer *)recog
+{
+	NSLog (@"Long Held!");
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Overriden to allow any orientation.

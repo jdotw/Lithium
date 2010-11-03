@@ -19,7 +19,14 @@
 
 - (void) awakeFromNib
 {
-	self.rowHeight = self.rowHeightSlider.value;
+	if ([[NSUserDefaults standardUserDefaults] objectForKey:[self rowHeightKey]])
+	{
+		self.rowHeight = [[NSUserDefaults standardUserDefaults] floatForKey:self.rowHeightKey];
+	}
+	else 
+	{
+		self.rowHeight = self.rowHeightSlider.value;
+	}
 	[self.rowHeightSlider addTarget:self 
 							 action:@selector(rowHeightSliderMoved:)
 				   forControlEvents:UIControlEventValueChanged];
@@ -29,9 +36,16 @@
 #pragma mark - 
 #pragma mark Row Height
 
+- (NSString *) rowHeightKey
+{
+	return [NSString stringWithFormat:@"%@RowHeight", [[self class] description]];
+}
+
 - (void) rowHeightSliderMoved:(id)sender
 {
 	self.rowHeight = self.rowHeightSlider.value;
+	[[NSUserDefaults standardUserDefaults] setFloat:self.rowHeight forKey:self.rowHeightKey];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 	[self.tableView reloadData];
 }
 

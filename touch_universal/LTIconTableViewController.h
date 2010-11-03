@@ -16,5 +16,6 @@
 
 @property (nonatomic, assign) CGFloat rowHeight;
 @property (nonatomic, retain) IBOutlet UISlider *rowHeightSlider;
+@property (nonatomic, readonly) NSString *rowHeightKey;
 
 @end
