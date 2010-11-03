@@ -710,7 +710,11 @@ i_list* i_triggerset_apprule_sql_load_sync (i_resource *self, i_triggerset *tset
   i_list *list = NULL;
 
   if (!static_apprule_cache)
-  { i_triggerset_apprule_sql_load_cache (self); }
+  { 
+    int num = i_triggerset_apprule_sql_load_cache (self); 
+    if (num != 0)
+    { i_printf (1, "i_triggerset_apprule_sql_load_sync failed to load triggerset apprules from sql"); return NULL; }
+  }
 
   /* Create query */
   cnt_esc = i_postgres_escape (tset->cnt->name_str);

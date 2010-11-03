@@ -257,7 +257,7 @@
 	/* Set selection on container icon */
 	for (LTContainerIconViewController *vc in containerIconViewControllers)
 	{
-		if (vc.container == selectedContainer) 
+		if (vc.entity == selectedContainer) 
 		{
 			vc.selected = YES;
 		}
@@ -284,7 +284,7 @@
 	/* Set selection on container icon */
 	for (LTObjectIconViewController *vc in objectIconViewControllers)
 	{
-		if (vc.object == selectedObject) 
+		if (vc.entity == selectedObject) 
 		{
 			vc.selected = YES;
 		}

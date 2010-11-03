@@ -97,6 +97,7 @@
 		106CB6E211BF79D000F3382D /* LTWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 106CB6E111BF79D000F3382D /* LTWindow.m */; };
 		107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107C3276127FB97F00C2321F /* LTObjectIconViewController.m */; };
 		107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */; };
+		108A307D12812A4700594D29 /* LTEntityIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 108A307C12812A4700594D29 /* LTEntityIconViewController.m */; };
 		10934AB811BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934AB711BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m */; };
 		10934ABB11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934ABA11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m */; };
 		10934B2511BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934B2411BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m */; };
@@ -263,6 +264,8 @@
 		107C3275127FB97F00C2321F /* LTObjectIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTObjectIconViewController.h; sourceTree = "<group>"; };
 		107C3276127FB97F00C2321F /* LTObjectIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTObjectIconViewController.m; sourceTree = "<group>"; };
 		107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTObjectIconViewController.xib; sourceTree = "<group>"; };
+		108A307B12812A4700594D29 /* LTEntityIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityIconViewController.h; sourceTree = "<group>"; };
+		108A307C12812A4700594D29 /* LTEntityIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityIconViewController.m; sourceTree = "<group>"; };
 		10934AB611BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphLegendTableViewCell.h; sourceTree = "<group>"; };
 		10934AB711BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphLegendTableViewCell.m; sourceTree = "<group>"; };
 		10934AB911BEA1F9009EF1F7 /* LTGraphLegendEntityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphLegendEntityView.h; sourceTree = "<group>"; };
@@ -327,6 +330,8 @@
 				102C692411BCE8F40032D043 /* LTDeviceViewController.h */,
 				102C692511BCE8F40032D043 /* LTDeviceViewController.m */,
 				102C692611BCE8F40032D043 /* LTDeviceViewController.xib */,
+				108A307B12812A4700594D29 /* LTEntityIconViewController.h */,
+				108A307C12812A4700594D29 /* LTEntityIconViewController.m */,
 				102C695311BD60E40032D043 /* Container View */,
 				107C3271127FB95400C2321F /* Object View */,
 				10934AB011BEA0F5009EF1F7 /* Graph */,
@@ -957,6 +962,7 @@
 				10F5C05B1263A9350071CD01 /* LTIconView.m in Sources */,
 				1029D941126642950057330C /* LTSummaryIconView.m in Sources */,
 				107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */,
+				108A307D12812A4700594D29 /* LTEntityIconViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

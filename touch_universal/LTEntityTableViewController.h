@@ -23,6 +23,8 @@
 	UINavigationController *externalNavigationController;
 }
 
+- (id)initWitEntity:(LTEntity *)initEntity;
+
 @property (retain) LTEntity *entity;
 @property (nonatomic,assign) UINavigationController *externalNavigationController;
 

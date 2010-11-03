@@ -33,6 +33,13 @@
 
 @synthesize externalNavigationController;
 
+- (id)initWitEntity:(LTEntity *)initEntity
+{
+	self = [super initWithStyle:UITableViewStylePlain];
+	self.entity = initEntity;
+	return self;
+}
+
 - (id)initWithStyle:(UITableViewStyle)style 
 {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.

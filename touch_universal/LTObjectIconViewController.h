@@ -7,25 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LTEntityIconViewController.h"
 
 @class LTEntity;
 
-@interface LTObjectIconViewController : UIViewController 
+@interface LTObjectIconViewController : LTEntityIconViewController 
 {
-	IBOutlet UIImageView *imageView;
-	IBOutlet UILabel *label;
-	LTEntity *_object;
-	
-	BOOL selected;
-	
-	id delegate;
 }
 
 - (id) initWithObject:(LTEntity *)object;
-- (IBAction) iconTapped:(id)sender;
-
-@property (nonatomic, retain) LTEntity *object;
-@property (nonatomic, assign) BOOL selected;
-@property (nonatomic, assign) id delegate;
 
 @end
