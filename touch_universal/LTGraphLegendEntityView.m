@@ -19,6 +19,8 @@
 {
     if ((self = [super initWithFrame:frame])) 
 	{
+		self.opaque = NO;
+		
         // Initialization code
 		swatchView = [[UIView alloc] initWithFrame:CGRectZero];
 		swatchView.userInteractionEnabled = NO;
@@ -33,6 +35,9 @@
 		label.font = [UIFont boldSystemFontOfSize:12.0];
 		label.textAlignment = UITextAlignmentLeft;
 		label.userInteractionEnabled = NO;
+		label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+		label.shadowOffset = CGSizeMake(0.0, -1.0);
+		
 		[self addSubview:label];
 		[label release];
 		
@@ -61,7 +66,7 @@
 
 - (void) layoutSubviews
 {
-	CGFloat padding = 4.0;
+	CGFloat padding = 8.0;
 	
 	/* Swatch */
 	CGFloat swatchWidth=12.0;
@@ -70,6 +75,25 @@
 	/* Label */
 	label.frame = CGRectMake(CGRectGetMaxX(swatchView.frame)+padding, CGRectGetMidY(self.bounds)-(label.font.pointSize*0.5), 
 							 CGRectGetWidth(self.bounds) - ((CGRectGetMaxX(swatchView.frame)+padding) + padding), label.font.pointSize);	
+}
+
+- (void) drawRect:(CGRect)rect
+{
+	[super drawRect:rect];
+	
+	UIBezierPath *outineOuter = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:6.0];
+	[[UIColor colorWithWhite:0.0 alpha:0.1] setFill];
+	[outineOuter addClip];
+	[outineOuter fill];
+	
+	UIBezierPath *outlineDarkInnder = [UIBezierPath bezierPathWithRoundedRect:CGRectOffset(self.bounds, 1.0, 1.0) cornerRadius:6.0];
+	[[UIColor colorWithWhite:0.0 alpha:0.1] setStroke];
+	[outlineDarkInnder stroke];
+
+	UIBezierPath *outlineLightInnder = [UIBezierPath bezierPathWithRoundedRect:CGRectOffset(self.bounds, -1.0, -1.0) cornerRadius:6.0];
+	[[UIColor colorWithWhite:1.0 alpha:0.1] setStroke];
+	[outlineLightInnder stroke];
+	
 }
 
 - (void)dealloc {

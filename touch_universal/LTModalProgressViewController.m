@@ -16,6 +16,16 @@
 - (void) entityRefreshFinished:(NSNotification *)note
 {
 	progressLabel.text = @"Finished.";
+	if (hasAppeared)
+	{
+		NSLog (@"%@ dismissing immediately", self);
+		[self dismissModalViewControllerAnimated:YES];
+	}
+	else
+	{
+		NSLog (@"%@ deferring dismissal until it appears", self);
+		shouldDismissWhenAppears = YES;
+	}
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)note
@@ -40,6 +50,12 @@
 {
 	[super viewDidAppear:animated];
 	[self entityRefreshStatusUpdated:nil];	
+	hasAppeared = YES;
+	if (shouldDismissWhenAppears) 
+	{
+		[self dismissModalViewControllerAnimated:YES];
+		NSLog (@"%@ performing deferred dismissal on appearance", self);
+	}
 }
 
 - (void)dealloc 

@@ -104,6 +104,15 @@
 {
 	/* Setup graph view */
 	CGRect contentRect = CGRectMake(0.0, 0.0, 8000.0, graphScrollView.frame.size.height);
+
+	NSArray *labels = [NSArray arrayWithObjects:leftMaxLabel, leftAvgLabel, leftMinLabel, rightMaxLabel, rightAvgLabel, rightMinLabel, nil];
+	for (UILabel *label in labels)
+	{
+		label.layer.shadowOffset = CGSizeMake(2.0, 2.0);
+		label.layer.shadowRadius = 3.0;
+		label.layer.shadowOpacity = 0.8;
+	}
+	
 	graphView = [[LTGraphView alloc] initWithFrame:contentRect];
 	[graphView.minLabels addObject:leftMinLabel];
 	[graphView.minLabels addObject:rightMinLabel];
@@ -119,6 +128,7 @@
 	[graphScrollView scrollRectToVisible:CGRectMake(CGRectGetMaxX(contentRect) - CGRectGetWidth(graphScrollView.frame),
 													0.0, CGRectGetWidth(graphScrollView.frame), CGRectGetHeight(graphScrollView.frame)) animated:NO];
 	
+
 	NSLog (@"At load we're at %@", NSStringFromCGRect([graphScrollView frame]));
 
 	/* Setup the container scrollview */
@@ -149,8 +159,10 @@
 			/* Need to show a modal refresh */
 			modalRefreshInProgress = YES;
 			modalProgressViewController = [[LTModalProgressViewController alloc] initWithNibName:@"LTModalProgressViewController" bundle:nil];
+			modalProgressViewController.entity = self.device;
 			modalProgressViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-			[self.navigationController presentModalViewController:modalProgressViewController animated:YES];
+			NSLog (@"Presenting %@ through %@", modalProgressViewController, self);
+			[self presentModalViewController:modalProgressViewController animated:YES];
 		}
 		else if (self.entityToHighlight)
 		{
@@ -170,8 +182,11 @@
 	}
 	if (modalRefreshInProgress)
 	{
-		NSLog (@"Attempting to dismiss %@", modalProgressViewController);
-		[self.navigationController dismissModalViewControllerAnimated:YES];
+		/* The modal controller will dismiss itself when it has appeared
+		 * This is done to avoid the race condition of the dismiss being
+		 * called before the modal view has actually appeared
+		 */
+		modalRefreshInProgress = NO;
 	}
 	if (self.entityToHighlight)
 	{

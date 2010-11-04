@@ -76,13 +76,15 @@
 
 - (void) layoutSubviews
 {
+	CGFloat xPadding = 10.0;
+	CGFloat yPadding = 4.0;
 	CGFloat viewWidth = CGRectGetWidth(self.bounds) / (CGFloat) entities.count;
 	for (LTGraphLegendEntityView *entityView in entityViews)
 	{
-		entityView.frame = CGRectMake(CGRectGetMinX(self.bounds) + ([entityViews indexOfObject:entityView] * viewWidth), 
-									  CGRectGetMinY(self.bounds), 
-									  viewWidth, 
-									  CGRectGetHeight(self.bounds));
+		entityView.frame = CGRectMake(CGRectGetMinX(self.bounds) + ([entityViews indexOfObject:entityView] * viewWidth) + xPadding, 
+									  CGRectGetMinY(self.bounds) + yPadding, 
+									  viewWidth - (2 * xPadding), 
+									  CGRectGetHeight(self.bounds) - (2 * yPadding));
 		[entityView setNeedsLayout];
 	}
 }

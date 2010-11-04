@@ -13,6 +13,8 @@
 @interface LTModalProgressViewController : UIViewController 
 {
 	IBOutlet UILabel *progressLabel;
+	BOOL hasAppeared;
+	BOOL shouldDismissWhenAppears;
 	
 	LTEntity *entity;
 }

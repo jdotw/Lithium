@@ -102,6 +102,8 @@
 		10934ABB11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934ABA11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m */; };
 		10934B2511BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934B2411BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m */; };
 		1095A27711BD9E63008EED5B /* LTGraphTiledLayerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1095A27611BD9E63008EED5B /* LTGraphTiledLayerDelegate.m */; };
+		109DA38812829C8600577BAA /* noiseback.png in Resources */ = {isa = PBXBuildFile; fileRef = 109DA38712829C8600577BAA /* noiseback.png */; };
+		109DA4371282B14200577BAA /* LTEntityIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 109DA4361282B14200577BAA /* LTEntityIconView.m */; };
 		10BAD5CC11C2C88900147DCA /* LTGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BAD5CB11C2C88900147DCA /* LTGraphView.m */; };
 		10BFF6DE1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BFF6DD1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m */; };
 		10BFFBE41235F09100723DF4 /* IncidentsTab-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10BFFBE31235F09100723DF4 /* IncidentsTab-iPad.xib */; };
@@ -274,6 +276,9 @@
 		10934B2411BEB0A0009EF1F7 /* LTGraphLegendTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphLegendTableViewController.m; sourceTree = "<group>"; };
 		1095A27511BD9E63008EED5B /* LTGraphTiledLayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphTiledLayerDelegate.h; sourceTree = "<group>"; };
 		1095A27611BD9E63008EED5B /* LTGraphTiledLayerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphTiledLayerDelegate.m; sourceTree = "<group>"; };
+		109DA38712829C8600577BAA /* noiseback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noiseback.png; sourceTree = "<group>"; };
+		109DA4351282B14200577BAA /* LTEntityIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityIconView.h; sourceTree = "<group>"; };
+		109DA4361282B14200577BAA /* LTEntityIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityIconView.m; sourceTree = "<group>"; };
 		10BAD5CA11C2C88900147DCA /* LTGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphView.h; sourceTree = "<group>"; };
 		10BAD5CB11C2C88900147DCA /* LTGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphView.m; sourceTree = "<group>"; };
 		10BFF6DC1232171B00723DF4 /* LTEntityRefreshProgressViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityRefreshProgressViewCell.h; sourceTree = "<group>"; };
@@ -327,11 +332,14 @@
 		102C692111BCE8BB0032D043 /* Device View */ = {
 			isa = PBXGroup;
 			children = (
+				109DA38712829C8600577BAA /* noiseback.png */,
 				102C692411BCE8F40032D043 /* LTDeviceViewController.h */,
 				102C692511BCE8F40032D043 /* LTDeviceViewController.m */,
 				102C692611BCE8F40032D043 /* LTDeviceViewController.xib */,
 				108A307B12812A4700594D29 /* LTEntityIconViewController.h */,
 				108A307C12812A4700594D29 /* LTEntityIconViewController.m */,
+				109DA4351282B14200577BAA /* LTEntityIconView.h */,
+				109DA4361282B14200577BAA /* LTEntityIconView.m */,
 				102C695311BD60E40032D043 /* Container View */,
 				107C3271127FB95400C2321F /* Object View */,
 				10934AB011BEA0F5009EF1F7 /* Graph */,
@@ -889,6 +897,7 @@
 				10BFFC2B1235F24F00723DF4 /* GroupsTab-iPad.xib in Resources */,
 				10F5C00B126290760071CD01 /* LTSummaryTableViewController.xib in Resources */,
 				107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */,
+				109DA38812829C8600577BAA /* noiseback.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -963,6 +972,7 @@
 				1029D941126642950057330C /* LTSummaryIconView.m in Sources */,
 				107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */,
 				108A307D12812A4700594D29 /* LTEntityIconViewController.m in Sources */,
+				109DA4371282B14200577BAA /* LTEntityIconView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

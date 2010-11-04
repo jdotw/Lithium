@@ -93,7 +93,6 @@
 		contentSize = self.superview.bounds.size;
 	}
 
-	
 	/* Time orientation */
 	NSDate *now = [NSDate date];
 	CGFloat offset = contentSize.width - CGRectGetMaxX(clipRect);
@@ -167,33 +166,36 @@
 	NSDateComponents *endDateComponents = [[NSCalendar currentCalendar] components:NSMinuteCalendarUnit|NSHourCalendarUnit fromDate:sliceEndDate];
 	
 	/* Draw time line */
+	CGFloat hourLineYOffset = 40.0;
+	int hourInterval = 2;		/* Gap between hour markers */
 	int hour = [endDateComponents hour];
 	NSString *hourString = [NSString stringWithFormat:@"%.2i:00", hour];
 	CGSize hourStringSize = [hourString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:10.0] constrainedToSize:CGSizeMake(100.0, 12.0) lineBreakMode:UILineBreakModeClip];
-	CGRect hourRect = CGRectMake(CGRectGetMaxX(clipRect) - (([endDateComponents minute] * 60.0) / secondsPerPixel), 
-								 CGRectGetHeight(self.superview.frame) - 10.0, 
+	CGRect hourRect = CGRectMake(CGRectGetMaxX(clipRect) - (([endDateComponents minute] * 60.0 * hourInterval) / secondsPerPixel), 
+								 CGRectGetHeight(self.superview.frame) - hourLineYOffset, 
 								 hourStringSize.width, hourStringSize.height);
-	CGContextSelectFont (ctx, "Helvetica-Bold", 10.0, kCGEncodingMacRoman);
+	CGContextSelectFont (ctx, "Helvetica-Bold", 14.0, kCGEncodingMacRoman);
 	CGContextSetTextDrawingMode (ctx, kCGTextFill);
 	CGContextSetTextMatrix(ctx, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 	while (CGRectGetMaxX(hourRect) > CGRectGetMinX(clipRect))
 	{
 		/* Draw current hour */
-		CGContextSetRGBFillColor (ctx, 0, 0, 0, .5);
+		CGContextSetRGBFillColor (ctx, 1, 1, 1, .2);
 		CGContextShowTextAtPoint (ctx, hourRect.origin.x, hourRect.origin.y, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
-		CGContextSetRGBFillColor (ctx, 1, 1, 1, .5);
-		CGContextShowTextAtPoint (ctx, hourRect.origin.x, hourRect.origin.y+1, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
+		CGContextSetRGBFillColor (ctx, 0, 0, 0, .8);
+		CGContextShowTextAtPoint (ctx, hourRect.origin.x, hourRect.origin.y-1, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
 		
 		/* Move (back) to prev hour */
-		if (hour == 0) hour = 23;
-		else hour -= 1;
+		if (hour < 1) hour = 23;
+		else hour -= hourInterval;
 		hourString = [NSString stringWithFormat:@"%.2i:00", hour];
-		hourStringSize = [hourString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:10.0] constrainedToSize:CGSizeMake(100.0, 12.0) lineBreakMode:UILineBreakModeClip];
-		hourRect = CGRectMake(hourRect.origin.x - ((60 * 60) / secondsPerPixel), hourRect.origin.y, 
+		hourStringSize = [hourString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14.0] constrainedToSize:CGSizeMake(100.0, 12.0) lineBreakMode:UILineBreakModeClip];
+		hourRect = CGRectMake(hourRect.origin.x - ((60 * 60 * hourInterval) / secondsPerPixel), hourRect.origin.y, 
 							  hourStringSize.width, hourStringSize.height);
 	}
 
 	/* Draw date line */
+	CGFloat dateLineYOffset = hourLineYOffset * 2.0;
 	NSDate *dateToDraw = sliceEndDate;
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
@@ -202,7 +204,7 @@
 	NSString *dateString = [formatter stringForObjectValue:dateToDraw];
 	CGSize dateStringSize = [dateString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14.0] constrainedToSize:CGSizeMake(200.0, 12.0) lineBreakMode:UILineBreakModeClip];
 	CGRect dateRect = CGRectMake(CGRectGetMaxX(clipRect) - ((([endDateComponents minute] * 60.0) + ([endDateComponents hour] * 60.0 * 60.0)) / secondsPerPixel), 
-								 CGRectGetHeight(self.superview.frame) - 40.0, 
+								 CGRectGetHeight(self.superview.frame) - dateLineYOffset, 
 								 dateStringSize.width, hourStringSize.height);
 	CGContextSelectFont (ctx, "Helvetica-Bold", 14.0, kCGEncodingMacRoman);
 	CGContextSetTextDrawingMode (ctx, kCGTextFill);
@@ -210,17 +212,55 @@
 	while (CGRectGetMaxX(dateRect) > CGRectGetMinX(clipRect))
 	{
 		/* Draw current date */
-		CGContextSetRGBFillColor (ctx, 0, 0, 0, .5);
+		CGContextSetRGBFillColor (ctx, 1, 1, 1, .2);
 		CGContextShowTextAtPoint (ctx, dateRect.origin.x, dateRect.origin.y, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
-		CGContextSetRGBFillColor (ctx, 1, 1, 1, .5);
-		CGContextShowTextAtPoint (ctx, dateRect.origin.x, dateRect.origin.y+1, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
-		
+		CGContextSetRGBFillColor (ctx, 0, 0, 0, .8);
+		CGContextShowTextAtPoint (ctx, dateRect.origin.x, dateRect.origin.y-1, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
+				
 		/* Move (back) to prev date */
 		dateToDraw = [dateToDraw dateByAddingTimeInterval:-86400.0];
 		dateString = [formatter stringForObjectValue:dateToDraw];
 		dateStringSize = [dateString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14.0] constrainedToSize:CGSizeMake(120.0, 12.0) lineBreakMode:UILineBreakModeClip];
 		dateRect = CGRectMake(dateRect.origin.x - (86400.0 / secondsPerPixel), dateRect.origin.y, 
 							  dateStringSize.width, dateStringSize.height);
+	}
+	
+	/* Draw min/avg/max lines */
+	CGRect minLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMinY(self.bounds), CGRectGetWidth(clipRect), 1.0);
+	if (CGRectContainsRect(clipRect, minLineRect))
+	{
+		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
+		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
+		CGContextAddPath(ctx, innerPath.CGPath);
+		CGContextDrawPath(ctx, kCGPathFill);
+		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
+		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
+		CGContextAddPath(ctx, outerPath.CGPath);
+		CGContextDrawPath(ctx, kCGPathFill);
+	}
+	CGRect midLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMidY(self.bounds), CGRectGetWidth(clipRect), 1.0);
+	if (CGRectContainsRect(clipRect, midLineRect))
+	{
+		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
+		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
+		CGContextAddPath(ctx, innerPath.CGPath);
+		CGContextDrawPath(ctx, kCGPathFill);
+		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
+		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
+		CGContextAddPath(ctx, outerPath.CGPath);
+		CGContextDrawPath(ctx, kCGPathFill);
+	}
+	CGRect maxLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMaxY(self.bounds)-1.0, CGRectGetWidth(clipRect), 1.0);
+	if (CGRectContainsRect(clipRect, maxLineRect))
+	{
+		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
+		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
+		CGContextAddPath(ctx, innerPath.CGPath);
+		CGContextDrawPath(ctx, kCGPathFill);
+		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
+		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
+		CGContextAddPath(ctx, outerPath.CGPath);
+		CGContextDrawPath(ctx, kCGPathFill);
 	}
 	
 }
