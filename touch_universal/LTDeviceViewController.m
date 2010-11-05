@@ -120,6 +120,7 @@
 	[graphView.avgLabels addObject:rightAvgLabel];
 	[graphView.maxLabels addObject:leftMaxLabel];
 	[graphView.maxLabels addObject:rightMaxLabel];
+	[graphView setNeedsDisplay];
 	[graphScrollView addSubview:graphView];
 	graphScrollView.contentSize = graphView.frame.size;	
 	graphScrollView.maximumZoomScale = 1.0;
@@ -136,7 +137,7 @@
 	[self rebuildContainerScrollView];
 	objectIconViewControllers = [[NSMutableArray array] retain];
 	
-	self.navigationItem.title = self.device.desc;
+	self.navigationItem.title = self.device.desc;	
 }
 
 - (void) viewWillAppear:(BOOL)animated

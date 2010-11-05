@@ -606,7 +606,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (UIImage *) icon
 {
-	return [UIImage imageNamed:@"computer.png"];
+	return nil;
 }
 
 - (LTEntity *) locateChildUsingEntityDescriptor:(LTEntityDescriptor *)entDesc 

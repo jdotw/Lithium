@@ -42,14 +42,6 @@
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
-
 //- (void) setFrame:(CGRect)rect
 //{
 //	NSLog (@"Askd to size to %@", NSStringFromCGRect(rect));
@@ -179,11 +171,22 @@
 	CGContextSetTextMatrix(ctx, CGAffineTransformMake(1.0,0.0, 0.0, -1.0, 0.0, 0.0));
 	while (CGRectGetMaxX(hourRect) > CGRectGetMinX(clipRect))
 	{
+		/* Draw hour line */
+		CGRect hourLineRect = CGRectMake(CGRectGetMinX(hourRect), CGRectGetMinY(self.bounds), 1.0, CGRectGetHeight(self.bounds));
+		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:hourLineRect];
+		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.05);
+		CGContextAddPath(ctx, innerPath.CGPath);
+		CGContextDrawPath(ctx, kCGPathFill);
+		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(hourLineRect, 1.0, 0.0)];
+		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.05);
+		CGContextAddPath(ctx, outerPath.CGPath);
+		CGContextDrawPath(ctx, kCGPathFill);
+		
 		/* Draw current hour */
 		CGContextSetRGBFillColor (ctx, 1, 1, 1, .2);
-		CGContextShowTextAtPoint (ctx, hourRect.origin.x, hourRect.origin.y, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
+		CGContextShowTextAtPoint (ctx, hourRect.origin.x - (hourRect.size.width * 0.5), hourRect.origin.y, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
 		CGContextSetRGBFillColor (ctx, 0, 0, 0, .8);
-		CGContextShowTextAtPoint (ctx, hourRect.origin.x, hourRect.origin.y-1, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
+		CGContextShowTextAtPoint (ctx, hourRect.origin.x - (hourRect.size.width * 0.5), hourRect.origin.y-1, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
 		
 		/* Move (back) to prev hour */
 		if (hour < 1) hour = 23;
@@ -225,43 +228,43 @@
 							  dateStringSize.width, dateStringSize.height);
 	}
 	
-	/* Draw min/avg/max lines */
-	CGRect minLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMinY(self.bounds), CGRectGetWidth(clipRect), 1.0);
-	if (CGRectContainsRect(clipRect, minLineRect))
-	{
-		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
-		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
-		CGContextAddPath(ctx, innerPath.CGPath);
-		CGContextDrawPath(ctx, kCGPathFill);
-		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
-		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
-		CGContextAddPath(ctx, outerPath.CGPath);
-		CGContextDrawPath(ctx, kCGPathFill);
-	}
-	CGRect midLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMidY(self.bounds), CGRectGetWidth(clipRect), 1.0);
-	if (CGRectContainsRect(clipRect, midLineRect))
-	{
-		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
-		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
-		CGContextAddPath(ctx, innerPath.CGPath);
-		CGContextDrawPath(ctx, kCGPathFill);
-		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
-		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
-		CGContextAddPath(ctx, outerPath.CGPath);
-		CGContextDrawPath(ctx, kCGPathFill);
-	}
-	CGRect maxLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMaxY(self.bounds)-1.0, CGRectGetWidth(clipRect), 1.0);
-	if (CGRectContainsRect(clipRect, maxLineRect))
-	{
-		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
-		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
-		CGContextAddPath(ctx, innerPath.CGPath);
-		CGContextDrawPath(ctx, kCGPathFill);
-		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
-		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
-		CGContextAddPath(ctx, outerPath.CGPath);
-		CGContextDrawPath(ctx, kCGPathFill);
-	}
+//	/* Draw min/avg/max lines */
+//	CGRect minLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMinY(self.bounds), CGRectGetWidth(clipRect), 1.0);
+//	if (CGRectContainsRect(clipRect, minLineRect))
+//	{
+//		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
+//		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
+//		CGContextAddPath(ctx, innerPath.CGPath);
+//		CGContextDrawPath(ctx, kCGPathFill);
+//		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
+//		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
+//		CGContextAddPath(ctx, outerPath.CGPath);
+//		CGContextDrawPath(ctx, kCGPathFill);
+//	}
+//	CGRect midLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMidY(self.bounds), CGRectGetWidth(clipRect), 1.0);
+//	if (CGRectContainsRect(clipRect, midLineRect))
+//	{
+//		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
+//		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
+//		CGContextAddPath(ctx, innerPath.CGPath);
+//		CGContextDrawPath(ctx, kCGPathFill);
+//		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
+//		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
+//		CGContextAddPath(ctx, outerPath.CGPath);
+//		CGContextDrawPath(ctx, kCGPathFill);
+//	}
+//	CGRect maxLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMaxY(self.bounds)-1.0, CGRectGetWidth(clipRect), 1.0);
+//	if (CGRectContainsRect(clipRect, maxLineRect))
+//	{
+//		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
+//		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
+//		CGContextAddPath(ctx, innerPath.CGPath);
+//		CGContextDrawPath(ctx, kCGPathFill);
+//		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
+//		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
+//		CGContextAddPath(ctx, outerPath.CGPath);
+//		CGContextDrawPath(ctx, kCGPathFill);
+//	}
 	
 }
 

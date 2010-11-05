@@ -13,6 +13,10 @@
 		102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C692611BCE8F40032D043 /* LTDeviceViewController.xib */; };
 		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
 		102C695811BD61170032D043 /* LTContainerIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C695611BD61170032D043 /* LTContainerIconViewController.xib */; };
+		104DEF0912835E6A008A7936 /* LTGraphScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104DEF0812835E6A008A7936 /* LTGraphScrollView.m */; };
+		104DEF6E12836995008A7936 /* ContainerScrollBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 104DEF6C12836995008A7936 /* ContainerScrollBack.png */; };
+		104DEF6F12836995008A7936 /* ObjectScrollBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 104DEF6D12836995008A7936 /* ObjectScrollBack.png */; };
+		104DEFA81283796D008A7936 /* LTGraphBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104DEFA71283796D008A7936 /* LTGraphBackgroundView.m */; };
 		105EDDDD11BC2FFE00B294B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */; };
 		105EDDFC11BC345200B294B4 /* devices.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDDF711BC345200B294B4 /* devices.png */; };
 		105EDDFD11BC345200B294B4 /* computer.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDDF811BC345200B294B4 /* computer.png */; };
@@ -136,6 +140,12 @@
 		102C695411BD61170032D043 /* LTContainerIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTContainerIconViewController.h; sourceTree = "<group>"; };
 		102C695511BD61170032D043 /* LTContainerIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTContainerIconViewController.m; sourceTree = "<group>"; };
 		102C695611BD61170032D043 /* LTContainerIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTContainerIconViewController.xib; sourceTree = "<group>"; };
+		104DEF0712835E6A008A7936 /* LTGraphScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphScrollView.h; sourceTree = "<group>"; };
+		104DEF0812835E6A008A7936 /* LTGraphScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphScrollView.m; sourceTree = "<group>"; };
+		104DEF6C12836995008A7936 /* ContainerScrollBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContainerScrollBack.png; sourceTree = "<group>"; };
+		104DEF6D12836995008A7936 /* ObjectScrollBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ObjectScrollBack.png; sourceTree = "<group>"; };
+		104DEFA61283796D008A7936 /* LTGraphBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphBackgroundView.h; sourceTree = "<group>"; };
+		104DEFA71283796D008A7936 /* LTGraphBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphBackgroundView.m; sourceTree = "<group>"; };
 		105EDDDB11BC2FFE00B294B4 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		105EDDF711BC345200B294B4 /* devices.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = devices.png; sourceTree = "<group>"; };
@@ -340,6 +350,8 @@
 				108A307C12812A4700594D29 /* LTEntityIconViewController.m */,
 				109DA4351282B14200577BAA /* LTEntityIconView.h */,
 				109DA4361282B14200577BAA /* LTEntityIconView.m */,
+				104DEF6C12836995008A7936 /* ContainerScrollBack.png */,
+				104DEF6D12836995008A7936 /* ObjectScrollBack.png */,
 				102C695311BD60E40032D043 /* Container View */,
 				107C3271127FB95400C2321F /* Object View */,
 				10934AB011BEA0F5009EF1F7 /* Graph */,
@@ -669,6 +681,10 @@
 				10BAD5CB11C2C88900147DCA /* LTGraphView.m */,
 				1095A27511BD9E63008EED5B /* LTGraphTiledLayerDelegate.h */,
 				1095A27611BD9E63008EED5B /* LTGraphTiledLayerDelegate.m */,
+				104DEF0712835E6A008A7936 /* LTGraphScrollView.h */,
+				104DEF0812835E6A008A7936 /* LTGraphScrollView.m */,
+				104DEFA61283796D008A7936 /* LTGraphBackgroundView.h */,
+				104DEFA71283796D008A7936 /* LTGraphBackgroundView.m */,
 			);
 			name = Graph;
 			sourceTree = "<group>";
@@ -898,6 +914,8 @@
 				10F5C00B126290760071CD01 /* LTSummaryTableViewController.xib in Resources */,
 				107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */,
 				109DA38812829C8600577BAA /* noiseback.png in Resources */,
+				104DEF6E12836995008A7936 /* ContainerScrollBack.png in Resources */,
+				104DEF6F12836995008A7936 /* ObjectScrollBack.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,6 +991,8 @@
 				107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */,
 				108A307D12812A4700594D29 /* LTEntityIconViewController.m in Sources */,
 				109DA4371282B14200577BAA /* LTEntityIconView.m in Sources */,
+				104DEF0912835E6A008A7936 /* LTGraphScrollView.m in Sources */,
+				104DEFA81283796D008A7936 /* LTGraphBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
