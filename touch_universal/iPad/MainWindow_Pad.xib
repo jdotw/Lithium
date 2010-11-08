@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="36"/>
+			<integer value="83"/>
 			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -43,9 +43,9 @@
 				<int key="NSvFlags">292</int>
 				<string key="NSFrameSize">{768, 1024}</string>
 				<reference key="NSSuperview"/>
-				<object class="NSColor" key="IBUIBackgroundColor" id="958326755">
+				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
-					<bytes key="NSWhite">MQA</bytes>
+					<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
 				</object>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -318,7 +318,7 @@
 						<nil key="NSNextResponder"/>
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{129, 330}, {163, 49}}</string>
-						<object class="NSColor" key="IBUIBackgroundColor">
+						<object class="NSColor" key="IBUIBackgroundColor" id="599207510">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
 						</object>
@@ -375,7 +375,8 @@
 								</object>
 								<string key="NSFrameSize">{703, 704}</string>
 								<reference key="NSSuperview"/>
-								<reference key="IBUIBackgroundColor" ref="958326755"/>
+								<reference key="IBUIBackgroundColor" ref="599207510"/>
+								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<bool key="IBUIAlwaysBounceVertical">YES</bool>
@@ -917,6 +918,7 @@
 					<string>-2.CustomClassName</string>
 					<string>110.CustomClassName</string>
 					<string>110.IBPluginDependency</string>
+					<string>111.CustomClassName</string>
 					<string>111.IBPluginDependency</string>
 					<string>134.IBPluginDependency</string>
 					<string>150.IBPluginDependency</string>
@@ -964,6 +966,7 @@
 					<string>UIResponder</string>
 					<string>LTSummaryTableViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>LTSummaryTableView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1215,6 +1218,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">LTSetupTableViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">LTSummaryTableView</string>
+					<string key="superclassName">UITableView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">LTSummaryTableView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

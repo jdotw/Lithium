@@ -42,9 +42,8 @@
 	CGFloat viewWidth = self.bounds.size.width / [[self subviews] count];	
 	for (UIView *view in [self subviews])
 	{
-		view.frame = CGRectMake(([[self subviews] indexOfObject:view] * viewWidth) + (0.5 * (viewWidth - CGRectGetHeight(self.bounds))),
-								CGRectGetMinY(self.bounds), 
-								CGRectGetHeight(self.bounds), CGRectGetHeight(self.bounds));
+		view.frame = CGRectIntegral(CGRectMake(([[self subviews] indexOfObject:view] * viewWidth) + (0.5 * (viewWidth - CGRectGetHeight(self.bounds))),
+											   CGRectGetMinY(self.bounds), CGRectGetHeight(self.bounds), CGRectGetHeight(self.bounds)));
 	}
 }
 

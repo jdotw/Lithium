@@ -38,6 +38,9 @@ int l_snmp_hrfilesys_enable (i_resource *self)
   int num;
   i_entity_refresh_config defrefconfig;
 
+  /* Check to see if we're already on */
+  if (static_hrfilesys_enabled == 1) return 0;
+
   /* Create/Config Container */
   i_container *cnt = i_container_create ("hrfilesys", "Storage Resources");
   cnt->hidden = 1;

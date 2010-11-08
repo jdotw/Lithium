@@ -170,7 +170,6 @@ i_customer* i_customer_struct (char *data, int datasize)
   if (offset < 1)
   { i_printf (1, "i_customer_struct failed to get uuid_str from data"); if (name_str) free (name_str); if (desc_str) free (desc_str); return NULL; }
   dataptr += offset;
-  if (uuid_str) free (uuid_str);
 
   /* Create customer struct */
   cust = i_customer_create (name_str, desc_str, baseurl_str);
@@ -178,6 +177,7 @@ i_customer* i_customer_struct (char *data, int datasize)
   if (name_str) free (name_str);
   if (desc_str) free (desc_str); 
   if (baseurl_str) free (baseurl_str); 
+  if (uuid_str) free (uuid_str);
   if (!cust)
   { i_printf (1, "i_customer_struct failed to create customer struct"); return NULL; }
 

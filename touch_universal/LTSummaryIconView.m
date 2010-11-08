@@ -25,10 +25,18 @@
 		
 		/* Create UI Elements */
 		label = [[UILabel alloc] initWithFrame:CGRectZero];
+		label.textColor = [UIColor whiteColor];
 		label.textAlignment = UITextAlignmentCenter;
 		label.userInteractionEnabled = NO;
+		label.backgroundColor = [UIColor clearColor];
+		label.shadowColor = [UIColor blackColor];
+		label.shadowOffset = CGSizeMake(0.0, 1.0);
 		[self addSubview:label];
 		[label release];
+		
+		imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		[self addSubview:imageView];
+		[imageView release];
 
 		UIGestureRecognizer *touchRecog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(buttonTouched:)];
 		[self addGestureRecognizer:touchRecog];
@@ -37,12 +45,6 @@
 		longHoldRecog.cancelsTouchesInView = YES;
 		[self addGestureRecognizer:longHoldRecog];
 		
-		
-//		button = [UIButton buttonWithType:UIButtonTypeCustom];
-//		[button addTarget:self action:@selector(buttonTouched:) forControlEvents:UIControlEventTouchUpInside];
-//		[button addG
-//		[self addSubview:button];
-
 		/* Set entity */
 		self.entity = initEntity;
     }
@@ -57,8 +59,12 @@
 	label.frame = CGRectMake(CGRectGetMinX(self.bounds)+labelPadding, CGRectGetMaxY(self.bounds)-labelPadding-labelHeight, CGRectGetWidth(self.bounds)-(2*labelPadding), labelHeight);
 	label.font = [UIFont systemFontOfSize:labelHeight];
 	
-	/* Button */
-	button.frame = self.bounds;
+	/* Image */
+	imageView.frame = CGRectMake(CGRectGetMinX(self.bounds) + (0.25 * CGRectGetWidth(self.bounds)),
+								 CGRectGetMidY(self.bounds) - (CGRectGetWidth(self.bounds) * 0.25) - labelPadding, 
+								 CGRectGetWidth(self.bounds) * 0.5,
+								 CGRectGetWidth(self.bounds) * 0.5);
+	
 }
 
 - (void)drawRect:(CGRect)rect 
@@ -98,6 +104,8 @@
 	entity = [value retain];
 	
 	label.text = entity.desc;
+	imageView.image = entity.icon;
+	
 }
 
 

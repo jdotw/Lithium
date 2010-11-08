@@ -13,6 +13,7 @@
 @interface LTSummaryIconView : UIView 
 {
 	UILabel *label;
+	UIImageView *imageView;
 	UIButton *button;
 }
 
