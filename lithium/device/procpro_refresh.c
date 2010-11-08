@@ -76,6 +76,7 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
     if (num != 0)
     { i_printf (1, "l_procpro_refresh_procpro failed to compile arguments matching regexp '%s'", procpro->argmatch_str); return -1; }
     match_arguments = 1;
+
   }
 
   /* Variables */
