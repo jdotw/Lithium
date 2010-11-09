@@ -82,6 +82,11 @@ i_metric* l_modb_objfact_fab_met (i_resource *self, i_container *cnt, i_object *
     /* SNMP Metric */
     met = l_snmp_metric_create (self, obj, met_template->name_str, met_template->desc_str,
       met_template->val_type, met_template->oid_str, index_oidstr, met_template->record_method, 0);
+    if (!met) 
+    {
+      i_printf(1, "l_modb_objfact_fab_met failed to create metric");
+      return NULL;
+    }
     if (met_template->unit_str) met->unit_str = strdup (met_template->unit_str);
 
     /* Add Enums */
