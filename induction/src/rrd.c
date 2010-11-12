@@ -186,8 +186,6 @@ i_rrdtool_cmd* i_rrd_graph (i_resource *self, char *filename, time_t start_sec, 
   free (y_label_str);
   free (font_str);
 
-  i_printf (0, "GRAPH: '%s'", command_str);
-
   cmd = i_rrdtool_exec (self, filename, command_str, RRDFLAG_URGENT, cbfunc, passdata);
   free (command_str);
   if (!cmd)
