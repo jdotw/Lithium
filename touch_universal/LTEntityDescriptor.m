@@ -127,6 +127,45 @@
 	return self;
 }
 
+- (id) initWithEntityAddress:(NSString *)entityAddress
+{
+	self = [self init];
+	if (!self) return nil;
+	
+	NSArray *components = [entityAddress componentsSeparatedByString:@":"];
+	for (NSString *string in components)
+	{
+		switch([components indexOfObject:string])
+		{
+			case 0:
+				self.type = [string intValue];
+				break;
+			case 1:
+				self.custName = [string copy];
+				break;
+			case 2:
+				self.siteName = [string copy];
+				break;
+			case 3:
+				self.devName = [string copy];
+				break;
+			case 4:
+				self.cntName = [string copy];
+				break;
+			case 5:
+				self.objName = [string copy];
+				break;
+			case 6:
+				self.metName = [string copy];
+				break;
+			case 7:
+				self.trgName = [string copy];
+				break;
+		}
+	}
+	return self;
+}
+
 - (LTEntityDescriptor *) initWithCoder:(NSCoder *)decoder
 {
 	[self init];

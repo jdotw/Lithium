@@ -14,6 +14,7 @@
 #import "LTModalProgressViewController.h"
 #import "LTGraphView.h"
 #import "LTObjectIconViewController.h"
+#import "LTEntityDescriptor.h"
 
 @interface LTDeviceViewController (Private)
 
@@ -155,6 +156,11 @@
 #pragma mark - 
 #pragma mark Selection Management (from ScrollView)
 
+- (NSString *) lastSelectionKey
+{
+	return [NSString stringWithFormat:@"LTDeviceViewControllerLastSelectionFor%@", self.device.entityAddress];
+}
+
 - (void) setSelectedContainer:(LTEntity *)value
 {
 	[selectedContainer release];
@@ -178,6 +184,9 @@
 	
 	/* Reset graph layer */
 	[self graphMetrics:selectedContainer.graphableMetrics fromEntity:selectedContainer];	
+	
+	/* Save selection */
+	[[NSUserDefaults standardUserDefaults] setObject:selectedContainer.entityAddress forKey:[self lastSelectionKey]];
 }
 
 - (void) setSelectedObject:(LTEntity *)value
@@ -212,6 +221,9 @@
 		graphEnclosingView.hidden = YES;
 		graphLegendTableView.hidden = YES;
 	}
+	
+	/* Save selection */
+	[[NSUserDefaults standardUserDefaults] setObject:selectedObject.entityAddress forKey:[self lastSelectionKey]];
 }
 
 - (void) hideObjectScrollView
@@ -469,13 +481,21 @@
 		 * called before the modal view has actually appeared
 		 */
 		modalRefreshInProgress = NO;
+
+		if (self.entityToHighlight)
+		{
+			/* Device is already refreshed and we have something to highlight */
+			[self selectEntity:self.entityToHighlight];
+			self.entityToHighlight = nil;
+		}
+		else if ([[NSUserDefaults standardUserDefaults] objectForKey:[self lastSelectionKey]])
+		{
+			NSString *entAddr = [[NSUserDefaults standardUserDefaults] objectForKey:[self lastSelectionKey]];
+			LTEntityDescriptor *entDesc = [[[LTEntityDescriptor alloc] initWithEntityAddress:entAddr] autorelease];
+			LTEntity *lastSelectionEntity = [self.device locateChildUsingEntityDescriptor:entDesc];
+			if (lastSelectionEntity) [self selectEntity:lastSelectionEntity];
+		}
 	}
-	if (self.entityToHighlight)
-	{
-		/* Device is already refreshed and we have something to highlight */
-		[self selectEntity:self.entityToHighlight];
-		self.entityToHighlight = nil;
-	}			
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)note
