@@ -337,24 +337,5 @@
 	[self.tableView reloadData];
 }
 
-#pragma mark -
-#pragma mark SplitView Delegate
-
-- (void) splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
-{
-	barButtonItem.enabled = YES;
-	barButtonItem.title = @"Stuff";
-	self.navigationItem.leftBarButtonItem = barButtonItem;
-	sidePopoverController = pc;
-	sidePopoverBarButtonItem = barButtonItem;
-}
-
-- (void) splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
-{
-	self.navigationItem.leftBarButtonItem = nil;
-	sidePopoverController = nil;
-	sidePopoverBarButtonItem = nil;
-}
-
 @end
 

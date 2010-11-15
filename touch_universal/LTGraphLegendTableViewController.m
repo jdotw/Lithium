@@ -11,10 +11,11 @@
 #import "LTEntity.h"
 #import "LTGraphLegendEntityView.h"
 #import "LTGraphLegendTableViewCell.h"
+#import "LTGraphView.h"
 
 @implementation LTGraphLegendTableViewController
 
-@synthesize entities, entitiesPerRow;
+@synthesize entities, entitiesPerRow, graphView;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -115,7 +116,7 @@
 		NSString *avgColour;
 		NSString *maxColour;
 		UIColor *swatchColor = [UIColor whiteColor];
-		switch ([entities indexOfObject:entity])
+		switch ([graphView.metrics indexOfObject:entity])
 		{
 			case 0:		/* Blue */
 				minColour = @"0e1869";
@@ -164,7 +165,13 @@
 				avgColour = @"a51c78";
 				swatchColor = [UIColor colorWithRed:(CGFloat)0xa5/0xff green:(CGFloat)0x1c/0xff blue:(CGFloat)0x78/0xff alpha:1.0];
 				maxColour = @"f80baa";
-				break;				
+				break;		
+			case NSNotFound:
+				minColour = nil;
+				avgColour = nil;
+				maxColour = nil;
+				swatchColor = [UIColor clearColor];
+				break;
 		}				
 		[cell setSwatchColor:swatchColor forEntityAtIndex:[rowMetrics indexOfObject:entity]];
 	}

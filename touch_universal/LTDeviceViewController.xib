@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1056</int>
-		<string key="IBDocument.SystemVersion">10F569</string>
+		<string key="IBDocument.SystemVersion">10H574</string>
 		<string key="IBDocument.InterfaceBuilderVersion">823</string>
-		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="28"/>
+			<integer value="59"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -54,72 +54,88 @@
 							<string key="NSResourceName">noiseback.png</string>
 						</object>
 					</object>
-					<object class="IBUIImageView" id="250619693">
+					<object class="IBUIView" id="734047330">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrameSize">{768, 91}</string>
-						<reference key="NSSuperview" ref="766721923"/>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">ContainerScrollBack.png</string>
+						<object class="NSMutableArray" key="NSSubviews">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUIImageView" id="250619693">
+								<reference key="NSNextResponder" ref="734047330"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrameSize">{768, 91}</string>
+								<reference key="NSSuperview" ref="734047330"/>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">ContainerScrollBack.png</string>
+								</object>
+							</object>
+							<object class="IBUIScrollView" id="550746577">
+								<reference key="NSNextResponder" ref="734047330"/>
+								<int key="NSvFlags">290</int>
+								<string key="NSFrameSize">{768, 90}</string>
+								<reference key="NSSuperview" ref="734047330"/>
+								<object class="NSColor" key="IBUIBackgroundColor" id="11777603">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MCAwAA</bytes>
+								</object>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<bool key="IBUIMultipleTouchEnabled">YES</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
+								<bool key="IBUIBouncesZoom">NO</bool>
+							</object>
 						</object>
-					</object>
-					<object class="IBUIImageView" id="259822543">
-						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{0, 89}, {768, 48}}</string>
-						<reference key="NSSuperview" ref="766721923"/>
-						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<object class="NSCustomResource" key="IBUIImage">
-							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">ObjectScrollBack.png</string>
-						</object>
-					</object>
-					<object class="IBUIScrollView" id="550746577">
-						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">290</int>
 						<string key="NSFrameSize">{768, 90}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<object class="NSColor" key="IBUIBackgroundColor" id="11777603">
+						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MCAwAA</bytes>
+							<bytes key="NSWhite">MQA</bytes>
+							<object class="NSColorSpace" key="NSCustomColorSpace" id="540465252">
+								<int key="NSID">2</int>
+							</object>
 						</object>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
-						<bool key="IBUIBouncesZoom">NO</bool>
 					</object>
-					<object class="IBUIScrollView" id="731964039">
+					<object class="IBUIView" id="990178454">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{0, 90}, {768, 47}}</string>
+						<int key="NSvFlags">292</int>
+						<object class="NSMutableArray" key="NSSubviews">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUIImageView" id="259822543">
+								<reference key="NSNextResponder" ref="990178454"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrameSize">{768, 48}</string>
+								<reference key="NSSuperview" ref="990178454"/>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">ObjectScrollBack.png</string>
+								</object>
+							</object>
+							<object class="IBUIScrollView" id="731964039">
+								<reference key="NSNextResponder" ref="990178454"/>
+								<int key="NSvFlags">290</int>
+								<string key="NSFrame">{{0, 1}, {768, 47}}</string>
+								<reference key="NSSuperview" ref="990178454"/>
+								<reference key="IBUIBackgroundColor" ref="11777603"/>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<bool key="IBUIMultipleTouchEnabled">YES</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
+								<bool key="IBUIBouncesZoom">NO</bool>
+							</object>
+						</object>
+						<string key="NSFrame">{{0, 88}, {768, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="IBUIBackgroundColor" ref="11777603"/>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<bool key="IBUIMultipleTouchEnabled">YES</bool>
+						<object class="NSColor" key="IBUIBackgroundColor">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MQA</bytes>
+							<reference key="NSCustomColorSpace" ref="540465252"/>
+						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
-						<bool key="IBUIBouncesZoom">NO</bool>
-					</object>
-					<object class="IBUITableView" id="369773638">
-						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">282</int>
-						<string key="NSFrame">{{32, 722}, {704, 237}}</string>
-						<reference key="NSSuperview" ref="766721923"/>
-						<reference key="IBUIBackgroundColor" ref="11777603"/>
-						<bool key="IBUIOpaque">NO</bool>
-						<bool key="IBUIClipsSubviews">YES</bool>
-						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<bool key="IBUIBouncesZoom">NO</bool>
-						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
-						<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-						<float key="IBUIRowHeight">44</float>
-						<float key="IBUISectionHeaderHeight">22</float>
-						<float key="IBUISectionFooterHeight">22</float>
 					</object>
 					<object class="IBUIView" id="1003273188">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -286,6 +302,22 @@
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="IBUIBackgroundColor" ref="11777603"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+					</object>
+					<object class="IBUITableView" id="369773638">
+						<reference key="NSNextResponder" ref="766721923"/>
+						<int key="NSvFlags">282</int>
+						<string key="NSFrame">{{32, 722}, {704, 237}}</string>
+						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="IBUIBackgroundColor" ref="11777603"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClipsSubviews">YES</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<bool key="IBUIBouncesZoom">NO</bool>
+						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
+						<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
+						<float key="IBUIRowHeight">44</float>
+						<float key="IBUISectionHeaderHeight">22</float>
+						<float key="IBUISectionFooterHeight">22</float>
 					</object>
 				</object>
 				<string key="NSFrameSize">{768, 960}</string>
@@ -461,6 +493,38 @@
 					</object>
 					<int key="connectionID">58</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">containerEnclosingView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="734047330"/>
+					</object>
+					<int key="connectionID">61</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">objectEnclosingView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="990178454"/>
+					</object>
+					<int key="connectionID">62</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">graphEnclosingView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="1003273188"/>
+					</object>
+					<int key="connectionID">63</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">graphLegendTableView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="369773638"/>
+					</object>
+					<int key="connectionID">64</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -487,25 +551,19 @@
 						<reference key="object" ref="766721923"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="369773638"/>
-							<reference ref="731964039"/>
 							<reference ref="1003273188"/>
-							<reference ref="550746577"/>
+							<reference ref="990178454"/>
+							<reference ref="734047330"/>
 							<reference ref="921655410"/>
-							<reference ref="250619693"/>
-							<reference ref="259822543"/>
+							<reference ref="369773638"/>
 						</object>
 						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">12</int>
-						<reference key="object" ref="550746577"/>
-						<reference key="parent" ref="766721923"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">16</int>
 						<reference key="object" ref="369773638"/>
 						<reference key="parent" ref="766721923"/>
+						<string key="objectName">Graph Legend Table View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">17</int>
@@ -529,6 +587,7 @@
 							<reference ref="360128381"/>
 						</object>
 						<reference key="parent" ref="766721923"/>
+						<string key="objectName">Graph Enclosing View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">5</int>
@@ -564,28 +623,55 @@
 						<reference key="parent" ref="1003273188"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">44</int>
-						<reference key="object" ref="731964039"/>
-						<reference key="parent" ref="766721923"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">46</int>
-						<reference key="object" ref="921655410"/>
-						<reference key="parent" ref="766721923"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">30</int>
 						<reference key="object" ref="360128381"/>
 						<reference key="parent" ref="1003273188"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">54</int>
-						<reference key="object" ref="250619693"/>
+						<int key="objectID">59</int>
+						<reference key="object" ref="990178454"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="731964039"/>
+							<reference ref="259822543"/>
+						</object>
 						<reference key="parent" ref="766721923"/>
+						<string key="objectName">Object Enclosing View</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">44</int>
+						<reference key="object" ref="731964039"/>
+						<reference key="parent" ref="990178454"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">55</int>
 						<reference key="object" ref="259822543"/>
+						<reference key="parent" ref="990178454"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">60</int>
+						<reference key="object" ref="734047330"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="550746577"/>
+							<reference ref="250619693"/>
+						</object>
+						<reference key="parent" ref="766721923"/>
+						<string key="objectName">Container Enclosing View</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">54</int>
+						<reference key="object" ref="250619693"/>
+						<reference key="parent" ref="734047330"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">12</int>
+						<reference key="object" ref="550746577"/>
+						<reference key="parent" ref="734047330"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">46</int>
+						<reference key="object" ref="921655410"/>
 						<reference key="parent" ref="766721923"/>
 					</object>
 				</object>
@@ -627,16 +713,22 @@
 					<string>54.IBViewBoundsToFrameTransform</string>
 					<string>55.IBPluginDependency</string>
 					<string>55.IBViewBoundsToFrameTransform</string>
+					<string>59.IBPluginDependency</string>
+					<string>59.IBViewBoundsToFrameTransform</string>
+					<string>60.IBPluginDependency</string>
+					<string>60.IBViewBoundsToFrameTransform</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>LTDeviceViewController</string>
 					<string>UIResponder</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<object class="NSAffineTransform"/>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">AUN/AAAAAAAAA</bytes>
+					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABBoAAAxF5AAA</bytes>
+						<bytes key="NSTransformStruct">AUIAAABENIAAA</bytes>
 					</object>
 					<string>LTGraphLegendTableViewController</string>
 					<string>{{422, 110}, {768, 1024}}</string>
@@ -666,25 +758,35 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABAoAAAwjgAAA</bytes>
+						<bytes key="NSTransformStruct">AUOTgABCtAAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<object class="NSAffineTransform"/>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAxG+AAA</bytes>
+					</object>
 					<string>LTGraphScrollView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSMutableArray">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 					</object>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAxAUAAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAxA1AAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">AQAAAAA/gAAAA</bytes>
+						<bytes key="NSTransformStruct">AUN/AAAAAAAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">AQAAAABCsgAAA</bytes>
+						<bytes key="NSTransformStruct">AUOTAABCsgAAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">AUOQAADCTAAAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABCJAAAw4AAAA</bytes>
 					</object>
 				</object>
 			</object>
@@ -704,7 +806,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">58</int>
+			<int key="maxID">64</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -716,13 +818,17 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>containerEnclosingView</string>
 							<string>containerScrollView</string>
+							<string>graphEnclosingView</string>
+							<string>graphLegendTableView</string>
 							<string>graphLegendTableViewController</string>
 							<string>graphOuterView</string>
 							<string>graphScrollView</string>
 							<string>leftAvgLabel</string>
 							<string>leftMaxLabel</string>
 							<string>leftMinLabel</string>
+							<string>objectEnclosingView</string>
 							<string>objectScrollView</string>
 							<string>rightAvgLabel</string>
 							<string>rightMaxLabel</string>
@@ -730,13 +836,17 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIView</string>
 							<string>UIScrollView</string>
+							<string>UIView</string>
+							<string>UITableView</string>
 							<string>LTGraphLegendTableViewController</string>
 							<string>UIView</string>
 							<string>UIScrollView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
+							<string>UIView</string>
 							<string>UIScrollView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
@@ -747,13 +857,17 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>containerEnclosingView</string>
 							<string>containerScrollView</string>
+							<string>graphEnclosingView</string>
+							<string>graphLegendTableView</string>
 							<string>graphLegendTableViewController</string>
 							<string>graphOuterView</string>
 							<string>graphScrollView</string>
 							<string>leftAvgLabel</string>
 							<string>leftMaxLabel</string>
 							<string>leftMinLabel</string>
+							<string>objectEnclosingView</string>
 							<string>objectScrollView</string>
 							<string>rightAvgLabel</string>
 							<string>rightMaxLabel</string>
@@ -762,8 +876,20 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
+								<string key="name">containerEnclosingView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">containerScrollView</string>
 								<string key="candidateClassName">UIScrollView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">graphEnclosingView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">graphLegendTableView</string>
+								<string key="candidateClassName">UITableView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">graphLegendTableViewController</string>
@@ -788,6 +914,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">leftMinLabel</string>
 								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">objectEnclosingView</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">objectScrollView</string>

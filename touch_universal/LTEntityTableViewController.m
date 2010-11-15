@@ -496,9 +496,7 @@
 	{
 		/* Device and iPad */
 		AppDelegate_Pad *appDelegate = (AppDelegate_Pad *) [[UIApplication sharedApplication] delegate];
-		LTDeviceViewController *devView = [[LTDeviceViewController alloc] initWithDevice:viableEntity];
 		[appDelegate displayEntityInDetailView:viableEntity];
-		[devView release];
 	}
 	else
 	{

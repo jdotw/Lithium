@@ -18,7 +18,8 @@
 
 @property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *detailNavigationController;
-@property (nonatomic, retain) IBOutlet UINavigationItem *summaryNavItem;
+@property (nonatomic, retain) IBOutlet UINavigationItem *deviceNavigationItem;
+@property (nonatomic, retain) IBOutlet LTDeviceViewController *deviceViewController;
 
 - (void) displayEntityInDetailView:(LTEntity *)entity;
 

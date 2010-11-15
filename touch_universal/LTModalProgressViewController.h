@@ -19,6 +19,7 @@
 	LTEntity *entity;
 }
 
+- (id) initWithEntity:(LTEntity *)initEntity;
 @property (nonatomic,retain) LTEntity *entity;
 
 @end

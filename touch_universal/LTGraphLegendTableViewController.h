@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class LTEntity;
+@class LTEntity, LTGraphView;
 
 @interface LTGraphLegendTableViewController : UITableViewController 
 {
@@ -20,6 +20,7 @@
 
 @property (nonatomic, retain) NSArray *entities;
 @property (nonatomic, assign) int entitiesPerRow;
+@property (nonatomic, retain) LTGraphView *graphView;
 
 - (void) highlightEntity:(LTEntity *)entity;
 

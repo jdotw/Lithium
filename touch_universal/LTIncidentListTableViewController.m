@@ -12,6 +12,7 @@
 #import "LTCustomer.h"
 #import "LTIncidentListGroup.h"
 #import "AppDelegate.h"
+#import "AppDelegate_Pad.h"
 #import "LTIncidentTableViewController.h"
 #import "LTEntityDescriptor.h"
 #import "LTEntityRefreshProgressViewCell.h"
@@ -408,14 +409,24 @@
 	LTIncidentListGroup *group = (LTIncidentListGroup *) [sortedChildren objectAtIndex:indexPath.section];
 	LTIncident *incident = [group.children objectAtIndex:[indexPath row]];
 	
-	LTIncidentTableViewController *incidentView = [[LTIncidentTableViewController alloc] initWithStyle:UITableViewStylePlain];
-	incidentView.incident = incident;
-	incidentView.metric = incident.metric;
-	LTEntityDescriptor *entityDescriptor = [incident.metric entityDescriptor];
-	incidentView.navigationItem.prompt = [NSString stringWithFormat:@"%@ @ %@ %@ %@", entityDescriptor.devDesc, entityDescriptor.siteDesc, entityDescriptor.cntDesc, entityDescriptor.objDesc];
-	[incident.metric refresh];
-	[self.navigationController pushViewController:incidentView animated:YES];
-	[incidentView release];
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{
+		/* iPad-style Incident selection */
+		AppDelegate_Pad *appDelegate = [[UIApplication sharedApplication] delegate];
+		[appDelegate displayEntityInDetailView:incident.metric];
+	}
+	else
+	{
+		/* iPhone-style Incident selection */
+		LTIncidentTableViewController *incidentView = [[LTIncidentTableViewController alloc] initWithStyle:UITableViewStylePlain];
+		incidentView.incident = incident;
+		incidentView.metric = incident.metric;
+		LTEntityDescriptor *entityDescriptor = [incident.metric entityDescriptor];
+		incidentView.navigationItem.prompt = [NSString stringWithFormat:@"%@ @ %@ %@ %@", entityDescriptor.devDesc, entityDescriptor.siteDesc, entityDescriptor.cntDesc, entityDescriptor.objDesc];
+		[incident.metric refresh];
+		[self.navigationController pushViewController:incidentView animated:YES];
+		[incidentView release];
+	}
 }
 
 

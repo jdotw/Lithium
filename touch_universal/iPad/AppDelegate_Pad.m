@@ -11,7 +11,7 @@
 
 @implementation AppDelegate_Pad
 
-@synthesize splitViewController, detailNavigationController, summaryNavItem;
+@synthesize splitViewController, detailNavigationController, deviceNavigationItem, deviceViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions 
 {   
@@ -32,19 +32,15 @@
 
 - (void) displayEntityInDetailView:(LTEntity *)entity
 {
-	/* Pushes a device view onto the detail navigation controller */
-	BOOL animatePush = YES;
-	if ([[detailNavigationController topViewController] class] == [LTDeviceViewController class])
-	{
-		/* Top controller is already a device view, dont animate */
-		[self.detailNavigationController popViewControllerAnimated:NO];
-		animatePush = NO;
-	}
+	/* Called when something is selected from the 'master' side
+	 * of the split view controller to be displayed in the 'detail'
+	 * side of the splitview controller
+	 *
+	 * The device view controller is persistent, so we just reset
+	 * the entity to display. 
+	 */
 	
-	
-	LTDeviceViewController *devVC = [[LTDeviceViewController alloc] initWithEntityToHighlight:entity];
-	[self.detailNavigationController pushViewController:devVC animated:animatePush];
-	[devVC release];
+	[self.deviceViewController displayDevice:entity.device withInitialSelection:entity];
 }
 
 @end

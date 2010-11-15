@@ -13,6 +13,16 @@
 
 @synthesize entity;
 
+- (id) initWithEntity:(LTEntity *)initEntity
+{
+	self = [super initWithNibName:@"LTModalProgressViewController" bundle:nil];
+	if (!self) return nil;
+	
+	self.entity = initEntity;
+	
+	return self;
+}
+
 - (void) entityRefreshFinished:(NSNotification *)note
 {
 	progressLabel.text = @"Finished.";
@@ -56,6 +66,11 @@
 		[self dismissModalViewControllerAnimated:YES];
 		NSLog (@"%@ performing deferred dismissal on appearance", self);
 	}
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+	return YES;
 }
 
 - (void)dealloc 

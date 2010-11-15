@@ -16,16 +16,20 @@
 {
 	LTEntity *_device;
 
+	IBOutlet UIView *containerEnclosingView;
 	IBOutlet UIScrollView *containerScrollView;
 	NSMutableArray *containerIconViewControllers;
 	LTEntity *selectedContainer;
 	NSArray *selectedContainerGraphableMetrics;
 
+	IBOutlet UIView *objectEnclosingView;
 	IBOutlet UIScrollView *objectScrollView;
 	NSMutableArray *objectIconViewControllers;
 	LTEntity *selectedObject;
 	NSArray *selectedObjectGraphableMetrics;
-	
+	BOOL objectScrollViewIsHidden;
+
+	IBOutlet UIView *graphEnclosingView;
 	IBOutlet UIView *graphOuterView;				/* Contains the layers for the min/max/avg */
 	IBOutlet UIScrollView *graphScrollView;
 	IBOutlet UILabel *leftMaxLabel;
@@ -35,17 +39,21 @@
 	IBOutlet UILabel *rightAvgLabel;
 	IBOutlet UILabel *rightMinLabel;
 	LTGraphView *graphView;
+	
+	IBOutlet UITableView *graphLegendTableView;
 	IBOutlet LTGraphLegendTableViewController *graphLegendTableViewController;
 	
 	BOOL performingInitialRefresh;
 	BOOL viewHasAppearedBefore;
 	BOOL modalRefreshInProgress;
 	LTModalProgressViewController *modalProgressViewController;
+	
+	UIPopoverController *sidePopoverController;
+	UIBarButtonItem *sidePopoverBarButtonItem;
 }
 
-- (id) initWithDevice:(LTEntity *)device;
-- (id) initWithEntityToHighlight:(LTEntity *)initEntityToHighlight;
-- (void) highlightEntity:(LTEntity *)entity;
+- (void) displayDevice:(LTEntity *)device withInitialSelection:(LTEntity *)initialSelection;
+
 
 @property (nonatomic,retain) LTEntity *device;
 @property (nonatomic,retain) LTEntity *selectedContainer;
