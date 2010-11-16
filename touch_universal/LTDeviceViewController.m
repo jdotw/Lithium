@@ -315,7 +315,7 @@
 	[containerIconViewControllers removeAllObjects];
 	
 	CGFloat contentWidth = 0.0;
-	CGFloat contentHeight = 0.0;
+	CGFloat contentHeight = 90.0;
 	for (LTEntity *container in self.device.children)
 	{
 		LTContainerIconViewController *vc = [[LTContainerIconViewController alloc] initWithContainer:container];
@@ -324,7 +324,6 @@
 		viewFrame.origin.x = vc.view.frame.size.width * containerIconViewControllers.count;
 		viewFrame.origin.y = 0.0;
 		contentWidth = viewFrame.origin.x + viewFrame.size.width;
-		if (viewFrame.size.height > contentHeight) contentHeight = viewFrame.size.height;
 		vc.view.frame = viewFrame;
 		vc.delegate = self;
 		[containerIconViewControllers addObject:vc];
@@ -347,7 +346,7 @@
 	if (self.selectedContainer.children.count > 1)
 	{
 		CGFloat contentWidth = 0.0;
-		CGFloat contentHeight = 0.0;
+		CGFloat contentHeight = 45.0;
 		for (LTEntity *object in self.selectedContainer.children)
 		{
 			LTObjectIconViewController *vc = [[LTObjectIconViewController alloc] initWithObject:object];
@@ -356,7 +355,6 @@
 			viewFrame.origin.x = vc.view.frame.size.width * objectIconViewControllers.count;
 			viewFrame.origin.y = 0.0;
 			contentWidth = viewFrame.origin.x + viewFrame.size.width;
-			if (viewFrame.size.height > contentHeight) contentHeight = viewFrame.size.height;
 			vc.view.frame = viewFrame;
 			vc.delegate = self;
 			[objectIconViewControllers addObject:vc];

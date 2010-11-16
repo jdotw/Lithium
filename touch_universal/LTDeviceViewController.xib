@@ -68,7 +68,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">ContainerScrollBack.png</string>
+									<string key="NSResourceName">LTContainerIconViewBack-Normal.png</string>
 								</object>
 							</object>
 							<object class="IBUIScrollView" id="550746577">
@@ -83,6 +83,8 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<bool key="IBUIDirectionalLockEnabled">YES</bool>
+								<bool key="IBUIAlwaysBounceHorizontal">YES</bool>
 								<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
 								<bool key="IBUIBouncesZoom">NO</bool>
 							</object>
@@ -112,7 +114,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">ObjectScrollBack.png</string>
+									<string key="NSResourceName">LTObjectIconViewBack-Normal.png</string>
 								</object>
 							</object>
 							<object class="IBUIScrollView" id="731964039">
@@ -124,6 +126,8 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<bool key="IBUIDirectionalLockEnabled">YES</bool>
+								<bool key="IBUIAlwaysBounceHorizontal">YES</bool>
 								<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
 								<bool key="IBUIBouncesZoom">NO</bool>
 							</object>
@@ -733,7 +737,7 @@
 					<string>LTGraphLegendTableViewController</string>
 					<string>{{422, 110}, {768, 1024}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{822, 198}, {768, 1024}}</string>
+					<string>{{822, 132}, {768, 1024}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>LTGraphBackgroundView</string>
 					<object class="NSMutableArray">
@@ -1251,14 +1255,14 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>ContainerScrollBack.png</string>
-				<string>ObjectScrollBack.png</string>
+				<string>LTContainerIconViewBack-Normal.png</string>
+				<string>LTObjectIconViewBack-Normal.png</string>
 				<string>noiseback.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{1, 89}</string>
-				<string>{2, 55}</string>
+				<string>{1, 90}</string>
+				<string>{1, 45}</string>
 				<string>{768, 815}</string>
 			</object>
 		</object>

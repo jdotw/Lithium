@@ -105,6 +105,10 @@
 		108742C5129325D6002FAC11 /* LTTableViewCellBack-Red.png in Resources */ = {isa = PBXBuildFile; fileRef = 108742C3129325D6002FAC11 /* LTTableViewCellBack-Red.png */; };
 		1087434212933017002FAC11 /* LTTableViewCellBack-Orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 1087434012933017002FAC11 /* LTTableViewCellBack-Orange.png */; };
 		1087434312933017002FAC11 /* LTTableViewCellBack-Yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1087434112933017002FAC11 /* LTTableViewCellBack-Yellow.png */; };
+		1088A306129343C600C89DB5 /* LTContainerIconViewBack-Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 1088A305129343C600C89DB5 /* LTContainerIconViewBack-Normal.png */; };
+		1088A308129343D400C89DB5 /* LTObjectIconViewBack-Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 1088A307129343D400C89DB5 /* LTObjectIconViewBack-Normal.png */; };
+		1088A38C1293487000C89DB5 /* LTContainerIconViewBack-Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 1088A38A1293487000C89DB5 /* LTContainerIconViewBack-Selected.png */; };
+		1088A38D1293487000C89DB5 /* LTObjectIconViewBack-Selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 1088A38B1293487000C89DB5 /* LTObjectIconViewBack-Selected.png */; };
 		108A307D12812A4700594D29 /* LTEntityIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 108A307C12812A4700594D29 /* LTEntityIconViewController.m */; };
 		10934AB811BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934AB711BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m */; };
 		10934ABB11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934ABA11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m */; };
@@ -276,6 +280,10 @@
 		108742C3129325D6002FAC11 /* LTTableViewCellBack-Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTTableViewCellBack-Red.png"; sourceTree = "<group>"; };
 		1087434012933017002FAC11 /* LTTableViewCellBack-Orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTTableViewCellBack-Orange.png"; sourceTree = "<group>"; };
 		1087434112933017002FAC11 /* LTTableViewCellBack-Yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTTableViewCellBack-Yellow.png"; sourceTree = "<group>"; };
+		1088A305129343C600C89DB5 /* LTContainerIconViewBack-Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTContainerIconViewBack-Normal.png"; sourceTree = "<group>"; };
+		1088A307129343D400C89DB5 /* LTObjectIconViewBack-Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTObjectIconViewBack-Normal.png"; sourceTree = "<group>"; };
+		1088A38A1293487000C89DB5 /* LTContainerIconViewBack-Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTContainerIconViewBack-Selected.png"; sourceTree = "<group>"; };
+		1088A38B1293487000C89DB5 /* LTObjectIconViewBack-Selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTObjectIconViewBack-Selected.png"; sourceTree = "<group>"; };
 		108A307B12812A4700594D29 /* LTEntityIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityIconViewController.h; sourceTree = "<group>"; };
 		108A307C12812A4700594D29 /* LTEntityIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityIconViewController.m; sourceTree = "<group>"; };
 		10934AB611BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphLegendTableViewCell.h; sourceTree = "<group>"; };
@@ -337,12 +345,9 @@
 				102C692411BCE8F40032D043 /* LTDeviceViewController.h */,
 				102C692511BCE8F40032D043 /* LTDeviceViewController.m */,
 				102C692611BCE8F40032D043 /* LTDeviceViewController.xib */,
-				108A307B12812A4700594D29 /* LTEntityIconViewController.h */,
-				108A307C12812A4700594D29 /* LTEntityIconViewController.m */,
-				109DA4351282B14200577BAA /* LTEntityIconView.h */,
-				109DA4361282B14200577BAA /* LTEntityIconView.m */,
 				104DEF6C12836995008A7936 /* ContainerScrollBack.png */,
 				104DEF6D12836995008A7936 /* ObjectScrollBack.png */,
+				1088A2EA12933F1E00C89DB5 /* Common Container and Object Classes */,
 				102C695311BD60E40032D043 /* Container View */,
 				107C3271127FB95400C2321F /* Object View */,
 				10934AB011BEA0F5009EF1F7 /* Graph */,
@@ -354,6 +359,8 @@
 		102C695311BD60E40032D043 /* Container View */ = {
 			isa = PBXGroup;
 			children = (
+				1088A305129343C600C89DB5 /* LTContainerIconViewBack-Normal.png */,
+				1088A38A1293487000C89DB5 /* LTContainerIconViewBack-Selected.png */,
 				102C695411BD61170032D043 /* LTContainerIconViewController.h */,
 				102C695511BD61170032D043 /* LTContainerIconViewController.m */,
 				102C695611BD61170032D043 /* LTContainerIconViewController.xib */,
@@ -660,11 +667,24 @@
 		107C3271127FB95400C2321F /* Object View */ = {
 			isa = PBXGroup;
 			children = (
+				1088A307129343D400C89DB5 /* LTObjectIconViewBack-Normal.png */,
+				1088A38B1293487000C89DB5 /* LTObjectIconViewBack-Selected.png */,
 				107C3275127FB97F00C2321F /* LTObjectIconViewController.h */,
 				107C3276127FB97F00C2321F /* LTObjectIconViewController.m */,
 				107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */,
 			);
 			name = "Object View";
+			sourceTree = "<group>";
+		};
+		1088A2EA12933F1E00C89DB5 /* Common Container and Object Classes */ = {
+			isa = PBXGroup;
+			children = (
+				108A307B12812A4700594D29 /* LTEntityIconViewController.h */,
+				108A307C12812A4700594D29 /* LTEntityIconViewController.m */,
+				109DA4351282B14200577BAA /* LTEntityIconView.h */,
+				109DA4361282B14200577BAA /* LTEntityIconView.m */,
+			);
+			name = "Common Container and Object Classes";
 			sourceTree = "<group>";
 		};
 		10934AB011BEA0F5009EF1F7 /* Graph */ = {
@@ -883,6 +903,10 @@
 				108742C5129325D6002FAC11 /* LTTableViewCellBack-Red.png in Resources */,
 				1087434212933017002FAC11 /* LTTableViewCellBack-Orange.png in Resources */,
 				1087434312933017002FAC11 /* LTTableViewCellBack-Yellow.png in Resources */,
+				1088A306129343C600C89DB5 /* LTContainerIconViewBack-Normal.png in Resources */,
+				1088A308129343D400C89DB5 /* LTObjectIconViewBack-Normal.png in Resources */,
+				1088A38C1293487000C89DB5 /* LTContainerIconViewBack-Selected.png in Resources */,
+				1088A38D1293487000C89DB5 /* LTObjectIconViewBack-Selected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

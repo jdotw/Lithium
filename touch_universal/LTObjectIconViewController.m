@@ -8,6 +8,7 @@
 
 #import "LTObjectIconViewController.h"
 #import "LTEntity.h"
+#import "LTEntityIconView.h"
 
 @implementation LTObjectIconViewController
 
@@ -16,6 +17,8 @@
 	self = [super initWithNibName:@"LTObjectIconViewController" entity:object];
 	if (!self) return nil;
 	
+	((LTEntityIconView *)[self view]).selectedBackgroundImage = [UIImage imageNamed:@"LTObjectIconViewBack-Selected"];
+
 	return self;
 }
 

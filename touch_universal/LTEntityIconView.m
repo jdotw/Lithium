@@ -11,6 +11,7 @@
 
 @implementation LTEntityIconView
 
+@synthesize selected, selectedBackgroundImage;
 
 - (id)initWithFrame:(CGRect)frame {
     
@@ -22,8 +23,20 @@
 }
 
 - (void)drawRect:(CGRect)rect 
-{
+{	
+	/* Selected overlay wash */
+	if (self.selected && self.selectedBackgroundImage)
+	{
+		[self.selectedBackgroundImage drawInRect:self.bounds];
+	}
 	
+	/* Draw right-side edge */
+	CGRect vertBorderRect = CGRectMake(CGRectGetMaxX(self.bounds)-2.0, CGRectGetMinY(self.bounds), 1.0, CGRectGetHeight(self.bounds));
+	[[UIColor colorWithWhite:0.0 alpha:1.0] setFill];
+	[[UIBezierPath bezierPathWithRect:vertBorderRect] fillWithBlendMode:kCGBlendModeDarken alpha:0.3];
+	[[UIColor colorWithWhite:1.0 alpha:1.0] setFill];
+	[[UIBezierPath bezierPathWithRect:CGRectOffset(vertBorderRect, 1.0, 0.0)] fillWithBlendMode:kCGBlendModeDarken alpha:0.25];
+
 }
 
 - (void)dealloc {

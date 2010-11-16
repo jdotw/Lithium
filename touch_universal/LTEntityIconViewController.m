@@ -9,6 +9,7 @@
 #import "LTEntityIconViewController.h"
 #import "LTEntity.h"
 #import "LTEntityTableViewController.h"
+#import "LTEntityIconView.h"
 
 @implementation LTEntityIconViewController
 
@@ -48,7 +49,10 @@
 - (void) setSelected:(BOOL)value
 {
 	selected = value;
-	self.view.backgroundColor = selected ? [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.2] : [UIColor clearColor];
+	
+	LTEntityIconView *entityIconView = (LTEntityIconView *)[self view];
+	entityIconView.selected = selected;
+	
 	[self.view setNeedsDisplay];
 }
 

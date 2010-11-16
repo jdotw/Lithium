@@ -8,6 +8,7 @@
 
 #import "LTContainerIconViewController.h"
 #import "LTEntity.h"
+#import "LTEntityIconView.h"
 
 @implementation LTContainerIconViewController
 
@@ -15,6 +16,8 @@
 {
 	self = [super initWithNibName:@"LTContainerIconViewController" entity:container];
 	if (!self) return nil;
+	
+	((LTEntityIconView *)[self view]).selectedBackgroundImage = [UIImage imageNamed:@"LTContainerIconViewBack-Selected"];
 	
 	return self;
 }
