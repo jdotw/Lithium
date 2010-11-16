@@ -25,6 +25,8 @@
 												blue:0.0
 											   alpha:0.5];
 		self.textLabel.textColor = [UIColor whiteColor];
+		self.textLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.6];
+		self.textLabel.shadowOffset = CGSizeMake(0.0, -1.);
 		self.detailTextLabel.textColor = [UIColor whiteColor];
     }
     return self;	

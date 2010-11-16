@@ -51,9 +51,8 @@
 - (void) presentPopoverForEntityFromRect:(CGRect)rect
 {
 	/* Draw pop-over for the entity */
-	LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithStyle:UITableViewStylePlain];
+	LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:self.entity.parent];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-	vc.entity = self.entity.parent;
 	UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:nav];
 	[popover presentPopoverFromRect:rect inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];	
 }

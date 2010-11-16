@@ -407,8 +407,7 @@
 		}
 		else
 		{
-			LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithStyle:[LTTableView defaultCellStyle]];
-			anotherViewController.entity = selectedEntity;
+			LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithEntity:selectedEntity];
 			viewController = anotherViewController;
 			[anotherViewController.tableView setNeedsDisplay];
 		}			

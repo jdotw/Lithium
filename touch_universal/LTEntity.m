@@ -198,7 +198,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	/* FIX */
     NSLog(@"ERROR: Connection failed! Error - %@ %@",
           [error localizedDescription],
-          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
 	
 	self.xmlStatus = @"Failed to download data.";
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];

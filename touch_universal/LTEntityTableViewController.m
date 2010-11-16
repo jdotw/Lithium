@@ -33,24 +33,17 @@
 
 @synthesize externalNavigationController;
 
-- (id)initWitEntity:(LTEntity *)initEntity
+- (id)initWithEntity:(LTEntity *)initEntity
 {
-	self = [super initWithStyle:UITableViewStylePlain];
-	self.entity = initEntity;
-	return self;
-}
-
-- (id)initWithStyle:(UITableViewStyle)style 
-{
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) 
-	{
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(coreDeploymentReachabilityChanged:)
-													 name:@"LTCoreDeploymentReachabilityChanged" object:nil];		
-    }
+	self = [super initWithNibName:@"LTEntityTableViewController" bundle:nil];
+	if (!self) return nil;
 	
-    return self;
+	self.entity = initEntity;
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(coreDeploymentReachabilityChanged:)
+												 name:@"LTCoreDeploymentReachabilityChanged" object:nil];		
+	
+	return self;
 }
 
 - (void)viewDidLoad 
@@ -141,14 +134,6 @@
 	[self refreshTimerFired:nil];
 	if (!hasAppeared)
 	{
-//		if ([children count] == 1)
-//		{
-//			LTEntity *singleEntity = [children objectAtIndex:0];
-//			LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithStyle:[LTTableView defaultCellStyle]];
-//			vc.entity = singleEntity;
-//			[self.navigationController pushViewController:vc animated:NO];
-//			[vc release];
-//		}
 		hasAppeared = YES;
 	}
 }
@@ -307,7 +292,8 @@
 		}
 		else
 		{
-			return 44.0; 
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) return 44.0;
+			else return 44.0; 
 		}
 	}
 }
@@ -382,41 +368,42 @@
 	if (displayEntity)
 	{
 		cell.textLabel.text = displayEntity.desc;
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
 		cell.entity = displayEntity;
-		if (displayEntity.type > 0)
-		{
-			switch (cell.entity.opState)
-			{
-				case -2:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
-					break;					
-				case 0:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
-					break;
-				case 1:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-					break;
-				case 2:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-					break;
-				case 3:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
-					break;
-				default:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
-			}
-			
-			if ([entity.coreDeployment reachable] && [entity.coreDeployment enabled]) cell.imageView.alpha = 1.0;
-			else cell.imageView.alpha = 0.5;
-		}
-		else
-		{
-			LTCoreDeployment *deployment = (LTCoreDeployment *) displayEntity;
-			if (deployment.reachable && deployment.enabled)
-			{ cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]]; }
-			else
-			{ cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]]; }				
-		}
+//		if (displayEntity.type > 0)
+//		{
+//			switch (cell.entity.opState)
+//			{
+//				case -2:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
+//					break;					
+//				case 0:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
+//					break;
+//				case 1:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
+//					break;
+//				case 2:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
+//					break;
+//				case 3:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
+//					break;
+//				default:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
+//			}
+//			
+//			if ([entity.coreDeployment reachable] && [entity.coreDeployment enabled]) cell.imageView.alpha = 1.0;
+//			else cell.imageView.alpha = 0.5;
+//		}
+//		else
+//		{
+//			LTCoreDeployment *deployment = (LTCoreDeployment *) displayEntity;
+//			if (deployment.reachable && deployment.enabled)
+//			{ cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]]; }
+//			else
+//			{ cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]]; }				
+//		}
 	}
 	else
 	{
@@ -501,8 +488,7 @@
 	else
 	{
 		/* Default Handling, push new VC */
-		LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithStyle:UITableViewStylePlain];
-		anotherViewController.entity = viableEntity;
+		LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithEntity:viableEntity];
 		[anotherViewController.tableView setNeedsDisplay];		
 		[self.navigationController pushViewController:anotherViewController animated:YES];
 		[anotherViewController release];

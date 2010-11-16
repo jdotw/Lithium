@@ -52,9 +52,9 @@
 }
 
 #pragma mark "Constructors"
-- (LTEntityDescriptor *) initWithEntity:(LTEntity *)entity;
+- (id) initWithEntity:(LTEntity *)entity;
 - (id) initWithEntityAddress:(NSString *)entityAddress;
-- (LTEntityDescriptor *) copy;
+- (id) copy;
 
 #pragma mark "XML Methods"
 - (NSString *) xmlNodeString;

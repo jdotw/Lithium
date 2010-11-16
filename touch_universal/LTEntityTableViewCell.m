@@ -13,27 +13,7 @@
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) 
-	{
-        // Initialization code
-		if (
-#ifdef UI_USER_INTERFACE_IDIOM
-			UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
-#else
-			0
-#endif
-			)
-		{
-			
-		}
-		else
-		{
-//			self.textLabel.textColor = [UIColor whiteColor];
-//			self.textLabel.highlightedTextColor = [UIColor whiteColor];
-//			self.textLabel.shadowColor = [UIColor blackColor];
-//			self.textLabel.shadowOffset = CGSizeMake(0.0, -1.0);		
-		}
-    }
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     return self;
 }
 

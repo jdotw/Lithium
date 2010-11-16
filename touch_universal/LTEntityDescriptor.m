@@ -13,7 +13,7 @@
 
 #pragma mark "Constructors"
 
-- (LTEntityDescriptor *) initWithEntity:(LTEntity *)entity
+- (id) initWithEntity:(LTEntity *)entity
 {
 	[self init];
 	
@@ -166,7 +166,7 @@
 	return self;
 }
 
-- (LTEntityDescriptor *) initWithCoder:(NSCoder *)decoder
+- (id) initWithCoder:(NSCoder *)decoder
 {
 	[self init];
 	
@@ -228,7 +228,7 @@
 	[encoder encodeObject:trgDesc forKey:@"trgDesc"];
 }
 
-- (LTEntityDescriptor *) copy
+- (id) copy
 {
 	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
 	return [NSKeyedUnarchiver unarchiveObjectWithData:data];

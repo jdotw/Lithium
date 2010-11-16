@@ -8,17 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		10089B7011C1FDD900034DFC /* DevicesTab-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10089B6F11C1FDD900034DFC /* DevicesTab-iPad.xib */; };
-		1029D941126642950057330C /* LTSummaryIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1029D940126642950057330C /* LTSummaryIconView.m */; };
 		102C692711BCE8F40032D043 /* LTDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C692511BCE8F40032D043 /* LTDeviceViewController.m */; };
 		102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C692611BCE8F40032D043 /* LTDeviceViewController.xib */; };
 		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
 		102C695811BD61170032D043 /* LTContainerIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C695611BD61170032D043 /* LTContainerIconViewController.xib */; };
+		104B84A21293123500E77D88 /* noiseback-light.png in Resources */ = {isa = PBXBuildFile; fileRef = 104B84A11293123500E77D88 /* noiseback-light.png */; };
+		104B84F1129315A100E77D88 /* LTEntityTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */; };
+		104B8550129317AD00E77D88 /* LTFavoritesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */; };
+		104B85641293181600E77D88 /* LTSetupTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B85631293181600E77D88 /* LTSetupTableViewController.xib */; };
+		104B857B1293188E00E77D88 /* LTIncidentListTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B857A1293188E00E77D88 /* LTIncidentListTableViewController.xib */; };
+		104B8586129318AB00E77D88 /* LTGroupTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B8585129318AB00E77D88 /* LTGroupTableViewController.xib */; };
 		104DEF0912835E6A008A7936 /* LTGraphScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104DEF0812835E6A008A7936 /* LTGraphScrollView.m */; };
 		104DEF6E12836995008A7936 /* ContainerScrollBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 104DEF6C12836995008A7936 /* ContainerScrollBack.png */; };
 		104DEF6F12836995008A7936 /* ObjectScrollBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 104DEF6D12836995008A7936 /* ObjectScrollBack.png */; };
 		104DEFA81283796D008A7936 /* LTGraphBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104DEFA71283796D008A7936 /* LTGraphBackgroundView.m */; };
-		104E33D6128538E9006CB25E /* LTSummaryTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104E33D5128538E9006CB25E /* LTSummaryTableView.m */; };
-		104E33DD12853964006CB25E /* trabitine.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 104E33DC12853964006CB25E /* trabitine.jpg */; };
 		105EDDDD11BC2FFE00B294B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */; };
 		105EDDFC11BC345200B294B4 /* devices.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDDF711BC345200B294B4 /* devices.png */; };
 		105EDDFD11BC345200B294B4 /* computer.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDDF811BC345200B294B4 /* computer.png */; };
@@ -44,7 +47,6 @@
 		105EDE6111BC38D100B294B4 /* LTGroupTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE5111BC38D100B294B4 /* LTGroupTree.m */; };
 		105EDE6211BC38D100B294B4 /* NSData-Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE5211BC38D100B294B4 /* NSData-Base64.m */; };
 		105EDE7111BC390A00B294B4 /* LTPushRegistrationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7011BC390A00B294B4 /* LTPushRegistrationRequest.m */; };
-		105EDECD11BC392000B294B4 /* DevicesTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE7411BC392000B294B4 /* DevicesTab.xib */; };
 		105EDECE11BC392000B294B4 /* LTEntityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7611BC392000B294B4 /* LTEntityTableViewController.m */; };
 		105EDECF11BC392000B294B4 /* LTEntityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7811BC392000B294B4 /* LTEntityTableViewCell.m */; };
 		105EDED011BC392000B294B4 /* LTMetricTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7A11BC392000B294B4 /* LTMetricTableViewCell.m */; };
@@ -61,9 +63,7 @@
 		105EDEDB11BC392000B294B4 /* LTMetricLandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */; };
 		105EDEDC11BC392000B294B4 /* MetricLandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE8E11BC392000B294B4 /* MetricLandscape.xib */; };
 		105EDEDD11BC392000B294B4 /* LTMetricTableViewCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */; };
-		105EDEDF11BC392000B294B4 /* GroupsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE9411BC392000B294B4 /* GroupsTab.xib */; };
 		105EDEE011BC392000B294B4 /* LTGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */; };
-		105EDEE111BC392000B294B4 /* IncidentsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE9811BC392000B294B4 /* IncidentsTab.xib */; };
 		105EDEE211BC392000B294B4 /* LTIncidentListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9A11BC392000B294B4 /* LTIncidentListTableViewController.m */; };
 		105EDEE311BC392000B294B4 /* LTIncidentListGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9C11BC392000B294B4 /* LTIncidentListGroup.m */; };
 		105EDEE411BC392000B294B4 /* LTIncidentTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9E11BC392000B294B4 /* LTIncidentTableViewController.m */; };
@@ -73,9 +73,7 @@
 		105EDEE811BC392000B294B4 /* tools_grey_48.tif in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA411BC392000B294B4 /* tools_grey_48.tif */; };
 		105EDEE911BC392000B294B4 /* tools_grey_16.tif in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA511BC392000B294B4 /* tools_grey_16.tif */; };
 		105EDEEA11BC392000B294B4 /* tools_16.tif in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA611BC392000B294B4 /* tools_16.tif */; };
-		105EDEEB11BC392000B294B4 /* FavoritesTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA811BC392000B294B4 /* FavoritesTab.xib */; };
 		105EDEEC11BC392000B294B4 /* LTFavoritesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEAA11BC392000B294B4 /* LTFavoritesTableViewController.m */; };
-		105EDEED11BC392000B294B4 /* SetupTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEAC11BC392000B294B4 /* SetupTab.xib */; };
 		105EDEEE11BC392000B294B4 /* LTSetupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEAE11BC392000B294B4 /* LTSetupTableViewController.m */; };
 		105EDEEF11BC392000B294B4 /* CoreEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEB011BC392000B294B4 /* CoreEditView.xib */; };
 		105EDEF011BC392000B294B4 /* LTCoreEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEB211BC392000B294B4 /* LTCoreEditTableViewController.m */; };
@@ -113,16 +111,10 @@
 		109DA4371282B14200577BAA /* LTEntityIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 109DA4361282B14200577BAA /* LTEntityIconView.m */; };
 		10BAD5CC11C2C88900147DCA /* LTGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BAD5CB11C2C88900147DCA /* LTGraphView.m */; };
 		10BFF6DE1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BFF6DD1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m */; };
-		10BFFBE41235F09100723DF4 /* IncidentsTab-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10BFFBE31235F09100723DF4 /* IncidentsTab-iPad.xib */; };
 		10BFFC2B1235F24F00723DF4 /* GroupsTab-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10BFFC2A1235F24F00723DF4 /* GroupsTab-iPad.xib */; };
 		10C3F46F11BF541200CBD469 /* LTModalProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */; };
 		10C3F47011BF541200CBD469 /* LTModalProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */; };
 		10C3F54A11BF6A5F00CBD469 /* circuitback.png in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F54911BF6A5F00CBD469 /* circuitback.png */; };
-		10F5C00A126290760071CD01 /* LTSummaryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F5C008126290760071CD01 /* LTSummaryTableViewController.m */; };
-		10F5C00B126290760071CD01 /* LTSummaryTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10F5C009126290760071CD01 /* LTSummaryTableViewController.xib */; };
-		10F5C02A1263A6240071CD01 /* LTIconTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F5C0291263A6240071CD01 /* LTIconTableViewController.m */; };
-		10F5C02D1263A6390071CD01 /* LTIconTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F5C02C1263A6390071CD01 /* LTIconTableViewCell.m */; };
-		10F5C05B1263A9350071CD01 /* LTIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F5C05A1263A9350071CD01 /* LTIconView.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -135,23 +127,24 @@
 
 /* Begin PBXFileReference section */
 		10089B6F11C1FDD900034DFC /* DevicesTab-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "DevicesTab-iPad.xib"; path = "../DevicesTab-iPad.xib"; sourceTree = "<group>"; };
-		1029D93F126642950057330C /* LTSummaryIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSummaryIconView.h; sourceTree = "<group>"; };
-		1029D940126642950057330C /* LTSummaryIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSummaryIconView.m; sourceTree = "<group>"; };
 		102C692411BCE8F40032D043 /* LTDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceViewController.h; sourceTree = "<group>"; };
 		102C692511BCE8F40032D043 /* LTDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceViewController.m; sourceTree = "<group>"; };
 		102C692611BCE8F40032D043 /* LTDeviceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTDeviceViewController.xib; sourceTree = "<group>"; };
 		102C695411BD61170032D043 /* LTContainerIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTContainerIconViewController.h; sourceTree = "<group>"; };
 		102C695511BD61170032D043 /* LTContainerIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTContainerIconViewController.m; sourceTree = "<group>"; };
 		102C695611BD61170032D043 /* LTContainerIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTContainerIconViewController.xib; sourceTree = "<group>"; };
+		104B84A11293123500E77D88 /* noiseback-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noiseback-light.png"; sourceTree = "<group>"; };
+		104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTEntityTableViewController.xib; sourceTree = "<group>"; };
+		104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTFavoritesTableViewController.xib; sourceTree = "<group>"; };
+		104B85631293181600E77D88 /* LTSetupTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTSetupTableViewController.xib; sourceTree = "<group>"; };
+		104B857A1293188E00E77D88 /* LTIncidentListTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTIncidentListTableViewController.xib; sourceTree = "<group>"; };
+		104B8585129318AB00E77D88 /* LTGroupTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTGroupTableViewController.xib; sourceTree = "<group>"; };
 		104DEF0712835E6A008A7936 /* LTGraphScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphScrollView.h; sourceTree = "<group>"; };
 		104DEF0812835E6A008A7936 /* LTGraphScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphScrollView.m; sourceTree = "<group>"; };
 		104DEF6C12836995008A7936 /* ContainerScrollBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContainerScrollBack.png; sourceTree = "<group>"; };
 		104DEF6D12836995008A7936 /* ObjectScrollBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ObjectScrollBack.png; sourceTree = "<group>"; };
 		104DEFA61283796D008A7936 /* LTGraphBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphBackgroundView.h; sourceTree = "<group>"; };
 		104DEFA71283796D008A7936 /* LTGraphBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphBackgroundView.m; sourceTree = "<group>"; };
-		104E33D4128538E9006CB25E /* LTSummaryTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSummaryTableView.h; sourceTree = "<group>"; };
-		104E33D5128538E9006CB25E /* LTSummaryTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSummaryTableView.m; sourceTree = "<group>"; };
-		104E33DC12853964006CB25E /* trabitine.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = trabitine.jpg; sourceTree = "<group>"; };
 		105EDDDB11BC2FFE00B294B4 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		105EDDF711BC345200B294B4 /* devices.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = devices.png; sourceTree = "<group>"; };
@@ -194,7 +187,6 @@
 		105EDE5311BC38D100B294B4 /* NSData-Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData-Base64.h"; sourceTree = "<group>"; };
 		105EDE6F11BC390A00B294B4 /* LTPushRegistrationRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTPushRegistrationRequest.h; sourceTree = "<group>"; };
 		105EDE7011BC390A00B294B4 /* LTPushRegistrationRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTPushRegistrationRequest.m; sourceTree = "<group>"; };
-		105EDE7411BC392000B294B4 /* DevicesTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DevicesTab.xib; sourceTree = "<group>"; };
 		105EDE7511BC392000B294B4 /* LTEntityTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityTableViewController.h; sourceTree = "<group>"; };
 		105EDE7611BC392000B294B4 /* LTEntityTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityTableViewController.m; sourceTree = "<group>"; };
 		105EDE7711BC392000B294B4 /* LTEntityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityTableViewCell.h; sourceTree = "<group>"; };
@@ -221,10 +213,8 @@
 		105EDE8E11BC392000B294B4 /* MetricLandscape.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MetricLandscape.xib; sourceTree = "<group>"; };
 		105EDE8F11BC392000B294B4 /* LTMetricTableViewCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricTableViewCellBackground.h; sourceTree = "<group>"; };
 		105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricTableViewCellBackground.m; sourceTree = "<group>"; };
-		105EDE9411BC392000B294B4 /* GroupsTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupsTab.xib; sourceTree = "<group>"; };
 		105EDE9511BC392000B294B4 /* LTGroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGroupTableViewController.h; sourceTree = "<group>"; };
 		105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGroupTableViewController.m; sourceTree = "<group>"; };
-		105EDE9811BC392000B294B4 /* IncidentsTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IncidentsTab.xib; sourceTree = "<group>"; };
 		105EDE9911BC392000B294B4 /* LTIncidentListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIncidentListTableViewController.h; sourceTree = "<group>"; };
 		105EDE9A11BC392000B294B4 /* LTIncidentListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIncidentListTableViewController.m; sourceTree = "<group>"; };
 		105EDE9B11BC392000B294B4 /* LTIncidentListGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIncidentListGroup.h; sourceTree = "<group>"; };
@@ -239,10 +229,8 @@
 		105EDEA411BC392000B294B4 /* tools_grey_48.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tools_grey_48.tif; sourceTree = "<group>"; };
 		105EDEA511BC392000B294B4 /* tools_grey_16.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tools_grey_16.tif; sourceTree = "<group>"; };
 		105EDEA611BC392000B294B4 /* tools_16.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tools_16.tif; sourceTree = "<group>"; };
-		105EDEA811BC392000B294B4 /* FavoritesTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoritesTab.xib; sourceTree = "<group>"; };
 		105EDEA911BC392000B294B4 /* LTFavoritesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTFavoritesTableViewController.h; sourceTree = "<group>"; };
 		105EDEAA11BC392000B294B4 /* LTFavoritesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTFavoritesTableViewController.m; sourceTree = "<group>"; };
-		105EDEAC11BC392000B294B4 /* SetupTab.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SetupTab.xib; sourceTree = "<group>"; };
 		105EDEAD11BC392000B294B4 /* LTSetupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSetupTableViewController.h; sourceTree = "<group>"; };
 		105EDEAE11BC392000B294B4 /* LTSetupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSetupTableViewController.m; sourceTree = "<group>"; };
 		105EDEB011BC392000B294B4 /* CoreEditView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoreEditView.xib; sourceTree = "<group>"; };
@@ -300,21 +288,11 @@
 		10BAD5CB11C2C88900147DCA /* LTGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphView.m; sourceTree = "<group>"; };
 		10BFF6DC1232171B00723DF4 /* LTEntityRefreshProgressViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityRefreshProgressViewCell.h; sourceTree = "<group>"; };
 		10BFF6DD1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityRefreshProgressViewCell.m; sourceTree = "<group>"; };
-		10BFFBE31235F09100723DF4 /* IncidentsTab-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "IncidentsTab-iPad.xib"; sourceTree = "<group>"; };
 		10BFFC2A1235F24F00723DF4 /* GroupsTab-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "GroupsTab-iPad.xib"; sourceTree = "<group>"; };
 		10C3F46C11BF541200CBD469 /* LTModalProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTModalProgressViewController.h; sourceTree = "<group>"; };
 		10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTModalProgressViewController.m; sourceTree = "<group>"; };
 		10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTModalProgressViewController.xib; sourceTree = "<group>"; };
 		10C3F54911BF6A5F00CBD469 /* circuitback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circuitback.png; sourceTree = "<group>"; };
-		10F5C007126290760071CD01 /* LTSummaryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSummaryTableViewController.h; sourceTree = "<group>"; };
-		10F5C008126290760071CD01 /* LTSummaryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSummaryTableViewController.m; sourceTree = "<group>"; };
-		10F5C009126290760071CD01 /* LTSummaryTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTSummaryTableViewController.xib; sourceTree = "<group>"; };
-		10F5C0281263A6240071CD01 /* LTIconTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIconTableViewController.h; sourceTree = "<group>"; };
-		10F5C0291263A6240071CD01 /* LTIconTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIconTableViewController.m; sourceTree = "<group>"; };
-		10F5C02B1263A6390071CD01 /* LTIconTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIconTableViewCell.h; sourceTree = "<group>"; };
-		10F5C02C1263A6390071CD01 /* LTIconTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIconTableViewCell.m; sourceTree = "<group>"; };
-		10F5C0591263A9350071CD01 /* LTIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIconView.h; sourceTree = "<group>"; };
-		10F5C05A1263A9350071CD01 /* LTIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIconView.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* Lithium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lithium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -351,6 +329,7 @@
 			children = (
 				107819111290A797006E60F4 /* navlist.png */,
 				109DA38712829C8600577BAA /* noiseback.png */,
+				104B84A11293123500E77D88 /* noiseback-light.png */,
 				102C692411BCE8F40032D043 /* LTDeviceViewController.h */,
 				102C692511BCE8F40032D043 /* LTDeviceViewController.m */,
 				102C692611BCE8F40032D043 /* LTDeviceViewController.xib */,
@@ -474,7 +453,6 @@
 		105EDE7211BC392000B294B4 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
-				10F5C0061262905C0071CD01 /* Summary (iPad) */,
 				10C3F46B11BF53FD00CBD469 /* Modal Progress */,
 				102C692111BCE8BB0032D043 /* Device View */,
 				105EDECB11BC392000B294B4 /* LTTabBarController.h */,
@@ -495,8 +473,8 @@
 		105EDE7311BC392000B294B4 /* Devices Tab */ = {
 			isa = PBXGroup;
 			children = (
+				104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */,
 				105EDE7B11BC392000B294B4 /* Metric View */,
-				105EDE7411BC392000B294B4 /* DevicesTab.xib */,
 				105EDE7511BC392000B294B4 /* LTEntityTableViewController.h */,
 				105EDE7611BC392000B294B4 /* LTEntityTableViewController.m */,
 				105EDE7711BC392000B294B4 /* LTEntityTableViewCell.h */,
@@ -547,7 +525,7 @@
 		105EDE9311BC392000B294B4 /* Groups Tab */ = {
 			isa = PBXGroup;
 			children = (
-				105EDE9411BC392000B294B4 /* GroupsTab.xib */,
+				104B8585129318AB00E77D88 /* LTGroupTableViewController.xib */,
 				105EDE9511BC392000B294B4 /* LTGroupTableViewController.h */,
 				105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */,
 			);
@@ -557,8 +535,7 @@
 		105EDE9711BC392000B294B4 /* Incidents Tab */ = {
 			isa = PBXGroup;
 			children = (
-				105EDE9811BC392000B294B4 /* IncidentsTab.xib */,
-				10BFFBE31235F09100723DF4 /* IncidentsTab-iPad.xib */,
+				104B857A1293188E00E77D88 /* LTIncidentListTableViewController.xib */,
 				105EDE9911BC392000B294B4 /* LTIncidentListTableViewController.h */,
 				105EDE9A11BC392000B294B4 /* LTIncidentListTableViewController.m */,
 				105EDE9B11BC392000B294B4 /* LTIncidentListGroup.h */,
@@ -580,7 +557,7 @@
 		105EDEA711BC392000B294B4 /* Favorites Tab */ = {
 			isa = PBXGroup;
 			children = (
-				105EDEA811BC392000B294B4 /* FavoritesTab.xib */,
+				104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */,
 				105EDEA911BC392000B294B4 /* LTFavoritesTableViewController.h */,
 				105EDEAA11BC392000B294B4 /* LTFavoritesTableViewController.m */,
 			);
@@ -591,7 +568,7 @@
 			isa = PBXGroup;
 			children = (
 				105EDEAF11BC392000B294B4 /* Core Add and Edit */,
-				105EDEAC11BC392000B294B4 /* SetupTab.xib */,
+				104B85631293181600E77D88 /* LTSetupTableViewController.xib */,
 				105EDEAD11BC392000B294B4 /* LTSetupTableViewController.h */,
 				105EDEAE11BC392000B294B4 /* LTSetupTableViewController.m */,
 			);
@@ -718,35 +695,6 @@
 				10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */,
 			);
 			name = "Modal Progress";
-			sourceTree = "<group>";
-		};
-		10F5C0061262905C0071CD01 /* Summary (iPad) */ = {
-			isa = PBXGroup;
-			children = (
-				10F5C0271263A5FC0071CD01 /* Icon TableView */,
-				10F5C007126290760071CD01 /* LTSummaryTableViewController.h */,
-				10F5C008126290760071CD01 /* LTSummaryTableViewController.m */,
-				10F5C009126290760071CD01 /* LTSummaryTableViewController.xib */,
-				1029D93F126642950057330C /* LTSummaryIconView.h */,
-				1029D940126642950057330C /* LTSummaryIconView.m */,
-				104E33D4128538E9006CB25E /* LTSummaryTableView.h */,
-				104E33D5128538E9006CB25E /* LTSummaryTableView.m */,
-				104E33DC12853964006CB25E /* trabitine.jpg */,
-			);
-			name = "Summary (iPad)";
-			sourceTree = "<group>";
-		};
-		10F5C0271263A5FC0071CD01 /* Icon TableView */ = {
-			isa = PBXGroup;
-			children = (
-				10F5C0281263A6240071CD01 /* LTIconTableViewController.h */,
-				10F5C0291263A6240071CD01 /* LTIconTableViewController.m */,
-				10F5C02B1263A6390071CD01 /* LTIconTableViewCell.h */,
-				10F5C02C1263A6390071CD01 /* LTIconTableViewCell.m */,
-				10F5C0591263A9350071CD01 /* LTIconView.h */,
-				10F5C05A1263A9350071CD01 /* LTIconView.m */,
-			);
-			name = "Icon TableView";
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -888,21 +836,16 @@
 				105EDE0211BC34FC00B294B4 /* applications.png in Resources */,
 				105EDE0411BC357000B294B4 /* xsan.png in Resources */,
 				105EDE0611BC35AB00B294B4 /* settings.png in Resources */,
-				105EDECD11BC392000B294B4 /* DevicesTab.xib in Resources */,
 				105EDED211BC392000B294B4 /* MetricValues.xib in Resources */,
 				105EDED311BC392000B294B4 /* slatebackbrowser.png in Resources */,
 				105EDED411BC392000B294B4 /* mediumgraphback.png in Resources */,
 				105EDED511BC392000B294B4 /* largegraphback.png in Resources */,
 				105EDED811BC392000B294B4 /* MetricView.xib in Resources */,
 				105EDEDC11BC392000B294B4 /* MetricLandscape.xib in Resources */,
-				105EDEDF11BC392000B294B4 /* GroupsTab.xib in Resources */,
-				105EDEE111BC392000B294B4 /* IncidentsTab.xib in Resources */,
 				105EDEE711BC392000B294B4 /* tools_48.tif in Resources */,
 				105EDEE811BC392000B294B4 /* tools_grey_48.tif in Resources */,
 				105EDEE911BC392000B294B4 /* tools_grey_16.tif in Resources */,
 				105EDEEA11BC392000B294B4 /* tools_16.tif in Resources */,
-				105EDEEB11BC392000B294B4 /* FavoritesTab.xib in Resources */,
-				105EDEED11BC392000B294B4 /* SetupTab.xib in Resources */,
 				105EDEEF11BC392000B294B4 /* CoreEditView.xib in Resources */,
 				105EDEF211BC392000B294B4 /* AuthenticationView.xib in Resources */,
 				105EDEF511BC392000B294B4 /* CellLowerGradient.png in Resources */,
@@ -920,15 +863,18 @@
 				10C3F47011BF541200CBD469 /* LTModalProgressViewController.xib in Resources */,
 				10C3F54A11BF6A5F00CBD469 /* circuitback.png in Resources */,
 				10089B7011C1FDD900034DFC /* DevicesTab-iPad.xib in Resources */,
-				10BFFBE41235F09100723DF4 /* IncidentsTab-iPad.xib in Resources */,
 				10BFFC2B1235F24F00723DF4 /* GroupsTab-iPad.xib in Resources */,
-				10F5C00B126290760071CD01 /* LTSummaryTableViewController.xib in Resources */,
 				107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */,
 				109DA38812829C8600577BAA /* noiseback.png in Resources */,
 				104DEF6E12836995008A7936 /* ContainerScrollBack.png in Resources */,
 				104DEF6F12836995008A7936 /* ObjectScrollBack.png in Resources */,
-				104E33DD12853964006CB25E /* trabitine.jpg in Resources */,
 				107819121290A797006E60F4 /* navlist.png in Resources */,
+				104B84A21293123500E77D88 /* noiseback-light.png in Resources */,
+				104B84F1129315A100E77D88 /* LTEntityTableViewController.xib in Resources */,
+				104B8550129317AD00E77D88 /* LTFavoritesTableViewController.xib in Resources */,
+				104B85641293181600E77D88 /* LTSetupTableViewController.xib in Resources */,
+				104B857B1293188E00E77D88 /* LTIncidentListTableViewController.xib in Resources */,
+				104B8586129318AB00E77D88 /* LTGroupTableViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -996,17 +942,11 @@
 				106CB6E211BF79D000F3382D /* LTWindow.m in Sources */,
 				10BAD5CC11C2C88900147DCA /* LTGraphView.m in Sources */,
 				10BFF6DE1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m in Sources */,
-				10F5C00A126290760071CD01 /* LTSummaryTableViewController.m in Sources */,
-				10F5C02A1263A6240071CD01 /* LTIconTableViewController.m in Sources */,
-				10F5C02D1263A6390071CD01 /* LTIconTableViewCell.m in Sources */,
-				10F5C05B1263A9350071CD01 /* LTIconView.m in Sources */,
-				1029D941126642950057330C /* LTSummaryIconView.m in Sources */,
 				107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */,
 				108A307D12812A4700594D29 /* LTEntityIconViewController.m in Sources */,
 				109DA4371282B14200577BAA /* LTEntityIconView.m in Sources */,
 				104DEF0912835E6A008A7936 /* LTGraphScrollView.m in Sources */,
 				104DEFA81283796D008A7936 /* LTGraphBackgroundView.m in Sources */,
-				104E33D6128538E9006CB25E /* LTSummaryTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

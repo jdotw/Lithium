@@ -10,8 +10,8 @@
 #import "LTMetricTableViewCell.h"
 #import "LTEntityTableViewCell.h"
 #import "LTMetricTableViewController.h"
-#import "LTEntityTableViewController.h"
 #import "LTEntityDescriptor.h"
+#import "LTEntityTableViewController.h"
 
 @implementation LTFavoritesTableViewController
 
@@ -400,8 +400,7 @@
 	}
 	else
 	{
-		LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithNibName:@"DevicesTab" bundle:nil];
-		anotherViewController.entity = viableEntity;
+		LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithEntity:viableEntity];
 		viewController = anotherViewController;
 	}	
 	

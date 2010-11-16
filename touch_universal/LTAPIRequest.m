@@ -107,7 +107,7 @@
 	/* FIX */
     NSLog(@"ERROR: Connection failed! Error - %@ %@",
           [error localizedDescription],
-          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);	
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);	
 }
 
 @synthesize customer;
