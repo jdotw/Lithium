@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		10089B7011C1FDD900034DFC /* DevicesTab-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10089B6F11C1FDD900034DFC /* DevicesTab-iPad.xib */; };
 		102C692711BCE8F40032D043 /* LTDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C692511BCE8F40032D043 /* LTDeviceViewController.m */; };
 		102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C692611BCE8F40032D043 /* LTDeviceViewController.xib */; };
 		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
@@ -102,6 +101,10 @@
 		107819121290A797006E60F4 /* navlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 107819111290A797006E60F4 /* navlist.png */; };
 		107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107C3276127FB97F00C2321F /* LTObjectIconViewController.m */; };
 		107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */; };
+		108742C4129325D6002FAC11 /* LTTableViewCellBack-Gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 108742C2129325D6002FAC11 /* LTTableViewCellBack-Gray.png */; };
+		108742C5129325D6002FAC11 /* LTTableViewCellBack-Red.png in Resources */ = {isa = PBXBuildFile; fileRef = 108742C3129325D6002FAC11 /* LTTableViewCellBack-Red.png */; };
+		1087434212933017002FAC11 /* LTTableViewCellBack-Orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 1087434012933017002FAC11 /* LTTableViewCellBack-Orange.png */; };
+		1087434312933017002FAC11 /* LTTableViewCellBack-Yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1087434112933017002FAC11 /* LTTableViewCellBack-Yellow.png */; };
 		108A307D12812A4700594D29 /* LTEntityIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 108A307C12812A4700594D29 /* LTEntityIconViewController.m */; };
 		10934AB811BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934AB711BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.m */; };
 		10934ABB11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10934ABA11BEA1F9009EF1F7 /* LTGraphLegendEntityView.m */; };
@@ -111,7 +114,6 @@
 		109DA4371282B14200577BAA /* LTEntityIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 109DA4361282B14200577BAA /* LTEntityIconView.m */; };
 		10BAD5CC11C2C88900147DCA /* LTGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BAD5CB11C2C88900147DCA /* LTGraphView.m */; };
 		10BFF6DE1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BFF6DD1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m */; };
-		10BFFC2B1235F24F00723DF4 /* GroupsTab-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10BFFC2A1235F24F00723DF4 /* GroupsTab-iPad.xib */; };
 		10C3F46F11BF541200CBD469 /* LTModalProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */; };
 		10C3F47011BF541200CBD469 /* LTModalProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */; };
 		10C3F54A11BF6A5F00CBD469 /* circuitback.png in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F54911BF6A5F00CBD469 /* circuitback.png */; };
@@ -126,7 +128,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		10089B6F11C1FDD900034DFC /* DevicesTab-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "DevicesTab-iPad.xib"; path = "../DevicesTab-iPad.xib"; sourceTree = "<group>"; };
 		102C692411BCE8F40032D043 /* LTDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceViewController.h; sourceTree = "<group>"; };
 		102C692511BCE8F40032D043 /* LTDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceViewController.m; sourceTree = "<group>"; };
 		102C692611BCE8F40032D043 /* LTDeviceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTDeviceViewController.xib; sourceTree = "<group>"; };
@@ -271,6 +272,10 @@
 		107C3275127FB97F00C2321F /* LTObjectIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTObjectIconViewController.h; sourceTree = "<group>"; };
 		107C3276127FB97F00C2321F /* LTObjectIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTObjectIconViewController.m; sourceTree = "<group>"; };
 		107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTObjectIconViewController.xib; sourceTree = "<group>"; };
+		108742C2129325D6002FAC11 /* LTTableViewCellBack-Gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTTableViewCellBack-Gray.png"; sourceTree = "<group>"; };
+		108742C3129325D6002FAC11 /* LTTableViewCellBack-Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTTableViewCellBack-Red.png"; sourceTree = "<group>"; };
+		1087434012933017002FAC11 /* LTTableViewCellBack-Orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTTableViewCellBack-Orange.png"; sourceTree = "<group>"; };
+		1087434112933017002FAC11 /* LTTableViewCellBack-Yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTTableViewCellBack-Yellow.png"; sourceTree = "<group>"; };
 		108A307B12812A4700594D29 /* LTEntityIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityIconViewController.h; sourceTree = "<group>"; };
 		108A307C12812A4700594D29 /* LTEntityIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityIconViewController.m; sourceTree = "<group>"; };
 		10934AB611BEA1A5009EF1F7 /* LTGraphLegendTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphLegendTableViewCell.h; sourceTree = "<group>"; };
@@ -288,7 +293,6 @@
 		10BAD5CB11C2C88900147DCA /* LTGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphView.m; sourceTree = "<group>"; };
 		10BFF6DC1232171B00723DF4 /* LTEntityRefreshProgressViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityRefreshProgressViewCell.h; sourceTree = "<group>"; };
 		10BFF6DD1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityRefreshProgressViewCell.m; sourceTree = "<group>"; };
-		10BFFC2A1235F24F00723DF4 /* GroupsTab-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "GroupsTab-iPad.xib"; sourceTree = "<group>"; };
 		10C3F46C11BF541200CBD469 /* LTModalProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTModalProgressViewController.h; sourceTree = "<group>"; };
 		10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTModalProgressViewController.m; sourceTree = "<group>"; };
 		10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTModalProgressViewController.xib; sourceTree = "<group>"; };
@@ -598,6 +602,10 @@
 		105EDEB711BC392000B294B4 /* Generic Table View */ = {
 			isa = PBXGroup;
 			children = (
+				108742C2129325D6002FAC11 /* LTTableViewCellBack-Gray.png */,
+				108742C3129325D6002FAC11 /* LTTableViewCellBack-Red.png */,
+				1087434012933017002FAC11 /* LTTableViewCellBack-Orange.png */,
+				1087434112933017002FAC11 /* LTTableViewCellBack-Yellow.png */,
 				105EDEBC11BC392000B294B4 /* CellLowerGradient.png */,
 				105EDEBD11BC392000B294B4 /* LTTableViewCellBackground.h */,
 				105EDEBE11BC392000B294B4 /* LTTableViewCellBackground.m */,
@@ -722,7 +730,6 @@
 				2860E32B111B888700E27156 /* AppDelegate_Pad.h */,
 				2860E32C111B888700E27156 /* AppDelegate_Pad.m */,
 				2860E32D111B888700E27156 /* MainWindow_Pad.xib */,
-				10089B6F11C1FDD900034DFC /* DevicesTab-iPad.xib */,
 			);
 			name = "iPad UI";
 			path = iPad;
@@ -751,7 +758,6 @@
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				10BFFC2A1235F24F00723DF4 /* GroupsTab-iPad.xib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -862,8 +868,6 @@
 				102C695811BD61170032D043 /* LTContainerIconViewController.xib in Resources */,
 				10C3F47011BF541200CBD469 /* LTModalProgressViewController.xib in Resources */,
 				10C3F54A11BF6A5F00CBD469 /* circuitback.png in Resources */,
-				10089B7011C1FDD900034DFC /* DevicesTab-iPad.xib in Resources */,
-				10BFFC2B1235F24F00723DF4 /* GroupsTab-iPad.xib in Resources */,
 				107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */,
 				109DA38812829C8600577BAA /* noiseback.png in Resources */,
 				104DEF6E12836995008A7936 /* ContainerScrollBack.png in Resources */,
@@ -875,6 +879,10 @@
 				104B85641293181600E77D88 /* LTSetupTableViewController.xib in Resources */,
 				104B857B1293188E00E77D88 /* LTIncidentListTableViewController.xib in Resources */,
 				104B8586129318AB00E77D88 /* LTGroupTableViewController.xib in Resources */,
+				108742C4129325D6002FAC11 /* LTTableViewCellBack-Gray.png in Resources */,
+				108742C5129325D6002FAC11 /* LTTableViewCellBack-Red.png in Resources */,
+				1087434212933017002FAC11 /* LTTableViewCellBack-Orange.png in Resources */,
+				1087434312933017002FAC11 /* LTTableViewCellBack-Yellow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

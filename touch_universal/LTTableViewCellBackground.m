@@ -7,10 +7,11 @@
 //
 
 #import "LTTableViewCellBackground.h"
-
+#import <QuartzCore/QuartzCore.h>
 
 @implementation LTTableViewCellBackground
 
+@synthesize entityState, cell;
 
 - (id)initWithFrame:(CGRect)frame 
 {
@@ -24,9 +25,27 @@
 
 - (void)drawRect:(CGRect)rect 
 {
-    // Drawing code
-	[[UIColor colorWithRed:70.0/255.0 green:70.0/255.0 blue:70.0/255.0 alpha:1.0] setFill];
-	UIRectFill(self.bounds);
+	UIImage *backImage;
+	switch (self.entityState) 
+	{
+		case 1:
+			/* Yellow */
+			backImage = [UIImage imageNamed:@"LTTableViewCellBack-Yellow"];
+			break;
+		case 2:
+			/* Orange */
+			backImage = [UIImage imageNamed:@"LTTableViewCellBack-Orange"];
+			break;
+		case 3:
+			/* Red */
+			backImage = [UIImage imageNamed:@"LTTableViewCellBack-Red"];
+			break;
+		default:
+			/* Grey */
+			backImage = [UIImage imageNamed:@"LTTableViewCellBack-Gray"];
+			break;
+	}
+	[backImage drawInRect:self.bounds];
 	
 	// Indent offset 
 	CGFloat indentOffset = 0.0;
@@ -47,18 +66,19 @@
 	UIRectFill(topLineRect);
 	
 	// Gradient
-	UIImage *image = [UIImage imageNamed:@"CellLowerGradient.png"];
-	[image drawInRect:CGRectMake(CGRectGetMinX(self.bounds)+indentOffset, CGRectGetMaxY(self.bounds)-6.0, 
-								 CGRectGetWidth(self.bounds)-indentOffset, 6.0)
-			blendMode:kCGBlendModeSourceAtop 
-				alpha:0.2];
+//	UIImage *image = [UIImage imageNamed:@"CellLowerGradient.png"];
+//	[image drawInRect:CGRectMake(CGRectGetMinX(self.bounds)+indentOffset, CGRectGetMaxY(self.bounds)-6.0, 
+//								 CGRectGetWidth(self.bounds)-indentOffset, 6.0)
+//			blendMode:kCGBlendModeSourceAtop 
+//				alpha:0.2];
+	
+	// Over the top gradient 
+	
 }
 
 
 - (void)dealloc {
     [super dealloc];
 }
-
-@synthesize cell;
 
 @end

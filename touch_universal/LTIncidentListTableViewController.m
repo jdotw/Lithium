@@ -16,6 +16,7 @@
 #import "LTIncidentTableViewController.h"
 #import "LTEntityDescriptor.h"
 #import "LTEntityRefreshProgressViewCell.h"
+#import "LTTableViewCell.h"
 
 @implementation LTIncidentListTableViewController
 
@@ -346,15 +347,17 @@
 		return cell;
 	}
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    LTTableViewCell *cell = (LTTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
 	
     // Set up the cell...
 	LTIncidentListGroup *group = (LTIncidentListGroup *) [sortedChildren objectAtIndex:indexPath.section];
 	LTIncident *incident = [group.children objectAtIndex:[indexPath row]];
+	cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
+	cell.detailTextLabel.font = [UIFont systemFontOfSize:10.0];
 	if (sortSegment.selectedSegmentIndex == 0)
 	{
 		/* By-Device Display */
@@ -370,26 +373,7 @@
 		{ cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", incident.entityDescriptor.devDesc, incident.entityDescriptor.cntDesc]; } 
 		cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ Reached or exceeded %@", incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.raisedValue];
 	}
-	switch (incident.entityDescriptor.opState)
-	{
-		case -2:
-			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
-			break;			
-		case 0:
-			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
-			break;
-		case 1:
-			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-			break;
-		case 2:
-			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-			break;
-		case 3:
-			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
-			break;
-		default:
-			cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
-	}
+	cell.entityState = incident.entityDescriptor.opState;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	
     return cell;

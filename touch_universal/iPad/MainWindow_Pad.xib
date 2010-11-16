@@ -13,7 +13,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="2"/>
-			<integer value="16"/>
+			<integer value="91"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -172,7 +172,7 @@
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 									</object>
 									<reference key="IBUIParentViewController" ref="929384607"/>
-									<string key="IBUINibName">GroupsTab</string>
+									<string key="IBUINibName">LTGroupTableViewController</string>
 									<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 										<int key="interfaceOrientation">1</int>
 									</object>
@@ -260,7 +260,7 @@
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 									</object>
 									<reference key="IBUIParentViewController" ref="971147211"/>
-									<string key="IBUINibName">IncidentsTab</string>
+									<string key="IBUINibName">LTIncidentListTableViewController</string>
 									<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 										<int key="interfaceOrientation">1</int>
 									</object>

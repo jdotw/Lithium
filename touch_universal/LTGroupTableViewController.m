@@ -391,7 +391,7 @@
 	{
 		/* Group Selected */
 		LTGroup *selectedGroup = (LTGroup *)selectedEntity;
-		LTGroupTableViewController *groupView = [[LTGroupTableViewController alloc] initWithNibName:@"GroupsTab" bundle:nil];
+		LTGroupTableViewController *groupView = [[LTGroupTableViewController alloc] initWithNibName:@"LTGroupTableViewController" bundle:nil];
 		groupView.group = selectedGroup;
 		viewController = groupView;	
 	}
@@ -401,8 +401,7 @@
 		if (selectedEntity.type == 6)
 		{
 			/* Metric */
-			LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithNibName:@"DevicesTab" bundle:nil];
-			metricView.metric = selectedEntity;
+			LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithMetric:selectedEntity];
 			viewController = metricView;	
 		}
 		else

@@ -13,9 +13,11 @@
 
 @implementation LTTableViewCell
 
+@synthesize entityState;
+
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    if (self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier]) 
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) 
 	{
 		self.backgroundView = [[LTTableViewCellBackground alloc] initWithFrame:CGRectZero];
 		((LTTableViewCellBackground *)self.backgroundView).cell = self;
@@ -24,10 +26,14 @@
 											   green:0.0
 												blue:0.0
 											   alpha:0.5];
+		self.textLabel.backgroundColor = [UIColor clearColor];
 		self.textLabel.textColor = [UIColor whiteColor];
 		self.textLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.6];
 		self.textLabel.shadowOffset = CGSizeMake(0.0, -1.);
+		self.detailTextLabel.backgroundColor = [UIColor clearColor];
 		self.detailTextLabel.textColor = [UIColor whiteColor];
+		self.detailTextLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.6];
+		self.detailTextLabel.shadowOffset = CGSizeMake(0.0, -1.);
     }
     return self;	
 }
@@ -35,6 +41,24 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated 
 {
     [super setSelected:selected animated:animated];
+}
+
+- (void) setEntityState:(int)value
+{
+	entityState = value;
+	((LTTableViewCellBackground *)self.backgroundView).entityState = self.entityState;
+	switch (entityState) {
+		case -2:
+		case -1:
+			self.textLabel.alpha = 0.3;
+			self.detailTextLabel.alpha = 0.3
+			;
+			break;
+		default:
+			self.textLabel.alpha = 1.0;
+			self.detailTextLabel.alpha = 1.0;
+			break;
+	}
 }
 
 - (void)dealloc {

@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LTTableViewCell : UITableViewCell {
+@interface LTTableViewCell : UITableViewCell 
+{
 
 }
+
+@property (nonatomic, assign) int entityState;
 
 @end

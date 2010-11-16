@@ -18,6 +18,11 @@
 	return UITableViewStylePlain;
 }
 
+- (void) awakeFromNib
+{
+	self.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+
 - (void) drawRect:(CGRect)theRect
 {
 	UIImage *image = [UIImage imageNamed:@"noiseback-light.png"];

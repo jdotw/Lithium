@@ -8,12 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "LTEntity.h"
-#import "LTMetricGraphView.h"
-#import "LTIncidentList.h"
-#import "LTMetricLandscapeViewController.h"
-#import "LTMetricGraphTableViewCell.h"
 #import "LTTableViewController.h"
+
+@class LTEntity, LTMetricGraphView, LTIncidentList, LTIncident, LTMetricLandscapeViewController, LTMetricGraphRequest, LTMetricGraphTableViewCell;
 
 @interface LTMetricTableViewController : LTTableViewController <UIActionSheetDelegate>
 {
@@ -32,6 +29,7 @@
 	LTMetricGraphRequest *landscapeGraphRequest;	
 }
 
+- (id) initWithMetric:(LTEntity *)initMetric;
 - (NSString *) intervalString:(NSTimeInterval)timeInterval;
 
 @property (retain) LTEntity *metric;

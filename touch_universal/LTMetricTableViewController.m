@@ -20,30 +20,35 @@
 #import "LTTableViewCellBackground.h"
 #import "LTTableViewCellSelectedBackground.h"
 #import "LTFavoritesTableViewController.h"
+#import "LTMetricGraphView.h"
+#import "LTIncidentList.h"
+#import "LTMetricLandscapeViewController.h"
+#import "LTTableViewController.h"
 
 #define kAnimationKey @"transitionViewAnimation"
 
 @implementation LTMetricTableViewController
 
-- (id) initWithNibName:(NSString *)nibName bundle:(id)bundle
+- (id) initWithMetric:(LTEntity *)initMetric
 {
-    if (self = [super initWithNibName:nibName bundle:bundle]) 
-	{
-		incidentList = [[LTIncidentList alloc] init];
-		incidentList.historicList = YES;
-		incidentList.maxResultsCount = 20;
-		landscapeGraphRequest = [[LTMetricGraphRequest alloc] init];
-		landscapeGraphRequest.size = CGSizeMake(480.0, 320.0);
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(incidentListRefreshFinished:)
-													 name:@"IncidentListRefreshFinished" 
-												   object:incidentList];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(actionUpdated:)
-													 name:@"ActionUpdated" 
-												   object:nil];
-    }
-    return self;
+	self = [super initWithNibName:@"LTEntityTableViewController" bundle:nil];
+	if (!self) return nil;
+	
+	incidentList = [[LTIncidentList alloc] init];
+	incidentList.historicList = YES;
+	incidentList.maxResultsCount = 20;
+	landscapeGraphRequest = [[LTMetricGraphRequest alloc] init];
+	landscapeGraphRequest.size = CGSizeMake(480.0, 320.0);
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(incidentListRefreshFinished:)
+												 name:@"IncidentListRefreshFinished" 
+											   object:incidentList];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(actionUpdated:)
+												 name:@"ActionUpdated" 
+											   object:nil];
+
+	return self;
 }
 
 - (void)dealloc 

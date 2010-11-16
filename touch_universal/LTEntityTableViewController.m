@@ -370,8 +370,9 @@
 		cell.textLabel.text = displayEntity.desc;
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
 		cell.entity = displayEntity;
-//		if (displayEntity.type > 0)
-//		{
+		if (displayEntity.type > 0)
+		{
+			cell.entityState = displayEntity.opState;
 //			switch (cell.entity.opState)
 //			{
 //				case -2:
@@ -395,7 +396,7 @@
 //			
 //			if ([entity.coreDeployment reachable] && [entity.coreDeployment enabled]) cell.imageView.alpha = 1.0;
 //			else cell.imageView.alpha = 0.5;
-//		}
+		}
 //		else
 //		{
 //			LTCoreDeployment *deployment = (LTCoreDeployment *) displayEntity;
@@ -474,8 +475,7 @@
 	if (viableEntity.type == 6)
 	{
 		/* Metric */
-		LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithNibName:@"DevicesTab" bundle:nil];
-		metricView.metric = viableEntity;
+		LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithMetric:viableEntity];
 		[self.navigationController pushViewController:metricView animated:YES];
 		[metricView release];
 	}

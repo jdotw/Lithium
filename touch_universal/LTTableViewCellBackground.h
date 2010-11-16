@@ -12,8 +12,11 @@
 @interface LTTableViewCellBackground : UIView 
 {
 	UITableViewCell *cell;
+	
+	int entityState;
 }
 
-@property (assign) UITableViewCell *cell;
+@property (assign, nonatomic) UITableViewCell *cell;
+@property (assign, nonatomic) int entityState;
 
 @end

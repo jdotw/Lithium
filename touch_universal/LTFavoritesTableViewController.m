@@ -9,6 +9,7 @@
 #import "LTFavoritesTableViewController.h"
 #import "LTMetricTableViewCell.h"
 #import "LTEntityTableViewCell.h"
+#import "LTMetricGraphTableViewCell.h"
 #import "LTMetricTableViewController.h"
 #import "LTEntityDescriptor.h"
 #import "LTEntityTableViewController.h"
@@ -392,8 +393,7 @@
 	if (viableEntity.type == 6)
 	{
 		/* Metric */
-		LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithNibName:@"DevicesTab" bundle:nil];
-		metricView.metric = viableEntity;
+		LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithMetric:viableEntity];
 		LTEntityDescriptor *entityDescriptor = [viableEntity entityDescriptor];
 		metricView.navigationItem.prompt = [NSString stringWithFormat:@"%@ @ %@ %@ %@", entityDescriptor.devDesc, entityDescriptor.siteDesc, entityDescriptor.cntDesc, entityDescriptor.objDesc];
 		viewController = metricView;	
