@@ -21,6 +21,8 @@
 - (void) selectEntity:(LTEntity *)entity;
 - (void) rebuildContainerScrollView;
 - (void) rebuildObjectScrollView;
+- (void) hideGraphAndLegend;
+- (void) showGraphAndLegend;
 - (void) graphMetrics:(NSArray *)metrics fromEntity:(LTEntity *)parentEntity;
 
 @end
@@ -183,7 +185,9 @@
 	}
 	
 	/* Reset graph layer */
-	[self graphMetrics:selectedContainer.graphableMetrics fromEntity:selectedContainer];	
+	[self graphMetrics:selectedContainer.graphableMetrics fromEntity:selectedContainer];
+	if (self.selectedContainer) [self showGraphAndLegend];
+	else [self hideGraphAndLegend];
 	
 	/* Save selection */
 	[[NSUserDefaults standardUserDefaults] setObject:selectedContainer.entityAddress forKey:[self lastSelectionKey]];
@@ -213,13 +217,11 @@
 	/* Show/Hide Graph */
 	if (self.selectedObject) 
 	{
-		graphEnclosingView.hidden = NO;
-		graphLegendTableView.hidden = NO;
+		[self showGraphAndLegend];
 	}
 	else
 	{
-		graphEnclosingView.hidden = YES;
-		graphLegendTableView.hidden = YES;
+		[self hideGraphAndLegend];
 	}
 	
 	/* Save selection */
@@ -266,6 +268,24 @@
 						 animations:^{ graphEnclosingView.frame = graphRect; objectEnclosingView.frame = objectRect; }];
 		
 		objectScrollViewIsHidden = NO;
+	}
+}
+
+- (void) hideGraphAndLegend
+{
+	if (!graphAndLegendIsHidden)
+	{
+		[UIView animateWithDuration:1.0 animations:^{ graphEnclosingView.alpha = 0.; graphLegendTableView.alpha = 0.; }];
+		graphAndLegendIsHidden = YES;
+	}
+}
+
+- (void) showGraphAndLegend
+{
+	if (graphAndLegendIsHidden)
+	{
+		[UIView animateWithDuration:1.0 animations:^{ graphEnclosingView.alpha = 1.; graphLegendTableView.alpha = 1.; }];
+		graphAndLegendIsHidden = NO;
 	}
 }
 
@@ -407,8 +427,9 @@
 	
 	/* Move/Hide interface components */
 	containerEnclosingView.hidden = YES;
-	graphEnclosingView.hidden = YES;
-	graphLegendTableView.hidden = YES;
+	graphEnclosingView.alpha = 0.;
+	graphLegendTableView.alpha = 0.;
+	graphAndLegendIsHidden = YES;
 	CGRect graphRect = graphEnclosingView.frame;
 	graphRect.origin.y -= objectEnclosingView.frame.size.height;
 	graphRect.size.height += objectEnclosingView.frame.size.height;
@@ -416,8 +437,8 @@
 	CGRect objectRect = objectEnclosingView.frame;
 	objectRect.origin.y -= objectEnclosingView.frame.size.height;
 	objectEnclosingView.frame = objectRect;
-	objectScrollViewIsHidden = YES;
 	objectEnclosingView.hidden = YES;
+	objectScrollViewIsHidden = YES;
 	[self.view bringSubviewToFront:containerEnclosingView];
 }
 

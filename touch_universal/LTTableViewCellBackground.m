@@ -24,13 +24,11 @@
 
 - (void)drawRect:(CGRect)rect 
 {
-	return;
     // Drawing code
 	[[UIColor colorWithRed:70.0/255.0 green:70.0/255.0 blue:70.0/255.0 alpha:1.0] setFill];
 	UIRectFill(self.bounds);
 	
 	// Indent offset 
-//	CGFloat indentOffset = cell.indentationLevel * cell.indentationWidth;
 	CGFloat indentOffset = 0.0;
 	
 	// Ridge lines
