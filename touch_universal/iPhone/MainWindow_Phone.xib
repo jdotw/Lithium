@@ -13,7 +13,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="2"/>
-			<integer value="22"/>
+			<integer value="24"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -92,8 +92,8 @@
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSColor" key="IBUITintColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MC41NTI0MTkzNTQ4AA</bytes>
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC4yOTM0NzgyNjA5IDAuMjkzNDc4MjYwOSAwLjI5MzQ3ODI2MDkAA</bytes>
 						</object>
 					</object>
 					<object class="NSMutableArray" key="IBUIViewControllers">

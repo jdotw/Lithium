@@ -399,7 +399,7 @@
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 	{
 		/* iPad-style Incident selection */
-		AppDelegate_Pad *appDelegate = [[UIApplication sharedApplication] delegate];
+		AppDelegate_Pad *appDelegate = (AppDelegate_Pad *) [[UIApplication sharedApplication] delegate];
 		[appDelegate displayEntityInDetailView:incident.metric];
 	}
 	else

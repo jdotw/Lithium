@@ -84,7 +84,12 @@
 
 - (void) setEntity:(LTEntity *)value
 {
+	if (value.type == 5 && value.children.count == 1)
+	{
+		value = [value.children objectAtIndex:0];
+	}
 	[super setEntity:value];
+	
 	metricLabel.text = self.entity.desc;
 	self.detailTextLabel.text = self.entity.currentValue;
 	self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];

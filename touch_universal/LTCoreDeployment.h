@@ -15,10 +15,6 @@
 
 @interface LTCoreDeployment : LTEntity
 {
-	/* Refresh */
-	BOOL enabled;
-	BOOL useSSL;
-	
 	/* Reachability */
 	SCNetworkReachabilityRef reachabilityRef;
 }
@@ -27,5 +23,6 @@
 @property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, assign) BOOL useSSL;
 @property (nonatomic, readonly) BOOL reachable;
+@property (nonatomic, assign) BOOL discovered;
 
 @end

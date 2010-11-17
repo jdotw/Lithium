@@ -49,8 +49,8 @@
 {
 	[encoder encodeObject:ipAddress forKey:@"ipAddress"];
 	[encoder encodeObject:desc forKey:@"desc"];
-	[encoder encodeBool:enabled forKey:@"enabled"];
-	[encoder encodeBool:useSSL forKey:@"useSSL"];
+	[encoder encodeBool:self.enabled forKey:@"enabled"];
+	[encoder encodeBool:self.useSSL forKey:@"useSSL"];
 }
 
 
@@ -296,7 +296,7 @@ static void reachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
 #pragma mark "Properties"
 
-@synthesize enabled, useSSL;
+@synthesize enabled, useSSL, discovered;
 
 
 @end

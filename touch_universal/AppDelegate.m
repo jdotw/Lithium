@@ -59,24 +59,37 @@
     /* Display */
 	[window addSubview:tabBarController.view];
     [window makeKeyAndVisible];
+	
+	/* Initialize net browser */
+	coreServiceBrowser = [[NSNetServiceBrowser alloc] init];
+	coreServiceBrowser.delegate = self;
+	[coreServiceBrowser searchForServicesOfType:@"_lithium._tcp" inDomain:@""];
 
 	/* CHeck for at lease one core deployment */
+	[NSTimer scheduledTimerWithTimeInterval:0.5
+									 target:self
+								   selector:@selector(initialDeploymentCheckTimerCallback:)
+								   userInfo:nil
+									repeats:NO];
+	
+	return YES;
+}
+
+- (void) initialDeploymentCheckTimerCallback:(NSTimer *)timer
+{
+	/* This is called 0.5s after the app loads to ensure that atleast one deployment was found */
+	NSLog (@"Doing check for deployment");
 	if (self.coreDeployments.count < 1)
 	{
 		LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
 		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-#ifdef UIModalPresentationFormSheet
 		[navController setModalPresentationStyle:UIModalPresentationFormSheet];
-#endif
 		navController.navigationBar.tintColor = [UIColor colorWithWhite:120.0/255.0 alpha:1.0];
 		
 		[tabBarController presentModalViewController:navController animated:YES];
 		[controller release];
 		[navController release];	
-	}
-	
-	
-	return YES;
+	}	
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -112,6 +125,36 @@
 	//	NSLog (@"PUSH: %@", userInfo);
 }
 
+#pragma mark -
+#pragma mark Bonjour Service Discovery
+
+- (void) netServiceDidResolveAddress:(NSNetService *)netService
+{
+	NSLog (@"Found %@ (%@)", netService, netService.hostName);
+	LTCoreDeployment *core = [[LTCoreDeployment alloc] init];
+	core.ipAddress = netService.hostName;
+	core.desc = netService.hostName;
+	core.enabled = YES;
+	core.useSSL = NO;
+	core.name = netService.hostName;
+	core.discovered = YES;
+	[self addCore:core];
+}
+
+- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict
+{
+	NSLog (@"%@ didnt resolve %@", sender, errorDict);
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
+{
+	netService.delegate = self;
+	[netService resolveWithTimeout:2.0];
+	[netService retain];
+}
+
+
+#pragma mark -
 #pragma mark "Properties"
 
 @synthesize window;
@@ -137,7 +180,10 @@
 }
 - (void) saveCoreDeployments
 {
-	[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:self.coreDeployments] forKey:@"coreDeployments"];
+	NSMutableArray *coresToSave = [NSMutableArray array];
+	for (LTCoreDeployment *deployment in self.coreDeployments)
+	{ if (!deployment.discovered) [coresToSave addObject:deployment]; }
+	[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:coresToSave] forKey:@"coreDeployments"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 

@@ -254,11 +254,11 @@
 		}
 		else if ([CellIdentifier isEqualToString:@"Subtitle"])
 		{
-			cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+			cell = [[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
 			[cell autorelease];
 		}
 		else
-		{ cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease]; }
+		{ cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease]; }
     }
 
     /* Setup the Cell */

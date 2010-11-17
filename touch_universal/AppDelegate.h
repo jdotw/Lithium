@@ -10,7 +10,7 @@
 
 @class LTAuthenticationTableViewController, LTFavoritesTableViewController, LTCoreDeployment, LTIncidentListTableViewController;
 
-@interface AppDelegate : NSObject <UIApplicationDelegate> 
+@interface AppDelegate : NSObject <UIApplicationDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate>
 {
 	/* UI Elements */
     UIWindow *window;
@@ -28,6 +28,9 @@
 
 	/* Operation Queue */
 	NSOperationQueue *operationQueue;
+	
+	/* NetService Browser */
+	NSNetServiceBrowser *coreServiceBrowser;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

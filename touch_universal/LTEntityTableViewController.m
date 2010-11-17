@@ -70,24 +70,6 @@
 	{
 		/* Hide search for non-customer view */
 		self.tableView.tableHeaderView = nil;
-	}	
-
-	if (
-#ifdef UI_USER_INTERFACE_IDIOM
-		UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
-#else
-		0
-#endif
-		)
-	{
-		/* iPad TableView Setup */
-		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-	}
-	else
-	{
-		/* iPhone TableView Setup */
-		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		self.tableView.backgroundView = nil;
 	}
 }
 
@@ -214,39 +196,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-#ifdef UI_USER_INTERFACE_IDIOM
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && entity.type == 1)
-#else
-	if (0)
-#endif
-	{
-		/* iPad with Customer */
-		return children.count;
-	}
-	else
-	{
-		/* iPhone */
-		return 1;
-	}
+	return 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-#ifdef UI_USER_INTERFACE_IDIOM
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && entity.type == 1)
-#else
-	if (0)
-#endif
-	{
-		/* iPad with Customer */
-		LTEntity *site = [children objectAtIndex:section];
-		return site.desc;
-	}
-	else
-	{
-		/* iPhone */
-		return nil;
-	}
+	return nil;
 }
 
 // Customize the number of rows in the table view.
@@ -256,23 +211,9 @@
 	{
 		if ([children count] == 0 && entity.refreshInProgress)
 		{ return 1; }
-		
-#ifdef UI_USER_INTERFACE_IDIOM
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && entity.type == 1)
-#else
-		if (0)
-#endif
-		{
-			/* iPad with Customer */
-			LTEntity *site = [children objectAtIndex:section];
-			NSLog (@"At section %i (%@) children is %i", section, site.desc, site.children.count);
-			return site.children.count;
-		}
 		else
-		{
-			/* iPhone */
-			return [children count];
-		}
+		{ return [children count]; }
+
 	}
 	else
 	{
@@ -301,27 +242,11 @@
 {
 	if (entity)
 	{
-#ifdef UI_USER_INTERFACE_IDIOM
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && entity.type == 1)
-#else
-		if (0)
-#endif
-		{
-			/* iPad with Customer */
-			LTEntity *site = [children objectAtIndex:indexPath.section];
-			if (indexPath.row < [site.children count])
-			{ return [site.children objectAtIndex:indexPath.row]; }
-			else
-			{ return nil; }
-		}
-		else
-		{
-			/* iPhone */
-			if (indexPath.row < [children count])
-			{ return [children objectAtIndex:indexPath.row]; }
-			else 
-			{ return nil; }
-		}
+		/* iPhone */
+		if (indexPath.row < [children count])
+		{ return [children objectAtIndex:indexPath.row]; }
+		else 
+		{ return nil; }
 	}
 	else
 	{
@@ -336,7 +261,7 @@
 	NSLog (@"%@ got %@", indexPath, displayEntity);
 	
     NSString *CellIdentifier;
-	if (displayEntity.type == 6)
+	if (displayEntity.type == 6 || (displayEntity.type == 5 && displayEntity.children.count == 1))
 	{ CellIdentifier = @"Metric"; }
 	else if (displayEntity)
 	{ CellIdentifier = @"Entity"; }
@@ -347,7 +272,7 @@
 	{
 		if ([CellIdentifier isEqualToString:@"Metric"])
 		{
-			LTMetricTableViewCell *metricCell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			LTMetricTableViewCell *metricCell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 			metricCell.showCurrentValue = YES;
 			cell = metricCell;			
 		}
@@ -391,6 +316,10 @@
 			{ 
 				cell.detailTextLabel.text = @"Deployment is disabled";
 			}
+			else if (deployment.discovered)
+			{
+				cell.detailTextLabel.text = @"Discovered deployment";
+			}
 			else
 			{ 
 				cell.detailTextLabel.text = nil;
@@ -424,6 +353,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+	if (!entity && self.tableView.editing)
+	{
+		/* Edit the selected core deployment */
+		LTCoreDeployment *deployment = [children objectAtIndex:indexPath.row];
+		if (!deployment.discovered)
+		{
+			LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithCoreToEdit:[children objectAtIndex:indexPath.row]];
+			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+			navController.navigationBar.tintColor = [UIColor colorWithWhite:120.0/255.0 alpha:1.0];
+			navController.modalPresentationStyle = UIModalPresentationFormSheet;
+			[self.navigationController presentModalViewController:navController animated:YES];
+			[controller release];
+			[navController release];	
+			return;
+		}
+	}
+
 	LTEntity *selectedEntity = nil;
 	if (entity)
 	{
@@ -431,28 +377,8 @@
 	}
 	else
 	{
-		if (self.tableView.editing)
-		{
-			/* Edit the selected core deployment */
-			LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithCoreToEdit:[children objectAtIndex:indexPath.row]];
-			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-			navController.navigationBar.tintColor = [UIColor colorWithWhite:120.0/255.0 alpha:1.0];
-#ifdef UI_USER_INTERFACE_IDIOM
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-			{ navController.modalPresentationStyle = UIModalPresentationFormSheet; }
-#endif
-			[self.navigationController presentModalViewController:navController animated:YES];
-			[controller release];
-			[navController release];	
-			return;
-		}
-		else
-		{
-			/* Select the deployment */
-			selectedEntity = [children objectAtIndex:indexPath.row];
-		}
+		selectedEntity = [children objectAtIndex:indexPath.row];
 	}
-	
 	if (!selectedEntity) return;
 	
 	LTEntity *viableEntity = selectedEntity;
@@ -498,7 +424,11 @@
 		if ([indexPath section] == 0)
 		{
 			if ([indexPath row] < appDelegate.coreDeployments.count)
-			{ return YES; }
+			{ 
+				LTCoreDeployment *deployment = [appDelegate.coreDeployments objectAtIndex:indexPath.row];
+				if (deployment.discovered) return NO;
+				else return YES;
+			}
 			else
 			{ return NO; }
 		}
@@ -637,10 +567,7 @@
 	LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
 	navController.navigationBar.tintColor = [UIColor colorWithWhite:120.0/255.0 alpha:1.0];
-#ifdef UI_USER_INTERFACE_IDIOM
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-	{ navController.modalPresentationStyle = UIModalPresentationFormSheet; }
-#endif
+	navController.modalPresentationStyle = UIModalPresentationFormSheet;
 	[self.navigationController presentModalViewController:navController animated:YES];
 	[controller release];
 	[navController release];	
