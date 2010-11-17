@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="59"/>
+			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -47,11 +47,13 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{768, 960}</string>
 						<reference key="NSSuperview" ref="766721923"/>
+						<float key="IBUIAlpha">0.30000001192092896</float>
+						<int key="IBUIContentMode">9</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">noiseback.png</string>
+							<string key="NSResourceName">noiseback-gray.png</string>
 						</object>
 					</object>
 					<object class="IBUIView" id="734047330">
@@ -94,7 +96,7 @@
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
-							<object class="NSColorSpace" key="NSCustomColorSpace" id="540465252">
+							<object class="NSColorSpace" key="NSCustomColorSpace">
 								<int key="NSID">2</int>
 							</object>
 						</object>
@@ -120,7 +122,7 @@
 							<object class="IBUIScrollView" id="731964039">
 								<reference key="NSNextResponder" ref="990178454"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{0, 1}, {768, 47}}</string>
+								<string key="NSFrameSize">{768, 48}</string>
 								<reference key="NSSuperview" ref="990178454"/>
 								<reference key="IBUIBackgroundColor" ref="11777603"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -132,14 +134,22 @@
 								<bool key="IBUIBouncesZoom">NO</bool>
 							</object>
 						</object>
-						<string key="NSFrame">{{0, 88}, {768, 48}}</string>
+						<string key="NSFrame">{{0, 90}, {768, 48}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MQA</bytes>
-							<reference key="NSCustomColorSpace" ref="540465252"/>
-						</object>
+						<reference key="IBUIBackgroundColor" ref="11777603"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+					</object>
+					<object class="IBUIImageView" id="100266579">
+						<reference key="NSNextResponder" ref="766721923"/>
+						<int key="NSvFlags">290</int>
+						<string key="NSFrame">{{0, 138}, {768, 8}}</string>
+						<reference key="NSSuperview" ref="766721923"/>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">LCObjectIconViewDropShadow.png</string>
+						</object>
 					</object>
 					<object class="IBUIView" id="1003273188">
 						<reference key="NSNextResponder" ref="766721923"/>
@@ -302,7 +312,7 @@
 								<float key="IBUIMinimumFontSize">10</float>
 							</object>
 						</object>
-						<string key="NSFrame">{{0, 137}, {768, 577}}</string>
+						<string key="NSFrame">{{0, 145}, {768, 577}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="IBUIBackgroundColor" ref="11777603"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -310,7 +320,7 @@
 					<object class="IBUITableView" id="369773638">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">282</int>
-						<string key="NSFrame">{{32, 722}, {704, 237}}</string>
+						<string key="NSFrame">{{32, 730}, {704, 229}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="IBUIBackgroundColor" ref="11777603"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -327,8 +337,8 @@
 				<string key="NSFrameSize">{768, 960}</string>
 				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MC4xMjU0OTAyIDAuMTI1NDkwMiAwLjEyNTQ5MDIAA</bytes>
+					<int key="NSColorSpace">3</int>
+					<bytes key="NSWhite">MC4xOAA</bytes>
 				</object>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -529,6 +539,14 @@
 					</object>
 					<int key="connectionID">64</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">horizontalScrollDropShadowView</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="100266579"/>
+					</object>
+					<int key="connectionID">66</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -560,6 +578,7 @@
 							<reference ref="734047330"/>
 							<reference ref="921655410"/>
 							<reference ref="369773638"/>
+							<reference ref="100266579"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -678,6 +697,11 @@
 						<reference key="object" ref="921655410"/>
 						<reference key="parent" ref="766721923"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">65</int>
+						<reference key="object" ref="100266579"/>
+						<reference key="parent" ref="766721923"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -721,6 +745,8 @@
 					<string>59.IBViewBoundsToFrameTransform</string>
 					<string>60.IBPluginDependency</string>
 					<string>60.IBViewBoundsToFrameTransform</string>
+					<string>65.IBPluginDependency</string>
+					<string>65.IBViewBoundsToFrameTransform</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -792,6 +818,10 @@
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAABCJAAAw4AAAA</bytes>
 					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">AQAAAABCQAAAA</bytes>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -810,7 +840,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">64</int>
+			<int key="maxID">66</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -829,6 +859,7 @@
 							<string>graphLegendTableViewController</string>
 							<string>graphOuterView</string>
 							<string>graphScrollView</string>
+							<string>horizontalScrollDropShadowView</string>
 							<string>leftAvgLabel</string>
 							<string>leftMaxLabel</string>
 							<string>leftMinLabel</string>
@@ -847,6 +878,7 @@
 							<string>LTGraphLegendTableViewController</string>
 							<string>UIView</string>
 							<string>UIScrollView</string>
+							<string>UIView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
@@ -868,6 +900,7 @@
 							<string>graphLegendTableViewController</string>
 							<string>graphOuterView</string>
 							<string>graphScrollView</string>
+							<string>horizontalScrollDropShadowView</string>
 							<string>leftAvgLabel</string>
 							<string>leftMaxLabel</string>
 							<string>leftMinLabel</string>
@@ -906,6 +939,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">graphScrollView</string>
 								<string key="candidateClassName">UIScrollView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">horizontalScrollDropShadowView</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">leftAvgLabel</string>
@@ -1255,15 +1292,17 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>LCObjectIconViewDropShadow.png</string>
 				<string>LTContainerIconViewBack-Normal.png</string>
 				<string>LTObjectIconViewBack-Normal.png</string>
-				<string>noiseback.png</string>
+				<string>noiseback-gray.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<string>{6, 6}</string>
 				<string>{1, 90}</string>
 				<string>{1, 45}</string>
-				<string>{768, 815}</string>
+				<string>{1024, 1024}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">132</string>

@@ -283,17 +283,16 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if ([children count] == 0 && entity.refreshInProgress)
-	{ return 200.0; }
+	{ return self.tableView.frame.size.height; }
 	else
 	{ 
 		if (tableView.frame.size.height > 600)
 		{ 
-			return 60.0; 
+			return 52.0; 
 		}
 		else
 		{
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) return 44.0;
-			else return 44.0; 
+			return 48.0; 
 		}
 	}
 }
@@ -354,14 +353,21 @@
 		}
 		else if ([CellIdentifier isEqualToString:@"Entity"])
 		{
-			cell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+			cell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+			cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
 		}
 		else if ([CellIdentifier isEqualToString:@"Refresh"])
 		{
 			cell = [[[LTEntityRefreshProgressViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
-		if (displayEntity) cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		if (displayEntity)
+		{
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && displayEntity.type == 3)
+			{ cell.accessoryType = UITableViewCellAccessoryNone; }
+			else
+			{ cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
+		}
     }
     
     // Set up the cell...
@@ -373,38 +379,23 @@
 		if (displayEntity.type > 0)
 		{
 			cell.entityState = displayEntity.opState;
-//			switch (cell.entity.opState)
-//			{
-//				case -2:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
-//					break;					
-//				case 0:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
-//					break;
-//				case 1:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-//					break;
-//				case 2:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-//					break;
-//				case 3:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
-//					break;
-//				default:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
-//			}
-//			
-//			if ([entity.coreDeployment reachable] && [entity.coreDeployment enabled]) cell.imageView.alpha = 1.0;
-//			else cell.imageView.alpha = 0.5;
 		}
-//		else
-//		{
-//			LTCoreDeployment *deployment = (LTCoreDeployment *) displayEntity;
-//			if (deployment.reachable && deployment.enabled)
-//			{ cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]]; }
-//			else
-//			{ cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]]; }				
-//		}
+		else
+		{
+			LTCoreDeployment *deployment = (LTCoreDeployment *) displayEntity;
+			if (!deployment.reachable)
+			{
+				cell.detailTextLabel.text = @"Deployment is unreachable";
+			}
+			else if (!deployment.enabled)
+			{ 
+				cell.detailTextLabel.text = @"Deployment is disabled";
+			}
+			else
+			{ 
+				cell.detailTextLabel.text = nil;
+			}				
+		}
 	}
 	else
 	{

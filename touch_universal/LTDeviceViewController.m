@@ -24,6 +24,7 @@
 - (void) hideGraphAndLegend;
 - (void) showGraphAndLegend;
 - (void) graphMetrics:(NSArray *)metrics fromEntity:(LTEntity *)parentEntity;
+- (void) resizeAndInvalidateGraphViewContent;
 
 @end
 
@@ -240,12 +241,17 @@
 		
 		CGRect objectRect = objectEnclosingView.frame;
 		objectRect.origin.y -= yDelta;
+		
+		CGRect dropRect = horizontalScrollDropShadowView.frame;
+		dropRect.origin.y -= yDelta;
 
-		[UIView animateWithDuration:1.0 
-						 animations:^{ graphEnclosingView.frame = graphRect; objectEnclosingView.frame = objectRect; }
+		[UIView animateWithDuration:0.25 
+						 animations:^{ graphEnclosingView.frame = graphRect; objectEnclosingView.frame = objectRect; horizontalScrollDropShadowView.frame = dropRect; }
 						 completion:^(BOOL finished){ objectEnclosingView.hidden = YES; }];
 
 		objectScrollViewIsHidden = YES;
+
+		[self resizeAndInvalidateGraphViewContent];
 	}
 }
 
@@ -262,12 +268,17 @@
 		CGRect objectRect = objectEnclosingView.frame;
 		objectRect.origin.y += yDelta;
 
+		CGRect dropRect = horizontalScrollDropShadowView.frame;
+		dropRect.origin.y += yDelta;
+
 		objectEnclosingView.hidden = NO;
 		
-		[UIView animateWithDuration:1.0 
-						 animations:^{ graphEnclosingView.frame = graphRect; objectEnclosingView.frame = objectRect; }];
+		[UIView animateWithDuration:0.25 
+						 animations:^{ graphEnclosingView.frame = graphRect; objectEnclosingView.frame = objectRect; horizontalScrollDropShadowView.frame = dropRect; }];
 		
 		objectScrollViewIsHidden = NO;
+		
+		[self resizeAndInvalidateGraphViewContent];
 	}
 }
 
@@ -275,7 +286,7 @@
 {
 	if (!graphAndLegendIsHidden)
 	{
-		[UIView animateWithDuration:1.0 animations:^{ graphEnclosingView.alpha = 0.; graphLegendTableView.alpha = 0.; }];
+		[UIView animateWithDuration:0.25 animations:^{ graphEnclosingView.alpha = 0.; graphLegendTableView.alpha = 0.; }];
 		graphAndLegendIsHidden = YES;
 	}
 }
@@ -284,7 +295,7 @@
 {
 	if (graphAndLegendIsHidden)
 	{
-		[UIView animateWithDuration:1.0 animations:^{ graphEnclosingView.alpha = 1.; graphLegendTableView.alpha = 1.; }];
+		[UIView animateWithDuration:0.25 animations:^{ graphEnclosingView.alpha = 1.; graphLegendTableView.alpha = 1.; }];
 		graphAndLegendIsHidden = NO;
 	}
 }
@@ -331,8 +342,19 @@
 	}
 	containerScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
 	
-	if (containerIconViewControllers.count > 0) containerEnclosingView.hidden = NO;
-	else containerEnclosingView.hidden = YES;
+	if (containerIconViewControllers.count > 0) 
+	{
+		containerEnclosingView.hidden = NO;
+		horizontalScrollDropShadowView.hidden = NO;
+		
+		NSLog (@"containerEnclosing is %@", NSStringFromCGRect(containerEnclosingView.frame));
+		NSLog (@"drop is %@", NSStringFromCGRect(horizontalScrollDropShadowView.frame));
+	}
+	else 
+	{
+		containerEnclosingView.hidden = YES;
+		horizontalScrollDropShadowView.hidden = YES;
+	}
 }
 
 - (void) rebuildObjectScrollView
@@ -346,7 +368,7 @@
 	if (self.selectedContainer.children.count > 1)
 	{
 		CGFloat contentWidth = 0.0;
-		CGFloat contentHeight = 45.0;
+		CGFloat contentHeight = 48.0;
 		for (LTEntity *object in self.selectedContainer.children)
 		{
 			LTObjectIconViewController *vc = [[LTObjectIconViewController alloc] initWithObject:object];
@@ -378,11 +400,13 @@
 	}
 }
 
-- (void) resizeAndInvalidateScrollViewContent
+- (void) resizeAndInvalidateGraphViewContent
 {
 	CGRect contentRect = CGRectMake(0.0, 0.0, 8000.0, graphScrollView.frame.size.height);
 	graphView.frame = contentRect;
 	graphScrollView.contentSize = contentRect.size;
+	[graphView setNeedsLayout];
+	[graphView setNeedsDisplayInRect:contentRect];
 }
 
 #pragma mark - 
@@ -437,13 +461,18 @@
 	objectEnclosingView.frame = objectRect;
 	objectEnclosingView.hidden = YES;
 	objectScrollViewIsHidden = YES;
+	CGRect dropShadowRect = horizontalScrollDropShadowView.frame;
+	dropShadowRect.origin.y -= objectEnclosingView.frame.size.height;
+	horizontalScrollDropShadowView.frame = dropShadowRect;
+	horizontalScrollDropShadowView.hidden = YES;
 	[self.view bringSubviewToFront:containerEnclosingView];
+	[self resizeAndInvalidateGraphViewContent];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[self resizeAndInvalidateScrollViewContent];
+	[self resizeAndInvalidateGraphViewContent];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -458,7 +487,7 @@
 
 - (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-	[self resizeAndInvalidateScrollViewContent];
+	[self resizeAndInvalidateGraphViewContent];
 }
 
 - (void)viewDidUnload {
@@ -466,6 +495,8 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
+
+
 
 #pragma mark -
 #pragma mark Memory Management

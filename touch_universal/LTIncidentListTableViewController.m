@@ -374,7 +374,10 @@
 		cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ Reached or exceeded %@", incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.raisedValue];
 	}
 	cell.entityState = incident.entityDescriptor.opState;
-	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{ cell.accessoryType = UITableViewCellAccessoryNone; }
+	else
+	{ cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
 	
     return cell;
 }

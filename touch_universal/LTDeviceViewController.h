@@ -28,6 +28,8 @@
 	LTEntity *selectedObject;
 	NSArray *selectedObjectGraphableMetrics;
 	BOOL objectScrollViewIsHidden;
+	
+	IBOutlet UIView *horizontalScrollDropShadowView;
 
 	IBOutlet UIView *graphEnclosingView;
 	IBOutlet UIView *graphOuterView;				/* Contains the layers for the min/max/avg */
@@ -54,7 +56,6 @@
 }
 
 - (void) displayDevice:(LTEntity *)device withInitialSelection:(LTEntity *)initialSelection;
-
 
 @property (nonatomic,retain) LTEntity *device;
 @property (nonatomic,retain) LTEntity *selectedContainer;

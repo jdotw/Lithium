@@ -116,6 +116,8 @@
 		1095A27711BD9E63008EED5B /* LTGraphTiledLayerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1095A27611BD9E63008EED5B /* LTGraphTiledLayerDelegate.m */; };
 		109DA38812829C8600577BAA /* noiseback.png in Resources */ = {isa = PBXBuildFile; fileRef = 109DA38712829C8600577BAA /* noiseback.png */; };
 		109DA4371282B14200577BAA /* LTEntityIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 109DA4361282B14200577BAA /* LTEntityIconView.m */; };
+		10B4875F129352AF006F3267 /* noiseback-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 10B4875E129352AF006F3267 /* noiseback-gray.png */; };
+		10B487AA12935AC5006F3267 /* LCObjectIconViewDropShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 10B487A912935AC5006F3267 /* LCObjectIconViewDropShadow.png */; };
 		10BAD5CC11C2C88900147DCA /* LTGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BAD5CB11C2C88900147DCA /* LTGraphView.m */; };
 		10BFF6DE1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BFF6DD1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m */; };
 		10C3F46F11BF541200CBD469 /* LTModalProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */; };
@@ -297,6 +299,8 @@
 		109DA38712829C8600577BAA /* noiseback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noiseback.png; sourceTree = "<group>"; };
 		109DA4351282B14200577BAA /* LTEntityIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityIconView.h; sourceTree = "<group>"; };
 		109DA4361282B14200577BAA /* LTEntityIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityIconView.m; sourceTree = "<group>"; };
+		10B4875E129352AF006F3267 /* noiseback-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noiseback-gray.png"; sourceTree = "<group>"; };
+		10B487A912935AC5006F3267 /* LCObjectIconViewDropShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LCObjectIconViewDropShadow.png; sourceTree = "<group>"; };
 		10BAD5CA11C2C88900147DCA /* LTGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphView.h; sourceTree = "<group>"; };
 		10BAD5CB11C2C88900147DCA /* LTGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphView.m; sourceTree = "<group>"; };
 		10BFF6DC1232171B00723DF4 /* LTEntityRefreshProgressViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityRefreshProgressViewCell.h; sourceTree = "<group>"; };
@@ -339,6 +343,7 @@
 		102C692111BCE8BB0032D043 /* Device View */ = {
 			isa = PBXGroup;
 			children = (
+				10B4875E129352AF006F3267 /* noiseback-gray.png */,
 				107819111290A797006E60F4 /* navlist.png */,
 				109DA38712829C8600577BAA /* noiseback.png */,
 				104B84A11293123500E77D88 /* noiseback-light.png */,
@@ -667,6 +672,7 @@
 		107C3271127FB95400C2321F /* Object View */ = {
 			isa = PBXGroup;
 			children = (
+				10B487A912935AC5006F3267 /* LCObjectIconViewDropShadow.png */,
 				1088A307129343D400C89DB5 /* LTObjectIconViewBack-Normal.png */,
 				1088A38B1293487000C89DB5 /* LTObjectIconViewBack-Selected.png */,
 				107C3275127FB97F00C2321F /* LTObjectIconViewController.h */,
@@ -907,6 +913,8 @@
 				1088A308129343D400C89DB5 /* LTObjectIconViewBack-Normal.png in Resources */,
 				1088A38C1293487000C89DB5 /* LTContainerIconViewBack-Selected.png in Resources */,
 				1088A38D1293487000C89DB5 /* LTObjectIconViewBack-Selected.png in Resources */,
+				10B4875F129352AF006F3267 /* noiseback-gray.png in Resources */,
+				10B487AA12935AC5006F3267 /* LCObjectIconViewDropShadow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

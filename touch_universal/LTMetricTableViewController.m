@@ -34,6 +34,8 @@
 	self = [super initWithNibName:@"LTEntityTableViewController" bundle:nil];
 	if (!self) return nil;
 	
+	self.metric = initMetric;
+	
 	incidentList = [[LTIncidentList alloc] init];
 	incidentList.historicList = YES;
 	incidentList.maxResultsCount = 20;
