@@ -415,7 +415,6 @@
 {
 	/* Setup graph view */
 	CGRect contentRect = CGRectMake(0.0, 0.0, 8000.0, graphScrollView.frame.size.height);
-
 	NSArray *labels = [NSArray arrayWithObjects:leftMaxLabel, leftAvgLabel, leftMinLabel, rightMaxLabel, rightAvgLabel, rightMinLabel, nil];
 	for (UILabel *label in labels)
 	{
@@ -423,7 +422,6 @@
 		label.layer.shadowRadius = 3.0;
 		label.layer.shadowOpacity = 0.8;
 	}
-	
 	graphView = [[LTGraphView alloc] initWithFrame:contentRect];
 	[graphView.minLabels addObject:leftMinLabel];
 	[graphView.minLabels addObject:rightMinLabel];

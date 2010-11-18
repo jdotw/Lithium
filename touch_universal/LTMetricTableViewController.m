@@ -435,8 +435,7 @@
 	int sectionType = [self sectionTypeForSection:indexPath.section];
 	if (sectionType == SECTION_GRAPH) return nil;
 	else if (sectionType == SECTION_FAULTS) return nil;
-	else
-	{ return indexPath; }	
+	else return indexPath;
 }
 
 - (void) incidentListRefreshFinished:(NSNotification *)notification
@@ -472,11 +471,7 @@
 		
 		if(!landscapeViewController)
 		{
-			landscapeViewController = [[LTMetricLandscapeViewController alloc] initWithNibName:@"MetricLandscape" bundle:nil];
-			[landscapeViewController loadView];
-			landscapeViewController.cachedGraphRequest = landscapeGraphRequest;
-			landscapeViewController.metric = self.metric;
-			[landscapeViewController.view setNeedsLayout];
+			landscapeViewController = [[LTMetricLandscapeViewController alloc] initWithMetric:self.metric];
 		}
 		
 		[window addSubview:landscapeViewController.view];

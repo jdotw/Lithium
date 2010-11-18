@@ -11,19 +11,21 @@
 #import "LTEntity.h"
 #import "LTMetricGraphView.h"
 
+@class LTGraphView;
+
 @interface LTMetricLandscapeViewController : UIViewController 
 {
-	LTEntity *metric;
-	IBOutlet UIScrollView *scrollView;
-
-	NSMutableArray *graphViews;
-	LTMetricGraphView *visibleGraphView;
+	IBOutlet UIScrollView *graphScrollView;
+	IBOutlet UILabel *leftMaxLabel;
+	IBOutlet UILabel *leftAvgLabel;
+	IBOutlet UILabel *leftMinLabel;
+	IBOutlet UILabel *rightMaxLabel;
+	IBOutlet UILabel *rightAvgLabel;
+	IBOutlet UILabel *rightMinLabel;
 	
-	LTMetricGraphRequest *cachedGraphRequest;
+	LTGraphView *graphView;
 }
 
-@property (retain) LTEntity *metric;
-@property (retain) LTMetricGraphRequest *cachedGraphRequest;
-
+@property (retain,nonatomic) LTEntity *metric;
 
 @end

@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LTMetricTableViewCellBackground : UIView {
-
+@interface LTMetricTableViewCellBackground : UIView 
+{
+	UIImageView *imageView;
 }
 
 @end

@@ -13,19 +13,27 @@
 
 
 - (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
+    if (self = [super initWithFrame:frame]) 
+	{
         // Initialization code
+		imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		imageView.image = [UIImage imageNamed:@"LTMetricTableViewGraphBack"];
+		imageView.alpha = 0.4;
+		[self addSubview:imageView];
     }
     return self;
 }
 
+- (void) layoutSubviews
+{
+	imageView.frame = self.bounds;
+}
 
 - (void)drawRect:(CGRect)rect 
 {
-	UIImage *backImage = [UIImage imageNamed:@"mediumgraphback.png"]; 
-	[backImage drawInRect:self.bounds
-				blendMode:kCGBlendModeSourceAtop 
-					alpha:1.0f];
+	/* Draw back */
+	[[UIColor colorWithWhite:0.16 alpha:1.0] setFill];
+	UIRectFill(self.bounds);
 	
 	// Ridge lines
 	CGRect topLineRect;
@@ -34,11 +42,6 @@
 	[[UIColor colorWithRed:20.0/255.0 green:20.0/255.0 blue:20.0/255.0 alpha:1.0] setFill];
 	topLineRect = CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMaxY(self.bounds)-1.0, CGRectGetWidth(self.bounds), 1.0);
 	UIRectFill(topLineRect);
-	
-	// Top (Light)
-	[[UIColor colorWithRed:120.0/255.0 green:120.0/255.0 blue:120.0/255.0 alpha:1.0] setFill];
-	topLineRect = CGRectMake(CGRectGetMinX(self.bounds), CGRectGetMinY(self.bounds)+0.0, CGRectGetWidth(self.bounds), 1.0);
-	UIRectFill(topLineRect);	
 }
 
 

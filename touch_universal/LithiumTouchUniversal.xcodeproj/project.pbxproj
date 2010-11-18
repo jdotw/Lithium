@@ -60,7 +60,6 @@
 		105EDED911BC392000B294B4 /* LTMetricGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8911BC392000B294B4 /* LTMetricGraphView.m */; };
 		105EDEDA11BC392000B294B4 /* LTMetricGraphTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8B11BC392000B294B4 /* LTMetricGraphTableViewCell.m */; };
 		105EDEDB11BC392000B294B4 /* LTMetricLandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */; };
-		105EDEDC11BC392000B294B4 /* MetricLandscape.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE8E11BC392000B294B4 /* MetricLandscape.xib */; };
 		105EDEDD11BC392000B294B4 /* LTMetricTableViewCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */; };
 		105EDEE011BC392000B294B4 /* LTGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */; };
 		105EDEE211BC392000B294B4 /* LTIncidentListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9A11BC392000B294B4 /* LTIncidentListTableViewController.m */; };
@@ -118,6 +117,11 @@
 		10B4875F129352AF006F3267 /* noiseback-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 10B4875E129352AF006F3267 /* noiseback-gray.png */; };
 		10B487AA12935AC5006F3267 /* LCObjectIconViewDropShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 10B487A912935AC5006F3267 /* LCObjectIconViewDropShadow.png */; };
 		10BAD5CC11C2C88900147DCA /* LTGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BAD5CB11C2C88900147DCA /* LTGraphView.m */; };
+		10BB416C1294DFF900B75489 /* LTMetricLandscapeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10BB416B1294DFF900B75489 /* LTMetricLandscapeViewController.xib */; };
+		10BB41EA1295BE5A00B75489 /* LTMetricTableViewGraphBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10BB41E91295BE5A00B75489 /* LTMetricTableViewGraphBack@2x.png */; };
+		10BB41FE1295C0D000B75489 /* LTMetricLandscapeBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10BB41FD1295C0D000B75489 /* LTMetricLandscapeBack@2x.png */; };
+		10BB421A1295C68A00B75489 /* LTMetricLandscapeBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 10BB42191295C68A00B75489 /* LTMetricLandscapeBack.png */; };
+		10BB421C1295C69500B75489 /* LTMetricTableViewGraphBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 10BB421B1295C69500B75489 /* LTMetricTableViewGraphBack.png */; };
 		10BFF6DE1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BFF6DD1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m */; };
 		10C3F46F11BF541200CBD469 /* LTModalProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */; };
 		10C3F47011BF541200CBD469 /* LTModalProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */; };
@@ -216,7 +220,6 @@
 		105EDE8B11BC392000B294B4 /* LTMetricGraphTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricGraphTableViewCell.m; sourceTree = "<group>"; };
 		105EDE8C11BC392000B294B4 /* LTMetricLandscapeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricLandscapeViewController.h; sourceTree = "<group>"; };
 		105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricLandscapeViewController.m; sourceTree = "<group>"; };
-		105EDE8E11BC392000B294B4 /* MetricLandscape.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MetricLandscape.xib; sourceTree = "<group>"; };
 		105EDE8F11BC392000B294B4 /* LTMetricTableViewCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricTableViewCellBackground.h; sourceTree = "<group>"; };
 		105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricTableViewCellBackground.m; sourceTree = "<group>"; };
 		105EDE9511BC392000B294B4 /* LTGroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGroupTableViewController.h; sourceTree = "<group>"; };
@@ -300,6 +303,11 @@
 		10B487A912935AC5006F3267 /* LCObjectIconViewDropShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LCObjectIconViewDropShadow.png; sourceTree = "<group>"; };
 		10BAD5CA11C2C88900147DCA /* LTGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphView.h; sourceTree = "<group>"; };
 		10BAD5CB11C2C88900147DCA /* LTGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphView.m; sourceTree = "<group>"; };
+		10BB416B1294DFF900B75489 /* LTMetricLandscapeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTMetricLandscapeViewController.xib; sourceTree = "<group>"; };
+		10BB41E91295BE5A00B75489 /* LTMetricTableViewGraphBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTMetricTableViewGraphBack@2x.png"; sourceTree = "<group>"; };
+		10BB41FD1295C0D000B75489 /* LTMetricLandscapeBack@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LTMetricLandscapeBack@2x.png"; sourceTree = "<group>"; };
+		10BB42191295C68A00B75489 /* LTMetricLandscapeBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LTMetricLandscapeBack.png; sourceTree = "<group>"; };
+		10BB421B1295C69500B75489 /* LTMetricTableViewGraphBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LTMetricTableViewGraphBack.png; sourceTree = "<group>"; };
 		10BFF6DC1232171B00723DF4 /* LTEntityRefreshProgressViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityRefreshProgressViewCell.h; sourceTree = "<group>"; };
 		10BFF6DD1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityRefreshProgressViewCell.m; sourceTree = "<group>"; };
 		10C3F46C11BF541200CBD469 /* LTModalProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTModalProgressViewController.h; sourceTree = "<group>"; };
@@ -503,11 +511,14 @@
 		105EDE7B11BC392000B294B4 /* Metric View */ = {
 			isa = PBXGroup;
 			children = (
+				10BB421B1295C69500B75489 /* LTMetricTableViewGraphBack.png */,
+				10BB41E91295BE5A00B75489 /* LTMetricTableViewGraphBack@2x.png */,
 				105EDE8011BC392000B294B4 /* slatebackbrowser.png */,
 				105EDE8111BC392000B294B4 /* mediumgraphback.png */,
 				105EDE8211BC392000B294B4 /* largegraphback.png */,
 				105EDE8311BC392000B294B4 /* LTMetricTableViewController.h */,
 				105EDE8411BC392000B294B4 /* LTMetricTableViewController.m */,
+				10BB416B1294DFF900B75489 /* LTMetricLandscapeViewController.xib */,
 				105EDE8511BC392000B294B4 /* LTMetricGraphRequest.h */,
 				105EDE8611BC392000B294B4 /* LTMetricGraphRequest.m */,
 				105EDE8711BC392000B294B4 /* MetricView.xib */,
@@ -515,9 +526,10 @@
 				105EDE8911BC392000B294B4 /* LTMetricGraphView.m */,
 				105EDE8A11BC392000B294B4 /* LTMetricGraphTableViewCell.h */,
 				105EDE8B11BC392000B294B4 /* LTMetricGraphTableViewCell.m */,
+				10BB42191295C68A00B75489 /* LTMetricLandscapeBack.png */,
+				10BB41FD1295C0D000B75489 /* LTMetricLandscapeBack@2x.png */,
 				105EDE8C11BC392000B294B4 /* LTMetricLandscapeViewController.h */,
 				105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */,
-				105EDE8E11BC392000B294B4 /* MetricLandscape.xib */,
 				105EDE8F11BC392000B294B4 /* LTMetricTableViewCellBackground.h */,
 				105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */,
 				105EDE7C11BC392000B294B4 /* Recent Values */,
@@ -868,7 +880,6 @@
 				105EDED411BC392000B294B4 /* mediumgraphback.png in Resources */,
 				105EDED511BC392000B294B4 /* largegraphback.png in Resources */,
 				105EDED811BC392000B294B4 /* MetricView.xib in Resources */,
-				105EDEDC11BC392000B294B4 /* MetricLandscape.xib in Resources */,
 				105EDEE711BC392000B294B4 /* tools_48.tif in Resources */,
 				105EDEE811BC392000B294B4 /* tools_grey_48.tif in Resources */,
 				105EDEE911BC392000B294B4 /* tools_grey_16.tif in Resources */,
@@ -910,6 +921,11 @@
 				1088A38D1293487000C89DB5 /* LTObjectIconViewBack-Selected.png in Resources */,
 				10B4875F129352AF006F3267 /* noiseback-gray.png in Resources */,
 				10B487AA12935AC5006F3267 /* LCObjectIconViewDropShadow.png in Resources */,
+				10BB416C1294DFF900B75489 /* LTMetricLandscapeViewController.xib in Resources */,
+				10BB41EA1295BE5A00B75489 /* LTMetricTableViewGraphBack@2x.png in Resources */,
+				10BB41FE1295C0D000B75489 /* LTMetricLandscapeBack@2x.png in Resources */,
+				10BB421A1295C68A00B75489 /* LTMetricLandscapeBack.png in Resources */,
+				10BB421C1295C69500B75489 /* LTMetricTableViewGraphBack.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
