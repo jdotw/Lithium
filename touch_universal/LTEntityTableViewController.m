@@ -50,6 +50,11 @@
 {
     [super viewDidLoad];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(entityRefreshFinished:)
+												 name:@"RefreshFinished" 
+											   object:nil];
+
 	if (entity)
 	{
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
@@ -71,6 +76,12 @@
 		/* Hide search for non-customer view */
 		self.tableView.tableHeaderView = nil;
 	}
+}
+
+- (void) viewDidUnload
+{
+	[super viewDidUnload];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:nil];	
 }
 
 - (void) awakeFromNib
@@ -521,17 +532,21 @@
 
 - (void) entityRefreshFinished:(NSNotification *)notification
 {
+	NSLog (@"Got entityRefreshFinished for %@", [[notification object] desc]);
 	if (entity)	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
-	[self sortAndFilterChildren];	
-	if (entity && children.count == 1)
+	if ([notification object] == self.entity || [self.entity.children containsObject:[notification object]])
 	{
-		/* Entity refresh completed returning a lone entity; 
-		 * supplant our current entity with this lone entity
-		 */
-		LTEntity *singleEntity = [children objectAtIndex:0];
-		self.entity = singleEntity;
+		[self sortAndFilterChildren];	
+		if (entity && children.count == 1)
+		{
+			/* Entity refresh completed returning a lone entity; 
+			 * supplant our current entity with this lone entity
+			 */
+			LTEntity *singleEntity = [children objectAtIndex:0];
+			self.entity = singleEntity;
+		}
+		[[self tableView] reloadData];
 	}
-	[[self tableView] reloadData];
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)notification
@@ -629,7 +644,6 @@
 {
 	if (entity)
 	{
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:entity];
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTEntityXmlStatusChanged" object:entity];
 		[entity release];
 	}
@@ -641,9 +655,6 @@
 	if (entity)
 	{
 		if (entity.refreshInProgress) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(entityRefreshFinished:)
-													 name:@"RefreshFinished" object:entity];
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(entityRefreshStatusUpdated:)
 													 name:@"LTEntityXmlStatusChanged" object:entity];		

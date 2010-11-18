@@ -8,7 +8,6 @@
 
 #import "LTDeviceViewController.h"
 #import "LTContainerIconViewController.h"
-#import "LTGraphTiledLayerDelegate.h"
 #import "LTMetricGraphRequest.h"
 #import "LTGraphLegendTableViewController.h"
 #import "LTModalProgressViewController.h"

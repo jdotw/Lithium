@@ -13,7 +13,6 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="2"/>
-			<integer value="24"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -73,7 +72,6 @@
 							<string key="NSResourceName">devices.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="286523032"/>
 					<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -100,7 +98,6 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="IBUIViewController" id="222156524">
 							<object class="IBUINavigationItem" key="IBUINavigationItem" id="438369300">
-								<reference key="IBUINavigationBar"/>
 								<string key="IBUITitle">Lithium Deployments</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -125,7 +122,6 @@
 								<string key="NSResourceName">groups.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="286523032"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -143,6 +139,10 @@
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							<object class="NSColor" key="IBUITintColor">
+								<int key="NSColorSpace">3</int>
+								<bytes key="NSWhite">MC4yOQA</bytes>
+							</object>
 						</object>
 						<object class="NSMutableArray" key="IBUIViewControllers">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -169,7 +169,6 @@
 								<string key="NSResourceName">favorites.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="286523032"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -187,6 +186,10 @@
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							<object class="NSColor" key="IBUITintColor">
+								<int key="NSColorSpace">3</int>
+								<bytes key="NSWhite">MC4yOQA</bytes>
+							</object>
 						</object>
 						<object class="NSMutableArray" key="IBUIViewControllers">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -213,7 +216,6 @@
 								<string key="NSResourceName">incidents.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="286523032"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -231,6 +233,10 @@
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							<object class="NSColor" key="IBUITintColor">
+								<int key="NSColorSpace">3</int>
+								<bytes key="NSWhite">MC4yOQA</bytes>
+							</object>
 						</object>
 						<object class="NSMutableArray" key="IBUIViewControllers">
 							<bool key="EncodedWithXMLCoder">YES</bool>

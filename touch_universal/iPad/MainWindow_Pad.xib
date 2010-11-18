@@ -13,7 +13,6 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="2"/>
-			<integer value="91"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -87,7 +86,6 @@
 								<string key="NSResourceName">devices.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="799269799"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -105,6 +103,10 @@
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+							<object class="NSColor" key="IBUITintColor" id="750771683">
+								<int key="NSColorSpace">3</int>
+								<bytes key="NSWhite">MC4yOQA</bytes>
+							</object>
 						</object>
 						<object class="IBUIToolbar" key="IBUIToolbar" id="650902888">
 							<nil key="NSNextResponder"/>
@@ -120,7 +122,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIViewController" id="301410664">
 								<object class="IBUINavigationItem" key="IBUINavigationItem" id="365108713">
-									<reference key="IBUINavigationBar"/>
 									<string key="IBUITitle">Lithium Deployments</string>
 									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								</object>
@@ -145,7 +146,6 @@
 									<string key="NSResourceName">groups.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIParentViewController" ref="799269799"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -163,6 +163,10 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<object class="NSColor" key="IBUITintColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC4yOQA</bytes>
+								</object>
 							</object>
 							<object class="NSMutableArray" key="IBUIViewControllers">
 								<bool key="EncodedWithXMLCoder">YES</bool>
@@ -189,7 +193,6 @@
 									<string key="NSResourceName">favorites.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIParentViewController" ref="799269799"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -207,6 +210,10 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<object class="NSColor" key="IBUITintColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC4yOQA</bytes>
+								</object>
 							</object>
 							<object class="NSMutableArray" key="IBUIViewControllers">
 								<bool key="EncodedWithXMLCoder">YES</bool>
@@ -233,7 +240,6 @@
 									<string key="NSResourceName">incidents.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIParentViewController" ref="799269799"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -251,6 +257,10 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<object class="NSColor" key="IBUITintColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC4yOQA</bytes>
+								</object>
 							</object>
 							<object class="NSMutableArray" key="IBUIViewControllers">
 								<bool key="EncodedWithXMLCoder">YES</bool>
@@ -277,7 +287,6 @@
 									<string key="NSResourceName">settings.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIParentViewController" ref="799269799"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -295,6 +304,10 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<object class="NSColor" key="IBUITintColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC4yOQA</bytes>
+								</object>
 							</object>
 							<object class="NSMutableArray" key="IBUIViewControllers">
 								<bool key="EncodedWithXMLCoder">YES</bool>
@@ -342,6 +355,7 @@
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<reference key="IBUITintColor" ref="750771683"/>
 					</object>
 					<object class="IBUIToolbar" key="IBUIToolbar" id="733941213">
 						<nil key="NSNextResponder"/>
@@ -357,7 +371,6 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="IBUIViewController" id="621821364">
 							<object class="IBUINavigationItem" key="IBUINavigationItem" id="291682528">
-								<reference key="IBUINavigationBar"/>
 								<string key="IBUITitle"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
@@ -373,9 +386,6 @@
 						</object>
 					</object>
 				</object>
-			</object>
-			<object class="IBUISearchDisplayController" id="1046383201">
-				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -730,11 +740,6 @@
 						<reference key="parent" ref="130897438"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">135</int>
-						<reference key="object" ref="1046383201"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">145</int>
 						<reference key="object" ref="733941213"/>
 						<reference key="parent" ref="130897438"/>
@@ -1008,6 +1013,7 @@
 							<string>graphLegendTableViewController</string>
 							<string>graphOuterView</string>
 							<string>graphScrollView</string>
+							<string>horizontalScrollDropShadowView</string>
 							<string>leftAvgLabel</string>
 							<string>leftMaxLabel</string>
 							<string>leftMinLabel</string>
@@ -1026,6 +1032,7 @@
 							<string>LTGraphLegendTableViewController</string>
 							<string>UIView</string>
 							<string>UIScrollView</string>
+							<string>UIView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
@@ -1047,6 +1054,7 @@
 							<string>graphLegendTableViewController</string>
 							<string>graphOuterView</string>
 							<string>graphScrollView</string>
+							<string>horizontalScrollDropShadowView</string>
 							<string>leftAvgLabel</string>
 							<string>leftMaxLabel</string>
 							<string>leftMinLabel</string>
@@ -1085,6 +1093,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">graphScrollView</string>
 								<string key="candidateClassName">UIScrollView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">horizontalScrollDropShadowView</string>
+								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">leftAvgLabel</string>

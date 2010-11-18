@@ -42,16 +42,6 @@
     return self;
 }
 
-//- (void) setFrame:(CGRect)rect
-//{
-//	NSLog (@"Askd to size to %@", NSStringFromCGRect(rect));
-//	UIScrollView *scrollView = (UIScrollView *) [self superview];
-//	rect.origin.y = 0.0;
-//	rect.size.height = scrollView.contentSize.height;
-//	NSLog (@"Resizing to %@", NSStringFromCGRect(rect));
-//	[super setFrame:rect];
-//}
-
 - (void)dealloc 
 {
 	for (LTMetricGraphRequest *graphReq in [graphRequestCache allValues])
@@ -85,10 +75,11 @@
 		contentSize = self.superview.bounds.size;
 	}
 
-	/* Time orientation */
+	/* Time orientation, by default the visible width of the graph is 24 hours */
+	int visibleSeconds = 86400;		/* 24 Hours */
 	NSDate *now = [NSDate date];
 	CGFloat offset = contentSize.width - CGRectGetMaxX(clipRect);
-	CGFloat secondsPerPixel = (zoomScale * 86400) / CGRectGetWidth(self.superview.frame);
+	CGFloat secondsPerPixel = (zoomScale * visibleSeconds) / CGRectGetWidth(self.superview.frame);
 	
 	/* Check for cached request */
 	if (!graphRequestCache) graphRequestCache = [[NSMutableDictionary dictionary] retain];
@@ -110,7 +101,7 @@
 				yScale = 1.0 / (maxValue / (graphReq.maxValue - graphReq.minValue));
 			}
 			
-			CGFloat graphImageMargin = 10.0;	/* Top and bottom padding/margin for graph */
+			CGFloat graphImageMargin = 0.0;
 			
 			CGPDFDocumentRef documentRef = CGPDFDocumentCreateWithProvider(provider);
 			CFRelease(provider);
@@ -163,6 +154,10 @@
 	int hour = [endDateComponents hour];
 	NSString *hourString = [NSString stringWithFormat:@"%.2i:00", hour];
 	CGSize hourStringSize = [hourString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:10.0] constrainedToSize:CGSizeMake(100.0, 12.0) lineBreakMode:UILineBreakModeClip];
+	NSLog (@"hourStringSize for %@ is %f", hourString, hourStringSize.width);
+	hourInterval =  (visibleSeconds / (60.0 * 60.0)) / (CGRectGetWidth(self.superview.frame) / (hourStringSize.width * 2.));
+	hourInterval += hourInterval % 2;
+	NSLog (@"Based on a visible seconds of %i, we're going to use an hourInterval of %i", visibleSeconds, hourInterval);
 	CGRect hourRect = CGRectMake(CGRectGetMaxX(clipRect) - (([endDateComponents minute] * 60.0 * hourInterval) / secondsPerPixel), 
 								 CGRectGetHeight(self.superview.frame) - hourLineYOffset, 
 								 hourStringSize.width, hourStringSize.height);
@@ -189,8 +184,8 @@
 		CGContextShowTextAtPoint (ctx, hourRect.origin.x - (hourRect.size.width * 0.5), hourRect.origin.y-1, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
 		
 		/* Move (back) to prev hour */
-		if (hour < 1) hour = 23;
-		else hour -= hourInterval;
+		hour -= hourInterval;
+		if (hour < 1) hour = 24 + hour;
 		hourString = [NSString stringWithFormat:@"%.2i:00", hour];
 		hourStringSize = [hourString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14.0] constrainedToSize:CGSizeMake(100.0, 12.0) lineBreakMode:UILineBreakModeClip];
 		hourRect = CGRectMake(hourRect.origin.x - ((60 * 60 * hourInterval) / secondsPerPixel), hourRect.origin.y, 
@@ -226,46 +221,7 @@
 		dateStringSize = [dateString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:14.0] constrainedToSize:CGSizeMake(120.0, 12.0) lineBreakMode:UILineBreakModeClip];
 		dateRect = CGRectMake(dateRect.origin.x - (86400.0 / secondsPerPixel), dateRect.origin.y, 
 							  dateStringSize.width, dateStringSize.height);
-	}
-	
-//	/* Draw min/avg/max lines */
-//	CGRect minLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMinY(self.bounds), CGRectGetWidth(clipRect), 1.0);
-//	if (CGRectContainsRect(clipRect, minLineRect))
-//	{
-//		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
-//		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
-//		CGContextAddPath(ctx, innerPath.CGPath);
-//		CGContextDrawPath(ctx, kCGPathFill);
-//		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
-//		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
-//		CGContextAddPath(ctx, outerPath.CGPath);
-//		CGContextDrawPath(ctx, kCGPathFill);
-//	}
-//	CGRect midLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMidY(self.bounds), CGRectGetWidth(clipRect), 1.0);
-//	if (CGRectContainsRect(clipRect, midLineRect))
-//	{
-//		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
-//		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
-//		CGContextAddPath(ctx, innerPath.CGPath);
-//		CGContextDrawPath(ctx, kCGPathFill);
-//		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
-//		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
-//		CGContextAddPath(ctx, outerPath.CGPath);
-//		CGContextDrawPath(ctx, kCGPathFill);
-//	}
-//	CGRect maxLineRect = CGRectMake(CGRectGetMinX(clipRect), CGRectGetMaxY(self.bounds)-1.0, CGRectGetWidth(clipRect), 1.0);
-//	if (CGRectContainsRect(clipRect, maxLineRect))
-//	{
-//		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
-//		CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.1);
-//		CGContextAddPath(ctx, innerPath.CGPath);
-//		CGContextDrawPath(ctx, kCGPathFill);
-//		UIBezierPath *outerPath = [UIBezierPath bezierPathWithRect:CGRectOffset(minLineRect, 0.0, 1.0)];
-//		CGContextSetRGBFillColor(ctx, 1.0, 1.0, 1.0, 0.1);
-//		CGContextAddPath(ctx, outerPath.CGPath);
-//		CGContextDrawPath(ctx, kCGPathFill);
-//	}
-	
+	}	
 }
 
 - (void) updateMinMaxLabels
