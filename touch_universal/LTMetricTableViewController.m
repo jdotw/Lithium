@@ -214,7 +214,7 @@
 	if ([self sectionTypeForSection:indexPath.section] == SECTION_GRAPH)
 	{ return 161.0f; }
 	else
-	{ return 44.0f; }
+	{ return 48.0f; }
 }
 
 // Customize the appearance of table view cells.
