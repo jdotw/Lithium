@@ -26,8 +26,7 @@
 - (void) drawRect:(CGRect)theRect
 {
 	UIImage *image = [UIImage imageNamed:@"noiseback-light.png"];
-	[image drawInRect:self.bounds blendMode:kCGBlendModeSourceAtop alpha:1.0];
-	NSLog (@"Bounds is %@", NSStringFromCGRect(self.bounds));
+	[image drawAsPatternInRect:self.bounds];
 }
 
 @end

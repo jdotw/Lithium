@@ -192,14 +192,20 @@ int i_entity_deregister (i_resource *self, i_entity *ent)
   /* Remove from parents child_list */  
   if (ent->parent)
   {
-    num = i_list_search (ent->parent->child_list, ent);
-    if (num == 0)
-    { i_list_delete (ent->parent->child_list); }
+    if (ent->parent->child_list)
+    {
+      num = i_list_search (ent->parent->child_list, ent);
+      if (num == 0)
+      { i_list_delete (ent->parent->child_list); }
+    }
 
     /* Remove from parents child_ht */
-    i_hashtable_key *key = i_hashtable_create_key_string (ent->name_str, ent->parent->child_ht->size);
-    i_hashtable_remove (ent->parent->child_ht, key);
-    i_hashtable_free_key (key);
+    if (ent->parent->child_ht && ent->name_str)
+    {
+      i_hashtable_key *key = i_hashtable_create_key_string (ent->name_str, ent->parent->child_ht->size);
+      i_hashtable_remove (ent->parent->child_ht, key);
+      i_hashtable_free_key (key);
+    }
   }
 
   /* If the entity's parent's refresh

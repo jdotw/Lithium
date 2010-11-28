@@ -47,13 +47,13 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{768, 960}</string>
 						<reference key="NSSuperview" ref="766721923"/>
-						<float key="IBUIAlpha">0.30000001192092896</float>
+						<float key="IBUIAlpha">0.40000000596046448</float>
 						<int key="IBUIContentMode">9</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">noiseback-gray.png</string>
+							<string key="NSResourceName">LTDeviceViewBack.png</string>
 						</object>
 					</object>
 					<object class="IBUIView" id="734047330">
@@ -64,7 +64,7 @@
 							<object class="IBUIImageView" id="250619693">
 								<reference key="NSNextResponder" ref="734047330"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrameSize">{768, 91}</string>
+								<string key="NSFrameSize">{768, 90}</string>
 								<reference key="NSSuperview" ref="734047330"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -1294,15 +1294,15 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>LCObjectIconViewDropShadow.png</string>
 				<string>LTContainerIconViewBack-Normal.png</string>
+				<string>LTDeviceViewBack.png</string>
 				<string>LTObjectIconViewBack-Normal.png</string>
-				<string>noiseback-gray.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{6, 6}</string>
 				<string>{1, 90}</string>
-				<string>{1, 45}</string>
 				<string>{1024, 1024}</string>
+				<string>{1, 45}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">132</string>

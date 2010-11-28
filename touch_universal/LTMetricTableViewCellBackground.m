@@ -18,6 +18,7 @@
         // Initialization code
 		imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 		imageView.image = [UIImage imageNamed:@"LTMetricTableViewGraphBack"];
+		
 		imageView.alpha = 0.4;
 		[self addSubview:imageView];
     }

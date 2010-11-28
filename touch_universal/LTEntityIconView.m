@@ -27,7 +27,9 @@
 	/* Selected overlay wash */
 	if (self.selected && self.selectedBackgroundImage)
 	{
-		[self.selectedBackgroundImage drawInRect:self.bounds];
+		CGRect highlightRect = self.bounds;
+		highlightRect.size.width -= 2.;
+		[self.selectedBackgroundImage drawInRect:highlightRect];		
 	}
 	
 	/* Draw right-side edge */
