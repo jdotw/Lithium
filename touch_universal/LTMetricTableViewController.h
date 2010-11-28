@@ -10,7 +10,7 @@
 
 #import "LTTableViewController.h"
 
-@class LTEntity, LTMetricGraphView, LTIncidentList, LTIncident, LTMetricLandscapeViewController, LTMetricGraphRequest, LTMetricGraphTableViewCell;
+@class LTEntity, LTIncidentList, LTIncident, LTMetricLandscapeViewController, LTMetricGraphRequest, LTMetricGraphTableViewCell;
 
 @interface LTMetricTableViewController : LTTableViewController <UIActionSheetDelegate>
 {

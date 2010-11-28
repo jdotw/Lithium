@@ -17,6 +17,7 @@
 	NSMutableArray *metrics;
 	CGSize size;
 	NSDate *referenceDate;
+	BOOL allWhiteLines;
 	int startSec;
 	int endSec;
 	BOOL synchronous;
@@ -42,6 +43,7 @@
 @property (assign) int startSec;
 @property (assign) int endSec;
 @property (assign) BOOL synchronous;
+@property (assign) BOOL allWhiteLines;
 @property (assign) CGRect rectToInvalidate;
 
 - (void) refresh;

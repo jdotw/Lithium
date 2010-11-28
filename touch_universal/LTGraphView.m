@@ -44,10 +44,6 @@
 
 - (void)dealloc 
 {
-	for (LTMetricGraphRequest *graphReq in [graphRequestCache allValues])
-	{
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"GraphRefreshFinished" object:graphReq];
-	}
 	[graphRequestCache release];
 	[metrics release];
 	[minLabels release];
@@ -124,7 +120,6 @@
 		/* Configure graph request */
 		graphReq = [[LTMetricGraphRequest alloc] init];
 		graphReq.delegate = self;
-		NSLog (@"Existing req is %p", [graphRequestCache objectForKey:[NSNumber numberWithFloat:offset]]);
 		[graphRequestCache setObject:graphReq forKey:[NSNumber numberWithFloat:offset]];
 		graphReq.size = CGSizeMake(clipRect.size.width, self.superview.frame.size.height);
 		graphReq.endSec = (int) [now timeIntervalSince1970] - (offset * secondsPerPixel);
@@ -135,10 +130,6 @@
 		{
 			graphReq.customer = [[graphReq.metrics objectAtIndex:0] customer];
 		}
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(graphLoadFinished:)
-													 name:@"GraphRefreshFinished"
-												   object:graphReq];
 		
 		/* Perform refresh */
 		[graphReq refresh];

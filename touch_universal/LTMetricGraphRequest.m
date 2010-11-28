@@ -78,7 +78,9 @@
 	[xmlString appendFormat:@"<format>%@</format>", @"PDF"];
 	[xmlString appendFormat:@"<width>%@</width>", [NSString stringWithFormat:@"%.0f", size.width]];
 	[xmlString appendFormat:@"<height>%@</height>", [NSString stringWithFormat:@"%.0f", size.height]];
+	if (allWhiteLines) [xmlString appendFormat:@"<all_white>%@</all_white>", @"1"];
 	[xmlString appendString:@"</graph>"];	
+	NSLog (@"GRAPH XML: %@", xmlString);
 	
 	/* Refresh the incident list */
 	urlReq = [NSMutableURLRequest requestWithURL:[self.metric urlForXml:@"xmlgraph_render" timestamp:0]
@@ -111,6 +113,12 @@
 {
 	if (refreshStage == 1)
 	{
+		/* Logging */
+		if (debug)
+		{
+			NSLog (@"First stage received %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+		}
+		
 		/* Parse XML */
 		NSXMLParser *parser = [[NSXMLParser alloc] initWithData:receivedData];
 		[parser setShouldResolveExternalEntities:NO];
@@ -126,6 +134,7 @@
 		/* Retrieve the PDF */
 		refreshStage = 2;
 		NSString *urlString = [NSString stringWithFormat:@"%@/image_cache/%@", [self.metric urlPrefix], imageFile];
+		if (debug) NSLog (@"%@ fetching actual image from %@", self, urlString);
 		NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
 																  cachePolicy:NSURLRequestReloadIgnoringCacheData
 															  timeoutInterval:30.0];
@@ -144,13 +153,17 @@
 	}
 	else if (refreshStage == 2)
 	{
+		/* Logging */
+		if (debug)
+		{
+			NSLog (@"Second stage received %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+		}
+
 		/* Process PDF */
 		self.imageData = receivedData;
 
-		/* Post Notification */
+		/* Set Status */
 		refreshInProgress = NO;
-//		[[NSNotificationCenter defaultCenter] postNotificationName:@"GraphRefreshFinished" object:self];
-		
 		finished = YES;
 	}
 }
@@ -214,5 +227,6 @@
 @synthesize synchronous;
 @synthesize metrics;
 @synthesize rectToInvalidate;
+@synthesize allWhiteLines;
 
 @end

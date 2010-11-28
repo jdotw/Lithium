@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "LTEntityIconViewController.h"
 
-@class LTEntity;
+@class LTEntity, LTMetricGraphRequest, LTContainerIconViewGraphView;
 
 @interface LTContainerIconViewController : LTEntityIconViewController 
 {
+	LTMetricGraphRequest *graphReq;
+	IBOutlet LTContainerIconViewGraphView *graphView;
 }
 
 - (id) initWithContainer:(LTEntity *)container;

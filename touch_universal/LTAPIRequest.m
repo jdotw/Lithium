@@ -113,5 +113,6 @@
 @synthesize customer;
 @synthesize refreshInProgress;
 @synthesize delegate;
+@synthesize debug;
 
 @end

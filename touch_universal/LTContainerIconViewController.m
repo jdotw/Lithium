@@ -9,6 +9,8 @@
 #import "LTContainerIconViewController.h"
 #import "LTEntity.h"
 #import "LTEntityIconView.h"
+#import "LTMetricGraphRequest.h"
+#import "LTContainerIconViewGraphView.h"
 
 @implementation LTContainerIconViewController
 
@@ -18,6 +20,7 @@
 	if (!self) return nil;
 	
 	((LTEntityIconView *)[self view]).selectedBackgroundImage = [UIImage imageNamed:@"LTContainerIconViewBack-Selected"];
+	graphView.container = container;
 	
 	return self;
 }
@@ -28,6 +31,12 @@
 	{
 		[delegate performSelector:@selector(setSelectedContainer:) withObject:self.entity];
 	}
+}
+							   
+- (void) dealloc
+{
+	[graphReq release];
+	[super dealloc];
 }
 
 @end

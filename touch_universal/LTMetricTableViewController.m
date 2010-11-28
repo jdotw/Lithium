@@ -20,7 +20,7 @@
 #import "LTTableViewCellBackground.h"
 #import "LTTableViewCellSelectedBackground.h"
 #import "LTFavoritesTableViewController.h"
-#import "LTMetricGraphView.h"
+#import "LTMetricGraphRequest.h"
 #import "LTIncidentList.h"
 #import "LTMetricLandscapeViewController.h"
 #import "LTTableViewController.h"

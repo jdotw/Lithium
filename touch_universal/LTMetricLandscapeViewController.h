@@ -9,11 +9,10 @@
 #import <UIKit/UIKit.h>
 
 #import "LTEntity.h"
-#import "LTMetricGraphView.h"
 
 @class LTGraphView;
 
-@interface LTMetricLandscapeViewController : UIViewController 
+@interface LTMetricLandscapeViewController : UIViewController <UIScrollViewDelegate>
 {
 	IBOutlet UIScrollView *graphScrollView;
 	IBOutlet UILabel *leftMaxLabel;

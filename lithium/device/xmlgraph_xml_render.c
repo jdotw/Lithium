@@ -74,6 +74,7 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
   char *y_label = NULL;
   char *fsroot;
   unsigned kbase = 1000;
+  int all_white = 0;
   i_rrdtool_cmd *cmd;
   unsigned short path_flag;
   xmlNodePtr node;
@@ -152,6 +153,7 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
       else if (!strcmp((char *)node->name, "format")) format = strdup (str);
       else if (!strcmp((char *)node->name, "height")) height = strdup (str); 
       else if (!strcmp((char *)node->name, "width")) width = strdup (str); 
+      else if (!strcmp((char *)node->name, "all_white")) all_white = atoi (str); 
 
       xmlFree (str);
     }
@@ -303,6 +305,12 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
         avg_colour = "AAAAAA";
         max_colour = "FFFFFF";
         break;
+    }
+    if (all_white == 1)
+    {
+      min_colour = "AAAAAA";
+      avg_colour = "CCCCCC";
+      max_colour = "FFFFFF";
     }
 
     /* Set base (first) metric properties */

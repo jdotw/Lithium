@@ -27,5 +27,6 @@
 @property (nonatomic, assign) id delegate;
 @property (nonatomic, retain) LTCustomer *customer;
 @property (nonatomic, assign) BOOL refreshInProgress;
+@property (nonatomic, assign) BOOL debug;
 
 @end
