@@ -316,8 +316,5 @@ cp -r $PWD/scripts/service_scripts '/Library/Lithium/LithiumCore.app/Contents/Re
 mkdir -p '/Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts'
 cp -r $PWD/scripts/lithium/*pl /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
 cp -r $PWD/scripts/lithium/*sh /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
-cp $PWD/scripts/lithium/repairweb.sh /Library/Lithium/LithiumCore.app/Contents/MacOS
-cp $PWD/scripts/lithium/repairscripts.sh /Library/Lithium/LithiumCore.app/Contents/MacOS
-cp $PWD/scripts/lithium/l49* /Library/Lithium/LithiumCore.app/Contents/MacOS
-cp $PWD/scripts/lithium/l50* /Library/Lithium/LithiumCore.app/Contents/MacOS
+cp $PWD/scripts/lithium/* /Library/Lithium/LithiumCore.app/Contents/MacOS
 
