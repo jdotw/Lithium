@@ -26,12 +26,11 @@
 	if (graphReq)
 	{
 		/* Draw image */
+		UIGraphicsBeginImageContext(self.bounds.size);
 		CGContextRef ctx = UIGraphicsGetCurrentContext();
 		CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)[graphReq imageData]);
 		if (provider)
 		{
-			CGContextSaveGState (ctx);
-			
 			CGPDFDocumentRef documentRef = CGPDFDocumentCreateWithProvider(provider);
 			CFRelease(provider);
 			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
@@ -41,10 +40,12 @@
 			CGContextTranslateCTM(ctx, 0.0, imageRect.size.height);
 			CGContextScaleCTM(ctx, 1.0, -1.0);
 			CGContextConcatCTM(ctx, CGPDFPageGetDrawingTransform(pageRef, kCGPDFCropBox, imageRect, 0, false));
+			CGContextSetBlendMode(ctx, kCGBlendModeDifference);
 			
 			CGContextDrawPDFPage(ctx, pageRef);
-			
-			CGContextRestoreGState(ctx);
+			UIImage *graphImage = UIGraphicsGetImageFromCurrentImageContext();
+			UIGraphicsEndImageContext();
+			[graphImage drawInRect:self.bounds blendMode:kCGBlendModeNormal alpha:1.0];
 		}
 	}
 	else if (self.container)

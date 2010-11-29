@@ -70,7 +70,8 @@ int m_rrdcached_spawn (i_resource *self)
     }
 
     /* Exec rrdtool */
-    execlp("lcrrdcached", "lcrrdcached", "-g", "-l", "/var/tmp/.lcrrdcached.sock", "-p", "/var/tmp/.lcrrdcached.pid", NULL);
+//    execlp("/Library/Lithium/LithiumCore.app/Contents/MacOS/lcrrdcached", "lcrrdcached", "-g", "-l", "/var/tmp/.lcrrdcached.sock", "-p", "/var/tmp/.lcrrdcached.pid", NULL);
+    execlp("sh", "sh", "/Library/Lithium/LithiumCore.app/Contents/MacOS/lcrrdcached_start.sh", NULL);
 
     exit (1);
   }

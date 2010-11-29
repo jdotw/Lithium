@@ -79,6 +79,10 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
 
   }
 
+  /* DEBUG */
+  i_printf(0, "l_procpro_refresh_procpro commencing refresh for procpro %s (match=%s, args=%s) with %i objects in swrun container", procpro->desc_str, procpro->match_str, procpro->argmatch_str, swrun_cnt->obj_list ? swrun_cnt->obj_list->size : 0);
+  /* END DEBUG */
+
   /* Variables */
   int proc_count = 0;
   float mem_total = 0.0;
@@ -110,6 +114,10 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
       i_printf (1, "l_procpro_refresh_procpro warning, process %s doesnt have any proc_params but argument matching is enabled, skipped", proc_obj->name_str);
       continue; 
     }
+
+    /* DEBUG */
+    i_printf(0, "l_procpro_refresh_procpro matching process %s against profile match string %s", proc_name, procpro->match_str);
+    /* END DEBUG */
 
     /* Check for a match in the process name */
     regmatch_t match[1];
@@ -200,6 +208,10 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
   i_metric_value_enqueue (self, procpro->mem_maxsingle_met, val);
   procpro->mem_maxsingle_met->refresh_result = REFRESULT_OK;
   i_entity_refresh_terminate (ENTITY(procpro->mem_maxsingle_met));
+
+  /* DEBUG */
+  i_printf(0, "l_procpro_refresh_procpro finished refresh for procpro %s", procpro->desc_str);
+  /* END DEBUG */
 
   return 0;
 }

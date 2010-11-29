@@ -308,9 +308,9 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
     }
     if (all_white == 1)
     {
-      min_colour = "AAAAAA";
-      avg_colour = "CCCCCC";
-      max_colour = "FFFFFF";
+      min_colour = NULL;
+      avg_colour = "FFFFFF";
+      max_colour = NULL;
     }
 
     /* Set base (first) metric properties */
@@ -372,24 +372,20 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
       { metdesc_esc = i_rrd_comment_escape (gent->entdesc->met_desc); }
       else
       { metdesc_esc = strdup (""); }
-      if (has_external_graphs == 0)
+      if (all_white == 1)
       {
+        /* Special handling for all-white graphs, draw avg only */
+        asprintf (&metrender_str, "\"LINE1:met%i_avg#%s:Avg.\" ",
+          metric_index, avg_colour);
+      }
+      else
+      {
+        /* Normal drawing */
         asprintf (&metrender_str, "\"LINE1:met%i_max#%s:Min.\" \"LINE1:met%i_avg#%s:Avg.\" \"LINE1:met%i_max#%s:Max.  %s %s %s \" \"GPRINT:met%i_min:MIN:Min %%.2lf%%s%s\" \"GPRINT:met%i_avg:AVERAGE:Avg %%.2lf%%s%s\" \"GPRINT:met%i_max:MAX:Max %%.2lf%%s%s\\n\" ",
           metric_index, min_colour,
           metric_index, avg_colour,
           metric_index, max_colour,
           cntdesc_esc, objdesc_esc, metdesc_esc,
-          metric_index, gent->unit_str,
-          metric_index, gent->unit_str,
-          metric_index, gent->unit_str);
-      }
-      else
-      {
-        asprintf (&metrender_str, "\"LINE1:met%i_max#%s:Min.\" \"LINE1:met%i_avg#%s:Avg.\" \"LINE1:met%i_max#%s:Max.  %s %s %s %s \" \"GPRINT:met%i_min:MIN:Min %%.2lf%%s%s\" \"GPRINT:met%i_avg:AVERAGE:Avg %%.2lf%%s%s\" \"GPRINT:met%i_max:MAX:Max %%.2lf%%s%s\\n\" ",
-          metric_index, min_colour,
-          metric_index, avg_colour,
-          metric_index, max_colour,
-          devdesc_esc, cntdesc_esc, objdesc_esc, metdesc_esc,
           metric_index, gent->unit_str,
           metric_index, gent->unit_str,
           metric_index, gent->unit_str);

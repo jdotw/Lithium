@@ -120,6 +120,7 @@
 		/* Configure graph request */
 		graphReq = [[LTMetricGraphRequest alloc] init];
 		graphReq.delegate = self;
+		NSLog (@"Existing in graphRequestCache is %@", [graphRequestCache objectForKey:[NSNumber numberWithFloat:offset]]);
 		[graphRequestCache setObject:graphReq forKey:[NSNumber numberWithFloat:offset]];
 		graphReq.size = CGSizeMake(clipRect.size.width, self.superview.frame.size.height);
 		graphReq.endSec = (int) [now timeIntervalSince1970] - (offset * secondsPerPixel);
