@@ -280,9 +280,6 @@ int l_snmp_objfact_refresh_walkcb (i_resource *self, l_snmp_session *session, st
         {
           int dereg = 1;
 
-          /* DEBUG */
-          if (!strcmp(fact->obj->name_str, "swrun")) i_printf(0, "OBJFACT: Marking object %s as obsolete because it is ahead of an existing object encountered in the walk", exist_obj->name_str);
-
           /* Clean the object */
           if (fact->cleanfunc)
           { 
@@ -461,9 +458,6 @@ int l_snmp_objfact_refresh_walkcb (i_resource *self, l_snmp_session *session, st
         num = i_list_search (fact->obj_list, obj);
         if (num == 0)
         {
-          /* DEBUG */
-          if (!strcmp(fact->obj->name_str, "swrun")) i_printf(0, "OBJFACT: Freeing unregistered object %s", obj->name_str);
-          
           /* Clean the object */
           if (fact->cleanfunc)
           { fact->cleanfunc (self, fact->cnt, obj); }
@@ -492,9 +486,6 @@ int l_snmp_objfact_refresh_walkcb (i_resource *self, l_snmp_session *session, st
       for (; (exist_obj=i_list_restore(fact->obj_list))!=NULL; i_list_move_next(fact->obj_list))
       {
         int dereg = 1;
-        
-        /* DEBUG */
-        if (!strcmp(fact->obj->name_str, "swrun")) i_printf(0, "OBJFACT: Marking object %s as obsolete because it is unchecked at the end of the object list", exist_obj->name_str);
         
         /* Clean the object */
         if (fact->cleanfunc)
