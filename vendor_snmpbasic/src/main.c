@@ -22,6 +22,7 @@
 #include <lithium/snmp_users.h>
 #include <lithium/icmp.h>
 #include <lithium/nwtput.h>
+#include <lithium/procpro.h>
 
 char* vendor_name ()
 { return "snmpbasic"; }
@@ -75,6 +76,14 @@ int module_entry (i_resource *self, i_form *config_form)
   num = l_snmp_ipaddr_enable (self);
   if (num != 0)
   { i_printf (1, "snmpbasic vendor module_entry failed to enable l_snmp_ipaddr"); }
+  
+  num = l_snmp_swrun_enable (self);
+  if (num != 0)
+  { i_printf (1, "netsnmp vendor module_entry failed to enable l_snmp_swrun"); }
+  
+  num = l_procpro_enable (self);
+  if (num != 0)
+  { i_printf (1, "netsnmp vendor module_entry failed to enable l_procpro"); }
   
   num = l_icmp_enable (self, 0);
   if (num != 0)

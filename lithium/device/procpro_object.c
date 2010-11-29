@@ -126,9 +126,13 @@ int l_procpro_object_add (i_resource *self, l_procpro *procpro)
   if (msgid == -1)
   { i_printf (1, "l_procpro_object_add_scriptcb warning, failed to register procpro object %s", obj->name_str); }
   
-  /* Refresh */
-  l_procpro_refresh_procpro (self, procpro);
-
+  /* DO NOT Attempt to do a refresh of the procpro, 
+   * you may clash with the swrun refresh or create a 
+   * situation where the version of the metrics is = to the
+   * version they get when refreshed through swrun but are 
+   * infact different values/states 
+   */
+  
   return 0;
 }
 
@@ -170,8 +174,12 @@ int l_procpro_object_update (i_resource *self, l_procpro *procpro)
     if (msgid == -1)
     { i_printf (1, "l_procpro_object_update warning, failed to register procpro object %s", obj->name_str); }
 
-    /* Refresh */
-    l_procpro_refresh_procpro (self, existing);
+    /* DO NOT Attempt to do a refresh of the procpro, 
+     * you may clash with the swrun refresh or create a 
+     * situation where the version of the metrics is = to the
+     * version they get when refreshed through swrun but are 
+     * infact different values/states 
+     */
   }
   else
   {

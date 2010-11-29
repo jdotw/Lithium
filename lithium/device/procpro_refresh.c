@@ -86,11 +86,17 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
   float mem_maxsingle = 0.0;
   float cpu_maxsingle = 0.0;
 
-  /* Loop through each process in the swrun table */
+  /* Get the SWRun container */
   i_container *swrun_cnt = l_snmp_swrun_cnt ();
-  /* DEBUG */
-  i_printf(0, "l_procpro_refresh_procpro commencing refresh for procpro %s (match=%s, args=%s) with %i objects in swrun container", procpro->desc_str, procpro->match_str, procpro->argmatch_str, swrun_cnt->obj_list ? swrun_cnt->obj_list->size : 0);
-  /* END DEBUG */
+
+  /* Check that there is some process table items present */
+  if (swrun_cnt->obj_list && swrun_cnt->obj_list->size < 1) 
+  {
+    i_printf (0, "l_procpro_refresh_procpro aborting refresh of %s as swrun process list is not populated", procpro->desc_str);
+    return -1;
+  }
+
+  /* Loop through each process in the swrun table */
   i_object *proc_obj;
   for (i_list_move_head(swrun_cnt->obj_list); (proc_obj=i_list_restore(swrun_cnt->obj_list))!=NULL; i_list_move_next(swrun_cnt->obj_list))
   {
@@ -113,10 +119,6 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
       i_printf (1, "l_procpro_refresh_procpro warning, process %s doesnt have any proc_params but argument matching is enabled, skipped", proc_obj->name_str);
       continue; 
     }
-
-    /* DEBUG */
-    i_printf(0, "l_procpro_refresh_procpro matching process %s against profile match string %s", proc_name, procpro->match_str);
-    /* END DEBUG */
 
     /* Check for a match in the process name */
     regmatch_t match[1];
@@ -168,7 +170,7 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
   i_metric_value_enqueue (self, procpro->count_met, val);
   procpro->count_met->refresh_result = REFRESULT_OK;
   i_entity_refresh_terminate (ENTITY(procpro->count_met));
-
+  
   /* Highest Process Count */
   float highest_proc_count = i_metric_valflt (procpro->highest_count_met, NULL);
   val = i_metric_value_create ();
@@ -207,10 +209,6 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
   i_metric_value_enqueue (self, procpro->mem_maxsingle_met, val);
   procpro->mem_maxsingle_met->refresh_result = REFRESULT_OK;
   i_entity_refresh_terminate (ENTITY(procpro->mem_maxsingle_met));
-
-  /* DEBUG */
-  i_printf(0, "l_procpro_refresh_procpro finished refresh for procpro %s", procpro->desc_str);
-  /* END DEBUG */
 
   return 0;
 }
