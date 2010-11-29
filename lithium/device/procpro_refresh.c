@@ -79,6 +79,10 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
 
   }
 
+  /* DEBUG */
+  i_printf(0,"l_procpro_refresh_procpro starting refresh of procpro %s match=%s argmatch=%s", procpro->desc_str, procpro->match_str, procpro->argmatch_str);
+  /* END DEBUG */
+
   /* Variables */
   int proc_count = 0;
   float mem_total = 0.0;
@@ -88,6 +92,9 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
 
   /* Get the SWRun container */
   i_container *swrun_cnt = l_snmp_swrun_cnt ();
+
+  /* DEBUG */
+  i_printf(0,"l_procpro_refresh_procpro %s swrun container obj_list size is %i and refresh result is %i", procpro->desc_str, swrun_cnt->obj_list ? swrun_cnt->obj_list->size : 0, swrun_cnt->refresh_result);
 
   /* Check that there is some process table items present */
   if (swrun_cnt->obj_list && swrun_cnt->obj_list->size < 1) 
@@ -120,14 +127,23 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
       continue; 
     }
 
+    /* DEBUG */
+    i_printf(0,"l_procpro_refresh_procpro %s attempting to match proc_name %s to match string %s", procpro->desc_str, proc_name, procpro->match_str);
+
     /* Check for a match in the process name */
     regmatch_t match[1];
     num = regexec (&exp, proc_name, 1, match, 0);
     if (num == 0)
     {
+      /* DEBUG */
+      i_printf(0,"l_procpro_refresh_procpro %s MATCHED proc_name and match_string", procpro->desc_str);
+
       /* Process Name Matches, check or arguments */
       if (match_arguments == 0 || regexec (&argexp, proc_args, 1, match, 0) == 0)
       {
+        /* DEBUG */
+        i_printf(0,"l_procpro_refresh_procpro %s MATCHED proc_name and match_string AND arguments (%i) (%s=%s)", procpro->desc_str, match_arguments, proc_args, procpro->argmatch_str);
+        
         /* Process Name and optional arguments check matches */
         l_snmp_swrun *proc = (l_snmp_swrun *) proc_obj->itemptr;
         proc_count++;
@@ -163,6 +179,9 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
   procpro->status_met->refresh_result = REFRESULT_OK;
   procpro->status_met->summary_flag = 1;
   i_entity_refresh_terminate (ENTITY(procpro->status_met));
+  
+  /* DEBUG */
+  i_printf(0,"l_procpro_refresh_procpro %s running value is %i (version %li)", procpro->desc_str, val->integer, procpro->status_met->version);
 
   /* Process Count */
   val = i_metric_value_create ();
