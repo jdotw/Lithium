@@ -79,10 +79,6 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
 
   }
 
-  /* DEBUG */
-  i_printf(0, "l_procpro_refresh_procpro commencing refresh for procpro %s (match=%s, args=%s) with %i objects in swrun container", procpro->desc_str, procpro->match_str, procpro->argmatch_str, swrun_cnt->obj_list ? swrun_cnt->obj_list->size : 0);
-  /* END DEBUG */
-
   /* Variables */
   int proc_count = 0;
   float mem_total = 0.0;
@@ -92,6 +88,9 @@ int l_procpro_refresh_procpro (i_resource *self, l_procpro *procpro)
 
   /* Loop through each process in the swrun table */
   i_container *swrun_cnt = l_snmp_swrun_cnt ();
+  /* DEBUG */
+  i_printf(0, "l_procpro_refresh_procpro commencing refresh for procpro %s (match=%s, args=%s) with %i objects in swrun container", procpro->desc_str, procpro->match_str, procpro->argmatch_str, swrun_cnt->obj_list ? swrun_cnt->obj_list->size : 0);
+  /* END DEBUG */
   i_object *proc_obj;
   for (i_list_move_head(swrun_cnt->obj_list); (proc_obj=i_list_restore(swrun_cnt->obj_list))!=NULL; i_list_move_next(swrun_cnt->obj_list))
   {
