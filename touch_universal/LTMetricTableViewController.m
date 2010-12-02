@@ -70,6 +70,8 @@
 
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
 																							target:self action:@selector(actionClicked:)] autorelease];
+	
+	self.tableView.tableHeaderView = nil;		// Hides search bar
 }
 
 - (void)viewWillAppear:(BOOL)animated 
@@ -462,45 +464,48 @@
 
 - (void) orientationDidChange:(NSNotification *)notification
 {
-	UIView *window = [(AppDelegate *)[[UIApplication sharedApplication] delegate] window];
-	UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-	
-	if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) 
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 	{
-		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
+		UIView *window = [(AppDelegate *)[[UIApplication sharedApplication] delegate] window];
+		UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
 		
-		if(!landscapeViewController)
+		if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight) 
 		{
-			landscapeViewController = [[LTMetricLandscapeViewController alloc] initWithMetric:self.metric];
-		}
-		
-		[window addSubview:landscapeViewController.view];
-		if (orientation == UIDeviceOrientationLandscapeLeft)
-		{
-			landscapeViewController.view.frame = CGRectMake(-80.0, 80.0, 480.0, 320.0);
-			landscapeViewController.view.transform = CGAffineTransformMakeRotation(90.0 * M_PI / 180.0);
-		}
+			[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:YES];
+			
+			if(!landscapeViewController)
+			{
+				landscapeViewController = [[LTMetricLandscapeViewController alloc] initWithMetric:self.metric];
+			}
+			
+			[window addSubview:landscapeViewController.view];
+			if (orientation == UIDeviceOrientationLandscapeLeft)
+			{
+				landscapeViewController.view.frame = CGRectMake(-80.0, 80.0, 480.0, 320.0);
+				landscapeViewController.view.transform = CGAffineTransformMakeRotation(90.0 * M_PI / 180.0);
+			}
+			else
+			{
+				landscapeViewController.view.frame = CGRectMake(-80.0, 80.0, 480.0, 320.0);
+				landscapeViewController.view.transform = CGAffineTransformMakeRotation(-90.0 * M_PI / 180.0);
+				
+			}		
+		} 
 		else
 		{
-			landscapeViewController.view.frame = CGRectMake(-80.0, 80.0, 480.0, 320.0);
-			landscapeViewController.view.transform = CGAffineTransformMakeRotation(-90.0 * M_PI / 180.0);
-			
-		}		
-	} 
-	else
-	{
-		[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
-		[landscapeViewController.view removeFromSuperview];
-		[landscapeViewController release];
-		landscapeViewController = nil;
+			[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
+			[landscapeViewController.view removeFromSuperview];
+			[landscapeViewController release];
+			landscapeViewController = nil;
+		}
+		
+		CATransition *animation = [CATransition animation];
+		[animation setDelegate:self];
+		[animation setType:kCATransitionFade];
+		[animation setDuration:0.5];
+		[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+		[[window layer] addAnimation:animation forKey:kAnimationKey];
 	}
-	
-	CATransition *animation = [CATransition animation];
-	[animation setDelegate:self];
-	[animation setType:kCATransitionFade];
-	[animation setDuration:0.5];
-	[animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-	[[window layer] addAnimation:animation forKey:kAnimationKey];
 }
 
 - (void) actionUpdated:(NSNotification *)notification

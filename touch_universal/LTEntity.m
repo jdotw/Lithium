@@ -651,4 +651,9 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	return child;
 }
 
+- (NSString *) description
+{
+	return [[super description] stringByAppendingFormat:@"%i:%@:%@", self.type, self.name, self.desc];
+}
+
 @end

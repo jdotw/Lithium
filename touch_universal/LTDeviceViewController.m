@@ -80,6 +80,9 @@
 		[self presentModalViewController:modalVC animated:YES];
 		[modalVC release];
 	}
+	
+	/* Hide pop-over */
+	if (sidePopoverController.popoverVisible) [sidePopoverController dismissPopoverAnimated:YES];
 }
 
 - (void) setDevice:(LTEntity *)value
@@ -310,7 +313,18 @@
 													0.0, CGRectGetWidth(graphScrollView.frame), CGRectGetHeight(graphScrollView.frame)) animated:NO];
 	
 	/* Reset legend tableview */
-	graphLegendTableViewController.entities = parentEntity.children;
+	if (parentEntity.type == 5)
+	{
+		/* Object selection, show everything in legend */
+		graphLegendTableViewController.entities = parentEntity.children;
+	}
+	else 
+	{
+		/* Otherwise, show graphable metrics in legend */
+		graphLegendTableViewController.entities = metrics;
+	}
+
+	
 }
 
 #pragma mark -
@@ -582,5 +596,7 @@
 	sidePopoverController = nil;
 	sidePopoverBarButtonItem = nil;
 }
+
+
 
 @end

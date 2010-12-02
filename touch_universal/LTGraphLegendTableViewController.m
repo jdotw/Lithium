@@ -116,6 +116,8 @@
 		NSString *avgColour;
 		NSString *maxColour;
 		UIColor *swatchColor = [UIColor whiteColor];
+		NSLog (@"index of %@ in graphView.metrics %@ is %i", entity, graphView.metrics, [graphView.metrics indexOfObject:entity]);
+		
 		switch ([graphView.metrics indexOfObject:entity])
 		{
 			case 0:		/* Blue */

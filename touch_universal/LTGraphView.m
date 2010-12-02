@@ -56,6 +56,8 @@
 {
 	/* Determine draw size */
 	CGRect clipRect = CGContextGetClipBoundingBox(ctx);
+	NSLog (@"%@ asked to draw in %@", self, NSStringFromCGRect(clipRect));
+	if (clipRect.origin.y != 0.) return;
 	
 	/* Dimensions */
 	CGFloat zoomScale = 1.0;
@@ -104,6 +106,7 @@
 			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
 			CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), graphImageMargin, 
 										  clipRect.size.width, contentSize.height - (2 * graphImageMargin));
+//			NSLog (@"Drawing it into %@", NSStringFromCGRect(imageRect));
 			CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.0);
 			CGContextFillRect(ctx, CGContextGetClipBoundingBox(ctx));
 			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));
@@ -146,10 +149,8 @@
 	int hour = [endDateComponents hour];
 	NSString *hourString = [NSString stringWithFormat:@"%.2i:00", hour];
 	CGSize hourStringSize = [hourString sizeWithFont:[UIFont fontWithName:@"Helvetica-Bold" size:10.0] constrainedToSize:CGSizeMake(100.0, 12.0) lineBreakMode:UILineBreakModeClip];
-	NSLog (@"hourStringSize for %@ is %f", hourString, hourStringSize.width);
 	hourInterval =  (visibleSeconds / (60.0 * 60.0)) / (CGRectGetWidth(self.superview.frame) / (hourStringSize.width * 2.));
 	hourInterval += hourInterval % 2;
-	NSLog (@"Based on a visible seconds of %i, we're going to use an hourInterval of %i", visibleSeconds, hourInterval);
 	CGRect hourRect = CGRectMake(CGRectGetMaxX(clipRect) - (([endDateComponents minute] * 60.0 * hourInterval) / secondsPerPixel), 
 								 CGRectGetHeight(self.superview.frame) - hourLineYOffset, 
 								 hourStringSize.width, hourStringSize.height);

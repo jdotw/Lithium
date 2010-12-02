@@ -20,6 +20,8 @@
 #import "LTEntityTableViewController.h"
 #import "LTGroupTree.h"
 #import "LTTableView.h"
+#import "LTTableViewSectionHeaderView.h"
+#import "AppDelegate_Pad.h"
 
 @interface LTGroupTableViewController (private)
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
@@ -224,13 +226,22 @@
 		if ([children count] == 0 && group.refreshInProgress)
 		{ return [self.tableView frame].size.height; }
 		else
-		{ return 38.0; }
+		{ return 48.0; }
 	}
 	else
 	{
 		/* Aggregated groups */
 		if ([children count] > 0)
-		{ return 38.0; }
+		{ 
+			if ([[[children objectAtIndex:indexPath.row] class] isSubclassOfClass:[LTGroup class]])
+			{ return 28.0; }
+			else 
+			{
+				return 48.0;
+			}
+
+			NSLog (@"Child is %@", [children objectAtIndex:indexPath.row]);
+		}
 		else 
 		{
 			AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -244,7 +255,7 @@
 					}
 				}
 			}
-			return 38.0;
+			return 48.0;
 		}
 	}
 }
@@ -262,7 +273,10 @@
 	if (displayEntity.type == 6)
 	{ CellIdentifier = @"Metric"; }
 	else if (displayEntity)
-	{ CellIdentifier = @"Entity"; }
+	{
+		if ([displayEntity isMemberOfClass:[LTGroup class]]) CellIdentifier = @"Group";
+		else CellIdentifier = @"Entity"; 
+	}
 	else 
 	{ CellIdentifier = @"Refresh"; }
     LTMetricTableViewCell *cell = (LTMetricTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -273,7 +287,7 @@
 			LTMetricTableViewCell *metricCell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell = metricCell;
 		}
-		else if ([CellIdentifier isEqualToString:@"Entity"])
+		else if ([CellIdentifier isEqualToString:@"Entity"] || [CellIdentifier isEqualToString:@"Group"])
 		{
 			cell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
@@ -283,7 +297,18 @@
 			cell = [[[LTEntityRefreshProgressViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
-		if (displayEntity) cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		if (displayEntity) 
+		{
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) 
+			{ cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
+			if ([displayEntity isMemberOfClass:[LTGroup class]])
+			{
+				cell.backgroundView = [[LTTableViewSectionHeaderView alloc] initWithFrame:CGRectZero];
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			}
+			
+		}
+		
     }
     
     // Set up the cell...
@@ -291,33 +316,33 @@
 	{
 		cell.textLabel.text = displayEntity.desc;
 		cell.entity = displayEntity;
-		if ([displayEntity class] == [LTGroup class])
-		{
-			cell.imageView.image = nil;
-		}
-		else
-		{
-			switch (cell.entity.opState)
-			{
-				case -2:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
-					break;				
-				case 0:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
-					break;
-				case 1:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-					break;
-				case 2:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-					break;
-				case 3:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
-					break;
-				default:
-					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
-			}
-		}
+//		if ([displayEntity class] == [LTGroup class])
+//		{
+//			cell.imageView.image = nil;
+//		}
+//		else
+//		{
+//			switch (cell.entity.opState)
+//			{
+//				case -2:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
+//					break;				
+//				case 0:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
+//					break;
+//				case 1:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
+//					break;
+//				case 2:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
+//					break;
+//				case 3:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
+//					break;
+//				default:
+//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
+//			}
+//		}
 		
 		if ([displayEntity.customer.coreDeployment reachable] && [displayEntity.customer.coreDeployment enabled]) cell.imageView.alpha = 1.0;
 		else cell.imageView.alpha = 0.5;
@@ -386,7 +411,7 @@
 	
 	if (!selectedEntity) return;
 	
-	UIViewController *viewController;
+	UIViewController *viewController = nil;
 	if ([[selectedEntity class] isSubclassOfClass:[LTGroup class]])
 	{
 		/* Group Selected */
@@ -398,24 +423,33 @@
 	else 
 	{
 		/* Entity Selected */
-		if (selectedEntity.type == 6)
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 		{
-			/* Metric */
-			LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithMetric:selectedEntity];
-			viewController = metricView;	
+			if (selectedEntity.type == 6)
+			{
+				/* Metric */
+				LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithMetric:selectedEntity];
+				viewController = metricView;	
+			}
+			else
+			{
+				LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithEntity:selectedEntity];
+				viewController = anotherViewController;
+				[anotherViewController.tableView setNeedsDisplay];
+			}			
 		}
-		else
+		else 
 		{
-			LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithEntity:selectedEntity];
-			viewController = anotherViewController;
-			[anotherViewController.tableView setNeedsDisplay];
-		}			
-		
+			AppDelegate_Pad *appDelegate = (AppDelegate_Pad *) [[UIApplication sharedApplication] delegate];
+			[appDelegate displayEntityInDetailView:selectedEntity];
+		}
 	}
 
-	
-	[self.navigationController pushViewController:viewController animated:YES];
-	[viewController release];
+	if (viewController)
+	{
+		[self.navigationController pushViewController:viewController animated:YES];
+		[viewController release];
+	}
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath 
