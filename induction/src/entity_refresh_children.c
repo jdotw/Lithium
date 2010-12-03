@@ -202,7 +202,16 @@ int i_entity_refresh_children (i_resource *self, i_entity *ent, int opcode)
       ent->refresh_data = NULL;
       
       /* Set refresh result */
-      ent->refresh_result = i_entity_refresh_children_refresult (data);
+      if (ent->refresh_forcedterm == 1)
+      {
+        /* Entity refresh was forcibly terminated due to excess collissions */
+        ent->refresh_result = REFRESULT_PARTIAL_FAIL;
+      }
+      else
+      {
+        /* Otherwise, use child status */
+        ent->refresh_result = i_entity_refresh_children_refresult (data);
+      }
 
       /* Terminate the refresh op for the child
        * currently being refreshed. Because the 

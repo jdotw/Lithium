@@ -193,6 +193,16 @@ int i_entity_refresh_terminate (i_entity *ent)
 
   int num;
 
+  /* Check for collission-forced term */
+  if (ent->refresh_colls >= ent->refresh_maxcolls)
+  {
+    ent->refresh_forcedterm = 1;
+  }
+  else
+  {
+    ent->refresh_forcedterm = 0;
+  }
+
   /* Attempt to call ent->refresh_func */
   if (ent->refresh_func)
   { 
@@ -322,7 +332,9 @@ int i_entity_refresh_collision (i_resource *self, i_entity *ent)
      * Cancel the current refresh operation
      */
 
-    i_printf (2, "i_entity_refresh cancelling refresh of %i:%s:%s due to too many collissions (stuck)", ent->ent_type, ent->parent->desc_str, ent->desc_str);
+    i_printf (1, "i_entity_refresh cancelling refresh of %i:%s:%s due to too many collissions (stuck -- consider increasing the refresh interval.)", ent->ent_type, ent->parent->desc_str, ent->desc_str);
+
+    ent->refresh_result = REFRESULT_PARTIAL_FAIL;
 
     if (ent->ent_type == 3) 
     {

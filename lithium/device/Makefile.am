@@ -42,7 +42,6 @@ device_so_SOURCES = main.c \
 					snmp_swrun.c \
 					snmp_swrun_objfact.c \
 					snmp_swrun_cntform.c \
-					snmp_swrun_refcb.c \
 					snmp_ipaddr.c \
 					snmp_ipaddr_objfact.c \
 					snmp_ipaddr_ifacematch.c \

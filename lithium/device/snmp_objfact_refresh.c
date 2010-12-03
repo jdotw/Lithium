@@ -66,6 +66,14 @@ int l_snmp_objfact_refresh (i_resource *self, i_object *obj, int opcode)
       { l_snmp_walk_terminate (fact->walkid); fact->walkid = 0; }
       if (fact->session)
       { l_snmp_session_close (fact->session); fact->session = NULL; }
+
+      if (obj->refresh_forcedterm == 1 && fact->refresh_int_sec < REFDEFAULT_MAXBACKOFF)
+      {
+        fact->refresh_int_sec += 30;
+        l_snmp_objfact_normalrefcfg(self, fact);
+        i_printf(0, "l_snmp_objfact_refresh refresh of factory %s was force-terminated due to slow response, back off refresh interval to %i", obj->desc_str, fact->refresh_int_sec);
+      }
+
       break;
 
     case REFOP_CLEANDATA:

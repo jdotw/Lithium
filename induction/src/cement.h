@@ -36,6 +36,7 @@
 /* Refresh defaults */
 #define REFDEFAULT_MAXCOLLS 3       /* 3 collissions may occur until the refresh is terminate */
 #define REFDEFAULT_REFINTSEC 300    /* 300 second (5minute) default refresh interval */
+#define REFDEFAULT_MAXBACKOFF 600   /* 600 second (10minute) maximum backed-off refresh interval */
 
 /* Entity Operational states */
 
