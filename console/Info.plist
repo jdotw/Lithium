@@ -29,7 +29,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUFeedURL</key>
-	<string>https://secure.lithiumcorp.com.au/tech/index.php/appcast/console</string>
+	<string>https://secure.lithiumcorp.com.au/appcast/console.xml</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
