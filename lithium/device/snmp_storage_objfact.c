@@ -258,6 +258,7 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         if (ram->swap_total) { i_entity_deregister (self, ENTITY(ram->swap_total)); i_entity_free (ENTITY(ram->swap_total)); ram->swap_total = NULL; }
         if (ram->swap_used) { i_entity_deregister (self, ENTITY(ram->swap_used)); i_entity_free (ENTITY(ram->swap_used)); ram->swap_used = NULL; }
         if (ram->swap_avail) { i_entity_deregister (self, ENTITY(ram->swap_avail)); i_entity_free (ENTITY(ram->swap_avail)); ram->swap_avail = NULL; }
+        if (ram->swap_usedpc) { i_entity_deregister (self, ENTITY(ram->swap_usedpc)); i_entity_free (ENTITY(ram->swap_usedpc)); ram->swap_usedpc = NULL; }
 
         /* Swap Alloc units */
         ram->swap_alloc = l_snmp_metric_create (self, swap_obj, "swap_alloc", "Swap Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
