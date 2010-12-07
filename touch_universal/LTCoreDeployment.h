@@ -17,6 +17,7 @@
 {
 	/* Reachability */
 	SCNetworkReachabilityRef reachabilityRef;
+	
 }
 
 #pragma mark "Properties"

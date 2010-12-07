@@ -11,7 +11,7 @@
   print "<customers>";
 
   cf_getdb('lithium');
-  $customers = pg_query("SELECT descr, name from customers");
+  $customers = pg_query("SELECT descr, name, uuid from customers ORDER BY name ASC");
   $uripath = substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '/'));
 
   while($r = pg_fetch_row($customers))
@@ -24,6 +24,7 @@
     else
     { $protocol = "http://"; }
     $baseurl = $protocol . $_SERVER['SERVER_NAME'] . ":" . $_SERVER['SERVER_PORT'] . $uripath . "/" . $r[1];
+    print "<uuid>".$r[2]."</uuid>";
     print "<baseurl>$baseurl</baseurl>";
     print "<cluster>$cluster</cluster>";
     print "<node>$node</node>";

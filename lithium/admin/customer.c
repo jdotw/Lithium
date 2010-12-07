@@ -240,12 +240,12 @@ int l_customer_loadall (i_resource *self)
   if (l_lic_max_customers() > 0)
   { 
     char *query_str;
-    asprintf (&query_str, "SELECT name, descr, baseurl, uuid FROM customers LIMIT %i", l_lic_max_customers());
+    asprintf (&query_str, "SELECT name, descr, baseurl, uuid FROM customers LIMIT %i ORDER BY name ASC", l_lic_max_customers());
     res = PQexec (pgconn, query_str);
     i_printf (1, "l_customer_loadall encforcing limit of %i customers", l_lic_max_customers());
   }
   else
-  { res = PQexec (pgconn, "SELECT name, descr, baseurl, uuid FROM customers"); }
+  { res = PQexec (pgconn, "SELECT name, descr, baseurl, uuid FROM customers ORDER BY name ASC"); }
   if (!res || PQresultStatus(res) != PGRES_TUPLES_OK)
   { 
     i_printf (1, "l_customer_loadall failed to execute SELECT query for the customers table");

@@ -39,6 +39,7 @@
 	self.desc = [decoder decodeObjectForKey:@"desc"];
 	self.enabled = [decoder decodeBoolForKey:@"enabled"];
 	self.useSSL = [decoder decodeBoolForKey:@"useSSL"];
+	self.uuidString = [decoder decodeObjectForKey:@"uuidString"];
 	self.name = self.ipAddress;
 	if ([self.desc length] < 1)
 	{ self.desc = self.ipAddress; }
@@ -51,6 +52,7 @@
 	[encoder encodeObject:desc forKey:@"desc"];
 	[encoder encodeBool:self.enabled forKey:@"enabled"];
 	[encoder encodeBool:self.useSSL forKey:@"useSSL"];
+	[encoder encodeObject:self.uuidString forKey:@"uuidString"];
 }
 
 
@@ -112,6 +114,7 @@
 	}
 	
 	/* Interpret */
+	LTCustomer *firstCustomer = nil;
 	for (LCXMLNode *childNode in rootNode.children)
 	{ 
 		if ([childNode.name isEqualToString:@"customer"])
@@ -123,6 +126,7 @@
 				curCustomer.ipAddress = self.ipAddress;
 				curCustomer.coreDeployment = self;
 			}
+			if (!firstCustomer) firstCustomer = [curCustomer retain];
 			
 			curCustomer.name = [childNode.properties objectForKey:@"name"];
 			curCustomer.desc = [childNode.properties objectForKey:@"name"];
@@ -130,6 +134,7 @@
 			curCustomer.url = [childNode.properties objectForKey:@"baseurl"];
 			curCustomer.cluster = [childNode.properties objectForKey:@"cluster"];
 			curCustomer.node = [childNode.properties objectForKey:@"node"];
+			curCustomer.uuidString = [childNode.properties objectForKey:@"uuid"];
 			
 			if (![children containsObject:curCustomer])
 			{
@@ -147,6 +152,16 @@
 	
 	/* Clean-up */
     [receivedData release];
+	
+	/* Set Core UUID (First customer UUID) */
+	if (!self.uuidString && firstCustomer.uuidString)
+	{
+		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+		self.uuidString = firstCustomer.uuidString;
+		[appDelegate saveCoreDeployments];
+		
+	}
+	[firstCustomer release];
 	
 	/* Post Notification */
 	self.refreshInProgress = NO;
