@@ -136,8 +136,14 @@ int module_entry (i_resource *self)
   i_customer *first_customer = i_list_restore(customer_list);
   if (first_customer)
   {
+    char uuid_buf[37];
+    memset(&uuid_buf, 0, 37);
+    uuid_unparse_lower (first_customer->uuid, uuid_buf);
+    char txt_record[43];
+    memset(&txt_record, 0, 43);
+    snprintf(txt_record, 43, "\x029uuid=%36s", uuid_buf);
     DNSServiceRef service;
-    DNSServiceRegister (&service, 0, 0, NULL, "_lithium._tcp", NULL, NULL, htons(51180), strlen(first_customer, NULL, NULL, NULL);
+    DNSServiceRegister (&service, 0, 0, NULL, "_lithium._tcp", NULL, NULL, htons(51180), 42, txt_record, NULL, NULL);
   }
 #endif
   

@@ -106,8 +106,7 @@
 			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
 			CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), graphImageMargin, 
 										  clipRect.size.width, contentSize.height - (2 * graphImageMargin));
-//			NSLog (@"Drawing it into %@", NSStringFromCGRect(imageRect));
-			CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.0);
+			CGContextSetRGBFillColor(ctx, 0.0, 0.0, 1.0, 1.0);
 			CGContextFillRect(ctx, CGContextGetClipBoundingBox(ctx));
 			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));
 			CGContextScaleCTM(ctx, 1.0, -1.0 * yScale);
@@ -123,7 +122,6 @@
 		/* Configure graph request */
 		graphReq = [[LTMetricGraphRequest alloc] init];
 		graphReq.delegate = self;
-		NSLog (@"Existing in graphRequestCache is %@", [graphRequestCache objectForKey:[NSNumber numberWithFloat:offset]]);
 		[graphRequestCache setObject:graphReq forKey:[NSNumber numberWithFloat:offset]];
 		graphReq.size = CGSizeMake(clipRect.size.width, self.superview.frame.size.height);
 		graphReq.endSec = (int) [now timeIntervalSince1970] - (offset * secondsPerPixel);
