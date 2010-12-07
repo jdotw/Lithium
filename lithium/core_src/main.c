@@ -22,10 +22,6 @@
 #include "incoming.h"
 #include "spawn.h"
 
-#ifdef HAVE_DNS_SD
-  #include <dns_sd.h>
-#endif
-
 i_hashtable *global_res_table = NULL;
 i_list *global_spawn_schedule_list = NULL;
 struct timeval global_start_tv;
@@ -131,12 +127,6 @@ int module_entry (i_resource *self)
   /* Create the res spawn schedule timer */
   i_timer_add (self, 0, 500000, l_spawn_scheduled_callback, NULL);
 
-  /* Annouce via BonJour */
-#ifdef HAVE_DNS_SD
-  DNSServiceRef service;
-  DNSServiceRegister (&service, 0, 0, NULL, "_lithium._tcp", NULL, NULL, htons(51180), 0, NULL, NULL, NULL);
-#endif
-  
   return 0;
 }
 

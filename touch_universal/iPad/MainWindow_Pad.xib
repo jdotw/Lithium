@@ -13,6 +13,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="2"/>
+			<integer value="16"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -83,9 +84,10 @@
 							<string key="IBUITitle">Devices</string>
 							<object class="NSCustomResource" key="IBUIImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">devices.png</string>
+								<string key="NSResourceName">list.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="799269799"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -122,6 +124,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIViewController" id="301410664">
 								<object class="IBUINavigationItem" key="IBUINavigationItem" id="365108713">
+									<reference key="IBUINavigationBar"/>
 									<string key="IBUITitle">Lithium Deployments</string>
 									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								</object>
@@ -143,9 +146,10 @@
 								<string key="IBUITitle">Groups</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">groups.png</string>
+									<string key="NSResourceName">folder.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIParentViewController" ref="799269799"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -190,9 +194,10 @@
 								<string key="IBUITitle">Favorites</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">favorites.png</string>
+									<string key="NSResourceName">favorite.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIParentViewController" ref="799269799"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -237,9 +242,10 @@
 								<string key="IBUITitle">Incidents</string>
 								<object class="NSCustomResource" key="IBUIImage">
 									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">incidents.png</string>
+									<string key="NSResourceName">flag.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIParentViewController" ref="799269799"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -287,6 +293,7 @@
 									<string key="NSResourceName">settings.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIParentViewController" ref="799269799"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
@@ -371,6 +378,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="IBUIViewController" id="621821364">
 							<object class="IBUINavigationItem" key="IBUINavigationItem" id="291682528">
+								<reference key="IBUINavigationBar"/>
 								<string key="IBUITitle"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
@@ -1140,6 +1148,38 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">LTEntityTableViewController</string>
 					<string key="superclassName">LTTableViewController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>searchBar</string>
+							<string>searchDisplayController</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UISearchBar</string>
+							<string>UISearchDisplayController</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>searchBar</string>
+							<string>searchDisplayController</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchBar</string>
+								<string key="candidateClassName">UISearchBar</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchDisplayController</string>
+								<string key="candidateClassName">UISearchDisplayController</string>
+							</object>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">LTEntityTableViewController.h</string>
@@ -1534,19 +1574,19 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>devices.png</string>
-				<string>favorites.png</string>
-				<string>groups.png</string>
-				<string>incidents.png</string>
+				<string>favorite.png</string>
+				<string>flag.png</string>
+				<string>folder.png</string>
+				<string>list.png</string>
 				<string>settings.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<string>{26, 17}</string>
-				<string>{29, 27}</string>
-				<string>{26, 22}</string>
+				<string>{25, 22}</string>
 				<string>{34, 23}</string>
-				<string>{26, 26}</string>
+				<string>{28, 21}</string>
+				<string>{26, 17}</string>
+				<string>{25, 25}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">132</string>
