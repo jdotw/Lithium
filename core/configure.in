@@ -16,6 +16,15 @@ dnl Configuration headers
 AM_CONFIG_HEADER(include/lithium.h)
 dnl AM_CONFIG_HEADER(device/snmp.h)
 
+# Platform Check
+case $host_os in
+  darwin*) echo "*  Darwin host detected ($host_os).";
+            MODULE_LDFLAGS='-bundle -flat_namespace -undefined suppress'
+            AC_DEFINE(OS_DARWIN) ;;
+  *) MODULE_LDFLAGS='-shared' ;;
+esac
+AC_SUBST(MODULE_LDFLAGS)
+
 dnl Checks for programs.
 AC_PROG_CC
 AC_ISC_POSIX

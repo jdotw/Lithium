@@ -15,5 +15,5 @@ core_so_SOURCES = main.c \
 
 core_so_DEPENDENCIES = ../induction/libinduction.la
 core_so_LDADD = ../induction/libinduction.la
-core_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
+core_so_LDFLAGS = @MODULE_LDFLAGS@
 
