@@ -17,9 +17,9 @@ if [ -e '/Library/Application Support/Lithium/Monitoring Data/History/lithium' ]
 
     cd $i
     mkdir -p action_scripts
-    cp /Library/Lithium/LithiumCore.app/Contents/Resources/ActionScripts/action_scripts/* action_scripts
+    cp /Library/Lithium/LithiumCore.app/Contents/Resources/action_scripts/* action_scripts
     mkdir -p service_scripts
-    cp /Library/Lithium/LithiumCore.app/Contents/Resources/ServiceScripts/service_scripts/* service_scripts
+    cp /Library/Lithium/LithiumCore.app/Contents/Resources/service_scripts/* service_scripts
     cd ..
 
   done

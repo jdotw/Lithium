@@ -117,5 +117,7 @@ AC_OUTPUT(	Makefile 		\
           vendor_vtrak/Makefile \
           vendor_windows/Makefile \
           vendor_xserve/Makefile \
-          vendor_xraid/Makefile \
+          scripts/Makefile \
+          scripts/action_scripts/Makefile \
+          scripts/service_scripts/Makefile \
 		)

@@ -28,7 +28,7 @@ f.close
 # Execute the action script
 #
 
-`/usr/bin/env PERL5LIB=/Library/Lithium/LithiumCore.app/Contents/Resources/Perl perl /Library/Lithium/LithiumCore.app/Contents/Resources/ActionScripts/action_scripts/email_alert.pl report 1234 cust:site:dev:container:object:metric:trigger 3 cust site device container object metric trigger 0 1280491256 0 3 3 3 none 1280491256 1280491256 1 lithium://test/cust/site/dev/container/object/metric/trigger lithium://test/cust/site/dev/container/object/metric /var/tmp/action-script-test`
+`/usr/bin/env PERL5LIB=/Library/Lithium/LithiumCore.app/Contents/Resources/Perl perl /Library/Lithium/LithiumCore.app/Contents/Resources/action_scripts/email_alert.pl report 1234 cust:site:dev:container:object:metric:trigger 3 cust site device container object metric trigger 0 1280491256 0 3 3 3 none 1280491256 1280491256 1 lithium://test/cust/site/dev/container/object/metric/trigger lithium://test/cust/site/dev/container/object/metric /var/tmp/action-script-test`
 
 # Clean up
 # 

@@ -91,17 +91,11 @@ cp -r $PWD/htdocs/* '/Library/Lithium/LithiumCore.app/Contents/Resources/ClientS
 #
 # Copy scripts to /Lithium/share and /Lithium/var/lithium
 #
-
-rm -rf '/Library/Lithium/LithiumCore.app/Contents/Resources/ActionScripts'
-mkdir -p '/Library/Lithium/LithiumCore.app/Contents/Resources/ActionScripts'
-cp -r $PWD/scripts/action_scripts '/Library/Lithium/LithiumCore.app/Contents/Resources/ActionScripts'
-
-rm -rf '/Library/Lithium/LithiumCore.app/Contents/Resources/ServiceScripts'
-mkdir -p '/Library/Lithium/LithiumCore.app/Contents/Resources/ServiceScripts'
-cp -r $PWD/scripts/service_scripts '/Library/Lithium/LithiumCore.app/Contents/Resources/ServiceScripts'
+# Action and Service scripts are now handled in the core build
+#
 
 mkdir -p '/Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts'
-cp -r $PWD/scripts/lithium/*pl /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
-cp -r $PWD/scripts/lithium/*sh /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
-cp $PWD/scripts/lithium/* /Library/Lithium/LithiumCore.app/Contents/MacOS
+cp -r $PWD/scripts/lithium_osx/*pl /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
+cp -r $PWD/scripts/lithium_osx/*sh /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
+cp $PWD/scripts/lithium_osx/* /Library/Lithium/LithiumCore.app/Contents/MacOS
 
