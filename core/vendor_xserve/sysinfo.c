@@ -22,7 +22,7 @@
 #include <induction/trigger.h>
 #include <induction/triggerset.h>
 #include <induction/path.h>
-#include <lithium/snmp.h>
+#include "device/snmp.h"
 
 #include "osx_server.h"
 #include "data.h"

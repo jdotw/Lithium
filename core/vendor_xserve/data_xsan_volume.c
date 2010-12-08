@@ -25,7 +25,7 @@
 #include <induction/triggerset.h>
 #include <induction/path.h>
 #include <induction/adminstate.h>
-#include <lithium/snmp.h>
+#include "device/snmp.h"
 
 #include "osx_server.h"
 #include "xsan.h"

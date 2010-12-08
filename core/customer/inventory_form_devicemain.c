@@ -73,7 +73,7 @@ int form_inventory_devicemain (i_resource *self, i_form_reqdata *reqdata)
       fitem = i_form_string_add (reqdata->form_out, "add_static", "Add static item", NULL);
 
       /* Add link */
-      asprintf (&pass_str, "%s:%p", reqdata->form_passdata, NULL);
+      asprintf (&pass_str, "%s:%p", (char *)reqdata->form_passdata, NULL);
       i_form_item_add_link (fitem, 0, 0, 0, RES_ADDR(self), NULL, "inventory_static_edit", 0, pass_str, strlen(pass_str)+1);
       free (pass_str);
     }
@@ -252,7 +252,7 @@ int form_inventory_devicemain (i_resource *self, i_form_reqdata *reqdata)
     fitem = i_form_string_add (reqdata->form_out, "add_static", "Add static item", NULL);
 
     /* Add link */
-    asprintf (&pass_str, "%s:%p", reqdata->form_passdata, NULL);
+    asprintf (&pass_str, "%s:%p", (char *)reqdata->form_passdata, NULL);
     i_form_item_add_link (fitem, 0, 0, 0, RES_ADDR(self), NULL, "inventory_static_edit", 0, pass_str, strlen(pass_str)+1);
     free (pass_str);
   }

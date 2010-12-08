@@ -24,8 +24,8 @@
 #include <induction/path.h>
 #include <induction/str.h>
 #include <induction/name.h>
-#include <lithium/snmp.h>
-#include <lithium/record.h>
+#include "device/snmp.h"
+#include "device/record.h"
 
 #include "xsanspdetail.h"
 

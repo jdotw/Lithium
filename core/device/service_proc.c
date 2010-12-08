@@ -131,7 +131,7 @@ int l_service_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     struct timeval now;
     gettimeofday (&now, NULL);
     char *prefix;
-    asprintf (&prefix, "service-%li-%i-", now.tv_sec, now.tv_usec);
+    asprintf (&prefix, "service-%li-%li-", now.tv_sec, now.tv_usec);
     proc->temp_config_file = tempnam(NULL, prefix);
     free (prefix);
     

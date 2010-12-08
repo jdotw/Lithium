@@ -28,7 +28,7 @@
 #include <induction/trigger.h>
 #include <induction/triggerset.h>
 #include <induction/path.h>
-#include <lithium/avail.h>
+#include "device/avail.h"
 
 #include "osx_server.h"
 #include "data.h"

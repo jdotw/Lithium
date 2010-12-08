@@ -71,6 +71,9 @@ CFLAGS="$CFLAGS `curl-config --cflags`"
 LDFLAGS="$LDFLAGS `curl-config --libs`"
 AC_SEARCH_LIBS(curl_multi_init, curl, , AC_MSG_ERROR([Cannot build without libcurl]))
 
+# Check for perl
+AC_SEARCH_LIBS(perl_alloc, perl, , AC_MSG_ERROR([Cannot build without libperl]))
+
 # Check for DNS-SD
 AC_CHECK_HEADER(dns_sd.h, AC_DEFINE(HAVE_DNS_SD), )
 

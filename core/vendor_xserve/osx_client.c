@@ -19,8 +19,8 @@
 #include <induction/ip.h>
 #include <induction/construct.h>
 #include <induction/xsanregistry.h>
-#include <lithium/avail.h>
-#include <lithium/snmp.h>
+#include "device/avail.h"
+#include "device/snmp.h"
 
 #include "osx_server.h"
 #include "xsan.h"

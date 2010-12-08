@@ -26,8 +26,8 @@
 #include <induction/str.h>
 #include <induction/xsanregistry.h>
 #include <induction/adminstate.h>
-#include <lithium/snmp.h>
-#include <lithium/record.h>
+#include "device/snmp.h"
+#include "device/record.h"
 
 #include "osx_server.h"
 #include "xsan.h"

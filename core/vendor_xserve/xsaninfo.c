@@ -18,7 +18,7 @@
 #include <induction/trigger.h>
 #include <induction/triggerset.h>
 #include <induction/str.h>
-#include <lithium/record.h>
+#include "device/record.h"
 
 #include "xsan.h"
 #include "data.h"

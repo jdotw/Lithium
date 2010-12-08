@@ -19,7 +19,7 @@
 #include <induction/entity.h>
 #include <induction/hierarchy.h>
 #include <induction/device.h>
-#include <lithium/avail.h>
+#include "device/avail.h"
 
 #include "xserve_intel.h"
 #include "ipmitool.h"

@@ -8,4 +8,7 @@ mars_so_SOURCES = main.c	\
 				  rrd_proc.c \
 				  rrdcached.c
 
-mars_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
+mars_so_DEPENDENCIES = ../induction/libinduction.la
+mars_so_LDADD = ../induction/libinduction.la
+mars_so_LDFLAGS = @MODULE_LDFLAGS@
+

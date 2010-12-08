@@ -20,7 +20,7 @@
 #include <induction/triggerset.h>
 #include <induction/str.h>
 #include <induction/name.h>
-#include <lithium/snmp.h>
+#include "device/snmp.h"
 
 #include "xsanvol.h"
 #include "xsanvisdisk.h"

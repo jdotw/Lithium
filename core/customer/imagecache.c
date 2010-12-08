@@ -77,7 +77,11 @@ int l_imagecache_purge_specific (i_resource *self, time_t max_age)
     if (stat(fullpath_str, &stat_buf) == 0)
     {
       /* Check age */
+#ifdef OS_DARWIN
       if ((now.tv_sec - stat_buf.st_mtimespec.tv_sec) > max_age)
+#else
+      if ((now.tv_sec - stat_buf.st_mtime) > max_age)
+#endif
       {
         /* Delete */
         unlink (fullpath_str);

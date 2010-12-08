@@ -15,7 +15,7 @@
 #include <induction/object.h>
 #include <induction/metric.h>
 #include <induction/str.h>
-#include <lithium/snmp.h>
+#include "device/snmp.h"
 
 #include "osx_server.h"
 #include "network.h"

@@ -8,7 +8,9 @@ client_handler_so_SOURCES = main.c \
                             incoming_child.c \
                             incoming_client.c \
                             child.c \
-							reqtime.c
+			    reqtime.c
 
-client_handler_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
+client_handler_so_DEPENDENCIES = ../induction/libinduction.la
+client_handler_so_LDADD = ../induction/libinduction.la
+client_handler_so_LDFLAGS = @MODULE_LDFLAGS@
 

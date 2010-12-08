@@ -40,7 +40,7 @@ xmlNodePtr l_case_logentry_xml (l_case_logentry *log)
   asprintf (&str, "%li", log->tstamp.tv_sec);
   xmlNewChild (log_node, NULL, BAD_CAST "tstamp_sec", BAD_CAST str);
   free (str);
-  asprintf (&str, "%i", log->tstamp.tv_usec);
+  asprintf (&str, "%li", log->tstamp.tv_usec);
   xmlNewChild (log_node, NULL, BAD_CAST "tstamp_usec", BAD_CAST str);
   free (str);
 

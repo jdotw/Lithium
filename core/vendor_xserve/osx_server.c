@@ -18,8 +18,8 @@
 #include <induction/inventory.h>
 #include <induction/ip.h>
 #include <induction/construct.h>
-#include <lithium/avail.h>
-#include <lithium/snmp.h>
+#include "device/avail.h"
+#include "device/snmp.h"
 
 #include "plist.h"
 #include "sysinfo.h"

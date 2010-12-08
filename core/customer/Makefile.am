@@ -260,5 +260,5 @@ customer_so_SOURCES = main.c \
 
 customer_so_DEPENDENCIES = ../induction/libinduction.la
 customer_so_LDADD = ../induction/libinduction.la
-customer_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
+customer_so_LDFLAGS = @MODULE_LDFLAGS@
 

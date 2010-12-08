@@ -189,7 +189,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     struct timeval now;
     gettimeofday (&now, NULL);
     char *prefix;
-    asprintf (&prefix, "action-%li-%li-%i-", proc->incid, now.tv_sec, now.tv_usec);
+    asprintf (&prefix, "action-%li-%li-%li-", proc->incid, now.tv_sec, now.tv_usec);
     proc->temp_config_file = tempnam(NULL, prefix);
     free (prefix);
     
@@ -358,7 +358,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
       if (proc->temp_config_file && strlen(proc->temp_config_file) > 0)
       { asprintf(&config_file_str, " '%s'", proc->temp_config_file); }
       else
-      { asprintf(&config_file_str, ""); }
+      { config_file_str = strdup(""); }
 
       asprintf (&shell_command, "env '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s'%s 2>&1",
         perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 

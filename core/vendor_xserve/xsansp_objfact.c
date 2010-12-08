@@ -18,7 +18,7 @@
 #include <induction/adminstate.h>
 #include <induction/triggerset.h>
 #include <induction/str.h>
-#include <lithium/snmp.h>
+#include "device/snmp.h"
 
 #include "xsanvol.h"
 #include "xsansp.h"

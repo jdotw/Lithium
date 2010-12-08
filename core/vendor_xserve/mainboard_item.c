@@ -14,7 +14,7 @@
 #include <induction/hierarchy.h>
 #include <induction/device.h>
 #include <induction/path.h>
-#include <lithium/snmp.h>
+#include "device/snmp.h"
 
 #include "mainboard.h"
 

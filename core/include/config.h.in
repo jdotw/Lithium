@@ -12,6 +12,9 @@
 /* Name of package */
 #undef PACKAGE
 
+/* Host */
+#undef OS_DARWIN
+
 /* Version number of package */
 #undef VERSION
 #undef LITHIUM_VERSION
