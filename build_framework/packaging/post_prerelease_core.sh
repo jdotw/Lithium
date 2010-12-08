@@ -24,7 +24,7 @@ cd $BASEDIR
 #
 
 cd "$DMGDIR"
-scp LithiumCore-$BUILDNUM.dmg www.lithiumcorp.com:/www/lithium5.com/download/core/osx/prerelease/LithiumCore-$BUILDNUM.$BUILDNUM_SHORT.dmg
+scp LithiumCore-$BUILDNUM.dmg www.lithiumcorp.com:/www/download.lithiumcorp.com/lithium5/core/osx/prerelease/LithiumCore-$BUILDNUM.$BUILDNUM_SHORT.dmg
 
 # 
 # Clean up

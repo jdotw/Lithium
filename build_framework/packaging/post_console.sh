@@ -22,13 +22,13 @@ echo "Build number is $BUILDNUM"
 #
 
 cd "$DMGDIR"
-scp *Console*$BUILDNUM*dmg www.lithiumcorp.com:/www/lithium5.com/download/console
+scp *Console*$BUILDNUM*dmg www.lithiumcorp.com:/www/download.lithiumcorp.com/lithium5/console
 
 #
 # Link 
 #
 
-ssh $USER@www.lithiumcorp.com "ln -sf /www/lithium5.com/download/console/LithiumConsole-$BUILDNUM.dmg /www/lithium5.com/download/console/LithiumConsole-CURRENT.dmg"
+ssh $USER@www.lithiumcorp.com "ln -sf /www/download.lithiumcorp.com/lithium5/console/LithiumConsole-$BUILDNUM.dmg /www/download.lithiumcorp.com/lithium5/console/LithiumConsole-CURRENT.dmg"
 
 # 
 # Clean up
