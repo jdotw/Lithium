@@ -1,6 +1,3 @@
-CFLAGS = @CFLAGS@
-LIBS = @LIBS@ 
-
 moduledir = $(libdir)/lithium
 module_PROGRAMS = client_handler.so
 
@@ -13,11 +10,7 @@ client_handler_so_SOURCES = main.c \
                             child.c \
 							reqtime.c
 
-noinst_HEADERS = child.h \
-                 incoming_child.h \
-                 incoming_client.h \
-                 main.h \
-                 msgproc_child.h \
-                 msgproc_core.h \
-                 relay.h \
-				 reqtime.h
+client_handler_so_DEPENDENCIES = ../induction/libinduction.la
+client_handler_so_LDADD = ../induction/libinduction.la
+client_handler_so_LDFLAGS = -shared -bundle
+

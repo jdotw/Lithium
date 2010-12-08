@@ -44,7 +44,7 @@ AC_SEARCH_LIBS(sqlite3_open,  sqlite3, , AC_MSG_ERROR([Cannot build without sqli
 
 # Check for SNMP Libs
 CFLAGS="$CFLAGS `net-snmp-config --cflags`"
-LDFLAGS="$LDFLAGS `net-snmp-config --ldflags`"
+LDFLAGS="$LDFLAGS `net-snmp-config --agent-libs`"
 AC_SEARCH_LIBS(init_snmp,  netsnmp, , AC_MSG_ERROR([Cannot build without Net-SNMP]))
 
 # Check for libxml2
@@ -69,4 +69,9 @@ AC_OUTPUT(	Makefile 		\
 		construct/Makefile		\
 		actuator/Makefile		\
 		mars/Makefile		\
+		core_module/Makefile		\
+		admin/Makefile		\
+        client_handler/Makefile \
+        customer/Makefile \
+        device/Makefile \
 		)

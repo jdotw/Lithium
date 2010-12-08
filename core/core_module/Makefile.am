@@ -1,6 +1,3 @@
-CFLAGS = @CFLAGS@
-LIBS = @LIBS@
-
 moduledir = $(libdir)/lithium
 module_PROGRAMS = core.so
 
@@ -16,12 +13,7 @@ core_so_SOURCES = main.c \
                   fork_clean_up.c \
                   heartbeat.c
 
-noinst_HEADERS = incoming.h \
-                 main.h \
-                 resource_destroy.h \
-                 resource_message.h \
-                 resource_spawn.h \
-                 resource_terminate.h \
-                 route.h \
-                 heartbeat.h \
-                 spawn.h
+core_so_DEPENDENCIES = ../induction/libinduction.la
+core_so_LDADD = ../induction/libinduction.la
+core_so_LDFLAGS = -shared -bundle
+

@@ -1,6 +1,3 @@
-CFLAGS = @CFLAGS@ -g
-LIBS = @LIBS@ 
-
 moduledir = $(libdir)/lithium
 module_PROGRAMS = device.so
 
@@ -174,35 +171,7 @@ device_so_SOURCES = main.c \
 					procpro_xml_delete.c \
 					device_xml.c
 
-lincludedir = $(includedir)/lithium
-
-linclude_HEADERS = snmp.h \
-                   snmp_iface.h \
-                   snmp_swrun.h \
-                   snmp_ipaddr.h \
-				   snmp_sysinfo.h \
-				   snmp_storage.h \
-				   snmp_hrcpu.h \
-				   snmp_route.h \
-				   snmp_users.h \
-				   snmp_nscpu.h \
-				   snmp_nsdiskio.h \
-				   snmp_nsload.h \
-				   snmp_nsnwtput.h \
-				   snmp_nsram.h \
-				   snmp_nstcpconn.h \
-				   icmp.h \
-                   avail.h \
-				   feature.h \
-				   nwtput.h \
-				   objform.h \
-				   cntform.h \
-				   record.h \
-				   procpro.h
-
-noinst_HEADERS = featuredb.h \
-                 main.h \
-                 vendor.h \
-				 navtree.h \
-				 devform.h
+device_so_DEPENDENCIES = ../induction/libinduction.la
+device_so_LDADD = ../induction/libinduction.la
+device_so_LDFLAGS = -shared -bundle
 

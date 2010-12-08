@@ -1,6 +1,3 @@
-CFLAGS = @CFLAGS@
-LIBS = @LIBS@
-
 moduledir = $(libdir)/lithium
 module_PROGRAMS = admin.so
 
@@ -26,10 +23,8 @@ admin_so_SOURCES = main.c \
 				   mib2c/lcTriggerTable.c
 
 
-noinst_HEADERS = customer.h \
-				 autoconf.h \
-				 userauth.h \
-				 snmpagent.h \
-				 restart.h
+admin_so_DEPENDENCIES = ../induction/libinduction.la
+admin_so_LDADD = ../induction/libinduction.la
+admin_so_LDFLAGS = -shared -bundle
 
 

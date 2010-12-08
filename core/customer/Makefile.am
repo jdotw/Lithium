@@ -1,6 +1,3 @@
-CFLAGS = @CFLAGS@
-LIBS = @LIBS@ -lm
-
 moduledir = $(libdir)/lithium
 module_PROGRAMS = customer.so
 
@@ -261,23 +258,7 @@ customer_so_SOURCES = main.c \
 					  modb_xml_script_list.c \
 					  imagecache.c
 					  
-noinst_HEADERS = site.h \
-				 user.h \
-				 user_xml.h \
-				 authentication.h \
-                 authentication_handler.h \
-                 resready_handler.h \
-				 pgsql_maint.h \
-                 ipregistry.h \
-                 inventory.h \
-				 infstat.h \
-				 incident.h \
-				 dhcp.h \
-				 case.h \
-				 case_xml.h \
-				 customer_xml.h \
-				 triggerset.h \
-				 record.h \
-				 restart.h \
-				 lic.h
+customer_so_DEPENDENCIES = ../induction/libinduction.la
+customer_so_LDADD = ../induction/libinduction.la
+customer_so_LDFLAGS = -shared -bundle
 
