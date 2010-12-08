@@ -200,7 +200,7 @@
 
 - (void) checkCurrentVersion
 {
-	NSString *urlString = [NSString stringWithFormat:@"http://lithium5.com/tech/index.php/appcast/core_osx_curver"];
+	NSString *urlString = [NSString stringWithFormat:@"http://secure.lithiumcorp.com.au/appcast/core_osx_curver.xml"];
 	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
 															  cachePolicy:NSURLRequestReloadIgnoringCacheData
 														  timeoutInterval:[[NSUserDefaults standardUserDefaults] floatForKey:@"xmlHTTPTimeoutSec"]];

@@ -27,6 +27,9 @@
 	
 	LTMetricLandscapeViewController *landscapeViewController;
 	LTMetricGraphRequest *landscapeGraphRequest;	
+	
+	IBOutlet UISearchBar *searchBar;
+	IBOutlet UISearchDisplayController *searchDisplayController;
 }
 
 - (id) initWithMetric:(LTEntity *)initMetric;

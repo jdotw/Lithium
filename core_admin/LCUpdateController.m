@@ -28,7 +28,7 @@
 	[contentTabView selectTabViewItemWithIdentifier:@"check"];
 	
 	/* Download version information */
-	NSMutableURLRequest *urlReq = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://secure.lithiumcorp.com.au/tech/index.php/appcast/core_osx"]
+	NSMutableURLRequest *urlReq = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://secure.lithiumcorp.com.au/appcast/core_osx.xml"]
 														   cachePolicy:NSURLRequestReloadIgnoringCacheData
 													   timeoutInterval:10.0];
 	checkUrlConn = [[NSURLConnection connectionWithRequest:urlReq delegate:self] retain];
@@ -49,7 +49,7 @@
 
 - (IBAction) moreInfoClicked:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lithium5.com/index.php/download/index"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lithiumcorp.com/lithium5/download-lithium/"]];
 }
 
 - (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response

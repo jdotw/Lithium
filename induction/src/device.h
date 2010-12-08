@@ -70,6 +70,7 @@ typedef struct i_device_s
   unsigned short refresh_state;                 /* Refresh state */
   unsigned short refresh_colls;                 /* Refresh collission count */
   unsigned short refresh_result;                /* Result of last refresh op */
+  unsigned short refresh_forcedterm;            /* Forced termination or normal termination */
   struct timeval refresh_tstamp;                /* Time-stamp of last refresh */ 
   struct i_list_s *refreshcb_list;              /* List of refresh callbacks */
 

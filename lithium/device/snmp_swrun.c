@@ -16,10 +16,12 @@
 #include <induction/device.h>
 #include <induction/container.h>
 #include <induction/object.h>
+#include <induction/postgresql.h>
 
 #include "navtree.h"
 #include "snmp.h"
 #include "snmp_swrun.h"
+#include "procpro.h"
 
 /* snmp_swrun - SNMP Running Software Sub-System */
 
@@ -148,3 +150,41 @@ void l_snmp_swrun_free (void *swrunptr)
 
   free (swrun);
 }
+
+/* Container Refresh Callback */
+
+int l_snmp_swrun_cnt_refcb (i_resource *self, i_entity *ent, void *passdata)
+{
+  /* Called when the swrun container has been refreshed.
+   *
+   * At this point all process data should be populated and a procpro refreh
+   * can happen
+   *
+   * Always return 0
+   */
+
+  if (ent->refresh_result == REFRESULT_OK)
+  {
+    i_container *procpro_cnt = l_procpro_cnt ();
+    if (procpro_cnt)
+    {
+      i_entity_refresh (self, ENTITY(procpro_cnt), REFFLAG_AUTO, NULL, NULL);
+    }
+  }
+  else
+  {
+    i_printf(0, "l_snmp_swrun_cnt_refcb warning, process profiles not being updated because the process list was not refreshed successfully");
+  }
+
+  if (ent->refresh_forcedterm == 1 && static_objfact->refresh_int_sec < REFDEFAULT_MAXBACKOFF)
+  {
+    /* Back off the swrun objfact refresh time due to forced termination  */
+    static_objfact->refresh_int_sec += 30;
+    static_objfact->retry_int_sec = static_objfact->refresh_int_sec;
+    l_snmp_objfact_normalrefcfg(self, static_objfact);
+    i_printf(0, "l_snmp_swrun_cnt_refcb increased process list refresh interval to %i seconds due to slow response time", static_objfact->refresh_int_sec);
+  }
+
+  return 0;
+}
+

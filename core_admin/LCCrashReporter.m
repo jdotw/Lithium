@@ -60,7 +60,7 @@
 		NSData*			crashReport = [currentReport dataUsingEncoding: NSUTF8StringEncoding];	// 1 since report 0 is empty (file has a delimiter at the top).
 		
 		// Prepare a request:
-		NSMutableURLRequest *postRequest = [NSMutableURLRequestClass requestWithURL: [NSURL URLWithString:@"http://www.lithiumcorp.com/crashreporter/osx_report.php"]];
+		NSMutableURLRequest *postRequest = [NSMutableURLRequestClass requestWithURL: [NSURL URLWithString:@"http://secure.lithiumcorp.com.au/reporter/osx_report.php"]];
 		NSString            *boundary = @"0xKhTmLbOuNdArY";
 		NSURLResponse       *response = nil;
 		NSError             *error = nil;

@@ -31,6 +31,9 @@
 	
 	/* NetService Browser */
 	NSNetServiceBrowser *coreServiceBrowser;
+	
+	/* Core Deployments */
+	NSMutableDictionary *coreDeploymentDict;	/* Keyed by UUID String */
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

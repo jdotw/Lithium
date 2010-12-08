@@ -15,6 +15,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions 
 {    	
+	/* Create Core Deployment Dict */
+	coreDeploymentDict = [[NSMutableDictionary dictionary] retain];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(coreDeploymentRefreshFinished:)
+												 name:@"LTCoreDeploymentRefreshFinished"
+											   object:nil];
+	
 	/* Create op queue */
 	self.operationQueue = [[[NSOperationQueue alloc] init] autorelease];
 	
@@ -130,15 +137,29 @@
 
 - (void) netServiceDidResolveAddress:(NSNetService *)netService
 {
-	NSLog (@"Found %@ (%@)", netService, netService.hostName);
-	LTCoreDeployment *core = [[LTCoreDeployment alloc] init];
-	core.ipAddress = netService.hostName;
-	core.desc = netService.hostName;
-	core.enabled = YES;
-	core.useSSL = NO;
-	core.name = netService.hostName;
-	core.discovered = YES;
-	[self addCore:core];
+	NSDictionary *txtRecord = [NSNetService dictionaryFromTXTRecordData:netService.TXTRecordData];
+	NSString *uuidString = [[[NSString alloc] initWithData:[txtRecord objectForKey:@"uuid"]
+												  encoding:NSUTF8StringEncoding] autorelease];
+	NSLog (@"Found %@ (%@) (UUID: %@)", netService, netService.hostName, uuidString);
+	if (![coreDeploymentDict objectForKey:uuidString])
+	{		
+		/* Add new discovered core */
+		LTCoreDeployment *core = [[LTCoreDeployment alloc] init];
+		core.ipAddress = netService.hostName;
+		core.desc = netService.hostName;
+		core.enabled = YES;
+		core.useSSL = NO;
+		core.name = netService.hostName;
+		core.discovered = YES;
+		core.uuidString = uuidString;
+		[self addCore:core];
+	}
+	else 
+	{
+		NSLog (@"Skipping known discovered core %@", netService.hostName, uuidString);
+		
+	}
+
 }
 
 - (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict
@@ -165,10 +186,16 @@
 {
 	[coreDeployments release];
 	coreDeployments = [value mutableCopy];
+	[coreDeploymentDict removeAllObjects];
+	for (LTCoreDeployment *core in coreDeployments)
+	{
+		if (core.uuidString) [coreDeploymentDict setObject:core forKey:core.uuidString];
+	}
 }
 - (void) addCore:(LTCoreDeployment *)core
 {
 	[coreDeployments addObject:core];
+	if (core.uuidString) [coreDeploymentDict setObject:core forKey:core.uuidString];
 	[core refresh];
 	[self saveCoreDeployments];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"CoreDeploymentAdded" object:core];
@@ -176,6 +203,7 @@
 - (void) removeCore:(LTCoreDeployment *)core
 {
 	[coreDeployments removeObject:core];
+	if (core.uuidString) [coreDeploymentDict removeObjectForKey:core.uuidString];
 	[self saveCoreDeployments];
 }
 - (void) saveCoreDeployments
@@ -185,6 +213,14 @@
 	{ if (!deployment.discovered) [coresToSave addObject:deployment]; }
 	[[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:coresToSave] forKey:@"coreDeployments"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+- (void) coreDeploymentRefreshFinished:(NSNotification *)note
+{
+	LTCoreDeployment *core = (LTCoreDeployment *) [note object];
+	if (core.uuidString && ![coreDeploymentDict objectForKey:core.uuidString])
+	{
+		[coreDeploymentDict setObject:core forKey:core.uuidString];
+	}
 }
 
 @synthesize authViewController;

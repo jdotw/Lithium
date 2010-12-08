@@ -40,6 +40,7 @@
 	 * the entity to display. 
 	 */
 	
+	
 	[self.deviceViewController displayDevice:entity.device withInitialSelection:entity];
 }
 

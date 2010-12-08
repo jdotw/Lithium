@@ -207,34 +207,72 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-	return 1;
+	if (tableView == self.searchDisplayController.searchResultsTableView)
+	{
+		return 1;
+	}
+	else
+	{
+		if (entity.type == 1)
+		{
+			return entity.children.count;
+		}
+		else 
+		{
+			return 1;
+		}		
+	}
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	return nil;
+	if (tableView == self.searchDisplayController.searchResultsTableView)
+	{
+		return nil;
+	}
+	else 
+	{
+		if (entity.type == ENT_CUSTOMER)
+		{
+			return [[entity.children objectAtIndex:section] desc];
+		}
+		else 
+		{
+			return nil;
+		}		
+	}
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	if (entity)
+	if (tableView == self.searchDisplayController.searchResultsTableView)
 	{
-		if ([children count] == 0 && entity.refreshInProgress)
-		{ return 1; }
-		else
-		{ return [children count]; }
-
+		return searchFilteredItems.count;
 	}
 	else
 	{
-		return [children count];
+		if (entity)
+		{
+			if ([children count] == 0 && entity.refreshInProgress)
+			{ return 1; }
+			else if (entity.type == ENT_CUSTOMER)
+			{
+				return [[[entity.children objectAtIndex:section] children] count];
+			}
+			else
+			{ return [children count]; }
+		}
+		else
+		{
+			return [children count];
+		}
 	}
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if ([children count] == 0 && entity.refreshInProgress)
+	if (tableView != self.searchDisplayController.searchResultsTableView && [children count] == 0 && entity.refreshInProgress)
 	{ return self.tableView.frame.size.height; }
 	else
 	{ 
@@ -249,26 +287,39 @@
 	}
 }
 
-- (LTEntity *) entityAtIndexPath:(NSIndexPath *)indexPath
+- (LTEntity *) entityAtIndexPath:(NSIndexPath *)indexPath inTableView:(UITableView *)tableView
 {
-	if (entity)
+	if (tableView == self.searchDisplayController.searchResultsTableView)
 	{
-		/* iPhone */
-		if (indexPath.row < [children count])
-		{ return [children objectAtIndex:indexPath.row]; }
-		else 
-		{ return nil; }
+		return [searchFilteredItems objectAtIndex:indexPath.row];
 	}
-	else
+	else 
 	{
-		return [children objectAtIndex:indexPath.row];
-	}	
+		if (entity)
+		{
+			if (entity.type == ENT_CUSTOMER)
+			{
+				return [[[entity.children objectAtIndex:indexPath.section] children] objectAtIndex:indexPath.row];
+			}
+			else
+			{
+				if (indexPath.row < [children count])
+				{ return [children objectAtIndex:indexPath.row]; }
+				else 
+				{ return nil; }
+			}
+		}
+		else
+		{
+			return [children objectAtIndex:indexPath.row];
+		}			
+	}
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    LTEntity *displayEntity = [self entityAtIndexPath:indexPath];
+    LTEntity *displayEntity = [self entityAtIndexPath:indexPath inTableView:tableView];
 	NSLog (@"%@ got %@", indexPath, displayEntity);
 	
     NSString *CellIdentifier;
@@ -384,7 +435,7 @@
 	LTEntity *selectedEntity = nil;
 	if (entity)
 	{
-		selectedEntity = [self entityAtIndexPath:indexPath];
+		selectedEntity = [self entityAtIndexPath:indexPath inTableView:tableView];
 	}
 	else
 	{
@@ -478,7 +529,7 @@
 		)
 	{ 
 		/* Refresh the entity just-in-time (phone only) */
-		LTEntity *displayEntity = [self entityAtIndexPath:indexPath];
+		LTEntity *displayEntity = [self entityAtIndexPath:indexPath inTableView:tableView];
 		[displayEntity refresh];
 	}
 	
@@ -515,6 +566,74 @@
     return YES;
 }
 */
+
+#pragma mark Search Delegate
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+	if (!searchFilteredItems) searchFilteredItems = [[NSMutableArray array] retain];
+	[searchFilteredItems removeAllObjects];	
+	
+	NSArray *unfilteredEntities = nil;
+	
+	if (entity.type == ENT_CUSTOMER)
+	{
+		/* Build a list of all devices */
+		unfilteredEntities = [entity.children valueForKeyPath:@"@unionOfArrays.children"];
+		NSLog (@"Devices is %@", unfilteredEntities);
+	}
+	else 
+	{
+		unfilteredEntities = children;
+	}
+
+	NSPredicate *filterPredicate = nil;
+	if ([scope isEqualToString:@"Description"])
+	{
+		filterPredicate = [NSPredicate predicateWithFormat:@"desc CONTAINS[cd] %@", searchText];
+	}
+	else if ([scope isEqualToString:@"Address"])
+	{
+		filterPredicate = [NSPredicate predicateWithFormat:@"ipAddress CONTAINS[cd] %@", searchText];
+	}
+	
+	if (filterPredicate)
+	{ [searchFilteredItems addObjectsFromArray:[unfilteredEntities filteredArrayUsingPredicate:filterPredicate]]; }
+	
+	NSLog (@"searchFilteredItems is now %@", searchFilteredItems);
+}
+
+- (void) searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
+{
+	tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	tableView.backgroundColor = [UIColor colorWithWhite:0.29 alpha:1.0];	
+}
+
+-(void) searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
+{
+	searchBar.tintColor = nil;	
+	searchBar.showsScopeBar = YES;
+}
+
+- (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+{
+	searchBar.tintColor = [UIColor colorWithWhite:0.29 alpha:1.0];	
+	searchBar.showsScopeBar = NO;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    return YES;
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+    return YES;
+}
+
 
 #pragma mark "KVO Callbacks"
 

@@ -81,6 +81,24 @@ int l_refresh_device_refcb (i_resource *self, i_entity *ent, void *passdata)
     { i_printf (1, "l_refresh_device_refcb failed to call i_entity_refresh_config_loadapply for device entity"); }
   }
 
+  /* Check to see if the refresh was force-terminated */
+  if (ent->refresh_forcedterm == 1 && dev->refresh_interval < REFDEFAULT_MAXBACKOFF)
+  {
+    /* Refresh was force-terminated because of collisions, we 
+     * should back off the refresh timer
+     */
+    dev->refresh_interval += 30;
+    i_printf(0, "l_refresh_device_refcb backing off refresh interval to %i seconds due to slow response times", dev->refresh_interval);
+    static i_entity_refresh_config defconfig;
+    memset (&defconfig, 0, sizeof(i_entity_refresh_config));
+    defconfig.refresh_method = REFMETHOD_TIMER;
+    defconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
+    defconfig.refresh_int_sec = dev->refresh_interval;
+    int num = i_entity_refresh_config_loadapply (self, ENTITY(dev), &defconfig);
+    if (num != 0)
+    { i_printf (1, "l_refresh_device_refcb failed to call i_entity_refresh_config_loadapply for device entity"); }
+  }
+
   /* Attempt to close the SNMP session used for the device */
 //  if (l_snmp_state()) l_snmp_session_close_device (self);
 

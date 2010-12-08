@@ -11,7 +11,7 @@
 #import "LTEntity.h"
 #import "LTTableViewController.h"
 
-@interface LTEntityTableViewController : LTTableViewController <UIActionSheetDelegate>
+@interface LTEntityTableViewController : LTTableViewController <UIActionSheetDelegate, UISearchDisplayDelegate, UISearchBarDelegate>
 {
 	LTEntity *entity;
 	NSMutableArray *children;
@@ -21,6 +21,11 @@
 	BOOL hasAppeared;
 	
 	UINavigationController *externalNavigationController;
+	
+	IBOutlet UISearchBar *searchBar;
+	IBOutlet UISearchDisplayController *searchDisplayController;
+	NSMutableArray *searchFilteredItems;
+	
 }
 
 - (id)initWithEntity:(LTEntity *)initEntity;

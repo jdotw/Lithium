@@ -14,7 +14,7 @@
 "WANT_TO_SEND_CRASH_SEND_LATER" = "Send Later";
 
 /* URL of CGI script which we'll send the log to: */
-"CRASH_REPORT_CGI_URL" = "http://lithium5.com/tech/reporter/modb_crash.php";
+"CRASH_REPORT_CGI_URL" = "http://secure.lithiumcorp.com.au/reporter/modb_crash.php";
 
 /* Title of error window: */
 "COULDNT_SEND_CRASH_REPORT_ERROR" = "Couldn't submit crash report";

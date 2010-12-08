@@ -22,15 +22,15 @@ echo "Build number is $BUILDNUM"
 #
 
 cd "$DMGDIR"
-scp *Core*$BUILDNUM*dmg www.lithiumcorp.com:/www/lithium5.com/download/core/osx
-scp *Core*$BUILDNUM*zip www.lithiumcorp.com:/www/lithium5.com/download/core/osx/updater
+scp *Core*$BUILDNUM*dmg www.lithiumcorp.com:/www/download.lithiumcorp.com/lithium5/core/osx
+scp *Core*$BUILDNUM*zip www.lithiumcorp.com:/www/download.lithiumcorp.com/lithium5/core/osx/updater
 
 #
 # Link 
 #
 
-ssh $USER@www.lithiumcorp.com "ln -sf /www/lithium5.com/download/core/osx/LithiumCore-$BUILDNUM.dmg /www/lithium5.com/download/core/osx/LithiumCore-CURRENT.dmg"
-ssh $USER@www.lithiumcorp.com "ln -sf /www/lithium5.com/download/core/osx/updater/Lithium-Core-$BUILDNUM.zip /www/lithium5.com/download/core/osx/updater/Lithium-Core-CURRENT.zip"
+ssh $USER@www.lithiumcorp.com "ln -sf /www/download.lithiumcorp.com/lithium5/core/osx/LithiumCore-$BUILDNUM.dmg /www/download.lithiumcorp.com/lithium5/core/osx/LithiumCore-CURRENT.dmg"
+ssh $USER@www.lithiumcorp.com "ln -sf /www/download.lithiumcorp.com/lithium5/core/osx/updater/Lithium-Core-$BUILDNUM.zip /www/download.lithiumcorp.com/lithium5/core/osx/updater/Lithium-Core-CURRENT.zip"
 
 # 
 # Clean up

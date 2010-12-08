@@ -66,6 +66,14 @@ int l_snmp_objfact_refresh (i_resource *self, i_object *obj, int opcode)
       { l_snmp_walk_terminate (fact->walkid); fact->walkid = 0; }
       if (fact->session)
       { l_snmp_session_close (fact->session); fact->session = NULL; }
+
+      if (obj->refresh_forcedterm == 1 && fact->refresh_int_sec < REFDEFAULT_MAXBACKOFF)
+      {
+        fact->refresh_int_sec += 30;
+        l_snmp_objfact_normalrefcfg(self, fact);
+        i_printf(0, "l_snmp_objfact_refresh refresh of factory %s was force-terminated due to slow response, back off refresh interval to %i", obj->desc_str, fact->refresh_int_sec);
+      }
+
       break;
 
     case REFOP_CLEANDATA:
@@ -280,9 +288,6 @@ int l_snmp_objfact_refresh_walkcb (i_resource *self, l_snmp_session *session, st
         {
           int dereg = 1;
 
-          /* DEBUG */
-          if (!strcmp(fact->obj->name_str, "swrun")) i_printf(0, "OBJFACT: Marking object %s as obsolete because it is ahead of an existing object encountered in the walk", exist_obj->name_str);
-
           /* Clean the object */
           if (fact->cleanfunc)
           { 
@@ -461,9 +466,6 @@ int l_snmp_objfact_refresh_walkcb (i_resource *self, l_snmp_session *session, st
         num = i_list_search (fact->obj_list, obj);
         if (num == 0)
         {
-          /* DEBUG */
-          if (!strcmp(fact->obj->name_str, "swrun")) i_printf(0, "OBJFACT: Freeing unregistered object %s", obj->name_str);
-          
           /* Clean the object */
           if (fact->cleanfunc)
           { fact->cleanfunc (self, fact->cnt, obj); }
@@ -492,9 +494,6 @@ int l_snmp_objfact_refresh_walkcb (i_resource *self, l_snmp_session *session, st
       for (; (exist_obj=i_list_restore(fact->obj_list))!=NULL; i_list_move_next(fact->obj_list))
       {
         int dereg = 1;
-        
-        /* DEBUG */
-        if (!strcmp(fact->obj->name_str, "swrun")) i_printf(0, "OBJFACT: Marking object %s as obsolete because it is unchecked at the end of the object list", exist_obj->name_str);
         
         /* Clean the object */
         if (fact->cleanfunc)

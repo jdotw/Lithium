@@ -133,27 +133,14 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-	if (
-#ifdef UI_USER_INTERFACE_IDIOM
-		UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
-#else
-		0
-#endif
-		)
-	{
-		return nil;
+	if ([self respondsToSelector:@selector(tableView:titleForHeaderInSection:)] && [self tableView:tableView titleForHeaderInSection:section])
+	{ 
+		LTTableViewSectionHeaderView *view = [[[LTTableViewSectionHeaderView alloc] initWithFrame:CGRectZero] autorelease];
+		view.titleLabel.text = [self tableView:tableView titleForHeaderInSection:section];
+		return view; 
 	}
-	else
-	{
-		if ([self respondsToSelector:@selector(tableView:titleForHeaderInSection:)] && [self tableView:tableView titleForHeaderInSection:section])
-		{ 
-			LTTableViewSectionHeaderView *view = [[[LTTableViewSectionHeaderView alloc] initWithFrame:CGRectZero] autorelease];
-			view.titleLabel.text = [self tableView:tableView titleForHeaderInSection:section];
-			return view; 
-		}
-		else 
-		{ return nil; }
-	}
+	else 
+	{ return nil; }
 }
 
 

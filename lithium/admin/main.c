@@ -16,9 +16,14 @@
 #include <induction/postgresql.h>
 
 #include "snmpagent.h"
+#include "config.h"
 #include "customer.h"
 #include "userauth.h"
 #include "lic_admin.h"
+
+#ifdef HAVE_DNS_SD
+  #include <dns_sd.h>
+#endif
 
 void module_info ()
 {
@@ -123,6 +128,24 @@ int module_entry (i_resource *self)
     i_printf (1, "module_entry failed to load customers"); 
     i_timer_add (self, 5, 0, l_customer_loadall_retry, NULL);
   }      
+  
+  /* Annouce via BonJour */
+#ifdef HAVE_DNS_SD
+  i_list *customer_list = l_customer_list();
+  i_list_move_head(customer_list);
+  i_customer *first_customer = i_list_restore(customer_list);
+  if (first_customer)
+  {
+    char uuid_buf[37];
+    memset(&uuid_buf, 0, 37);
+    uuid_unparse_lower (first_customer->uuid, uuid_buf);
+    char txt_record[43];
+    memset(&txt_record, 0, 43);
+    snprintf(txt_record, 43, "\x029uuid=%36s", uuid_buf);
+    DNSServiceRef service;
+    DNSServiceRegister (&service, 0, 0, NULL, "_lithium._tcp", NULL, NULL, htons(51180), 42, txt_record, NULL, NULL);
+  }
+#endif
   
   return 0;
 }

@@ -83,7 +83,7 @@
 	NSData*				crashReport = [crashReportString dataUsingEncoding: NSUTF8StringEncoding];
 	
 	// Prepare a request:
-	NSString *urlString = [NSString stringWithFormat:@"http://lithium5.com/tech/reporter/modb_feedback.php?from=%@&subject=%@", 
+	NSString *urlString = [NSString stringWithFormat:@"http://secure.lithiumcorp.com.au/reporter/modb_feedback.php?from=%@&subject=%@", 
 						   [feedbackEmailAddress stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], 
 						   [subject stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
