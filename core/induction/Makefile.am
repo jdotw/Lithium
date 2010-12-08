@@ -1,6 +1,6 @@
 DEFS = -DINDUCTION -D_GNU_SOURCE
 
-lib_LTLIBRARIES = libinduction.la
+noinst_LTLIBRARIES = libinduction.la
 
 libinduction_la_SOURCES = printf.c \
                           version.c \
@@ -69,7 +69,7 @@ libinduction_la_SOURCES = printf.c \
                           timer.c \
                           init.c \
                           device.c \
-						  device_xml.c \
+			  device_xml.c \
                           interface.c \
                           respond.c \
                           msgproc.c \
@@ -88,7 +88,7 @@ libinduction_la_SOURCES = printf.c \
                           hierarchy.c \
                           sms.c \
                           site.c \
-						  site_xml.c \
+			  site_xml.c \
                           callback.c \
                           navtree.c \
                           navtree_node.c \
@@ -116,180 +116,91 @@ libinduction_la_SOURCES = printf.c \
                           inventory.c \
                           inventory_item.c \
                           inventory_str.c \
-						  name.c \
-						  desc.c \
-						  entity.c \
-						  entity_address.c \
-						  entity_descriptor.c \
-						  entity_register.c \
-						  entity_child.c \
-						  entity_local.c \
-						  entity_refresh.c \
-						  entity_refreshcb.c \
-						  entity_refresh_children.c \
-						  entity_refresh_config.c \
-						  entity_path.c \
-						  entity_util.c \
-						  entity_xml.c \
-						  entity_xmlsync.c \
-						  container.c \
-						  container_xml.c \
-						  object.c \
-						  object_xml.c \
-						  metric.c \
-						  metric_value.c \
-						  metric_period.c \
-						  metric_enumstr.c \
-						  metric_record.c \
-						  metric_record_rrd.c \
-						  metric_record_sql.c \
-						  metric_load.c \
-						  metric_load_sql.c \
-						  metric_util.c \
-						  metric_acrate.c \
-						  metric_acrate_refresh.c \
-						  metric_acpcent.c \
-						  metric_acpcent_refresh.c \
-						  metric_acdiff.c \
-						  metric_acdiff_refresh.c \
-						  metric_acsum.c \
-						  metric_acsum_refresh.c \
-						  metric_acmult.c \
-						  metric_acmult_refresh.c \
-						  metric_acvol.c \
-						  metric_acvol_refresh.c \
-						  metric_graph.c \
-						  metric_cgraph.c \
-						  metric_xml.c \
-						  trigger.c \
-						  trigger_value.c \
-						  trigger_eval.c \
-						  trigger_process.c \
-						  trigger_xml.c \
-						  triggerset.c \
-						  triggerset_trg.c \
-						  triggerset_apply.c \
-						  triggerset_apprule.c \
-						  triggerset_apprule_sql.c \
-						  triggerset_apprule_xml.c \
-						  triggerset_valrule.c \
-						  triggerset_valrule_eval.c \
-						  triggerset_valrule_sql.c \
-						  triggerset_valrule_xml.c \
-						  colour.c \
-						  value.c \
-						  value_enumstr.c \
-						  value_str.c \
-						  value_flt.c \
-						  value_type.c \
-						  adminstate.c \
-						  opstate.c \
-						  incident.c \
-						  incident_report.c \
-						  incident_transition.c \
-						  incident_clear.c \
-						  incident_clearall.c \
-						  incident_xml.c \
-						  xml.c \
-						  xml_data.c \
-						  xml_auth.c \
-						  xml_deliver.c \
-						  xml_func.c \
-						  xml_get.c \
-						  xml_handler.c \
-						  xml_request.c \
-						  heartbeat.c \
-						  devnormal_report.c \
-						  search_cache.c \
-						  search_xml.c \
-						  memcheck.c
+			  name.c \
+			  desc.c \
+			  entity.c \
+			  entity_address.c \
+			  entity_descriptor.c \
+			  entity_register.c \
+			  entity_child.c \
+			  entity_local.c \
+			  entity_refresh.c \
+			  entity_refreshcb.c \
+			  entity_refresh_children.c \
+			  entity_refresh_config.c \
+			  entity_path.c \
+			  entity_util.c \
+			  entity_xml.c \
+			  entity_xmlsync.c \
+			  container.c \
+			  container_xml.c \
+			  object.c \
+			  object_xml.c \
+			  metric.c \
+			  metric_value.c \
+			  metric_period.c \
+			  metric_enumstr.c \
+			  metric_record.c \
+			  metric_record_rrd.c \
+			  metric_record_sql.c \
+			  metric_load.c \
+			  metric_load_sql.c \
+			  metric_util.c \
+			  metric_acrate.c \
+			  metric_acrate_refresh.c \
+			  metric_acpcent.c \
+			  metric_acpcent_refresh.c \
+			  metric_acdiff.c \
+			  metric_acdiff_refresh.c \
+			  metric_acsum.c \
+			  metric_acsum_refresh.c \
+			  metric_acmult.c \
+			  metric_acmult_refresh.c \
+			  metric_acvol.c \
+			  metric_acvol_refresh.c \
+			  metric_graph.c \
+			  metric_cgraph.c \
+			  metric_xml.c \
+			  trigger.c \
+			  trigger_value.c \
+			  trigger_eval.c \
+			  trigger_process.c \
+			  trigger_xml.c \
+			  triggerset.c \
+			  triggerset_trg.c \
+			  triggerset_apply.c \
+			  triggerset_apprule.c \
+			  triggerset_apprule_sql.c \
+			  triggerset_apprule_xml.c \
+			  triggerset_valrule.c \
+			  triggerset_valrule_eval.c \
+			  triggerset_valrule_sql.c \
+			  triggerset_valrule_xml.c \
+			  colour.c \
+			  value.c \
+			  value_enumstr.c \
+			  value_str.c \
+			  value_flt.c \
+			  value_type.c \
+			  adminstate.c \
+			  opstate.c \
+			  incident.c \
+			  incident_report.c \
+			  incident_transition.c \
+			  incident_clear.c \
+			  incident_clearall.c \
+			  incident_xml.c \
+			  xml.c \
+			  xml_data.c \
+			  xml_auth.c \
+			  xml_deliver.c \
+			  xml_func.c \
+			  xml_get.c \
+			  xml_handler.c \
+			  xml_request.c \
+			  heartbeat.c \
+			  devnormal_report.c \
+			  search_cache.c \
+			  search_xml.c \
+			  memcheck.c
 
-libinduction_la_LDFLAGS = -version-info 0:0:0 -release $(VERSION)
-
-include_HEADERS = induction.h
-
-indincludedir = $(includedir)/induction
-indinclude_HEADERS = version.h \
-					 printf.h \
-					 module.h \
-					 construct.h \
-					 path.h \
-					 resource.h \
-					 resource_xml.h \
-					 list.h \
-					 timeutil.h \
-					 message.h \
-					 socket.h \
-					 hashtable.h \
-					 hostname.h \
-					 bdb.h \
-					 str.h \
-					 files.h \
-					 form.h \
-					 formdb.h \
-					 configfile.h \
-					 data.h \
-					 loop.h \
-					 timer.h \
-					 init.h \
-					 device.h \
-					 device_xml.h \
-					 interface.h \
-					 respond.h \
-					 msgproc.h \
-					 auth.h \
-					 user.h \
-					 userdb.h \
-					 customer.h \
-					 contact.h \
-					 event.h \
-					 dump.h \
-                     postgresql.h \
-				     sqltables.h \
-                     notification.h \
-                     hierarchy.h \
-                     sms.h \
-                     site.h \
-					 site_xml.h \
-                     callback.h \
-                     ipregistry.h \
-                     svcregistry.h \
-                     procregistry.h \
-                     lunregistry.h \
-                     xsanregistry.h \
-                     rrd.h \
-                     navform.h \
-                     navtree.h \
-                     rrdtool.h \
-                     log.h \
-                     vendor.h \
-                     ip.h \
-                     inventory.h \
-				     cement.h \
-					 name.h \
-					 desc.h \
-				     entity.h \
-				     entity_xml.h \
-				     entity_xmlsync.h \
-				     container.h \
-				     container_xml.h \
-				     object.h \
-				     metric.h \
-				     metric_xml.h \
-				     object_xml.h \
-				     trigger_xml.h \
-					 trigger.h \
-					 triggerset.h \
-					 triggerset_xml.h \
-					 colour.h \
-					 value.h \
-					 adminstate.h \
-					 opstate.h \
-					 incident.h \
-					 incident_xml.h \
-					 xml.h \
-					 heartbeat.h \
-					 search.h \
-					 memcheck.h
-
-noinst_HEADERS = build_config.h

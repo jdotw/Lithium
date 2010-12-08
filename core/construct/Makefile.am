@@ -1,7 +1,5 @@
 DEFS=-DMODULE_PATH="\"$(libdir)/lithium"\" -DDATA_PATH=\""$(localstatedir)/lithium"\" -DCONFIG_PATH=\""$(sysconfdir)/lithium"\" -DLOG_PATH=\""$(localstatedir)/log/lithium"\"
 
-INCLUDES=$(prefix)/include
-
 bin_PROGRAMS = lithium
 
 lithium_SOURCES = main.c \
@@ -9,4 +7,6 @@ lithium_SOURCES = main.c \
                     signal_handlers.c\
                     version.c \
                     funcexec.c
+
+lithium_LDADD = ../induction/libinduction.la
 

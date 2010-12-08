@@ -8,3 +8,5 @@ mars_so_SOURCES = main.c	\
 				  rrd_proc.c \
 				  rrdcached.c
 
+mars_so_DEPENDENCIES = ../induction/libinduction.la
+mars_so_LDFLAGS = -shared
