@@ -117,7 +117,7 @@ dnl Check for libxml2
 AC_ARG_WITH(xml-includes,
             [  --with-xml-includes Specify location of libxml2 headerfiles],
             [xml_incdir=$withval],
-            [xml_incdir=/usr/include])
+            [xml_incdir=/usr/include/libxml2])
 
 AC_ARG_WITH(xml-libs,
             [  --with-xml-libs Specify location of libxml2 libraries],

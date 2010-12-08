@@ -19,11 +19,6 @@ echo -n "Running 'automake' ... "
 automake -a
 echo "Done"
 
-if test -x /opt/local; then
-  echo "Setting prefix to /opt/local"
-  PREFIX="--prefix=/opt/local --with-db-includes=/opt/local/include --with-db-libs=/opt/local/lib --with-xml-includes=/opt/local/include/libxml2 --with-xml-libs=/opt/local/lib"
-fi
-
-ARGS="$PREFIX"
+ARGS=""
 echo "Running './configure $ARGS'"
 ./configure $ARGS

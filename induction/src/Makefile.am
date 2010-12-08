@@ -1,4 +1,4 @@
-DEFS = -DINDUCTION
+DEFS = -DINDUCTION -D_GNU_SOURCE
 
 lib_LTLIBRARIES = libinduction.la
 

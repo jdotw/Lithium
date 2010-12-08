@@ -25,6 +25,7 @@ libtool
 *.o
 *.so
 *.lo
+*.loT
 *.la
 stamp-h1
 .*.swp

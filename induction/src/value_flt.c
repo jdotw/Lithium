@@ -36,10 +36,18 @@ double i_value_valflt (unsigned short val_type, i_value *val)
       break;
     case VALTYPE_STRING:
       if (val->str) valflt = strtod (val->str, NULL);
+#ifdef NAN
+      else valflt = NAN;
+#else
       else valflt = nan(NULL);
+#endif
       break;
     default:
+#ifdef NAN
+      valflt = NAN;
+#else
       valflt = nan(NULL);
+#endif
   }
 
   return valflt;

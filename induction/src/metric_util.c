@@ -401,10 +401,18 @@ double i_metric_valflt (i_metric *met, i_metric_value *val)
       break;
     case METRIC_STRING:
       if (val->str) valflt = strtod (val->str, NULL);
+#ifdef NAN
+      else valflt = NAN;
+#else
       else valflt = nan(NULL);
+#endif
       break;
     default:
+#ifdef NAN
+      valflt = NAN;
+#else
       valflt = nan(NULL);
+#endif
   }
 
   /* Perform alloc units */

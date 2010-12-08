@@ -19,14 +19,6 @@ echo -n "Running 'automake' ... "
 automake -a
 echo "Done"
 
-if test -x /opt/local; then
-  echo "Setting prefix to /opt/local"
-  PREFIX="--prefix=/opt/local --with-db-includes=/opt/local/include --with-db-libs=/opt/local/lib --with-induction-includes=/opt/local/include --with-induction-libs=/opt/local/lib --with-crypt=crypto --with-xml-includes=/opt/local/include/libxml2 --with-xml-libs=/opt/local/lib"
-else
-  echo "Setting localstatedir=/var and sysconfdir=/etc"
-  PREFIX="--localstatedir=/var --sysconfdir=/etc --with-induction-includes=/usr/local/include --with-induction-libs=/usr/local/lib"
-fi
-
-ARGS="$PREFIX"
+ARGS=""
 echo "Running './configure $ARGS'"
 ./configure $ARGS

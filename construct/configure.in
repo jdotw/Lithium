@@ -221,7 +221,7 @@ dnl Check for libxml2
 AC_ARG_WITH(xml-includes,
             [  --with-xml-includes Specify location of libxml2 headerfiles],
             [xml_incdir=$withval],
-            [xml_incdir=/usr/include])
+            [xml_incdir=/usr/include/libxml2])
 
 AC_ARG_WITH(xml-libs,
             [  --with-xml-libs Specify location of libxml2 libraries],
@@ -246,12 +246,12 @@ dnl Check for induction
 AC_ARG_WITH(induction-includes,
             [  --with-induction-includes Specify location of induction headerfiles],
             [induction_incdir=$withval],
-            [induction_incdir=/usr/include])
+            [induction_incdir=/usr/local/include])
 
 AC_ARG_WITH(induction-libs,
             [  --with-induction-libs Specify location of induction libraries],
             [induction_libdir=$withval],
-            [induction_libdir=/usr/lib])
+            [induction_libdir=/usr/local/lib])
 
 induction_header="$induction_incdir/induction/version.h"
 echo "--------------------------------------------------------"
