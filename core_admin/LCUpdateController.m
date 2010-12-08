@@ -49,7 +49,7 @@
 
 - (IBAction) moreInfoClicked:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lithium5.com/index.php/download/index"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lithiumcorp.com/lithium5/download-lithium/"]];
 }
 
 - (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response

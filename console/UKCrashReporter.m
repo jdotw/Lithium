@@ -259,7 +259,7 @@ NSString*	gCrashLogString = nil;
 	NSData*				crashReport = [crashReportString dataUsingEncoding: NSUTF8StringEncoding];
 	
 	// Prepare a request:
-	NSString *urlString = [NSString stringWithFormat:@"http://lithium5.com/tech/reporter/console_crash.php?from=%@", [[self userEmail] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSString *urlString = [NSString stringWithFormat:@"http://secure.lithiumcorp.com.au/reporter/console_crash.php?from=%@", [[self userEmail] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSMutableURLRequest *postRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 	NSString            *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
 	NSString			*agent = @"UKCrashReporter";

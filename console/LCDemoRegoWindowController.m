@@ -80,7 +80,7 @@
 - (IBAction) privacyClicked:(id)sender
 {
 	/* Open Privacy Info */
-	NSURL *url = [NSURL URLWithString:@"http://secure.lithiumcorp.com.au/shop/help.php?section=business"];
+	NSURL *url = [NSURL URLWithString:@"http://lithium5.com"];
 	[[NSWorkspace sharedWorkspace] openURL:url];
 }
 
