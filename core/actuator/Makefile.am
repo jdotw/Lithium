@@ -16,5 +16,5 @@ actuator_so_SOURCES = customer.c \
 
 actuator_so_DEPENDENCIES = ../induction/libinduction.la
 actuator_so_LDADD = ../induction/libinduction.la
-actuator_so_LDFLAGS = -shared
+actuator_so_LDFLAGS = -shared -bundle
 
