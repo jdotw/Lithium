@@ -10,7 +10,5 @@ client_handler_so_SOURCES = main.c \
                             child.c \
 							reqtime.c
 
-client_handler_so_DEPENDENCIES = ../induction/libinduction.la
-client_handler_so_LDADD = ../induction/libinduction.la
-client_handler_so_LDFLAGS = -shared -bundle
+client_handler_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
 

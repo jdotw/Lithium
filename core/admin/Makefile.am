@@ -22,9 +22,6 @@ admin_so_SOURCES = main.c \
 				   mib2c/lcMetricTable.c \
 				   mib2c/lcTriggerTable.c
 
-
 admin_so_DEPENDENCIES = ../induction/libinduction.la
 admin_so_LDADD = ../induction/libinduction.la
-admin_so_LDFLAGS = -shared -bundle
-
-
+admin_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress

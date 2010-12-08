@@ -27,7 +27,6 @@
 #include <induction/triggerset.h>
 #include <induction/path.h>
 
-#include "main.h"
 #include "devtest.h"
 
 /*

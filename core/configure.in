@@ -55,9 +55,16 @@ AC_SEARCH_LIBS(xmlReadMemory, xml2, , AC_MSG_ERROR([Cannot build without libxml2
 # Check for UUID
 AC_SEARCH_LIBS(uuid_parse, uuid, , AC_MSG_ERROR([Cannot build without libuuid]))
 
+# Check for libcurl
+CFLAGS="$CFLAGS `curl-config --cflags`"
+LDFLAGS="$LDFLAGS `curl-config --libs`"
+AC_SEARCH_LIBS(curl_multi_init, curl, , AC_MSG_ERROR([Cannot build without libcurl]))
+
+# Check for DNS-SD
+AC_CHECK_HEADER(dns_sd.h, AC_DEFINE(HAVE_DNS_SD), )
 
 # Set custom CFLAGS/LDFLAGS
-CFLAGS="$CFLAGS -W -Wall -Wno-unused-parameter -Werror"
+CFLAGS="$CFLAGS -W -Wall -Wno-unused-parameter -Werror -I.. -I../induction"
 
 dnl ###########################################
 dnl Create makefiles
@@ -74,4 +81,5 @@ AC_OUTPUT(	Makefile 		\
         client_handler/Makefile \
         customer/Makefile \
         device/Makefile \
+        vendor_xserve/Makefile \
 		)

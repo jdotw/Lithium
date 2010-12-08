@@ -1,6 +1,3 @@
-CFLAGS = @CFLAGS@ -g
-LIBS = @LIBS@ 
-
 moduledir = $(libdir)/lithium/vendor_modules
 module_PROGRAMS = xserve_g5.so xserve_intel.so osx_server.so osx_client.so
 
@@ -141,15 +138,26 @@ common_SOURCES = csv.c \
 
 xserve_g5_so_SOURCES = xserve_g5.c \
 						$(common_SOURCES)
+xserve_g5_so_DEPENDENCIES = ../induction/libinduction.la
+xserve_g5_so_LDADD = ../induction/libinduction.la
+xserve_g5_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
 
 xserve_intel_so_SOURCES = xserve_intel.c \
 						  $(common_SOURCES)
+xserve_intel_so_DEPENDENCIES = ../induction/libinduction.la
+xserve_intel_so_LDADD = ../induction/libinduction.la
+xserve_intel_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
 
 osx_server_so_SOURCES = osx_server.c \
 				 $(common_SOURCES)
+osx_server_so_DEPENDENCIES = ../induction/libinduction.la
+osx_server_so_LDADD = ../induction/libinduction.la
+osx_server_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
 
 osx_client_so_SOURCES = osx_client.c \
 						$(common_SOURCES)
-
+osx_client_so_DEPENDENCIES = ../induction/libinduction.la
+osx_client_so_LDADD = ../induction/libinduction.la
+osx_client_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
 
 

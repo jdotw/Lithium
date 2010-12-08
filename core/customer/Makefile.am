@@ -257,8 +257,8 @@ customer_so_SOURCES = main.c \
 					  group_xml_entity.c \
 					  modb_xml_script_list.c \
 					  imagecache.c
-					  
+
 customer_so_DEPENDENCIES = ../induction/libinduction.la
 customer_so_LDADD = ../induction/libinduction.la
-customer_so_LDFLAGS = -shared -bundle
+customer_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
 

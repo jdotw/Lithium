@@ -173,5 +173,5 @@ device_so_SOURCES = main.c \
 
 device_so_DEPENDENCIES = ../induction/libinduction.la
 device_so_LDADD = ../induction/libinduction.la
-device_so_LDFLAGS = -shared -bundle
+device_so_LDFLAGS = -shared -bundle -flat_namespace -undefined suppress
 
