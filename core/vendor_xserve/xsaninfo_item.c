@@ -1,17 +1,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <induction.h>
-#include <induction/list.h>
-#include <induction/timer.h>
-#include <induction/form.h>
-#include <induction/auth.h>
-#include <induction/hierarchy.h>
-#include <induction/cement.h>
-#include <induction/entity.h>
-#include <induction/device.h>
-#include <induction/container.h>
-#include <induction/object.h>
+#include "induction.h"
+#include "induction/list.h"
+#include "induction/timer.h"
+#include "induction/form.h"
+#include "induction/auth.h"
+#include "induction/hierarchy.h"
+#include "induction/cement.h"
+#include "induction/entity.h"
+#include "induction/device.h"
+#include "induction/container.h"
+#include "induction/object.h"
 
 #include "xsaninfo.h"
 

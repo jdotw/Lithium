@@ -9,16 +9,16 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <induction.h>
-#include <induction/callback.h>
-#include <induction/socket.h>
-#include <induction/list.h>
-#include <induction/timer.h>
-#include <induction/form.h>
-#include <induction/cement.h>
-#include <induction/entity.h>
-#include <induction/hierarchy.h>
-#include <induction/device.h>
+#include "induction.h"
+#include "induction/callback.h"
+#include "induction/socket.h"
+#include "induction/list.h"
+#include "induction/timer.h"
+#include "induction/form.h"
+#include "induction/cement.h"
+#include "induction/entity.h"
+#include "induction/hierarchy.h"
+#include "induction/device.h"
 #include "device/avail.h"
 
 #include "xserve_intel.h"

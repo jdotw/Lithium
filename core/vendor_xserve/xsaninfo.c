@@ -4,20 +4,20 @@
 #include <errno.h>
 #include <string.h>
 
-#include <induction.h>
-#include <induction/list.h>
-#include <induction/form.h>
-#include <induction/navtree.h>
-#include <induction/hierarchy.h>
-#include <induction/cement.h>
-#include <induction/entity.h>
-#include <induction/container.h>
-#include <induction/object.h>
-#include <induction/metric.h>
-#include <induction/value.h>
-#include <induction/trigger.h>
-#include <induction/triggerset.h>
-#include <induction/str.h>
+#include "induction.h"
+#include "induction/list.h"
+#include "induction/form.h"
+#include "induction/navtree.h"
+#include "induction/hierarchy.h"
+#include "induction/cement.h"
+#include "induction/entity.h"
+#include "induction/container.h"
+#include "induction/object.h"
+#include "induction/metric.h"
+#include "induction/value.h"
+#include "induction/trigger.h"
+#include "induction/triggerset.h"
+#include "induction/str.h"
 #include "device/record.h"
 
 #include "xsan.h"

@@ -3,8 +3,8 @@
 #include <string.h>
 #include <libxml/parser.h>
 
-#include <induction.h>
-#include <induction/list.h>
+#include "induction.h"
+#include "induction/list.h"
 
 #include "csv.h"
 
