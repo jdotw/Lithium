@@ -1,7 +1,0 @@
-CFLAGS = @CFLAGS@
-LIBS = @LIBS@
-
-moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = netsnmp.so
-
-netsnmp_so_SOURCES = main.c

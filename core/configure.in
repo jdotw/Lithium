@@ -95,5 +95,27 @@ AC_OUTPUT(	Makefile 		\
         client_handler/Makefile \
         customer/Makefile \
         device/Makefile \
-        vendor_xserve/Makefile \
+          vendor_3com/Makefile \
+          vendor_activestorage/Makefile \
+          vendor_airport/Makefile \
+          vendor_alliedtelesyn/Makefile \
+          vendor_apcups/Makefile \
+          vendor_cisco/Makefile \
+          vendor_fcswitch/Makefile \
+          vendor_filer/Makefile \
+          vendor_foundry/Makefile \
+          vendor_hp/Makefile \
+          vendor_icmp/Makefile \
+          vendor_infortrend/Makefile \
+          vendor_liebert/Makefile \
+          vendor_mgeups/Makefile \
+          vendor_netbotz/Makefile \
+          vendor_netsnmp/Makefile \
+          vendor_printer/Makefile \
+          vendor_snmpadv/Makefile \
+          vendor_snmpbasic/Makefile \
+          vendor_vtrak/Makefile \
+          vendor_windows/Makefile \
+          vendor_xserve/Makefile \
+          vendor_xraid/Makefile \
 		)
