@@ -28,6 +28,7 @@ SUBDIRS = include induction construct \
 		  vendor_windows \
 		  vendor_xserve \
 		  vendor_xraid \
-		  scripts
+		  scripts \
+		  htdocs
 
 EXTRA_DIST = configure configure.in

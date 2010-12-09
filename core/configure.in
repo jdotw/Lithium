@@ -117,7 +117,16 @@ AC_OUTPUT(	Makefile 		\
           vendor_vtrak/Makefile \
           vendor_windows/Makefile \
           vendor_xserve/Makefile \
+          vendor_xraid/Makefile \
           scripts/Makefile \
           scripts/action_scripts/Makefile \
           scripts/service_scripts/Makefile \
+          htdocs/default/cache/Makefile \
+          htdocs/default/image_cache/Makefile \
+          htdocs/default/Makefile \
+          htdocs/default/admin/Makefile \
+          htdocs/diag/Makefile \
+          htdocs/images/Makefile \
+          htdocs/include/Makefile \
+          htdocs/Makefile \
 		)

@@ -1,0 +1,12 @@
+Source: lithiumcore
+Section: net
+Priority: extra
+Maintainer: James Wilson <jwilson@lithiumcorp.com>
+Build-Depends: debhelper (>= 7), autotools-dev
+Standards-Version: 3.7.3
+Homepage: http://lithium5.com
+
+Package: lithiumcore
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Lithium Core
