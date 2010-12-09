@@ -12,15 +12,14 @@ admin_so_SOURCES = main.c \
 				   snmpagent.c \
 				   snmpagent_fdset.c \
 				   lic_admin.c \
-				   ../customer/lic.c \
-				   ../customer/lic_key.c \
 				   mib2c/lcCustomerTable.c \
                    mib2c/lcSiteTable.c \
  				   mib2c/lcDeviceTable.c \
 				   mib2c/lcContainerTable.c \
 				   mib2c/lcObjectTable.c \
 				   mib2c/lcMetricTable.c \
-				   mib2c/lcTriggerTable.c
+				   mib2c/lcTriggerTable.c \
+				   ../customer/lic_loadkeys.c
 
 admin_so_DEPENDENCIES = ../induction/libinduction.la
 admin_so_LDADD = ../induction/libinduction.la

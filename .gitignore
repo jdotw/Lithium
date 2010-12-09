@@ -1,5 +1,7 @@
 .DS_Store
 *.dSYM
+*.deb
+*.build
 .deps
 .libs
 build

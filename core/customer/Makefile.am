@@ -162,6 +162,7 @@ customer_so_SOURCES = main.c \
 					  triggerset.c \
 					  record_sql.c \
 					  lic.c \
+					  lic_loadkeys.c \
 					  lic_key.c \
 					  lic_entitlement.c \
 					  lic_take.c \

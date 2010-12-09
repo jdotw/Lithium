@@ -28,26 +28,6 @@
  * License Related Functions
  */
 
-/* Keys */
-
-l_lic_key* l_lic_key_create ()
-{
-  l_lic_key *key = (l_lic_key *) malloc (sizeof(l_lic_key));
-  memset (key, 0, sizeof(l_lic_key));
-  return key;
-}
-
-void l_lic_key_free (void *keyptr)
-{
-  l_lic_key *key = keyptr;
-  if (key->raw_str) free (key->raw_str);
-  if (key->enc_str) free (key->enc_str);
-  if (key->type_str) free (key->type_str);
-  if (key->custhash_str) free (key->custhash_str);
-  if (key->product_str) free (key->product_str);
-  free (key);
-}
-
 /* Add/Remove */
 
 int l_lic_key_add (i_resource *self, char *key_str)
@@ -123,20 +103,3 @@ int l_lic_key_sqlcb (i_resource *self, i_pg_async_conn *conn, int operation, PGr
   return 0;
 }
 
-/* Status */
-
-char* l_lic_key_status (int status)
-{
-  switch (status)
-  {
-    case KEY_NOTPROCESSED: return "Not processed";
-    case KEY_DECODED: return "Decoded";
-    case KEY_INVALID: return "Invalid";
-    case KEY_INVALID_CUSTOMER: return "Invalid Customer";
-    case KEY_INVALID_EXPIRED: return "Expired";
-    case KEY_INVALID_DUPLICATE: return "Duplicate";
-    case KEY_INVALID_DUPLICATE_EXCLUSIVE: return "Duplicate Type";
-    case KEY_VALID: return "Valid";
-    default: return "Unknown";
-  }
-}
