@@ -1,1 +1,1 @@
-SUBDIRS = action_scripts service_scripts
+SUBDIRS = action_scripts service_scripts lithium

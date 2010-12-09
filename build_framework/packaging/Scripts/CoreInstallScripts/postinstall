@@ -95,6 +95,8 @@ fi
 HTDOCSPATH="/Library/Application Support/Lithium/ClientService/Resources"
 mkdir -m 0755 -p "$HTDOCSPATH"
 cp -r /Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/* "$HTDOCSPATH"
+mkdir -m 0755 -p "$HTDOCSPATH/htdocs"
+cp -r /Library/Lithium/LithiumCore.app/Contents/Resources/htdocs/* "$HTDOCSPATH/htdocs"
 chown lithium:lithium "$HTDOCSPATH/htdocs"
 chown lithium:lithium "$HTDOCSPATH/logs"
 

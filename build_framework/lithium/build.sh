@@ -51,7 +51,6 @@ if [ $? -ne 0 ]; then
   echo "ERROR: Lithium Core failed to install"
   exit 1
 fi
-cd ..
 
 #
 # Capture dSYM
@@ -73,29 +72,7 @@ do
     cd $i
     MOD_NAME=`echo $i | sed s/vendor_//g`
     dsymutil -o "$DSYM_PATH/$MOD_NAME.dSYM" "$FWPREFIX/Libraries/lithium/vendor_modules/$MOD_NAME.so"
+    cd ..
   fi
 done
-
-#
-# Clean up
-#
-
-#
-# Copy web files to /Lithium/htdocs
-#
-
-rm -rf '/Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/htdocs'
-mkdir -p '/Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/htdocs'
-cp -r $PWD/htdocs/* '/Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/htdocs'
-
-#
-# Copy scripts to /Lithium/share and /Lithium/var/lithium
-#
-# Action and Service scripts are now handled in the core build
-#
-
-mkdir -p '/Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts'
-cp -r $PWD/scripts/lithium_osx/*pl /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
-cp -r $PWD/scripts/lithium_osx/*sh /Library/Lithium/LithiumCore.app/Contents/Resources/CoreScripts
-cp $PWD/scripts/lithium_osx/* /Library/Lithium/LithiumCore.app/Contents/MacOS
 

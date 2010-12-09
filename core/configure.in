@@ -72,7 +72,7 @@ LDFLAGS="$LDFLAGS `curl-config --libs`"
 AC_SEARCH_LIBS(curl_multi_init, curl, , AC_MSG_ERROR([Cannot build without libcurl]))
 
 # Check for perl
-AC_SEARCH_LIBS(perl_alloc, perl, , AC_MSG_ERROR([Cannot build without libperl]))
+AC_SEARCH_LIBS(perl_alloc, perl)
 
 # Check for DNS-SD
 AC_CHECK_HEADER(dns_sd.h, AC_DEFINE(HAVE_DNS_SD), )
@@ -121,6 +121,7 @@ AC_OUTPUT(	Makefile 		\
           scripts/Makefile \
           scripts/action_scripts/Makefile \
           scripts/service_scripts/Makefile \
+          scripts/lithium/Makefile \
           htdocs/default/cache/Makefile \
           htdocs/default/image_cache/Makefile \
           htdocs/default/Makefile \
