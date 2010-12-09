@@ -10,3 +10,4 @@ Package: lithiumcore
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Lithium Core
+  The monitoring, reporting and alerting part of Lithium
