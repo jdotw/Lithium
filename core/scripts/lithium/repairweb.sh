@@ -2,6 +2,8 @@
 
 # Repairs web links
 
+HTDOCSPATH='
+
 if [ -e '/Library/Application Support/Lithium/ClientService/Resources/htdocs' ] ; then
 
   cd '/Library/Application Support/Lithium/ClientService/Resources/htdocs/'
