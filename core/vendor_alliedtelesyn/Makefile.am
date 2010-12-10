@@ -15,6 +15,5 @@ alliedtelesyn_so_SOURCES = main.c \
 						   snmp_iface_objform.c \
 						   snmp_iface_objfact.c
 
-alliedtelesyn_so_DEPENDENCIES = ../induction/libinduction.la
 alliedtelesyn_so_LDFLAGS = @MODULE_LDFLAGS@
 

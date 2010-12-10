@@ -28,6 +28,5 @@ module_PROGRAMS = 3com.so
 				   expmodule_objform.c \
 				   expmodule_cntform.c
 
-3com_so_DEPENDENCIES = ../induction/libinduction.la
 3com_so_LDFLAGS = @MODULE_LDFLAGS@
 

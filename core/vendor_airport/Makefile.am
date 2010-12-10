@@ -19,6 +19,5 @@ airport_so_SOURCES = main.c \
 					 physical_objform.c \
 					 physical_item.c
 
-airport_so_DEPENDENCIES = ../induction/libinduction.la
 airport_so_LDFLAGS = @MODULE_LDFLAGS@
 

@@ -171,6 +171,5 @@ device_so_SOURCES = main.c \
 					procpro_xml_delete.c \
 					device_xml.c
 
-device_so_DEPENDENCIES = ../induction/libinduction.la
 device_so_LDFLAGS = @MODULE_LDFLAGS@
 

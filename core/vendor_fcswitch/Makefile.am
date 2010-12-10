@@ -31,6 +31,5 @@ qlogic_so_SOURCES = qlogic.c \
 					load_objform.c \
 					load_cntform.c
 
-qlogic_so_DEPENDENCIES = ../induction/libinduction.la
 qlogic_so_LDFLAGS = @MODULE_LDFLAGS@
 

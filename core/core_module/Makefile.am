@@ -13,6 +13,5 @@ core_so_SOURCES = main.c \
                   fork_clean_up.c \
                   heartbeat.c
 
-core_so_DEPENDENCIES = ../induction/libinduction.la
 core_so_LDFLAGS = @MODULE_LDFLAGS@
 

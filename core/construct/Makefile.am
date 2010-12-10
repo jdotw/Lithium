@@ -8,6 +8,4 @@ lithium_SOURCES = main.c \
                     version.c \
                     funcexec.c
 
-lithium_DEPENDENCIES = ../induction/libinduction.la
-lithium_LDADD = ../induction/libinduction.la
 

@@ -14,6 +14,5 @@ infortrend_so_SOURCES = main.c \
 						cache.c \
 						cache_item.c
 
-infortrend_so_DEPENDENCIES = ../induction/libinduction.la
 infortrend_so_LDFLAGS = @MODULE_LDFLAGS@
 

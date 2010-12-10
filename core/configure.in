@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(induction/loop.c)
+AC_INIT(construct/main.c)
 
 VERSION=5.0.9
 PACKAGE=core
@@ -15,7 +15,7 @@ AC_DEFINE_UNQUOTED(LITHIUM_VERSION, "${VERSION}")
 
 dnl Configuration headers
 AM_CONFIG_HEADER(include/lithium.h)
-dnl AM_CONFIG_HEADER(device/snmp.h)
+AM_CONFIG_HEADER(device/snmp.h)
 
 # Platform Check
 echo "TARGET: ${target}"
@@ -40,6 +40,10 @@ AC_HEADER_STDC
 # Standard Library Checks
 AC_SEARCH_LIBS(dlopen, dl, , AC_MSG_ERROR([Cannot build without dlopen]))
 AC_SEARCH_LIBS(crypt, crypto)
+
+# Check for induction
+AC_CHECK_HEADER(induction.h)
+AC_SEARCH_LIBS(i_loop, induction, , AC_MSG_ERROR([Cannot build without Lithium Induction]))
 
 # Check for DB4
 AC_SEARCH_LIBS(db_version, db-4, , AC_MSG_ERROR([Cannot build without DB4]))
@@ -78,7 +82,7 @@ AC_SEARCH_LIBS(perl_alloc, perl)
 AC_CHECK_HEADER(dns_sd.h, AC_DEFINE(HAVE_DNS_SD), )
 
 # Set custom CFLAGS/LDFLAGS
-CFLAGS="$CFLAGS -W -Wall -Wno-unused-parameter -Werror -I.. -I../induction"
+CFLAGS="$CFLAGS -W -Wall -Wno-unused-parameter -Werror -I.."
 
 dnl ###########################################
 dnl Create makefiles
@@ -86,7 +90,6 @@ dnl Create makefiles
 echo "--------------------------------------------------------"
 AC_OUTPUT(	Makefile 		\
 		include/Makefile \
-		induction/Makefile		\
 		construct/Makefile		\
 		actuator/Makefile		\
 		mars/Makefile		\

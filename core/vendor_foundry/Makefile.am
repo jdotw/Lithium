@@ -23,6 +23,5 @@ foundry_so_SOURCES = main.c \
 					 vport_cntform.c \
 					 vport_objform.c
 
-foundry_so_DEPENDENCIES = ../induction/libinduction.la
 foundry_so_LDFLAGS = @MODULE_LDFLAGS@
 

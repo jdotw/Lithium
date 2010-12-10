@@ -259,6 +259,5 @@ customer_so_SOURCES = main.c \
 					  modb_xml_script_list.c \
 					  imagecache.c
 
-customer_so_DEPENDENCIES = ../induction/libinduction.la
 customer_so_LDFLAGS = @MODULE_LDFLAGS@
 

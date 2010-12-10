@@ -138,22 +138,18 @@ common_SOURCES = csv.c \
 
 xserve_g5_so_SOURCES = xserve_g5.c \
 						$(common_SOURCES)
-xserve_g5_so_DEPENDENCIES = ../induction/libinduction.la
 xserve_g5_so_LDFLAGS = @MODULE_LDFLAGS@
 
 xserve_intel_so_SOURCES = xserve_intel.c \
 						  $(common_SOURCES)
-xserve_intel_so_DEPENDENCIES = ../induction/libinduction.la
 xserve_intel_so_LDFLAGS = @MODULE_LDFLAGS@
 
 osx_server_so_SOURCES = osx_server.c \
 				 $(common_SOURCES)
-osx_server_so_DEPENDENCIES = ../induction/libinduction.la
 osx_server_so_LDFLAGS = @MODULE_LDFLAGS@
 
 osx_client_so_SOURCES = osx_client.c \
 						$(common_SOURCES)
-osx_client_so_DEPENDENCIES = ../induction/libinduction.la
 osx_client_so_LDFLAGS = @MODULE_LDFLAGS@
 
 

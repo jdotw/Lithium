@@ -1,13 +1,6 @@
 /* device/snmp.h.  Generated from snmp.h.in by configure.  */
-#define NET_SNMP 1
-
-#ifdef NET_SNMP
-  #include <net-snmp/net-snmp-config.h>
-  #include <net-snmp/net-snmp-includes.h>
-#else
-  #include <ucd-snmp/ucd-snmp-config.h>
-  #include <ucd-snmp/ucd-snmp-includes.h>
-#endif
+#include <net-snmp/net-snmp-config.h>
+#include <net-snmp/net-snmp-includes.h>
 
 /* snmp.c */
 

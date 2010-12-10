@@ -180,11 +180,7 @@ int l_devtest_snmp_process_pdu (int operation, struct snmp_session *ss, int reqi
 
   i_callback *cb = magic;
 
-#ifdef NET_SNMP
   if (operation == NETSNMP_CALLBACK_OP_RECEIVED_MESSAGE)
-#else
-  if (operation == RECEIVED_MESSAGE)
-#endif
   {
     cb->func (global_self, 1, cb->passdata);
   }

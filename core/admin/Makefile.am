@@ -21,5 +21,4 @@ admin_so_SOURCES = main.c \
 				   mib2c/lcTriggerTable.c \
 				   ../customer/lic_loadkeys.c
 
-admin_so_DEPENDENCIES = ../induction/libinduction.la
 admin_so_LDFLAGS = @MODULE_LDFLAGS@

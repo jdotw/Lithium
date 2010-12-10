@@ -1,4 +1,4 @@
-SUBDIRS = include induction construct \
+SUBDIRS = include construct \
 		  actuator \
 		  mars \
 		  core_module \
