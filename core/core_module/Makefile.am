@@ -14,6 +14,5 @@ core_so_SOURCES = main.c \
                   heartbeat.c
 
 core_so_DEPENDENCIES = ../induction/libinduction.la
-core_so_LDADD = ../induction/libinduction.la
 core_so_LDFLAGS = @MODULE_LDFLAGS@
 

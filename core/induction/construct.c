@@ -145,7 +145,9 @@ int i_construct_spawn (i_resource *parent, i_resource *resource) /* Spawn the co
   }
 
   /* Add default timers */
+#ifdef OS_DARWIN
   i_timer_add (resource, 60, 0, i_memcheck_perflog_timer, NULL);
+#endif
 
   /* Enter loop */
   i_loop (resource);
