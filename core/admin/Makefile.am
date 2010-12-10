@@ -22,5 +22,4 @@ admin_so_SOURCES = main.c \
 				   ../customer/lic_loadkeys.c
 
 admin_so_DEPENDENCIES = ../induction/libinduction.la
-admin_so_LDADD = ../induction/libinduction.la
 admin_so_LDFLAGS = @MODULE_LDFLAGS@

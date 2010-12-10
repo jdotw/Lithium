@@ -27,6 +27,5 @@ liebert_so_SOURCES = main.c \
 					 opstats_objform.c
 
 liebert_so_DEPENDENCIES = ../induction/libinduction.la
-liebert_so_LDADD = ../induction/libinduction.la
 liebert_so_LDFLAGS = @MODULE_LDFLAGS@
 

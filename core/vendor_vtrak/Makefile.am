@@ -36,6 +36,5 @@ vtrak_so_SOURCES = main.c \
                    logdrv_objfact.c
 
 vtrak_so_DEPENDENCIES = ../induction/libinduction.la
-vtrak_so_LDADD = ../induction/libinduction.la
 vtrak_so_LDFLAGS = @MODULE_LDFLAGS@
 

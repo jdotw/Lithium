@@ -19,6 +19,5 @@ cisco_so_SOURCES = main.c \
 				   pixconn_objform.c
 
 cisco_so_DEPENDENCIES = ../induction/libinduction.la
-cisco_so_LDADD = ../induction/libinduction.la
 cisco_so_LDFLAGS = @MODULE_LDFLAGS@
 

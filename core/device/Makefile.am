@@ -172,6 +172,5 @@ device_so_SOURCES = main.c \
 					device_xml.c
 
 device_so_DEPENDENCIES = ../induction/libinduction.la
-device_so_LDADD = ../induction/libinduction.la
 device_so_LDFLAGS = @MODULE_LDFLAGS@
 

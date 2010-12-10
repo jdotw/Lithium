@@ -11,6 +11,5 @@ client_handler_so_SOURCES = main.c \
 			    reqtime.c
 
 client_handler_so_DEPENDENCIES = ../induction/libinduction.la
-client_handler_so_LDADD = ../induction/libinduction.la
 client_handler_so_LDFLAGS = @MODULE_LDFLAGS@
 

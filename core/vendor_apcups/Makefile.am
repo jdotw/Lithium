@@ -24,6 +24,5 @@ apcups_so_SOURCES = main.c \
 					device_item.c
  
 apcups_so_DEPENDENCIES = ../induction/libinduction.la
-apcups_so_LDADD = ../induction/libinduction.la
 apcups_so_LDFLAGS = @MODULE_LDFLAGS@
 

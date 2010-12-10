@@ -10,6 +10,5 @@ netbotz_so_SOURCES = main.c	\
 					 envmon_campicform.c
 
 netbotz_so_DEPENDENCIES = ../induction/libinduction.la
-netbotz_so_LDADD = ../induction/libinduction.la
 netbotz_so_LDFLAGS = @MODULE_LDFLAGS@
 

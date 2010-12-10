@@ -19,6 +19,5 @@ hp_so_SOURCES = main.c \
                    cpu_objform.c
 
 hp_so_DEPENDENCIES = ../induction/libinduction.la
-hp_so_LDADD = ../induction/libinduction.la
 hp_so_LDFLAGS = @MODULE_LDFLAGS@
 

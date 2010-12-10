@@ -15,6 +15,5 @@ actuator_so_SOURCES = customer.c \
 		  xml_render.c
 
 actuator_so_DEPENDENCIES = ../induction/libinduction.la
-actuator_so_LDADD = ../induction/libinduction.la
 actuator_so_LDFLAGS = @MODULE_LDFLAGS@
 

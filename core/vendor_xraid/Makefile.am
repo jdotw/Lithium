@@ -53,6 +53,5 @@ xraid_so_SOURCES = main.c \
 				   setup_item.c
 
 xraid_so_DEPENDENCIES = ../induction/libinduction.la
-xraid_so_LDADD = ../induction/libinduction.la
 xraid_so_LDFLAGS = @MODULE_LDFLAGS@
 

@@ -21,6 +21,5 @@ printer_so_SOURCES = main.c \
 					 alert_cntform.c
 
 printer_so_DEPENDENCIES = ../induction/libinduction.la
-printer_so_LDADD = ../induction/libinduction.la
 printer_so_LDFLAGS = @MODULE_LDFLAGS@
 

@@ -18,6 +18,5 @@ filer_so_SOURCES = main.c \
 				   cpu_objform.c
 
 filer_so_DEPENDENCIES = ../induction/libinduction.la
-filer_so_LDADD = ../induction/libinduction.la
 filer_so_LDFLAGS = @MODULE_LDFLAGS@
 

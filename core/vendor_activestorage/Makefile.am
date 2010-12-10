@@ -37,6 +37,5 @@ activestorage_so_SOURCES = main.c \
 				   psu_objfact.c
 
 activestorage_so_DEPENDENCIES = ../induction/libinduction.la
-activestorage_so_LDADD = ../induction/libinduction.la
 activestorage_so_LDFLAGS = @MODULE_LDFLAGS@
 

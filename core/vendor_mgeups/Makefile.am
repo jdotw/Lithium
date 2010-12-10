@@ -19,6 +19,5 @@ mgeups_so_SOURCES = main.c \
 					inputphase_item.c
 
 mgeups_so_DEPENDENCIES = ../induction/libinduction.la
-mgeups_so_LDADD = ../induction/libinduction.la
 mgeups_so_LDFLAGS = @MODULE_LDFLAGS@
 
