@@ -130,4 +130,5 @@ AC_OUTPUT(	Makefile 		\
           htdocs/images/Makefile \
           htdocs/include/Makefile \
           htdocs/Makefile \
+          conf/Makefile \
 		)
