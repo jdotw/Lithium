@@ -19,6 +19,3 @@ echo -n "Running 'automake' ... "
 automake -a
 echo "Done"
 
-ARGS=""
-echo "Running './configure $ARGS'"
-./configure $ARGS
