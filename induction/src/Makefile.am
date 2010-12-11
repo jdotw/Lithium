@@ -204,7 +204,7 @@ libinduction_la_SOURCES = printf.c \
 						  search_xml.c \
 						  memcheck.c
 
-libinduction_la_LDFLAGS = -version-info 0:0:0 -release $(VERSION)
+libinduction_la_LDFLAGS = -version-info 5
 
 include_HEADERS = induction.h
 

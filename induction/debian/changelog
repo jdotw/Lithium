@@ -1,0 +1,6 @@
+induction5 (5.0.9-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- James Wilson <jwilson@lithiumcorp.com>  Sat, 11 Dec 2010 15:16:59 +1100
+

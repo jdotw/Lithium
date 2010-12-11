@@ -1,0 +1,31 @@
+Source: induction5
+Priority: libs
+Maintainer: James Wilson <jwilson@lithiumcorp.com>
+Build-Depends: debhelper (>= 5), autotools-dev
+Standards-Version: 3.7.2
+Section: libs
+
+Package: libinduction5-dev
+Section: libdevel
+Architecture: any
+Depends: libinduction5 (= ${Source-Version})
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
+
+Package: libinduction5
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
+
+Package: libinduction5-dbg
+Section: libdevel
+Architecture: any
+Depends: libinduction5 (= ${binary:Version})
+Description: Perl 5 Compatible Regular Expression Library - debug symbols
+ This is a library of functions to support regular expressions whose syntax
+ and semantics are as close as possible to those of the Perl 5 language.
+ .
+ This package contains the debug symbols,
+
