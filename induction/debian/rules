@@ -54,6 +54,7 @@ clean:
 	-$(MAKE) distclean
 	rm -f config.sub config.guess
 	rm -f COPYING depcomp INSTALL install-sh ltmain.sh Makefile.in src/Makefile.in missing
+	rm -f configure
 
 	dh_clean 
 
