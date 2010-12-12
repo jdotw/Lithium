@@ -99,6 +99,7 @@ mkdir -m 0755 -p "$HTDOCSPATH/htdocs"
 cp -r /Library/Lithium/LithiumCore.app/Contents/Resources/htdocs/* "$HTDOCSPATH/htdocs"
 chown lithium:lithium "$HTDOCSPATH/htdocs"
 chown lithium:lithium "$HTDOCSPATH/logs"
+cp "/Library/Application Support/Lithium/ClientService/Resources/htdocs/include/defaults.php.osx" "/Library/Application Support/Lithium/ClientService/Resources/htdocs/include/defaults.php"
 
 # Set up SSL Certs 
 SSLPATH="$HTDOCSPATH/ssl"
