@@ -7,7 +7,7 @@
 # This special exception was added by Craig Small in version 0.37 of dh-make.
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+export DH_VERBOSE=1
 
 
 # These are used for cross-compiling and for saving the configure script
@@ -22,7 +22,8 @@ endif
 
 
 
-config.status: configure
+config.status: configure.ac
+
 	dh_testdir
 	# Add here commands to configure the package.
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""
@@ -31,6 +32,12 @@ endif
 ifneq "$(wildcard /usr/share/misc/config.guess)" ""
 	cp -f /usr/share/misc/config.guess config.guess
 endif
+
+	libtoolize --force
+	aclocal
+	autoconf
+	automake -a
+
 	./configure $(CROSS) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
 
 
@@ -53,6 +60,9 @@ clean:
 	# Add here commands to clean up after the build process.
 	[ ! -f Makefile ] || $(MAKE) distclean
 	rm -f config.sub config.guess
+	rm -f COPYING depcomp INSTALL install-sh ltmain.sh Makefile.in missing
+	rm -f `find * | grep Makefile\.in`
+	rm -f alocal.m4 configure
 
 	dh_clean 
 

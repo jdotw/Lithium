@@ -1,1 +1,0 @@
-shlibs:Depends=libcurl3 (>= 7.16.2-1), libxml2 (>= 2.6.27), libsnmp15 (>= 5.4.1~dfsg), libkrb53 (>= 1.6.dfsg.2), libinduction5 (>= 5.0.9), libc6 (>= 2.4)
