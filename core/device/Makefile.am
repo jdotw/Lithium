@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium
-pkglib_LTLIBRARIES = device.la
+module_PROGRAMS = device.so
 
-device_la_SOURCES = main.c \
+device_so_SOURCES = main.c \
                     form_main.c \
                     vendor.c \
                     vendor_load.c \
@@ -171,5 +171,5 @@ device_la_SOURCES = main.c \
 					procpro_xml_delete.c \
 					device_xml.c
 
-device_la_LDFLAGS = -module @MODULE_LDFLAGS@
+device_so_LDFLAGS = @MODULE_LDFLAGS@
 

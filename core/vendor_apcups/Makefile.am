@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = apcups.la
+module_PROGRAMS = apcups.so
 
-apcups_la_SOURCES = main.c \
+apcups_so_SOURCES = main.c \
 					upsinfo.c \
 					upsinfo_item.c \
 					battery.c \
@@ -23,5 +23,5 @@ apcups_la_SOURCES = main.c \
 					device_objfact.c \
 					device_item.c
  
-apcups_la_LDFLAGS = -module @MODULE_LDFLAGS@
+apcups_so_LDFLAGS = @MODULE_LDFLAGS@
 

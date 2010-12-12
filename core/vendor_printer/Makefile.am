@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = printer.la
+module_PROGRAMS = printer.so
 
-printer_la_SOURCES = main.c \
+printer_so_SOURCES = main.c \
 					 supplies.c \
 					 supplies_item.c \
 					 supplies_objfact.c \
@@ -20,5 +20,5 @@ printer_la_SOURCES = main.c \
 					 alert_objform.c \
 					 alert_cntform.c
 
-printer_la_LDFLAGS = -module @MODULE_LDFLAGS@
+printer_so_LDFLAGS = @MODULE_LDFLAGS@
 

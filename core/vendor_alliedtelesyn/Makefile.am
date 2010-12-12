@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = alliedtelesyn.la
+module_PROGRAMS = alliedtelesyn.so
 
-alliedtelesyn_la_SOURCES = main.c \
+alliedtelesyn_so_SOURCES = main.c \
 						   atcpu.c \
 						   atcpu_cntform.c \
 						   atcpu_item.c \
@@ -15,5 +15,5 @@ alliedtelesyn_la_SOURCES = main.c \
 						   snmp_iface_objform.c \
 						   snmp_iface_objfact.c
 
-alliedtelesyn_la_LDFLAGS = -module @MODULE_LDFLAGS@
+alliedtelesyn_so_LDFLAGS = @MODULE_LDFLAGS@
 

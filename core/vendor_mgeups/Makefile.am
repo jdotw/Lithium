@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = mgeups.la
+module_PROGRAMS = mgeups.so
 
-mgeups_la_SOURCES = main.c \
+mgeups_so_SOURCES = main.c \
 					upsinfo.c \
 					upsinfo_item.c \
 					battery.c \
@@ -18,5 +18,5 @@ mgeups_la_SOURCES = main.c \
 					inputphase_objfact.c \
 					inputphase_item.c
 
-mgeups_la_LDFLAGS = -module @MODULE_LDFLAGS@
+mgeups_so_LDFLAGS = @MODULE_LDFLAGS@
 

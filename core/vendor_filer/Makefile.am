@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = filer.la
+module_PROGRAMS = filer.so
 
-filer_la_SOURCES = main.c \
+filer_so_SOURCES = main.c \
 				   raid.c \
 				   raid_item.c \
 				   raid_objfact.c \
@@ -17,5 +17,5 @@ filer_la_SOURCES = main.c \
 				   cpu_cntform.c \
 				   cpu_objform.c
 
-filer_la_LDFLAGS = -module @MODULE_LDFLAGS@
+filer_so_LDFLAGS = @MODULE_LDFLAGS@
 

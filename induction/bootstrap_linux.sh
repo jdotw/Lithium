@@ -19,4 +19,3 @@ echo -n "Running 'automake' ... "
 automake -a
 echo "Done"
 
-./configure --host=i486-linux-gnu --build=i486-linux-gnu --prefix=/usr --mandir=${prefix}/share/man --infodir=${prefix}/share/info CFLAGS= LDFLAGS=-Wl,-z,defs

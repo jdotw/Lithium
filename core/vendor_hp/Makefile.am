@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = hp.la
+module_PROGRAMS = hp.so
 
-hp_la_SOURCES = main.c \
+hp_so_SOURCES = main.c \
                    mempool.c \
                    mempool_item.c \
                    mempool_objfact.c \
@@ -18,5 +18,5 @@ hp_la_SOURCES = main.c \
                    cpu_cntform.c \
                    cpu_objform.c
 
-hp_la_LDFLAGS = -module @MODULE_LDFLAGS@
+hp_so_LDFLAGS = @MODULE_LDFLAGS@
 

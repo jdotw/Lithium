@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = foundry.la
+module_PROGRAMS = foundry.so
 
-foundry_la_SOURCES = main.c \
+foundry_so_SOURCES = main.c \
 					 rserv.c \
 					 rserv_item.c \
 					 rserv_objfact.c \
@@ -23,5 +23,5 @@ foundry_la_SOURCES = main.c \
 					 vport_cntform.c \
 					 vport_objform.c
 
-foundry_la_LDFLAGS = -module @MODULE_LDFLAGS@
+foundry_so_LDFLAGS = @MODULE_LDFLAGS@
 

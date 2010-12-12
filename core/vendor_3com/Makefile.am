@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = 3com.la
+module_PROGRAMS = 3com.so
 
-3com_la_SOURCES = main.c \
+3com_so_SOURCES = main.c \
 				   fan.c \
 				   fan_item.c \
 				   fan_objfact.c \
@@ -28,5 +28,5 @@ pkglib_LTLIBRARIES = 3com.la
 				   expmodule_objform.c \
 				   expmodule_cntform.c
 
-3com_la_LDFLAGS = -module @MODULE_LDFLAGS@
+3com_so_LDFLAGS = @MODULE_LDFLAGS@
 

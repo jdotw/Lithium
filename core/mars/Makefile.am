@@ -1,12 +1,12 @@
 moduledir = $(libdir)/lithium
-pkglib_LTLIBRARIES = mars.la
+module_PROGRAMS = mars.so
 
-mars_la_SOURCES = main.c	\
+mars_so_SOURCES = main.c	\
 				  socket.c	\
 				  status.c	\
 				  rrd.c \
 				  rrd_proc.c \
 				  rrdcached.c
 
-mars_la_LDFLAGS = -module @MODULE_LDFLAGS@
+mars_so_LDFLAGS = @MODULE_LDFLAGS@
 

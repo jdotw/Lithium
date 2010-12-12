@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = snmpadv.la
+module_PROGRAMS = snmpadv.so
 
-snmpadv_la_SOURCES = main.c
+snmpadv_so_SOURCES = main.c
 
-snmpadv_la_LDFLAGS = -module @MODULE_LDFLAGS@
+snmpadv_so_LDFLAGS = @MODULE_LDFLAGS@
 

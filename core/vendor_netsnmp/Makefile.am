@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = netsnmp.la
+module_PROGRAMS = netsnmp.so
 
-netsnmp_la_SOURCES = main.c
+netsnmp_so_SOURCES = main.c
 
-netsnmp_la_LDFLAGS = -module @MODULE_LDFLAGS@
+netsnmp_so_LDFLAGS = @MODULE_LDFLAGS@
 

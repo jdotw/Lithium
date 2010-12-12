@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = vtrak.la
+module_PROGRAMS = vtrak.so
 
-vtrak_la_SOURCES = main.c \
+vtrak_so_SOURCES = main.c \
                    raidinfo.c \
                    raidinfo_item.c \
                    ctrl.c \
@@ -35,5 +35,5 @@ vtrak_la_SOURCES = main.c \
                    logdrv_item.c \
                    logdrv_objfact.c
 
-vtrak_la_LDFLAGS = -module @MODULE_LDFLAGS@
+vtrak_so_LDFLAGS = @MODULE_LDFLAGS@
 

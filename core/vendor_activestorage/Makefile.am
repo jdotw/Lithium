@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-pkglib_LTLIBRARIES = activestorage.la
+module_PROGRAMS = activestorage.so
 
-activestorage_la_SOURCES = main.c \
+activestorage_so_SOURCES = main.c \
                    volume.c \
                    volume_item.c \
                    volume_objfact.c \
@@ -36,5 +36,5 @@ activestorage_la_SOURCES = main.c \
 				   psu_item.c \
 				   psu_objfact.c
 
-activestorage_la_LDFLAGS = -module @MODULE_LDFLAGS@
+activestorage_so_LDFLAGS = @MODULE_LDFLAGS@
 

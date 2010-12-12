@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium
-pkglib_LTLIBRARIES = customer.la
+module_PROGRAMS = customer.so
 
-customer_la_SOURCES = main.c \
+customer_so_SOURCES = main.c \
                       form_main.c \
                       site.c \
                       site_sort.c \
@@ -259,5 +259,5 @@ customer_la_SOURCES = main.c \
 					  modb_xml_script_list.c \
 					  imagecache.c
 
-customer_la_LDFLAGS = -module @MODULE_LDFLAGS@
+customer_so_LDFLAGS = @MODULE_LDFLAGS@
 
