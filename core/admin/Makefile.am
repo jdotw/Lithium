@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium
-module_PROGRAMS = admin.so
+pkglib_LTLIBRARIES = libadmin.la
 
-admin_so_SOURCES = main.c \
+libadmin_la_SOURCES = main.c \
 				   customer.c \
 				   customer_sort.c \
 				   customer_resource.c \
@@ -21,4 +21,4 @@ admin_so_SOURCES = main.c \
 				   mib2c/lcTriggerTable.c \
 				   ../customer/lic_loadkeys.c
 
-admin_so_LDFLAGS = @MODULE_LDFLAGS@
+libadmin_la_LDFLAGS = -module @MODULE_LDFLAGS@

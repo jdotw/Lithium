@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 AC_INIT(construct/main.c)
 
 VERSION=5.0.9
-PACKAGE=core
+PACKAGE=lithium
 
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
@@ -23,7 +23,7 @@ case "${target}" in
   *darwin*) echo "*  Darwin host detected (${target}).";
             MODULE_LDFLAGS='-bundle -flat_namespace -undefined suppress'
             AC_DEFINE(OS_DARWIN) ;;
-  *) MODULE_LDFLAGS='-shared' ;;
+  *) MODULE_LDFLAGS='-no-undefined -module -avoid-version' ;;
 esac
 AC_SUBST(MODULE_LDFLAGS)
 

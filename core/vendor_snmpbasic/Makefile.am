@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = snmpbasic.so
+pkglib_LTLIBRARIES = snmpbasic.la
 
-snmpbasic_so_SOURCES = main.c
+snmpbasic_la_SOURCES = main.c
 
-snmpbasic_so_LDFLAGS = @MODULE_LDFLAGS@
+snmpbasic_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

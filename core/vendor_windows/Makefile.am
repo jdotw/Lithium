@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = windows.so
+pkglib_LTLIBRARIES = windows.la
 
-windows_so_SOURCES = main.c
+windows_la_SOURCES = main.c
 
-windows_so_LDFLAGS = @MODULE_LDFLAGS@
+windows_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

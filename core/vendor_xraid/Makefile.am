@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = xraid.so
+pkglib_LTLIBRARIES = xraid.la
 
-xraid_so_SOURCES = main.c \
+xraid_la_SOURCES = main.c \
 				   sysinfo.c \
 				   sysinfo_item.c \
 				   sysinfo_cntform.c \
@@ -52,5 +52,5 @@ xraid_so_SOURCES = main.c \
 				   setup.c \
 				   setup_item.c
 
-xraid_so_LDFLAGS = @MODULE_LDFLAGS@
+xraid_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

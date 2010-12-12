@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium
-module_PROGRAMS = actuator.so
+pkglib_LTLIBRARIES = actuator.la
 
-actuator_so_SOURCES = customer.c \
+actuator_la_SOURCES = customer.c \
                       form_get.c \
                       form_render.c \
                       main.c \
@@ -14,5 +14,5 @@ actuator_so_SOURCES = customer.c \
 		  xml_get.c \
 		  xml_render.c
 
-actuator_so_LDFLAGS = @MODULE_LDFLAGS@
+actuator_la_LDFLAGS = -module @MODULE_LDFLAGS@
 
