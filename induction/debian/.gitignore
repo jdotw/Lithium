@@ -2,3 +2,6 @@ tmp
 libinduction5-dbg
 libinduction5-dev
 libinduction5
+*debhelper
+*substvars
+files

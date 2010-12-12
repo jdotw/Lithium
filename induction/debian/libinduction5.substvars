@@ -1,1 +1,0 @@
-shlibs:Depends=libuuid1, libcurl3 (>= 7.16.2-1), libpq5 (>= 8.3~beta1), libdb4.6, libxml2 (>= 2.6.27), libsnmp15 (>= 5.4.1~dfsg), libkrb53 (>= 1.6.dfsg.2), libc6 (>= 2.4), libsqlite3-0 (>= 3.4.2)
