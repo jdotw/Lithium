@@ -4,6 +4,7 @@ includehtdocs_SCRIPTS = actuate.php \
 						customer.php \
 						defaults.php \
 						defaults.php.example \
+						defaults.php.linux \
 						form_get.php \
 						form_submit.php \
 						link.php \
