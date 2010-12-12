@@ -6,6 +6,8 @@ adminhtdocs_SCRIPTS = admin.css \
 					  index.php \
 					  network.php \
 					  setup.php \
+					  config.php \
+					  configfile.php \
 					  status.php \
 					  writecustomers.php \
 					  writenode.php \
