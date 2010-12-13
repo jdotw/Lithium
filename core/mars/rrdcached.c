@@ -15,6 +15,7 @@
 #include <induction/socket.h>
 
 #include "rrd.h"
+#include "config.h"
 
 /* Process management */
 
@@ -70,8 +71,11 @@ int m_rrdcached_spawn (i_resource *self)
     }
 
     /* Exec rrdtool */
-//    execlp("/Library/Lithium/LithiumCore.app/Contents/MacOS/lcrrdcached", "lcrrdcached", "-g", "-l", "/var/tmp/.lcrrdcached.sock", "-p", "/var/tmp/.lcrrdcached.pid", NULL);
+#ifdef OS_DARWIN
     execlp("sh", "sh", "/Library/Lithium/LithiumCore.app/Contents/MacOS/lcrrdcached_start.sh", NULL);
+#else
+    execlp("sh", "sh", "/usr/bin/lcrrdcached_start.sh", NULL);
+#endif
 
     exit (1);
   }

@@ -21,6 +21,7 @@
 #include <induction/path.h>
 
 #include "imagecache.h"
+#include "config.h"
 
 /*
  * Client Daemon Image Cache
@@ -57,7 +58,11 @@ int l_imagecache_purge_specific (i_resource *self, time_t max_age)
 
   /* Open dir */
   char *dirname;
+#ifdef OS_DARWIN
   asprintf (&dirname, "/Library/Application Support/Lithium/ClientService/Resources/htdocs/%s/image_cache", self->hierarchy->cust->name_str);
+#else
+  asprintf (&dirname, "/var/www/%s/image_cache", self->hierarchy->cust->name_str);
+#endif
   DIR *dir = opendir (dirname);
   if (!dir)
   { i_printf (1, "l_imagecache_purge failed to open vendor_module directory %s", dirname); free(dirname); return -1; }

@@ -24,6 +24,7 @@
 #include <induction/xml.h>
 
 #include "xmlgraph.h"
+#include "config.h"
 
 typedef struct l_xmlgraph_entity_s
 {
@@ -449,7 +450,11 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
   xmlNewChild (root_node, NULL, BAD_CAST "imagefile", BAD_CAST imagefile);
 
   /* Create full (filesystem) path to image */
+#ifdef OS_DARWIN
   asprintf (&imagefullpath, "/Library/Application Support/Lithium/ClientService/Resources/htdocs/%s/image_cache/%s", self->hierarchy->cust->name_str, imagefile); 
+#else
+  asprintf (&imagefullpath, "/var/www/%s/image_cache/%s", self->hierarchy->cust->name_str, imagefile); 
+#endif
   free (imagefile);
 
   /* Render graph */

@@ -28,6 +28,7 @@
 #include "case.h"
 #include "incident.h"
 #include "action.h"
+#include "config.h"
 
 #define PIPE_TIMEOUT_SECONDS 120
 
@@ -276,7 +277,11 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
   { i_printf (1, "l_action_exec failed to call fork()"); l_action_proc_free (proc); return -1; }
 
   /* Create fill path */
+#ifdef OS_DARWIN
   char *perlenv = "PERL5LIB=/Library/Lithium/LithiumCore.app/Contents/Resources/Perl";
+#else
+  char *perlenv = "";
+#endif
   char *fullpath;
   asprintf (&fullpath, "%s/action_scripts/%s", self->root, proc->script_file);
 
