@@ -95,9 +95,9 @@ int i_socket_callback_fdset_preprocessor (i_resource *self, fd_set *read_fdset, 
   if (write_fdset) FD_COPY (&static_write_fdset, write_fdset);
   if (except_fdset) FD_COPY (&static_except_fdset, except_fdset);
 #else
-  if (read_fdset) memcpy(&static_read_fdset, read_fdset, sizeof(fd_set));
-  if (write_fdset) memcpy(&static_write_fdset, write_fdset, sizeof(fd_set));
-  if (except_fdset) memcpy(&static_except_fdset, except_fdset, sizeof(fd_set));
+  if (read_fdset) memcpy(read_fdset, &static_read_fdset, sizeof(fd_set));
+  if (write_fdset) memcpy(write_fdset, &static_write_fdset, sizeof(fd_set));
+  if (except_fdset) memcpy(except_fdset, &static_except_fdset, sizeof(fd_set));
 #endif
 
   return static_highest_sockfd;

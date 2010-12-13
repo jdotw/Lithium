@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = netbotz.so
+pkglib_LTLIBRARIES = netbotz.la
 
-netbotz_so_SOURCES = main.c	\
+netbotz_la_SOURCES = main.c	\
 					 envmon.c	\
 					 envmon_item.c	\
 					 envmon_cntform.c \
@@ -9,5 +9,5 @@ netbotz_so_SOURCES = main.c	\
 					 envmon_campic.c \
 					 envmon_campicform.c
 
-netbotz_so_LDFLAGS = @MODULE_LDFLAGS@
+netbotz_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

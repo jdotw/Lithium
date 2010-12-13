@@ -1,6 +1,6 @@
 moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = icmp.so
+pkglib_LTLIBRARIES = icmp.la
 
-icmp_so_SOURCES = main.c
-icmp_so_LDFLAGS = @MODULE_LDFLAGS@
+icmp_la_SOURCES = main.c
+icmp_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

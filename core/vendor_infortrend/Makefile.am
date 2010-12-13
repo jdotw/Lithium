@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = infortrend.so
+pkglib_LTLIBRARIES = infortrend.la
 
-infortrend_so_SOURCES = main.c \
+infortrend_la_SOURCES = main.c \
 						ldrive.c \
 						ldrive_item.c \
 						ldrive_objfact.c \
@@ -14,5 +14,5 @@ infortrend_so_SOURCES = main.c \
 						cache.c \
 						cache_item.c
 
-infortrend_so_LDFLAGS = @MODULE_LDFLAGS@
+infortrend_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

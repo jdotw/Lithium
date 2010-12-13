@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = airport.so
+pkglib_LTLIBRARIES = airport.la
 
-airport_so_SOURCES = main.c \
+airport_la_SOURCES = main.c \
 					 sysinfo_refcb.c \
 					 client.c \
 					 client_objfact.c \
@@ -19,5 +19,5 @@ airport_so_SOURCES = main.c \
 					 physical_objform.c \
 					 physical_item.c
 
-airport_so_LDFLAGS = @MODULE_LDFLAGS@
+airport_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

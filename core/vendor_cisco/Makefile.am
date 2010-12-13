@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = cisco.so
+pkglib_LTLIBRARIES = cisco.la
 
-cisco_so_SOURCES = main.c \
+cisco_la_SOURCES = main.c \
                    mempool.c \
                    mempool_item.c \
                    mempool_objfact.c \
@@ -18,5 +18,5 @@ cisco_so_SOURCES = main.c \
 				   pixconn_cntform.c \
 				   pixconn_objform.c
 
-cisco_so_LDFLAGS = @MODULE_LDFLAGS@
+cisco_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

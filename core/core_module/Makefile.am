@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium
-module_PROGRAMS = core.so
+pkglib_LTLIBRARIES = core.la
 
-core_so_SOURCES = main.c \
+core_la_SOURCES = main.c \
                   resource_message.c \
                   spawn.c \
                   incoming.c \
@@ -13,5 +13,5 @@ core_so_SOURCES = main.c \
                   fork_clean_up.c \
                   heartbeat.c
 
-core_so_LDFLAGS = @MODULE_LDFLAGS@
+core_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = qlogic.so
+pkglib_LTLIBRARIES = qlogic.la
 
-qlogic_so_SOURCES = qlogic.c \
+qlogic_la_SOURCES = qlogic.c \
 					sensor.c \
 					sensor_item.c \
 					sensor_objfact.c \
@@ -31,5 +31,5 @@ qlogic_so_SOURCES = qlogic.c \
 					load_objform.c \
 					load_cntform.c
 
-qlogic_so_LDFLAGS = @MODULE_LDFLAGS@
+qlogic_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

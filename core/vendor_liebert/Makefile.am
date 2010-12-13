@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium/vendor_modules
-module_PROGRAMS = liebert.so
+pkglib_LTLIBRARIES = liebert.la
 
-liebert_so_SOURCES = main.c \
+liebert_la_SOURCES = main.c \
 					 temp.c \
 					 temp_item.c \
 					 temp_cntform.c \
@@ -26,5 +26,5 @@ liebert_so_SOURCES = main.c \
 					 opstats_cntform.c \
 					 opstats_objform.c
 
-liebert_so_LDFLAGS = @MODULE_LDFLAGS@
+liebert_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

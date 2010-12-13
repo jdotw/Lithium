@@ -1,7 +1,7 @@
 moduledir = $(libdir)/lithium
-module_PROGRAMS = client_handler.so
+pkglib_LTLIBRARIES = client_handler.la
 
-client_handler_so_SOURCES = main.c \
+client_handler_la_SOURCES = main.c \
                             msgproc_core.c \
                             msgproc_child.c \
                             relay.c \
@@ -10,5 +10,5 @@ client_handler_so_SOURCES = main.c \
                             child.c \
 			    reqtime.c
 
-client_handler_so_LDFLAGS = @MODULE_LDFLAGS@
+client_handler_la_LDFLAGS = -module @MODULE_LDFLAGS@
 
