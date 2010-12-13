@@ -40,10 +40,12 @@ int module_init (i_resource *self)
   gettimeofday (&global_start_tv, NULL);
 
   /* Ensure paths exist */
+#ifdef OS_DARWIN
   system ("mkdir -p /Library/Logs/Lithium");
   system ("mkdir -p /Library/Logs/Lithium/ClientService");
   system ("chown root:lithium /Library/Logs/Lithium/ClientService");
   system ("chmod g+w /Library/Logs/Lithium/ClientService");
+#endif
 
   /* Set rlimit */
   getrlimit(RLIMIT_NOFILE, &lim);

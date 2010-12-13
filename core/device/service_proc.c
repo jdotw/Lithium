@@ -24,6 +24,7 @@
 #include <induction/xml.h>
 
 #include "service.h"
+#include "config.h"
 
 #define PIPE_TIMEOUT_SECONDS 120
 
@@ -266,7 +267,11 @@ int l_service_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     { asprintf (&fullpath, "%s/service_scripts/%s", self->root, proc->script_file); }
 
     /* Exec */
+#ifdef OS_DARWIN
     char *perlenv = "PERL5LIB=/Library/Lithium/LithiumCore.app/Contents/Resources/Perl";    
+#else
+    char *perlenv = "";    
+#endif
     if (proc->temp_config_file && strlen(proc->temp_config_file) > 0)
     { num = execlp ("env", "env", perlenv, fullpath, proc->command_str, proc->temp_config_file, NULL); }
     else

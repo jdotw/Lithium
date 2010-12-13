@@ -32,6 +32,8 @@
 #include "xsanregistry.h"
 #include "incident.h"
 
+#include "build_config.h"
+
 extern i_resource *global_self;
 
 /* Local resource manipulation functions 
@@ -378,7 +380,11 @@ int i_resource_local_terminate (i_hashtable *res_table, i_resource_address *res_
       {
         /* Child process forked to perform a hung process log */
         char *command_str;
+#ifdef OS_DARWIN
         asprintf (&command_str, "/Library/Lithium/LithiumCore.app/Contents/MacOS/hang_reporter.sh %i", res->construct->pid);
+#else
+        asprintf (&command_str, "/usr/bin/hang_reporter.sh %i", res->construct->pid);
+#endif
         execlp ("/bin/sh", "sh", "-c", command_str, NULL);
         free (command_str);
         exit (0);
