@@ -21,9 +21,9 @@ AM_CONFIG_HEADER(device/snmp.h)
 echo "TARGET: ${target}"
 case "${target}" in
   *darwin*) echo "*  Darwin host detected (${target}).";
-            MODULE_LDFLAGS='-bundle -flat_namespace -undefined suppress'
+            MODULE_LDFLAGS='-bundle -flat_namespace -undefined suppress -avoid-version'
             AC_DEFINE(OS_DARWIN) ;;
-  *) MODULE_LDFLAGS='-shared' ;;
+  *) MODULE_LDFLAGS='-no-undefined -avoid-version' ;;
 esac
 AC_SUBST(MODULE_LDFLAGS)
 

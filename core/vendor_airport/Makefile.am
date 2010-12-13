@@ -1,4 +1,4 @@
-moduledir = $(libdir)/lithium/vendor_modules
+pkglibdir = $(libdir)/lithium/vendor_modules
 pkglib_LTLIBRARIES = airport.la
 
 airport_la_SOURCES = main.c \

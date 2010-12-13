@@ -1,4 +1,4 @@
-moduledir = $(libdir)/lithium/vendor_modules
+pkglibdir = $(libdir)/lithium/vendor_modules
 pkglib_LTLIBRARIES = 3com.la
 
 3com_la_SOURCES = main.c \

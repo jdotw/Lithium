@@ -1,4 +1,4 @@
-moduledir = $(libdir)/lithium/vendor_modules
+pkglibdir = $(libdir)/lithium/vendor_modules
 pkglib_LTLIBRARIES = xserve_g5.la xserve_intel.la osx_server.la osx_client.la
 
 common_SOURCES = csv.c \
