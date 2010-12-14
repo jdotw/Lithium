@@ -10,10 +10,14 @@
 
 #import "LTTableViewController.h"
 
+@class LTEntity;
+
 @interface LTIncidentListTableViewController : LTTableViewController 
 {
 	UISegmentedControl *sortSegment;
 	NSArray *sortedChildren;
+	
+	LTEntity *device;
 }
 
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
@@ -23,5 +27,6 @@
 
 @property (copy) NSArray *sortedChildren;
 @property (readonly) BOOL refreshInProgress;
+@property (nonatomic,retain) LTEntity *device;
 
 @end

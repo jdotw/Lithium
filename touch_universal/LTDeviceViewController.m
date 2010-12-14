@@ -14,6 +14,8 @@
 #import "LTGraphView.h"
 #import "LTObjectIconViewController.h"
 #import "LTEntityDescriptor.h"
+#import "LTEntityTableViewController.h"
+#import "LTIncidentListTableViewController.h"
 
 @interface LTDeviceViewController (Private)
 
@@ -30,7 +32,7 @@
 
 @implementation LTDeviceViewController
 
-@synthesize device=_device, selectedContainer, selectedObject, entityToHighlight;
+@synthesize device=_device, selectedContainer, selectedObject, entityToHighlight, activePopoverController;
 
 #pragma mark -
 #pragma mark Entity Selection
@@ -82,7 +84,7 @@
 	}
 	
 	/* Hide pop-over */
-	if (sidePopoverController.popoverVisible) [sidePopoverController dismissPopoverAnimated:YES];
+	if (self.activePopoverController.popoverVisible) [activePopoverController dismissPopoverAnimated:YES];
 }
 
 - (void) setDevice:(LTEntity *)value
@@ -158,7 +160,7 @@
 	}
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark Selection Management (from ScrollView)
 
 - (NSString *) lastSelectionKey
@@ -422,7 +424,7 @@
 	[graphView setNeedsDisplayInRect:contentRect];
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark View Delegates
 
 - (void) viewDidLoad
@@ -478,6 +480,57 @@
 	horizontalScrollDropShadowView.hidden = YES;
 	[self.view bringSubviewToFront:containerEnclosingView];
 	[self resizeAndInvalidateGraphViewContent];
+	
+	/* Create top-right toolbar */
+	UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 200.0, 44.01)];
+	tools.tintColor = [UIColor colorWithWhite:0.29 alpha:1.0];
+	NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
+	UIBarButtonItem* bi = nil;
+
+	/* Availability */
+	bi = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"handshake_small.png"]
+														   style:UIBarButtonItemStylePlain
+														  target:self
+														  action:@selector(availabilityTapped:)];
+	bi.style = UIBarButtonItemStylePlain;
+	[buttons addObject:bi];
+	[bi release];
+	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];	
+	
+	/* Info (System Info) Button */
+	bi = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info_small.png"]
+										  style:UIBarButtonItemStylePlain
+										 target:self
+										 action:@selector(systemInfoTapped:)];
+	bi.style = UIBarButtonItemStylePlain;
+	[buttons addObject:bi];
+	[bi release];
+	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];
+
+	/* Incident List */
+	bi = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"flag_small.png"]
+										  style:UIBarButtonItemStylePlain
+										 target:self
+										 action:@selector(incidentsTapped:)];
+	bi.style = UIBarButtonItemStylePlain;
+	[buttons addObject:bi];
+	[bi release];
+	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];
+
+	/* Device Settings */
+	bi = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings_small.png"]
+										  style:UIBarButtonItemStylePlain
+										 target:self
+										 action:@selector(deviceSettingsTapped:)];
+	bi.style = UIBarButtonItemStylePlain;
+	[buttons addObject:bi];
+	[bi release];
+	
+	/* Place buttons in toolbar and add to nav bar */
+	[tools setItems:buttons animated:NO];
+	[buttons release];
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tools];
+	[tools release];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -564,7 +617,7 @@
 	
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark Scroll View Delegate
 
 
@@ -588,6 +641,7 @@
 	self.navigationItem.leftBarButtonItem = barButtonItem;
 	sidePopoverController = pc;
 	sidePopoverBarButtonItem = barButtonItem;
+	if (!self.activePopoverController) self.activePopoverController = pc;
 }
 
 - (void) splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
@@ -595,8 +649,85 @@
 	self.navigationItem.leftBarButtonItem = nil;
 	sidePopoverController = nil;
 	sidePopoverBarButtonItem = nil;
+	if (self.activePopoverController == sidePopoverController) self.activePopoverController = nil;
 }
 
+#pragma mark -
+#pragma mark Popover Delegate (Generic)
 
+- (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+	if (self.activePopoverController == popoverController) self.activePopoverController = nil;
+}
+
+#pragma mark -
+#pragma mark Toolbar Item Actions
+
+- (void) availabilityTapped:(id)sender
+{
+	if (self.activePopoverController) 
+	{
+		[self.activePopoverController dismissPopoverAnimated:YES];
+		self.activePopoverController = nil;
+	}
+	
+	LTEntity *availContainer = [self.device.childDict objectForKey:@"avail"];
+	if (availContainer)
+	{
+		LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:availContainer];
+		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+		self.activePopoverController = [[UIPopoverController alloc] initWithContentViewController:nc];
+		[self.activePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+		[vc release];
+		[nc release];
+	}	
+}
+
+- (void) systemInfoTapped:(id)sender
+{
+	if (self.activePopoverController) 
+	{
+		[self.activePopoverController dismissPopoverAnimated:YES];
+		self.activePopoverController = nil;
+	}
+	
+	LTEntity *container = [self.device.childDict objectForKey:@"snmp_sysinfo"];
+	if (container)
+	{
+		LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:container];
+		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+		self.activePopoverController = [[UIPopoverController alloc] initWithContentViewController:nc];
+		[self.activePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+		[vc release];
+		[nc release];
+	}	
+}
+
+- (void) incidentsTapped:(id)sender
+{
+	if (self.activePopoverController)
+	{
+		[self.activePopoverController dismissPopoverAnimated:YES];
+		self.activePopoverController = nil;
+	}
+	
+	if (self.device)
+	{
+		LTIncidentListTableViewController *vc = [[LTIncidentListTableViewController alloc] initWithStyle:UITableViewStylePlain];
+		vc.device = self.device;
+		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+		self.activePopoverController = [[UIPopoverController alloc] initWithContentViewController:nc];
+		[self.activePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+		[vc release];
+		[nc release];
+	}	
+}
+
+- (void) deviceSettingsTapped:(id)sender
+{
+	if (self.activePopoverController) [self.activePopoverController dismissPopoverAnimated:YES];
+
+	self.activePopoverController = nil;
+}
 
 @end

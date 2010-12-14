@@ -92,7 +92,7 @@
 	int incidentCount = 0;
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 	
-	if (sortSegment.selectedSegmentIndex == 0)
+	if (sortSegment && sortSegment.selectedSegmentIndex == 0)
 	{
 		/* Sort by device */
 		NSMutableArray *array = [NSMutableArray array];
@@ -132,7 +132,7 @@
 		[sortDesc release];
 		self.sortedChildren = array;
 	}
-	else if (sortSegment.selectedSegmentIndex == 1)
+	else if (!sortSegment || sortSegment.selectedSegmentIndex == 1)
 	{
 		/* Sort by Time */
 		NSMutableArray *array = [NSMutableArray array];
@@ -145,7 +145,15 @@
 		LTIncidentListGroup *theRestGroup = [[LTIncidentListGroup new] autorelease];
 		theRestGroup.title = @"Over 24 Hours Ago";
 		[array addObject:theRestGroup];
-		for (LTIncident *incident in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children.@unionOfArrays.incidentList.incidents"])
+		NSArray *incidents = nil;
+		if (self.device) 
+		{
+			NSPredicate *deviceFilter = [NSPredicate predicateWithBlock:^(id evalObj, NSDictionary *bindings) { return [((LTIncident *)evalObj).entityDescriptor.devName isEqualToString:self.device.name]; }];
+			incidents = [self.device.customer.incidentList.incidents filteredArrayUsingPredicate:deviceFilter];
+			NSLog (@"Device sorted incidents is %@", incidents);
+		}
+		else incidents = [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children.@unionOfArrays.incidentList.incidents"];
+		for (LTIncident *incident in incidents)
 		{
 			NSTimeInterval activeInterval = [[NSDate date] timeIntervalSinceDate:incident.startDate];
 			if (activeInterval < (60.0 * 60.0))
@@ -213,8 +221,10 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-
-//    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	self.tableView.backgroundColor = [UIColor colorWithWhite:0.29 alpha:1.0];
+	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	self.navigationItem.title = @"Incidents";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -237,6 +247,10 @@
 }
 */
 
+- (CGSize) contentSizeForViewInPopover
+{
+	return CGSizeMake(320.0, 200.0);
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
@@ -462,7 +476,7 @@
     [super dealloc];
 }
 
-@synthesize sortedChildren;
+@synthesize sortedChildren, device;
 
 - (BOOL) refreshInProgress
 {
@@ -475,6 +489,14 @@
 		}
 	}
 	return NO;
+}
+
+- (void) setDevice:(LTEntity *)value
+{
+	[device release];
+	device = [value retain];
+	
+	[self rebuildIncidentsArray];
 }
 
 @end
