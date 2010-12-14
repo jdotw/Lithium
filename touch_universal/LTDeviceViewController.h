@@ -60,8 +60,14 @@
 	UIPopoverController *sidePopoverController;
 	UIBarButtonItem *sidePopoverBarButtonItem;
 	
-	/* Pop Overs -- There must be only one!! */
+	/* Pop Overs -- There must be only one shown at any time !! */
 	UIPopoverController *activePopoverController;
+	
+	/* Top-right toolbar items */
+	UIBarButtonItem *availToolbarItem;
+	UIBarButtonItem *sysinfoToolbarItem;
+	UIBarButtonItem *incidentsToolbarItem;
+	UIBarButtonItem *settingsToolbarItem;	
 }
 
 - (void) displayDevice:(LTEntity *)device withInitialSelection:(LTEntity *)initialSelection;

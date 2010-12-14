@@ -103,8 +103,12 @@
 	[self rebuildContainerScrollView];
 	[self rebuildObjectScrollView];
 
-	/* Setup navigation item */
+	/* Setup navigation and toolbar items */
 	self.navigationItem.title = self.device.desc;
+	availToolbarItem.enabled = (self.device) ? YES : NO;
+	sysinfoToolbarItem.enabled = (self.device) ? YES : NO;
+	incidentsToolbarItem.enabled = (self.device) ? YES : NO;
+	settingsToolbarItem.enabled = (self.device) ? YES : NO;
 	
 	/* Add new observers */
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -344,6 +348,14 @@
 	CGFloat contentHeight = 90.0;
 	for (LTEntity *container in self.device.children)
 	{
+		/* Filter out unwanted containers */
+		if ([container.name isEqualToString:@"avail"]) continue;
+		if ([container.name isEqualToString:@"snmp_sysinfo"]) continue;
+		if ([container.name isEqualToString:@"snmp_sysinfo"]) continue;
+		if ([container.name isEqualToString:@"icmp"]) continue;
+		if ([container.name isEqualToString:@"ipaddr"]) continue;
+
+		/* Create view */
 		LTContainerIconViewController *vc = [[LTContainerIconViewController alloc] initWithContainer:container];
 		[containerScrollView addSubview:vc.view];
 		CGRect viewFrame = vc.view.frame;
@@ -485,46 +497,49 @@
 	UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 200.0, 44.01)];
 	tools.tintColor = [UIColor colorWithWhite:0.29 alpha:1.0];
 	NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
-	UIBarButtonItem* bi = nil;
 
 	/* Availability */
-	bi = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"handshake_small.png"]
-														   style:UIBarButtonItemStylePlain
-														  target:self
-														  action:@selector(availabilityTapped:)];
-	bi.style = UIBarButtonItemStylePlain;
-	[buttons addObject:bi];
-	[bi release];
+	availToolbarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"handshake_small.png"]
+														style:UIBarButtonItemStylePlain
+													   target:self
+													   action:@selector(availabilityTapped:)];
+	availToolbarItem.style = UIBarButtonItemStylePlain;
+	availToolbarItem.enabled = NO;
+	[buttons addObject:availToolbarItem];
+	[availToolbarItem release];
 	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];	
 	
 	/* Info (System Info) Button */
-	bi = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info_small.png"]
-										  style:UIBarButtonItemStylePlain
-										 target:self
-										 action:@selector(systemInfoTapped:)];
-	bi.style = UIBarButtonItemStylePlain;
-	[buttons addObject:bi];
-	[bi release];
+	sysinfoToolbarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info_small.png"]
+														  style:UIBarButtonItemStylePlain
+														 target:self
+														 action:@selector(systemInfoTapped:)];
+	sysinfoToolbarItem.style = UIBarButtonItemStylePlain;
+	sysinfoToolbarItem.enabled = NO;
+	[buttons addObject:sysinfoToolbarItem];
+	[sysinfoToolbarItem release];
 	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];
 
 	/* Incident List */
-	bi = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"flag_small.png"]
-										  style:UIBarButtonItemStylePlain
-										 target:self
-										 action:@selector(incidentsTapped:)];
-	bi.style = UIBarButtonItemStylePlain;
-	[buttons addObject:bi];
-	[bi release];
+	incidentsToolbarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"flag_small.png"]
+															style:UIBarButtonItemStylePlain
+														   target:self
+														   action:@selector(incidentsTapped:)];
+	incidentsToolbarItem.style = UIBarButtonItemStylePlain;
+	incidentsToolbarItem.enabled = NO;
+	[buttons addObject:incidentsToolbarItem];
+	[incidentsToolbarItem release];
 	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];
 
 	/* Device Settings */
-	bi = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings_small.png"]
-										  style:UIBarButtonItemStylePlain
-										 target:self
-										 action:@selector(deviceSettingsTapped:)];
-	bi.style = UIBarButtonItemStylePlain;
-	[buttons addObject:bi];
-	[bi release];
+	settingsToolbarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings_small.png"]
+														   style:UIBarButtonItemStylePlain
+														  target:self
+														  action:@selector(deviceSettingsTapped:)];
+	settingsToolbarItem.style = UIBarButtonItemStylePlain;
+	settingsToolbarItem.enabled = NO;
+	[buttons addObject:settingsToolbarItem];
+	[settingsToolbarItem release];
 	
 	/* Place buttons in toolbar and add to nav bar */
 	[tools setItems:buttons animated:NO];
