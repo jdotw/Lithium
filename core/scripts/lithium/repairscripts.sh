@@ -1,10 +1,18 @@
 #!/bin/bash
 
-# Repairs web links
+# Repairs action and service scripts
 
-if [ -e '/Library/Application Support/Lithium/Monitoring Data/History/lithium' ] ; then
+if [ -e '/Library/Lithium/LithiumCore.app' ] ; then
+  LITHIUMDATA="/Library/Application Support/Lithium/Monitoring Data/History/lithium"
+  SCRIPTPATH="/Library/Lithium/LithiumCore.app/Contents/Resources"
+else
+  LITHIUMDATA="/usr/var/lithium"
+  SCRIPTPATH="/usr/share"
+fi
 
-  cd '/Library/Application Support/Lithium/Monitoring Data/History/lithium'
+if [ -e "$LITHIUMDATA" ] ; then
+
+  cd "$LITHIUMDATA"
 
   for i in customer-*
   do
@@ -17,9 +25,9 @@ if [ -e '/Library/Application Support/Lithium/Monitoring Data/History/lithium' ]
 
     cd $i
     mkdir -p action_scripts
-    cp /Library/Lithium/LithiumCore.app/Contents/Resources/action_scripts/* action_scripts
+    cp "$SCRIPTPATH/action_scripts/*" action_scripts
     mkdir -p service_scripts
-    cp /Library/Lithium/LithiumCore.app/Contents/Resources/service_scripts/* service_scripts
+    cp "$SCRIPTPATH/service_scripts/*" service_scripts
     cd ..
 
   done

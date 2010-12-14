@@ -12,5 +12,6 @@ lithiumscripts_SCRIPTS = hang_reporter.sh \
 						lcrrdcached_start.sh \
 						repairscripts.sh \
 						repairweb.sh \
-						test_email_action.rb
+						test_email_action.rb \
+						update_and_install_perl_debs.sh
 

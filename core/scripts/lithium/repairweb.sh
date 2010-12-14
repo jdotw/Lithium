@@ -2,11 +2,16 @@
 
 # Repairs web links
 
-HTDOCSPATH='
+if [ -e '/Library/Lithium/LithiumCore.app' ] ; then
+  HTDOCSPATH="/Library/Application Support/Lithium/ClientService/Resources/htdocs"
+else
+  HTDOCSPATH="/usr/share/htdocs"
+fi
 
-if [ -e '/Library/Application Support/Lithium/ClientService/Resources/htdocs' ] ; then
 
-  cd '/Library/Application Support/Lithium/ClientService/Resources/htdocs/'
+if [ -e "$HTDOCSPATH" ] ; then
+
+  cd "$HTDOCSPATH"
 
   for i in *
   do
@@ -32,13 +37,13 @@ if [ -e '/Library/Application Support/Lithium/ClientService/Resources/htdocs' ] 
     cd $i
     chmod 775 .
     chown lithium:lithium .
-    ln -sf '/Library/Application Support/Lithium/ClientService/Resources/htdocs/default/admin' .
-    ln -sf '/Library/Application Support/Lithium/ClientService/Resources/htdocs/default/console.php' .
-    ln -sf '/Library/Application Support/Lithium/ClientService/Resources/htdocs/default/index.php' .
-    ln -sf '/Library/Application Support/Lithium/ClientService/Resources/htdocs/default/script.php' .
-    ln -sf '/Library/Application Support/Lithium/ClientService/Resources/htdocs/default/xml.php' .
-    ln -sf '/Library/Application Support/Lithium/ClientService/Resources/htdocs/default/diag_res.php' .
-    ln -sf '/Library/Application Support/Lithium/ClientService/Resources/htdocs/default/diag_auth.php' .
+    ln -sf "$HTDOCSPATH/default/admin" .
+    ln -sf "$HTDOCSPATH/default/console.php" .
+    ln -sf "$HTDOCSPATH/default/index.php" .
+    ln -sf "$HTDOCSPATH/default/script.php" .
+    ln -sf "$HTDOCSPATH/default/xml.php" .
+    ln -sf "$HTDOCSPATH/default/diag_res.php" .
+    ln -sf "$HTDOCSPATH/default/diag_auth.php" .
     mkdir cache
     mkdir image_cache
     chmod 777 cache
