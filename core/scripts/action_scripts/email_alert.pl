@@ -3,7 +3,6 @@ use XML::Simple;
 use Net::SMTP; 
 use Data::Dumper; 
 use Time::CTime; 
-use Net::IRC;
 
 ###################################
 #  Script Configuration Variables
