@@ -1,2 +1,8 @@
 usr/bin
 usr/sbin
+usr/lib
+usr/share
+usr/local
+var/lib
+usr/local/lib
+usr/local/share

@@ -1,0 +1,10 @@
+--- !ruby/object:RI::MethodDescription 
+aliases: []
+
+block_params: 
+comment: 
+full_name: Gem::load_commands
+is_singleton: true
+name: load_commands
+params: (*command_names)
+visibility: public

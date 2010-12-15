@@ -75,6 +75,10 @@ install: build
 	# Add here commands to install the package into debian/lithiumcore.
 	$(MAKE) DESTDIR=$(CURDIR)/debian/lithiumcore install
 
+	# Move perl and ruby files into place
+	mkdir -p $(CURDIR)/debian/tmp/usr/local
+	cp -rp $(CURDIR)/debian/perl/usr $(CURDIR)/debian/tmp/
+	cp -rp $(CURDIR)/debian/ruby/* $(CURDIR)/debian/tmp/
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -87,7 +91,6 @@ binary-arch: build install
 	dh_installchangelogs ChangeLog
 	dh_installdocs
 	dh_installexamples
-#	dh_install
 #	dh_installmenu
 #	dh_installdebconf	
 #	dh_installlogrotate
@@ -107,6 +110,7 @@ binary-arch: build install
 #	dh_makeshlibs
 	dh_installdeb
 	dh_shlibdeps
+	dh_install -a
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb
