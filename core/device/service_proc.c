@@ -270,7 +270,7 @@ int l_service_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
 #ifdef OS_DARWIN
     char *perlenv = "PERL5LIB=/Library/Lithium/LithiumCore.app/Contents/Resources/Perl";    
 #else
-    char *perlenv = "";    
+    char *perlenv = "PERL5LIB=/usr/local/lib/perl/5.8:/usr/local/share/perl/5.8:/usr/local/lib/perl5:/usr/local/share/perl5";    
 #endif
     if (proc->temp_config_file && strlen(proc->temp_config_file) > 0)
     { num = execlp ("env", "env", perlenv, fullpath, proc->command_str, proc->temp_config_file, NULL); }

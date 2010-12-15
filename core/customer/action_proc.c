@@ -280,7 +280,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
 #ifdef OS_DARWIN
   char *perlenv = "PERL5LIB=/Library/Lithium/LithiumCore.app/Contents/Resources/Perl";
 #else
-  char *perlenv = "";
+  char *perlenv = "PERL5LIB=/usr/local/lib/perl/5.8:/usr/local/share/perl/5.8:/usr/local/lib/perl5:/usr/local/share/perl5";
 #endif
   char *fullpath;
   asprintf (&fullpath, "%s/action_scripts/%s", self->root, proc->script_file);

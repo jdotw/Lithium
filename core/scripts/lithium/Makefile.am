@@ -13,6 +13,5 @@ lithiumscripts_SCRIPTS = hang_reporter.sh \
 						repairscripts.sh \
 						repairweb.sh \
 						test_email_action.rb \
-						update_and_install_perl_debs.sh \
 						migrate_lithium.rb
 
