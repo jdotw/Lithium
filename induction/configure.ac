@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(src/loop.c)
 
-VERSION=5.0.9
+VERSION=5.0.10
 PACKAGE=libinduction
 
 AC_CANONICAL_TARGET
@@ -29,6 +29,16 @@ AC_SEARCH_LIBS(crypt, crypto)
 
 # Check for DB4
 AC_SEARCH_LIBS(db_version, db-4, , AC_MSG_ERROR([Cannot build without DB4]))
+
+# Platform Check
+echo "TARGET: ${target}"
+case "${target}" in
+  *darwin*) echo "*  Darwin host detected (${target}).";
+            MODULE_LDFLAGS='-bundle -flat_namespace -undefined suppress -avoid-version'
+            AC_DEFINE(OS_DARWIN) ;;
+  *) MODULE_LDFLAGS='-no-undefined -avoid-version' ;;
+esac
+AC_SUBST(MODULE_LDFLAGS)
 
 # Check for PostgreSQL
 CFLAGS="$CFLAGS -I`pg_config --includedir`"

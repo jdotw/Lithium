@@ -30,10 +30,33 @@ DSYM_PATH="$HOME/Source/Lithium/build_framework/packaging/dSYM Archives/Core/$BU
 mkdir -p "$DSYM_PATH"
 
 #
+# Build Induction
+#
+
+cd "$BASEDIR/../../induction"
+
+make distclean
+./bootstrap_osx.sh
+if [ $? -ne 0 ]; then
+  echo "ERROR: Induction failed to bootstrap"
+  exit 1
+fi
+make -j`sysctl -n hw.ncpu`
+if [ $? -ne 0 ]; then
+  echo "ERROR: Induction failed to build"
+  exit 1
+fi
+make install
+if [ $? -ne 0 ]; then
+  echo "ERROR: Induction failed to install"
+  exit 1
+fi
+
+#
 # Build Lithium Core and Modules
 #
 
-cd "$PWD/../../core"
+cd "$BASEDIR/../../core"
 
 make distclean
 ./bootstrap_osx.sh
@@ -59,6 +82,7 @@ fi
 PREFIX=/Library/Lithium/LithiumCore.app
 FWPREFIX=/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0
 
+dsymutil -o "$DSYM_PATH/induction.dSYM" "$FWPREFIX/Libraries/libinduction-$BUILDNUM.0.dylib"
 dsymutil -o "$DSYM_PATH/lithium.dSYM" "$PREFIX/Contents/MacOS/lithium"
 dsymutil -o "$DSYM_PATH/mars.dSYM" "$FWPREFIX/Libraries/lithium/mars.so"
 dsymutil -o "$DSYM_PATH/admin.dSYM" "$FWPREFIX/Libraries/lithium/admin.so"

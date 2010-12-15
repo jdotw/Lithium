@@ -25,9 +25,9 @@ if [ -e "$LITHIUMDATA" ] ; then
 
     cd $i
     mkdir -p action_scripts
-    cp "$SCRIPTPATH/action_scripts/*" action_scripts
+    cp $SCRIPTPATH/action_scripts/* action_scripts
     mkdir -p service_scripts
-    cp "$SCRIPTPATH/service_scripts/*" service_scripts
+    cp $SCRIPTPATH/service_scripts/* service_scripts
     cd ..
 
   done
