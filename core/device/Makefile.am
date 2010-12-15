@@ -169,7 +169,12 @@ device_la_SOURCES = main.c \
 					procpro_xml_add.c \
 					procpro_xml_update.c \
 					procpro_xml_delete.c \
-					device_xml.c
+					device_xml.c \
+					xsnmp_raidstatus.c \
+					xsnmp_raidset.c \
+					xsnmp_raidset_objfact.c \
+					xsnmp_raiddrive.c \
+					xsnmp_raiddrive_objfact.c
 
 device_la_LDFLAGS = -module @MODULE_LDFLAGS@
 
