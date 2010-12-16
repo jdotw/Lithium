@@ -24,7 +24,7 @@
     if ((self = [super initWithFrame:frame])) 
 	{
 		CATiledLayer *tiledLayer = (CATiledLayer *) self.layer;
-		tiledLayer.tileSize = CGSizeMake(512.0, 512.0);
+		tiledLayer.tileSize = CGSizeMake(512.0, 900.0);
 		tiledLayer.levelsOfDetail = 4;
 		tiledLayer.levelsOfDetailBias = 1;
 		tiledLayer.delegate = self;
@@ -57,7 +57,7 @@
 	/* Determine draw size */
 	CGRect clipRect = CGContextGetClipBoundingBox(ctx);
 	NSLog (@"%@ asked to draw in %@", self, NSStringFromCGRect(clipRect));
-	if (clipRect.origin.y != 0.) return;
+//	if (clipRect.origin.y != 0.) return;
 	
 	/* Dimensions */
 	CGFloat zoomScale = 1.0;
@@ -106,7 +106,7 @@
 			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
 			CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), graphImageMargin, 
 										  clipRect.size.width, contentSize.height - (2 * graphImageMargin));
-			CGContextSetRGBFillColor(ctx, 0.0, 0.0, 1.0, 1.0);
+			CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.0);
 			CGContextFillRect(ctx, CGContextGetClipBoundingBox(ctx));
 			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));
 			CGContextScaleCTM(ctx, 1.0, -1.0 * yScale);

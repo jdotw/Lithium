@@ -434,6 +434,8 @@
 	graphScrollView.contentSize = contentRect.size;
 	[graphView setNeedsLayout];
 	[graphView setNeedsDisplayInRect:contentRect];
+	
+	NSLog (@"After rotate, graphView.frame is %@", NSStringFromCGRect(graphView.frame));
 }
 
 #pragma mark -

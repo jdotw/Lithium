@@ -80,7 +80,6 @@
 	[xmlString appendFormat:@"<height>%@</height>", [NSString stringWithFormat:@"%.0f", size.height]];
 	if (allWhiteLines) [xmlString appendFormat:@"<all_white>%@</all_white>", @"1"];
 	[xmlString appendString:@"</graph>"];	
-	NSLog (@"GRAPH XML: %@", xmlString);
 	
 	/* Refresh the incident list */
 	urlReq = [NSMutableURLRequest requestWithURL:[self.metric urlForXml:@"xmlgraph_render" timestamp:0]
