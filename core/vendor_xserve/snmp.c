@@ -34,6 +34,10 @@
 #include "device/snmp_nsram.h"
 #include "device/snmp_nsnwtput.h"
 #include "device/snmp_nstcpconn.h"
+#include "device/xsnmp_raidstatus.h"
+#include "device/xsnmp_raidset.h"
+#include "device/xsnmp_raiddrive.h"
+#include "device/xsnmp_raidvolume.h"
 #include "device/procpro.h"
 
 #include "snmp.h"
@@ -70,6 +74,10 @@ int v_snmp_enable (i_resource *self)
   { 
     v_xsanvol_enable(self); 
     // v_xsanvisdisk_enable(self); 
+    l_xsnmp_raidstatus_enable(self); 
+    l_xsnmp_raidset_enable(self); 
+    l_xsnmp_raiddrive_enable(self); 
+    l_xsnmp_raidvolume_enable(self); 
   }
 
   return 0;

@@ -173,6 +173,8 @@ device_la_SOURCES = main.c \
 					xsnmp_raidstatus.c \
 					xsnmp_raidset.c \
 					xsnmp_raidset_objfact.c \
+					xsnmp_raidvolume.c \
+					xsnmp_raidvolume_objfact.c \
 					xsnmp_raiddrive.c \
 					xsnmp_raiddrive_objfact.c
 

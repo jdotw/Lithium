@@ -55,11 +55,7 @@ i_db* i_db_open (i_resource *self, char *dbname)
     return NULL;
   }
 
-#ifdef HAVE_LIBDB_4     /* Berkeley DB 4+ handling */
   num = db->db->open (db->db, NULL, db->file, NULL, DB_BTREE, DB_CREATE, 0664);
-#else
-  num = db->db->open (db->db, db->file, NULL, DB_BTREE, DB_CREATE, 0664);
-#endif
   if (num != 0) 
   {
     i_printf (1, "i_db_open failed to open db %s (%s)", db->file, db_strerror(num));

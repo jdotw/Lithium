@@ -137,6 +137,7 @@ int l_xsnmp_raidstatus_enable (i_resource *self)
   raid->fw_version = l_snmp_metric_create (self, obj, "fw_version", "Firmware Version", METRIC_STRING, ".1.3.6.1.4.1.20038.2.1.6.1.6.0", NULL, RECMETHOD_NONE, SMET_PARENTREFMETHOD);
   
   raid->write_cache = l_snmp_metric_create (self, obj, "write_cache", "Write Cache", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.6.1.7.0", NULL, RECMETHOD_NONE, SMET_PARENTREFMETHOD);
+  raid->write_cache->summary_flag = 1;
   i_metric_enumstr_add (raid->write_cache, 1, "Enabled");
   i_metric_enumstr_add (raid->write_cache, 2, "Disabled");
   i_metric_enumstr_add (raid->write_cache, 0, "Unknown");

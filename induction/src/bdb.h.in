@@ -1,11 +1,4 @@
-#undef DB4_HEADER_SUBDIR
-#undef HAVE_LIBDB_4
-
-#ifdef DB4_HEADER_SUBDIR
-# include <db4/db.h>
-#else
-# include <db.h>
-#endif
+#include <db4/db.h>
 
 typedef struct
 {

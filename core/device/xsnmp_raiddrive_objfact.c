@@ -49,11 +49,25 @@ int l_xsnmp_raiddrive_objfact_fab (i_resource *self, i_container *cnt, i_object 
    */
 
   drive->raidset = l_snmp_metric_create (self, obj, "raidset", "RAID Set", METRIC_STRING, ".1.3.6.1.4.1.20038.2.1.6.3.1.3", index_oidstr, RECMETHOD_NONE, 0);
+  drive->raidset->summary_flag = 1;
   drive->size = l_snmp_metric_create (self, obj, "size", "Size", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.6.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
+  drive->size->summary_flag = 1;
   drive->size->alloc_unit = (1024 * 1024);
   drive->size->unit_str = strdup("byte");
-  drive->status = l_snmp_metric_create (self, obj, "status", "status", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.6.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
+  drive->size->valstr_func = i_string_volume_metric;
+  drive->size->kbase = 1024;
+  drive->status = l_snmp_metric_create (self, obj, "status", "Status", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.6.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
+  drive->status->summary_flag = 1;
+  i_metric_enumstr_add (drive->status, 1, "Reliable");
+  i_metric_enumstr_add (drive->status, 2, "Failure Predicted");
+  i_metric_enumstr_add (drive->status, 3, "Failed");
+  i_metric_enumstr_add (drive->status, 4, "Missing");
+  i_metric_enumstr_add (drive->status, 5, "Incompat.MetaData");
+  i_metric_enumstr_add (drive->status, 6, "Spare");
+  i_metric_enumstr_add (drive->status, 7, "Not Assigned");
+  i_metric_enumstr_add (drive->status, 0, "Unknown");
   drive->status_message = l_snmp_metric_create (self, obj, "status_message", "Status Message", METRIC_STRING, ".1.3.6.1.4.1.20038.2.1.6.3.1.6", index_oidstr, RECMETHOD_NONE, 0);
+  drive->status_message->summary_flag = 1;
   
   /*
    * End Metric Creation

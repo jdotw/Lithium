@@ -51,9 +51,13 @@ int l_xsnmp_raidset_objfact_fab (i_resource *self, i_container *cnt, i_object *o
   set->type = l_snmp_metric_create (self, obj, "type", "Type", METRIC_STRING, ".1.3.6.1.4.1.20038.2.1.6.2.1.3", index_oidstr, RECMETHOD_NONE, 0);
   set->size = l_snmp_metric_create (self, obj, "size", "Size", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.6.2.1.4", index_oidstr, RECMETHOD_NONE, 0);
   set->size->alloc_unit = (1024 * 1024);
+  set->size->valstr_func = i_string_volume_metric;
+  set->size->kbase = 1024;
   set->size->unit_str = strdup("byte");
   set->unused = l_snmp_metric_create (self, obj, "unused", "Unused", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.6.2.1.5", index_oidstr, RECMETHOD_NONE, 0);
   set->unused->alloc_unit = (1024 * 1024);
+  set->unused->valstr_func = i_string_volume_metric;
+  set->unused->kbase = 1024;
   set->unused->unit_str = strdup("byte");
   set->comments = l_snmp_metric_create (self, obj, "comments", "Comments", METRIC_STRING, ".1.3.6.1.4.1.20038.2.1.6.2.1.6", index_oidstr, RECMETHOD_NONE, 0);
   

@@ -1,12 +1,5 @@
 /* src/bdb.h.  Generated from bdb.h.in by configure.  */
-/* #undef DB4_HEADER_SUBDIR */
-#define HAVE_LIBDB_4 1
-
-#ifdef DB4_HEADER_SUBDIR
-# include <db4/db.h>
-#else
-# include <db.h>
-#endif
+#include <db.h>
 
 typedef struct
 {
