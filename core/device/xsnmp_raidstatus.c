@@ -37,6 +37,17 @@ i_container* l_xsnmp_raidstatus_cnt ()
 
 /* Sub-System Enable / Disable */
 
+int l_xsnmp_raidstatus_cnt_refcb (i_resource *self, i_entity *ent, void *passdata)
+{
+  if (static_cnt->hidden == 1)
+  {
+    i_object *obj = (i_object *) i_entity_child_get(ENTITY(static_cnt), "master");
+    l_xsnmp_raidstatus_item *status = (l_xsnmp_raidstatus_item *) obj->itemptr;
+    if (i_metric_curval(status->general_status)) static_cnt->hidden = 0;
+  }
+  return 0;   // Always return 0 to keep callback alive
+}
+
 int l_xsnmp_raidstatus_enable (i_resource *self)
 {
   int num;
@@ -56,6 +67,8 @@ int l_xsnmp_raidstatus_enable (i_resource *self)
   if (!static_cnt)
   { i_printf (1, "l_xsnmp_raidstatus_enable failed to create container"); return -1; }
   static_cnt->navtree_expand = NAVTREE_EXP_RESTRICT;
+  static_cnt->hidden = 1;
+  i_entity_refreshcb_add (ENTITY(static_cnt), l_xsnmp_raidstatus_cnt_refcb, NULL);
 
   /* Register entity */
   num = i_entity_register (self, ENTITY(self->hierarchy->dev), ENTITY(static_cnt));
@@ -158,5 +171,4 @@ int l_xsnmp_raidstatus_enable (i_resource *self)
 
   return 0;
 }
-
 
