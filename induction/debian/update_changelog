@@ -1,0 +1,12 @@
+#!/bin/bash
+
+BASEDIR=$PWD
+
+cd ../core_admin
+
+BUILDNUM=`agvtool mvers | grep '^Found CFBundleShortVersionString of'  | awk '{ print $4 }' | sed 's/\"//g'`
+BUILDNUM_SHORT=`agvtool vers | grep '^ '  | sed 's/^    //g'`
+
+cd $BASEDIR
+
+cat debian/changelog.template | sed "s/VERS/$BUILDNUM/" | sed "s/BUILD/$BUILDNUM_SHORT/" > debian/changelog

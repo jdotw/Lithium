@@ -1,4 +1,4 @@
-#include <db4/db.h>
+#include <db.h>
 
 typedef struct
 {

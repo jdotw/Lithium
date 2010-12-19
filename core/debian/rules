@@ -24,6 +24,8 @@ endif
 
 config.status: configure.ac
 
+	./debian/update_changelog
+
 	dh_testdir
 	# Add here commands to configure the package.
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""

@@ -15,6 +15,14 @@
 {
 	LTGraphView *graphView;
 	UIScrollView *scrollView;
+	
+	UILabel *leftMinLabel;
+	UILabel *leftAvgLabel;
+	UILabel *leftMaxLabel;
+	UILabel *rightMinLabel;
+	UILabel *rightAvgLabel;
+	UILabel *rightMaxLabel;
+	
 }
 
 @property (retain) LTGraphView *graphView;

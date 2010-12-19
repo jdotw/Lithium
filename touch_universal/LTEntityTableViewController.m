@@ -656,14 +656,14 @@
 	if ([notification object] == self.entity || [self.entity.children containsObject:[notification object]])
 	{
 		[self sortAndFilterChildren];	
-		if (entity && children.count == 1)
-		{
-			/* Entity refresh completed returning a lone entity; 
-			 * supplant our current entity with this lone entity
-			 */
-			LTEntity *singleEntity = [children objectAtIndex:0];
-			self.entity = singleEntity;
-		}
+//		if (entity && children.count == 1)
+//		{
+//			/* Entity refresh completed returning a lone entity; 
+//			 * supplant our current entity with this lone entity
+//			 */
+//			LTEntity *singleEntity = [children objectAtIndex:0];
+//			self.entity = singleEntity;
+//		}
 		[[self tableView] reloadData];
 	}
 }

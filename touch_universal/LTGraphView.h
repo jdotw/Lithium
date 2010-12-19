@@ -15,7 +15,8 @@
 	
 	CGPDFDocumentRef myDocumentRef;
     CGPDFPageRef myPageRef;
-	
+
+	NSDate *graphStartDate;						// The furtest-right point of the graph
 	BOOL minMaxSet;
 	BOOL invalidated;
 	float maxValue;
