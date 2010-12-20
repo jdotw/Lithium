@@ -8,6 +8,7 @@
 
 #import "LTMetricGraphTableViewCell.h"
 #import "LTMetricTableViewCellBackground.h"
+#import "LTGraphBackgroundView.h"
 
 @implementation LTMetricGraphTableViewCell
 
@@ -17,8 +18,10 @@
 	{
 		self.backgroundView = [[[LTMetricTableViewCellBackground alloc] initWithFrame:CGRectZero] autorelease];
         self.graphView = [[LTGraphView alloc] initWithFrame:CGRectZero];
-//		self.graphView.graphViewStyle = 2;
-		[self.contentView addSubview:self.graphView];
+		graphBackground = [[LTGraphBackgroundView alloc] initWithFrame:CGRectZero];
+		[self.contentView addSubview:graphBackground];
+		[self.contentView insertSubview:self.graphView aboveSubview:graphBackground];
+		graphBackground.opaque = NO;
 		
 		/* Create Labels */
 		leftMinLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
@@ -83,7 +86,11 @@
 		rightMaxLabel.layer.shadowOpacity = 0.8;
 		rightMaxLabel.textAlignment = UITextAlignmentRight;
 		[self.contentView addSubview:rightMaxLabel];
-		[self.graphView.maxLabels addObject:rightMaxLabel];		
+		[self.graphView.maxLabels addObject:rightMaxLabel];	
+		
+		graphBackground.minLabel = leftMinLabel;
+		graphBackground.avgLabel = leftAvgLabel;
+		graphBackground.maxLabel = leftMaxLabel;
     }
     return self;
 }
@@ -96,8 +103,7 @@
 - (void)layoutSubviews 
 {
     [super layoutSubviews];
-    CGRect contentRect = self.contentView.bounds;
-
+	
 	/* Label Layout */
 	CGFloat labelYPadding = 2.0;
 	CGFloat labelXPadding = 2.0;
@@ -120,6 +126,9 @@
 	CGFloat graphYOffset = labelYPadding + (labelHeight * 0.5);
 	graphView.frame = CGRectMake(CGRectGetMinX(self.contentView.bounds), CGRectGetMinY(self.contentView.bounds) + graphYOffset,
 								 CGRectGetWidth(self.contentView.bounds), CGRectGetHeight(self.contentView.bounds)-(2.0 * graphYOffset));
+	
+	/* Background layout */
+	graphBackground.frame = self.contentView.bounds;
 	
 }
 

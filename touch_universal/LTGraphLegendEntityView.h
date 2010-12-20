@@ -13,7 +13,8 @@
 @interface LTGraphLegendEntityView : UIView 
 {
 	UIView *swatchView;
-	UILabel *label;
+	UILabel *descLabel;
+	UILabel *valueLabel;
 	
 	UIColor *swatchColor;
 	LTEntity *entity;

@@ -124,11 +124,6 @@
 			NSLog (@"%@ using imagerect %@", self, NSStringFromCGRect(imageRect));
 
 
-			/* DEBUG */
-//			CGContextSetRGBStrokeColor(ctx, 1.0, 0.0, 0.0, 0.5);
-//			CGContextStrokeRect(ctx, CGContextGetClipBoundingBox(ctx));
-			/* END DEBUG */
-			
 			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));
 			CGContextScaleCTM(ctx, 1.0, -1.0 * yScale);
 			CGContextConcatCTM(ctx, CGPDFPageGetDrawingTransform(pageRef, kCGPDFCropBox, imageRect, 0, false));
@@ -171,7 +166,7 @@
 	CGFloat timeFontSize = 14.0;
 	if (self.bounds.size.height < 200.0) timeFontSize = 11.0;
 	CGFloat hourLineYOffset = 40.0;
-	if (self.bounds.size.height < 200.0) hourLineYOffset = 20.0;
+	if (self.bounds.size.height < 200.0) hourLineYOffset = 30.0;
 	
 	/* Find the hour/minutes at the end of the slice */
 	int hour = [endDateComponents hour];
@@ -211,9 +206,9 @@
 			
 			/* Draw current hour */
 			CGContextSetRGBFillColor (ctx, 1, 1, 1, .2);
-			CGContextShowTextAtPoint (ctx, hourRect.origin.x - (hourRect.size.width * 0.5), hourRect.origin.y, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
+			CGContextShowTextAtPoint (ctx, roundf(hourRect.origin.x - (hourRect.size.width * 0.5)), roundf(hourRect.origin.y), [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
 			CGContextSetRGBFillColor (ctx, 0, 0, 0, .8);
-			CGContextShowTextAtPoint (ctx, hourRect.origin.x - (hourRect.size.width * 0.5), hourRect.origin.y-1, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
+			CGContextShowTextAtPoint (ctx, roundf(hourRect.origin.x - (hourRect.size.width * 0.5)), roundf(hourRect.origin.y)-1, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
 		}
 		
 		/* Move (back) to prev hour */
@@ -251,9 +246,9 @@
 	{
 		/* Draw current date */
 		CGContextSetRGBFillColor (ctx, 1, 1, 1, .2);
-		CGContextShowTextAtPoint (ctx, dateRect.origin.x, dateRect.origin.y, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
+		CGContextShowTextAtPoint (ctx, roundf(dateRect.origin.x), roundf(dateRect.origin.y), [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
 		CGContextSetRGBFillColor (ctx, 0, 0, 0, .8);
-		CGContextShowTextAtPoint (ctx, dateRect.origin.x, dateRect.origin.y-1, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
+		CGContextShowTextAtPoint (ctx, roundf(dateRect.origin.x), roundf(dateRect.origin.y)-1, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
 				
 		/* Move (back) to prev date */
 		dateToDraw = [dateToDraw dateByAddingTimeInterval:-86400.0];

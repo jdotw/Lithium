@@ -7,11 +7,11 @@
 //
 
 #import "LTEntityIconView.h"
-
+#import "LTEntity.h"
 
 @implementation LTEntityIconView
 
-@synthesize selected, selectedBackgroundImage;
+@synthesize selected, selectedBackgroundImage, entity;
 
 - (id)initWithFrame:(CGRect)frame {
     
@@ -24,12 +24,43 @@
 
 - (void)drawRect:(CGRect)rect 
 {	
+	/* Calculate the rest to use for background
+	 * and selection washes; use width -2. to not
+	 * draw on the bevel
+	 */
+	CGRect washRect = self.bounds;
+	washRect.size.width -= 2.;
+
+	/* Draw entity status wash */
+	UIColor *statusColor = nil;
+	UIImage *statusImage = nil;
+	switch (entity.opState)
+	{
+		case 1:
+			statusImage = [UIImage imageNamed:@"LTTableViewCellBack-Yellow.png"];
+			statusColor = [UIColor yellowColor];
+			break;
+		case 2:
+			statusImage = [UIImage imageNamed:@"LTTableViewCellBack-Orange.png"];
+			statusColor = [UIColor orangeColor];
+			break;
+		case 3:
+			statusImage = [UIImage imageNamed:@"LTTableViewCellBack-Red.png"];
+			statusColor = [UIColor redColor];
+			break;
+	}	
+//	[statusImage drawInRect:washRect blendMode:kCGBlendModeColor alpha:0.2];	
+	if (statusColor)
+	{
+		[statusColor setFill];
+		[[UIBezierPath bezierPathWithRect:washRect] fillWithBlendMode:kCGBlendModeHue alpha:0.25];
+	}
+	
+	
 	/* Selected overlay wash */
 	if (self.selected && self.selectedBackgroundImage)
 	{
-		CGRect highlightRect = self.bounds;
-		highlightRect.size.width -= 2.;
-		[self.selectedBackgroundImage drawInRect:highlightRect];		
+		[self.selectedBackgroundImage drawInRect:washRect blendMode:kCGBlendModeNormal alpha:0.4];		
 	}
 	
 	/* Draw right-side edge */

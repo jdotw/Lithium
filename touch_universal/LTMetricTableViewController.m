@@ -33,14 +33,16 @@
 {
 	self = [super initWithNibName:@"LTEntityTableViewController" bundle:nil];
 	if (!self) return nil;
-	
-	self.metric = initMetric;
-	
+		
 	incidentList = [[LTIncidentList alloc] init];
 	incidentList.historicList = YES;
 	incidentList.maxResultsCount = 20;
+	
 	landscapeGraphRequest = [[LTMetricGraphRequest alloc] init];
 	landscapeGraphRequest.size = CGSizeMake(480.0, 320.0);
+	
+	self.metric = initMetric;	// Also sets up incidentList
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(incidentListRefreshFinished:)
 												 name:@"IncidentListRefreshFinished" 
@@ -252,6 +254,7 @@
 		{
 			graphViewCell = [[LTMetricGraphTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 			graphViewCell.graphView.metrics = [NSArray arrayWithObject:metric];
+			graphViewCell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell = graphViewCell;
 		}
 		else if ([CellIdentifier isEqualToString:@"Subtitle"])
@@ -546,7 +549,6 @@
 	
 	self.title = metric.desc;
 	
-	incidentList.customer = metric.customer;
 	incidentList.entity = metric;
 	
 	landscapeGraphRequest.metric = metric;	

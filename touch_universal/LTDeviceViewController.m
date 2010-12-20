@@ -675,6 +675,16 @@
 - (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
 	if (self.activePopoverController == popoverController) self.activePopoverController = nil;
+	availToolbarItem.enabled = YES;
+	sysinfoToolbarItem.enabled = YES;
+	incidentsToolbarItem.enabled = YES;
+	settingsToolbarItem.enabled = YES;
+	
+	/* Default to having the sidePopoverController as the
+	 * active PopOver controller because we get no 
+	 * feedback as to when this popover goes active
+	 */
+	if (sidePopoverController) self.activePopoverController = sidePopoverController;		
 }
 
 #pragma mark -
@@ -685,7 +695,7 @@
 	if (self.activePopoverController) 
 	{
 		[self.activePopoverController dismissPopoverAnimated:YES];
-		self.activePopoverController = nil;
+		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
 	}
 	
 	LTEntity *availContainer = [self.device.childDict objectForKey:@"avail"];
@@ -694,9 +704,12 @@
 		LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:availContainer];
 		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 		self.activePopoverController = [[UIPopoverController alloc] initWithContentViewController:nc];
+		self.activePopoverController.delegate = self;
 		[self.activePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 		[vc release];
 		[nc release];
+		
+		availToolbarItem.enabled = NO;
 	}	
 }
 
@@ -705,7 +718,7 @@
 	if (self.activePopoverController) 
 	{
 		[self.activePopoverController dismissPopoverAnimated:YES];
-		self.activePopoverController = nil;
+		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
 	}
 	
 	LTEntity *container = [self.device.childDict objectForKey:@"snmp_sysinfo"];
@@ -714,9 +727,12 @@
 		LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:container];
 		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 		self.activePopoverController = [[UIPopoverController alloc] initWithContentViewController:nc];
+		self.activePopoverController.delegate = self;
 		[self.activePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 		[vc release];
 		[nc release];
+
+		sysinfoToolbarItem.enabled = NO;
 	}	
 }
 
@@ -725,7 +741,7 @@
 	if (self.activePopoverController)
 	{
 		[self.activePopoverController dismissPopoverAnimated:YES];
-		self.activePopoverController = nil;
+		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
 	}
 	
 	if (self.device)
@@ -734,16 +750,24 @@
 		vc.device = self.device;
 		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 		self.activePopoverController = [[UIPopoverController alloc] initWithContentViewController:nc];
+		self.activePopoverController.delegate = self;
 		[self.activePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 		[vc release];
 		[nc release];
+
+		incidentsToolbarItem.enabled = NO;
 	}	
 }
 
 - (void) deviceSettingsTapped:(id)sender
 {
-	if (self.activePopoverController) [self.activePopoverController dismissPopoverAnimated:YES];
+	if (self.activePopoverController) 
+	{
+		[self.activePopoverController dismissPopoverAnimated:YES];
+		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
+	}
 
+	/* DEBUG FIX */
 	self.activePopoverController = nil;
 }
 

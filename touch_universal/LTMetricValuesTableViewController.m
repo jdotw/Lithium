@@ -8,6 +8,7 @@
 
 #import "LTMetricValuesTableViewController.h"
 #import "LTMetricValue.h"
+#import "LTTableViewCell.h"
 
 @implementation LTMetricValuesTableViewController
 
@@ -103,10 +104,10 @@
 		value = [historyList.values objectAtIndex:indexPath.row];
 	}
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    LTTableViewCell *cell = (LTTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Set up the cell...

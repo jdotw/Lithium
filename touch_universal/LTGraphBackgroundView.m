@@ -11,6 +11,8 @@
 
 @implementation LTGraphBackgroundView
 
+@synthesize minLabel, avgLabel, maxLabel;
+
 - (void)drawRect:(CGRect)rect 
 {
 	/* Draw min/avg/max lines */

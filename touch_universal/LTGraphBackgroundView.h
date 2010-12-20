@@ -11,9 +11,11 @@
 
 @interface LTGraphBackgroundView : UIView 
 {
-	IBOutlet UILabel *maxLabel;
-	IBOutlet UILabel *avgLabel;
-	IBOutlet UILabel *minLabel;	
 }
+
+@property (nonatomic, retain) IBOutlet UILabel *maxLabel;
+@property (nonatomic, retain) IBOutlet UILabel *avgLabel;
+@property (nonatomic, retain) IBOutlet UILabel *minLabel;	
+
 
 @end

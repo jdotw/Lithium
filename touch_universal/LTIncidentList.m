@@ -57,6 +57,7 @@
 		[xmlString appendString:[entityDescriptor xmlNodeString]];
 		[xmlString appendFormat:@"<max_count>%i</max_count>", self.maxResultsCount];
 		[xmlString appendString:@"</history>"];	
+		self.debug = YES;
 	}
 	
 	/* Refresh the incident list */
@@ -415,5 +416,12 @@
 @synthesize historicList;
 @synthesize maxResultsCount;
 @synthesize entity;
+- (void) setEntity:(LTEntity *)value
+{
+	[entity release];
+	entity = [value retain];
+	
+	self.customer = entity.customer;
+}
 
 @end

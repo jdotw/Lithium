@@ -230,20 +230,19 @@
 	}
 	else
 	{
-		/* Aggregated groups */
+		/* Aggregated groups, or top-level of showing groups only */
 		if ([children count] > 0)
 		{ 
-			if ([[[children objectAtIndex:indexPath.row] class] isSubclassOfClass:[LTGroup class]])
+			if ([[[children objectAtIndex:indexPath.row] class] isSubclassOfClass:[LTGroup class]] && [displayStyleSegment selectedSegmentIndex] == 0)
 			{ return 28.0; }
 			else 
 			{
 				return 48.0;
 			}
-
-			NSLog (@"Child is %@", [children objectAtIndex:indexPath.row]);
 		}
-		else 
+		else
 		{
+			/* No children/groups */
 			AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 			for (LTCoreDeployment *core in [appDelegate coreDeployments])
 			{
@@ -274,8 +273,8 @@
 	{ CellIdentifier = @"Metric"; }
 	else if (displayEntity)
 	{
-		if ([displayEntity isMemberOfClass:[LTGroup class]]) CellIdentifier = @"Group";
-		else CellIdentifier = @"Entity"; 
+		if ([displayEntity isMemberOfClass:[LTGroup class]] && [displayStyleSegment selectedSegmentIndex] == 0) CellIdentifier = @"GroupHeader";
+		else CellIdentifier = @"EntityOrGroup"; 
 	}
 	else 
 	{ CellIdentifier = @"Refresh"; }
@@ -287,7 +286,7 @@
 			LTMetricTableViewCell *metricCell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell = metricCell;
 		}
-		else if ([CellIdentifier isEqualToString:@"Entity"] || [CellIdentifier isEqualToString:@"Group"])
+		else if ([CellIdentifier isEqualToString:@"EntityOrGroup"] || [CellIdentifier isEqualToString:@"GroupHeader"])
 		{
 			cell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
@@ -303,8 +302,11 @@
 			{ cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
 			if ([displayEntity isMemberOfClass:[LTGroup class]])
 			{
-				cell.backgroundView = [[LTTableViewSectionHeaderView alloc] initWithFrame:CGRectZero];
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			}
+			if ([CellIdentifier isEqualToString:@"GroupHeader"])
+			{
+				cell.backgroundView = [[LTTableViewSectionHeaderView alloc] initWithFrame:CGRectZero];
 			}
 			
 		}
@@ -316,33 +318,6 @@
 	{
 		cell.textLabel.text = displayEntity.desc;
 		cell.entity = displayEntity;
-//		if ([displayEntity class] == [LTGroup class])
-//		{
-//			cell.imageView.image = nil;
-//		}
-//		else
-//		{
-//			switch (cell.entity.opState)
-//			{
-//				case -2:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
-//					break;				
-//				case 0:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
-//					break;
-//				case 1:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-//					break;
-//				case 2:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-//					break;
-//				case 3:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
-//					break;
-//				default:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
-//			}
-//		}
 		
 		if ([displayEntity.customer.coreDeployment reachable] && [displayEntity.customer.coreDeployment enabled]) cell.imageView.alpha = 1.0;
 		else cell.imageView.alpha = 0.5;
