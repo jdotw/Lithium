@@ -331,8 +331,8 @@
 			cell.indentationLevel = 0;
 		}
 		
-		cell.metricLabel.text = displayEntity.longDisplayString;
-		cell.deviceLabel.text = displayEntity.longLocationString;
+//		cell.metricLabel.text = displayEntity.longDisplayString;
+//		cell.deviceLabel.text = displayEntity.longLocationString;
 		if (displayEntity.type > 3) cell.showFullLocation = YES;
 		else cell.showFullLocation = NO;
 		if (displayEntity.type == 6) cell.showCurrentValue = YES;

@@ -551,6 +551,12 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	{ entity = entity.parent; }
 	return entity;
 }
+- (LTEntity *) container 
+{ return [self parentOfType:4]; }
+- (LTEntity *) object
+{ return [self parentOfType:5]; }
+- (LTEntity *) metric
+{ return [self parentOfType:6]; }
 @synthesize adminState;
 @synthesize opState;
 @synthesize currentValue;

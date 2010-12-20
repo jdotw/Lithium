@@ -281,10 +281,22 @@
     LTEntity *displayEntity  = nil;
 	if (indexPath.section == 0) displayEntity = [displayFavorites objectAtIndex:indexPath.row];
 	else if (indexPath.section == 1) displayEntity = [displayOrphans objectAtIndex:indexPath.row];
-	if (displaySegment.selectedSegmentIndex == 0 && displayEntity.recordEnabled == 1)
-	{ return 80.0f; }
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{
+		/* iPad */
+		if (displaySegment.selectedSegmentIndex == 0 && displayEntity.recordEnabled == 1)
+		{ return 120.0f; }
+		else
+		{ return 48.0; }
+	}
 	else
-	{ return 44.0; }
+	{
+		/* iPhone */
+		if (displaySegment.selectedSegmentIndex == 0 && displayEntity.recordEnabled == 1)
+		{ return 80.0f; }
+		else
+		{ return 44.0; }
+	}
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -330,7 +342,6 @@
 			graphViewCell = [(LTMetricGraphTableViewCell *) [[LTMetricGraphTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 		}
 		graphViewCell.graphView.metrics = [NSArray arrayWithObject:displayEntity];
-//		graphViewCell.graphView.graphViewStyle = 1;
 		
 		cell = graphViewCell;
 	}
@@ -343,34 +354,12 @@
 			metricCell = [[[LTMetricTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
 		}
 		metricCell.showFullLocation = YES;
+		metricCell.showCurrentValue = YES;
 		if (indexPath.section == 0)
 		{ metricCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
 		else
 		{ metricCell.accessoryType = UITableViewCellAccessoryNone; }
-		metricCell.textLabel.text = displayEntity.desc;
 		metricCell.entity = displayEntity;
-		metricCell.metricLabel.text = [NSString stringWithFormat:@"%@ %@ %@", displayEntity.desc, displayEntityDesc.cntDesc, displayEntityDesc.objDesc];
-		metricCell.deviceLabel.text = [NSString stringWithFormat:@"%@ @ %@ %@ %@", displayEntityDesc.devDesc, displayEntityDesc.siteDesc, displayEntityDesc.cntDesc, displayEntityDesc.objDesc];
-		switch (metricCell.entity.opState)
-		{
-			case -2:
-				metricCell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
-				break;
-			case 0:
-				metricCell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
-				break;
-			case 1:
-				metricCell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-				break;
-			case 2:
-				metricCell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-				break;
-			case 3:
-				metricCell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
-				break;
-			default:
-				metricCell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
-		}	
 		cell = metricCell;
 	}
     
@@ -389,23 +378,35 @@
 	if (indexPath.section == 0) 
 	{ viableEntity = [displayFavorites objectAtIndex:indexPath.row]; }
 	
-	UIViewController *viewController;
-	if (viableEntity.type == 6)
+	UIViewController *viewController = nil;
+
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 	{
-		/* Metric */
-		LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithMetric:viableEntity];
-		LTEntityDescriptor *entityDescriptor = [viableEntity entityDescriptor];
-		metricView.navigationItem.prompt = [NSString stringWithFormat:@"%@ @ %@ %@ %@", entityDescriptor.devDesc, entityDescriptor.siteDesc, entityDescriptor.cntDesc, entityDescriptor.objDesc];
-		viewController = metricView;	
+		/* iPad */
+		AppDelegate_Pad *appDelegate = (s
 	}
 	else
 	{
-		LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithEntity:viableEntity];
-		viewController = anotherViewController;
-	}	
-	
-	[self.navigationController pushViewController:viewController animated:YES];
-	[viewController release];
+		if (viableEntity.type == 6)
+		{
+			/* Metric */
+			LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithMetric:viableEntity];
+			LTEntityDescriptor *entityDescriptor = [viableEntity entityDescriptor];
+			metricView.navigationItem.prompt = [NSString stringWithFormat:@"%@ @ %@ %@ %@", entityDescriptor.devDesc, entityDescriptor.siteDesc, entityDescriptor.cntDesc, entityDescriptor.objDesc];
+			viewController = metricView;	
+		}
+		else
+		{
+			LTEntityTableViewController *anotherViewController = [[LTEntityTableViewController alloc] initWithEntity:viableEntity];
+			viewController = anotherViewController;
+		}	
+	}
+
+	if (viewController)
+	{
+		[self.navigationController pushViewController:viewController animated:YES];
+		[viewController release];
+	}
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath 

@@ -106,10 +106,10 @@
 	/* Clear text field backgrounds */
 	if ([[cell class] isSubclassOfClass:[LTMetricTableViewCell class]])
 	{
-		LTMetricTableViewCell *metricCell = (LTMetricTableViewCell *)cell;
-		metricCell.metricLabel.backgroundColor = [UIColor clearColor];
-		metricCell.currentValueLabel.backgroundColor = [UIColor clearColor];
-		metricCell.deviceLabel.backgroundColor = [UIColor clearColor];
+//		LTMetricTableViewCell *metricCell = (LTMetricTableViewCell *)cell;
+//		metricCell.metricLabel.backgroundColor = [UIColor clearColor];
+//		metricCell.currentValueLabel.backgroundColor = [UIColor clearColor];
+//		metricCell.deviceLabel.backgroundColor = [UIColor clearColor];
 	}	
 	else if ([[cell class] isSubclassOfClass:[LTEntityRefreshProgressViewCell class]])
 	{

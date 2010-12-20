@@ -7,7 +7,8 @@
 //
 
 #import "LTMetricTableViewCell.h"
-
+#import "LTEntity.h"
+#import "LTEntityDescriptor.h"
 
 @implementation LTMetricTableViewCell
 
@@ -15,14 +16,7 @@
 {
     if (self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier]) 
 	{
-//		self.currentValueLabel= [[UILabel alloc] initWithFrame:CGRectZero];
-//		self.currentValueLabel.backgroundColor = [UIColor clearColor];
-//		self.currentValueLabel.opaque = YES;
-//		self.currentValueLabel.font = [UIFont boldSystemFontOfSize:16.0];
-//		self.currentValueLabel.textAlignment = UITextAlignmentRight;
-//		self.currentValueLabel.text = @"---";
-//		[self.contentView addSubview:self.currentValueLabel];
-//		[self.currentValueLabel release];		
+		self.detailTextLabel.font = [UIFont systemFontOfSize:11.0];
     }
     return self;
 }
@@ -30,31 +24,17 @@
 - (void)layoutSubviews 
 {
     [super layoutSubviews];
-//	
-//	/* Layout the current value label */
-//			
-//	CGFloat xOffset = CGRectGetMinX(self.contentView.bounds) + ([self indentationLevel] * [self indentationWidth]) + 8.0;
-//	if (self.imageView.image)
-//	{ xOffset  = xOffset + 36.0; }
-//	CGFloat contentWidth = CGRectGetWidth(self.contentView.bounds) - xOffset;
-//	
-//	CGFloat leftColWidth;
-//	if (showCurrentValue) leftColWidth = contentWidth - 80.0;
-//	else leftColWidth = contentWidth - 42.0;
-//	
-//	CGFloat rightOffset = leftColWidth + 8.0;
-//	CGRect valueLabelFrame = CGRectMake(xOffset + rightOffset, 5.0, contentWidth - rightOffset - 4, 32);
-//	self.currentValueLabel.frame = valueLabelFrame;
-//	
-//	/* Adjust (shrink) the text labels */
-//	CGRect textLabelRect = self.textLabel.frame;
-//	textLabelRect.size.width = textLabelRect.size.width - valueLabelFrame.size.width;
-//	if (!self.detailTextLabel.hidden)
+	
+//	if ([subtitleLabel.text length] > 0)
 //	{
-//		CGRect detailTextLabelRect = self.textLabel.frame;
-//		detailTextLabelRect.size.width = detailTextLabelRect.size.width - valueLabelFrame.size.width;
+//		CGRect textLabelRect = self.textLabel.frame;
+//		textLabelRect.origin.y -= subtitleLabel.font.pointSize * 0.8;
+//		self.textLabel.frame = CGRectIntegral(textLabelRect);
+//		subtitleLabel.frame = CGRectMake(CGRectGetMinX(self.textLabel.frame), 
+//										 CGRectGetMaxY(self.textLabel.frame) + 2.0,
+//										 CGRectGetWidth(self.textLabel.frame), subtitleLabel.font.pointSize);
 //	}
-//	
+//	else subtitleLabel.frame = CGRectZero;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated 
@@ -62,22 +42,14 @@
 	/*
 	 Views are drawn most efficiently when they are opaque and do not have a clear background, so in newLabelForMainText: the labels are made opaque and given a white background.  To show selection properly, however, the views need to be transparent (so that the selection color shows through).  
      */
-	[super setSelected:selected animated:animated];
-	
-//	self.metricLabel.highlighted = selected;
-//	self.metricLabel.opaque = !selected;
-//	
-//	self.currentValueLabel.highlighted = selected;
-//	self.currentValueLabel.opaque = !selected;
+	[super setSelected:selected animated:animated];	
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
+	[valueLabel release];
     [super dealloc];
 }
-
-@synthesize metricLabel;
-@synthesize deviceLabel;
-@synthesize currentValueLabel;
 
 - (void) setText:(NSString *)value
 { return; }
@@ -90,25 +62,47 @@
 	}
 	[super setEntity:value];
 	
-	metricLabel.text = self.entity.desc;
-	self.detailTextLabel.text = self.entity.currentValue;
-	self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
-	self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
-	self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
-	self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
-	self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
-	self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
-	self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
-//	currentValueLabel.text = self.entity.currentValue;
-//	currentValueLabel.text = [currentValueLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
-//	currentValueLabel.text = [currentValueLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
-//	currentValueLabel.text = [currentValueLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
-//	currentValueLabel.text = [currentValueLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
-//	currentValueLabel.text = [currentValueLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
-//	currentValueLabel.text = [currentValueLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
-//	currentValueLabel.text = [currentValueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
-	if (self.entity.type == 6) self.showCurrentValue = YES;
-	else self.showCurrentValue = NO;
+	NSString *desc = self.entity.desc;
+	if (![self.entity.entityDescriptor.objName isEqualToString:@"master"]) 
+	{ desc = [NSString stringWithFormat:@"%@ %@", self.entity.entityDescriptor.objName, desc]; }
+ 	self.textLabel.text = desc;
+	
+	if (showCurrentValue)
+	{
+		valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		valueLabel.backgroundColor = [UIColor clearColor];
+		valueLabel.textColor = [UIColor whiteColor];
+		valueLabel.highlightedTextColor = [UIColor whiteColor];
+		valueLabel.opaque = NO;
+		valueLabel.font = [UIFont systemFontOfSize:16.0];
+		valueLabel.textAlignment = UITextAlignmentRight;
+		self.accessoryView = valueLabel;
+		[valueLabel release];
+		
+		valueLabel.text = self.entity.currentValue;
+		valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
+		valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
+		valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
+		valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
+		valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
+		valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
+		valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
+		
+		CGSize stringSize = [valueLabel.text sizeWithFont:valueLabel.font];
+		valueLabel.frame = CGRectMake(0., 0., stringSize.width, stringSize.height);
+	}
+	else 
+	{
+		self.accessoryView = nil;
+		valueLabel = nil;
+	}
+	if (showFullLocation)
+	{
+		NSMutableString *location = [NSMutableString stringWithFormat:@"%@ %@", self.entity.entityDescriptor.devDesc, self.entity.entityDescriptor.cntDesc];
+		if (![self.entity.entityDescriptor.siteName isEqualToString:@"default"]) [location appendFormat:@" @ %@", self.entity.entityDescriptor.siteDesc];
+		
+		self.detailTextLabel.text = location;
+	}
 }
 
 @synthesize showFullLocation;

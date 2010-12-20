@@ -527,7 +527,10 @@
 											   destructiveButtonTitle:nil
 													otherButtonTitles:@"Add To Favorites", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-	[actionSheet showFromTabBar:(UITabBar *)self.tabBarController.view];
+	if ([sender isMemberOfClass:[UIBarButtonItem class]])
+	{ [actionSheet showFromBarButtonItem:sender animated:YES]; }
+	else if (self.tabBarController)
+	{ [actionSheet showFromTabBar:(UITabBar *)self.tabBarController.view]; }
 	[actionSheet release];
 }
 

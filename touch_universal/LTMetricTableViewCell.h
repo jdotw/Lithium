@@ -12,7 +12,7 @@
 
 @interface LTMetricTableViewCell : LTEntityTableViewCell 
 {
-    UILabel *currentValueLabel;
+	UILabel *valueLabel;
 	
 	BOOL showFullLocation;
 	BOOL showCurrentValue;
@@ -20,11 +20,7 @@
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 
-@property (retain) UILabel *metricLabel;
-@property (retain) UILabel *deviceLabel;
-@property (retain) UILabel *currentValueLabel;
 @property (assign) BOOL showFullLocation;
 @property (assign) BOOL showCurrentValue;
-
 
 @end

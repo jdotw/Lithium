@@ -122,6 +122,9 @@
 
 @property (readonly) NSArray *graphableMetrics;
 
+@property (readonly) LTEntity *container;
+@property (readonly) LTEntity *object;
+@property (readonly) LTEntity *metric;
 
 
 @end
