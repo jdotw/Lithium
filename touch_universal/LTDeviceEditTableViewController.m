@@ -8,6 +8,7 @@
 
 #import "LTDeviceEditTableViewController.h"
 #import "LTEntity.h"
+#import "LTDeviceEditModuleListTableViewController.h"
 
 @implementation LTDeviceEditTableViewController
 
@@ -104,6 +105,13 @@
 		devUseICMP = [self propertySwitch];
 		devUseLOM = [self propertySwitch];
 		devUseProcessList = [self propertySwitch];
+		
+		/* Setup Module Description Dict */
+		moduleDescriptions = [[NSMutableDictionary dictionary] retain];
+		[moduleDescriptions setObject:@"Promise VTrak" forKey:@"vtrak"];
+		[moduleDescriptions setObject:@"Xserve RAID" forKey:@"xraid"];
+		[moduleDescriptions setObject:@"Active Storage" forKey:@"activestorage"];
+		[moduleDescriptions setObject:@"Infortrend Controller" forKey:@"infortrend"];
     }
     return self;	
 }
@@ -555,15 +563,16 @@
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
-    */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	if ([self typeForSection:indexPath.section] == TYPE_BASIC && indexPath.row == 0)
+	{
+		/* Selected Device Module Type */
+		LTDeviceEditModuleListTableViewController *vc = [[LTDeviceEditModuleListTableViewController alloc] initWithCustomer:self.device.customer
+																											  deviceEditTVC:self];
+		[self.navigationController pushViewController:vc animated:YES];
+		[vc release];
+	}
 }
 
 #pragma mark -

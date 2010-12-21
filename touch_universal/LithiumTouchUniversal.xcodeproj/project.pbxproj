@@ -22,6 +22,7 @@
 		102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C692611BCE8F40032D043 /* LTDeviceViewController.xib */; };
 		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
 		102C695811BD61170032D043 /* LTContainerIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C695611BD61170032D043 /* LTContainerIconViewController.xib */; };
+		10318BEF12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10318BEE12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m */; };
 		104B84A21293123500E77D88 /* noiseback-light.png in Resources */ = {isa = PBXBuildFile; fileRef = 104B84A11293123500E77D88 /* noiseback-light.png */; };
 		104B84F1129315A100E77D88 /* LTEntityTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */; };
 		104B8550129317AD00E77D88 /* LTFavoritesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */; };
@@ -167,6 +168,8 @@
 		102C695411BD61170032D043 /* LTContainerIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTContainerIconViewController.h; sourceTree = "<group>"; };
 		102C695511BD61170032D043 /* LTContainerIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTContainerIconViewController.m; sourceTree = "<group>"; };
 		102C695611BD61170032D043 /* LTContainerIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTContainerIconViewController.xib; sourceTree = "<group>"; };
+		10318BED12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditModuleListTableViewController.h; sourceTree = "<group>"; };
+		10318BEE12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditModuleListTableViewController.m; sourceTree = "<group>"; };
 		104B84A11293123500E77D88 /* noiseback-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noiseback-light.png"; sourceTree = "<group>"; };
 		104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTEntityTableViewController.xib; sourceTree = "<group>"; };
 		104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTFavoritesTableViewController.xib; sourceTree = "<group>"; };
@@ -406,6 +409,15 @@
 			name = "Container View";
 			sourceTree = "<group>";
 		};
+		10318BEC12C0797400A76C73 /* Device Module Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10318BED12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.h */,
+				10318BEE12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m */,
+			);
+			name = "Device Module Selection";
+			sourceTree = "<group>";
+		};
 		104F698612C03E6600074651 /* Shared UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,6 +432,7 @@
 		104F699612C03EF000074651 /* Device Setup (iPad Only) */ = {
 			isa = PBXGroup;
 			children = (
+				10318BEC12C0797400A76C73 /* Device Module Selection */,
 				104F699712C03F2300074651 /* LTDeviceEditTableViewController.h */,
 				104F699812C03F2300074651 /* LTDeviceEditTableViewController.m */,
 			);
@@ -1065,6 +1078,7 @@
 				104DEFA81283796D008A7936 /* LTGraphBackgroundView.m in Sources */,
 				10CF1EC712A2E05600CD120C /* LTContainerIconViewGraphView.m in Sources */,
 				104F699912C03F2300074651 /* LTDeviceEditTableViewController.m in Sources */,
+				10318BEF12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

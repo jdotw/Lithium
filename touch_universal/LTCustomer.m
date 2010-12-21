@@ -14,6 +14,11 @@
 
 @implementation LTCustomer
 
+@synthesize customModules;
+@synthesize url;
+@synthesize cluster;
+@synthesize node;
+
 - (LTCustomer *) init
 {
 	[super init];
@@ -35,6 +40,7 @@
 	[url release];
 	[cluster release];
 	[node release];
+	[customModules release];
 	[super dealloc];
 }
 
@@ -42,27 +48,42 @@
 {
 	[super xmlParserDidFinish:rootNode];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCustomerRefreshFinished" object:self];
+
+	/* Parse Custom Module List */
+	self.customModules = [NSMutableDictionary dictionary];
+	for (LCXMLNode *entityNode in rootNode.children)
+	{
+		if ([entityNode.name isEqualToString:@"entity"])
+		{
+			for (LCXMLNode *listNode in entityNode.children)
+			{
+				if ([listNode.name isEqualToString:@"custom_module_list"])
+				{
+					for (LCXMLNode *vendorNode in listNode.children)
+					{
+						NSLog (@"VendorNode props is %@", vendorNode.properties);
+						[self.customModules setObject:[vendorNode.properties objectForKey:@"desc"] 
+											   forKey:[vendorNode.properties objectForKey:@"name"]];
+					}
+				}
+			}
+		}
+	}
 }
 
-@synthesize url;
-@synthesize cluster;
-@synthesize node;
-
 - (NSString *) resourceAddress
-{ return [NSString stringWithFormat:@"%@:%@:5:0:%@", cluster, node, name]; }
+{ return [NSString stringWithFormat:@"%@:%@:5:0:%@", cluster, node, self.name]; }
 
 - (NSString *) entityAddress
-{ return [NSString stringWithFormat:@"1:%@", name]; }
+{ return [NSString stringWithFormat:@"1:%@", self.name]; }
 
 @synthesize incidentList;
 
 - (void) setUuidString:(NSString *)value
 {
-	if ([value isEqualToString:uuidString]) return;
+	if ([value isEqualToString:self.uuidString]) return;	
+	[super setUuidString:value];
 	
-	[uuidString release];
-	uuidString = [value copy];
-
 	if ([(AppDelegate *)[[UIApplication sharedApplication] delegate] pushToken])
 	{
 		LTPushRegistrationRequest *pushReq = [[LTPushRegistrationRequest alloc] initWithCustomer:self
@@ -74,5 +95,6 @@
 }											  
 
 @synthesize groupTree;
+
 
 @end

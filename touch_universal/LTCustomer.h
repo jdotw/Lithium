@@ -26,5 +26,6 @@
 @property (copy) NSString *node;
 @property (retain) LTIncidentList *incidentList;
 @property (retain) id groupTree;
+@property (nonatomic, retain) NSMutableDictionary *customModules;
 
 @end

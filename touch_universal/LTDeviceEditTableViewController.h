@@ -33,6 +33,9 @@
 	UISwitch *devUseProcessList;
 	UISwitch *devUseLOM;
 	
+	/* Module Descriptions */
+	NSMutableDictionary *moduleDescriptions;
+	
 }
 
 - (id)initWithDeviceToEdit:(LTEntity *)initDevice;
