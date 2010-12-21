@@ -42,12 +42,13 @@
 	{
 		[appDelegate.operationQueue addOperation:self];
 	}
+	refreshInProgress = YES;
 }
 
 - (void) main
 {
 	/* Check state */
-	if (refreshInProgress || ![(LTCoreDeployment *)customer.coreDeployment enabled])
+	if (![(LTCoreDeployment *)customer.coreDeployment enabled])
 	{
 		return;
 	}
@@ -102,7 +103,6 @@
 	[urlReq setHTTPBody:postData];
 	
 	refreshStage = 1;
-	refreshInProgress = YES;
 	receivedData=[[NSMutableData data] retain];
 	
 	[super main];

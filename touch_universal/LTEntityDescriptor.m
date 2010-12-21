@@ -231,7 +231,7 @@
 - (id) copy
 {
 	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
-	return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+	return [[NSKeyedUnarchiver unarchiveObjectWithData:data] retain];
 }
 
 #pragma mark "XML Methods"

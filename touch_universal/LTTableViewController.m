@@ -8,7 +8,6 @@
 
 #import "LTTableViewController.h"
 
-#import "LTMetricTableViewCell.h"
 #import "LTTableViewSectionHeaderView.h"
 #import "LTEntityRefreshProgressViewCell.h"
 
@@ -104,14 +103,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	/* Clear text field backgrounds */
-	if ([[cell class] isSubclassOfClass:[LTMetricTableViewCell class]])
-	{
-//		LTMetricTableViewCell *metricCell = (LTMetricTableViewCell *)cell;
-//		metricCell.metricLabel.backgroundColor = [UIColor clearColor];
-//		metricCell.currentValueLabel.backgroundColor = [UIColor clearColor];
-//		metricCell.deviceLabel.backgroundColor = [UIColor clearColor];
-	}	
-	else if ([[cell class] isSubclassOfClass:[LTEntityRefreshProgressViewCell class]])
+	if ([[cell class] isSubclassOfClass:[LTEntityRefreshProgressViewCell class]])
 	{
 		LTEntityRefreshProgressViewCell *progressCell = (LTEntityRefreshProgressViewCell *) cell;
 		progressCell.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];

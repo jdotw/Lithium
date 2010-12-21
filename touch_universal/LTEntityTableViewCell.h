@@ -8,14 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-#import "LTEntity.h"
 #import "LTTableViewCell.h"
+
+@class LTEntity;
 
 @interface LTEntityTableViewCell : LTTableViewCell 
 {
-	LTEntity *entity;
+	UILabel *valueLabel;
 }
 
-@property (retain) LTEntity *entity;
+- (id) initWithReuseIdentifier:(NSString *)reuseIdentifier;
+
+@property (nonatomic,retain) LTEntity *entity;
+@property (nonatomic,assign) BOOL showFullLocation;
+@property (nonatomic,assign) BOOL showCurrentValue;
 
 @end

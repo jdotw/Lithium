@@ -16,6 +16,7 @@
 #import "LTEntityDescriptor.h"
 #import "LTEntityTableViewController.h"
 #import "LTIncidentListTableViewController.h"
+#import "LTDeviceEditTableViewController.h"
 
 @interface LTDeviceViewController (Private)
 
@@ -57,6 +58,12 @@
 		self.device = device;
 	}
 	
+	/* Hide any active pop-overs */
+	if (self.activePopoverController.popoverVisible) 
+	{
+		[activePopoverController dismissPopoverAnimated:YES];
+	}	
+	
 	/* Check to see if a lower-than-device entity was specified. 
 	 * If so, set self.entityToHighlight which will be selected 
 	 * once the first refresh is done
@@ -81,10 +88,8 @@
 		modalVC.modalPresentationStyle = UIModalPresentationFormSheet;
 		[self presentModalViewController:modalVC animated:YES];
 		[modalVC release];
-	}
-	
-	/* Hide pop-over */
-	if (self.activePopoverController.popoverVisible) [activePopoverController dismissPopoverAnimated:YES];
+		modalRefreshInProgress = YES;
+	}	
 }
 
 - (void) setDevice:(LTEntity *)value
@@ -149,18 +154,37 @@
 			}
 		}
 	}
+
+	/* Select Object */
+	LTEntity *object = [liveEntity parentOfType:5];
+	if (object)
+	{
+		/* Select the container */
+		[self setSelectedObject:object];
+		for (LTObjectIconViewController *vc in objectIconViewControllers)
+		{
+			if (vc.selected)
+			{
+				[objectScrollView scrollRectToVisible:vc.view.frame animated:NO];
+				break;
+			}
+		}
+	}	
 	
-	/* Check to see if we're graphable */
+	/* Clear active popover */
+	if (self.activePopoverController) 
+	{
+		[self.activePopoverController dismissPopoverAnimated:YES];
+		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
+	}	
+	
+	/* Display popover for metric in graph legend */
 	LTEntity *metric = [liveEntity parentOfType:6];
-	if ([container.graphableMetrics containsObject:metric])
+	UIPopoverController *popover = [graphLegendTableViewController highlightEntity:metric];
+	if (popover) 
 	{
-		/* We're graphable */
-		[graphLegendTableViewController highlightEntity:metric];
-	}
-	else if ([container.graphableMetrics count] > 0)
-	{
-		/* The specified metric isn't graphable, use the first graphable */
-		[graphLegendTableViewController highlightEntity:[container.graphableMetrics objectAtIndex:0]];
+		self.activePopoverController = popover;
+		popover.delegate = self;
 	}
 }
 
@@ -767,8 +791,15 @@
 		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
 	}
 
-	/* DEBUG FIX */
-	self.activePopoverController = nil;
+	if (self.device)
+	{
+		LTDeviceEditTableViewController *vc = [[LTDeviceEditTableViewController alloc] initWithDeviceToEdit:self.device];
+		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+		nc.modalPresentationStyle = UIModalPresentationFormSheet;
+		[self presentModalViewController:nc animated:YES];
+		[vc release];
+		[nc release];
+	}
 }
 
 @end

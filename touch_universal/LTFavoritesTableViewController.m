@@ -7,12 +7,12 @@
 //
 
 #import "LTFavoritesTableViewController.h"
-#import "LTMetricTableViewCell.h"
 #import "LTEntityTableViewCell.h"
 #import "LTMetricGraphTableViewCell.h"
 #import "LTMetricTableViewController.h"
 #import "LTEntityDescriptor.h"
 #import "LTEntityTableViewController.h"
+#import "AppDelegate_Pad.h"
 
 @implementation LTFavoritesTableViewController
 
@@ -295,7 +295,7 @@
 		if (displaySegment.selectedSegmentIndex == 0 && displayEntity.recordEnabled == 1)
 		{ return 80.0f; }
 		else
-		{ return 44.0; }
+		{ return 48.0; }
 	}
 }
 
@@ -330,7 +330,6 @@
 	{
 		displayEntity = [displayOrphans objectAtIndex:indexPath.row];
 	}
-	LTEntityDescriptor *displayEntityDesc = displayEntity.entityDescriptor;
 
 	UITableViewCell *cell = nil;
 	if (displaySegment.selectedSegmentIndex == 0 && displayEntity.recordEnabled == 1)
@@ -348,10 +347,10 @@
 	else
 	{
 		NSString *CellIdentifier = @"Metric";
-		LTMetricTableViewCell *metricCell = (LTMetricTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		LTEntityTableViewCell *metricCell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (metricCell == nil) 
 		{
-			metricCell = [[[LTMetricTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+			metricCell = [[[LTEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
 		}
 		metricCell.showFullLocation = YES;
 		metricCell.showCurrentValue = YES;
@@ -383,7 +382,8 @@
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 	{
 		/* iPad */
-		AppDelegate_Pad *appDelegate = (s
+		AppDelegate_Pad *appDelegate = (AppDelegate_Pad *) [[UIApplication sharedApplication] delegate];
+		[appDelegate displayEntityInDetailView:viableEntity];
 	}
 	else
 	{

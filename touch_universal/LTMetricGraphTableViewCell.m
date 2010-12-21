@@ -7,7 +7,7 @@
 //
 
 #import "LTMetricGraphTableViewCell.h"
-#import "LTMetricTableViewCellBackground.h"
+#import "LTMetricGraphTableViewCellBackground.h"
 #import "LTGraphBackgroundView.h"
 
 @implementation LTMetricGraphTableViewCell
@@ -16,7 +16,7 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) 
 	{
-		self.backgroundView = [[[LTMetricTableViewCellBackground alloc] initWithFrame:CGRectZero] autorelease];
+		self.backgroundView = [[[LTMetricGraphTableViewCellBackground alloc] initWithFrame:CGRectZero] autorelease];
         self.graphView = [[LTGraphView alloc] initWithFrame:CGRectZero];
 		graphBackground = [[LTGraphBackgroundView alloc] initWithFrame:CGRectZero];
 		[self.contentView addSubview:graphBackground];

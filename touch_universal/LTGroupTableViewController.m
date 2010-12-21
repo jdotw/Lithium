@@ -10,7 +10,6 @@
 #import "LTEntityTableViewCell.h"
 #import "AppDelegate.h"
 #import "LTCoreDeployment.h"
-#import "LTMetricTableViewCell.h"
 #import "LTMetricTableViewController.h"
 #import "LTTableViewCellBackground.h"
 #import "LTTableViewCellSelectedBackground.h"
@@ -45,10 +44,7 @@
 
 - (void)viewDidLoad 
 {
-    [super viewDidLoad];
-	
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-																							target:self action:@selector(refreshTouched:)] autorelease];
+    [super viewDidLoad];	
 }
 
 - (void) awakeFromNib
@@ -278,24 +274,19 @@
 	}
 	else 
 	{ CellIdentifier = @"Refresh"; }
-    LTMetricTableViewCell *cell = (LTMetricTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    LTEntityTableViewCell *cell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-		if ([CellIdentifier isEqualToString:@"Metric"])
-		{
-			LTMetricTableViewCell *metricCell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			cell = metricCell;
-		}
-		else if ([CellIdentifier isEqualToString:@"EntityOrGroup"] || [CellIdentifier isEqualToString:@"GroupHeader"])
-		{
-			cell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
-		}
-		else if ([CellIdentifier isEqualToString:@"Refresh"])
+		if ([CellIdentifier isEqualToString:@"Refresh"])
 		{
 			cell = [[[LTEntityRefreshProgressViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
+		else 
+		{
+			cell = [[[LTEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+		}
+
 		if (displayEntity) 
 		{
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) 

@@ -16,7 +16,6 @@
 #import "LTMetricValuesTableViewController.h"
 #import "LTActionTableViewController.h"
 #import "AppDelegate.h"
-#import "LTMetricTableViewCell.h"
 #import "LTTableViewCellBackground.h"
 #import "LTTableViewCellSelectedBackground.h"
 #import "LTFavoritesTableViewController.h"
@@ -24,6 +23,7 @@
 #import "LTIncidentList.h"
 #import "LTMetricLandscapeViewController.h"
 #import "LTTableViewController.h"
+#import "LTTableViewCell.h"
 
 #define kAnimationKey @"transitionViewAnimation"
 
@@ -215,10 +215,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if ([self sectionTypeForSection:indexPath.section] == SECTION_GRAPH)
-	{ return 161.0f; }
-	else
-	{ return 48.0f; }
+	switch ([self sectionTypeForSection:indexPath.section]) {
+		case SECTION_GRAPH:
+			return 161.;
+		case SECTION_RECENT:
+			return 62.;
+		default:
+			return 48.;
+	}
 }
 
 // Customize the appearance of table view cells.

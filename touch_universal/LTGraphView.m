@@ -56,7 +56,6 @@
 {
 	/* Determine draw size */
 	CGRect clipRect = CGContextGetClipBoundingBox(ctx);
-	NSLog (@"%@ Asked to draw in %@ (tileSize is %@)", self, NSStringFromCGRect(clipRect), NSStringFromCGSize(((CATiledLayer*)self.layer).tileSize));
 	
 	/* Dimensions */
 	CGFloat zoomScale = 1.0;
@@ -83,7 +82,6 @@
 		
 		if (clipRect.origin.x != 0. || (clipRect.size.width != layer.tileSize.width && clipRect.size.width != contentSize.width)) 
 		{
-			NSLog (@"%@ Skipping bogus call to draw slice %@", self, NSStringFromCGRect(clipRect));
 			return;
 		}
 	}
@@ -91,7 +89,6 @@
 	/* Time orientation, by default the visible width of the graph is 24 hours */
 	int visibleSeconds = 86400;		/* 24 Hours */
 	CGFloat offset = contentSize.width - CGRectGetMaxX(clipRect);
-	NSLog (@"offset is %f", offset);
 	CGFloat secondsPerPixel = (zoomScale * visibleSeconds) / CGRectGetWidth(self.superview.frame);
 	
 	/* Check for cached request */
@@ -99,6 +96,8 @@
 	LTMetricGraphRequest *graphReq = [graphRequestCache objectForKey:NSStringFromCGRect(clipRect)];
 	if (graphReq && !graphReq.refreshInProgress)
 	{
+		NSLog (@"%p attempting to draw image %p with slice %@", self, graphReq.imageData, NSStringFromCGRect(clipRect));
+		
 		/* Draw image */
 		CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)[graphReq imageData]);
 		if (provider)
@@ -121,7 +120,6 @@
 			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
 			CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), graphImageMargin, 
 										  clipRect.size.width, contentSize.height - (2 * graphImageMargin));
-			NSLog (@"%@ using imagerect %@", self, NSStringFromCGRect(imageRect));
 
 
 			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));
@@ -142,7 +140,6 @@
 		graphReq.size = CGSizeMake(clipRect.size.width, self.superview.frame.size.height);
 		graphReq.endSec = (int) [graphStartDate timeIntervalSince1970] - (offset * secondsPerPixel);
 		graphReq.startSec = graphReq.endSec - (clipRect.size.width * secondsPerPixel);
-		NSLog (@"endSet=%li(%@) startSec=%li(%@)", graphReq.endSec, [NSDate dateWithTimeIntervalSince1970:graphReq.endSec], graphReq.startSec, [NSDate dateWithTimeIntervalSince1970:graphReq.startSec]);
 		graphReq.rectToInvalidate = clipRect;
 		[graphReq.metrics addObjectsFromArray:self.metrics];
 		if (!graphReq.customer && graphReq.metrics.count > 0)
@@ -152,6 +149,46 @@
 		
 		/* Perform refresh */
 		[graphReq refresh];
+		
+		NSLog (@"%p created graph req %p with slice %@", self, graphReq, NSStringFromCGRect(clipRect));
+	}
+	if (graphReq && graphReq.refreshInProgress)
+	{
+		if (clipRect.size.width > .0 && clipRect.size.height > .0)
+		{
+			NSLog (@"%p drawing chequers for slice %@", self, NSStringFromCGRect(clipRect));
+
+			/* Draw checker board pattern to incidate loading */
+			NSLog (@"Size is %@", NSStringFromCGSize(clipRect.size));
+			UIGraphicsBeginImageContext(clipRect.size);
+			
+			UIImage *checkers = [UIImage imageNamed:@"checkerboard.png"];
+			CGFloat xOffset = 0. - (((int)clipRect.origin.x) % 10);	// Ensures the 10px chequer board tiles properly
+			CGFloat yOffset = 0. - (((int)clipRect.origin.y) % 10);	// Ensures the 10px chequer board tiles properly;
+			
+			CGFloat imageWidth = checkers.size.width;
+			CGFloat imageHeight = checkers.size.height;
+			while (xOffset < clipRect.size.width)
+			{
+				while (yOffset < clipRect.size.height)
+				{
+					/* Draw */
+					[checkers drawAtPoint:CGPointMake(xOffset, yOffset) blendMode:kCGBlendModeNormal alpha:.05];
+					
+					/* Move offset down */
+					yOffset += imageHeight;
+				}
+				
+				/* Drawn as far down as we need, now move to the right and reset yOffset */
+				xOffset += imageWidth;
+				yOffset = 0.;
+			}
+			
+			UIImage *checkerSlice = UIGraphicsGetImageFromCurrentImageContext();
+			UIGraphicsEndImageContext();
+			
+			CGContextDrawImage(ctx, clipRect, checkerSlice.CGImage);
+		}
 	}
 	
 	/* Common date/time variables */

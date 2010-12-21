@@ -186,7 +186,7 @@
 #pragma mark -
 #pragma mark Entity Highlight
 
-- (void) highlightEntity:(LTEntity *)entity
+- (UIPopoverController *) highlightEntity:(LTEntity *)entity
 {
 	/* Scrolls the tableview to the row, then shows a pop-over
 	 * for the entity with the entity drilled down
@@ -201,9 +201,9 @@
 	 */
 	
 	LTEntity *legendPeer = [entities objectAtIndex:0];
-	if (!legendPeer) return;
+	if (!legendPeer) return nil;
 	LTEntity *legendParent = [entity parentOfType:legendPeer.type];
-	if (!legendParent) return;
+	if (!legendParent) return nil;
 	
 	/* Row */
 	NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:([entities indexOfObject:legendParent] / entitiesPerRow) inSection:0];
@@ -216,8 +216,9 @@
 	/* Create pop-over */
 	LTGraphLegendTableViewCell *cell = (LTGraphLegendTableViewCell *) [self.tableView cellForRowAtIndexPath:rowIndexPath];
 	LTGraphLegendEntityView *entityView = [cell viewForEntity:legendParent];
-	[entityView presentPopoverForEntityFromRect:entityView.bounds];
+	return [entityView presentPopoverForEntityFromRect:entityView.bounds];
 }
+
 
 @end
 

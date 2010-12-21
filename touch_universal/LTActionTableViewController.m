@@ -97,7 +97,7 @@
 	if (indexPath.section == 0)
 	{ return 174.0; }
 	else
-	{ return 44.0; }
+	{ return 48.0; }
 }
 
 // Customize the appearance of table view cells.

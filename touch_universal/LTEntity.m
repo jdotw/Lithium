@@ -44,7 +44,26 @@ static NSMutableDictionary *_xmlTranslation = nil;
 		[_xmlTranslation setObject:@"version" forKey:@"version"];
 		[_xmlTranslation setObject:@"syncVersion" forKey:@"sync_version"];
 		[_xmlTranslation setObject:@"uuidString" forKey:@"uuid"];
+
+		[_xmlTranslation setObject:@"deviceIpAddress" forKey:@"ip"];
+		[_xmlTranslation setObject:@"lomIpAddress" forKey:@"lom_ip"];
+		[_xmlTranslation setObject:@"snmpVersion" forKey:@"snmpversion"];
+		[_xmlTranslation setObject:@"snmpCommunity" forKey:@"snmpcomm"];
+		[_xmlTranslation setObject:@"snmpAuthMethod" forKey:@"snmpauthmethod"];
+		[_xmlTranslation setObject:@"snmpAuthPassword" forKey:@"snmpauthpassword"];
+		[_xmlTranslation setObject:@"snmpPrivacyMethod" forKey:@"snmpprivenc"];
+		[_xmlTranslation setObject:@"snmpPrivacyPassword" forKey:@"snmpprivpassword"];
+		[_xmlTranslation setObject:@"deviceUsername" forKey:@"username"];
+		[_xmlTranslation setObject:@"devicePassword" forKey:@"password"];
+		[_xmlTranslation setObject:@"lomUsername" forKey:@"lom_username"];
+		[_xmlTranslation setObject:@"lomPassword" forKey:@"lom_password"];
+		[_xmlTranslation setObject:@"vendorModule" forKey:@"vendor"];
+		[_xmlTranslation setObject:@"deviceProtocol" forKey:@"protocol"];
+		[_xmlTranslation setObject:@"useICMP" forKey:@"icmp"];
+		[_xmlTranslation setObject:@"useProcessList" forKey:@"useProcessList"];
+		[_xmlTranslation setObject:@"useLOM" forKey:@"useLOM"];
 	}
+	
 	return _xmlTranslation;
 }
 
@@ -576,6 +595,24 @@ static NSMutableDictionary *_xmlTranslation = nil;
 @synthesize version;
 @synthesize syncVersion;
 @synthesize uuidString;
+
+@synthesize deviceIpAddress;
+@synthesize lomIpAddress;
+@synthesize snmpVersion;
+@synthesize snmpCommunity;
+@synthesize snmpAuthMethod;
+@synthesize snmpAuthPassword;
+@synthesize snmpPrivacyMethod;
+@synthesize snmpPrivacyPassword;
+@synthesize deviceUsername;
+@synthesize devicePassword;
+@synthesize lomUsername;
+@synthesize lomPassword;
+@synthesize vendorModule;
+@synthesize deviceProtocol;
+@synthesize useICMP;
+@synthesize useProcessList;
+@synthesize useLOM;
 
 @synthesize indentLevel;
 

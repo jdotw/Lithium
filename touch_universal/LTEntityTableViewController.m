@@ -10,7 +10,6 @@
 #import "LTEntityTableViewCell.h"
 #import "AppDelegate.h"
 #import "LTCoreDeployment.h"
-#import "LTMetricTableViewCell.h"
 #import "LTMetricTableViewController.h"
 #import "LTTableViewCellBackground.h"
 #import "LTTableViewCellSelectedBackground.h"
@@ -57,9 +56,16 @@
 
 	if (entity)
 	{
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-																								target:self 
-																								action:@selector(refreshTouched:)] autorelease];
+		if (entity.type < 3 && UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) 
+		{
+			/* Entity is a Customer or Site, show an Add button to add a device
+			 * only if the device is an iPad 
+			 */
+			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+																									target:self
+																									action:@selector(addDeviceTouched:)] autorelease];
+		}
+			
 	}
 	else
 	{
@@ -320,28 +326,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LTEntity *displayEntity = [self entityAtIndexPath:indexPath inTableView:tableView];
-	NSLog (@"%@ got %@", indexPath, displayEntity);
 	
     NSString *CellIdentifier;
-	if (displayEntity.type == 6 || (displayEntity.type == 5 && displayEntity.children.count == 1))
-	{ CellIdentifier = @"Metric"; }
-	else if (displayEntity)
+	if (displayEntity)
 	{ CellIdentifier = @"Entity"; }
 	else 
 	{ CellIdentifier = @"Refresh"; }
     LTEntityTableViewCell *cell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-		if ([CellIdentifier isEqualToString:@"Metric"])
+		if ([CellIdentifier isEqualToString:@"Entity"])
 		{
-			LTMetricTableViewCell *metricCell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
-			metricCell.showCurrentValue = YES;
-			cell = metricCell;			
-		}
-		else if ([CellIdentifier isEqualToString:@"Entity"])
-		{
-			cell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-			cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+			cell = [[[LTEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
 		}
 		else if ([CellIdentifier isEqualToString:@"Refresh"])
 		{
@@ -363,12 +359,11 @@
 		cell.textLabel.text = displayEntity.desc;
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
 		cell.entity = displayEntity;
-		if (displayEntity.type > 0)
+		if (displayEntity.type == 0)
 		{
-			cell.entityState = displayEntity.opState;
-		}
-		else
-		{
+			/* Displaying a deployment, use the detailtextLabel (subtitle)
+			 * to show the deployment status 
+			 */
 			LTCoreDeployment *deployment = (LTCoreDeployment *) displayEntity;
 			if (!deployment.reachable)
 			{
@@ -707,6 +702,9 @@
 	[navController release];	
 }
 
+- (IBAction) addDeviceTouched:(id)sender
+{
+}
 
 #pragma mark "Properties"
 

@@ -43,6 +43,25 @@
 	unsigned long version;				// Actual version
 	unsigned long syncVersion;			// Absolute latest version number
 	NSString *uuidString;
+	
+	/* Device Properties */
+	NSString *deviceIpAddress;
+	NSString *lomIpAddress;
+	int snmpVersion;
+	NSString *snmpCommunity;
+	int snmpAuthMethod;
+	NSString *snmpAuthPassword;
+	int snmpPrivacyMethod;
+	NSString *snmpPrivacyPassword;
+	NSString *deviceUsername;
+	NSString *devicePassword;
+	NSString *lomUsername;
+	NSString *lomPassword;
+	NSString *vendorModule;
+	int deviceProtocol;
+	BOOL useICMP;
+	BOOL useProcessList;
+	BOOL useLOM;
 
 	NSString *resourceAddress;
 	NSString *entityAddress;
@@ -94,6 +113,25 @@
 @property unsigned long version;
 @property unsigned long syncVersion;
 @property (copy) NSString *uuidString;
+
+/* Device Properties */
+@property (copy) NSString *deviceIpAddress;
+@property (copy) NSString *lomIpAddress;
+@property (assign) int snmpVersion;
+@property (copy) NSString *snmpCommunity;
+@property (assign) int snmpAuthMethod;
+@property (copy) NSString *snmpAuthPassword;
+@property (assign) int snmpPrivacyMethod;
+@property (copy) NSString *snmpPrivacyPassword;
+@property (copy) NSString *deviceUsername;
+@property (copy) NSString *devicePassword;
+@property (copy) NSString *lomUsername;
+@property (copy) NSString *lomPassword;
+@property (copy) NSString *vendorModule;
+@property (assign) int deviceProtocol;
+@property (assign) BOOL useICMP;
+@property (assign) BOOL useProcessList;
+@property (assign) BOOL useLOM;
 
 @property (copy) NSString *resourceAddress;
 @property (readonly) NSString *deviceEntityAddress;

@@ -1,5 +1,5 @@
 //
-//  LTMetricTableViewCellBackground.h
+//  LTMetricGraphTableViewCellBackground.h
 //  Lithium
 //
 //  Created by James Wilson on 19/08/09.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LTMetricTableViewCellBackground : UIView 
+@interface LTMetricGraphTableViewCellBackground : UIView 
 {
 	UIImageView *imageView;
 }

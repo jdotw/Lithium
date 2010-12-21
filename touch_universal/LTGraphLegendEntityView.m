@@ -59,13 +59,25 @@
     return self;
 }
 
-- (void) presentPopoverForEntityFromRect:(CGRect)rect
+- (UIPopoverController *) presentPopoverForEntityFromRect:(CGRect)rect
 {
 	/* Draw pop-over for the entity */
 	LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:self.entity.parent];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
 	UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:nav];
-	[popover presentPopoverFromRect:rect inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];	
+	if (self.frame.size.height > 0. && self.frame.size.width > 0.)
+	{
+		NSLog (@"%@ Presenting in rect %@ for view %@", self, NSStringFromCGRect(rect), NSStringFromCGRect(self.frame));
+		[popover presentPopoverFromRect:rect inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];	
+		popoverWaitingToBeDisplayed = nil;
+	}
+	else 
+	{
+		popoverWaitingToBeDisplayed = popover;
+		popoverWaitingToBeDisplayedRect = rect;
+	}
+
+	return popover;
 }
 
 - (void) legendTapped:(UITapGestureRecognizer *)gestureRecog
@@ -95,6 +107,23 @@
 	valueLabelRect.size.width = (labelRect.size.width * (1.0-descValueSplit)) - (2.0 * padding);
 	valueLabelRect.origin.x = CGRectGetMaxX(descLabelRect) + padding;
 	valueLabel.frame = CGRectIntegral(valueLabelRect);
+	
+	/* Check to see if a popover is waitingto be displayed */
+	if (popoverWaitingToBeDisplayed && self.frame.size.height > 0. && self.frame.size.width > 0.)
+	{
+		/* There's a popover to be displayed which could not be 
+		 * presented earlier because our frame had not been set.
+		 * We can now display this popover
+		 */
+		if (CGRectEqualToRect(popoverWaitingToBeDisplayedRect, CGRectZero)) 
+		{ popoverWaitingToBeDisplayedRect = self.bounds; }
+		[popoverWaitingToBeDisplayed presentPopoverFromRect:popoverWaitingToBeDisplayedRect 
+													 inView:self 
+								   permittedArrowDirections:UIPopoverArrowDirectionAny 
+												   animated:YES];	
+		popoverWaitingToBeDisplayed = nil;
+	}
+		
 }
 
 - (void) drawRect:(CGRect)rect

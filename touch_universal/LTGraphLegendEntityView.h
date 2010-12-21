@@ -18,11 +18,14 @@
 	
 	UIColor *swatchColor;
 	LTEntity *entity;
+	
+	UIPopoverController *popoverWaitingToBeDisplayed;
+	CGRect popoverWaitingToBeDisplayedRect;
 }
 
 @property (nonatomic,retain) UIColor *swatchColor;
 @property (nonatomic,retain) LTEntity *entity;
 
-- (void) presentPopoverForEntityFromRect:(CGRect)rect;
+- (UIPopoverController *) presentPopoverForEntityFromRect:(CGRect)rect;
 
 @end
