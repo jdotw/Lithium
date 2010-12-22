@@ -240,7 +240,6 @@ static NSMutableDictionary *staticModuleDescDict = nil;
 		case 4:
 			/* Custom */
 			vendorModuleName = [customModuleKeys objectAtIndex:indexPath.row];
-			NSLog (@"vendorModuleName=%@ editTVC.devVendorModule=%@", vendorModuleName, editTVC.devVendorModule);			
 			break;
 		default:
 			break;

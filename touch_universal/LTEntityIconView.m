@@ -30,6 +30,16 @@
 	 */
 	CGRect washRect = self.bounds;
 	washRect.size.width -= 2.;
+	CGBlendMode statusBlendMode = kCGBlendModeColor;
+	CGFloat statusBlendAlpha = 0.1;
+
+	/* Selected overlay wash */
+	if (self.selected && self.selectedBackgroundImage)
+	{
+		[self.selectedBackgroundImage drawInRect:washRect blendMode:kCGBlendModeNormal alpha:1.0];		
+		statusBlendMode = kCGBlendModeColor;
+		statusBlendAlpha = 0.2;
+	}
 
 	/* Draw entity status wash */
 	UIColor *statusColor = nil;
@@ -53,15 +63,9 @@
 	if (statusColor)
 	{
 		[statusColor setFill];
-		[[UIBezierPath bezierPathWithRect:washRect] fillWithBlendMode:kCGBlendModeHue alpha:0.25];
+		[[UIBezierPath bezierPathWithRect:washRect] fillWithBlendMode:statusBlendMode alpha:statusBlendAlpha];
 	}
 	
-	
-	/* Selected overlay wash */
-	if (self.selected && self.selectedBackgroundImage)
-	{
-		[self.selectedBackgroundImage drawInRect:washRect blendMode:kCGBlendModeNormal alpha:0.4];		
-	}
 	
 	/* Draw right-side edge */
 	CGRect vertBorderRect = CGRectMake(CGRectGetMaxX(self.bounds)-2.0, CGRectGetMinY(self.bounds), 1.0, CGRectGetHeight(self.bounds));

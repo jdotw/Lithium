@@ -32,7 +32,7 @@
 
 /* XML Functions */
 
-void i_metric_xml (i_entity *ent, xmlNodePtr ent_node)
+void i_metric_xml (i_entity *ent, xmlNodePtr ent_node, unsigned short flags)
 {
   /* Add object-specific data to entity node */
   char *str;
@@ -66,34 +66,25 @@ void i_metric_xml (i_entity *ent, xmlNodePtr ent_node)
   xmlNewChild (ent_node, NULL, BAD_CAST "record_enabled", BAD_CAST str);
   free (str);
 
-  /* Time stamps */
-  asprintf (&str, "%li", met->lrefresh_tv.tv_sec);
-  xmlNewChild (ent_node, NULL, BAD_CAST "lastrefresh_sec", BAD_CAST str);
-  free (str);
-//  asprintf (&str, "%li", met->lrefresh_tv.tv_usec);
-//  xmlNewChild (ent_node, NULL, BAD_CAST "lastrefresh_usec", BAD_CAST str);
-//  free (str);
-  asprintf (&str, "%li", met->lnormal_tv.tv_sec);
-  xmlNewChild (ent_node, NULL, BAD_CAST "lastnormal_sec", BAD_CAST str);
-  free (str);
-//  asprintf (&str, "%li", met->lnormal_tv.tv_usec);
-//  xmlNewChild (ent_node, NULL, BAD_CAST "lastnormal_usec", BAD_CAST str);
-//  free (str);
-  asprintf (&str, "%li", met->lvalchange_tv.tv_sec);
-  xmlNewChild (ent_node, NULL, BAD_CAST "lastvalchange_sec", BAD_CAST str);
-  free (str);
-//  asprintf (&str, "%li", met->lvalchange_tv.tv_usec);
-//  xmlNewChild (ent_node, NULL, BAD_CAST "lastvalchange_usec", BAD_CAST str);
-//  free (str);
-  asprintf (&str, "%li", met->lstatechange_tv.tv_sec);
-  xmlNewChild (ent_node, NULL, BAD_CAST "laststatechange_sec", BAD_CAST str);
-  free (str);
-//  asprintf (&str, "%li", met->lstatechange_tv.tv_usec);
-//  xmlNewChild (ent_node, NULL, BAD_CAST "laststatechange_usec", BAD_CAST str);
-//  free (str);
+  if (!(flags & ENTXML_MOBILE))
+  {
+    /* Time stamps */
+    asprintf (&str, "%li", met->lrefresh_tv.tv_sec);
+    xmlNewChild (ent_node, NULL, BAD_CAST "lastrefresh_sec", BAD_CAST str);
+    free (str);
+    asprintf (&str, "%li", met->lnormal_tv.tv_sec);
+    xmlNewChild (ent_node, NULL, BAD_CAST "lastnormal_sec", BAD_CAST str);
+    free (str);
+    asprintf (&str, "%li", met->lvalchange_tv.tv_sec);
+    xmlNewChild (ent_node, NULL, BAD_CAST "lastvalchange_sec", BAD_CAST str);
+    free (str);
+    asprintf (&str, "%li", met->lstatechange_tv.tv_sec);
+    xmlNewChild (ent_node, NULL, BAD_CAST "laststatechange_sec", BAD_CAST str);
+    free (str);
+  }
 
   /* Minimum Value */
-  if (met->min_val)
+  if (met->min_val && !(flags & ENTXML_MOBILE))
   {
     char *min_val_str = i_metric_valstr_raw (met, met->min_val);
     xmlNewChild (ent_node, NULL, BAD_CAST "min_valstr", BAD_CAST min_val_str);
@@ -101,7 +92,7 @@ void i_metric_xml (i_entity *ent, xmlNodePtr ent_node)
   }
 
   /* Maximum Value */
-  if (met->max_val)
+  if (met->max_val && !(flags & ENTXML_MOBILE))
   {
     char *max_val_str = i_metric_valstr_raw (met, met->max_val);
     xmlNewChild (ent_node, NULL, BAD_CAST "max_valstr", BAD_CAST max_val_str);
@@ -120,13 +111,15 @@ void i_metric_xml (i_entity *ent, xmlNodePtr ent_node)
   free (str);
   
   /* Values */
-  xmlNodePtr node = NULL;
-  asprintf (&str, "%u", METRIC_DEF_MAXVAL);
-  xmlNewChild (ent_node, NULL, BAD_CAST "val_list_maxsize", BAD_CAST str);
-  free (str);
-  asprintf (&str, "%f", met->aggregate_delta);
-  xmlNewChild (ent_node, NULL, BAD_CAST "aggregate_delta", BAD_CAST str);
-  free (str);
+  if (!(flags & ENTXML_MOBILE))
+  {
+    asprintf (&str, "%u", METRIC_DEF_MAXVAL);
+    xmlNewChild (ent_node, NULL, BAD_CAST "val_list_maxsize", BAD_CAST str);
+    free (str);
+    asprintf (&str, "%f", met->aggregate_delta);
+    xmlNewChild (ent_node, NULL, BAD_CAST "aggregate_delta", BAD_CAST str);
+    free (str);
+  }
   i_list *recent_values = i_list_create ();
   int recent_count = 0;
   i_metric_value *val;
@@ -142,15 +135,16 @@ void i_metric_xml (i_entity *ent, xmlNodePtr ent_node)
   }
   for (i_list_move_last(recent_values); (val=i_list_restore(recent_values))!=NULL; i_list_move_prev(recent_values))
   {
-      node = i_metric_value_xml (met, val);
-      if (node) xmlAddChild (ent_node, node);
+    xmlNodePtr node = NULL;
+    node = i_metric_value_xml (met, val);
+    if (node) xmlAddChild (ent_node, node);
   }
   i_list_free (recent_values);
 
   return;
 }
 
-void i_metric_xml_summary (i_entity *ent, xmlNodePtr ent_node) 
+void i_metric_xml_summary (i_entity *ent, xmlNodePtr ent_node, unsigned short flags) 
 {
   /* Add summary metric info */
   char *str;
@@ -168,12 +162,15 @@ void i_metric_xml_summary (i_entity *ent, xmlNodePtr ent_node)
   xmlNewChild (ent_node, NULL, BAD_CAST "units", BAD_CAST met->unit_str);
 
   /* Add one value, Max Vals and Aggregate Delta */
-  asprintf (&str, "%u", METRIC_DEF_MAXVAL);
-  xmlNewChild (ent_node, NULL, BAD_CAST "val_list_maxsize", BAD_CAST str);
-  free (str);
-  asprintf (&str, "%f", met->aggregate_delta);
-  xmlNewChild (ent_node, NULL, BAD_CAST "aggregate_delta", BAD_CAST str);
-  free (str);
+  if (!(flags & ENTXML_MOBILE))
+  {
+    asprintf (&str, "%u", METRIC_DEF_MAXVAL);
+    xmlNewChild (ent_node, NULL, BAD_CAST "val_list_maxsize", BAD_CAST str);
+    free (str);
+    asprintf (&str, "%f", met->aggregate_delta);
+    xmlNewChild (ent_node, NULL, BAD_CAST "aggregate_delta", BAD_CAST str);
+    free (str);
+  }
   i_list_move_head(met->val_list);
   i_metric_value *val=i_list_restore(met->val_list);
   if (val)

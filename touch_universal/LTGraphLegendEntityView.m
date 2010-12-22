@@ -67,7 +67,6 @@
 	UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:nav];
 	if (self.frame.size.height > 0. && self.frame.size.width > 0.)
 	{
-		NSLog (@"%@ Presenting in rect %@ for view %@", self, NSStringFromCGRect(rect), NSStringFromCGRect(self.frame));
 		[popover presentPopoverFromRect:rect inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];	
 		popoverWaitingToBeDisplayed = nil;
 	}

@@ -422,7 +422,6 @@
 			case 0:
 				cell.textLabel.text = @"Device Type";
 				cell.detailTextLabel.text = [LTDeviceEditModuleListTableViewController descriptionForModuleName:self.devVendorModule];
-				NSLog (@"Detail color = %@", cell.detailTextLabel.textColor);
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				break;
 			case 1:
@@ -628,7 +627,6 @@
 
 - (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSLog (@"First responder is %i editingTextField is %@", [editingTextField isFirstResponder], editingTextField);
 	[editingTextField resignFirstResponder];	
 	return indexPath;
 }
@@ -763,7 +761,6 @@
 	[xml appendFormat:@"<lom>%i</lom>", devUseLOM.on ? 1 : 0];
 	if (self.site) [xml appendFormat:@"<site_name>%@</site_name>", self.site.name];
 	[xml appendFormat:@"</device>"];
-	NSLog (@"Device XML: %@", xml);
 	
 	/* Post the update via the device */
 	[self.device postXmlToResource:self.device.customer.resourceAddress
@@ -776,6 +773,9 @@
 	 * update received from the customer.
 	 */
 	[self.device.customer refresh];
+	
+	/* Dismiss */
+	[self.navigationController dismissModalViewControllerAnimated:YES];	
 }
 
 - (void) cancelTouched:(id)sender

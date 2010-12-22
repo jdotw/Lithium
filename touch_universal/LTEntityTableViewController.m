@@ -323,6 +323,52 @@
 	}
 }
 
+- (NSString *) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	if (self.entity.type == 4 && [self.entity.name isEqualToString:@"avail"] && self.entity.opState > 0)
+	{
+		/* This is the availability container and there is a problem */
+		return @"\nThe device is not responding to one or more of the protocols that Lithium Core is using to gather monitoring data from the device.";
+	}
+	else return nil;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
+	if (footerTitle)
+	{
+		UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+		label.text = footerTitle;
+		label.numberOfLines = 0;
+		label.font = [UIFont systemFontOfSize:12.0];
+		label.backgroundColor = [UIColor clearColor];
+		label.textColor = [UIColor grayColor];
+		label.textAlignment = UITextAlignmentCenter;
+//		label.shadowColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+//		label.shadowOffset = CGSizeMake(0.0, 1.0);
+		return label;
+	}
+	else
+	{
+		return nil;
+	}
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
+	if (footerTitle)
+	{
+		CGSize stringSize = [footerTitle sizeWithFont:[UIFont systemFontOfSize:12.0] constrainedToSize:tableView.bounds.size lineBreakMode:UILineBreakModeWordWrap];
+		return stringSize.height;
+	}
+	else
+	{
+		return 0.;
+	}
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -576,7 +622,6 @@
 	{
 		/* Build a list of all devices */
 		unfilteredEntities = [entity.children valueForKeyPath:@"@unionOfArrays.children"];
-		NSLog (@"Devices is %@", unfilteredEntities);
 	}
 	else 
 	{
@@ -595,8 +640,6 @@
 	
 	if (filterPredicate)
 	{ [searchFilteredItems addObjectsFromArray:[unfilteredEntities filteredArrayUsingPredicate:filterPredicate]]; }
-	
-	NSLog (@"searchFilteredItems is now %@", searchFilteredItems);
 }
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
@@ -647,19 +690,10 @@
 
 - (void) entityRefreshFinished:(NSNotification *)notification
 {
-	NSLog (@"Got entityRefreshFinished for %@", [[notification object] desc]);
 	if (entity)	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 	if ([notification object] == self.entity || [self.entity.children containsObject:[notification object]])
 	{
 		[self sortAndFilterChildren];	
-//		if (entity && children.count == 1)
-//		{
-//			/* Entity refresh completed returning a lone entity; 
-//			 * supplant our current entity with this lone entity
-//			 */
-//			LTEntity *singleEntity = [children objectAtIndex:0];
-//			self.entity = singleEntity;
-//		}
 		[[self tableView] reloadData];
 	}
 }

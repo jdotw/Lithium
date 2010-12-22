@@ -28,4 +28,8 @@
 @property (retain) id groupTree;
 @property (nonatomic, retain) NSMutableDictionary *customModules;
 
+@property (nonatomic, readonly) int coreVersionMajor;
+@property (nonatomic, readonly) int coreVersionMinor;
+@property (nonatomic, readonly) int coreVersionPoint;
+
 @end

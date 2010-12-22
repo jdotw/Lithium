@@ -40,12 +40,12 @@
 
 xmlNodePtr l_procpro_xml (l_procpro *procpro);
 extern i_resource *global_self;
-int l_device_xml (i_entity *ent, xmlNodePtr ent_node)
+int l_device_xml (i_entity *ent, xmlNodePtr ent_node, unsigned short flags)
 {
   i_device *dev = (i_device *) ent;
 
   /* Add Process profiles */
-  if (dev->swrun)
+  if (dev->swrun && !(flags & ENTXML_MOBILE))
   {
     l_procpro *procpro;
     i_list *procpro_list = l_procpro_list ();
@@ -57,16 +57,19 @@ int l_device_xml (i_entity *ent, xmlNodePtr ent_node)
   }
 
   /* Add Services */
-  i_list *service_list = l_service_list ();
-  l_service *service;
-  for (i_list_move_head(service_list); (service=i_list_restore(service_list))!=NULL; i_list_move_next(service_list))
+  if (!(flags & ENTXML_MOBILE))
   {
-    xmlNodePtr serv_node = l_service_xml (service);
-    if (serv_node) xmlAddChild (ent_node, serv_node);
+    i_list *service_list = l_service_list ();
+    l_service *service;
+    for (i_list_move_head(service_list); (service=i_list_restore(service_list))!=NULL; i_list_move_next(service_list))
+    {
+      xmlNodePtr serv_node = l_service_xml (service);
+      if (serv_node) xmlAddChild (ent_node, serv_node);
+    }
   }
 
   /* Add Unique process names */
-  if (dev->swrun && l_snmp_swrun_cnt ())
+  if (dev->swrun && l_snmp_swrun_cnt () && !(flags & ENTXML_MOBILE))
   {
     i_hashtable *proc_ht = i_hashtable_create (500);
     i_hashtable_set_destructor (proc_ht, free);

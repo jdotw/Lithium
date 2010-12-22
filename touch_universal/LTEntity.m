@@ -138,19 +138,31 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	/* Create request */
 	NSURL *url;
 	
-	if (self.type == 1
-#ifdef UI_USER_INTERFACE_IDIOM
-		|| UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
-#endif
-		)
+	if (self.type == 1)
 	{
 		/* Always load authorative tree for iPad */
 		NSLog(@"Doing AUTHORATIVE refresh for %@", self.entityAddress);
-		url = [self urlForXml:@"entity_tree_authorative" timestamp:0];
+		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
+		{ url = [self urlForXml:@"entity_tree_authorative_mobile" timestamp:0]; }
+		else
+		{ url = [self urlForXml:@"entity_tree_authorative" timestamp:0]; }
+
+	}
+	else if (self.type == 3 && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{
+		/* iPad Loading Device, use Mobile Summary */
+		NSLog(@"Doing SUMMARY refresh for %@", self.entityAddress);
+		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
+		{ url = [self urlForXml:@"entity_tree_summary_mobile" timestamp:0]; }
+		else
+		{ url = [self urlForXml:@"entity_tree_summary" timestamp:0]; }
 	}
 	else
-	{
-		url = [self urlForXml:@"entity_tree_one_level" timestamp:0];
+	{ 
+		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
+		{ url = [self urlForXml:@"entity_tree_one_level_mobile" timestamp:0]; }
+		else 
+		{ url = [self urlForXml:@"entity_tree_one_level" timestamp:0]; }
 	}
 	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:url
 															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
@@ -208,7 +220,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	NSString *urlString = [NSString stringWithFormat:@"%@/xml.php?action=xml_get&resaddr=%@&entaddr=%@&xmlname=%@&refsec=%i", 
 						   [self urlPrefix], destResourceAddress ? : self.resourceAddress, 
 						   destEntityAddress ? : self.entityAddress, xmlName, 0];
-	NSLog (@"Using URL %@", urlString);
 	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
 															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
 														 timeoutInterval:60.0];
@@ -291,11 +302,10 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	self.xmlStatus = @"Download Completed.";
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
 
-	/* Create entity stack */
-//	entityStack = [[NSMutableArray array] retain];
-	
 	/* DEBUG */
 	NSLog (@"ENTITY %i:%@: XML Size is %li", self.type, self.desc, [receivedData length]);
+//	NSLog (@"XML: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+//	[receivedData writeToFile:[NSString stringWithFormat:@"/Users/jwilson/%i-%@.xml", self.type, self.desc] atomically:NO];
 	
 	/* Parse XML */
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -335,7 +345,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	/* Post Notification */
 	self.refreshInProgress = NO;
 	self.hasBeenRefreshed = YES;
-	NSLog (@"Posting RefreshFinished for %@", self);
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];
 	
 }

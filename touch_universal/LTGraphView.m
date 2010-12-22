@@ -96,8 +96,6 @@
 	LTMetricGraphRequest *graphReq = [graphRequestCache objectForKey:NSStringFromCGRect(clipRect)];
 	if (graphReq && !graphReq.refreshInProgress)
 	{
-		NSLog (@"%p attempting to draw image %p with slice %@", self, graphReq.imageData, NSStringFromCGRect(clipRect));
-		
 		/* Draw image */
 		CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)[graphReq imageData]);
 		if (provider)
@@ -149,17 +147,12 @@
 		
 		/* Perform refresh */
 		[graphReq refresh];
-		
-		NSLog (@"%p created graph req %p with slice %@", self, graphReq, NSStringFromCGRect(clipRect));
 	}
 	if (graphReq && graphReq.refreshInProgress)
 	{
 		if (clipRect.size.width > .0 && clipRect.size.height > .0)
 		{
-			NSLog (@"%p drawing chequers for slice %@", self, NSStringFromCGRect(clipRect));
-
 			/* Draw checker board pattern to incidate loading */
-			NSLog (@"Size is %@", NSStringFromCGSize(clipRect.size));
 			UIGraphicsBeginImageContext(clipRect.size);
 			
 			UIImage *checkers = [UIImage imageNamed:@"checkerboard.png"];

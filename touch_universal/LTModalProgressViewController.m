@@ -28,12 +28,10 @@
 	progressLabel.text = @"Finished.";
 	if (hasAppeared)
 	{
-		NSLog (@"%@ dismissing immediately", self);
 		[self dismissModalViewControllerAnimated:YES];
 	}
 	else
 	{
-		NSLog (@"%@ deferring dismissal until it appears", self);
 		shouldDismissWhenAppears = YES;
 	}
 }
@@ -64,7 +62,6 @@
 	if (shouldDismissWhenAppears) 
 	{
 		[self dismissModalViewControllerAnimated:YES];
-		NSLog (@"%@ performing deferred dismissal on appearance", self);
 	}
 }
 

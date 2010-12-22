@@ -147,7 +147,6 @@
 		{
 			NSPredicate *deviceFilter = [NSPredicate predicateWithBlock:^(id evalObj, NSDictionary *bindings) { return [((LTIncident *)evalObj).entityDescriptor.devName isEqualToString:self.device.name]; }];
 			incidents = [self.device.customer.incidentList.incidents filteredArrayUsingPredicate:deviceFilter];
-			NSLog (@"Device sorted incidents is %@", incidents);
 		}
 		else incidents = [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children.@unionOfArrays.incidentList.incidents"];
 		for (LTIncident *incident in incidents)

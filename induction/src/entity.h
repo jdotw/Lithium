@@ -298,4 +298,5 @@ char* i_entity_statecolstr_bg (unsigned short state);
 #define ENTXML_TREE_AUTHORATIVE 4      /* Only include entities for which the resource is authorative */
 #define ENTXML_TREE_SUMMARY 8      /* Full detail for authorative, summary for non-authorative */
 #define ENTXML_SYNC 16            /* Observe sync timestamp */
+#define ENTXML_MOBILE 32       /* Trim data for mobile devices */
 

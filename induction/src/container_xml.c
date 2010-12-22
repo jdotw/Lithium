@@ -31,7 +31,7 @@
 
 /* XML Functions */
 
-void i_container_xml (i_entity *ent, xmlNodePtr ent_node)
+void i_container_xml (i_entity *ent, xmlNodePtr ent_node, unsigned short flags)
 {
   /* Add container-specific data to entity node */
   char *str;

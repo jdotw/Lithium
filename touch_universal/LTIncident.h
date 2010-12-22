@@ -10,7 +10,7 @@
 
 #import "LTEntityDescriptor.h"
 
-@interface LTIncident : NSObject 
+@interface LTIncident : LTAPIRequest 
 {
 	int identifier;
 	NSDate *startDate;

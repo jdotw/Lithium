@@ -27,6 +27,7 @@
 - (void) showGraphAndLegend;
 - (void) graphMetrics:(NSArray *)metrics fromEntity:(LTEntity *)parentEntity;
 - (void) resizeAndInvalidateGraphViewContent;
+- (void) availabilityTapped:(id)sender;
 
 @end
 
@@ -75,7 +76,12 @@
 	}
 	else 
 	{
+		/* Just viewing device, check to see if availability is OK and
+		 * if not, present the availability pop-over 
+		 */
 		self.entityToHighlight = nil;
+		LTEntity *availContainer = [self.device.childDict objectForKey:@"avail"];
+		if (availContainer.opState > 0) [self availabilityTapped:availToolbarItem];
 	}
 	
 	/* If the device hasn't been refreshed yet, pop up a 
@@ -224,6 +230,7 @@
 	
 	/* Save selection */
 	[[NSUserDefaults standardUserDefaults] setObject:selectedContainer.entityAddress forKey:[self lastSelectionKey]];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void) setSelectedObject:(LTEntity *)value
@@ -259,6 +266,7 @@
 	
 	/* Save selection */
 	[[NSUserDefaults standardUserDefaults] setObject:selectedObject.entityAddress forKey:[self lastSelectionKey]];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void) hideObjectScrollView
@@ -397,9 +405,6 @@
 	{
 		containerEnclosingView.hidden = NO;
 		horizontalScrollDropShadowView.hidden = NO;
-		
-		NSLog (@"containerEnclosing is %@", NSStringFromCGRect(containerEnclosingView.frame));
-		NSLog (@"drop is %@", NSStringFromCGRect(horizontalScrollDropShadowView.frame));
 	}
 	else 
 	{
@@ -458,8 +463,6 @@
 	graphScrollView.contentSize = contentRect.size;
 	[graphView setNeedsLayout];
 	[graphView setNeedsDisplayInRect:contentRect];
-	
-	NSLog (@"After rotate, graphView.frame is %@", NSStringFromCGRect(graphView.frame));
 }
 
 #pragma mark -
@@ -636,15 +639,22 @@
 		 * called before the modal view has actually appeared
 		 */
 		modalRefreshInProgress = NO;
+		LTEntity *availContainer = [self.device.childDict objectForKey:@"avail"];
 
 		if (self.entityToHighlight)
 		{
-			/* Device is already refreshed and we have something to highlight */
+			/* Device is refreshed and we have something to highlight */
 			[self selectEntity:self.entityToHighlight];
 			self.entityToHighlight = nil;
 		}
+		else if (availContainer.opState > 0)
+		{
+			/* Device is refreshed, nothing to highlight but availability is bad */
+			[self availabilityTapped:availToolbarItem];
+		}
 		else if ([[NSUserDefaults standardUserDefaults] objectForKey:[self lastSelectionKey]])
 		{
+			/* Try to use last-selected */
 			NSString *entAddr = [[NSUserDefaults standardUserDefaults] objectForKey:[self lastSelectionKey]];
 			LTEntityDescriptor *entDesc = [[[LTEntityDescriptor alloc] initWithEntityAddress:entAddr] autorelease];
 			LTEntity *lastSelectionEntity = [self.device locateChildUsingEntityDescriptor:entDesc];
@@ -746,9 +756,9 @@
 	}
 	
 	LTEntity *container = [self.device.childDict objectForKey:@"snmp_sysinfo"];
-	if (container)
+	if (container && container.children.count > 0)
 	{
-		LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:container];
+		LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:[container.children objectAtIndex:0]];
 		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 		self.activePopoverController = [[UIPopoverController alloc] initWithContentViewController:nc];
 		self.activePopoverController.delegate = self;
