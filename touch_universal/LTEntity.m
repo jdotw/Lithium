@@ -60,8 +60,8 @@ static NSMutableDictionary *_xmlTranslation = nil;
 		[_xmlTranslation setObject:@"vendorModule" forKey:@"vendor"];
 		[_xmlTranslation setObject:@"deviceProtocol" forKey:@"protocol"];
 		[_xmlTranslation setObject:@"useICMP" forKey:@"icmp"];
-		[_xmlTranslation setObject:@"useProcessList" forKey:@"useProcessList"];
-		[_xmlTranslation setObject:@"useLOM" forKey:@"useLOM"];
+		[_xmlTranslation setObject:@"useProcessList" forKey:@"swrun"];
+		[_xmlTranslation setObject:@"useLOM" forKey:@"lom"];
 	}
 	
 	return _xmlTranslation;
@@ -189,6 +189,64 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	}	
 }
 
+- (void) postXmlToResource:(NSString *)destResourceAddress 
+			 entityAddress:(NSString *)destEntityAddress 
+				   xmlName:(NSString *)xmlName 
+					   xml:(NSString *)xml
+{
+	/* Posts XML to the given resource and assumes that
+	 * the returned XML will be parsed like a refresh
+	 */
+	
+	/* Check state */
+	if (refreshInProgress || ![(LTCoreDeployment *)coreDeployment enabled])
+	{
+		return;
+	}
+	
+	/* Create request */
+	NSString *urlString = [NSString stringWithFormat:@"%@/xml.php?action=xml_get&resaddr=%@&entaddr=%@&xmlname=%@&refsec=%i", 
+						   [self urlPrefix], destResourceAddress ? : self.resourceAddress, 
+						   destEntityAddress ? : self.entityAddress, xmlName, 0];
+	NSLog (@"Using URL %@", urlString);
+	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
+															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+														 timeoutInterval:60.0];
+	
+	/* Outbound XML doc to be sent */
+	NSMutableString *xmlString = [xml mutableCopy];
+	NSString *formBoundary = [[NSProcessInfo processInfo] globallyUniqueString];
+	NSString *boundaryString = [NSString stringWithFormat: @"multipart/form-data; boundary=%@", formBoundary];
+	[theRequest addValue:boundaryString forHTTPHeaderField:@"Content-Type"];
+	[theRequest setHTTPMethod: @"POST"];
+	NSMutableData *postData = [NSMutableData data];
+	[postData appendData:[[NSString stringWithFormat:@"--%@\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[postData appendData:[@"Content-Disposition: form-data; name=\"xmlfile\"; filename=\"ltouch.xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[postData appendData:[@"Content-Type: text/plain\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[xmlString replaceOccurrencesOfString:@"\r\n" withString:@"&#xD;&#xA;" options:NSCaseInsensitiveSearch range:NSMakeRange(0,[xmlString length])];
+	[xmlString replaceOccurrencesOfString:@"\n" withString:@"&#xD;&#xA;" options:NSCaseInsensitiveSearch range:NSMakeRange(0,[xmlString length])];
+	[postData appendData:[xmlString dataUsingEncoding:NSUTF8StringEncoding]];
+	[postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[theRequest setHTTPBody:postData];
+	
+	/* Begin download */
+	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+	if (theConnection) 
+	{
+		self.refreshInProgress = YES;
+		receivedData=[[NSMutableData data] retain];
+		self.xmlStatus = @"Connecting to Lithium Core...";
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
+	} 
+	else 
+	{
+		/* FIX */
+		NSLog (@"ERROR: Failed to download console.php");
+		self.xmlStatus = @"Unable to connect to Lithium Core...";
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
+	}	
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
 	[super connection:connection didReceiveResponse:response];
@@ -235,6 +293,9 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 	/* Create entity stack */
 //	entityStack = [[NSMutableArray array] retain];
+	
+	/* DEBUG */
+	NSLog (@"ENTITY %i:%@: XML Size is %li", self.type, self.desc, [receivedData length]);
 	
 	/* Parse XML */
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];

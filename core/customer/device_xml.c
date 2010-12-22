@@ -55,7 +55,6 @@ int xml_device_update (i_resource *self, i_xml_request *req)
   i_site *site;
   i_device *device;
   i_device *dup_device = NULL;
-  xmlNodePtr ent_node;
   
   /* Check permission */
   if (req->auth->level < AUTH_LEVEL_ADMIN)
@@ -207,8 +206,10 @@ int xml_device_update (i_resource *self, i_xml_request *req)
   /* Create return case XML */
   req->xml_out = i_xml_create ();
   req->xml_out->doc = xmlNewDoc (BAD_CAST "1.0");
-  ent_node = i_entity_xml (ENTITY(device), 0, 0);
-  xmlDocSetRootElement (req->xml_out->doc, ent_node);
+  xmlNodePtr root_node = xmlNewNode(NULL, BAD_CAST "entity_xml_data");
+  xmlDocSetRootElement(req->xml_out->doc, root_node);
+  xmlNodePtr ent_node = i_entity_xml (ENTITY(device), 0, 0);
+  xmlAddChild (root_node, ent_node);
   
   return 1;
 }

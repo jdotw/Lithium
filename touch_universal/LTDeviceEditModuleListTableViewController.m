@@ -13,6 +13,47 @@
 
 @implementation LTDeviceEditModuleListTableViewController
 
+#pragma mark -
+#pragma mark Class Methods
+
+static NSMutableDictionary *staticModuleDescDict = nil;
+
++ (NSString *) descriptionForModuleName:(NSString *)name
+{
+	if (!staticModuleDescDict)
+	{
+		staticModuleDescDict = [[NSMutableDictionary dictionary] retain];
+		[staticModuleDescDict setObject:@"Xserve (Intel)" forKey:@"xserve_intel"];
+		[staticModuleDescDict setObject:@"Xserve (G5)" forKey:@"xserve_g5"];
+		[staticModuleDescDict setObject:@"Non-Xserve Mac OS X Server" forKey:@"osx_server"];
+		[staticModuleDescDict setObject:@"Mac OS X Client" forKey:@"osx_client"];
+		[staticModuleDescDict setObject:@"Linux/UNIX with Net-SNMP Daemon" forKey:@"netsnmp"];
+		[staticModuleDescDict setObject:@"Windows" forKey:@"windows"];
+		[staticModuleDescDict setObject:@"Promise VTrak" forKey:@"vtrak"];
+		[staticModuleDescDict setObject:@"Xserve RAID" forKey:@"xraid"];
+		[staticModuleDescDict setObject:@"Active Storage" forKey:@"activestorage"];
+		[staticModuleDescDict setObject:@"Infortrend Controller" forKey:@"infortrend"];
+		[staticModuleDescDict setObject:@"NetApp Filer" forKey:@"filer"];
+		[staticModuleDescDict setObject:@"Qlogic Fibre Channel Switch" forKey:@"qlogic"];
+		[staticModuleDescDict setObject:@"3Com Switch" forKey:@"3com"];
+		[staticModuleDescDict setObject:@"Allied Telesyn Switch" forKey:@"alliedtelesyn"];
+		[staticModuleDescDict setObject:@"Cisco Router/Switch/Firewall" forKey:@"cisco"];
+		[staticModuleDescDict setObject:@"Foundry Load Balancer" forKey:@"foundry"];
+		[staticModuleDescDict setObject:@"HP Switch" forKey:@"hp"];
+		[staticModuleDescDict setObject:@"Airport Access Point" forKey:@"airport"];
+		[staticModuleDescDict setObject:@"APC UPS" forKey:@"apcups"];
+		[staticModuleDescDict setObject:@"MGE UPS" forKey:@"mgeups"];
+		[staticModuleDescDict setObject:@"NetBotz Environmental Monitor" forKey:@"netbotz"];
+		[staticModuleDescDict setObject:@"Liebert Airconditioner" forKey:@"liebert"];
+		[staticModuleDescDict setObject:@"Basic SNMP" forKey:@"snmpbasic"];
+		[staticModuleDescDict setObject:@"Extended SNMP" forKey:@"snmpadv"];
+		[staticModuleDescDict setObject:@"Printer" forKey:@"printer"];
+		[staticModuleDescDict setObject:@"ICMP Ping Only" forKey:@"icmp"];
+	}
+	if ([staticModuleDescDict objectForKey:name]) return [staticModuleDescDict objectForKey:name];
+	else return name;
+}
+		
 
 #pragma mark -
 #pragma mark Initialization
@@ -25,8 +66,13 @@
 		customer = [initCustomer retain];
 		editTVC = [initEditTVC retain];
 		customModuleKeys = [[customer.customModules allKeys] copy];
-    }
-    return self;
+    }    return self;
+}
+
+- (void) viewDidLoad
+{
+	[super viewDidLoad];
+	self.navigationItem.title = @"Select Device Module";
 }
 
 #pragma mark -
@@ -81,34 +127,27 @@
 - (NSDictionary *) moduleDictionaryForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSString *vendorModuleName = nil;
-	NSString *vendorModuleDesc = nil;
 	switch (indexPath.section) {
 		case 0:
 			/* Server or Workstation */
 			switch (indexPath.row) {
 				case 0:
 					vendorModuleName = @"xserve_intel";
-					vendorModuleDesc = @"Xserve (Intel)";
 					break;
 				case 1:
 					vendorModuleName = @"xserve_g5";
-					vendorModuleDesc = @"Xserve (G5)";
 					break;
 				case 2:
 					vendorModuleName = @"osx_server";
-					vendorModuleDesc = @"Non-Xserve Mac OS X Server";
 					break;
 				case 3:
 					vendorModuleName = @"osx_client";
-					vendorModuleDesc = @"Mac OS X Client";
 					break;
 				case 4:
 					vendorModuleName = @"netsnmp";
-					vendorModuleDesc = @"Linux/UNIX with Net-SNMP Daemon";
 					break;
 				case 5:
 					vendorModuleName = @"windows";
-					vendorModuleDesc = @"Windows";
 					break;
 				default:
 					break;
@@ -119,27 +158,21 @@
 			switch (indexPath.row) {
 				case 0:
 					vendorModuleName = @"vtrak";
-					vendorModuleDesc = @"Promise VTrak";
 					break;
 				case 1:
 					vendorModuleName = @"xraid";
-					vendorModuleDesc = @"Xserve RAID";
 					break;
 				case 2:
 					vendorModuleName = @"activestorage";
-					vendorModuleDesc = @"Active Storage";
 					break;
 				case 3:
 					vendorModuleName = @"infortrend";
-					vendorModuleDesc = @"Infortrend Controller";
 					break;
 				case 4:
 					vendorModuleName = @"filer";
-					vendorModuleDesc = @"NetApp Filer";
 					break;
 				case 5:
 					vendorModuleName = @"qlogic";
-					vendorModuleDesc = @"Qlogic Fibre Channel Switch";
 					break;
 				default:
 					break;
@@ -151,43 +184,33 @@
 			switch (indexPath.row) {
 				case 0:
 					vendorModuleName = @"3com";
-					vendorModuleDesc = @"3Com Switch";
 					break;
 				case 1:
 					vendorModuleName = @"alliedtelesyn";
-					vendorModuleDesc = @"Allied Telesyn Switch";
 					break;
 				case 2:
 					vendorModuleName = @"cisco";
-					vendorModuleDesc = @"Cisco Router/Switch/Firewall";
 					break;
 				case 3:
 					vendorModuleName = @"foundry";
-					vendorModuleDesc = @"Foundry Load Balancer";
 					break;
 				case 4:
 					vendorModuleName = @"hp";
-					vendorModuleDesc = @"HP Switch";
 					break;
 				case 5:
 					vendorModuleName = @"airport";
-					vendorModuleDesc = @"Airport Access Point";
 					break;
 				case 6:
 					vendorModuleName = @"apcups";
-					vendorModuleDesc = @"APC UPS";
 					break;
 				case 7:
 					vendorModuleName = @"mgeups";
-					vendorModuleDesc = @"MGE UPS";
 					break;
 				case 8:
 					vendorModuleName = @"netbotz";
-					vendorModuleDesc = @"NetBotz Environmental Monitor";
 					break;
 				case 9:
 					vendorModuleName = @"liebert";
-					vendorModuleDesc = @"Liebert Airconditioner";
 					break;
 				default:
 					break;
@@ -199,19 +222,15 @@
 			switch (indexPath.row) {
 				case 0:
 					vendorModuleName = @"snmpbasic";
-					vendorModuleDesc = @"Basic SNMP";
 					break;
 				case 1:
 					vendorModuleName = @"snmpadv";
-					vendorModuleDesc = @"Extended SNMP";
 					break;
 				case 2:
 					vendorModuleName = @"printer";
-					vendorModuleDesc = @"Printer";
 					break;
 				case 3:
 					vendorModuleName = @"icmp";
-					vendorModuleDesc = @"ICMP Ping Only";
 					break;
 				default:
 					break;
@@ -221,7 +240,6 @@
 		case 4:
 			/* Custom */
 			vendorModuleName = [customModuleKeys objectAtIndex:indexPath.row];
-			vendorModuleDesc = [customer.customModules objectForKey:vendorModuleName];
 			NSLog (@"vendorModuleName=%@ editTVC.devVendorModule=%@", vendorModuleName, editTVC.devVendorModule);			
 			break;
 		default:
@@ -229,8 +247,10 @@
 	}
 	
 	NSMutableDictionary *moduleDict = [NSMutableDictionary dictionary];
-	if (vendorModuleName) [moduleDict setObject:vendorModuleName forKey:@"name"];
-	if (vendorModuleDesc) [moduleDict setObject:vendorModuleDesc forKey:@"desc"];
+	[moduleDict setObject:vendorModuleName 
+				   forKey:@"name"];
+	[moduleDict setObject:[LTDeviceEditModuleListTableViewController descriptionForModuleName:vendorModuleName] 
+				   forKey:@"desc"];
 	return moduleDict;
 }
 

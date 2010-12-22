@@ -18,6 +18,7 @@
 	NSArray *customModuleKeys;
 }
 
++ (NSString *) descriptionForModuleName:(NSString *)name;
 - (id)initWithCustomer:(LTCustomer *)initCustomer deviceEditTVC:(LTDeviceEditTableViewController *)initEditTVC;
 
 @end

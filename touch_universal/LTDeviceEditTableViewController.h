@@ -10,7 +10,7 @@
 
 @class LTEntity;
 
-@interface LTDeviceEditTableViewController : UITableViewController 
+@interface LTDeviceEditTableViewController : UITableViewController <UITextFieldDelegate>
 {
 	/* Device Properties */
 	UITextField *devDesc;
@@ -31,11 +31,10 @@
 	int devProtocol;
 	UISwitch *devUseICMP;
 	UISwitch *devUseProcessList;
-	UISwitch *devUseLOM;
+	UISwitch *devUseLOM;	
 	
-	/* Module Descriptions */
-	NSMutableDictionary *moduleDescriptions;
-	
+	/* State */
+	UITextField *editingTextField;
 }
 
 - (id)initWithDeviceToEdit:(LTEntity *)initDevice;

@@ -140,6 +140,11 @@
 		10C3F46F11BF541200CBD469 /* LTModalProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */; };
 		10C3F47011BF541200CBD469 /* LTModalProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */; };
 		10CF1EC712A2E05600CD120C /* LTContainerIconViewGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CF1EC612A2E05600CD120C /* LTContainerIconViewGraphView.m */; };
+		10D6F34C12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F34B12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.m */; };
+		10D6F36A12C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F36912C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.m */; };
+		10D6F38112C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F38012C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m */; };
+		10D6F39212C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F39112C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m */; };
+		10D6F39912C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F39812C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -343,6 +348,16 @@
 		10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTModalProgressViewController.xib; sourceTree = "<group>"; };
 		10CF1EC512A2E05600CD120C /* LTContainerIconViewGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTContainerIconViewGraphView.h; sourceTree = "<group>"; };
 		10CF1EC612A2E05600CD120C /* LTContainerIconViewGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTContainerIconViewGraphView.m; sourceTree = "<group>"; };
+		10D6F34A12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditProtocolListTableViewController.h; sourceTree = "<group>"; };
+		10D6F34B12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditProtocolListTableViewController.m; sourceTree = "<group>"; };
+		10D6F36812C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditSNMPVersionListTableViewController.h; sourceTree = "<group>"; };
+		10D6F36912C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditSNMPVersionListTableViewController.m; sourceTree = "<group>"; };
+		10D6F37F12C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditRefreshIntervalListTableViewController.h; sourceTree = "<group>"; };
+		10D6F38012C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditRefreshIntervalListTableViewController.m; sourceTree = "<group>"; };
+		10D6F39012C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditSNMPPrivacyListTableViewController.h; sourceTree = "<group>"; };
+		10D6F39112C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditSNMPPrivacyListTableViewController.m; sourceTree = "<group>"; };
+		10D6F39712C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditSNMPAuthenticationListTableViewController.h; sourceTree = "<group>"; };
+		10D6F39812C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditSNMPAuthenticationListTableViewController.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* Lithium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lithium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -432,6 +447,11 @@
 		104F699612C03EF000074651 /* Device Setup (iPad Only) */ = {
 			isa = PBXGroup;
 			children = (
+				10D6F39612C1512800A717D3 /* SNMP Authentication Selection */,
+				10D6F38F12C14F9E00A717D3 /* SNMP Encryption Selection */,
+				10D6F37E12C14B5400A717D3 /* Refresh Interval Selection */,
+				10D6F36712C1490900A717D3 /* SNMP Version Selection */,
+				10D6F34912C1467200A717D3 /* Protocol Selection */,
 				10318BEC12C0797400A76C73 /* Device Module Selection */,
 				104F699712C03F2300074651 /* LTDeviceEditTableViewController.h */,
 				104F699812C03F2300074651 /* LTDeviceEditTableViewController.m */,
@@ -806,6 +826,51 @@
 			name = "Modal Progress";
 			sourceTree = "<group>";
 		};
+		10D6F34912C1467200A717D3 /* Protocol Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F34A12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.h */,
+				10D6F34B12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.m */,
+			);
+			name = "Protocol Selection";
+			sourceTree = "<group>";
+		};
+		10D6F36712C1490900A717D3 /* SNMP Version Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F36812C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.h */,
+				10D6F36912C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.m */,
+			);
+			name = "SNMP Version Selection";
+			sourceTree = "<group>";
+		};
+		10D6F37E12C14B5400A717D3 /* Refresh Interval Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F37F12C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.h */,
+				10D6F38012C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m */,
+			);
+			name = "Refresh Interval Selection";
+			sourceTree = "<group>";
+		};
+		10D6F38F12C14F9E00A717D3 /* SNMP Encryption Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F39012C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.h */,
+				10D6F39112C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m */,
+			);
+			name = "SNMP Encryption Selection";
+			sourceTree = "<group>";
+		};
+		10D6F39612C1512800A717D3 /* SNMP Authentication Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F39712C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.h */,
+				10D6F39812C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m */,
+			);
+			name = "SNMP Authentication Selection";
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1079,6 +1144,11 @@
 				10CF1EC712A2E05600CD120C /* LTContainerIconViewGraphView.m in Sources */,
 				104F699912C03F2300074651 /* LTDeviceEditTableViewController.m in Sources */,
 				10318BEF12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m in Sources */,
+				10D6F34C12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.m in Sources */,
+				10D6F36A12C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.m in Sources */,
+				10D6F38112C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m in Sources */,
+				10D6F39212C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m in Sources */,
+				10D6F39912C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

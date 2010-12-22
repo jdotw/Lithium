@@ -85,6 +85,10 @@
 }
 
 - (void) refresh;
+- (void) postXmlToResource:(NSString *)resourceAddress 
+			 entityAddress:(NSString *)entityAddress 
+				   xmlName:(NSString *)xmlName 
+					   xml:(NSString *)xml;
 - (void) setXmlValue:(id)value forKey:(NSString *)key;
 - (void) updateEntityUsingXMLNode:(LCXMLNode *)node;
 - (void) xmlParserDidFinish:(LCXMLNode *)rootNode;
