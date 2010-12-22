@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "LTEntityDescriptor.h"
+#import "LTAPIRequest.h"
 
 @interface LTIncident : LTAPIRequest 
 {
@@ -23,6 +24,8 @@
 	NSMutableArray *actions;
 	NSMutableDictionary *actionDict;
 }
+
+- (void) clear;
 
 @property (assign) int identifier;
 @property (copy) NSDate *startDate;

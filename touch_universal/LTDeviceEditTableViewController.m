@@ -699,12 +699,7 @@
 	/* Check the deployment is reachable */
 	if (!self.site.coreDeployment.reachable)
 	{
-		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Deployment is Unreachable"
-														 message:@"The Lithium Core deployment is currently unreachable, please try again later"
-														delegate:nil
-											   cancelButtonTitle:@"Dismiss"
-											   otherButtonTitles:nil] autorelease];
-		[alert show];
+		[self.site.coreDeployment showUnreachableAlert];
 		return;
 	}
 	

@@ -18,19 +18,26 @@
 #import "LTEntityRefreshProgressViewCell.h"
 #import "LTTableViewCell.h"
 
+@interface LTIncidentListTableViewController (Private)
+
+- (void) incidentListRefreshFinished:(NSNotification *)notification;
+- (void) rebuildIncidentsArray;
+
+@end
+
+
 @implementation LTIncidentListTableViewController
 
 - (void) awakeFromNib
 {
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 	[super awakeFromNib];	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(coreDeploymentArrayUpdated:)
-												 name:@"CoreDeploymentAdded" object:appDelegate];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(coreDeploymentArrayUpdated:)
-												 name:@"CoreDeploymentRemoved" object:appDelegate];	
 
+	/* Listen to refresh of any incident list (we are the global list if awoken from NIB) */
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(incidentListRefreshFinished:)
+												 name:@"IncidentListRefreshFinished" 
+											   object:nil];
+	
 	sortSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Sort by Device", @"Sort by Time", nil]];
 	sortSegment.segmentedControlStyle = UISegmentedControlStyleBar;
 	sortSegment.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"IncidentsViewMode"];
@@ -39,7 +46,6 @@
 		  forControlEvents:UIControlEventValueChanged];
 	self.navigationItem.titleView = sortSegment;
 
-	[self coreDeploymentArrayUpdated:nil];
 	[self rebuildIncidentsArray];
 }
 
@@ -47,35 +53,6 @@
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:sortSegment.selectedSegmentIndex forKey:@"IncidentsViewMode"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
-	[self rebuildIncidentsArray];
-}
-
-- (void) coreDeploymentArrayUpdated:(NSNotification *)notification
-{
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	for (LTCoreDeployment *core in appDelegate.coreDeployments)
-	{
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(coreDeploymentRefreshFinished:)
-													 name:@"RefreshFinished" 
-												   object:core];		
-	}	
-	[self rebuildIncidentsArray];
-}
-
-- (void) coreDeploymentRefreshFinished:(NSNotification *)notification
-{
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	for (LTCoreDeployment *core in appDelegate.coreDeployments)
-	{
-		for (LTCustomer *customer in core.children)
-		{
-			[[NSNotificationCenter defaultCenter] addObserver:self
-													 selector:@selector(incidentListRefreshFinished:)
-														 name:@"IncidentListRefreshFinished" 
-													   object:customer.incidentList];
-		}
-	}	
 	[self rebuildIncidentsArray];
 }
 
@@ -442,8 +419,27 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) 
 	{
 		/* Clear the Incident */
-        // Delete the row from the data source
-//        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+		LTIncidentListGroup *group = (LTIncidentListGroup *) [sortedChildren objectAtIndex:indexPath.section];
+		LTIncident *incident = [group.children objectAtIndex:[indexPath row]];
+		if (incident.metric.coreDeployment.reachable)
+		{
+			/* Clear the incident (removes it from live customer.incidentList) */
+			[incident clear];
+			
+			/* Remove from sorted group to allow table view delete */
+			[group.children removeObjectAtIndex:indexPath.row];
+			
+			/* Delete row in table view */
+			[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+								  withRowAnimation:YES];
+			
+			/* If we're showing incident list for a specific device, refresh it */
+			[self.device refresh];
+		}
+		else 
+		{
+			[incident.metric.coreDeployment showUnreachableAlert];
+		}
     }   
 }
 
@@ -465,6 +461,13 @@
 
 - (void)dealloc 
 {
+	if (self.device)
+	{
+		[[NSNotificationCenter defaultCenter] removeObserver:self 
+														name:@"IncidentListRefreshFinished"  
+													  object:self.device.customer.incidentList];
+		[device release];
+	}		
 	[sortedChildren release];
     [super dealloc];
 }
@@ -488,6 +491,12 @@
 {
 	[device release];
 	device = [value retain];
+
+	/* Listen to refresh just from the device->customer's incident list */
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(incidentListRefreshFinished:)
+												 name:@"IncidentListRefreshFinished" 
+											   object:device.customer.incidentList];	
 	
 	[self rebuildIncidentsArray];
 }

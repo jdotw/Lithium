@@ -20,10 +20,6 @@
 	LTEntity *device;
 }
 
-- (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
-- (void) coreDeploymentRefreshFinished:(NSNotification *)notification;
-- (void) incidentListRefreshFinished:(NSNotification *)notification;
-- (void) rebuildIncidentsArray;
 
 @property (copy) NSArray *sortedChildren;
 @property (readonly) BOOL refreshInProgress;

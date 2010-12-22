@@ -179,6 +179,8 @@
 						/* Interpret entityDescriptor */
 						curIncident.entityDescriptor = [LTEntityDescriptor entityDescriptorFromXml:incChildNode]; 
 						curIncident.resourceAddress = curIncident.entityDescriptor.resourceAddress;
+						
+						NSLog (@"Incident entityDesc type is %@", curIncident.entityDescriptor.entityAddress);
 
 						/* Create stand-alone entity for the incident */
 						curIncident.metric = [LTEntity new];
