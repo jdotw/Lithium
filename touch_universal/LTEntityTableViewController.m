@@ -10,7 +10,6 @@
 #import "LTEntityTableViewCell.h"
 #import "AppDelegate.h"
 #import "LTCoreDeployment.h"
-#import "LTMetricTableViewCell.h"
 #import "LTMetricTableViewController.h"
 #import "LTTableViewCellBackground.h"
 #import "LTTableViewCellSelectedBackground.h"
@@ -20,6 +19,7 @@
 #import "LTFavoritesTableViewController.h"
 #import "LTDeviceViewController.h"
 #import "LTTableView.h"
+#import "LTDeviceEditTableViewController.h"
 #import "AppDelegate_Pad.h"
 
 @interface LTEntityTableViewController (private)
@@ -57,9 +57,16 @@
 
 	if (entity)
 	{
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-																								target:self 
-																								action:@selector(refreshTouched:)] autorelease];
+		if (entity.type == 2 && UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) 
+		{
+			/* Entity is a Customer or Site, show an Add button to add a device
+			 * only if the device is an iPad 
+			 */
+			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+																									target:self
+																									action:@selector(addDeviceTouched:)] autorelease];
+		}
+			
 	}
 	else
 	{
@@ -316,32 +323,68 @@
 	}
 }
 
+- (NSString *) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	if (self.entity.type == 4 && [self.entity.name isEqualToString:@"avail"] && self.entity.opState > 0)
+	{
+		/* This is the availability container and there is a problem */
+		return @"\nThe device is not responding to one or more of the protocols that Lithium Core is using to gather monitoring data from the device.";
+	}
+	else return nil;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
+	if (footerTitle)
+	{
+		UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+		label.text = footerTitle;
+		label.numberOfLines = 0;
+		label.font = [UIFont systemFontOfSize:12.0];
+		label.backgroundColor = [UIColor clearColor];
+		label.textColor = [UIColor grayColor];
+		label.textAlignment = UITextAlignmentCenter;
+//		label.shadowColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+//		label.shadowOffset = CGSizeMake(0.0, 1.0);
+		return label;
+	}
+	else
+	{
+		return nil;
+	}
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	NSString *footerTitle = [self tableView:tableView titleForFooterInSection:section];
+	if (footerTitle)
+	{
+		CGSize stringSize = [footerTitle sizeWithFont:[UIFont systemFontOfSize:12.0] constrainedToSize:tableView.bounds.size lineBreakMode:UILineBreakModeWordWrap];
+		return stringSize.height;
+	}
+	else
+	{
+		return 0.;
+	}
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LTEntity *displayEntity = [self entityAtIndexPath:indexPath inTableView:tableView];
-	NSLog (@"%@ got %@", indexPath, displayEntity);
 	
     NSString *CellIdentifier;
-	if (displayEntity.type == 6 || (displayEntity.type == 5 && displayEntity.children.count == 1))
-	{ CellIdentifier = @"Metric"; }
-	else if (displayEntity)
+	if (displayEntity)
 	{ CellIdentifier = @"Entity"; }
 	else 
 	{ CellIdentifier = @"Refresh"; }
     LTEntityTableViewCell *cell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-		if ([CellIdentifier isEqualToString:@"Metric"])
+		if ([CellIdentifier isEqualToString:@"Entity"])
 		{
-			LTMetricTableViewCell *metricCell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
-			metricCell.showCurrentValue = YES;
-			cell = metricCell;			
-		}
-		else if ([CellIdentifier isEqualToString:@"Entity"])
-		{
-			cell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-			cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+			cell = [[[LTEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
 		}
 		else if ([CellIdentifier isEqualToString:@"Refresh"])
 		{
@@ -363,12 +406,11 @@
 		cell.textLabel.text = displayEntity.desc;
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
 		cell.entity = displayEntity;
-		if (displayEntity.type > 0)
+		if (displayEntity.type == 0)
 		{
-			cell.entityState = displayEntity.opState;
-		}
-		else
-		{
+			/* Displaying a deployment, use the detailtextLabel (subtitle)
+			 * to show the deployment status 
+			 */
 			LTCoreDeployment *deployment = (LTCoreDeployment *) displayEntity;
 			if (!deployment.reachable)
 			{
@@ -580,7 +622,6 @@
 	{
 		/* Build a list of all devices */
 		unfilteredEntities = [entity.children valueForKeyPath:@"@unionOfArrays.children"];
-		NSLog (@"Devices is %@", unfilteredEntities);
 	}
 	else 
 	{
@@ -599,8 +640,6 @@
 	
 	if (filterPredicate)
 	{ [searchFilteredItems addObjectsFromArray:[unfilteredEntities filteredArrayUsingPredicate:filterPredicate]]; }
-	
-	NSLog (@"searchFilteredItems is now %@", searchFilteredItems);
 }
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
@@ -651,19 +690,10 @@
 
 - (void) entityRefreshFinished:(NSNotification *)notification
 {
-	NSLog (@"Got entityRefreshFinished for %@", [[notification object] desc]);
 	if (entity)	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 	if ([notification object] == self.entity || [self.entity.children containsObject:[notification object]])
 	{
 		[self sortAndFilterChildren];	
-//		if (entity && children.count == 1)
-//		{
-//			/* Entity refresh completed returning a lone entity; 
-//			 * supplant our current entity with this lone entity
-//			 */
-//			LTEntity *singleEntity = [children objectAtIndex:0];
-//			self.entity = singleEntity;
-//		}
 		[[self tableView] reloadData];
 	}
 }
@@ -707,6 +737,16 @@
 	[navController release];	
 }
 
+- (IBAction) addDeviceTouched:(id)sender
+{
+	LTDeviceEditTableViewController *vc = [[LTDeviceEditTableViewController alloc] initForNewDeviceAtSite:self.entity];
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:vc];
+	navController.navigationBar.tintColor = [UIColor colorWithWhite:120.0/255.0 alpha:1.0];
+	navController.modalPresentationStyle = UIModalPresentationFormSheet;
+	[self.navigationController presentModalViewController:navController animated:YES];
+	[vc release];
+	[navController release];	
+}
 
 #pragma mark "Properties"
 

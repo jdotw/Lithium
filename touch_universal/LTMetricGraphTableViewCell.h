@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "LTGraphView.h"
 
-@class LTGraphView;
+@class LTGraphView, LTGraphBackgroundView;
 
 @interface LTMetricGraphTableViewCell : UITableViewCell 
 {
 	LTGraphView *graphView;
+	LTGraphBackgroundView *graphBackground;
 	UIScrollView *scrollView;
 	
 	UILabel *leftMinLabel;

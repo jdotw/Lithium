@@ -76,21 +76,6 @@ i_list* l_lic_loadkeys (i_resource *self)
   list = i_list_create ();
   i_list_set_destructor (list, l_lic_key_free);
 
-  /* DEBUG FIX BETA */
-//  key = l_lic_key_create ();
-//  key->status = KEY_VALID;
-//  key->id = 0;
-//  key->serial = 0;
-//  key->type_str = strdup ("CSTD");
-//  key->product_str = strdup ("beta");
-//  key->custhash_str = strdup ("");
-//  key->version = 0x00000005;
-//  key->expiry_sec = 0;
-//  key->volume = 0x00000000;
-//  i_list_enqueue (list, key);
-//  return list;
-  /* END DEBUG FIX BETA */
-
   /* Connect to SQL */
   pgconn = i_pg_connect (self, "lithium");
   if (!pgconn)

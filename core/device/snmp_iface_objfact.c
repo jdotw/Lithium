@@ -48,6 +48,25 @@ int l_snmp_iface_objfact_fab (i_resource *self, i_container *cnt, i_object *obj,
   obj->mainform_func = l_snmp_iface_objform;
   obj->histform_func = l_snmp_iface_objform_hist;
 
+  /* Skip pesky interfaces */
+  if (strstr(obj->desc_str, "Software Loopback") ||
+      strstr(obj->desc_str, "WAN Miniport") ||
+      strstr(obj->desc_str, "RAS Async Adapter") ||
+      strstr(obj->desc_str, "Microsoft ISATAP Adapter") ||
+      strstr(obj->desc_str, "Teredo Tunneling Pseudo-Interface") ||
+      strstr(obj->desc_str, "QoS Packet Scheduler") ||
+      strstr(obj->desc_str, "Filter") ||
+      strcmp(obj->desc_str, "gif0")==0 ||
+      strcmp(obj->desc_str, "stf0")==0 ||
+      strcmp(obj->desc_str, "lo0")==0 ||
+      strcmp(obj->desc_str, "lo")==0 ||
+      strcmp(obj->desc_str, "fw0")==0 ||
+      strstr(obj->desc_str, "vnic") ||
+      strstr(obj->desc_str, "vmnet") ||
+      strstr(obj->desc_str, "utun") ||
+      strstr(obj->desc_str, "ppp"))
+  { return -1; }
+
   /* Load/Apply Refresh config */
   num = i_entity_refresh_config_loadapply (self, ENTITY(obj), NULL);
   if (num != 0)

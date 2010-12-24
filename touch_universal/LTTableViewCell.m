@@ -34,6 +34,7 @@
 		self.detailTextLabel.textColor = [UIColor whiteColor];
 		self.detailTextLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.6];
 		self.detailTextLabel.shadowOffset = CGSizeMake(0.0, -1.);
+		if (style == UITableViewCellStyleSubtitle) self.detailTextLabel.font = [UIFont systemFontOfSize:12.];
     }
     return self;	
 }
@@ -46,7 +47,8 @@
 - (void) setEntityState:(int)value
 {
 	entityState = value;
-	((LTTableViewCellBackground *)self.backgroundView).entityState = self.entityState;
+	if ([self.backgroundView isMemberOfClass:[LTTableViewCellBackground class]])
+	{ ((LTTableViewCellBackground *)self.backgroundView).entityState = self.entityState; }
 	switch (entityState) {
 		case -2:
 		case -1:

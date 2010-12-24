@@ -27,19 +27,30 @@
 		[self addSubview:swatchView];
 		[swatchView release];
 
-		label = [[UILabel alloc] initWithFrame:CGRectZero];
-		label.backgroundColor = [UIColor clearColor];
-		label.opaque = NO;
-		label.textColor = [UIColor whiteColor];
-		label.highlightedTextColor = [UIColor grayColor];
-		label.font = [UIFont boldSystemFontOfSize:12.0];
-		label.textAlignment = UITextAlignmentLeft;
-		label.userInteractionEnabled = NO;
-		label.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.3];
-		label.shadowOffset = CGSizeMake(0.0, -1.0);
+		descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		descLabel.backgroundColor = [UIColor clearColor];
+		descLabel.opaque = NO;
+		descLabel.textColor = [UIColor whiteColor];
+		descLabel.highlightedTextColor = [UIColor grayColor];
+		descLabel.font = [UIFont boldSystemFontOfSize:12.0];
+		descLabel.textAlignment = UITextAlignmentLeft;
+		descLabel.userInteractionEnabled = NO;
+		descLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+		descLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+		[self addSubview:descLabel];
+		[descLabel release];
 		
-		[self addSubview:label];
-		[label release];
+		valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		valueLabel.backgroundColor = [UIColor clearColor];
+		valueLabel.textColor = [UIColor whiteColor];
+		valueLabel.highlightedTextColor = [UIColor grayColor];
+		valueLabel.font = [UIFont systemFontOfSize:12.0];
+		valueLabel.textAlignment = UITextAlignmentRight;
+		valueLabel.userInteractionEnabled = NO;
+		valueLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.3];
+		valueLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+		[self addSubview:valueLabel];
+		[valueLabel release];
 		
 		UITapGestureRecognizer *touchRecog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(legendTapped:)];
 		touchRecog.numberOfTapsRequired = 1;
@@ -48,13 +59,24 @@
     return self;
 }
 
-- (void) presentPopoverForEntityFromRect:(CGRect)rect
+- (UIPopoverController *) presentPopoverForEntityFromRect:(CGRect)rect
 {
 	/* Draw pop-over for the entity */
 	LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:self.entity.parent];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
 	UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:nav];
-	[popover presentPopoverFromRect:rect inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];	
+	if (self.frame.size.height > 0. && self.frame.size.width > 0.)
+	{
+		[popover presentPopoverFromRect:rect inView:self permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];	
+		popoverWaitingToBeDisplayed = nil;
+	}
+	else 
+	{
+		popoverWaitingToBeDisplayed = popover;
+		popoverWaitingToBeDisplayedRect = rect;
+	}
+
+	return popover;
 }
 
 - (void) legendTapped:(UITapGestureRecognizer *)gestureRecog
@@ -71,9 +93,36 @@
 	CGFloat swatchWidth=12.0;
 	swatchView.frame = CGRectMake(padding, CGRectGetMidY(self.bounds)-(swatchWidth*0.5), swatchWidth, swatchWidth);
 	
-	/* Label */
-	label.frame = CGRectMake(CGRectGetMaxX(swatchView.frame)+padding, CGRectGetMidY(self.bounds)-(label.font.pointSize*0.5), 
-							 CGRectGetWidth(self.bounds) - ((CGRectGetMaxX(swatchView.frame)+padding) + padding), label.font.pointSize);	
+	/* Labels */
+	CGFloat descValueSplit = 0.7;
+	CGRect labelRect = CGRectMake(CGRectGetMaxX(swatchView.frame)+padding, CGRectGetMidY(self.bounds)-(descLabel.font.pointSize*0.5), 
+								   CGRectGetWidth(self.bounds) - ((CGRectGetMaxX(swatchView.frame)+padding) + padding), descLabel.font.pointSize);
+	
+	CGRect descLabelRect = labelRect;
+	descLabelRect.size.width *= descValueSplit;
+	descLabel.frame = CGRectIntegral(descLabelRect);;
+
+	CGRect valueLabelRect = labelRect;
+	valueLabelRect.size.width = (labelRect.size.width * (1.0-descValueSplit)) - (2.0 * padding);
+	valueLabelRect.origin.x = CGRectGetMaxX(descLabelRect) + padding;
+	valueLabel.frame = CGRectIntegral(valueLabelRect);
+	
+	/* Check to see if a popover is waitingto be displayed */
+	if (popoverWaitingToBeDisplayed && self.frame.size.height > 0. && self.frame.size.width > 0.)
+	{
+		/* There's a popover to be displayed which could not be 
+		 * presented earlier because our frame had not been set.
+		 * We can now display this popover
+		 */
+		if (CGRectEqualToRect(popoverWaitingToBeDisplayedRect, CGRectZero)) 
+		{ popoverWaitingToBeDisplayedRect = self.bounds; }
+		[popoverWaitingToBeDisplayed presentPopoverFromRect:popoverWaitingToBeDisplayedRect 
+													 inView:self 
+								   permittedArrowDirections:UIPopoverArrowDirectionAny 
+												   animated:YES];	
+		popoverWaitingToBeDisplayed = nil;
+	}
+		
 }
 
 - (void) drawRect:(CGRect)rect
@@ -92,7 +141,26 @@
 	UIBezierPath *outlineLightInnder = [UIBezierPath bezierPathWithRoundedRect:CGRectOffset(self.bounds, -1.0, -1.0) cornerRadius:6.0];
 	[[UIColor colorWithWhite:1.0 alpha:0.1] setStroke];
 	[outlineLightInnder stroke];
-	
+
+	/* Draw clipped status color */
+	UIBezierPath *statusClipPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(CGRectGetMinX(self.bounds)+1.0, CGRectGetMinY(self.bounds)+1,
+																					  CGRectGetWidth(self.bounds)-2.0, CGRectGetHeight(self.bounds)-2.0)
+															  cornerRadius:6.0];
+	[statusClipPath addClip];
+	UIImage *statusImage = nil;
+	switch (entity.opState)
+	{
+		case 1:
+			statusImage = [UIImage imageNamed:@"LTTableViewCellBack-Yellow.png"];
+			break;
+		case 2:
+			statusImage = [UIImage imageNamed:@"LTTableViewCellBack-Orange.png"];
+			break;
+		case 3:
+			statusImage = [UIImage imageNamed:@"LTTableViewCellBack-Red.png"];
+			break;
+	}	
+	[statusImage drawInRect:self.bounds blendMode:kCGBlendModeNormal alpha:0.7];
 }
 
 - (void)dealloc {
@@ -115,8 +183,8 @@
 	[entity release];
 	entity = [value retain];
 	
-	if (entity) label.text = [NSString stringWithFormat:@"%@ %@", entity.parent.desc, entity.desc];
-	else label.text = @"";
+	descLabel.text = entity ? [NSString stringWithFormat:@"%@ %@", entity.parent.desc, entity.desc] : @" ";
+	valueLabel.text = entity.currentValue ? : @" ";
 	
 	[self layoutSubviews];
 	

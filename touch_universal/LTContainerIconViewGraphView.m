@@ -40,12 +40,12 @@
 			CGContextTranslateCTM(ctx, 0.0, imageRect.size.height);
 			CGContextScaleCTM(ctx, 1.0, -1.0);
 			CGContextConcatCTM(ctx, CGPDFPageGetDrawingTransform(pageRef, kCGPDFCropBox, imageRect, 0, false));
-			CGContextSetBlendMode(ctx, kCGBlendModeDifference);
+			CGContextSetBlendMode(ctx, kCGBlendModeNormal);
 			
 			CGContextDrawPDFPage(ctx, pageRef);
 			UIImage *graphImage = UIGraphicsGetImageFromCurrentImageContext();
 			UIGraphicsEndImageContext();
-			[graphImage drawInRect:self.bounds blendMode:kCGBlendModeNormal alpha:1.0];
+			[graphImage drawInRect:self.bounds blendMode:kCGBlendModeLuminosity alpha:0.8];
 		}
 	}
 	else if (self.container)

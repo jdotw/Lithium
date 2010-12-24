@@ -125,7 +125,7 @@
 					entity.password = [customer password];
 					entity.customer = customer;
 					entity.customerName = customer.name;
-					entity.resourceAddress = customer.resourceAddress;
+					entity.resourceAddress = [entityNode.properties objectForKey:@"resaddr"] ? : customer.resourceAddress;
 					entity.ipAddress = customer.ipAddress;
 					entity.coreDeployment = customer.coreDeployment;
 					entity.entityDescriptor = childEntDesc;

@@ -22,6 +22,7 @@
 		102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C692611BCE8F40032D043 /* LTDeviceViewController.xib */; };
 		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
 		102C695811BD61170032D043 /* LTContainerIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C695611BD61170032D043 /* LTContainerIconViewController.xib */; };
+		10318BEF12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10318BEE12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m */; };
 		104B84A21293123500E77D88 /* noiseback-light.png in Resources */ = {isa = PBXBuildFile; fileRef = 104B84A11293123500E77D88 /* noiseback-light.png */; };
 		104B84F1129315A100E77D88 /* LTEntityTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */; };
 		104B8550129317AD00E77D88 /* LTFavoritesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */; };
@@ -32,6 +33,8 @@
 		104DEF6E12836995008A7936 /* ContainerScrollBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 104DEF6C12836995008A7936 /* ContainerScrollBack.png */; };
 		104DEF6F12836995008A7936 /* ObjectScrollBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 104DEF6D12836995008A7936 /* ObjectScrollBack.png */; };
 		104DEFA81283796D008A7936 /* LTGraphBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104DEFA71283796D008A7936 /* LTGraphBackgroundView.m */; };
+		104F690212C01E3D00074651 /* checkerboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 104F690112C01E3D00074651 /* checkerboard.png */; };
+		104F699912C03F2300074651 /* LTDeviceEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 104F699812C03F2300074651 /* LTDeviceEditTableViewController.m */; };
 		105EDDDD11BC2FFE00B294B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */; };
 		105EDE5411BC38D100B294B4 /* LCXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE3411BC38D100B294B4 /* LCXMLNode.m */; };
 		105EDE5511BC38D100B294B4 /* LCXMLParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE3611BC38D100B294B4 /* LCXMLParseOperation.m */; };
@@ -51,7 +54,6 @@
 		105EDE7111BC390A00B294B4 /* LTPushRegistrationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7011BC390A00B294B4 /* LTPushRegistrationRequest.m */; };
 		105EDECE11BC392000B294B4 /* LTEntityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7611BC392000B294B4 /* LTEntityTableViewController.m */; };
 		105EDECF11BC392000B294B4 /* LTEntityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7811BC392000B294B4 /* LTEntityTableViewCell.m */; };
-		105EDED011BC392000B294B4 /* LTMetricTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7A11BC392000B294B4 /* LTMetricTableViewCell.m */; };
 		105EDED111BC392000B294B4 /* LTMetricValuesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE7E11BC392000B294B4 /* LTMetricValuesTableViewController.m */; };
 		105EDED211BC392000B294B4 /* MetricValues.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE7F11BC392000B294B4 /* MetricValues.xib */; };
 		105EDED311BC392000B294B4 /* slatebackbrowser.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE8011BC392000B294B4 /* slatebackbrowser.png */; };
@@ -62,7 +64,7 @@
 		105EDED811BC392000B294B4 /* MetricView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDE8711BC392000B294B4 /* MetricView.xib */; };
 		105EDEDA11BC392000B294B4 /* LTMetricGraphTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8B11BC392000B294B4 /* LTMetricGraphTableViewCell.m */; };
 		105EDEDB11BC392000B294B4 /* LTMetricLandscapeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */; };
-		105EDEDD11BC392000B294B4 /* LTMetricTableViewCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */; };
+		105EDEDD11BC392000B294B4 /* LTMetricGraphTableViewCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9011BC392000B294B4 /* LTMetricGraphTableViewCellBackground.m */; };
 		105EDEE011BC392000B294B4 /* LTGroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */; };
 		105EDEE211BC392000B294B4 /* LTIncidentListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9A11BC392000B294B4 /* LTIncidentListTableViewController.m */; };
 		105EDEE311BC392000B294B4 /* LTIncidentListGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE9C11BC392000B294B4 /* LTIncidentListGroup.m */; };
@@ -138,6 +140,11 @@
 		10C3F46F11BF541200CBD469 /* LTModalProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10C3F46D11BF541200CBD469 /* LTModalProgressViewController.m */; };
 		10C3F47011BF541200CBD469 /* LTModalProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */; };
 		10CF1EC712A2E05600CD120C /* LTContainerIconViewGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CF1EC612A2E05600CD120C /* LTContainerIconViewGraphView.m */; };
+		10D6F34C12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F34B12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.m */; };
+		10D6F36A12C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F36912C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.m */; };
+		10D6F38112C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F38012C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m */; };
+		10D6F39212C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F39112C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m */; };
+		10D6F39912C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F39812C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -166,6 +173,8 @@
 		102C695411BD61170032D043 /* LTContainerIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTContainerIconViewController.h; sourceTree = "<group>"; };
 		102C695511BD61170032D043 /* LTContainerIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTContainerIconViewController.m; sourceTree = "<group>"; };
 		102C695611BD61170032D043 /* LTContainerIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTContainerIconViewController.xib; sourceTree = "<group>"; };
+		10318BED12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditModuleListTableViewController.h; sourceTree = "<group>"; };
+		10318BEE12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditModuleListTableViewController.m; sourceTree = "<group>"; };
 		104B84A11293123500E77D88 /* noiseback-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noiseback-light.png"; sourceTree = "<group>"; };
 		104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTEntityTableViewController.xib; sourceTree = "<group>"; };
 		104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTFavoritesTableViewController.xib; sourceTree = "<group>"; };
@@ -178,6 +187,9 @@
 		104DEF6D12836995008A7936 /* ObjectScrollBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ObjectScrollBack.png; sourceTree = "<group>"; };
 		104DEFA61283796D008A7936 /* LTGraphBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphBackgroundView.h; sourceTree = "<group>"; };
 		104DEFA71283796D008A7936 /* LTGraphBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphBackgroundView.m; sourceTree = "<group>"; };
+		104F690112C01E3D00074651 /* checkerboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkerboard.png; sourceTree = "<group>"; };
+		104F699712C03F2300074651 /* LTDeviceEditTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditTableViewController.h; sourceTree = "<group>"; };
+		104F699812C03F2300074651 /* LTDeviceEditTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditTableViewController.m; sourceTree = "<group>"; };
 		105EDDDB11BC2FFE00B294B4 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		105EDE3311BC38D100B294B4 /* LCXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCXMLNode.h; sourceTree = "<group>"; };
@@ -216,8 +228,6 @@
 		105EDE7611BC392000B294B4 /* LTEntityTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityTableViewController.m; sourceTree = "<group>"; };
 		105EDE7711BC392000B294B4 /* LTEntityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityTableViewCell.h; sourceTree = "<group>"; };
 		105EDE7811BC392000B294B4 /* LTEntityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityTableViewCell.m; sourceTree = "<group>"; };
-		105EDE7911BC392000B294B4 /* LTMetricTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricTableViewCell.h; sourceTree = "<group>"; };
-		105EDE7A11BC392000B294B4 /* LTMetricTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricTableViewCell.m; sourceTree = "<group>"; };
 		105EDE7D11BC392000B294B4 /* LTMetricValuesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricValuesTableViewController.h; sourceTree = "<group>"; };
 		105EDE7E11BC392000B294B4 /* LTMetricValuesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricValuesTableViewController.m; sourceTree = "<group>"; };
 		105EDE7F11BC392000B294B4 /* MetricValues.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MetricValues.xib; sourceTree = "<group>"; };
@@ -233,8 +243,8 @@
 		105EDE8B11BC392000B294B4 /* LTMetricGraphTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricGraphTableViewCell.m; sourceTree = "<group>"; };
 		105EDE8C11BC392000B294B4 /* LTMetricLandscapeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricLandscapeViewController.h; sourceTree = "<group>"; };
 		105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricLandscapeViewController.m; sourceTree = "<group>"; };
-		105EDE8F11BC392000B294B4 /* LTMetricTableViewCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricTableViewCellBackground.h; sourceTree = "<group>"; };
-		105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricTableViewCellBackground.m; sourceTree = "<group>"; };
+		105EDE8F11BC392000B294B4 /* LTMetricGraphTableViewCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricGraphTableViewCellBackground.h; sourceTree = "<group>"; };
+		105EDE9011BC392000B294B4 /* LTMetricGraphTableViewCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricGraphTableViewCellBackground.m; sourceTree = "<group>"; };
 		105EDE9511BC392000B294B4 /* LTGroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGroupTableViewController.h; sourceTree = "<group>"; };
 		105EDE9611BC392000B294B4 /* LTGroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGroupTableViewController.m; sourceTree = "<group>"; };
 		105EDE9911BC392000B294B4 /* LTIncidentListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIncidentListTableViewController.h; sourceTree = "<group>"; };
@@ -338,6 +348,16 @@
 		10C3F46E11BF541200CBD469 /* LTModalProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTModalProgressViewController.xib; sourceTree = "<group>"; };
 		10CF1EC512A2E05600CD120C /* LTContainerIconViewGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTContainerIconViewGraphView.h; sourceTree = "<group>"; };
 		10CF1EC612A2E05600CD120C /* LTContainerIconViewGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTContainerIconViewGraphView.m; sourceTree = "<group>"; };
+		10D6F34A12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditProtocolListTableViewController.h; sourceTree = "<group>"; };
+		10D6F34B12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditProtocolListTableViewController.m; sourceTree = "<group>"; };
+		10D6F36812C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditSNMPVersionListTableViewController.h; sourceTree = "<group>"; };
+		10D6F36912C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditSNMPVersionListTableViewController.m; sourceTree = "<group>"; };
+		10D6F37F12C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditRefreshIntervalListTableViewController.h; sourceTree = "<group>"; };
+		10D6F38012C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditRefreshIntervalListTableViewController.m; sourceTree = "<group>"; };
+		10D6F39012C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditSNMPPrivacyListTableViewController.h; sourceTree = "<group>"; };
+		10D6F39112C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditSNMPPrivacyListTableViewController.m; sourceTree = "<group>"; };
+		10D6F39712C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditSNMPAuthenticationListTableViewController.h; sourceTree = "<group>"; };
+		10D6F39812C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditSNMPAuthenticationListTableViewController.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* Lithium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lithium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -369,7 +389,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		102C692111BCE8BB0032D043 /* Device View */ = {
+		102C692111BCE8BB0032D043 /* Device View (iPad Only) */ = {
 			isa = PBXGroup;
 			children = (
 				10042ABE1296473B00460772 /* LTDeviceViewBack.png */,
@@ -387,7 +407,7 @@
 				107C3271127FB95400C2321F /* Object View */,
 				10BFFA2B1235DE4500723DF4 /* Graph Legend */,
 			);
-			name = "Device View";
+			name = "Device View (iPad Only)";
 			sourceTree = "<group>";
 		};
 		102C695311BD60E40032D043 /* Container View */ = {
@@ -402,6 +422,41 @@
 				10CF1EC612A2E05600CD120C /* LTContainerIconViewGraphView.m */,
 			);
 			name = "Container View";
+			sourceTree = "<group>";
+		};
+		10318BEC12C0797400A76C73 /* Device Module Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10318BED12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.h */,
+				10318BEE12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m */,
+			);
+			name = "Device Module Selection";
+			sourceTree = "<group>";
+		};
+		104F698612C03E6600074651 /* Shared UI */ = {
+			isa = PBXGroup;
+			children = (
+				106CB6E011BF79D000F3382D /* LTWindow.h */,
+				106CB6E111BF79D000F3382D /* LTWindow.m */,
+				105EDECB11BC392000B294B4 /* LTTabBarController.h */,
+				105EDECC11BC392000B294B4 /* LTTabBarController.m */,
+			);
+			name = "Shared UI";
+			sourceTree = "<group>";
+		};
+		104F699612C03EF000074651 /* Device Setup (iPad Only) */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F39612C1512800A717D3 /* SNMP Authentication Selection */,
+				10D6F38F12C14F9E00A717D3 /* SNMP Encryption Selection */,
+				10D6F37E12C14B5400A717D3 /* Refresh Interval Selection */,
+				10D6F36712C1490900A717D3 /* SNMP Version Selection */,
+				10D6F34912C1467200A717D3 /* Protocol Selection */,
+				10318BEC12C0797400A76C73 /* Device Module Selection */,
+				104F699712C03F2300074651 /* LTDeviceEditTableViewController.h */,
+				104F699812C03F2300074651 /* LTDeviceEditTableViewController.m */,
+			);
+			name = "Device Setup (iPad Only)";
 			sourceTree = "<group>";
 		};
 		105EDDF611BC344900B294B4 /* Icons */ = {
@@ -502,11 +557,10 @@
 		105EDE7211BC392000B294B4 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
+				104F699612C03EF000074651 /* Device Setup (iPad Only) */,
 				10934AB011BEA0F5009EF1F7 /* Graph View */,
 				10C3F46B11BF53FD00CBD469 /* Modal Progress */,
-				102C692111BCE8BB0032D043 /* Device View */,
-				105EDECB11BC392000B294B4 /* LTTabBarController.h */,
-				105EDECC11BC392000B294B4 /* LTTabBarController.m */,
+				102C692111BCE8BB0032D043 /* Device View (iPad Only) */,
 				105EDEB711BC392000B294B4 /* Generic Table View */,
 				105EDEB311BC392000B294B4 /* Authentication View */,
 				105EDEAB11BC392000B294B4 /* Setup Tab */,
@@ -514,8 +568,7 @@
 				105EDE9711BC392000B294B4 /* Incidents Tab */,
 				105EDE9311BC392000B294B4 /* Groups Tab */,
 				105EDE7311BC392000B294B4 /* Devices Tab */,
-				106CB6E011BF79D000F3382D /* LTWindow.h */,
-				106CB6E111BF79D000F3382D /* LTWindow.m */,
+				104F698612C03E6600074651 /* Shared UI */,
 			);
 			name = "UI Classes";
 			sourceTree = "<group>";
@@ -539,8 +592,6 @@
 				105EDE7611BC392000B294B4 /* LTEntityTableViewController.m */,
 				105EDE7711BC392000B294B4 /* LTEntityTableViewCell.h */,
 				105EDE7811BC392000B294B4 /* LTEntityTableViewCell.m */,
-				105EDE7911BC392000B294B4 /* LTMetricTableViewCell.h */,
-				105EDE7A11BC392000B294B4 /* LTMetricTableViewCell.m */,
 				10BFF6DC1232171B00723DF4 /* LTEntityRefreshProgressViewCell.h */,
 				10BFF6DD1232171B00723DF4 /* LTEntityRefreshProgressViewCell.m */,
 			);
@@ -567,8 +618,8 @@
 				10BB41FD1295C0D000B75489 /* LTMetricLandscapeBack@2x.png */,
 				105EDE8C11BC392000B294B4 /* LTMetricLandscapeViewController.h */,
 				105EDE8D11BC392000B294B4 /* LTMetricLandscapeViewController.m */,
-				105EDE8F11BC392000B294B4 /* LTMetricTableViewCellBackground.h */,
-				105EDE9011BC392000B294B4 /* LTMetricTableViewCellBackground.m */,
+				105EDE8F11BC392000B294B4 /* LTMetricGraphTableViewCellBackground.h */,
+				105EDE9011BC392000B294B4 /* LTMetricGraphTableViewCellBackground.m */,
 				105EDE7C11BC392000B294B4 /* Recent Values */,
 			);
 			name = "Metric View";
@@ -746,6 +797,7 @@
 				104DEF0812835E6A008A7936 /* LTGraphScrollView.m */,
 				104DEFA61283796D008A7936 /* LTGraphBackgroundView.h */,
 				104DEFA71283796D008A7936 /* LTGraphBackgroundView.m */,
+				104F690112C01E3D00074651 /* checkerboard.png */,
 			);
 			name = "Graph View";
 			sourceTree = "<group>";
@@ -774,6 +826,51 @@
 			name = "Modal Progress";
 			sourceTree = "<group>";
 		};
+		10D6F34912C1467200A717D3 /* Protocol Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F34A12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.h */,
+				10D6F34B12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.m */,
+			);
+			name = "Protocol Selection";
+			sourceTree = "<group>";
+		};
+		10D6F36712C1490900A717D3 /* SNMP Version Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F36812C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.h */,
+				10D6F36912C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.m */,
+			);
+			name = "SNMP Version Selection";
+			sourceTree = "<group>";
+		};
+		10D6F37E12C14B5400A717D3 /* Refresh Interval Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F37F12C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.h */,
+				10D6F38012C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m */,
+			);
+			name = "Refresh Interval Selection";
+			sourceTree = "<group>";
+		};
+		10D6F38F12C14F9E00A717D3 /* SNMP Encryption Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F39012C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.h */,
+				10D6F39112C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m */,
+			);
+			name = "SNMP Encryption Selection";
+			sourceTree = "<group>";
+		};
+		10D6F39612C1512800A717D3 /* SNMP Authentication Selection */ = {
+			isa = PBXGroup;
+			children = (
+				10D6F39712C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.h */,
+				10D6F39812C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m */,
+			);
+			name = "SNMP Authentication Selection";
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -782,25 +879,25 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2860E324111B887F00E27156 /* iPhone UI */ = {
+		2860E324111B887F00E27156 /* iPhone Delegate and XIB */ = {
 			isa = PBXGroup;
 			children = (
 				2860E325111B887F00E27156 /* AppDelegate_Phone.h */,
 				2860E326111B887F00E27156 /* AppDelegate_Phone.m */,
 				2860E327111B887F00E27156 /* MainWindow_Phone.xib */,
 			);
-			name = "iPhone UI";
+			name = "iPhone Delegate and XIB";
 			path = iPhone;
 			sourceTree = "<group>";
 		};
-		2860E32A111B888700E27156 /* iPad UI */ = {
+		2860E32A111B888700E27156 /* iPad Delegate and XIB */ = {
 			isa = PBXGroup;
 			children = (
 				2860E32B111B888700E27156 /* AppDelegate_Pad.h */,
 				2860E32C111B888700E27156 /* AppDelegate_Pad.m */,
 				2860E32D111B888700E27156 /* MainWindow_Pad.xib */,
 			);
-			name = "iPad UI";
+			name = "iPad Delegate and XIB";
 			path = iPad;
 			sourceTree = "<group>";
 		};
@@ -821,8 +918,8 @@
 				105EDE7211BC392000B294B4 /* UI Classes */,
 				105EDE6E11BC390A00B294B4 /* Push Notifications */,
 				105EDE3111BC38D100B294B4 /* Model */,
-				2860E32A111B888700E27156 /* iPad UI */,
-				2860E324111B887F00E27156 /* iPhone UI */,
+				2860E32A111B888700E27156 /* iPad Delegate and XIB */,
+				2860E324111B887F00E27156 /* iPhone Delegate and XIB */,
 				28EEBF621118D79A00187D67 /* Shared */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -974,6 +1071,7 @@
 				1005630A12B719E0009E1467 /* handshake_small@2x.png in Resources */,
 				1005631112B72012009E1467 /* reload_small.png in Resources */,
 				1005631212B72012009E1467 /* reload_small@2x.png in Resources */,
+				104F690212C01E3D00074651 /* checkerboard.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1006,13 +1104,12 @@
 				105EDE7111BC390A00B294B4 /* LTPushRegistrationRequest.m in Sources */,
 				105EDECE11BC392000B294B4 /* LTEntityTableViewController.m in Sources */,
 				105EDECF11BC392000B294B4 /* LTEntityTableViewCell.m in Sources */,
-				105EDED011BC392000B294B4 /* LTMetricTableViewCell.m in Sources */,
 				105EDED111BC392000B294B4 /* LTMetricValuesTableViewController.m in Sources */,
 				105EDED611BC392000B294B4 /* LTMetricTableViewController.m in Sources */,
 				105EDED711BC392000B294B4 /* LTMetricGraphRequest.m in Sources */,
 				105EDEDA11BC392000B294B4 /* LTMetricGraphTableViewCell.m in Sources */,
 				105EDEDB11BC392000B294B4 /* LTMetricLandscapeViewController.m in Sources */,
-				105EDEDD11BC392000B294B4 /* LTMetricTableViewCellBackground.m in Sources */,
+				105EDEDD11BC392000B294B4 /* LTMetricGraphTableViewCellBackground.m in Sources */,
 				105EDEE011BC392000B294B4 /* LTGroupTableViewController.m in Sources */,
 				105EDEE211BC392000B294B4 /* LTIncidentListTableViewController.m in Sources */,
 				105EDEE311BC392000B294B4 /* LTIncidentListGroup.m in Sources */,
@@ -1045,6 +1142,13 @@
 				104DEF0912835E6A008A7936 /* LTGraphScrollView.m in Sources */,
 				104DEFA81283796D008A7936 /* LTGraphBackgroundView.m in Sources */,
 				10CF1EC712A2E05600CD120C /* LTContainerIconViewGraphView.m in Sources */,
+				104F699912C03F2300074651 /* LTDeviceEditTableViewController.m in Sources */,
+				10318BEF12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m in Sources */,
+				10D6F34C12C1468500A717D3 /* LTDeviceEditProtocolListTableViewController.m in Sources */,
+				10D6F36A12C1493000A717D3 /* LTDeviceEditSNMPVersionListTableViewController.m in Sources */,
+				10D6F38112C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m in Sources */,
+				10D6F39212C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m in Sources */,
+				10D6F39912C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1098,7 +1202,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

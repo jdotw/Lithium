@@ -39,7 +39,7 @@ i_object* v_osx_ipmi_availobj ()
 { return static_ipmi_avail_obj; }
 
 char* vendor_name ()
-{ return "osx"; }
+{ return "osx_server"; }
 char *vendor_desc ()
 { return "Mac OS X Server (Non-Xserve)"; }
 

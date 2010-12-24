@@ -16,6 +16,7 @@
 #import "LTEntityDescriptor.h"
 #import "LTEntityTableViewController.h"
 #import "LTIncidentListTableViewController.h"
+#import "LTDeviceEditTableViewController.h"
 
 @interface LTDeviceViewController (Private)
 
@@ -26,6 +27,7 @@
 - (void) showGraphAndLegend;
 - (void) graphMetrics:(NSArray *)metrics fromEntity:(LTEntity *)parentEntity;
 - (void) resizeAndInvalidateGraphViewContent;
+- (void) availabilityTapped:(id)sender;
 
 @end
 
@@ -57,6 +59,12 @@
 		self.device = device;
 	}
 	
+	/* Hide any active pop-overs */
+	if (self.activePopoverController.popoverVisible) 
+	{
+		[activePopoverController dismissPopoverAnimated:YES];
+	}	
+	
 	/* Check to see if a lower-than-device entity was specified. 
 	 * If so, set self.entityToHighlight which will be selected 
 	 * once the first refresh is done
@@ -68,7 +76,12 @@
 	}
 	else 
 	{
+		/* Just viewing device, check to see if availability is OK and
+		 * if not, present the availability pop-over 
+		 */
 		self.entityToHighlight = nil;
+		LTEntity *availContainer = [self.device.childDict objectForKey:@"avail"];
+		if (availContainer.opState > 0) [self availabilityTapped:availToolbarItem];
 	}
 	
 	/* If the device hasn't been refreshed yet, pop up a 
@@ -81,10 +94,8 @@
 		modalVC.modalPresentationStyle = UIModalPresentationFormSheet;
 		[self presentModalViewController:modalVC animated:YES];
 		[modalVC release];
-	}
-	
-	/* Hide pop-over */
-	if (self.activePopoverController.popoverVisible) [activePopoverController dismissPopoverAnimated:YES];
+		modalRefreshInProgress = YES;
+	}	
 }
 
 - (void) setDevice:(LTEntity *)value
@@ -149,18 +160,37 @@
 			}
 		}
 	}
+
+	/* Select Object */
+	LTEntity *object = [liveEntity parentOfType:5];
+	if (object)
+	{
+		/* Select the container */
+		[self setSelectedObject:object];
+		for (LTObjectIconViewController *vc in objectIconViewControllers)
+		{
+			if (vc.selected)
+			{
+				[objectScrollView scrollRectToVisible:vc.view.frame animated:NO];
+				break;
+			}
+		}
+	}	
 	
-	/* Check to see if we're graphable */
+	/* Clear active popover */
+	if (self.activePopoverController) 
+	{
+		[self.activePopoverController dismissPopoverAnimated:YES];
+		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
+	}	
+	
+	/* Display popover for metric in graph legend */
 	LTEntity *metric = [liveEntity parentOfType:6];
-	if ([container.graphableMetrics containsObject:metric])
+	UIPopoverController *popover = [graphLegendTableViewController highlightEntity:metric];
+	if (popover) 
 	{
-		/* We're graphable */
-		[graphLegendTableViewController highlightEntity:metric];
-	}
-	else if ([container.graphableMetrics count] > 0)
-	{
-		/* The specified metric isn't graphable, use the first graphable */
-		[graphLegendTableViewController highlightEntity:[container.graphableMetrics objectAtIndex:0]];
+		self.activePopoverController = popover;
+		popover.delegate = self;
 	}
 }
 
@@ -200,6 +230,7 @@
 	
 	/* Save selection */
 	[[NSUserDefaults standardUserDefaults] setObject:selectedContainer.entityAddress forKey:[self lastSelectionKey]];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void) setSelectedObject:(LTEntity *)value
@@ -235,6 +266,7 @@
 	
 	/* Save selection */
 	[[NSUserDefaults standardUserDefaults] setObject:selectedObject.entityAddress forKey:[self lastSelectionKey]];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void) hideObjectScrollView
@@ -373,9 +405,6 @@
 	{
 		containerEnclosingView.hidden = NO;
 		horizontalScrollDropShadowView.hidden = NO;
-		
-		NSLog (@"containerEnclosing is %@", NSStringFromCGRect(containerEnclosingView.frame));
-		NSLog (@"drop is %@", NSStringFromCGRect(horizontalScrollDropShadowView.frame));
 	}
 	else 
 	{
@@ -434,8 +463,6 @@
 	graphScrollView.contentSize = contentRect.size;
 	[graphView setNeedsLayout];
 	[graphView setNeedsDisplayInRect:contentRect];
-	
-	NSLog (@"After rotate, graphView.frame is %@", NSStringFromCGRect(graphView.frame));
 }
 
 #pragma mark -
@@ -612,15 +639,22 @@
 		 * called before the modal view has actually appeared
 		 */
 		modalRefreshInProgress = NO;
+		LTEntity *availContainer = [self.device.childDict objectForKey:@"avail"];
 
 		if (self.entityToHighlight)
 		{
-			/* Device is already refreshed and we have something to highlight */
+			/* Device is refreshed and we have something to highlight */
 			[self selectEntity:self.entityToHighlight];
 			self.entityToHighlight = nil;
 		}
+		else if (availContainer.opState > 0)
+		{
+			/* Device is refreshed, nothing to highlight but availability is bad */
+			[self availabilityTapped:availToolbarItem];
+		}
 		else if ([[NSUserDefaults standardUserDefaults] objectForKey:[self lastSelectionKey]])
 		{
+			/* Try to use last-selected */
 			NSString *entAddr = [[NSUserDefaults standardUserDefaults] objectForKey:[self lastSelectionKey]];
 			LTEntityDescriptor *entDesc = [[[LTEntityDescriptor alloc] initWithEntityAddress:entAddr] autorelease];
 			LTEntity *lastSelectionEntity = [self.device locateChildUsingEntityDescriptor:entDesc];
@@ -675,6 +709,16 @@
 - (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
 	if (self.activePopoverController == popoverController) self.activePopoverController = nil;
+	availToolbarItem.enabled = YES;
+	sysinfoToolbarItem.enabled = YES;
+	incidentsToolbarItem.enabled = YES;
+	settingsToolbarItem.enabled = YES;
+	
+	/* Default to having the sidePopoverController as the
+	 * active PopOver controller because we get no 
+	 * feedback as to when this popover goes active
+	 */
+	if (sidePopoverController) self.activePopoverController = sidePopoverController;		
 }
 
 #pragma mark -
@@ -685,7 +729,7 @@
 	if (self.activePopoverController) 
 	{
 		[self.activePopoverController dismissPopoverAnimated:YES];
-		self.activePopoverController = nil;
+		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
 	}
 	
 	LTEntity *availContainer = [self.device.childDict objectForKey:@"avail"];
@@ -694,9 +738,12 @@
 		LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:availContainer];
 		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 		self.activePopoverController = [[UIPopoverController alloc] initWithContentViewController:nc];
+		self.activePopoverController.delegate = self;
 		[self.activePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 		[vc release];
 		[nc release];
+		
+		availToolbarItem.enabled = NO;
 	}	
 }
 
@@ -705,18 +752,21 @@
 	if (self.activePopoverController) 
 	{
 		[self.activePopoverController dismissPopoverAnimated:YES];
-		self.activePopoverController = nil;
+		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
 	}
 	
 	LTEntity *container = [self.device.childDict objectForKey:@"snmp_sysinfo"];
-	if (container)
+	if (container && container.children.count > 0)
 	{
-		LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:container];
+		LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:[container.children objectAtIndex:0]];
 		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 		self.activePopoverController = [[UIPopoverController alloc] initWithContentViewController:nc];
+		self.activePopoverController.delegate = self;
 		[self.activePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 		[vc release];
 		[nc release];
+
+		sysinfoToolbarItem.enabled = NO;
 	}	
 }
 
@@ -725,7 +775,7 @@
 	if (self.activePopoverController)
 	{
 		[self.activePopoverController dismissPopoverAnimated:YES];
-		self.activePopoverController = nil;
+		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
 	}
 	
 	if (self.device)
@@ -734,17 +784,32 @@
 		vc.device = self.device;
 		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 		self.activePopoverController = [[UIPopoverController alloc] initWithContentViewController:nc];
+		self.activePopoverController.delegate = self;
 		[self.activePopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 		[vc release];
 		[nc release];
+
+		incidentsToolbarItem.enabled = NO;
 	}	
 }
 
 - (void) deviceSettingsTapped:(id)sender
 {
-	if (self.activePopoverController) [self.activePopoverController dismissPopoverAnimated:YES];
+	if (self.activePopoverController) 
+	{
+		[self.activePopoverController dismissPopoverAnimated:YES];
+		[self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
+	}
 
-	self.activePopoverController = nil;
+	if (self.device)
+	{
+		LTDeviceEditTableViewController *vc = [[LTDeviceEditTableViewController alloc] initWithDeviceToEdit:self.device];
+		UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+		nc.modalPresentationStyle = UIModalPresentationFormSheet;
+		[self presentModalViewController:nc animated:YES];
+		[vc release];
+		[nc release];
+	}
 }
 
 @end

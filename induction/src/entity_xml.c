@@ -59,7 +59,7 @@ xmlNodePtr i_entity_xml (i_entity *ent, unsigned short flags, time_t sync_versio
   ent_node = xmlNewNode (NULL, BAD_CAST "entity");
 
   /* Check on detail level */
-  if (flags & ENTXML_TREE_SUMMARY && !ent->authorative)
+  if (flags & ENTXML_TREE_SUMMARY || !ent->authorative)
   { add_detail = 0;  }
 
   /* Check on sync */
@@ -79,9 +79,12 @@ xmlNodePtr i_entity_xml (i_entity *ent, unsigned short flags, time_t sync_versio
   xmlNewChild (ent_node, NULL, BAD_CAST "version", BAD_CAST str);         /* Actual version */
   free (str); 
   if (ent->name_str) xmlNewChild (ent_node, NULL, BAD_CAST "name", BAD_CAST ent->name_str);
-  char uuid_buf[37];
-  uuid_unparse_lower (ent->uuid, uuid_buf);
-  xmlNewChild (ent_node, NULL, BAD_CAST "uuid", BAD_CAST uuid_buf);
+  if (!(flags & ENTXML_MOBILE))
+  {
+    char uuid_buf[37];
+    uuid_unparse_lower (ent->uuid, uuid_buf);
+    xmlNewChild (ent_node, NULL, BAD_CAST "uuid", BAD_CAST uuid_buf);
+  }
 
   /*
    * Summary info 
@@ -130,33 +133,34 @@ xmlNodePtr i_entity_xml (i_entity *ent, unsigned short flags, time_t sync_versio
     { xmlNewChild (ent_node, NULL, BAD_CAST "resaddr", BAD_CAST resaddrstr); free (resaddrstr); }
 
     /* Refresh info */
-    if (ent->ent_type == 3 || ent->ent_type == 6)
+//    if (ent->ent_type == 3 || ent->ent_type == 6)
+    if (ent->ent_type == 3)
     {
       /* For Device and Metric only */
-      asprintf (&str, "%u", ent->refresh_method);
-      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_method", BAD_CAST str);
-      free (str);
-      asprintf (&str, "%li", ent->refresh_int_sec);
-      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_int_sec", BAD_CAST str);
-      free (str);
-      asprintf (&str, "%u", ent->refresh_maxcolls);
-      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_maxcolls", BAD_CAST str);
-      free (str);
-      asprintf (&str, "%u", ent->refresh_state);
-      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_state", BAD_CAST str);
-      free (str);
-      asprintf (&str, "%u", ent->refresh_colls);
-      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_colls", BAD_CAST str);
-      free (str);
-      asprintf (&str, "%u", ent->refresh_result);
-      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_result", BAD_CAST str);
-      free (str);
+//      asprintf (&str, "%u", ent->refresh_method);
+//      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_method", BAD_CAST str);
+//      free (str);
+//      asprintf (&str, "%li", ent->refresh_int_sec);
+//      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_int_sec", BAD_CAST str);
+//      free (str);
+//      asprintf (&str, "%u", ent->refresh_maxcolls);
+//      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_maxcolls", BAD_CAST str);
+//      free (str);
+//      asprintf (&str, "%u", ent->refresh_state);
+//      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_state", BAD_CAST str);
+//      free (str);
+//      asprintf (&str, "%u", ent->refresh_colls);
+//      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_colls", BAD_CAST str);
+//      free (str);
+//      asprintf (&str, "%u", ent->refresh_result);
+//      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_result", BAD_CAST str);
+//      free (str);
       asprintf (&str, "%li", ent->refresh_tstamp.tv_sec);
       xmlNewChild (ent_node, NULL, BAD_CAST "refresh_tstamp_sec", BAD_CAST str);
       free (str);
-      asprintf (&str, "%li", ent->refresh_tstamp.tv_usec);
-      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_tstamp_usec", BAD_CAST str);
-      free (str);
+//      asprintf (&str, "%li", ent->refresh_tstamp.tv_usec);
+//      xmlNewChild (ent_node, NULL, BAD_CAST "refresh_tstamp_usec", BAD_CAST str);
+//      free (str);
     }
 
     /* Entity-specifc XML */
@@ -165,22 +169,22 @@ xmlNodePtr i_entity_xml (i_entity *ent, unsigned short flags, time_t sync_versio
       case ENT_CUSTOMER:
         break;
       case ENT_SITE:
-        i_site_xml (ent, ent_node);
+        i_site_xml (ent, ent_node, flags);
         break;
       case ENT_DEVICE:
-        i_device_xml (ent, ent_node);
+        i_device_xml (ent, ent_node, flags);
         break;
       case ENT_CONTAINER:
-        i_container_xml (ent, ent_node);
+        i_container_xml (ent, ent_node, flags);
         break;
       case ENT_OBJECT:
-        i_object_xml (ent, ent_node);
+        i_object_xml (ent, ent_node, flags);
         break;
       case ENT_METRIC:
-        i_metric_xml (ent, ent_node);
+        i_metric_xml (ent, ent_node, flags);
         break;
       case ENT_TRIGGER:
-        i_trigger_xml (ent, ent_node);
+        i_trigger_xml (ent, ent_node, flags);
         break;
     }
 
@@ -189,12 +193,12 @@ xmlNodePtr i_entity_xml (i_entity *ent, unsigned short flags, time_t sync_versio
   {
     /* Special-case summary info */
     if (ent->ent_type == ENT_METRIC)
-    { i_metric_xml_summary (ent, ent_node); }
+    { i_metric_xml_summary (ent, ent_node, flags); }
   }
 
   /* Add local entity-specific handling */
   if (ent->xml_func)
-  { ent->xml_func (ent, ent_node); }
+  { ent->xml_func (ent, ent_node, flags); }
   
   /* Children */
   if (flags & ENTXML_TREE || flags & ENTXML_TREE_ONE_LEVEL || flags & ENTXML_TREE_AUTHORATIVE || flags & ENTXML_TREE_SUMMARY)
@@ -212,6 +216,12 @@ xmlNodePtr i_entity_xml (i_entity *ent, unsigned short flags, time_t sync_versio
       if (flags & ENTXML_TREE_AUTHORATIVE && !child->authorative)
       { 
         continue; 
+      }
+
+      /* If this is summary and mobile, skip triggers */
+      if (child->ent_type == ENT_TRIGGER && (flags & ENTXML_MOBILE) && (flags & ENTXML_TREE_SUMMARY))
+      {
+        continue;
       }
 
       /* Adjust flags */
@@ -510,10 +520,18 @@ int xml_entity (i_resource *self, i_xml_request *req)
 {
   return i_xml_entity_handler (self, req, 0);
 }
+int xml_entity_mobile (i_resource *self, i_xml_request *req)
+{
+  return i_xml_entity_handler (self, req, ENTXML_MOBILE);
+}
 
 int xml_entity_tree_authorative (i_resource *self, i_xml_request *req)
 {
   return i_xml_entity_handler (self, req, ENTXML_TREE_AUTHORATIVE);
+}
+int xml_entity_tree_authorative_mobile (i_resource *self, i_xml_request *req)
+{
+  return i_xml_entity_handler (self, req, ENTXML_TREE_AUTHORATIVE|ENTXML_MOBILE);
 }
 
 int xml_entity_tree (i_resource *self, i_xml_request *req)
@@ -526,15 +544,33 @@ int xml_entity_tree (i_resource *self, i_xml_request *req)
 
   return i_xml_entity_handler (self, req, ENTXML_TREE);
 } 
+int xml_entity_tree_mobile (i_resource *self, i_xml_request *req)
+{
+  if (self->type == RES_CUSTOMER)
+  { 
+    /* Force use of authorative for customer resource */
+    return xml_entity_tree_authorative_mobile (self, req); 
+  }
+
+  return i_xml_entity_handler (self, req, ENTXML_TREE|ENTXML_MOBILE);
+} 
 
 int xml_entity_tree_one_level (i_resource *self, i_xml_request *req)
 {
   return i_xml_entity_handler (self, req, ENTXML_TREE_ONE_LEVEL);
 }
+int xml_entity_tree_one_level_mobile (i_resource *self, i_xml_request *req)
+{
+  return i_xml_entity_handler (self, req, ENTXML_TREE_ONE_LEVEL|ENTXML_MOBILE);
+}
 
 int xml_entity_tree_summary (i_resource *self, i_xml_request *req)
 {
   return i_xml_entity_handler (self, req, ENTXML_TREE_SUMMARY);
+}
+int xml_entity_tree_summary_mobile (i_resource *self, i_xml_request *req)
+{
+  return i_xml_entity_handler (self, req, ENTXML_TREE_SUMMARY|ENTXML_MOBILE);
 }
 
 /* @} */

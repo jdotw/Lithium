@@ -44,7 +44,26 @@ static NSMutableDictionary *_xmlTranslation = nil;
 		[_xmlTranslation setObject:@"version" forKey:@"version"];
 		[_xmlTranslation setObject:@"syncVersion" forKey:@"sync_version"];
 		[_xmlTranslation setObject:@"uuidString" forKey:@"uuid"];
+
+		[_xmlTranslation setObject:@"deviceIpAddress" forKey:@"ip"];
+		[_xmlTranslation setObject:@"lomIpAddress" forKey:@"lom_ip"];
+		[_xmlTranslation setObject:@"snmpVersion" forKey:@"snmpversion"];
+		[_xmlTranslation setObject:@"snmpCommunity" forKey:@"snmpcomm"];
+		[_xmlTranslation setObject:@"snmpAuthMethod" forKey:@"snmpauthmethod"];
+		[_xmlTranslation setObject:@"snmpAuthPassword" forKey:@"snmpauthpassword"];
+		[_xmlTranslation setObject:@"snmpPrivacyMethod" forKey:@"snmpprivenc"];
+		[_xmlTranslation setObject:@"snmpPrivacyPassword" forKey:@"snmpprivpassword"];
+		[_xmlTranslation setObject:@"deviceUsername" forKey:@"username"];
+		[_xmlTranslation setObject:@"devicePassword" forKey:@"password"];
+		[_xmlTranslation setObject:@"lomUsername" forKey:@"lom_username"];
+		[_xmlTranslation setObject:@"lomPassword" forKey:@"lom_password"];
+		[_xmlTranslation setObject:@"vendorModule" forKey:@"vendor"];
+		[_xmlTranslation setObject:@"deviceProtocol" forKey:@"protocol"];
+		[_xmlTranslation setObject:@"useICMP" forKey:@"icmp"];
+		[_xmlTranslation setObject:@"useProcessList" forKey:@"swrun"];
+		[_xmlTranslation setObject:@"useLOM" forKey:@"lom"];
 	}
+	
 	return _xmlTranslation;
 }
 
@@ -119,25 +138,94 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	/* Create request */
 	NSURL *url;
 	
-	if (self.type == 1
-#ifdef UI_USER_INTERFACE_IDIOM
-		|| UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
-#endif
-		)
+	if (self.type == 1)
 	{
 		/* Always load authorative tree for iPad */
 		NSLog(@"Doing AUTHORATIVE refresh for %@", self.entityAddress);
-		url = [self urlForXml:@"entity_tree_authorative" timestamp:0];
+		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
+		{ url = [self urlForXml:@"entity_tree_authorative_mobile" timestamp:0]; }
+		else
+		{ url = [self urlForXml:@"entity_tree_authorative" timestamp:0]; }
+
+	}
+	else if (self.type == 3 && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{
+		/* iPad Loading Device, use Mobile Summary */
+		NSLog(@"Doing SUMMARY refresh for %@", self.entityAddress);
+		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
+		{ url = [self urlForXml:@"entity_tree_summary_mobile" timestamp:0]; }
+		else
+		{ url = [self urlForXml:@"entity_tree_summary" timestamp:0]; }
 	}
 	else
-	{
-		url = [self urlForXml:@"entity_tree_one_level" timestamp:0];
+	{ 
+		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
+		{ url = [self urlForXml:@"entity_tree_one_level_mobile" timestamp:0]; }
+		else 
+		{ url = [self urlForXml:@"entity_tree_one_level" timestamp:0]; }
 	}
 	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:url
 															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
 														 timeoutInterval:60.0];
 
 	/* Outbound XML doc to be sent */
+	NSString *formBoundary = [[NSProcessInfo processInfo] globallyUniqueString];
+	NSString *boundaryString = [NSString stringWithFormat: @"multipart/form-data; boundary=%@", formBoundary];
+	[theRequest addValue:boundaryString forHTTPHeaderField:@"Content-Type"];
+	[theRequest setHTTPMethod: @"POST"];
+	NSMutableData *postData = [NSMutableData data];
+	[postData appendData:[[NSString stringWithFormat:@"--%@\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[postData appendData:[@"Content-Disposition: form-data; name=\"xmlfile\"; filename=\"ltouch.xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[postData appendData:[@"Content-Type: text/plain\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[xmlString replaceOccurrencesOfString:@"\r\n" withString:@"&#xD;&#xA;" options:NSCaseInsensitiveSearch range:NSMakeRange(0,[xmlString length])];
+	[xmlString replaceOccurrencesOfString:@"\n" withString:@"&#xD;&#xA;" options:NSCaseInsensitiveSearch range:NSMakeRange(0,[xmlString length])];
+	[postData appendData:[xmlString dataUsingEncoding:NSUTF8StringEncoding]];
+	[postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[theRequest setHTTPBody:postData];
+	
+	/* Begin download */
+	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+	if (theConnection) 
+	{
+		self.refreshInProgress = YES;
+		receivedData=[[NSMutableData data] retain];
+		self.xmlStatus = @"Connecting to Lithium Core...";
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
+	} 
+	else 
+	{
+		/* FIX */
+		NSLog (@"ERROR: Failed to download console.php");
+		self.xmlStatus = @"Unable to connect to Lithium Core...";
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
+	}	
+}
+
+- (void) postXmlToResource:(NSString *)destResourceAddress 
+			 entityAddress:(NSString *)destEntityAddress 
+				   xmlName:(NSString *)xmlName 
+					   xml:(NSString *)xml
+{
+	/* Posts XML to the given resource and assumes that
+	 * the returned XML will be parsed like a refresh
+	 */
+	
+	/* Check state */
+	if (refreshInProgress || ![(LTCoreDeployment *)coreDeployment enabled])
+	{
+		return;
+	}
+	
+	/* Create request */
+	NSString *urlString = [NSString stringWithFormat:@"%@/xml.php?action=xml_get&resaddr=%@&entaddr=%@&xmlname=%@&refsec=%i", 
+						   [self urlPrefix], destResourceAddress ? : self.resourceAddress, 
+						   destEntityAddress ? : self.entityAddress, xmlName, 0];
+	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
+															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+														 timeoutInterval:60.0];
+	
+	/* Outbound XML doc to be sent */
+	NSMutableString *xmlString = [xml mutableCopy];
 	NSString *formBoundary = [[NSProcessInfo processInfo] globallyUniqueString];
 	NSString *boundaryString = [NSString stringWithFormat: @"multipart/form-data; boundary=%@", formBoundary];
 	[theRequest addValue:boundaryString forHTTPHeaderField:@"Content-Type"];
@@ -214,8 +302,10 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	self.xmlStatus = @"Download Completed.";
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
 
-	/* Create entity stack */
-//	entityStack = [[NSMutableArray array] retain];
+	/* DEBUG */
+	NSLog (@"ENTITY %i:%@: XML Size is %li", self.type, self.desc, [receivedData length]);
+//	NSLog (@"XML: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+//	[receivedData writeToFile:[NSString stringWithFormat:@"/Users/jwilson/%i-%@.xml", self.type, self.desc] atomically:NO];
 	
 	/* Parse XML */
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -255,7 +345,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	/* Post Notification */
 	self.refreshInProgress = NO;
 	self.hasBeenRefreshed = YES;
-	NSLog (@"Posting RefreshFinished for %@", self);
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];
 	
 }
@@ -551,6 +640,12 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	{ entity = entity.parent; }
 	return entity;
 }
+- (LTEntity *) container 
+{ return [self parentOfType:4]; }
+- (LTEntity *) object
+{ return [self parentOfType:5]; }
+- (LTEntity *) metric
+{ return [self parentOfType:6]; }
 @synthesize adminState;
 @synthesize opState;
 @synthesize currentValue;
@@ -570,6 +665,24 @@ static NSMutableDictionary *_xmlTranslation = nil;
 @synthesize version;
 @synthesize syncVersion;
 @synthesize uuidString;
+
+@synthesize deviceIpAddress;
+@synthesize lomIpAddress;
+@synthesize snmpVersion;
+@synthesize snmpCommunity;
+@synthesize snmpAuthMethod;
+@synthesize snmpAuthPassword;
+@synthesize snmpPrivacyMethod;
+@synthesize snmpPrivacyPassword;
+@synthesize deviceUsername;
+@synthesize devicePassword;
+@synthesize lomUsername;
+@synthesize lomPassword;
+@synthesize vendorModule;
+@synthesize deviceProtocol;
+@synthesize useICMP;
+@synthesize useProcessList;
+@synthesize useLOM;
 
 @synthesize indentLevel;
 

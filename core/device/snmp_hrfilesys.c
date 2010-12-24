@@ -42,7 +42,7 @@ int l_snmp_hrfilesys_enable (i_resource *self)
   if (static_hrfilesys_enabled == 1) return 0;
 
   /* Create/Config Container */
-  i_container *cnt = i_container_create ("hrfilesys", "Storage Resources");
+  i_container *cnt = i_container_create ("hrfilesys", "File Systems");
   cnt->hidden = 1;
 
   /* Register entity */

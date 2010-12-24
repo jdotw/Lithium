@@ -45,9 +45,9 @@ i_object* v_osx_ipmi_availobj ()
 { return static_ipmi_avail_obj; }
 
 char* vendor_name ()
-{ return "xsan_client"; }
+{ return "osx_client"; }
 char *vendor_desc ()
-{ return "Xsan Client (Mac OS X Client)"; }
+{ return "Mac OS X Client"; }
 
 int v_xserve_extras ()
 { return 0; }

@@ -22,6 +22,6 @@
 @property (nonatomic, assign) int entitiesPerRow;
 @property (nonatomic, retain) LTGraphView *graphView;
 
-- (void) highlightEntity:(LTEntity *)entity;
+- (UIPopoverController *) highlightEntity:(LTEntity *)entity;
 
 @end

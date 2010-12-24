@@ -10,7 +10,6 @@
 #import "LTEntityTableViewCell.h"
 #import "AppDelegate.h"
 #import "LTCoreDeployment.h"
-#import "LTMetricTableViewCell.h"
 #import "LTMetricTableViewController.h"
 #import "LTTableViewCellBackground.h"
 #import "LTTableViewCellSelectedBackground.h"
@@ -45,10 +44,7 @@
 
 - (void)viewDidLoad 
 {
-    [super viewDidLoad];
-	
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-																							target:self action:@selector(refreshTouched:)] autorelease];
+    [super viewDidLoad];	
 }
 
 - (void) awakeFromNib
@@ -230,20 +226,19 @@
 	}
 	else
 	{
-		/* Aggregated groups */
+		/* Aggregated groups, or top-level of showing groups only */
 		if ([children count] > 0)
 		{ 
-			if ([[[children objectAtIndex:indexPath.row] class] isSubclassOfClass:[LTGroup class]])
+			if ([[[children objectAtIndex:indexPath.row] class] isSubclassOfClass:[LTGroup class]] && [displayStyleSegment selectedSegmentIndex] == 0)
 			{ return 28.0; }
 			else 
 			{
 				return 48.0;
 			}
-
-			NSLog (@"Child is %@", [children objectAtIndex:indexPath.row]);
 		}
-		else 
+		else
 		{
+			/* No children/groups */
 			AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 			for (LTCoreDeployment *core in [appDelegate coreDeployments])
 			{
@@ -274,37 +269,35 @@
 	{ CellIdentifier = @"Metric"; }
 	else if (displayEntity)
 	{
-		if ([displayEntity isMemberOfClass:[LTGroup class]]) CellIdentifier = @"Group";
-		else CellIdentifier = @"Entity"; 
+		if ([displayEntity isMemberOfClass:[LTGroup class]] && [displayStyleSegment selectedSegmentIndex] == 0) CellIdentifier = @"GroupHeader";
+		else CellIdentifier = @"EntityOrGroup"; 
 	}
 	else 
 	{ CellIdentifier = @"Refresh"; }
-    LTMetricTableViewCell *cell = (LTMetricTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    LTEntityTableViewCell *cell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-		if ([CellIdentifier isEqualToString:@"Metric"])
-		{
-			LTMetricTableViewCell *metricCell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			cell = metricCell;
-		}
-		else if ([CellIdentifier isEqualToString:@"Entity"] || [CellIdentifier isEqualToString:@"Group"])
-		{
-			cell = [[[LTMetricTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-			cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
-		}
-		else if ([CellIdentifier isEqualToString:@"Refresh"])
+		if ([CellIdentifier isEqualToString:@"Refresh"])
 		{
 			cell = [[[LTEntityRefreshProgressViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
+		else 
+		{
+			cell = [[[LTEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+		}
+
 		if (displayEntity) 
 		{
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) 
 			{ cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
 			if ([displayEntity isMemberOfClass:[LTGroup class]])
 			{
-				cell.backgroundView = [[LTTableViewSectionHeaderView alloc] initWithFrame:CGRectZero];
 				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			}
+			if ([CellIdentifier isEqualToString:@"GroupHeader"])
+			{
+				cell.backgroundView = [[LTTableViewSectionHeaderView alloc] initWithFrame:CGRectZero];
 			}
 			
 		}
@@ -316,33 +309,6 @@
 	{
 		cell.textLabel.text = displayEntity.desc;
 		cell.entity = displayEntity;
-//		if ([displayEntity class] == [LTGroup class])
-//		{
-//			cell.imageView.image = nil;
-//		}
-//		else
-//		{
-//			switch (cell.entity.opState)
-//			{
-//				case -2:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
-//					break;				
-//				case 0:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreenDot" ofType:@"tiff"]];
-//					break;
-//				case 1:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-//					break;
-//				case 2:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"YellowDot" ofType:@"tiff"]];
-//					break;
-//				case 3:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"RedDot" ofType:@"tiff"]];
-//					break;
-//				default:
-//					cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GreyDot" ofType:@"tiff"]];
-//			}
-//		}
 		
 		if ([displayEntity.customer.coreDeployment reachable] && [displayEntity.customer.coreDeployment enabled]) cell.imageView.alpha = 1.0;
 		else cell.imageView.alpha = 0.5;
@@ -356,8 +322,8 @@
 			cell.indentationLevel = 0;
 		}
 		
-		cell.metricLabel.text = displayEntity.longDisplayString;
-		cell.deviceLabel.text = displayEntity.longLocationString;
+//		cell.metricLabel.text = displayEntity.longDisplayString;
+//		cell.deviceLabel.text = displayEntity.longLocationString;
 		if (displayEntity.type > 3) cell.showFullLocation = YES;
 		else cell.showFullLocation = NO;
 		if (displayEntity.type == 6) cell.showCurrentValue = YES;

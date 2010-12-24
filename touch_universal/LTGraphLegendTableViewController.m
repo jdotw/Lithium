@@ -28,50 +28,26 @@
 - (void) setEntities:(NSArray *)value
 {
 	[entities release];
-	entities = [value retain];
+	entities = [[value sortedArrayUsingComparator:
+				^(id a, id b)
+				{
+					/* Sort entities based on their index in the graphViews list of entities
+					 * This ensures graphed metrics are shown at the top of the list 
+					 */
+					NSInteger aIndex = [graphView.metrics indexOfObject:a];
+					NSInteger bIndex = [graphView.metrics indexOfObject:b];
+					if (aIndex > bIndex) return (NSComparisonResult)NSOrderedDescending;
+					else if (aIndex < bIndex) return (NSComparisonResult)NSOrderedAscending;
+					else return (NSComparisonResult)NSOrderedSame;
+				}] retain];
 	
 	[self.tableView reloadData];
 }
-
-/*
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-*/
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Override to allow orientations other than the default portrait orientation.
     return YES;
 }
-
 
 #pragma mark -
 #pragma mark Table view data source
@@ -82,7 +58,6 @@
     return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
     // Return the number of rows in the section.
@@ -90,7 +65,6 @@
 	if (entities.count % entitiesPerRow) rows++;
 	return rows;
 }
-
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
@@ -100,7 +74,6 @@
     LTGraphLegendTableViewCell *cell = (LTGraphLegendTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-		NSLog (@"Created new cell");
         cell = [[[LTGraphLegendTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
@@ -110,13 +83,13 @@
 	{ entitiesInThisRow = entities.count - (entitiesPerRow * indexPath.row); }
 	NSArray *rowMetrics = [entities subarrayWithRange:NSMakeRange(entitiesPerRow * indexPath.row, entitiesInThisRow)];
 	cell.entities = rowMetrics;
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	for (LTEntity *entity in rowMetrics)
 	{
 		NSString *minColour;
 		NSString *avgColour;
 		NSString *maxColour;
 		UIColor *swatchColor = [UIColor whiteColor];
-		NSLog (@"index of %@ in graphView.metrics %@ is %i", entity, graphView.metrics, [graphView.metrics indexOfObject:entity]);
 		
 		switch ([graphView.metrics indexOfObject:entity])
 		{
@@ -181,61 +154,14 @@
     return cell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-	/*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-	 [self.navigationController pushViewController:detailViewController animated:YES];
-	 [detailViewController release];
-	 */
+- (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	/* Do not allow any selection */
+	return nil;
 }
-
 
 #pragma mark -
 #pragma mark Memory management
@@ -260,7 +186,7 @@
 #pragma mark -
 #pragma mark Entity Highlight
 
-- (void) highlightEntity:(LTEntity *)entity
+- (UIPopoverController *) highlightEntity:(LTEntity *)entity
 {
 	/* Scrolls the tableview to the row, then shows a pop-over
 	 * for the entity with the entity drilled down
@@ -275,10 +201,9 @@
 	 */
 	
 	LTEntity *legendPeer = [entities objectAtIndex:0];
-	if (!legendPeer) return;
-	NSLog (@"Got legendPeer as %i:%@, asking %i:%@ for a parent of type %i", legendPeer.type, legendPeer.desc, entity.type, entity.desc, legendPeer.type);
+	if (!legendPeer) return nil;
 	LTEntity *legendParent = [entity parentOfType:legendPeer.type];
-	if (!legendParent) return;
+	if (!legendParent) return nil;
 	
 	/* Row */
 	NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:([entities indexOfObject:legendParent] / entitiesPerRow) inSection:0];
@@ -291,8 +216,9 @@
 	/* Create pop-over */
 	LTGraphLegendTableViewCell *cell = (LTGraphLegendTableViewCell *) [self.tableView cellForRowAtIndexPath:rowIndexPath];
 	LTGraphLegendEntityView *entityView = [cell viewForEntity:legendParent];
-	[entityView presentPopoverForEntityFromRect:entityView.bounds];
+	return [entityView presentPopoverForEntityFromRect:entityView.bounds];
 }
+
 
 @end
 

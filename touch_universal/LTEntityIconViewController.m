@@ -31,7 +31,10 @@
 	[tapRecog setCancelsTouchesInView:YES];
 	[self.view addGestureRecognizer:tapRecog];	
 	[tapRecog release];
-		
+
+	LTEntityIconView *iconView = (LTEntityIconView *)[self view];
+	iconView.entity = self.entity;
+	
 	return self;
 }
 

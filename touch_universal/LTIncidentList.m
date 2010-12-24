@@ -57,6 +57,7 @@
 		[xmlString appendString:[entityDescriptor xmlNodeString]];
 		[xmlString appendFormat:@"<max_count>%i</max_count>", self.maxResultsCount];
 		[xmlString appendString:@"</history>"];	
+		self.debug = YES;
 	}
 	
 	/* Refresh the incident list */
@@ -178,6 +179,8 @@
 						/* Interpret entityDescriptor */
 						curIncident.entityDescriptor = [LTEntityDescriptor entityDescriptorFromXml:incChildNode]; 
 						curIncident.resourceAddress = curIncident.entityDescriptor.resourceAddress;
+						
+						NSLog (@"Incident entityDesc type is %@", curIncident.entityDescriptor.entityAddress);
 
 						/* Create stand-alone entity for the incident */
 						curIncident.metric = [LTEntity new];
@@ -415,5 +418,12 @@
 @synthesize historicList;
 @synthesize maxResultsCount;
 @synthesize entity;
+- (void) setEntity:(LTEntity *)value
+{
+	[entity release];
+	entity = [value retain];
+	
+	self.customer = entity.customer;
+}
 
 @end

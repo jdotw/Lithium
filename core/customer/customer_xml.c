@@ -1,4 +1,5 @@
 #include <stdlib.h> 
+#include <string.h>
 #include <libxml/parser.h>
 
 #include <induction.h>
@@ -79,10 +80,26 @@ int l_customer_xmlfunc (i_customer *cust, xmlNodePtr cust_node)
   else if (licent->free == 1)
   { xmlNewChild (cust_node, NULL, BAD_CAST "license_type", BAD_CAST "6"); }
 
+  /* Limited License Flag */
   char *str;
   asprintf (&str, "%i", licent->limited);
   xmlNewChild (cust_node, NULL, BAD_CAST "license_limited", BAD_CAST str);
   free (str);
+
+  /* Vendor module list */
+  xmlNodePtr vendor_root_node = xmlNewNode(NULL, BAD_CAST "custom_module_list");
+  i_list *vendor_list = i_vendor_list (global_self);
+  i_vendor *vendor = NULL;
+  for (i_list_move_head(vendor_list); (vendor=i_list_restore(vendor_list))!=NULL; i_list_move_next(vendor_list))
+  {
+    if (!strstr(".xml", vendor->name_str)) continue; 
+    xmlNodePtr vendor_node = xmlNewNode (NULL, BAD_CAST "custom_module");
+    xmlNewChild (vendor_node, NULL, BAD_CAST "name", BAD_CAST vendor->name_str);
+    xmlNewChild (vendor_node, NULL, BAD_CAST "desc", BAD_CAST vendor->desc_str);
+    xmlAddChild (vendor_root_node, vendor_node);
+  }
+  xmlAddChild (cust_node, vendor_root_node);
+  if (vendor_list) i_list_free (vendor_list);
 
   return 0;
 }

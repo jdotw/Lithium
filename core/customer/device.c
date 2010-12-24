@@ -648,11 +648,6 @@ int l_device_initsql (i_resource *self)
     result = PQexec (pgconn, "ALTER TABLE devices ADD COLUMN swrun integer");
     if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
     { i_printf (1, "l_device_initsql failed to add swrun column (%s)", PQresultErrorMessage (result)); }
-
-    /* DEBUG HACK FIX -- Add a default iPhone action for 5.0.Beta upgrades */
-    if (result) { PQclear(result); result = NULL; }
-    result = PQexec (pgconn, "INSERT INTO actions (descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script) VALUES ('Default iPhone Push Notification Action', '1', '1', '0', '0', '0', '0', '127', '0', '0', 'push_alert.pl')");
-    /* END DEBUG HACK FIX */
   }
   if (result) { PQclear(result); result = NULL; }
 

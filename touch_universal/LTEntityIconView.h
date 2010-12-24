@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class LTEntity;
 
 @interface LTEntityIconView : UIView 
 {
@@ -16,5 +17,6 @@
 
 @property (nonatomic, assign) BOOL selected;
 @property (nonatomic, retain) UIImage *selectedBackgroundImage;
+@property (nonatomic, retain) LTEntity *entity;
 
 @end

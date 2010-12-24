@@ -55,7 +55,6 @@ int xml_device_update (i_resource *self, i_xml_request *req)
   i_site *site;
   i_device *device;
   i_device *dup_device = NULL;
-  xmlNodePtr ent_node;
   
   /* Check permission */
   if (req->auth->level < AUTH_LEVEL_ADMIN)
@@ -141,18 +140,24 @@ int xml_device_update (i_resource *self, i_xml_request *req)
     if (desc_str) { free (device->desc_str); device->desc_str = strdup (desc_str); }
     if (ip_str) { free (device->ip_str); device->ip_str = strdup (ip_str); }
     if (lom_ip_str) { free (device->lom_ip_str); device->lom_ip_str = strdup (lom_ip_str); }
+    else { free (device->lom_ip_str); device->lom_ip_str = NULL; }
     if (snmpcomm_str) { free (device->snmpcomm_str); device->snmpcomm_str = strdup (snmpcomm_str); }
+    else { free (device->snmpcomm_str); device->snmpcomm_str = NULL; }
     if (snmpauthpass_str) { free (device->snmpauthpass_str); device->snmpauthpass_str = strdup (snmpauthpass_str); }
     if (snmpprivpass_str) { free (device->snmpprivpass_str); device->snmpprivpass_str = strdup (snmpprivpass_str); }
     device->snmpversion = snmpversion;
     device->snmpauthmethod = snmpauthmethod;
     device->snmpprivenc = snmpprivenc;
     if (username_str) { free (device->username_str); device->username_str = strdup (username_str); }
+    else { free (device->username_str); device->username_str = NULL; }
     if (password_str && strlen(password_str) > 0) { free (device->password_str); device->password_str = strdup (password_str); }
     if (lom_username_str) { free (device->lom_username_str); device->lom_username_str = strdup (lom_username_str); }
+    else { free (device->lom_username_str); device->lom_username_str = NULL; }
     if (lom_password_str && strlen(lom_password_str) > 0) { free (device->lom_password_str); device->lom_password_str = strdup (lom_password_str); }
     if (vendor_str) { free (device->vendor_str); device->vendor_str = strdup (vendor_str); }
+    else { free (device->vendor_str); device->vendor_str = NULL; }
     if (profile_str) { free (device->profile_str); device->profile_str = strdup (profile_str); }
+    else { free (device->profile_str); device->profile_str = NULL; }
     if (refreshint_str) { device->refresh_interval = atoi (refreshint_str); }
     device->protocol = protocol;
     device->icmp = icmp;
@@ -207,8 +212,10 @@ int xml_device_update (i_resource *self, i_xml_request *req)
   /* Create return case XML */
   req->xml_out = i_xml_create ();
   req->xml_out->doc = xmlNewDoc (BAD_CAST "1.0");
-  ent_node = i_entity_xml (ENTITY(device), 0, 0);
-  xmlDocSetRootElement (req->xml_out->doc, ent_node);
+  xmlNodePtr root_node = xmlNewNode(NULL, BAD_CAST "entity_xml_data");
+  xmlDocSetRootElement(req->xml_out->doc, root_node);
+  xmlNodePtr ent_node = i_entity_xml (ENTITY(device), 0, 0);
+  xmlAddChild (root_node, ent_node);
   
   return 1;
 }

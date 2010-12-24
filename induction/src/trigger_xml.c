@@ -34,7 +34,7 @@
 
 /* XML Functions */
 
-void i_trigger_xml (i_entity *ent, xmlNodePtr ent_node)
+void i_trigger_xml (i_entity *ent, xmlNodePtr ent_node, unsigned short flags)
 {
   /* Add trigger-specific data to entity node */
   char *str;

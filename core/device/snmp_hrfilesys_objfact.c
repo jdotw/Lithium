@@ -47,6 +47,7 @@ int l_snmp_hrfilesys_objfact_fab (i_resource *self, i_container *cnt, i_object *
   if (!store_obj || !store_item)
   {
     /* No matching store found, discard */
+    i_printf(0, "l_snmp_hrfilesys_objfact_fab no matching store found for index %lu (%s)", *pdu->variables->val.integer, obj->desc_str);
     return -1;
   }
   obj->itemptr = store_item;
@@ -68,7 +69,6 @@ int l_snmp_hrfilesys_objfact_fab (i_resource *self, i_container *cnt, i_object *
   i_metric_enumstr_add (store_item->access, 1, "Read/Write");
   i_metric_enumstr_add (store_item->access, 2, "Read Only");
   store_item->access->summary_flag = 1;
-  i_entity_refreshcb_add (ENTITY(store_item->access), l_snmp_hrfilesys_access_refcb, NULL);
 
   /* Bootable */
   store_item->bootable = l_snmp_metric_create (self, store_obj, "bootable", "Bootable", METRIC_INTEGER, ".1.3.6.1.2.1.25.3.8.1.6", index_oidstr, RECMETHOD_NONE, 0);

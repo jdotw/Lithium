@@ -31,7 +31,7 @@
 
 /* XML Functions */
 
-void i_site_xml (i_entity *ent, xmlNodePtr ent_node)
+void i_site_xml (i_entity *ent, xmlNodePtr ent_node, unsigned short flags)
 {
   char *str;
   

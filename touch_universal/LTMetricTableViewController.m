@@ -16,7 +16,6 @@
 #import "LTMetricValuesTableViewController.h"
 #import "LTActionTableViewController.h"
 #import "AppDelegate.h"
-#import "LTMetricTableViewCell.h"
 #import "LTTableViewCellBackground.h"
 #import "LTTableViewCellSelectedBackground.h"
 #import "LTFavoritesTableViewController.h"
@@ -24,6 +23,7 @@
 #import "LTIncidentList.h"
 #import "LTMetricLandscapeViewController.h"
 #import "LTTableViewController.h"
+#import "LTTableViewCell.h"
 
 #define kAnimationKey @"transitionViewAnimation"
 
@@ -33,14 +33,16 @@
 {
 	self = [super initWithNibName:@"LTEntityTableViewController" bundle:nil];
 	if (!self) return nil;
-	
-	self.metric = initMetric;
-	
+		
 	incidentList = [[LTIncidentList alloc] init];
 	incidentList.historicList = YES;
 	incidentList.maxResultsCount = 20;
+	
 	landscapeGraphRequest = [[LTMetricGraphRequest alloc] init];
 	landscapeGraphRequest.size = CGSizeMake(480.0, 320.0);
+	
+	self.metric = initMetric;	// Also sets up incidentList
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(incidentListRefreshFinished:)
 												 name:@"IncidentListRefreshFinished" 
@@ -213,10 +215,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if ([self sectionTypeForSection:indexPath.section] == SECTION_GRAPH)
-	{ return 161.0f; }
-	else
-	{ return 48.0f; }
+	switch ([self sectionTypeForSection:indexPath.section]) {
+		case SECTION_GRAPH:
+			return 161.;
+		case SECTION_RECENT:
+			return 62.;
+		default:
+			return 48.;
+	}
 }
 
 // Customize the appearance of table view cells.
@@ -252,6 +258,7 @@
 		{
 			graphViewCell = [[LTMetricGraphTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 			graphViewCell.graphView.metrics = [NSArray arrayWithObject:metric];
+			graphViewCell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell = graphViewCell;
 		}
 		else if ([CellIdentifier isEqualToString:@"Subtitle"])
@@ -524,7 +531,10 @@
 											   destructiveButtonTitle:nil
 													otherButtonTitles:@"Add To Favorites", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
-	[actionSheet showFromTabBar:(UITabBar *)self.tabBarController.view];
+	if ([sender isMemberOfClass:[UIBarButtonItem class]])
+	{ [actionSheet showFromBarButtonItem:sender animated:YES]; }
+	else if (self.tabBarController)
+	{ [actionSheet showFromTabBar:(UITabBar *)self.tabBarController.view]; }
 	[actionSheet release];
 }
 
@@ -546,7 +556,6 @@
 	
 	self.title = metric.desc;
 	
-	incidentList.customer = metric.customer;
 	incidentList.entity = metric;
 	
 	landscapeGraphRequest.metric = metric;	

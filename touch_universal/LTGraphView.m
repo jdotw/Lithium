@@ -56,7 +56,6 @@
 {
 	/* Determine draw size */
 	CGRect clipRect = CGContextGetClipBoundingBox(ctx);
-	NSLog (@"%@ Asked to draw in %@ (tileSize is %@)", self, NSStringFromCGRect(clipRect), NSStringFromCGSize(((CATiledLayer*)self.layer).tileSize));
 	
 	/* Dimensions */
 	CGFloat zoomScale = 1.0;
@@ -83,7 +82,6 @@
 		
 		if (clipRect.origin.x != 0. || (clipRect.size.width != layer.tileSize.width && clipRect.size.width != contentSize.width)) 
 		{
-			NSLog (@"%@ Skipping bogus call to draw slice %@", self, NSStringFromCGRect(clipRect));
 			return;
 		}
 	}
@@ -91,7 +89,6 @@
 	/* Time orientation, by default the visible width of the graph is 24 hours */
 	int visibleSeconds = 86400;		/* 24 Hours */
 	CGFloat offset = contentSize.width - CGRectGetMaxX(clipRect);
-	NSLog (@"offset is %f", offset);
 	CGFloat secondsPerPixel = (zoomScale * visibleSeconds) / CGRectGetWidth(self.superview.frame);
 	
 	/* Check for cached request */
@@ -121,14 +118,8 @@
 			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
 			CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), graphImageMargin, 
 										  clipRect.size.width, contentSize.height - (2 * graphImageMargin));
-			NSLog (@"%@ using imagerect %@", self, NSStringFromCGRect(imageRect));
 
 
-			/* DEBUG */
-//			CGContextSetRGBStrokeColor(ctx, 1.0, 0.0, 0.0, 0.5);
-//			CGContextStrokeRect(ctx, CGContextGetClipBoundingBox(ctx));
-			/* END DEBUG */
-			
 			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));
 			CGContextScaleCTM(ctx, 1.0, -1.0 * yScale);
 			CGContextConcatCTM(ctx, CGPDFPageGetDrawingTransform(pageRef, kCGPDFCropBox, imageRect, 0, false));
@@ -147,7 +138,6 @@
 		graphReq.size = CGSizeMake(clipRect.size.width, self.superview.frame.size.height);
 		graphReq.endSec = (int) [graphStartDate timeIntervalSince1970] - (offset * secondsPerPixel);
 		graphReq.startSec = graphReq.endSec - (clipRect.size.width * secondsPerPixel);
-		NSLog (@"endSet=%li(%@) startSec=%li(%@)", graphReq.endSec, [NSDate dateWithTimeIntervalSince1970:graphReq.endSec], graphReq.startSec, [NSDate dateWithTimeIntervalSince1970:graphReq.startSec]);
 		graphReq.rectToInvalidate = clipRect;
 		[graphReq.metrics addObjectsFromArray:self.metrics];
 		if (!graphReq.customer && graphReq.metrics.count > 0)
@@ -157,6 +147,41 @@
 		
 		/* Perform refresh */
 		[graphReq refresh];
+	}
+	if (graphReq && graphReq.refreshInProgress)
+	{
+		if (clipRect.size.width > .0 && clipRect.size.height > .0)
+		{
+			/* Draw checker board pattern to incidate loading */
+			UIGraphicsBeginImageContext(clipRect.size);
+			
+			UIImage *checkers = [UIImage imageNamed:@"checkerboard.png"];
+			CGFloat xOffset = 0. - (((int)clipRect.origin.x) % 10);	// Ensures the 10px chequer board tiles properly
+			CGFloat yOffset = 0. - (((int)clipRect.origin.y) % 10);	// Ensures the 10px chequer board tiles properly;
+			
+			CGFloat imageWidth = checkers.size.width;
+			CGFloat imageHeight = checkers.size.height;
+			while (xOffset < clipRect.size.width)
+			{
+				while (yOffset < clipRect.size.height)
+				{
+					/* Draw */
+					[checkers drawAtPoint:CGPointMake(xOffset, yOffset) blendMode:kCGBlendModeNormal alpha:.05];
+					
+					/* Move offset down */
+					yOffset += imageHeight;
+				}
+				
+				/* Drawn as far down as we need, now move to the right and reset yOffset */
+				xOffset += imageWidth;
+				yOffset = 0.;
+			}
+			
+			UIImage *checkerSlice = UIGraphicsGetImageFromCurrentImageContext();
+			UIGraphicsEndImageContext();
+			
+			CGContextDrawImage(ctx, clipRect, checkerSlice.CGImage);
+		}
 	}
 	
 	/* Common date/time variables */
@@ -171,7 +196,7 @@
 	CGFloat timeFontSize = 14.0;
 	if (self.bounds.size.height < 200.0) timeFontSize = 11.0;
 	CGFloat hourLineYOffset = 40.0;
-	if (self.bounds.size.height < 200.0) hourLineYOffset = 20.0;
+	if (self.bounds.size.height < 200.0) hourLineYOffset = 30.0;
 	
 	/* Find the hour/minutes at the end of the slice */
 	int hour = [endDateComponents hour];
@@ -211,9 +236,9 @@
 			
 			/* Draw current hour */
 			CGContextSetRGBFillColor (ctx, 1, 1, 1, .2);
-			CGContextShowTextAtPoint (ctx, hourRect.origin.x - (hourRect.size.width * 0.5), hourRect.origin.y, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
+			CGContextShowTextAtPoint (ctx, roundf(hourRect.origin.x - (hourRect.size.width * 0.5)), roundf(hourRect.origin.y), [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
 			CGContextSetRGBFillColor (ctx, 0, 0, 0, .8);
-			CGContextShowTextAtPoint (ctx, hourRect.origin.x - (hourRect.size.width * 0.5), hourRect.origin.y-1, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
+			CGContextShowTextAtPoint (ctx, roundf(hourRect.origin.x - (hourRect.size.width * 0.5)), roundf(hourRect.origin.y)-1, [hourString cStringUsingEncoding:NSUTF8StringEncoding], [hourString length]);
 		}
 		
 		/* Move (back) to prev hour */
@@ -251,9 +276,9 @@
 	{
 		/* Draw current date */
 		CGContextSetRGBFillColor (ctx, 1, 1, 1, .2);
-		CGContextShowTextAtPoint (ctx, dateRect.origin.x, dateRect.origin.y, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
+		CGContextShowTextAtPoint (ctx, roundf(dateRect.origin.x), roundf(dateRect.origin.y), [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
 		CGContextSetRGBFillColor (ctx, 0, 0, 0, .8);
-		CGContextShowTextAtPoint (ctx, dateRect.origin.x, dateRect.origin.y-1, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
+		CGContextShowTextAtPoint (ctx, roundf(dateRect.origin.x), roundf(dateRect.origin.y)-1, [dateString cStringUsingEncoding:NSUTF8StringEncoding], [dateString length]);
 				
 		/* Move (back) to prev date */
 		dateToDraw = [dateToDraw dateByAddingTimeInterval:-86400.0];

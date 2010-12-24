@@ -20,6 +20,8 @@
 	
 }
 
+- (void) showUnreachableAlert;
+
 #pragma mark "Properties"
 @property (nonatomic, assign) BOOL enabled;
 @property (nonatomic, assign) BOOL useSSL;

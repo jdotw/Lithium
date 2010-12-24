@@ -308,6 +308,15 @@ static void reachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	}
 }	
 
+- (void) showUnreachableAlert
+{
+	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Deployment is Unreachable"
+													 message:@"The Lithium Core deployment is currently unreachable, please try again later"
+													delegate:nil
+										   cancelButtonTitle:@"Dismiss"
+										   otherButtonTitles:nil] autorelease];
+	[alert show];	
+}
 
 #pragma mark "Properties"
 

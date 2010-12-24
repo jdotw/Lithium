@@ -22,6 +22,7 @@
 
 #include "snmp.h"
 #include "snmp_storage.h"
+#include "snmp_hrfilesys.h"
 
 /* snmp_storage - SNMP Storage Resources Sub-System */
 
