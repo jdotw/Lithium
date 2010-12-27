@@ -98,6 +98,8 @@ int xml_site_update (i_resource *self, i_xml_request *req)
       char *str;
 
       str = (char *) xmlNodeListGetString (req->xml_in->doc, node->xmlChildrenNode, 1);
+
+      i_printf (0, "xml_site_update %s=%s", node->name, str);
  
       if (!strcmp((char *)node->name, "name") && str) name_str = strdup(str);
       else if (!strcmp((char *)node->name, "desc") && str) desc_str = strdup(str);
@@ -126,15 +128,25 @@ int xml_site_update (i_resource *self, i_xml_request *req)
   {
     /* Update existing */
     if (desc_str) { free (site->desc_str); site->desc_str = strdup (desc_str); }
+    else { free (site->desc_str); site->desc_str = NULL; }
     if (addr1_str) { free (site->addr1_str); site->addr1_str = strdup (addr1_str); }
+    else { free (site->addr1_str); site->addr1_str = NULL; }
     if (addr2_str) { free (site->addr2_str); site->addr2_str = strdup (addr2_str); }
+    else { free (site->addr2_str); site->addr2_str = NULL; }
     if (addr3_str) { free (site->addr3_str); site->addr3_str = strdup (addr3_str); }
+    else { free (site->addr3_str); site->addr3_str = NULL; }
     if (suburb_str) { free (site->suburb_str); site->suburb_str = strdup (suburb_str); }
+    else { free (site->suburb_str); site->suburb_str = NULL; }
     if (state_str) { free (site->state_str); site->state_str = strdup (state_str); }
+    else { free (site->state_str); site->state_str = NULL; }
     if (postcode_str) { free (site->postcode_str); site->postcode_str = strdup (postcode_str); }
+    else { free (site->postcode_str); site->postcode_str = NULL; }
     if (country_str) { free (site->country_str); site->country_str = strdup (country_str); }
+    else { free (site->country_str); site->country_str = NULL; }
     if (longitude_str) { site->longitude = atof (longitude_str); }
+    else site->longitude = 0.0;
     if (latitude_str) { site->latitude = atof (latitude_str); }
+    else site->latitude = 0.0;
     l_site_update (self, site);
   }
   else

@@ -60,6 +60,11 @@ int v_drives_smart_refcb (i_resource *self, i_entity *ent, void *passdata)
       /* Verified */
       val->integer = 1;
     }
+    else if (strcmp(value_str, "OK") == 0)
+    { 
+      /* Verified */
+      val->integer = 1;
+    }
     else if (strcmp(value_str, "Not Available") == 0)
     { 
       /* Verified */

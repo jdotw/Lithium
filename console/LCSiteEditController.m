@@ -191,7 +191,12 @@
 	[xmldoc setCharacterEncoding:@"UTF-8"];
 	NSDictionary *siteProperties = [self siteProperties];
 	for (NSString *key in siteProperties)
-	{ [rootnode addChild:[NSXMLNode elementWithName:key stringValue:[[siteProperties objectForKey:key] description]]]; }
+	{ 
+		NSLog (@"performUpdate %@ adding %@=%@", self, key, [[siteProperties objectForKey:key] description]);
+		[rootnode addChild:[NSXMLNode elementWithName:key stringValue:[[siteProperties objectForKey:key] description]]]; 
+	}
+	
+	NSLog (@"DOC: %@", [xmldoc XMLString]);
 	
 	/* Create and perform request */
 	xmlRequest = [[LCXMLRequest requestWithCriteria:customer

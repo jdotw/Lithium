@@ -123,6 +123,7 @@ int l_site_update (i_resource *self, i_site *site)
     site->desc_str, site->addr1_str, site->addr2_str, site->addr3_str, site->suburb_str, 
     site->state_str, site->postcode_str, site->country_str, 
     site->longitude, site->latitude, site->name_str); 
+  i_printf(0,"query=%s", query);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_site_sqlcb, "update");

@@ -119,6 +119,7 @@ function standard_start ($menu_res, $menu_ent)
       <META Http-Equiv="Cache-Control" Content="no-cache">
       <META Http-Equiv="Pragma" Content="no-cache">
       <META Http-Equiv="Expires" Content="0">
+      <META Http-Equiv="Refresh" Content="60">
       <link rel="stylesheet" href="$css" type="text/css" title="l47" media="all">
 
 END_1;

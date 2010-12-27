@@ -13,7 +13,7 @@
 	<key>Custom Icon Path</key>
 	<string></string>
 	<key>Disk Image Name</key>
-	<string>~/Source/Lithium/build_framework/packaging/Disk Images/LithiumTouch-5.0.B3.3076.dmg</string>
+	<string>/Users/jwilson/Source/Lithium/build_framework/packaging/Disk Images/LithiumTouch2-Beta1.dmg</string>
 	<key>Encode Format</key>
 	<string>None</string>
 	<key>Encryption Type</key>
@@ -36,9 +36,9 @@
 			<key>Hidden</key>
 			<false/>
 			<key>Origin</key>
-			<string>{416, 86}</string>
+			<string>{417, 86}</string>
 			<key>Path</key>
-			<string>/Users/jwilson/Source/Lithium/build_framework/packaging/1. Applications/LithiumTouch/Lithium_Touch_AdHoc.mobileprovision</string>
+			<string>/Users/jwilson/Source/Lithium/build_framework/packaging/1. Applications/LithiumTouch/Lithium_Universal_Beta.mobileprovision</string>
 			<key>Type</key>
 			<string>File Item</string>
 		</dict>
@@ -48,7 +48,7 @@
 			<key>Origin</key>
 			<string>{273, 86}</string>
 			<key>Path</key>
-			<string>/Users/jwilson/Source/Lithium/build_framework/packaging/1. Applications/LithiumTouch/Lithium.app</string>
+			<string>/Users/jwilson/Source/Lithium/build_framework/packaging/1. Applications/LithiumTouch/LithiumTouh2-Beta1.ipa</string>
 			<key>Type</key>
 			<string>File Item</string>
 		</dict>
@@ -59,10 +59,12 @@
 	<string>TRUE</string>
 	<key>Project File Path</key>
 	<string>/Users/jwilson/Source/Lithium/build_framework/packaging/4. FileStorm Projects/</string>
+	<key>Remove SVN Files</key>
+	<string>FALSE</string>
 	<key>Show Toolbar</key>
 	<string>FALSE</string>
 	<key>Volume Name</key>
-	<string>LTouch 5.0.B3.3076</string>
+	<string>LithiumTouch2 Beta1</string>
 	<key>Window Frame</key>
 	<string>{{64, 76}, {606, 419}}</string>
 </dict>

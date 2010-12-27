@@ -168,7 +168,10 @@ static NSMutableDictionary *_StaticValueTypes = nil;
 	{
 		NSString *propertyName = [self.xmlTranslation objectForKey:key];
 		if ([obj respondsToSelector:NSSelectorFromString(propertyName)])
-		{ [obj setValue:[self valueForKey:propertyName] forKey:propertyName];	}
+		{ 
+			NSLog (@"copyXmlPropertiesToObject:%@ copying %@=%@", obj, propertyName, [self valueForKey:propertyName]);
+			[obj setValue:[self valueForKey:propertyName] forKey:propertyName];	
+		}
 	}
 }
 
@@ -178,7 +181,10 @@ static NSMutableDictionary *_StaticValueTypes = nil;
 	{ 
 		NSString *propertyName = [self.xmlTranslation objectForKey:key];
 		if ([obj respondsToSelector:NSSelectorFromString(propertyName)])
-		{ [self setValue:[obj valueForKey:propertyName] forKey:propertyName];	}
+		{ 
+			NSLog (@"copyXmlPropertiesFromObject:%@ copying %@=%@", obj, propertyName, [obj valueForKey:propertyName]);
+			[self setValue:[obj valueForKey:propertyName] forKey:propertyName];	
+		}
  	}	
 }
 
@@ -191,7 +197,22 @@ static NSMutableDictionary *_StaticValueTypes = nil;
 		if ([self respondsToSelector:NSSelectorFromString(propertyName)])
 		{
 			id value = [self valueForKey:propertyName];
-			if (value) [dict setObject:value forKey:key];
+			if (value) 
+			{
+				[dict setObject:value forKey:key];
+			}
+			else 
+			{
+				/* Starting from 5.0.10, if there's a nil value encountered, then
+				 * a blank string is inserted into the XML properties desc. This ensure
+				 * that values that have been erased/cleared are properly communicated
+				 * instead of being nil'd and not present in the XML (and hence not changed
+				 * when they arrive at Core 
+				 */
+				[dict setObject:@"" forKey:key];
+			}
+
+			NSLog (@"xmlPropertiesDictionary:%@ setting %@=%@ (IGNORESS NULL)", self, key, value);
 		}
 	}		
 	return [[dict copy] autorelease];
@@ -213,6 +234,7 @@ static NSMutableDictionary *_StaticValueTypes = nil;
 	NSXMLElement *rootnode = (NSXMLElement *) [NSXMLNode elementWithName:[self xmlRootElement]];
 	for (NSString *xmlElement in [self.xmlTranslation allKeys])
 	{
+		NSLog (@"xmlNode:%@ adding %@=%@", self, xmlEntity, [self valueForKey:[self.xmlTranslation objectForKey:xmlElement]]);
 		[rootnode addChild:[NSXMLNode elementWithName:xmlElement
 										  stringValue:[self valueForKey:[self.xmlTranslation objectForKey:xmlElement]]]];
 	}	
