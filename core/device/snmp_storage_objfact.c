@@ -62,6 +62,7 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
     strstr(obj->desc_str, "Swap Space") ||
     strstr(obj->desc_str, "Memory") || 
     strstr(obj->desc_str, "emory") || 
+    strstr(obj->desc_str, "A:\\") || 
     strcmp(obj->desc_str, "Swap space") == 0 || 
     strcmp(obj->desc_str, "Physical memory") == 0
     )
