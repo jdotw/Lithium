@@ -24,6 +24,7 @@
 
 #include "snmp.h"
 #include "snmp_storage.h"
+#include "snmp_hrfilesys.h"
 
 /* snmp_storage - SNMP Storage Resources Sub-System */
 
@@ -31,12 +32,11 @@
 
 int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
 {
-  /* Called when the storage object has been refresh to:
+  /* Called when the storage object has been refreshed to 
+   * determine whether or not to apply the used_pc trigger
+   * to the object. 
    *
-   * 1) Update the type state metric
-   * 2) Analyse the type and enable/disable metrics
-   *
-   * Always return 0
+   * Always return 0 to keep callback alive
    */
 
   i_object *obj = (i_object *) ent;
@@ -45,14 +45,33 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
 
   if (l_snmp_xsnmp_enabled())
   {
-    i_metric_value *val;
-
+    /* Use the Xsnmp 'writeable' parameter to determine whether or
+     * not to apply the used_pc trigger. Only apply the used_pc trigger
+     * if the volume is writeable 
+     */
+    
     /* Get current value */
-    val = i_metric_curval (store->writeable);
+    i_metric_value *val = i_metric_curval (store->writeable);
     if (!val) return 0;
 
-    /* Enable metrics depending on type */
+    /* Enable used_pc trigger depending on whether or not the store is writable*/
     if (val->integer == 1 && !store->usedpc_trigger_applied)
+    {
+      apply_usedpc_trigger = 1;
+    }
+  }
+  else if (l_snmp_hrfilesys_enabled())
+  {
+    /* Use the 'access' parameter of the hrfilesys extensions to 
+     * determine whether or not to apply the trigger. Only apply the
+     * used_pc trigger if the volume is read/write
+     */
+
+    i_metric_value *access_val = i_metric_curval(store->access);
+    if (!access_val) return 0;
+
+    /* Enable used_pc trigger if access is 1 (readWrite) */
+    if (access_val->integer == 1 && !store->usedpc_trigger_applied)
     {
       apply_usedpc_trigger = 1;
     }
@@ -67,19 +86,19 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
 
     /* Get current type value */
     val = i_metric_curval (store->typeoid);
-    if (!val) return 0;
+    if (!val || val->oid_len < 10) return 0;
     oid = val->oid;
 
     /* Create/enqueue type value */
     new_val = i_metric_value_create ();
-    new_val->integer = oid[val->oid_len-1];
+    new_val->integer = oid[9];
     num = i_metric_value_enqueue (self, store->type, new_val);
     if (num != 0) 
     { i_metric_value_free (new_val); }
     store->type->refresh_result = REFRESULT_OK;
 
     /* Disable metrics depending on type */
-    if ((int) oid[val->oid_len-1] == 1 || (int) oid[val->oid_len-1] == 7)
+    if ((int) oid[9] == 1 || (int) oid[9] == 7)
     {
       for (i_list_move_head(obj->met_list); (child_met=i_list_restore(obj->met_list))!=NULL; i_list_move_next(obj->met_list))
       {
@@ -87,7 +106,9 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
       }
     }
     else
-    { apply_usedpc_trigger = 1; }
+    { 
+      apply_usedpc_trigger = 1; 
+    }
   } 
 
   if (apply_usedpc_trigger == 1 && !store->usedpc_trigger_applied)

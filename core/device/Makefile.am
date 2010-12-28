@@ -58,7 +58,6 @@ device_la_SOURCES = main.c \
 					snmp_storage_refcb.c \
 					snmp_hrfilesys.c \
 					snmp_hrfilesys_objfact.c \
-					snmp_hrfilesys_refcb.c \
 					snmp_hrcpu.c \
 					snmp_hrcpu_item.c \
 					snmp_hrcpu_objfact.c \

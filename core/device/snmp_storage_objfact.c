@@ -217,6 +217,9 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       /* Check for memory resource */
       if (strcmp(obj->desc_str, "Physical memory") == 0 || strcmp(obj->desc_str, "Real Memory") == 0 || strcmp(obj->desc_str, "Physical Memory") == 0)
       {
+        /* Log */
+        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Physical Memory data", obj->desc_str);
+
         /* Clean */
         if (ram->real_alloc) { i_entity_deregister (self, ENTITY(ram->real_alloc)); i_entity_free (ENTITY(ram->real_alloc)); ram->real_alloc = NULL; }
         if (ram->real_total) { i_entity_deregister (self, ENTITY(ram->real_total)); i_entity_free (ENTITY(ram->real_total)); ram->real_total = NULL;}
@@ -253,6 +256,9 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       }
       else if (strcmp(obj->desc_str, "Swap space") == 0 || strcmp(obj->desc_str, "Swap Space") == 0)
       {
+        /* Log */
+        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Swap data", obj->desc_str);
+
         /* Clean */
         if (ram->swap_alloc) { i_entity_deregister (self, ENTITY(ram->swap_alloc)); i_entity_free (ENTITY(ram->swap_alloc)); ram->swap_alloc = NULL; }
         if (ram->swap_total) { i_entity_deregister (self, ENTITY(ram->swap_total)); i_entity_free (ENTITY(ram->swap_total)); ram->swap_total = NULL; }
@@ -296,6 +302,9 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       }
       else if (strcmp(obj->desc_str, "Cached memory") == 0)
       {
+        /* Log */
+        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Cached Memory data", obj->desc_str);
+
         /* Clean */
         if (ram->cached_alloc) { i_entity_deregister (self, ENTITY(ram->cached_alloc)); i_entity_free (ENTITY(ram->cached_alloc)); ram->cached_alloc = NULL;}
         if (ram->cached) { i_entity_deregister (self, ENTITY(ram->cached)); i_entity_free (ENTITY(ram->cached)); ram->cached = NULL; }
@@ -305,7 +314,7 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         ram->cached_alloc->hidden = 1;
 
         /* Cached Total */
-        ram->cached = l_snmp_metric_create (self, real_obj, "cached", "Cached", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
+        ram->cached = l_snmp_metric_create (self, real_obj, "cached", "Cached", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_NONE, 0);
         ram->cached->alloc_unit_met = ram->cached_alloc;
         ram->cached->valstr_func = i_string_volume_metric;
         ram->cached->unit_str = strdup ("byte");
@@ -316,6 +325,9 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       }
       else if ((strcmp(obj->desc_str, "Memory buffers") == 0 || strcmp(obj->desc_str, "Memory Buffers") == 0))
       {
+        /* Log */
+        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Memory Buffers data", obj->desc_str);
+
         /* Clean */
         if (ram->buffers_alloc) { i_entity_deregister (self, ENTITY(ram->buffers_alloc)); i_entity_free (ENTITY(ram->buffers_alloc)); ram->buffers_alloc = NULL; }
         if (ram->buffers) { i_entity_deregister (self, ENTITY(ram->buffers)); i_entity_free (ENTITY(ram->buffers)); ram->buffers = NULL; }
@@ -325,7 +337,7 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         ram->buffers_alloc->hidden = 1;
 
         /* Buffered Total */
-        ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
+        ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_NONE, 0);
         ram->buffers->alloc_unit_met = ram->buffers_alloc;
         ram->buffers->valstr_func = i_string_volume_metric;
         ram->buffers->unit_str = strdup ("byte");
@@ -336,6 +348,9 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       }
       else if (strcmp(obj->desc_str, "Shared memory") == 0)
       {
+        /* Log */
+        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Shared Memory data", obj->desc_str);
+
         /* Clean */
         if (ram->shared_alloc) { i_entity_deregister (self, ENTITY(ram->shared_alloc)); i_entity_free (ENTITY(ram->shared_alloc)); ram->shared_alloc = NULL; }
         if (ram->shared) { i_entity_deregister (self, ENTITY(ram->shared)); i_entity_free (ENTITY(ram->shared)); ram->shared = NULL; }
@@ -345,7 +360,7 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         ram->shared_alloc->hidden = 1;
 
         /* Shared Total */
-        ram->shared = l_snmp_metric_create (self, real_obj, "shared", "Shared", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
+        ram->shared = l_snmp_metric_create (self, real_obj, "shared", "Shared", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_NONE, 0);
         ram->shared->alloc_unit_met = ram->shared_alloc;
         ram->shared->valstr_func = i_string_volume_metric;
         ram->shared->unit_str = strdup ("byte");
@@ -373,15 +388,19 @@ int l_snmp_storage_objfact_ctrl (i_resource *self, i_container *cnt, int result,
     /* No errors, set item list state to NORMAL */
     cnt->item_list_state = ITEMLIST_STATE_NORMAL;
 
+    /* If Xsnmp is not used, enable hrFilesys to augment storage info */
+    if (!l_snmp_xsnmp_enabled() && !l_snmp_hrfilesys_enabled())
+    { 
+      i_printf (0, "l_snmp_storage_enable automatically enabling hrfilesys to augment hrstorage info without Xsnmp"); 
+      l_snmp_hrfilesys_enable (self); 
+    }
+
     /* Xsnmp is not used, and the RAM container needs rebuilding */
     if (static_ram_cnt_invalidated == 1 && !l_snmp_xsnmp_enabled())
     {
       /* Log */
       i_printf(1, "l_snmp_storage_objfact_ctrl rebuilding the RAM container due to changes in storage resources");
 
-      /* Enable file-system monitoring to augment storage info */
-      l_snmp_hrfilesys_enable (self);
-      
       /* Update the memory monitoring container */    
       i_container *ram_cnt = l_snmp_nsram_cnt();
       if (ram_cnt)
@@ -405,7 +424,7 @@ int l_snmp_storage_objfact_ctrl (i_resource *self, i_container *cnt, int result,
           i_entity_deregister (self, ENTITY(ram->real_usedpc)); 
           i_entity_free (ENTITY(ram->real_usedpc)); 
         }
-        ram->real_free = i_metric_acsum_create (self, real_obj, "free", "Free", METRIC_GAUGE, RECMETHOD_RRD, NULL, NULL, ACSUM_REFMETHOD_PARENT);
+        ram->real_free = i_metric_acsum_create (self, real_obj, "free", "Free", METRIC_FLOAT, RECMETHOD_RRD, NULL, NULL, ACSUM_REFMETHOD_PARENT);
         if (ram->real_avail)  i_metric_acsum_addmet (ram->real_free, ram->real_avail, 0);
         if (ram->buffers)  i_metric_acsum_addmet (ram->real_free, ram->buffers, 0);
         if (ram->cached)  i_metric_acsum_addmet (ram->real_free, ram->cached, 0);
@@ -413,15 +432,18 @@ int l_snmp_storage_objfact_ctrl (i_resource *self, i_container *cnt, int result,
         ram->real_free->valstr_func = i_string_volume_metric;
         ram->real_free->kbase = 1024;
         ram->real_free->unit_str = strdup ("byte");
+        i_printf(0, "l_snmp_storage_objfact_ctrl rebuilt ram->real_free metric as a sum of (%s + %s + %s)", ram->real_avail ? ram->real_avail->desc_str : NULL, ram->buffers ? ram->buffers->desc_str : NULL, ram->cached ? ram->cached->desc_str : NULL);
   
         ram->real_active = i_metric_acdiff_create (self, real_obj, "real_active", "Active", METRIC_FLOAT, RECMETHOD_RRD, ram->real_total, ram->real_free, ACDIFF_REFCB_YMET);
         ram->real_active->valstr_func = i_string_volume_metric;
         ram->real_active->unit_str = strdup ("byte");
         ram->real_active->kbase = 1024;
         ram->real_active->record_defaultflag = 1;
+        i_printf(0, "l_snmp_storage_objfact_ctrl rebuilt ram->real_active metric as a diff of %s and %s", ram->real_total ? ram->real_total->desc_str : NULL, ram->real_free ? ram->real_free->desc_str : NULL);
 
         ram->real_usedpc = i_metric_acpcent_create (self, real_obj, "real_usedpc", "Used Percent", RECMETHOD_RRD, ram->real_active, ram->real_total, ACPCENT_REFCB_GAUGE);
         ram->real_usedpc->record_defaultflag = 1;
+        i_printf(0, "l_snmp_storage_objfact_ctrl rebuilt ram->real_usedpc metric as a percentage of %s and %s", ram->real_active ? ram->real_active->desc_str : NULL, ram->real_total ? ram->real_total->desc_str : NULL);
 
         i_triggerset_evalapprules_allsets (self, real_obj);
         l_record_eval_recrules_obj (self, real_obj);
