@@ -10,7 +10,7 @@
 
 @class LTAuthenticationTableViewController, LTFavoritesTableViewController, LTCoreDeployment, LTIncidentListTableViewController;
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate>
+@interface AppDelegate : NSObject <UIApplicationDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, UITabBarDelegate>
 {
 	/* UI Elements */
     UIWindow *window;
