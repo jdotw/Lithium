@@ -729,6 +729,12 @@
 	[storageModuleMenu insertItem:item atIndex:[[storageModuleMenu itemArray] count]];
 	if ([[item representedObject] isEqualToString:defaultSelection]) [self moduleMenuClicked:item];
 	[item autorelease];
+
+	item = [[NSMenuItem alloc] initWithTitle:@"Brocade Fibre Channel Switch" action:@selector(moduleMenuClicked:) keyEquivalent:@""];
+	[item setRepresentedObject:@"brocadefcsw"];
+	[storageModuleMenu insertItem:item atIndex:[[storageModuleMenu itemArray] count]];
+	if ([[item representedObject] isEqualToString:defaultSelection]) [self moduleMenuClicked:item];
+	[item autorelease];	
 	
 	/* Network */
 

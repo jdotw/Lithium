@@ -121,6 +121,7 @@ AC_OUTPUT(	Makefile 		\
           vendor_windows/Makefile \
           vendor_xserve/Makefile \
           vendor_xraid/Makefile \
+          vendor_brocadefcsw/Makefile \
           scripts/Makefile \
           scripts/action_scripts/Makefile \
           scripts/service_scripts/Makefile \

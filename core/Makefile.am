@@ -28,6 +28,7 @@ SUBDIRS = include construct \
 		  vendor_windows \
 		  vendor_xserve \
 		  vendor_xraid \
+		  vendor_brocadefcsw \
 		  scripts \
                   conf \
 		  htdocs
