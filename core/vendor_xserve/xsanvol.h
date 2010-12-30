@@ -39,7 +39,6 @@ typedef struct v_xsanvol_item_s
   struct i_metric_s *pid;
   struct i_metric_s *qos;
   struct i_metric_s *bytes_free;
-  struct i_metric_s *state;
   struct i_metric_s *bytes_total;
   struct i_metric_s *bytes_used;
   struct i_metric_s *used_pc;

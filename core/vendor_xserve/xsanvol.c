@@ -95,13 +95,14 @@ int v_xsanvol_enable (i_resource *self)
   i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_GT, 85, NULL, 0, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
   i_triggerset_assign (self, static_cnt, tset);
   
-  tset = i_triggerset_create ("host_state", "Host State", "host_state");
-  i_triggerset_addtrg (self, tset, "mdcfailover", "MDC Failed Over", VALTYPE_INTEGER, TRGTYPE_EQUAL, 1, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
-  i_triggerset_assign (self, static_cnt, tset);
-  
-  tset = i_triggerset_create ("state", "State", "state");
-  i_triggerset_addtrg (self, tset, "not_registered", "Not Registered", VALTYPE_INTEGER, TRGTYPE_NOTEQUAL, 1, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
-  i_triggerset_assign (self, static_cnt, tset);
+//  tset = i_triggerset_create ("host_state", "Host State", "host_state");
+//  i_triggerset_addtrg (self, tset, "mdcfailover", "MDC Failed Over", VALTYPE_INTEGER, TRGTYPE_EQUAL, 1, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+//  i_triggerset_assign (self, static_cnt, tset);
+
+//  Commented out because of no state flag in Xsan 2.2.1
+//  tset = i_triggerset_create ("state", "State", "state");
+//  i_triggerset_addtrg (self, tset, "not_registered", "Not Registered", VALTYPE_INTEGER, TRGTYPE_NOTEQUAL, 1, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+//  i_triggerset_assign (self, static_cnt, tset);
 
   /* 
    * Item and objects 
@@ -263,10 +264,11 @@ v_xsanvol_item* v_xsanvol_create (i_resource *self, char *name)
   item->qos = i_metric_create ("qos", "QOS Enabled", METRIC_INTEGER);
   i_entity_register (self, ENTITY(obj), ENTITY(item->qos));
   i_entity_refresh_config_apply (self, ENTITY(item->qos), &refconfig);
-  
-  item->state = i_metric_create ("state", "State", METRIC_INTEGER);
-  i_entity_register (self, ENTITY(obj), ENTITY(item->state));
-  i_entity_refresh_config_apply (self, ENTITY(item->state), &refconfig);
+
+//  Commented out because Xsan 2.2.1 doesnt support state   
+//  item->state = i_metric_create ("state", "State", METRIC_INTEGER);
+//  i_entity_register (self, ENTITY(obj), ENTITY(item->state));
+//  i_entity_refresh_config_apply (self, ENTITY(item->state), &refconfig);
   
   item->bytes_free = i_metric_create ("bytes_free", "Free Bytes", METRIC_GAUGE);
   item->bytes_free->alloc_unit = (1024 * 1024);

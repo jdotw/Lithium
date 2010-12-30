@@ -114,15 +114,7 @@ int v_data_xsan_volume_plistcb (i_resource *self, v_plist_req *req, void *passda
   {
     if (strcmp((char *)node->name, "dict") == 0)
     {
-      i_metric_value *val;
-      
-      /* State */
-      val = i_metric_value_create ();
-      val->str = v_plist_data_from_dict (req->plist, node, "state");
-      i_metric_value_enqueue (self, vol->state, val);
-      vol->state->refresh_result = REFRESULT_OK;
-      
-      /* VOlume Info */
+      /* Volume Info */
       xmlNodePtr volNode = v_plist_node_from_dict (req->plist, node, "volumeInfo");
       if (volNode) v_data_xsan_process_volumeinfo (self, req, volNode, vol);
     }
@@ -251,13 +243,6 @@ int v_data_xsan_process_volumestats (i_resource *self, v_plist_req *req, xmlNode
   i_metric_value_enqueue (self, volume->quotas, val);
   volume->quotas->refresh_result = REFRESULT_OK;
   i_entity_refresh_terminate (ENTITY(volume->quotas));
-  
-  /* State */
-  val = i_metric_value_create ();
-  val->integer = v_plist_int_from_dict (req->plist, dictNode, "State"); 
-  i_metric_value_enqueue (self, volume->state, val);
-  volume->state->refresh_result = REFRESULT_OK;
-  i_entity_refresh_terminate (ENTITY(volume->state));
   
   /* Remaining Size */
   char *str = v_plist_data_from_dict (req->plist, dictNode, "RemainingSize");

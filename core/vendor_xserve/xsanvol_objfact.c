@@ -59,11 +59,6 @@ int v_xsanvol_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, st
    * Metric Creation 
    */
    
-  vol->state = l_snmp_metric_create (self, obj, "state", "State", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.1.1.1.4", index_oidstr, RECMETHOD_NONE, 0);
-  i_metric_enumstr_add (vol->state, 2, "Stopped");
-  i_metric_enumstr_add (vol->state, 1, "Registered");
-  i_metric_enumstr_add (vol->state, 0, "Unknown");
-
   vol->devices = l_snmp_metric_create (self, obj, "devices", "Disk Devices", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.1.1.1.15", index_oidstr, RECMETHOD_NONE, 0);
   vol->stripe_groups = l_snmp_metric_create (self, obj, "stripe_groups", "Stripe Groups", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.1.1.1.16", index_oidstr, RECMETHOD_NONE, 0);
 

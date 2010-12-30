@@ -105,9 +105,17 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
   tset->default_applyflag = 1;
   i_triggerset_assign_obj (self, obj, tset);
 
-  /* Errors per second */
-  tset = i_triggerset_create ("error_rate", "Errors Per Second", "error_rate");
-  i_triggerset_addtrg (self, tset, "errors", "Errors", VALTYPE_FLOAT, TRGTYPE_GT, 10, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+  /* In-Frame Enc Error Trigger */
+  tset = i_triggerset_create ("rx_inenc_err_rate", "In-Frame Encoding Errors", "rx_inenc_err_rate");
+  i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 1.0, NULL, 2.0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_GT, 2.0, NULL, 0.0, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
+  tset->default_applyflag = 1;
+  i_triggerset_assign_obj (self, obj, tset);
+  
+  /* CRC Error Trigger */
+  tset = i_triggerset_create ("rx_crc_rate", "CRC Errors", "rx_crc_rate");
+  i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 1.0, NULL, 2.0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_GT, 2.0, NULL, 0.0, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
   tset->default_applyflag = 1;
   i_triggerset_assign_obj (self, obj, tset);
 
@@ -115,6 +123,22 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
   /* 
    * Port Status Metrics
    */
+
+  /* Admin State */
+  port->adminstate = l_snmp_metric_create (self, obj, "adminstate", "Admin State", METRIC_INTEGER, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.5", index_oidstr, RECMETHOD_NONE, 0);
+  i_metric_enumstr_add (port->adminstate, 1, "Online");
+  i_metric_enumstr_add (port->adminstate, 2, "Offline");
+  i_metric_enumstr_add (port->adminstate, 3, "Testing");
+  i_metric_enumstr_add (port->adminstate, 4, "Faulty");
+  i_entity_refreshcb_add (ENTITY(port->adminstate), v_port_adminstate_refcb, port->adminstate);
+
+  /* Op State */
+  port->opstate = l_snmp_metric_create (self, obj, "opstate", "Operational State", METRIC_INTEGER, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.4", index_oidstr, RECMETHOD_NONE, 0);
+  i_metric_enumstr_add (port->opstate, 0, "Unknown");
+  i_metric_enumstr_add (port->opstate, 1, "Online");
+  i_metric_enumstr_add (port->opstate, 2, "Offline");
+  i_metric_enumstr_add (port->opstate, 3, "Testing");
+  i_metric_enumstr_add (port->opstate, 4, "Faulty");
 
   /* Physical State */ 
   port->phystate = l_snmp_metric_create (self, obj, "phystate", "Physical State", METRIC_INTEGER, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.3", index_oidstr, RECMETHOD_NONE, 0);
@@ -127,22 +151,6 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
   i_metric_enumstr_add (port->phystate, 7, "Port Fault");
   i_metric_enumstr_add (port->phystate, 8, "Diag Fault");
   i_metric_enumstr_add (port->phystate, 9, "Reference Locking");
-
-  /* Op State */
-  port->opstate = l_snmp_metric_create (self, obj, "opstate", "Operational State", METRIC_INTEGER, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.4", index_oidstr, RECMETHOD_NONE, 0);
-  i_metric_enumstr_add (port->opstate, 0, "Unknown");
-  i_metric_enumstr_add (port->opstate, 1, "Online");
-  i_metric_enumstr_add (port->opstate, 2, "Offline");
-  i_metric_enumstr_add (port->opstate, 3, "Testing");
-  i_metric_enumstr_add (port->opstate, 4, "Faulty");
-
-  /* Admin State */
-  port->adminstate = l_snmp_metric_create (self, obj, "adminstate", "Admin State", METRIC_INTEGER, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.5", index_oidstr, RECMETHOD_NONE, 0);
-  i_metric_enumstr_add (port->adminstate, 1, "Online");
-  i_metric_enumstr_add (port->adminstate, 2, "Offline");
-  i_metric_enumstr_add (port->adminstate, 3, "Testing");
-  i_metric_enumstr_add (port->adminstate, 4, "Faulty");
-  i_entity_refreshcb_add (ENTITY(port->adminstate), v_port_adminstate_refcb, port->adminstate);
 
   /* Link state */
   port->linkstate = l_snmp_metric_create (self, obj, "linkstate", "Link State", METRIC_INTEGER, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.6", index_oidstr, RECMETHOD_NONE, 0);
@@ -224,71 +232,58 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
   port->too_many_rdy_count = l_snmp_metric_create (self, obj, "too_many_rdy_count", "Too Many RDYs Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.19", index_oidstr, RECMETHOD_NONE, 0);  
   port->too_many_rdy_count->hidden = 1;
   port->too_many_rdy_rate = i_metric_acrate_create (self, obj, "too_many_rdy_rate", "Too Many RDYs", "err/s", RECMETHOD_RRD, port->too_many_rdy_count, 0);
+  port->too_many_rdy_rate->record_defaultflag = 1;
 
   port->no_tx_credit_count = l_snmp_metric_create (self, obj, "no_tx_credit_count", "No TX Credit Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.20", index_oidstr, RECMETHOD_NONE, 0);  
   port->no_tx_credit_count->hidden = 1;
   port->no_tx_credit_rate = i_metric_acrate_create (self, obj, "no_tx_credit_rate", "No TX Credits", "err/s", RECMETHOD_RRD, port->no_tx_credit_count, 0);
+  port->no_tx_credit_rate->record_defaultflag = 1;
 
   port->rx_inenc_err_count = l_snmp_metric_create (self, obj, "rx_inenc_err_count", "In-Frame Encoding Error Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.21", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_inenc_err_count->hidden = 1;
   port->rx_inenc_err_rate = i_metric_acrate_create (self, obj, "rx_inenc_err_rate", "In-Frame Encoding Errors", "err/s", RECMETHOD_RRD, port->rx_inenc_err_count, 0);
+  port->rx_inenc_err_rate->record_defaultflag = 1;
+  port->rx_inenc_err_rate->summary_flag = 1;
 
   port->rx_outenc_err_count = l_snmp_metric_create (self, obj, "rx_outenc_err_count", "Out-Frame Encoding Error Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.26", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_outenc_err_count->hidden = 1;
   port->rx_outenc_err_rate = i_metric_acrate_create (self, obj, "rx_outenc_err_rate", "Out-Frame Encoding Errors", "err/s", RECMETHOD_RRD, port->rx_outenc_err_count, 0);
+  port->rx_outenc_err_rate->record_defaultflag = 1;
 
   port->rx_crc_count = l_snmp_metric_create (self, obj, "rx_crc_count", "CRC Error Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.22", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_crc_count->hidden = 1;
   port->rx_crc_rate = i_metric_acrate_create (self, obj, "rx_crc_rate", "CRC Errors", "err/s", RECMETHOD_RRD, port->rx_crc_count, 0);
+  port->rx_crc_rate->record_defaultflag = 1;
 
   port->rx_trunc_count = l_snmp_metric_create (self, obj, "rx_trunc_count", "Truncated Frame Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.23", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_trunc_count->hidden = 1;
   port->rx_trunc_rate = i_metric_acrate_create (self, obj, "rx_trunc_rate", "Truncated Frames", "err/s", RECMETHOD_RRD, port->rx_trunc_count, 0);
+  port->rx_trunc_rate->record_defaultflag = 1;
 
   port->rx_too_long_count = l_snmp_metric_create (self, obj, "rx_too_long_count", "Oversize Frame Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.24", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_too_long_count->hidden = 1;
   port->rx_too_long_rate = i_metric_acrate_create (self, obj, "rx_too_long_rate", "Oversize Frames", "err/s", RECMETHOD_RRD, port->rx_too_long_count, 0);
+  port->rx_too_long_rate->record_defaultflag = 1;
 
   port->rx_bad_eof_count = l_snmp_metric_create (self, obj, "rx_bad_eof_count", "Bad EOF Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.25", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_bad_eof_count->hidden = 1;
   port->rx_bad_eof_rate = i_metric_acrate_create (self, obj, "rx_bad_eof_rate", "Bad EOFs", "err/s", RECMETHOD_RRD, port->rx_bad_eof_count, 0);
+  port->rx_bad_eof_rate->record_defaultflag = 1;
 
   port->rx_bad_os_count = l_snmp_metric_create (self, obj, "rx_bad_os_count", "Bad Ordered-Set Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.27", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_bad_os_count->hidden = 1;
   port->rx_bad_os_rate = i_metric_acrate_create (self, obj, "rx_bad_os_rate", "Bad Ordered-Sets", "err/s", RECMETHOD_RRD, port->rx_bad_os_count, 0);
+  port->rx_bad_os_rate->record_defaultflag = 1;
 
   port->rx_lip_count = l_snmp_metric_create (self, obj, "rx_lip_count", "Loop Inits Received Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.31", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_lip_count->hidden = 1;
   port->rx_lip_rate = i_metric_acrate_create (self, obj, "rx_lip_rate", "Loop Inits Received", "lip/s", RECMETHOD_RRD, port->rx_lip_count, 0);
+  port->rx_lip_rate->record_defaultflag = 1;
 
   port->tx_lip_count = l_snmp_metric_create (self, obj, "tx_lip_count", "Loop Inits Sent Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.32", index_oidstr, RECMETHOD_NONE, 0);  
   port->tx_lip_count->hidden = 1;
   port->tx_lip_rate = i_metric_acrate_create (self, obj, "tx_lip_rate", "Loop Inits Sent", "lip/s", RECMETHOD_RRD, port->tx_lip_count, 0);
-
-
-  /* 
-   * Error Metrics (calculated aggregates)
-   */
-
-  /* Errors */
-  port->error_count = i_metric_acsum_create(self, obj, "error_count", "Aggregate Error Count", METRIC_FLOAT, RECMETHOD_RRD, NULL, NULL, ACSUM_REFMETHOD_PARENT);
-  port->error_count->hidden = 1;
-  i_metric_acsum_addmet(port->error_count, port->too_many_rdy_count, 0);
-  i_metric_acsum_addmet(port->error_count, port->no_tx_credit_count, 0);
-  i_metric_acsum_addmet(port->error_count, port->rx_inenc_err_count, 0);
-  i_metric_acsum_addmet(port->error_count, port->rx_crc_count, 0);
-  i_metric_acsum_addmet(port->error_count, port->rx_trunc_count, 0);
-  i_metric_acsum_addmet(port->error_count, port->rx_too_long_count, 0);
-  i_metric_acsum_addmet(port->error_count, port->rx_bad_eof_count, 0);
-  i_metric_acsum_addmet(port->error_count, port->rx_outenc_err_count, 0);
-  i_metric_acsum_addmet(port->error_count, port->rx_bad_os_count, 0);
-  i_metric_acsum_addmet(port->error_count, port->rx_lip_count, 0);
-  i_metric_acsum_addmet(port->error_count, port->tx_lip_count, 0);
-
-  /* Error Rate */
-  port->error_rate = i_metric_acrate_create (self, obj, "error_rate", "Error Rate", "err/s", RECMETHOD_RRD, port->error_count, 0);
-  port->error_rate->summary_flag = 1;
-  port->error_rate->record_defaultflag = 1;
+  port->tx_lip_rate->record_defaultflag = 1;
 
   /* Evaluate all triggersets */
   i_triggerset_evalapprules_allsets (self, obj);
