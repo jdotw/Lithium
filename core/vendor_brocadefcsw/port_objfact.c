@@ -210,9 +210,9 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
   port->rx_byte_count->hidden = 1;
 
   /* Bit per second calculated rate metrics */
-  port->rx_bps = i_metric_acrate_create (self, obj, "rx_bps", "Input Bits Per Second", "bit/s", RECMETHOD_RRD, port->rx_byte_count, ACRATE_MOD_BYTETOBIT);
+  port->rx_bps = i_metric_acrate_create (self, obj, "rx_bps", "Input Rate", "byte/s", RECMETHOD_RRD, port->rx_byte_count, 0);
   port->rx_bps->record_defaultflag = 1;
-  port->tx_bps = i_metric_acrate_create (self, obj, "tx_bps", "Output Bits Per Second", "bit/s", RECMETHOD_RRD, port->tx_byte_count, ACRATE_MOD_BYTETOBIT);
+  port->tx_bps = i_metric_acrate_create (self, obj, "tx_bps", "Output Rate", "byte/s", RECMETHOD_RRD, port->tx_byte_count, 0);
   port->tx_bps->record_defaultflag = 1;
 
   /* RX Utilization */
