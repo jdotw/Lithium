@@ -26,6 +26,7 @@ sqlite3 *static_cache = NULL;
 
 int i_search_cache_init (i_resource *self)
 {
+  /* This is called by the customer process ONLY */
   char *sqlerr = NULL;
 
 #ifdef DEBUG
