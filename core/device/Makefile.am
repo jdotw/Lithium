@@ -175,7 +175,8 @@ device_la_SOURCES = main.c \
 					xsnmp_raidvolume.c \
 					xsnmp_raidvolume_objfact.c \
 					xsnmp_raiddrive.c \
-					xsnmp_raiddrive_objfact.c
+					xsnmp_raiddrive_objfact.c \
+					searchcache.c
 
 device_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

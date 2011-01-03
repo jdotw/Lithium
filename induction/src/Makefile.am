@@ -200,8 +200,7 @@ libinduction_la_SOURCES = printf.c \
 						  xml_request.c \
 						  heartbeat.c \
 						  devnormal_report.c \
-						  search_cache.c \
-						  search_xml.c \
+						  searchcache.c \
 						  memcheck.c
 
 libinduction_la_LDFLAGS = -version-info 5
@@ -289,7 +288,7 @@ indinclude_HEADERS = version.h \
 					 incident_xml.h \
 					 xml.h \
 					 heartbeat.h \
-					 search.h \
+					 searchcache.h \
 					 memcheck.h
 
 noinst_HEADERS = build_config.h

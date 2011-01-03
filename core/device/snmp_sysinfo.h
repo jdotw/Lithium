@@ -8,6 +8,7 @@ typedef struct l_snmp_sysinfo_item_s
   struct i_metric_s *name;
   struct i_metric_s *location;
   struct i_metric_s *services;
+  struct i_metric_s *xsnmp_version;
 
 } l_snmp_sysinfo_item;
 

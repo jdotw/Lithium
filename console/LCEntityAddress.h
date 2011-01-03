@@ -27,6 +27,9 @@
 - (LCEntityAddress *) initForEntity:(id)entity;
 - (LCEntityAddress *) init;
 
+- (NSString *)typeString;
+
+@property (readonly,getter=typeString) NSString *typeString;
 @property (readonly,getter=addressString) NSString *addressString;
 @property (readonly) NSNumber *type;
 @property (readonly) NSString *cust;

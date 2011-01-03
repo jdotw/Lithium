@@ -107,6 +107,29 @@
 	return nil;
 }
 
+- (NSString *)typeString
+{
+	switch ([type intValue])
+	{
+		case 1:
+			return @"Customer";
+		case 2:
+			return @"Site";
+		case 3:
+			return @"Device";
+		case 4:
+			return @"Container";
+		case 5:
+			return @"Object";
+		case 6:
+			return @"Metric";
+		case 7:
+			return @"Trigger";
+		default:
+			return @"Unknown";
+	}
+}			
+
 @synthesize type;
 @synthesize cust;
 @synthesize site;

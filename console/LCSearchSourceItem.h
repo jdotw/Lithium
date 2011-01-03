@@ -8,8 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "LCCustomer.h"
-#import "LCSearchRequest.h"
+@class LCCustomer, LCSearchResult;
 
 @interface LCSearchSourceItem : NSObject 
 {
@@ -33,7 +32,7 @@
 @property (nonatomic,copy) NSString *displayString;
 @property (nonatomic,copy) NSString *searchString;
 @property (nonatomic,readonly) NSMutableArray *results;
-- (void) insertObject:(LCEntity *)entity inResultsAtIndex:(unsigned int)index;
+- (void) insertObject:(LCSearchResult *)result inResultsAtIndex:(unsigned int)index;
 - (void) removeObjectFromResultsAtIndex:(unsigned int)index;
 
 @end

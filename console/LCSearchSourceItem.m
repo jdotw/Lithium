@@ -9,6 +9,9 @@
 #import "LCSearchSourceItem.h"
 
 #import "LCCustomerList.h"
+#import "LCCustomer.h"
+#import "LCSearchResult.h"
+#import "LCSearchRequest.h"
 
 @implementation LCSearchSourceItem
 
@@ -22,7 +25,7 @@
 		{
 			/* Source is a specific customer */
 			LCSearchRequest *req = [[LCSearchRequest new] autorelease];
-			req.entity = customer;
+			req.customer = customer;
 			[req addObserver:self
 				  forKeyPath:@"results"
 					 options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew
@@ -36,7 +39,7 @@
 			for (LCCustomer *newCustomer in [LCCustomerList masterArray])
 			{
 				LCSearchRequest *req = [[LCSearchRequest new] autorelease];
-				req.entity = newCustomer;
+				req.customer = newCustomer;
 				[req addObserver:self
 					  forKeyPath:@"results"
 						 options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew
@@ -85,17 +88,17 @@
 	int changeType = [[change objectForKey:NSKeyValueChangeKindKey] intValue];
 	if (changeType == NSKeyValueChangeInsertion)
 	{
-		for (LCEntity *entity in [change objectForKey:NSKeyValueChangeNewKey])
+		for (LCSearchResult *result in [change objectForKey:NSKeyValueChangeNewKey])
 		{ 
-			[self insertObject:entity inResultsAtIndex:results.count];
+			[self insertObject:result inResultsAtIndex:results.count];
 		}
 	}
 	else if (changeType == NSKeyValueChangeRemoval)
 	{
-		for (LCEntity *entity in [change objectForKey:NSKeyValueChangeOldKey])
+		for (LCSearchResult *result in [change objectForKey:NSKeyValueChangeOldKey])
 		{ 
-			if ([results containsObject:entity])
-			{ [self removeObjectFromResultsAtIndex:[results indexOfObject:entity]]; }
+			if ([results containsObject:result])
+			{ [self removeObjectFromResultsAtIndex:[results indexOfObject:result]]; }
 		}
 	}
 }
@@ -129,9 +132,9 @@
 }
 
 @synthesize results;
-- (void) insertObject:(LCEntity *)entity inResultsAtIndex:(unsigned int)index
+- (void) insertObject:(LCSearchResult *)result inResultsAtIndex:(unsigned int)index
 {
-	[results insertObject:entity atIndex:index];
+	[results insertObject:result atIndex:index];
 }
 - (void) removeObjectFromResultsAtIndex:(unsigned int)index
 {

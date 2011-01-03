@@ -2148,13 +2148,13 @@ static NSMutableArray *activeControllers = nil;
 	searchString = [string copy];
 	if (searchString && [searchString length] > 0)
 	{
+		[browserTreeOutlineView deselectAll:nil];	// Clear browser tree selection
 		if (!self.searchContentController)
 		{
 			/* Create new Search Controller */
 			self.searchContentController = [[LCBrowserSearchContentController alloc] initInBrowser:self];
 			self.contentViewController = self.searchContentController;
 		}
-		
 		searchContentController.searchString = searchString;
 	}
 	else

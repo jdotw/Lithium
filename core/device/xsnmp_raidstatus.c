@@ -43,7 +43,11 @@ int l_xsnmp_raidstatus_cnt_refcb (i_resource *self, i_entity *ent, void *passdat
   {
     i_object *obj = (i_object *) i_entity_child_get(ENTITY(static_cnt), "master");
     l_xsnmp_raidstatus_item *status = (l_xsnmp_raidstatus_item *) obj->itemptr;
-    if (i_metric_curval(status->general_status)) static_cnt->hidden = 0;
+    i_metric_value *status_val = i_metric_curval(status->general_status);
+    if (status_val && status_val->integer != 0) 
+    {
+      static_cnt->hidden = 0;
+    }
   }
   return 0;   // Always return 0 to keep callback alive
 }

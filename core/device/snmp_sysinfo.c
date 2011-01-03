@@ -114,6 +114,11 @@ int l_snmp_sysinfo_enable (i_resource *self)
   sysinfo->location = l_snmp_metric_create (self, static_obj, "location", "Location", METRIC_STRING, "sysLocation", "0", RECMETHOD_NONE, 0);
   sysinfo->contact = l_snmp_metric_create (self, static_obj, "contact", "Contact", METRIC_STRING, "sysContact", "0", RECMETHOD_NONE, 0);
   sysinfo->services = l_snmp_metric_create (self, static_obj, "services", "Services", METRIC_INTEGER, "sysServices", "0", RECMETHOD_NONE, 0);
+  if (l_snmp_xsnmp_enabled())
+  { 
+    sysinfo->xsnmp_version = l_snmp_metric_create (self, static_obj, "xsnmp_enabled", "Xsnmp Enabled", METRIC_INTEGER, "enterprises.20038.2.1.5.1", "0", RECMETHOD_NONE, 0); 
+    i_metric_enumstr_add (sysinfo->xsnmp_version, 1, "Yes");
+  }
 
   /* Evaluate apprules for all triggersets */
   i_triggerset_evalapprules_allsets (self, static_obj);

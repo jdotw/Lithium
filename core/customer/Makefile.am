@@ -257,7 +257,9 @@ customer_la_SOURCES = main.c \
 					  group_xml_get.c \
 					  group_xml_entity.c \
 					  modb_xml_script_list.c \
-					  imagecache.c
+					  imagecache.c \
+					  searchcache_xml.c \
+					  searchcache.c
 
 customer_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

@@ -184,6 +184,10 @@ static LCConfigController *masterController;
 				if ([value intValue] == 1) [self setSqlMetricRecording:YES];
 				else [self setSqlMetricRecording:NO];
 				break;
+			case 39:
+				if ([value intValue] == 1) [self setDeepSearch:YES];
+				else [self setDeepSearch:NO];
+				break;
 		}
 		
 		/* Increment */
@@ -241,6 +245,13 @@ static LCConfigController *masterController;
 	if (sqlMetricRecording) [config appendFormat:@"  sql \"1\"\n"];
 	else [config appendFormat:@"  sql \"0\"\n"];
 	[config appendFormat:@"</recording>\n\n"];	
+
+	/* Deep Search */
+	[config appendFormat:@"<section search>\n"];
+	if (deepSearch) [config appendFormat:@"  deep \"1\"\n"];
+	else [config appendFormat:@"  deep \"0\"\n"];
+	[config appendFormat:@"</search>\n\n"];	
+	
 	
 	/* Write */
 	return config;
@@ -343,5 +354,15 @@ static LCConfigController *masterController;
 {
 	sqlMetricRecording = flag;
 }
+
+- (BOOL) deepSearch
+{
+	return deepSearch;
+}
+- (void) setDeepSearch:(BOOL)flag
+{
+	deepSearch = flag;
+}
+
 
 @end

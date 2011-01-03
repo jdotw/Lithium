@@ -30,6 +30,7 @@
 #include "vrack.h"
 #include "scene.h"
 #include "device.h"
+#include "searchcache.h"
 
 /* 
  * Device Related Functions
@@ -211,6 +212,7 @@ int l_device_remove (i_resource *self, i_device *dev)
   i_pg_async_conn *conn;
 
   /* Remove from other SQL tables */
+  l_searchcache_delete_device(self, dev);
   l_group_sql_entity_delete_device (self, dev);
   l_case_entity_sql_delete_device (self, dev);
   l_vrack_sql_cable_delete_device (self, dev);

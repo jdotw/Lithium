@@ -29,6 +29,8 @@
 	NSAlert *alert;
 	
 	BOOL sqlMetricRecording;
+	
+	BOOL deepSearch;
 }
 
 + (LCConfigController *) masterController;
@@ -63,5 +65,7 @@
 - (void) setAuthExternal:(BOOL)flag;
 - (BOOL) sqlMetricRecording;
 - (void) setSqlMetricRecording:(BOOL)flag;
+- (BOOL) deepSearch;
+- (void) setDeepSearch:(BOOL)flag;
 
 @end

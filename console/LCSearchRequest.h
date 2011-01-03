@@ -8,15 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "LCEntity.h"
-#import "LCXMLRequest.h"
-
 #define SEARCH_ANY 0
 #define SEARCH_ALL 1
 
+@class LCCustomer, LCXMLRequest, LCSearchResult;
+
 @interface LCSearchRequest : NSObject 
 {
-	LCEntity *entity;			/* The entity to be queried */
+	LCCustomer *customer;		/* Customer resource */
 	NSArray *keywords;			/* List of individual keywords */
 	int searchOperator;			/* 0=Any 1=All */
 	BOOL useRegex;
@@ -28,14 +27,14 @@
 	BOOL searchInProgress;
 	
 	NSMutableArray *results;
-	NSMutableDictionary *resultDict;
+	NSMutableDictionary *resultDict;	/* Keyed by entity address string */
 }
 
 #pragma mark "XML Operations"
 - (void) search;
 
 #pragma mark "Properties"
-@property (nonatomic,retain) LCEntity *entity;
+@property (nonatomic,retain) LCCustomer *customer;
 @property (nonatomic,copy) NSArray *keywords;
 @property (nonatomic,assign) int searchOperator;
 @property (nonatomic,assign) BOOL useRegex;
@@ -44,7 +43,7 @@
 @property (nonatomic,assign) BOOL searchInProgress;
 @property (nonatomic,readonly) NSMutableArray *results;
 @property (nonatomic,readonly) NSMutableDictionary *resultDict;
-- (void) insertObject:(LCEntity *)entity inResultsAtIndex:(unsigned int)index;
+- (void) insertObject:(LCSearchResult *)result inResultsAtIndex:(unsigned int)index;
 - (void) removeObjectFromResultsAtIndex:(unsigned int)index;
 
 

@@ -33,7 +33,6 @@
 #include <induction/xml.h>
 #include <induction/contact.h>
 #include <induction/path.h>
-#include <induction/search.h>
 
 #include "config.h"
 #include "lic.h"
@@ -65,6 +64,7 @@
 #include "document.h"
 #include "scene.h"
 #include "vrack.h"
+#include "searchcache.h"
 
 #ifdef HAVE_DNS_SD
 #include <dns_sd.h>
@@ -143,6 +143,9 @@ int module_init (i_resource *self)
   num = i_pg_async_enable (self);
   if (num != 0)
   { i_printf (1, "module_init failed to enable async postgres sub-system"); return -1; }
+
+  /* Initialise search cache */
+  l_searchcache_init(self);
 
   /* Enable PostgreSQL Maintenance */
 //  num = l_pgsql_maint_enable (self);

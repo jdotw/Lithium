@@ -9,6 +9,9 @@
 #import "LCBrowserSearchContentController.h"
 #import "LCCustomerList.h"
 #import "LCBrowser2Controller.h"
+#import "LCSearchSourceItem.h"
+#import "LCInspectorController.h"
+#import "LCSearchResult.h"
 
 @implementation LCBrowserSearchContentController
 
@@ -59,8 +62,8 @@
 	[searchString release];
 	[sources release];
 	[selectedSource release];
-	[selectedEntity release];
-	[selectedEntities release];
+	[selectedResult release];
+	[selectedResults release];
 	[super dealloc];
 }
 
@@ -70,7 +73,7 @@
 {
 	if (object == resultArrayController)
 	{
-		self.selectedEntities = [resultArrayController selectedObjects];
+		self.selectedResults = [resultArrayController selectedObjects];
 	}
 }
 
@@ -86,25 +89,39 @@
 	[sources removeObjectAtIndex:index];	
 }
 
-#pragma mark "Entity Selection"
+#pragma mark "Result and Entity Selection"
 
 @synthesize selectedEntity;
-@synthesize selectedEntities;
-- (void) setSelectedEntities:(NSArray *)value
+@synthesize selectedResult;
+- (void) setSelectedResult:(LCSearchResult *)value
 {
-	[selectedEntities release];
-	selectedEntities = [value copy];
+	[selectedResult release];
+	selectedResult = [value retain];
 	
-	if (selectedEntities.count > 0)
-	{ self.selectedEntity = [selectedEntities objectAtIndex:0]; }
+	if (selectedResult) self.selectedEntity = [[LCEntityDescriptor descriptorWithEntityAddress:selectedResult.entityAddress] locateEntity:YES];
+	else self.selectedEntity = nil;
+}
+@synthesize selectedResults;
+- (void) selectedResults:(NSArray *)value
+{
+	[selectedResults release];
+	selectedResults = [value copy];
+	
+	if (selectedResults.count > 0)
+	{ self.selectedResult = [selectedResults objectAtIndex:0]; }
 	else
-	{ self.selectedEntity = nil; }
+	{ self.selectedResult = nil; }
 }
 
 - (void) resultTableViewDoubleClicked:(NSArray *)selectedObjects
 {
 	if (selectedObjects.count > 0)
-	{ [(LCBrowser2Controller *)browser selectEntity:[selectedObjects objectAtIndex:0]]; }
+	{ 
+		LCSearchResult *result = [selectedObjects objectAtIndex:0];
+		LCEntity *entity = [[LCEntityDescriptor descriptorWithEntityAddress:result.entityAddress] locateEntity:YES];
+		if (entity)
+		{ [(LCBrowser2Controller *)browser selectEntity:entity]; }
+	}
 }
 
 #pragma mark "Properties"

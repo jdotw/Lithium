@@ -15,7 +15,7 @@
 #include "trigger.h"
 #include "entity.h"
 #include "name.h"
-#include "search.h"
+#include "searchcache.h"
 
 /** \addtogroup entity Monitored Entities
  * @{
@@ -129,7 +129,11 @@ int i_entity_register (i_resource *self, i_entity *parent, i_entity *ent)
   if (ent->authorative) ent->version = time (NULL);
 
   /* Add to search cache */
-  i_search_cache_insert (self, ent);
+  if ((self->type == RES_CUSTOMER && ent->ent_type < 4) || (self->type == RES_DEVICE && ent->ent_type > 3 && ent->ent_type < 6))
+  { 
+    if (ent->hidden != 1 && ent->parent->hidden != 1)
+    { i_searchcache_insert(self, ent); }
+  }
 
   return 0;
 }
@@ -150,7 +154,8 @@ int i_entity_deregister (i_resource *self, i_entity *ent)
   }
 
   /* Remove from search cache */
-  i_search_cache_delete (self, ent);
+  if ((self->type == RES_CUSTOMER && ent->ent_type < 4) || (self->type == RES_DEVICE && ent->ent_type > 3 && ent->ent_type < 6))
+  { i_searchcache_delete(self, ent); }
   
   /* Call entity-specific deregistration func */
   switch (ent->ent_type)
@@ -186,7 +191,7 @@ int i_entity_deregister (i_resource *self, i_entity *ent)
     return -1;
   }
 
-  /* Set registered flah */
+  /* Set registered flag */
   ent->registered = 0;
 
   /* Remove from parents child_list */  

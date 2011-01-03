@@ -142,6 +142,11 @@
 			{ 
 				[self selectRowIndexes:[NSIndexSet indexSetWithIndex:i] byExtendingSelection:NO];
 			}
+			else
+			{
+				/* Already selected */
+				NSLog (@"Already selected!");
+			}
 			[self scrollRowToVisible:i];
 			return;
 		}

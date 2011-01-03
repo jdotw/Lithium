@@ -30,6 +30,12 @@
 	return [[[LCEntityDescriptor alloc] initWithXmlNode:xmlNode] autorelease];
 }
 
++ (LCEntityDescriptor *) descriptorWithEntityAddress:(LCEntityAddress *)entityAddress
+{
+	return [[[LCEntityDescriptor alloc] initWithEntityAddress:entityAddress] autorelease];
+}
+
+
 - (id) initWithProperties:(id)initProperties
 {
 	[self init];
@@ -113,6 +119,21 @@
 	[properties setValue:[entity adminstateInteger] forKey:@"adminstate_num"];
 	[properties setValue:[entity opstateInteger] forKey:@"opstate_num"];
 	
+	return self;
+}
+
+- (id) initWithEntityAddress:(LCEntityAddress *)entityAddress
+{
+	/* Constructs a basic entity descriptor using the enityAddress */
+	self = [self init];
+	[properties setObject:[entityAddress.type stringValue] forKey:@"type_num"];
+	if (entityAddress.cust) [properties setObject:entityAddress.cust forKey:@"cust_name"];
+	if (entityAddress.site) [properties setObject:entityAddress.site forKey:@"site_name"];
+	if (entityAddress.dev) [properties setObject:entityAddress.dev forKey:@"dev_name"];
+	if (entityAddress.cnt) [properties setObject:entityAddress.cnt forKey:@"cnt_name"];
+	if (entityAddress.obj) [properties setObject:entityAddress.obj forKey:@"obj_name"];
+	if (entityAddress.met) [properties setObject:entityAddress.met forKey:@"met_name"];
+	if (entityAddress.trg) [properties setObject:entityAddress.trg forKey:@"trg_name"];
 	return self;
 }
 
@@ -377,14 +398,12 @@
 	if (!entity) return;
 	
 	/* Set local */
-//	[entity setAdminstateInteger:[self adminstate_num]];
 	[entity setOpState:[[self opstate_num] intValue]];
 	
 	/* Customer */
 	if ([entity customer])
 	{
-//		[[entity customer] setAdminstateInteger:[self cust_adminstate_num]];
-		[[entity customer] setOpState:[[self cust_opstate_num] intValue]];
+		if ([self cust_opstate_num]) [[entity customer] setOpState:[[self cust_opstate_num] intValue]];
 	}
 	else
 	{ return; }
@@ -392,8 +411,7 @@
 	/* Site */
 	if ([entity site])
 	{
-//		[[entity site] setAdminstateInteger:[self site_adminstate_num]];
-		[[entity site] setOpState:[[self site_opstate_num] intValue]];
+		if ([self site_opstate_num]) [[entity site] setOpState:[[self site_opstate_num] intValue]];
 	}
 	else
 	{ return; }
@@ -401,8 +419,7 @@
 	/* Device */
 	if ([entity device])
 	{
-//		[[entity device] setAdminstateInteger:[self dev_adminstate_num]];
-		[[entity device] setOpState:[[self dev_opstate_num] intValue]];
+		if ([self dev_opstate_num]) [[entity device] setOpState:[[self dev_opstate_num] intValue]];
 	}
 	else
 	{ return; }
@@ -410,8 +427,7 @@
 	/* Container */
 	if ([entity container])
 	{
-//		[[entity container] setAdminstateInteger:[self cnt_adminstate_num]];
-		[[entity container] setOpState:[[self cnt_opstate_num] intValue]];
+		if ([self cnt_opstate_num]) [[entity container] setOpState:[[self cnt_opstate_num] intValue]];
 	}	
 	else
 	{ return; }
@@ -419,8 +435,7 @@
 	/* Object */
 	if ([entity object])
 	{
-//		[[entity object] setAdminstateInteger:[self obj_adminstate_num]];
-		[[entity object] setOpState:[[self obj_opstate_num] intValue]];
+		if ([self obj_opstate_num]) [[entity object] setOpState:[[self obj_opstate_num] intValue]];
 	}		
 	else
 	{ return; }
@@ -428,8 +443,7 @@
 	/* Metric */
 	if ([entity metric])
 	{
-//		[[entity metric] setAdminstateInteger:[self met_adminstate_num]];
-		[[entity metric] setOpState:[[self met_opstate_num] intValue]];
+		if ([self met_opstate_num]) [[entity metric] setOpState:[[self met_opstate_num] intValue]];
 	}
 	else
 	{ return; }
@@ -437,8 +451,7 @@
 	/* Trigger */
 	if ([entity trigger])
 	{
-//		[[entity trigger] setAdminstateInteger:[self trg_adminstate_num]];
-		[[entity trigger] setOpState:[[self trg_opstate_num] intValue]];
+		if ([self trg_opstate_num]) [[entity trigger] setOpState:[[self trg_opstate_num] intValue]];
 	}
 	else
 	{ return; }

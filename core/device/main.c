@@ -35,6 +35,7 @@
 #include "service.h"
 #include "icmp.h"
 #include "device_xml.h"
+#include "searchcache.h"
 
 void module_info ()
 {
@@ -96,6 +97,9 @@ int module_init (i_resource *self)
   num = i_pg_async_enable (self);
   if (num != 0)
   { i_printf (1, "module_init failed to enable async postgres sub-system"); return -1; }
+
+  /* Init search cache */
+  l_searchcache_init(self);
 
   /* Check marking */
   if (self->hierarchy->dev->mark == ENTSTATE_OUTOFSERVICE) return 0;

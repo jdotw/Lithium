@@ -8,9 +8,13 @@
 
 #import "LCSearchRequest.h"
 
+#import "LCCustomer.h"
+#import "LCXMLRequest.h"
+#import "LCResourceAddress.h"
 #import "LCEntityDescriptor.h"
 #import "LCMetric.h"
 #import "LCMetricValue.h"
+#import "LCSearchResult.h"
 
 @implementation LCSearchRequest
 
@@ -19,7 +23,8 @@
 - (id) init
 {
 	self = [super init];
-	if (self != nil) {
+	if (self != nil) 
+	{
 		results = [[NSMutableArray array] retain];
 		resultDict = [[NSMutableDictionary dictionary] retain];
 	}
@@ -34,7 +39,7 @@
 		[xmlRequest cancel];
 		[xmlRequest release];
 	}
-	[entity release];
+	[customer release];
 	[keywords release];
 	[searchString release];
 	[results release];
@@ -60,9 +65,9 @@
 	[rootnode addChild:[NSXMLNode elementWithName:@"max_type" stringValue:[NSString stringWithFormat:@"%i", maximumType]]];
 	
 	/* Create and perform request */
-	xmlRequest = [[LCXMLRequest requestWithCriteria:entity.customer
-										   resource:[entity resourceAddress]
-											 entity:[entity entityAddress]
+	xmlRequest = [[LCXMLRequest requestWithCriteria:customer
+										   resource:[customer resourceAddress]
+											 entity:[customer entityAddress]
 											xmlname:@"search"
 											 refsec:0
 											 xmlout:xmldoc] retain];
@@ -80,47 +85,35 @@
 - (void) xmlParserDidFinish:(LCXMLNode *)rootNode
 {
 	/* Process results */
-	NSMutableArray *seenEntities = [NSMutableArray array];
+	NSMutableDictionary *seenResultDict = [NSMutableDictionary dictionary];
 	for (LCXMLNode *resultNode in rootNode.children)
 	{
-		LCEntity *resultEntity = nil;
-		for (LCXMLNode *childNode in resultNode.children)
-		{
-			if ([childNode.name isEqualToString:@"entity_descriptor"])
-			{
-				LCEntityDescriptor *entDesc = [LCEntityDescriptor descriptorWithXmlNode:childNode];
-				resultEntity = [entDesc locateEntity:YES];
-			
-				if (![resultDict objectForKey:[entDesc addressString]])
-				{ [self insertObject:resultEntity inResultsAtIndex:results.count]; }
-			
-				[seenEntities addObject:resultEntity];
-			}
-			else if ([childNode.name isEqualToString:@"value"] && entity.type == 6)
-			{
-				LCMetric *metric = (LCMetric *) entity;
-				LCMetricValue *value = [[LCMetricValue alloc] initWithXmlNode:childNode];
-				LCMetricValue *latestValue = [metric.metricValues objectAtIndex:0];
-				if (value.timestamp > latestValue.timestamp)
-				{
-					/* Use received value */
-					
-				}
-				[value autorelease];
-			}
-		}
+		LCSearchResult *result = [[LCSearchResult new] autorelease];
+		
+		result.entityType = [[resultNode.properties objectForKey:@"ent_type"] intValue];
+		result.entityAddress = [LCEntityAddress addressWithString:[resultNode.properties objectForKey:@"ent_addr"]];
+		result.resourceAddress = [LCResourceAddress addressWithString:[resultNode.properties objectForKey:@"res_addr"]];
+		result.desc = [resultNode.properties objectForKey:@"desc"];
+		result.custDesc = [resultNode.properties objectForKey:@"cust_desc"];
+		result.siteDesc = [resultNode.properties objectForKey:@"site_desc"];
+		result.devDesc = [resultNode.properties objectForKey:@"dev_desc"];
+		result.cntDesc = [resultNode.properties objectForKey:@"cnt_desc"];
+		result.objDesc = [resultNode.properties objectForKey:@"obj_desc"];
+		
+		[self insertObject:result inResultsAtIndex:results.count];
+		[seenResultDict setObject:result forKey:[result.entityAddress addressString]];
 	}
 	
 	/* Check for obsolete entities */
-	NSMutableArray *removeEntities = [NSMutableArray array];
-	for (LCEntity *localEntity in results)
+	NSMutableArray *obsoleteResults = [NSMutableArray array];
+	for (LCSearchResult *result in results)
 	{
-		if (![seenEntities containsObject:localEntity])
-		{ [removeEntities addObject:localEntity]; }
+		if (![seenResultDict objectForKey:[result.entityAddress addressString]])
+		{ [obsoleteResults addObject:result]; }
 	}
-	for (LCEntity *localEntity in removeEntities)
+	for (LCSearchResult *result in obsoleteResults)
 	{
-		[self removeObjectFromResultsAtIndex:[results indexOfObject:localEntity]];
+		[self removeObjectFromResultsAtIndex:[results indexOfObject:result]];
 	}
 }
 
@@ -137,7 +130,7 @@
 
 #pragma mark "Properties"
 
-@synthesize entity;
+@synthesize customer;
 @synthesize keywords;
 @synthesize searchOperator;
 @synthesize useRegex;
@@ -156,16 +149,16 @@
 
 @synthesize results;
 @synthesize resultDict;
-- (void) insertObject:(LCEntity *)newEntity inResultsAtIndex:(unsigned int)index
+- (void) insertObject:(LCSearchResult *)result inResultsAtIndex:(unsigned int)index
 {
-	[results insertObject:newEntity atIndex:index];
-	[resultDict setObject:newEntity forKey:[newEntity.entityAddress addressString]];
+	[results insertObject:result atIndex:index];
+	[resultDict setObject:result forKey:[result.entityAddress addressString]];
 }
 - (void) removeObjectFromResultsAtIndex:(unsigned int)index
 {
-	LCEntity *removeEntity = [results objectAtIndex:index];
+	LCSearchResult *result = [results objectAtIndex:index];
 	[results removeObjectAtIndex:index];
-	[resultDict removeObjectForKey:[removeEntity.entityAddress addressString]];
+	[resultDict removeObjectForKey:[result.entityAddress addressString]];
 }
 
 @end

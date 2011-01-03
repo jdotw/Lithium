@@ -9,21 +9,23 @@ typedef struct l_snmp_nsram_item_s
   /* Real */
   struct i_metric_s *real_alloc;        /* Allocation units for real/physical memory */
   struct i_metric_s *real_total;        /* Total amount of RAM */
-  struct i_metric_s *real_used;         /* Total Amount of RAM Used in any way (Wired + Active + Inactive) */
+  struct i_metric_s *real_used;         /* Total Amount of RAM Used in any way (Wired + Active + Inactive + Buffers + Cache, etc) */
   struct i_metric_s *real_free;         /* Completed unused RAM */
-  struct i_metric_s *real_wired;        /* Wired RAM (used by kernel) */
-  struct i_metric_s *real_active;       /* Active RAM (used by apps) */
-  struct i_metric_s *real_inactive;     /* Inactive RAM (can be freed) */
-  struct i_metric_s *real_avail;        /* RAM Available to apps (Free + Inactive) */
-  struct i_metric_s *real_unavail;      /* RAM Unavailable to apps (Total - Avail) */
-  struct i_metric_s *real_usedpc;       /* Calculated on free/total */
 
-  struct i_metric_s *shared;            /* As reported by SNMP -- Not on OS X*/
-  struct i_metric_s *shared_alloc;      /* As reported by SNMP -- Not on OS X*/
+  struct i_metric_s *real_wired;        /* Wired RAM (used by kernel, can not be swapped) */
+  struct i_metric_s *real_active;       /* Active RAM (used by apps, can be swapped) */
+  struct i_metric_s *real_totalactive;  /* Total of Active RAM (used by apps and kernel ) */
+  struct i_metric_s *real_inactive;     /* Inactive RAM (can be freed) */
+  
+  struct i_metric_s *shared;            /* As reported by SNMP -- Not on OS X */
+  struct i_metric_s *shared_alloc;      /* As reported by SNMP -- Not on OS X */
   struct i_metric_s *cached;            /* As reported by SNMP -- Not on OS X */
   struct i_metric_s *cached_alloc;      /* As reported by SNMP -- Not on OS X */
   struct i_metric_s *buffers;           /* As reported by SNMP -- Not on OS X */
   struct i_metric_s *buffers_alloc;     /* As reported by SNMP -- Not on OS X */
+
+  struct i_metric_s *real_usedpc;       /* Calculated on free/total */
+  struct i_metric_s *real_activepc;     /* Calculated on totalactive/total */
 
   /* Swap */
   struct i_metric_s *swap_total;

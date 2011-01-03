@@ -21,9 +21,11 @@
 + (LCEntityDescriptor *) descriptorWithProperties:(id)initProperties;
 + (LCEntityDescriptor *) descriptorForEntity:(LCEntity *)entity;
 + (LCEntityDescriptor *) descriptorWithXmlNode:(LCXMLNode *)xmlNode;
++ (LCEntityDescriptor *) descriptorWithEntityAddress:(LCEntityAddress *)entityAddress;
 - (id) initWithXmlNode:(LCXMLNode *)xmlNode;
 - (id) initWithProperties:(id)initProperties;
 - (id) initForEntity:(LCEntity *)entity;
+- (id) initWithEntityAddress:(LCEntityAddress *)entityAddress;
 - (id) init;
 - (void) dealloc;
 

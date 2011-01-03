@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 #import "LCBrowser2ContentViewController.h"
-#import "LCSearchSourceItem.h"
-#import "LCInspectorController.h"
+
+@class LCSearchSourceItem, LCSearchResult, LCInspectorController;
 
 @interface LCBrowserSearchContentController : LCBrowser2ContentViewController 
 {
@@ -21,7 +21,9 @@
 	NSMutableArray *sources;
 	LCSearchSourceItem *selectedSource;
 	
-	NSArray *selectedEntities;
+	LCSearchResult *selectedResult;
+	NSArray *selectedResults;
+	
 	LCEntity *selectedEntity;
 	
 	IBOutlet LCInspectorController *inspectorController;
@@ -36,8 +38,10 @@
 - (void) removeObjectFromSourcesAtIndex:(unsigned int)index;
 @property (nonatomic,retain) LCSearchSourceItem *selectedSource;
 
-@property (nonatomic,copy) NSArray *selectedEntities;
-@property (nonatomic,retain) LCEntity *selectedEntity;
+@property (nonatomic,retain) LCSearchResult *selectedResult;
+@property (nonatomic,copy) NSArray *selectedResults;
+
+@property (nonatomic, retain) LCEntity *selectedEntity;;
 
 
 @end

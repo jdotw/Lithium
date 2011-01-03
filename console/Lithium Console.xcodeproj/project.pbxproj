@@ -609,6 +609,7 @@
 		106086E00FDB6505005B8775 /* LCNoHitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 106086DF0FDB6505005B8775 /* LCNoHitView.m */; };
 		1060968110E2CB0200422A30 /* CaseSearchWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1060967E10E2CB0200422A30 /* CaseSearchWindow.xib */; };
 		1060968210E2CB0200422A30 /* LCCaseSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1060968010E2CB0200422A30 /* LCCaseSearchController.m */; };
+		1062616712CFE5070017080E /* LCSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 1062616612CFE5070017080E /* LCSearchResult.m */; };
 		1064D31A0F14693C006598FE /* Console.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1064D3190F14693C006598FE /* Console.icns */; };
 		1065E8EC0F8F328D0074B480 /* LCInspIncidentHistoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1065E8EB0F8F328D0074B480 /* LCInspIncidentHistoryItem.m */; };
 		1065E8F00F8F32980074B480 /* LCInspIncidentHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1065E8EF0F8F32980074B480 /* LCInspIncidentHistoryViewController.m */; };
@@ -1842,6 +1843,8 @@
 		1060967E10E2CB0200422A30 /* CaseSearchWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CaseSearchWindow.xib; sourceTree = "<group>"; };
 		1060967F10E2CB0200422A30 /* LCCaseSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCCaseSearchController.h; sourceTree = "<group>"; };
 		1060968010E2CB0200422A30 /* LCCaseSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCCaseSearchController.m; sourceTree = "<group>"; };
+		1062616512CFE5070017080E /* LCSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSearchResult.h; sourceTree = "<group>"; };
+		1062616612CFE5070017080E /* LCSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSearchResult.m; sourceTree = "<group>"; };
 		1064D3190F14693C006598FE /* Console.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Console.icns; sourceTree = "<group>"; };
 		1065E8EA0F8F328D0074B480 /* LCInspIncidentHistoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCInspIncidentHistoryItem.h; sourceTree = "<group>"; };
 		1065E8EB0F8F328D0074B480 /* LCInspIncidentHistoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCInspIncidentHistoryItem.m; sourceTree = "<group>"; };
@@ -4072,6 +4075,8 @@
 			children = (
 				104BAEBF10426EB700810AA3 /* LCSearchRequest.h */,
 				104BAEC010426EB700810AA3 /* LCSearchRequest.m */,
+				1062616512CFE5070017080E /* LCSearchResult.h */,
+				1062616612CFE5070017080E /* LCSearchResult.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -5962,6 +5967,7 @@
 				1012A5CA1277712F00B8529A /* LCBrowserActionFilterContentController.m in Sources */,
 				1067ABC6127A6F91005A57B5 /* LCShadowPopupCell.m in Sources */,
 				1067ABD4127A7282005A57B5 /* LCShadowComboBoxCell.m in Sources */,
+				1062616712CFE5070017080E /* LCSearchResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6027,7 +6033,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CURRENT_PROJECT_VERSION = 6271;
+				CURRENT_PROJECT_VERSION = 6273;
 				FRAMEWORK_SEARCH_PATHS = "../Frameworks/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -6111,7 +6117,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CURRENT_PROJECT_VERSION = 6271;
+				CURRENT_PROJECT_VERSION = 6273;
 				FRAMEWORK_SEARCH_PATHS = "../Frameworks/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = unsupported;
