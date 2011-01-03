@@ -131,7 +131,7 @@ int module_entry (i_resource *self, i_form *config_form)
 
   if (self->hierarchy->dev->protocol == 1 || self->hierarchy->dev->lom == 1)
   {
-    if (self->hierarchy->dev->lom == 1)
+    if (self->hierarchy->dev->lom == 1 && !l_snmp_xsnmp_enabled())
     {
       /* Add Availability Object */
       static_ipmi_avail_obj = l_avail_object_add (self, "ipmi", "IPMI");
@@ -144,7 +144,7 @@ int module_entry (i_resource *self, i_form *config_form)
     { i_printf (1, "xserve vendor module_entry failed to enable to data retrieval sub-system"); return -1; }
   }
 
-  if (self->hierarchy->dev->lom == 1)
+  if (self->hierarchy->dev->lom == 1 && !l_snmp_xsnmp_enabled())
   {
     /*
      * Create Data Metrics 
@@ -250,7 +250,7 @@ int module_entry (i_resource *self, i_form *config_form)
    * Enable sub-systems 
    */
 
-  if (self->hierarchy->dev->lom == 1)
+  if (self->hierarchy->dev->lom == 1 && !l_snmp_xsnmp_enabled())
   {
     num = v_chassis_enable (self);
     if (num != 0)

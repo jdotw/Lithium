@@ -100,6 +100,10 @@ int l_xsnmp_raidstatus_enable (i_resource *self)
   i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_INTEGER, TRGTYPE_EQUAL, 4, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
   i_triggerset_assign (self, static_cnt, tset);
         
+  tset = i_triggerset_create ("write_cache", "Write Cache", "write_cache");
+  i_triggerset_addtrg (self, tset, "not_enabled", "Not Enabled", VALTYPE_INTEGER, TRGTYPE_NOTEQUAL, 1, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+  i_triggerset_assign (self, static_cnt, tset);
+        
   /* 
    * Items and Master Object
    */
