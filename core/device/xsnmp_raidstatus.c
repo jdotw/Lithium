@@ -99,6 +99,7 @@ int l_xsnmp_raidstatus_enable (i_resource *self)
   tset = i_triggerset_create ("battery_status", "Battery Status", "battery_status");
   i_triggerset_addtrg (self, tset, "not_charging", "Not Charging", VALTYPE_INTEGER, TRGTYPE_EQUAL, 4, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
   i_triggerset_addtrg (self, tset, "failed", "Failed", VALTYPE_INTEGER, TRGTYPE_EQUAL, 5, NULL, 0, NULL, 0, ENTSTATE_FAILED, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "precharging", "Precharging", VALTYPE_INTEGER, TRGTYPE_EQUAL, 6, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
   i_triggerset_assign (self, static_cnt, tset);
         
   tset = i_triggerset_create ("write_cache", "Write Cache", "write_cache");
@@ -153,6 +154,7 @@ int l_xsnmp_raidstatus_enable (i_resource *self)
   i_metric_enumstr_add (raid->battery_status, 3, "Charging");
   i_metric_enumstr_add (raid->battery_status, 4, "Not Charging");
   i_metric_enumstr_add (raid->battery_status, 5, "Failed");
+  i_metric_enumstr_add (raid->battery_status, 6, "Precharging");
   i_metric_enumstr_add (raid->battery_status, 0, "Unknown");
   raid->battery_status_message = l_snmp_metric_create (self, obj, "battery_status_message", "Battery Status Message", METRIC_STRING, ".1.3.6.1.4.1.20038.2.1.6.1.4.0", NULL, RECMETHOD_NONE, SMET_PARENTREFMETHOD);
 
