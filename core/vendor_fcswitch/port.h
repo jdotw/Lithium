@@ -29,11 +29,7 @@ typedef struct v_port_item_s
 } v_port_item;
 
 /* port.c */
-struct i_container_s* v_port_cnt ();
-int v_port_enable (i_resource *self);
-int v_port_disable (i_resource *self);
-
-/* port_item.c */
+struct i_container_s* v_port_enable (i_resource *self, char *unit_name, char *unit_desc, char *unit_oid_suffix);
 v_port_item* v_port_item_create ();
 void v_port_item_free (void *itemptr);
 

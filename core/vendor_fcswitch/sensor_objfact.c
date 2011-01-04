@@ -17,10 +17,11 @@
 
 #include "device/snmp.h"
 
+#include "unit.h"
 #include "sensor.h"
 
 /* 
- * Cisco CPU Resources - Object Factory Functions 
+ * Fibre Alliance Sensors - Object Factory Functions 
  */
 
 /* Object Factory Fabrication */
@@ -29,20 +30,16 @@ int v_sensor_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, str
 {
   int num;
   v_sensor_item *sensor;
+  char *unit_oid_suffix = passdata;
 
   /* Object Configuration */
   obj->desc_str = l_snmp_get_string_from_pdu (pdu);
-  obj->mainform_func = v_sensor_objform;
 
   /* Load/Apply Refresh config */
-  num = i_entity_refresh_config_loadapply (self, ENTITY(obj), NULL);
-  if (num != 0)
-  { i_printf (1, "v_sensor_objfact_fab failed to load and apply object %s refresh config", obj->name_str); return -1; }
+  i_entity_refresh_config_loadapply (self, ENTITY(obj), NULL);
 
   /* Create sensor item struct */
   sensor = v_sensor_item_create ();
-  if (!sensor)
-  { i_printf (1, "v_sensor_objfact_fab failed to create sensor item for object %s", obj->name_str); return -1; }
   sensor->obj = obj;
   obj->itemptr = sensor;
 
@@ -50,9 +47,9 @@ int v_sensor_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, str
    * Metric Creation 
    */
 
-  sensor->status = l_snmp_metric_create (self, obj, "status", "Status", METRIC_INTEGER, ".1.3.6.1.3.94.1.8.1.4", index_oidstr, RECMETHOD_NONE, 0);
-  sensor->info = l_snmp_metric_create (self, obj, "info", "Info", METRIC_STRING, ".1.3.6.1.3.94.1.8.1.5", index_oidstr, RECMETHOD_NONE, 0);
-  sensor->message = l_snmp_metric_create (self, obj, "message", "Message", METRIC_STRING, ".1.3.6.1.3.94.1.8.1.6", index_oidstr, RECMETHOD_NONE, 0);
+  sensor->status = l_snmp_metric_create (self, obj, "status", "Status", METRIC_INTEGER, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.8.1.4"), index_oidstr, RECMETHOD_NONE, 0);
+  sensor->info = l_snmp_metric_create (self, obj, "info", "Info", METRIC_STRING, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.8.1.5"), index_oidstr, RECMETHOD_NONE, 0);
+  sensor->message = l_snmp_metric_create (self, obj, "message", "Message", METRIC_STRING, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.8.1.6"), index_oidstr, RECMETHOD_NONE, 0);
   
   /* Enqueue the sensor item */
   num = i_list_enqueue (cnt->item_list, sensor);
@@ -86,10 +83,6 @@ int v_sensor_objfact_ctrl (i_resource *self, i_container *cnt, int result, void 
 
 int v_sensor_objfact_clean (i_resource *self, i_container *cnt, i_object *obj)
 {
-  /* FIX needs to free the sensor and remove
-   * it from the item_list
-   */
-
   int num;
   v_sensor_item *sensor = obj->itemptr;
 

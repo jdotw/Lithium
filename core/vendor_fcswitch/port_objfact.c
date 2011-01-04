@@ -20,11 +20,8 @@
 #include "unit.h"
 #include "port.h"
 
-static int curswitch_id = 0;
-static int curswitch_domain = 0;
-
 /* 
- * Cisco CPU Resources - Object Factory Functions 
+ * Fibre Channel Alliance -- Ports
  */
 
 /* Object Factory Fabrication */
@@ -33,18 +30,10 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
 {
   int num;
   v_port_item *port;
+  char *unit_oid_suffix = passdata;
 
   /* Object Configuration */
-  int switch_domain = (int) pdu->variables->val.string[0];
-  int switch_port = (int) pdu->variables->val.string[1];
-  if (switch_domain != curswitch_domain)
-  {
-    curswitch_id++;
-    curswitch_domain = switch_domain;
-  }
-  asprintf (&obj->desc_str, "Switch %i Port %i", curswitch_id, switch_port);
-  obj->mainform_func = v_port_objform;
-  obj->histform_func = v_port_objform_hist;
+  obj->desc_str = l_snmp_get_string_from_pdu(pdu);
 
   /* Load/Apply Refresh config */
   num = i_entity_refresh_config_loadapply (self, ENTITY(obj), NULL);
@@ -57,8 +46,6 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   { i_printf (1, "v_port_objfact_fab failed to create port item for object %s", obj->name_str); return -1; }
   port->obj = obj;
   obj->itemptr = port;
-  port->switch_domain = switch_domain;
-  port->switch_port = switch_port;
 
   /* 
    * Metric Creation 
@@ -71,7 +58,7 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   refconfig.refresh_method = REFMETHOD_EXTERNAL;
   refconfig.refresh_int_sec = REFDEFAULT_REFINTSEC;
   refconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
-  port->speed_kbyte = l_snmp_metric_create (self, obj, "speed_kbye", "Speed (Kbyte)", METRIC_GAUGE, ".1.3.6.1.3.94.1.10.1.15", index_oidstr, RECMETHOD_NONE, 0);
+  port->speed_kbyte = l_snmp_metric_create (self, obj, "speed_kbye", "Speed (Kbyte)", METRIC_GAUGE, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.10.1.15"), index_oidstr, RECMETHOD_NONE, 0);
   port->speed_kbyte->unit_str = strdup ("KByte/s");
   port->speed = i_metric_create ("speed", "Speed", METRIC_FLOAT);
   port->speed->unit_str = strdup ("bit");
@@ -81,7 +68,7 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   i_entity_refreshcb_add (ENTITY(port->speed_kbyte), v_port_speed_refcb, port->speed);
             
   /* State */
-  port->state = l_snmp_metric_create (self, obj, "state", "State", METRIC_INTEGER, ".1.3.6.1.3.94.1.10.1.6", index_oidstr, RECMETHOD_NONE, 0);
+  port->state = l_snmp_metric_create (self, obj, "state", "Admin State", METRIC_INTEGER, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.10.1.6"), index_oidstr, RECMETHOD_NONE, 0);
   i_metric_enumstr_add (port->state, 1, "Unknown");
   i_metric_enumstr_add (port->state, 2, "Online");
   i_metric_enumstr_add (port->state, 3, "Offline");
@@ -89,7 +76,7 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   i_metric_enumstr_add (port->state, 5, "Diagnostic");
   
   /* Status */
-  port->status = l_snmp_metric_create (self, obj, "status", "Status", METRIC_INTEGER, ".1.3.6.1.3.94.1.10.1.7", index_oidstr, RECMETHOD_NONE, 0);
+  port->status = l_snmp_metric_create (self, obj, "status", "Operational Status", METRIC_INTEGER, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.10.1.7"), index_oidstr, RECMETHOD_NONE, 0);
   i_metric_enumstr_add (port->status, 1, "Unknown");
   i_metric_enumstr_add (port->status, 2, "Unused");
   i_metric_enumstr_add (port->status, 3, "Ready");
@@ -102,10 +89,10 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   i_metric_enumstr_add (port->status, 10, "Other");
 
   /* WWN */
-  port->wwn = l_snmp_metric_create (self, obj, "wwn", "WWN", METRIC_HEXSTRING, ".1.3.6.1.3.94.1.10.1.10", index_oidstr, RECMETHOD_NONE, 0);
+  port->wwn = l_snmp_metric_create (self, obj, "wwn", "WWN", METRIC_HEXSTRING, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.10.1.10"), index_oidstr, RECMETHOD_NONE, 0);
   
   /* Hardware State */
-  port->hwstate = l_snmp_metric_create (self, obj, "hwstate", "Hardware State", METRIC_INTEGER, ".1.3.6.1.3.94.1.10.1.23", index_oidstr, RECMETHOD_NONE, 0);
+  port->hwstate = l_snmp_metric_create (self, obj, "hwstate", "Hardware State", METRIC_INTEGER, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.10.1.23"), index_oidstr, RECMETHOD_NONE, 0);
   i_metric_enumstr_add (port->hwstate, 1, "Unknown");
   i_metric_enumstr_add (port->hwstate, 2, "Failed");
   i_metric_enumstr_add (port->hwstate, 3, "Bypassed");
@@ -116,10 +103,10 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   i_metric_enumstr_add (port->hwstate, 8, "Link Down");
 
   /* Elements/Octetes */
-  port->octets_in = l_snmp_metric_create (self, obj, "octetes_in", "Receive Element Count", METRIC_COUNT_HEX64, ".1.3.6.1.3.94.4.5.1.7", index_oidstr, RECMETHOD_NONE, 0);  
+  port->octets_in = l_snmp_metric_create (self, obj, "octetes_in", "Receive Element Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.4.5.1.7"), index_oidstr, RECMETHOD_NONE, 0);  
   port->bps_in = i_metric_acrate_create (self, obj, "bps_in", "Input Bits Per Second", "bit/s", RECMETHOD_RRD, port->octets_in, ACRATE_MOD_BYTETOBIT);
   port->bps_in->record_defaultflag = 1;
-  port->octets_out = l_snmp_metric_create (self, obj, "octetes_out", "Transmit Element Count", METRIC_COUNT_HEX64, ".1.3.6.1.3.94.4.5.1.6", index_oidstr, RECMETHOD_NONE, 0);
+  port->octets_out = l_snmp_metric_create (self, obj, "octetes_out", "Transmit Element Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.4.5.1.6"), index_oidstr, RECMETHOD_NONE, 0);
   port->bps_out = i_metric_acrate_create (self, obj, "bps_out", "Output Bits Per Second", "bit/s", RECMETHOD_RRD, port->octets_out, ACRATE_MOD_BYTETOBIT);
   port->bps_out->record_defaultflag = 1;
   port->utilpc_in = i_metric_acpcent_create (self, obj, "utilpc_in", "Input Utilisation", RECMETHOD_RRD, port->bps_in, port->speed, ACPCENT_REFCB_GAUGE);
@@ -128,7 +115,7 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   port->utilpc_out->record_defaultflag = 1;
 
   /* Errors */
-  port->errors = l_snmp_metric_create (self, obj, "errors", "Error Count", METRIC_COUNT_HEX64, ".1.3.6.1.3.94.4.5.1.3", index_oidstr, RECMETHOD_NONE, 0);
+  port->errors = l_snmp_metric_create (self, obj, "errors", "Error Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.4.5.1.3"), index_oidstr, RECMETHOD_NONE, 0);
   port->eps = i_metric_acrate_create (self, obj, "eps", "Errors Per Second", "err/s", RECMETHOD_RRD, port->errors, ACRATE_MOD_BYTETOBIT);
   
   /* Enqueue the port item */
@@ -165,28 +152,6 @@ int v_port_objfact_ctrl (i_resource *self, i_container *cnt, int result, void *p
     /* No errors, set item list state to NORMAL */
     cnt->item_list_state = ITEMLIST_STATE_NORMAL;
   }
-
-  /* Check to see if this is a single-switch */
-  if (curswitch_id <= 1)
-  {
-    /* Re-do iface descriptions */
-    i_object *obj;
-    for (i_list_move_head(cnt->obj_list); (obj=i_list_restore(cnt->obj_list))!=NULL; i_list_move_next(cnt->obj_list))
-    {
-      v_port_item *port = obj->itemptr;
-      if (obj->desc_str) free (obj->desc_str);
-      asprintf (&obj->desc_str, "Port %i", port->switch_port);
-    }
-  }
-  else
-  {
-    /* This is a multi-unit/stacked switch */
-    v_unit_enable (self);
-  }
-
-  /* Reset counters */
-  curswitch_id = 0;
-  curswitch_domain = 0;
 
   return 0;
 }

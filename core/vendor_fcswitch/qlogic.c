@@ -24,11 +24,7 @@
 #include "device/icmp.h"
 #include "device/nwtput.h"
 
-#include "sysinfo.h"
-#include "revision.h"
-#include "sensor.h"
-#include "load.h"
-#include "port.h"
+#include "unit.h"
 
 char* vendor_name ()
 { return "qlogic"; }
@@ -66,29 +62,13 @@ int module_entry (i_resource *self, i_form *config_form)
   if (num != 0)
   { i_printf (1, "qlogic vendor module_entry failed to initialise l_snmp_objfact"); return -1; }      
 
-  num = v_sysinfo_enable (self);
-  if (num != 0)
-  { i_printf (1, "qlogic vendor module_entry failed to enable the sysinfo sub-system"); return -1; }
-
-  num = v_load_enable (self);
-  if (num != 0)
-  { i_printf (1, "qlogic vendor module_entry failed to enable the load sub-system"); return -1; }
-
-  num = v_sensor_enable (self);
-  if (num != 0)
-  { i_printf (1, "qlogic vendor module_entry failed to enable the sensor sub-system"); return -1; }
-
-  num = v_port_enable (self);
-  if (num != 0)
-  { i_printf (1, "qlogic vendor module_entry failed to enable the port sub-system"); return -1; }
-
   num = l_snmp_iface_enable (self);
   if (num != 0)
   { i_printf (1, "qlogic vendor module_entry failed to enable SNMP Interface List sub-system"); return -1; }
 
-  num = v_revision_enable (self);
+  num = v_unit_enable (self);
   if (num != 0)
-  { i_printf (1, "qlogic vendor module_entry failed to enable the revision sub-system"); return -1; }
+  { i_printf (1, "qlogic vendor module_entry failed to enable the unit sub-system"); return -1; }
 
   num = l_snmp_ipaddr_enable (self);
   if (num != 0)

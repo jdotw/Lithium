@@ -32,8 +32,6 @@ int v_revision_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, s
 
   /* Object Configuration */
   obj->desc_str = l_snmp_get_string_from_pdu (pdu);
-//  obj->mainform_func = v_revision_objform;
-//  obj->histform_func = v_revision_objform_hist;
 
   /* Load/Apply Refresh config */
   num = i_entity_refresh_config_loadapply (self, ENTITY(obj), NULL);

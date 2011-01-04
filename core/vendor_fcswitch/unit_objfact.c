@@ -17,7 +17,9 @@
 
 #include "device/snmp.h"
 
+#include "port.h"
 #include "unit.h"
+#include "sensor.h"
 
 /* 
  * Physical Unit - Object Factory Functions 
@@ -31,10 +33,7 @@ int v_unit_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   v_unit_item *unit;
 
   /* Object Configuration */
-  int switch_domain = (int) pdu->variables->val.string[2];
-  asprintf (&obj->desc_str, "Switch %i", switch_domain);
-//  obj->mainform_func = v_unit_objform;
-//  obj->histform_func = v_unit_objform_hist;
+  obj->desc_str = l_snmp_get_string_from_pdu(pdu);
 
   /* Load/Apply Refresh config */
   num = i_entity_refresh_config_loadapply (self, ENTITY(obj), NULL);
@@ -47,7 +46,6 @@ int v_unit_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   { i_printf (1, "v_unit_objfact_fab failed to create unit item for object %s", obj->name_str); return -1; }
   unit->obj = obj;
   obj->itemptr = unit;
-  unit->switch_domain = switch_domain;
 
   /* 
    * Metric Creation 
@@ -59,14 +57,16 @@ int v_unit_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   refconfig.refresh_int_sec = REFDEFAULT_REFINTSEC;
   refconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
 
-  /* Speed */
-  unit->switchname = l_snmp_metric_create (self, obj, "switchname", "Switch Name", METRIC_STRING, "experimental.94.1.6.1.20", index_oidstr, RECMETHOD_NONE, 0);
-  i_entity_refreshcb_add (ENTITY(unit->switchname), v_unit_switchname_refcb, unit);
+  /* FIX Add Unit Triggers */
             
   /* Enqueue the unit item */
   num = i_list_enqueue (cnt->item_list, unit);
   if (num != 0)
   { i_printf (1, "v_unit_objfact_fab failed to enqueue unit for object %s", obj->name_str); v_unit_item_free (unit); return -1; }
+
+  /* Create port container */
+  unit->port_cnt = v_port_enable (self, obj->name_str, obj->desc_str, index_oidstr);
+  unit->sensor_cnt = v_sensor_enable (self, obj->name_str, obj->desc_str, index_oidstr);
 
   return 0;
 }
