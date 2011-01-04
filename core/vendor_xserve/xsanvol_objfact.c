@@ -87,6 +87,12 @@ int v_xsanvol_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, st
   vol->used_pc->record_defaultflag = 1;
   vol->used_pc->unit_str = strdup ("%");
   
+  vol->host_ip = l_snmp_metric_create (self, obj, "host_ip", "Current MDC", METRIC_STRING, ".1.3.6.1.4.1.20038.2.1.1.1.1.27", index_oidstr, RECMETHOD_RRD, 0);
+  vol->host_ip->summary_flag = 1;
+  
+  vol->host = l_snmp_metric_create (self, obj, "host", "MDC Number", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.1.1.1.28", index_oidstr, RECMETHOD_RRD, 0);
+  vol->host->summary_flag = 1;
+  
   /* Enqueue the storage item */
   num = i_list_enqueue (cnt->item_list, vol);
   if (num != 0)
