@@ -224,6 +224,9 @@ int l_incident_handler_report (i_resource *self, i_socket *sock, i_message *msg,
     { i_printf (1, "l_incident_handler_report warning, failed to bind incident to cases"); }
   }
 
+  /* Increment incident list version */
+  l_incident_list_version_inc();
+  
   /* Actions 
    *
    * The l_action_incident_report will handle the event
@@ -231,7 +234,7 @@ int l_incident_handler_report (i_resource *self, i_socket *sock, i_message *msg,
    * runcount and incident occurrence count
    */
   l_action_incident_report (self, inc);    
-  
+
   return 0;
 }
 
@@ -321,6 +324,8 @@ int l_incident_handler_transition (i_resource *self, i_socket *sock, i_message *
   }
   i_hashtable_key_free (key);
 
+  /* Increment incident list version */
+  l_incident_list_version_inc();
 
   /* Free received incident */
   i_incident_free (msg_inc);
@@ -475,6 +480,9 @@ int l_incident_handler_clear (i_resource *self, i_socket *sock, i_message *msg, 
     i_hashtable_key_free (key); 
   }
 
+  /* Increment incident list version */
+  l_incident_list_version_inc();
+
   /* Free received incident */
   i_incident_free (msg_inc);
   
@@ -580,6 +588,9 @@ int l_incident_handler_clearall (i_resource *self, i_socket *sock, i_message *ms
 
     /* End of list iteration */
   }
+  
+  /* Increment incident list version */
+  l_incident_list_version_inc();
 
   return 0;
 }

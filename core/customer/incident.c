@@ -33,6 +33,7 @@ static i_list *static_cleared_list = NULL;
 static unsigned long static_count_failed = 0;
 static unsigned long static_count_impaired = 0;
 static unsigned long static_count_atrisk = 0;
+static unsigned long static_inclist_version = 0;    // Incremented each time the incidnt list changes
 
 /* Variable Retrieval */
 
@@ -71,6 +72,11 @@ int l_incident_count_atrisk_inc ()
 { static_count_atrisk++; return 0; }
 int l_incident_count_atrisk_dec ()
 { static_count_atrisk--; return 0; }
+
+unsigned long l_incident_list_version()
+{ return static_inclist_version; }
+void l_incident_list_version_inc()
+{ static_inclist_version++; }
 
 /* Enable/Disable */
 

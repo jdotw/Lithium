@@ -21,10 +21,16 @@
 	int maxResultsCount;
 	LTEntity *entity;
 	
+	BOOL refreshCountOnly;
+	
+	unsigned long listVersion;
+	unsigned long incidentCount;
 }
 
-- (void) refresh;
+- (void) refreshCount;
+- (void) refreshList;
 
+@property (readonly) unsigned long incidentCount;
 @property (readonly) NSMutableArray *incidents;
 @property (readonly) NSMutableDictionary *incidentDict;
 @property (assign) BOOL historicList;

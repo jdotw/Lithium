@@ -119,6 +119,7 @@ customer_la_SOURCES = main.c \
 					  incident_notify.c \
 					  incident_form_inclist.c \
 					  incident_xml_list.c \
+					  incident_xml_list_version.c \
 					  dhcp.c \
 					  dhcp_daemon.c \
 					  dhcp_subnet.c \

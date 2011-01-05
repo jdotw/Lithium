@@ -16,6 +16,11 @@
 #import "LCXMLParseOperation.h"
 #import "LCXMLNode.h"
 
+@interface LTIncidentList (Private)
+- (void) _refresh;
+@end
+
+
 @implementation LTIncidentList
 
 #pragma mark "Constructors"
@@ -37,16 +42,95 @@
 	[super dealloc];
 }
 
-#pragma mark "Refresh"
+#pragma mark -
+#pragma mark Refresh
+
+#pragma mark Private API Methods
+
+- (void) _requestCountAndVersion
+{
+	
+}
+
+- (void) _requestIncidentList
+{
+	
+}
+
+#pragma mark Public API Methods
+
+- (void) refreshCountOnly
+{
+	/* Refreshes the Incident Count only */
+	refreshCountOnly = YES;
+	
+	/* Check state */
+	if (![(LTCoreDeployment *)[(LTEntity *)customer coreDeployment] enabled])
+	{
+		/* Customer disabled, do not proceed */
+		return;
+	}
+	if (refreshInProgress)
+	{
+		/* Check to see if it's a "Count Only" refresh in progress */
+		if (!historicList)
+		{
+			/* Set the refreshCountOnly flag to NO in the hope that
+			 * when the current refresh is done, it will do a full list
+			 * refresh
+			 */
+			refreshCountOnly = NO;
+		}
+		return;		// Don't proceed, refresh already in progress
+	}
+	
+	/* Refresh the incident list */
+	LTCustomer *cust = self.customer;
+	NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:[cust urlForXml:@"incident_list" timestamp:0]
+															  cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+														  timeoutInterval:60.0];	
+	
+	/* Establish Connection */
+	NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+	if (theConnection) 
+	{
+		refreshInProgress = YES;
+		receivedData=[[NSMutableData data] retain];
+	} 
+	else 
+	{
+		/* FIX */
+		NSLog (@"ERROR: Failed to download console.php");
+	}	
+}
 
 - (void) refresh
 {
+	/* If this is NOT a historic list then this function first 
+	 * refreshes the Incident Version/Count and then if there 
+	 * is a change in the version number it refreshes the entire list
+	 */
+	
 	/* Check state */
-	if (refreshInProgress || ![(LTCoreDeployment *)[(LTEntity *)customer coreDeployment] enabled])
+	if (![(LTCoreDeployment *)[(LTEntity *)customer coreDeployment] enabled])
 	{
+		/* Customer disabled, do not proceed */
 		return;
 	}
-	
+	if (refreshInProgress)
+	{
+		/* Check to see if it's a "Count Only" refresh */
+		if (refreshCountOnly && !historicList)
+		{
+			/* Set the refreshCountOnly flag to NO in the hope that
+			 * when the current refresh is done, it will do a full list
+			 * refresh
+			 */
+			refreshCountOnly = NO;
+		}
+		return;		// Don't proceed, refresh already in progress
+	}
+
 	/* Create XML Request */
 	NSMutableString *xmlString = nil;
 	if (historicList)
@@ -62,9 +146,19 @@
 	
 	/* Refresh the incident list */
 	LTCustomer *cust = self.customer;
-	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[cust urlForXml:@"incident_list" timestamp:0]
-															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-														 timeoutInterval:60.0];
+	NSMutableURLRequest *theRequest;
+	if (refreshCountOnly) 
+	{
+		theRequest = [NSMutableURLRequest requestWithURL:[cust urlForXml:@"incident_list" timestamp:0]
+											 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+										 timeoutInterval:60.0];
+	}
+	else 
+	{
+		theRequest = [NSMutableURLRequest requestWithURL:[cust urlForXml:@"incident_list_version" timestamp:0]
+											 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+										 timeoutInterval:60.0];
+	}
 
 	/* Check for outbound data */
 	if (xmlString && historicList)
@@ -123,7 +217,18 @@
 					format:@"An instance of LTEntity received a message to parserDidFinish on a thread that was NOT that main thread"];
 	}
 	
-	/* Interpret */
+	/* Check for version info */
+	BOOL listHasChanged = NO;
+	if ([rootNode.properties objectForKey:@"version"]) 
+	{ 
+		unsigned int prevListVersion = listVersion;
+		listVersion = [[rootNode.properties objectForKey:@"version"] unsignedLongValue]; 
+		if (listVersion != prevListVersion) listHasChanged = YES;
+	}
+	if ([rootNode.properties objectForKey:@"count"]) 
+	{ incidentCount = [[rootNode.properties objectForKey:@"count"] unsignedLongValue]; }
+	
+	/* Interpret Incident List*/
 	NSMutableArray *seenIncidents = [NSMutableArray array];
 	for (LCXMLNode *childNode in rootNode.children)
 	{ 
@@ -224,192 +329,21 @@
 	/* Clean-up */
     [receivedData release];
 	
-	/* Post Notification */
+	/* Set State and Post Notification */
+	refreshCountOnly = NO;
 	self.refreshInProgress = NO;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"IncidentListRefreshFinished" object:self];
+	
+	/* Check to see if a follow-up refresh is needed */
+	if (listHasChanged && !refreshCountOnly)
+	{
+		/* This operation is not a count-only, and a change
+		 * in the incident list has been detected by a the
+		 * version number differing. Perform a full refresh
+		 */
+		[self refreshList];
+	}	
 }
-
-
-//- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict 
-//{
-//	curXmlString = [[NSMutableString alloc] init];
-//	
-//	if ([elementName isEqualToString:@"incident"])
-//	{
-//		curIncident = [LTIncident new];
-//		[incidents addObject:curIncident];
-//		[curIncident autorelease];
-//	}
-//	if ([elementName isEqualToString:@"action"])
-//	{
-//		curAction = [LTAction new];
-//		curAction.incident = curIncident;
-//		[curIncident.actions addObject:curAction];
-//		[curAction autorelease];
-//	}
-//	else if ([elementName isEqualToString:@"entity_descriptor"])
-//	{
-//		curIncident.entityDescriptor = [LTEntityDescriptor new];
-//	}
-//}
-
-//- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string 
-//{
-//	[curXmlString appendString:string];
-//}
-
-//- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName 
-//{
-//	/* Incident */
-//	if ([elementName isEqualToString:@"incident"])
-//	{ curIncident = nil; }
-//	else if ([elementName isEqualToString:@"id"] && !curAction)
-//	{ curIncident.identifier = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"start_sec"])
-//	{ curIncident.startDate = [NSDate dateWithTimeIntervalSince1970:[curXmlString doubleValue]]; }
-//	else if ([elementName isEqualToString:@"end_sec"])
-//	{
-//		if (![curXmlString isEqualToString:@"0"])
-//		{ curIncident.endDate = [NSDate dateWithTimeIntervalSince1970:[curXmlString doubleValue]]; }
-//	}
-//	else if ([elementName isEqualToString:@"caseid"])
-//	{ curIncident.caseIdentifier = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"raised_valstr"])
-//	{ curIncident.raisedValue = curXmlString; }
-//	
-//	/* Action */
-//	else if ([elementName isEqualToString:@"action"])
-//	{ curAction = nil; }
-//	else if ([elementName isEqualToString:@"id"] && curAction)
-//	{ curAction.identifier = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"desc"] && curAction) 
-//	{ curAction.desc = curXmlString; }
-//	else if ([elementName isEqualToString:@"enabled"] && curAction) 
-//	{ curAction.enabled = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"activation"] && curAction) 
-//	{ curAction.activationMode = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"delay"] && curAction) 
-//	{ curAction.delay = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"rerun"] && curAction) 
-//	{ curAction.rerun = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"rerun_delay"] && curAction) 
-//	{ curAction.rerunDelay = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"time_filter"] && curAction) 
-//	{ curAction.timeFiltered = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"day_mask"] && curAction) 
-//	{ curAction.dayMask = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"start_hour"] && curAction) 
-//	{ curAction.startHour = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"end_hour"] && curAction) 
-//	{ curAction.endHour = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"run_count"] && curAction) 
-//	{ curAction.runCount = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"runstate"] && curAction) 
-//	{ curAction.runState = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"script_file"] && curAction) 
-//	{ curAction.scriptFile = curXmlString; }
-//	
-//	/* Entity Descriptor */
-//	else if ([elementName isEqualToString:@"name"]) 
-//	{ curIncident.entityDescriptor.name = curXmlString; }
-//	else if ([elementName isEqualToString:@"desc"] && !curAction) 
-//	{ curIncident.entityDescriptor.desc = curXmlString; }
-//	else if ([elementName isEqualToString:@"opstate_num"]) 
-//	{ curIncident.entityDescriptor.opState = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"adminstate_num"]) 
-//	{ curIncident.entityDescriptor.adminState = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"cust_name"]) 
-//	{ curIncident.entityDescriptor.custName = curXmlString; }
-//	else if ([elementName isEqualToString:@"cust_desc"]) 
-//	{ curIncident.entityDescriptor.custDesc = curXmlString; }
-//	else if ([elementName isEqualToString:@"cust_opstate_num"]) 
-//	{ curIncident.entityDescriptor.custOpState = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"cust_adminstate_num"]) 
-//	{ curIncident.entityDescriptor.custAdminState = [curXmlString intValue]; }
-//
-//	else if ([elementName isEqualToString:@"site_name"]) 
-//	{ curIncident.entityDescriptor.siteName = curXmlString; }
-//	else if ([elementName isEqualToString:@"site_desc"]) 
-//	{ curIncident.entityDescriptor.siteDesc = curXmlString; }
-//	else if ([elementName isEqualToString:@"site_suburb"]) 
-//	{ curIncident.entityDescriptor.siteSuburb = curXmlString; }
-//	else if ([elementName isEqualToString:@"site_opstate_num"]) 
-//	{ curIncident.entityDescriptor.siteOpState = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"site_adminstate_num"]) 
-//	{ curIncident.entityDescriptor.siteAdminState = [curXmlString intValue]; }
-//	
-//	else if ([elementName isEqualToString:@"dev_name"]) 
-//	{ curIncident.entityDescriptor.devName = curXmlString; }
-//	else if ([elementName isEqualToString:@"dev_desc"]) 
-//	{ curIncident.entityDescriptor.devDesc = curXmlString; }
-//	else if ([elementName isEqualToString:@"dev_opstate_num"]) 
-//	{ curIncident.entityDescriptor.devOpState = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"dev_adminstate_num"]) 
-//	{ curIncident.entityDescriptor.devAdminState = [curXmlString intValue]; }
-//	
-//	else if ([elementName isEqualToString:@"cnt_name"]) 
-//	{ curIncident.entityDescriptor.cntName = curXmlString; }
-//	else if ([elementName isEqualToString:@"cnt_desc"]) 
-//	{ curIncident.entityDescriptor.cntDesc = curXmlString; }
-//	else if ([elementName isEqualToString:@"cnt_opstate_num"]) 
-//	{ curIncident.entityDescriptor.cntOpState = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"cnt_adminstate_num"]) 
-//	{ curIncident.entityDescriptor.cntAdminState = [curXmlString intValue]; }
-//	
-//	else if ([elementName isEqualToString:@"obj_name"]) 
-//	{ curIncident.entityDescriptor.objName = curXmlString; }
-//	else if ([elementName isEqualToString:@"obj_desc"]) 
-//	{ curIncident.entityDescriptor.objDesc = curXmlString; }
-//	else if ([elementName isEqualToString:@"obj_opstate_num"]) 
-//	{ curIncident.entityDescriptor.objOpState = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"obj_adminstate_num"]) 
-//	{ curIncident.entityDescriptor.objAdminState = [curXmlString intValue]; }
-//	
-//	else if ([elementName isEqualToString:@"met_name"]) 
-//	{ curIncident.entityDescriptor.metName = curXmlString; }
-//	else if ([elementName isEqualToString:@"met_desc"]) 
-//	{ curIncident.entityDescriptor.metDesc = curXmlString; }
-//	else if ([elementName isEqualToString:@"met_opstate_num"]) 
-//	{ curIncident.entityDescriptor.metOpState = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"met_adminstate_num"]) 
-//	{ curIncident.entityDescriptor.metAdminState = [curXmlString intValue]; }	
-//	
-//	else if ([elementName isEqualToString:@"trg_name"]) 
-//	{ curIncident.entityDescriptor.trgName = curXmlString; }
-//	else if ([elementName isEqualToString:@"trg_desc"]) 
-//	{ curIncident.entityDescriptor.trgDesc = curXmlString; }	
-//	else if ([elementName isEqualToString:@"trg_opstate_num"]) 
-//	{ curIncident.entityDescriptor.trgOpState = [curXmlString intValue]; }
-//	else if ([elementName isEqualToString:@"trg_adminstate_num"]) 
-//	{ curIncident.entityDescriptor.trgAdminState = [curXmlString intValue]; }
-//	
-//	else if ([elementName isEqualToString:@"resaddr"]) 
-//	{ curIncident.resourceAddress = curXmlString; }
-//	else if ([elementName isEqualToString:@"entity_descriptor"])
-//	{
-//		/* Create stand-alone entity for the incident */
-//		curIncident.metric = [LTEntity new];
-//		curIncident.metric.type = 6;
-//		curIncident.metric.name = curIncident.entityDescriptor.metName;
-//		curIncident.metric.desc = curIncident.entityDescriptor.metDesc;
-//		curIncident.metric.username = [customer username];
-//		curIncident.metric.password = [customer password];
-//		curIncident.metric.customer = customer;
-//		curIncident.metric.customerName = curIncident.entityDescriptor.custName;
-//		curIncident.metric.resourceAddress = curIncident.resourceAddress;
-//		curIncident.metric.ipAddress = [customer ipAddress];
-//		curIncident.metric.coreDeployment = [customer coreDeployment];
-//		LTEntityDescriptor *metEntityDesc = [curIncident.entityDescriptor copy];
-//		metEntityDesc.type = 6;
-//		metEntityDesc.trgName = nil;
-//		metEntityDesc.trgDesc = nil;
-//		curIncident.metric.entityDescriptor = metEntityDesc;
-//		curIncident.metric.entityAddress = [curIncident.metric.entityDescriptor entityAddress];
-//	}
-//	
-//	[curXmlString release];
-//	curXmlString = nil;
-//}
 
 #pragma mark "Properties"
 

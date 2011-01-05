@@ -11,6 +11,8 @@ int l_incident_count_impaired_dec ();
 unsigned long l_incident_count_atrisk ();
 int l_incident_count_atrisk_inc ();
 int l_incident_count_atrisk_dec ();
+unsigned long l_incident_list_version();
+void l_incident_list_version_inc();
 
 i_list* l_incident_list ();
 i_list* l_incident_uhlist ();
