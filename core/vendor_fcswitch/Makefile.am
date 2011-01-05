@@ -8,10 +8,7 @@ qlogic_la_SOURCES = qlogic.c \
 					port_objfact.c \
 					port_refcb.c \
 					sensor.c \
-					sensor_objfact.c \
-					revision.c \
-					revision_item.c \
-					revision_objfact.c
+					sensor_objfact.c
 
 qlogic_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

@@ -36,7 +36,7 @@ mkdir -p "$DSYM_PATH"
 cd "$BASEDIR/../../induction"
 
 make distclean
-./bootstrap_osx.sh
+./bootstrap_osx_universal.sh
 if [ $? -ne 0 ]; then
   echo "ERROR: Induction failed to bootstrap"
   exit 1
@@ -59,7 +59,7 @@ fi
 cd "$BASEDIR/../../core"
 
 make distclean
-./bootstrap_osx.sh
+./bootstrap_osx_universal.sh
 if [ $? -ne 0 ]; then
   echo "ERROR: Lithium Core failed to bootstrap"
   exit 1

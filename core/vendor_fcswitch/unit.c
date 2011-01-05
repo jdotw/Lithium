@@ -65,6 +65,12 @@ int v_unit_enable (i_resource *self)
    * Trigger Sets 
    */
 
+  i_triggerset *tset = i_triggerset_create ("opstate", "Operational State", "opstate");
+  i_triggerset_addtrg (self, tset, "failed", "Failed", VALTYPE_INTEGER, TRGTYPE_EQUAL, 5, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_INTEGER, TRGTYPE_EQUAL, 4, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+  tset->default_applyflag = 1;
+  i_triggerset_assign (self, static_cnt, tset);
+
   /*
    * Items and Object Factory
    */

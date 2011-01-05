@@ -1,6 +1,7 @@
 typedef struct v_unit_item_s
 {
   struct i_object_s *obj;
+  char *oid_suffix;
 
   /* Switch Unit */
   struct i_metric_s *type;
@@ -13,13 +14,11 @@ typedef struct v_unit_item_s
   struct i_metric_s *url;
   struct i_metric_s *proxy_master;
   struct i_metric_s *principal;
-  struct i_metric_s *sensor_count;
-  struct i_metric_s *switchname;
-  struct i_metric_s *unitinfo;
 
   /* Related Containers */
   struct i_container_s *port_cnt;
   struct i_container_s *sensor_cnt;
+  struct i_container_s *revision_cnt;
 
 } v_unit_item;
 

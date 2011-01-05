@@ -16,6 +16,7 @@
 #include "induction/hierarchy.h"
 #include "induction/device.h"
 #include "induction/container.h"
+#include "induction/object.h"
 #include "induction/metric.h"
 #include "induction/value.h"
 #include "induction/trigger.h"
@@ -23,11 +24,12 @@
 #include "induction/path.h"
 #include "device/snmp.h"
 
+#include "unit.h"
 #include "port.h"
 
 /* Fibre Channel Alliance - Port Sub-System */
 
-i_container* v_port_enable (i_resource *self, char *unit_name, char *unit_desc, char *unit_oid_suffix)
+i_container* v_port_enable (i_resource *self, v_unit_item *unit)
 {
   int num;
   static i_entity_refresh_config defrefconfig;
@@ -35,8 +37,8 @@ i_container* v_port_enable (i_resource *self, char *unit_name, char *unit_desc, 
   /* Create/Config Container */
   char *name_str;
   char *desc_str;
-  asprintf(&name_str, "%s_fcport", unit_name);
-  asprintf(&desc_str, "%s Ports", unit_desc);
+  asprintf(&name_str, "%s_fcport", unit->obj->name_str);
+  asprintf(&desc_str, "%s Ports", unit->obj->desc_str);
   i_container *cnt = i_container_create (name_str, desc_str);
   free (name_str);
   free (desc_str);
@@ -59,7 +61,24 @@ i_container* v_port_enable (i_resource *self, char *unit_name, char *unit_desc, 
    * Trigger Sets 
    */
 
-  /* FIX Needs trigger sets! */
+  i_triggerset *tset = i_triggerset_create ("hwstate", "Hardware State", "hwstate");
+  i_triggerset_addtrg (self, tset, "failed", "Failed Diag", VALTYPE_INTEGER, TRGTYPE_EQUAL, 2, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "txfault", "TX Fault", VALTYPE_INTEGER, TRGTYPE_EQUAL, 6, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "linkdown", "Link Down", VALTYPE_INTEGER, TRGTYPE_EQUAL, 8, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+  tset->default_applyflag = 1;
+  i_triggerset_assign (self, cnt, tset);
+
+  tset = i_triggerset_create ("invalid_crc_rate", "CRC Errors", "invalid_crc_rate");
+  i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 1., NULL, 2., NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_GT, 2., NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+  tset->default_applyflag = 1;
+  i_triggerset_assign (self, cnt, tset);
+
+  tset = i_triggerset_create ("encoding_error_rate", "Encoding Errors", "encoding_error_rate");
+  i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 1., NULL, 2., NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_GT, 2., NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+  tset->default_applyflag = 1;
+  i_triggerset_assign (self, cnt, tset);
 
   /*
    * Items and Object Factory
@@ -80,11 +99,11 @@ i_container* v_port_enable (i_resource *self, char *unit_name, char *unit_desc, 
   }
   objfact->dev = self->hierarchy->dev;
   objfact->cnt = cnt;
-  asprintf (&objfact->name_oid_str, ".1.3.6.1.3.94.1.10.1.18.%s", unit_oid_suffix);
+  asprintf (&objfact->name_oid_str, ".1.3.6.1.3.94.1.10.1.18.%s", unit->oid_suffix);
   objfact->fabfunc = v_port_objfact_fab;
   objfact->ctrlfunc = v_port_objfact_ctrl;
   objfact->cleanfunc = v_port_objfact_clean;
-  objfact->passdata = strdup(unit_oid_suffix);
+  objfact->passdata = unit;
 
   /* Start the object factory */
   num = l_snmp_objfact_start (self, objfact);

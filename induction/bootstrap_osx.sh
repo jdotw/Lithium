@@ -25,9 +25,10 @@ DBFWPREFIX=/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumDatabase.
 
 CONFIGURE_PATHS="--prefix=$PREFIX --bindir=$PREFIX/Contents/MacOS --sbindir=$PREFIX/Contents/MacOS --libexecdir=$PREFIX/Contents/MacOS --datadir=$PREFIX/Contents/Resources --sysconfdir=/Library/Preferences/Lithium --sharedstatedir=$PREFIX/Contents/Resources --libdir=$FWPREFIX/Libraries --includedir=$FWPREFIX/Headers --oldincludedir=$FWPREFIX/Headers --infodir=$PREFIX/Contents/Resources --mandir=$PREFIX/Contents/Resources"
 
-ARGS="--disable-dependency-tracking $CONFIGURE_PATHS"
+ARGS="$CONFIGURE_PATHS"
 echo "Running './configure $ARGS'"
 PATH="$PATH:/Library/Lithium/LithiumCore.app/Contents/MacOS" \
-CFLAGS="-mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -I/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Headers" \
+CC="clang" \
+CFLAGS="-mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -I/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Headers" \
 LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -L/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries" \
 ./configure $ARGS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History'

@@ -30,10 +30,13 @@ int v_sensor_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, str
 {
   int num;
   v_sensor_item *sensor;
-  char *unit_oid_suffix = passdata;
+  v_unit_item *unit = passdata;
 
   /* Object Configuration */
-  obj->desc_str = l_snmp_get_string_from_pdu (pdu);
+  char *sensor_str = l_snmp_get_string_from_pdu (pdu);
+  asprintf(&obj->desc_str, "%s %s", unit->obj->desc_str, sensor_str);
+  free (sensor_str);
+  obj->prio = 20;
 
   /* Load/Apply Refresh config */
   i_entity_refresh_config_loadapply (self, ENTITY(obj), NULL);
@@ -47,9 +50,18 @@ int v_sensor_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, str
    * Metric Creation 
    */
 
-  sensor->status = l_snmp_metric_create (self, obj, "status", "Status", METRIC_INTEGER, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.8.1.4"), index_oidstr, RECMETHOD_NONE, 0);
-  sensor->info = l_snmp_metric_create (self, obj, "info", "Info", METRIC_STRING, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.8.1.5"), index_oidstr, RECMETHOD_NONE, 0);
-  sensor->message = l_snmp_metric_create (self, obj, "message", "Message", METRIC_STRING, v_unit_oid_glue(unit_oid_suffix, ".1.3.6.1.3.94.1.8.1.6"), index_oidstr, RECMETHOD_NONE, 0);
+  sensor->status = l_snmp_metric_create (self, obj, "status", "Status", METRIC_INTEGER, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.1.8.1.4"), index_oidstr, RECMETHOD_NONE, 0);
+  i_metric_enumstr_add (sensor->status, 1, "Unknown");
+  i_metric_enumstr_add (sensor->status, 2, "Other");
+  i_metric_enumstr_add (sensor->status, 3, "OK");
+  i_metric_enumstr_add (sensor->status, 4, "Warning");
+  i_metric_enumstr_add (sensor->status, 5, "Failed");
+
+  sensor->info = l_snmp_metric_create (self, obj, "info", "Info", METRIC_STRING, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.1.8.1.5"), index_oidstr, RECMETHOD_NONE, 0);
+  sensor->info->summary_flag = 1;
+
+  sensor->message = l_snmp_metric_create (self, obj, "message", "Message", METRIC_STRING, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.1.8.1.6"), index_oidstr, RECMETHOD_NONE, 0);
+  sensor->message->summary_flag = 1;
   
   /* Enqueue the sensor item */
   num = i_list_enqueue (cnt->item_list, sensor);

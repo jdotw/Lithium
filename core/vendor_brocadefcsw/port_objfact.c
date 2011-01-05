@@ -92,6 +92,10 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
 
   /* 
    * Create trigger sets
+   *
+   * This is done under the object because there's ports under both the 
+   * generic non-slot-specific 'port' container and the slot-specific
+   * containers
    */
   
   obj->tset_list = i_list_create ();

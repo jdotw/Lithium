@@ -10,7 +10,7 @@ typedef struct v_sensor_item_s
 } v_sensor_item;
 
 /* sensor.c */
-struct i_container_s* v_sensor_enable (i_resource *self, char *unit_name, char *unit_desc, char *unit_oid_suffix);
+struct i_container_s* v_sensor_enable (i_resource *self, struct v_unit_item_s *unit);
 v_sensor_item* v_sensor_item_create ();
 void v_sensor_item_free (void *itemptr);
 

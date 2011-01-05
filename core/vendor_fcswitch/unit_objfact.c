@@ -17,8 +17,8 @@
 
 #include "device/snmp.h"
 
-#include "port.h"
 #include "unit.h"
+#include "port.h"
 #include "sensor.h"
 
 /* 
@@ -46,6 +46,7 @@ int v_unit_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   { i_printf (1, "v_unit_objfact_fab failed to create unit item for object %s", obj->name_str); return -1; }
   unit->obj = obj;
   obj->itemptr = unit;
+  unit->oid_suffix = strdup(index_oidstr);
 
   /* 
    * Metric Creation 
@@ -57,16 +58,82 @@ int v_unit_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   refconfig.refresh_int_sec = REFDEFAULT_REFINTSEC;
   refconfig.refresh_maxcolls = REFDEFAULT_MAXCOLLS;
 
-  /* FIX Add Unit Triggers */
-            
+  /* Type */
+  unit->type = l_snmp_metric_create (self, obj, "type", "Type", METRIC_INTEGER, ".1.3.6.1.3.94.1.6.1.3", index_oidstr, RECMETHOD_NONE, 0);
+  unit->type->summary_flag = 1;
+  i_metric_enumstr_add (unit->type, 1, "Unknown");
+  i_metric_enumstr_add (unit->type, 2, "Other");
+  i_metric_enumstr_add (unit->type, 3, "Hub");
+  i_metric_enumstr_add (unit->type, 4, "Switch");
+  i_metric_enumstr_add (unit->type, 5, "Gateway");
+  i_metric_enumstr_add (unit->type, 6, "Converter");
+  i_metric_enumstr_add (unit->type, 7, "HBA");
+  i_metric_enumstr_add (unit->type, 8, "Proxy-Agent");
+  i_metric_enumstr_add (unit->type, 9, "Storage");
+  i_metric_enumstr_add (unit->type, 10, "Host");
+  i_metric_enumstr_add (unit->type, 11, "Storage");
+  i_metric_enumstr_add (unit->type, 12, "Module");
+  i_metric_enumstr_add (unit->type, 13, "Software");
+  i_metric_enumstr_add (unit->type, 14, "StorageAccess");
+  i_metric_enumstr_add (unit->type, 15, "WDM");
+  i_metric_enumstr_add (unit->type, 16, "UPS");
+  i_metric_enumstr_add (unit->type, 17, "NAS");
+
+  /* Port Count */
+  unit->port_count = l_snmp_metric_create (self, obj, "port_count", "Port Count", METRIC_GAUGE, ".1.3.6.1.3.94.1.6.1.4", index_oidstr, RECMETHOD_NONE, 0);
+  unit->port_count->summary_flag = 1;
+
+  /* Admin State */
+  unit->state = l_snmp_metric_create (self, obj, "adminstate", "Admin State", METRIC_INTEGER, ".1.3.6.1.3.94.1.6.1.5", index_oidstr, RECMETHOD_NONE, 0);
+  unit->state->summary_flag = 1;
+  i_metric_enumstr_add (unit->state, 1, "Unknown");
+  i_metric_enumstr_add (unit->state, 2, "Online");
+  i_metric_enumstr_add (unit->state, 3, "Offline");
+
+  /* Op Status */
+  unit->status = l_snmp_metric_create (self, obj, "opstate", "Operational State", METRIC_INTEGER, ".1.3.6.1.3.94.1.6.1.6", index_oidstr, RECMETHOD_NONE, 0);
+  unit->status->summary_flag = 1;
+  i_metric_enumstr_add (unit->status, 1, "Unknown");
+  i_metric_enumstr_add (unit->status, 2, "Unused");
+  i_metric_enumstr_add (unit->status, 3, "OK");
+  i_metric_enumstr_add (unit->status, 4, "Warning");
+  i_metric_enumstr_add (unit->status, 5, "Failed");
+
+  /* Product */
+  unit->product = l_snmp_metric_create (self, obj, "product", "Product", METRIC_STRING, ".1.3.6.1.3.94.1.6.1.7", index_oidstr, RECMETHOD_NONE, 0);
+  unit->product->summary_flag = 1;
+
+  /* Serial */
+  unit->serial = l_snmp_metric_create (self, obj, "serial", "Serial", METRIC_STRING, ".1.3.6.1.3.94.1.6.1.8", index_oidstr, RECMETHOD_NONE, 0);
+  unit->serial->summary_flag = 1;
+
+  /* Uptime */
+  unit->uptime = l_snmp_metric_create (self, obj, "uptime", "Uptime", METRIC_INTERVAL, ".1.3.6.1.3.94.1.6.1.9", index_oidstr, RECMETHOD_NONE, 0);
+  unit->uptime->summary_flag = 1;
+  
+  /* URL */
+  unit->url = l_snmp_metric_create (self, obj, "url", "URL", METRIC_STRING, ".1.3.6.1.3.94.1.6.1.10", index_oidstr, RECMETHOD_NONE, 0);
+
+  /* Proxy Master */
+  unit->proxy_master = l_snmp_metric_create (self, obj, "proxy_master", "Proxy Master", METRIC_INTEGER, ".1.3.6.1.3.94.1.6.1.12", index_oidstr, RECMETHOD_NONE, 0);
+  i_metric_enumstr_add (unit->proxy_master, 1, "Unknown");
+  i_metric_enumstr_add (unit->proxy_master, 2, "No");
+  i_metric_enumstr_add (unit->proxy_master, 3, "Yes");
+
+  /* Principal */
+  unit->principal = l_snmp_metric_create (self, obj, "principal", "Principal", METRIC_INTEGER, ".1.3.6.1.3.94.1.6.1.13", index_oidstr, RECMETHOD_NONE, 0);
+  i_metric_enumstr_add (unit->proxy_master, 1, "Unknown");
+  i_metric_enumstr_add (unit->proxy_master, 2, "No");
+  i_metric_enumstr_add (unit->proxy_master, 3, "Yes");
+
   /* Enqueue the unit item */
   num = i_list_enqueue (cnt->item_list, unit);
   if (num != 0)
   { i_printf (1, "v_unit_objfact_fab failed to enqueue unit for object %s", obj->name_str); v_unit_item_free (unit); return -1; }
 
-  /* Create port container */
-  unit->port_cnt = v_port_enable (self, obj->name_str, obj->desc_str, index_oidstr);
-  unit->sensor_cnt = v_sensor_enable (self, obj->name_str, obj->desc_str, index_oidstr);
+  /* Create port/sensor containers */
+  unit->port_cnt = v_port_enable (self, unit);
+  unit->sensor_cnt = v_sensor_enable (self, unit);
 
   return 0;
 }

@@ -16,6 +16,7 @@
 #include "induction/hierarchy.h"
 #include "induction/device.h"
 #include "induction/container.h"
+#include "induction/object.h"
 #include "induction/metric.h"
 #include "induction/value.h"
 #include "induction/trigger.h"
@@ -23,11 +24,12 @@
 #include "induction/path.h"
 #include "device/snmp.h"
 
+#include "unit.h"
 #include "sensor.h"
 
 /* connUnitSensor Sub-System */
 
-i_container* v_sensor_enable (i_resource *self, char *unit_name, char *unit_desc, char *unit_oid_suffix)
+i_container* v_sensor_enable (i_resource *self, v_unit_item *unit)
 {
   int num;
   static i_entity_refresh_config defrefconfig;
@@ -36,8 +38,8 @@ i_container* v_sensor_enable (i_resource *self, char *unit_name, char *unit_desc
   /* Create/Config Container */
   char *name_str;
   char *desc_str;
-  asprintf(&name_str, "fcsensor_%s", unit_name);
-  asprintf(&desc_str, "%s Sensors", unit_desc);
+  asprintf(&name_str, "fcsensor_%s", unit->obj->name_str);
+  asprintf(&desc_str, "%s Sensors", unit->obj->desc_str);
   i_container *cnt = i_container_create (name_str, desc_str);
   free (name_str);
   free (desc_str);
@@ -59,8 +61,8 @@ i_container* v_sensor_enable (i_resource *self, char *unit_name, char *unit_desc
   /* Status */
 
   tset = i_triggerset_create ("status", "Status", "status");
-  i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_EQUAL, 4, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
-  i_triggerset_addtrg (self, tset, "failed", "Failed", VALTYPE_FLOAT, TRGTYPE_EQUAL, 5, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_INTEGER, TRGTYPE_EQUAL, 4, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "failed", "Failed", VALTYPE_INTEGER, TRGTYPE_EQUAL, 5, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
   i_triggerset_assign (self, cnt, tset);
 
   /*
@@ -80,11 +82,11 @@ i_container* v_sensor_enable (i_resource *self, char *unit_name, char *unit_desc
   }
   objfact->dev = self->hierarchy->dev;
   objfact->cnt = cnt;
-  asprintf(&objfact->name_oid_str, ".1.3.6.1.3.94.1.8.1.3.%s", unit_oid_suffix);
+  asprintf(&objfact->name_oid_str, ".1.3.6.1.3.94.1.8.1.3.%s", unit->oid_suffix);
   objfact->fabfunc = v_sensor_objfact_fab;
   objfact->ctrlfunc = v_sensor_objfact_ctrl;
   objfact->cleanfunc = v_sensor_objfact_clean;
-  objfact->passdata = strdup(unit_oid_suffix);
+  objfact->passdata = unit;
 
   /* Start the object factory */
   num = l_snmp_objfact_start (self, objfact);
