@@ -724,6 +724,12 @@
 
 	[storageModuleMenu insertItem:[NSMenuItem separatorItem] atIndex:[[storageModuleMenu itemArray] count]];
 	
+	item = [[NSMenuItem alloc] initWithTitle:@"Generic Fibre Channel Switch" action:@selector(moduleMenuClicked:) keyEquivalent:@""];
+	[item setRepresentedObject:@"genericfcswitch"];
+	[storageModuleMenu insertItem:item atIndex:[[storageModuleMenu itemArray] count]];
+	if ([[item representedObject] isEqualToString:defaultSelection]) [self moduleMenuClicked:item];
+	[item autorelease];
+
 	item = [[NSMenuItem alloc] initWithTitle:@"Qlogic Fibre Channel Switch" action:@selector(moduleMenuClicked:) keyEquivalent:@""];
 	[item setRepresentedObject:@"qlogic"];
 	[storageModuleMenu insertItem:item atIndex:[[storageModuleMenu itemArray] count]];
