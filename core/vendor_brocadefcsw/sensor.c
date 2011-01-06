@@ -86,7 +86,7 @@ int v_sensor_enable (i_resource *self)
   i_list_set_destructor (static_cnt->item_list, v_sensor_item_free);
   static_cnt->item_list_state = ITEMLIST_STATE_POPULATE;
 
-  static_objfact = l_snmp_objfact_create (self, "fcsensor", "Other Ports");
+  static_objfact = l_snmp_objfact_create (self, static_cnt->name_str, static_cnt->desc_str);
   if (!static_objfact)
   { 
     i_printf (1, "v_sensor_enable failed to call l_snmp_objfact_create to create objfact"); 

@@ -144,7 +144,7 @@ int l_xsnmp_raidstatus_enable (i_resource *self)
 
   raid->general_status = l_snmp_metric_create (self, obj, "general_status", "General Status", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.6.1.1.0", NULL, RECMETHOD_NONE, SMET_PARENTREFMETHOD);
   i_metric_enumstr_add (raid->general_status, 1, "Good");
-  i_metric_enumstr_add (raid->general_status, 2, "Issued Found");
+  i_metric_enumstr_add (raid->general_status, 2, "Issues Found");
   i_metric_enumstr_add (raid->general_status, 0, "Unknown");
   raid->general_status_message = l_snmp_metric_create (self, obj, "general_status_message", "General Status Message", METRIC_STRING, ".1.3.6.1.4.1.20038.2.1.6.1.2.0", NULL, RECMETHOD_NONE, SMET_PARENTREFMETHOD);
 

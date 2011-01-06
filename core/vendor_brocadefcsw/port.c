@@ -50,7 +50,7 @@ int v_port_enable (i_resource *self)
   static i_entity_refresh_config defrefconfig;
 
   /* Create/Config Container */
-  static_cnt = i_container_create ("fcport", "Other Ports");
+  static_cnt = i_container_create ("fcport", "Ports");
   if (!static_cnt)
   { i_printf (1, "v_port_enable failed to create container"); return -1; }
 
@@ -83,7 +83,7 @@ int v_port_enable (i_resource *self)
   i_list_set_destructor (static_cnt->item_list, v_port_item_free);
   static_cnt->item_list_state = ITEMLIST_STATE_POPULATE;
 
-  static_objfact = l_snmp_objfact_create (self, "fcport", "Other Ports");
+  static_objfact = l_snmp_objfact_create (self, "fcport", "Ports");
   if (!static_objfact)
   { 
     i_printf (1, "v_port_enable failed to call l_snmp_objfact_create to create objfact"); 

@@ -58,7 +58,7 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   else
   {
     /* Fabricate the port as normal 
-     * (it will be under the "Other Ports" container) 
+     * (it will be under the "Ports" container) 
      */
     
     v_port_objfact_fab_port(self, cnt, obj, pdu, index_oidstr, passdata);
@@ -68,7 +68,7 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
 }
 
 /* 
- * Port Fabrication (used by both the Other Ports and Slot-Specific object factories)
+ * Port Fabrication (used by both the Ports and Slot-Specific object factories)
  */
 
 int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, struct snmp_pdu *pdu, char *index_oidstr, void *passdata)
