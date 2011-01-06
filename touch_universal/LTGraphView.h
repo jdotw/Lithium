@@ -30,6 +30,8 @@
 	CATiledLayer *graphTiledLayer;
 }
 
+- (void) refreshGraph;
+
 @property (retain) NSArray *metrics;
 @property (readonly) NSMutableArray *minLabels;
 @property (readonly) NSMutableArray *avgLabels;

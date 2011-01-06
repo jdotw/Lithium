@@ -27,7 +27,8 @@
 											   object:nil];
 	
 	/* Create op queue */
-	self.operationQueue = [[[NSOperationQueue alloc] init] autorelease];
+	operationQueue = [[NSOperationQueue alloc] init];
+	entityRefreshQueue = [[NSMutableArray array] retain];
 	
 	/* Create Auth Controller */
 	authViewController = [[LTAuthenticationTableViewController alloc] initWithNibName:@"AuthenticationView" bundle:nil];	
@@ -77,11 +78,24 @@
 	[coreServiceBrowser searchForServicesOfType:@"_lithium._tcp" inDomain:@""];
 
 	/* CHeck for at lease one core deployment */
-	[NSTimer scheduledTimerWithTimeInterval:0.5
+	[NSTimer scheduledTimerWithTimeInterval:1.0
 									 target:self
 								   selector:@selector(initialDeploymentCheckTimerCallback:)
 								   userInfo:nil
 									repeats:NO];
+	
+	/* Create refresh timers */
+	incidentCountRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
+																 target:self
+															   selector:@selector(incidentCountRefreshTimerCallback:)
+															   userInfo:nil
+																repeats:YES];
+	
+	/* Add Refresh Notification Handlers */
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(incidentListCountUpdated:) 
+												 name:@"LTIncidentListCountUpdated"
+											   object:nil];
 	
 	return YES;
 }
@@ -106,6 +120,22 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
 	self.isActive = YES;
+	
+	/* Refresh all tabs */
+	for (UIViewController *viewController in tabBarController.viewControllers)
+	{
+		if ([viewController isMemberOfClass:[UINavigationController class]])
+		{ 
+			/* Reset view controller to the view at the top of the nav stack */
+			viewController = ((UINavigationController *)viewController).topViewController;
+		}
+		
+		/* Refresh the view controller */
+		if ([viewController isMemberOfClass:[LTTableViewController class]])
+		{
+			[((LTTableViewController *)viewController) refresh];
+		}	
+	}
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -158,12 +188,6 @@
 		core.uuidString = uuidString;
 		[self addCore:core];
 	}
-	else 
-	{
-		NSLog (@"Skipping known discovered core %@", netService.hostName, uuidString);
-		
-	}
-
 }
 
 - (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict
@@ -173,6 +197,11 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
 {
+	if ([[netService hostName] hasSuffix:@"members.mac.com"])
+	{
+		/* Skip members.mac.com resolutions */
+		return;
+	}
 	netService.delegate = self;
 	[netService resolveWithTimeout:2.0];
 	[netService retain];
@@ -183,38 +212,97 @@
 
 - (void)tabBarController:(UITabBarController *)theTabBarController didSelectViewController:(UIViewController *)viewController
 {
-	NSLog (@"%@ selected %@", theTabBarController, viewController);
-	if ([viewController isMemberOfClass:[LTEntityTableViewController class]])
-	{
-		/* Entity Table View Selected */
-		LTEntityTableViewController *entityTVC = (LTEntityTableViewController *) viewController;
-		[entityTVC refreshTouched:self];
+	/* Check if the tab is holding a view controller */
+	if ([viewController isMemberOfClass:[UINavigationController class]])
+	{ 
+		/* Reset view controller to the view at the top of the nav stack */
+		viewController = ((UINavigationController *)viewController).topViewController;
 	}
-	else if ([viewController isMemberOfClass:[LTGroupTableViewController class]])
+	
+	/* Refresh the view controller */
+	if ([viewController respondsToSelector:@selector(refresh)])
 	{
-		/* Groups Touched */
+		[viewController performSelector:@selector(refresh)];
+	}	
+}
+
+#pragma mark -
+#pragma mark Auto-Refresh Methods
+
+#pragma mark Timer Callbacks
+
+- (void) incidentCountRefreshTimerCallback:(NSTimer *)timer
+{
+	if (self.isActive)
+	{
 		for (LTCustomer *customer in [self valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
-		{ 
-			[customer.groupTree refresh];
-		}		
-	}
-	else if ([viewController isMemberOfClass:[LTFavoritesTableViewController class]])
-	{
-		/* Favorites Touched 
-		 *
-		 * Nothing to do here, it's all local, perhaps just a refresh of each metric/graph? FIX 
-		 */
-	}
-	else if ([viewController isMemberOfClass:[LTIncidentListTableViewController class]])
-	{
-		/* Incidents Touched */
-		for (LTCustomer *customer in [self valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
-		{ 
-			[customer.incidentList refresh]; 
-		}		
+		{
+			[customer.incidentList refreshCountOnly];
+		}
 	}
 }
 
+#pragma mark Notifications
+
+- (void) incidentListCountUpdated:(NSNotification *)note
+{
+	NSInteger incidentCount = 0;
+	for (LTCustomer *customer in [self valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+	{
+		incidentCount += customer.incidentList.incidentCount;
+	}
+	if (incidentCount > 0)
+	{
+		[incidentsTabBarItem setBadgeValue:[NSString stringWithFormat:@"%i", incidentCount]]; 
+		[[UIApplication sharedApplication] setApplicationIconBadgeNumber:incidentCount];
+	}
+	else 
+	{
+		[incidentsTabBarItem setBadgeValue:nil];
+		[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+	}
+}
+
+#pragma mark -
+#pragma mark Network Activity Indicator
+
+- (void) updateNetworkActivityIndicator
+{
+	/* Operation Queue isn't used for API stuff */
+	if (entityRefreshQueue.count > 0)
+	{
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES]; 
+	}
+	else 
+	{
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+	}
+}
+
+#pragma mark -
+#pragma mark API Delegates
+
+- (void) apiCallDidBegin:(LTAPIRequest *)req
+{
+	[self updateNetworkActivityIndicator];
+}
+
+- (void) apiCallDidFinish:(LTAPIRequest *)req
+{
+	[self updateNetworkActivityIndicator];
+}
+
+- (void) entityRefreshDidBegin:(LTEntity *)entity
+{
+	if (![entityRefreshQueue containsObject:entity]) [entityRefreshQueue addObject:entity];
+	[self updateNetworkActivityIndicator];
+}
+
+- (void) entityRefreshDidFinish:(LTEntity *)entity
+{
+	if ([entityRefreshQueue containsObject:entity]) [entityRefreshQueue removeObject:entity];	
+	[self updateNetworkActivityIndicator];
+}
 
 #pragma mark -
 #pragma mark Properties
@@ -271,7 +359,7 @@
 
 @synthesize pushToken;
 
-@synthesize operationQueue;
+@synthesize operationQueue, entityRefreshQueue;
 
 
 @end

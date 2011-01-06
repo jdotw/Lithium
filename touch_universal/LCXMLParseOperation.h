@@ -18,6 +18,8 @@
 	LCXMLNode *rootNode;
 	
 	NSMutableArray *nodeStack;
+	
+	NSAutoreleasePool *autoReleasePool;
 }
 
 @property (copy) NSData *xmlData;

@@ -200,6 +200,7 @@
 	 * We assume here that all entities in 'self.entities' are of the same type
 	 */
 	
+	if (entities.count == 0) return nil;
 	LTEntity *legendPeer = [entities objectAtIndex:0];
 	if (!legendPeer) return nil;
 	LTEntity *legendParent = [entity parentOfType:legendPeer.type];

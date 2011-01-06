@@ -45,7 +45,7 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(incidentListRefreshFinished:)
-												 name:@"IncidentListRefreshFinished" 
+												 name:@"LTIncidentListRefreshFinished" 
 											   object:incidentList];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(actionUpdated:)

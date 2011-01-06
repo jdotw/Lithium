@@ -17,11 +17,12 @@
 #import "LTEntityTableViewController.h"
 #import "LTIncidentListTableViewController.h"
 #import "LTDeviceEditTableViewController.h"
+#import "AppDelegate.h"
 
 @interface LTDeviceViewController (Private)
 
 - (void) selectEntity:(LTEntity *)entity;
-- (void) rebuildContainerScrollView;
+- (void) rebuildContainerScrollViewRemovingExistingViews:(BOOL)removeExisting;
 - (void) rebuildObjectScrollView;
 - (void) hideGraphAndLegend;
 - (void) showGraphAndLegend;
@@ -111,7 +112,7 @@
 	/* Reset Container/Object Selection and rebuild scrollers */
 	self.selectedContainer = nil;
 	self.selectedObject = nil;
-	[self rebuildContainerScrollView];
+	[self rebuildContainerScrollViewRemovingExistingViews:YES];
 	[self rebuildObjectScrollView];
 
 	/* Setup navigation and toolbar items */
@@ -129,7 +130,33 @@
 											 selector:@selector(entityRefreshStatusUpdated:)
 												 name:@"LTEntityXmlStatusChanged" object:self.device];	
 	
+	/* Refresh the device */
 	[self.device refresh];
+	
+	/* Install refresh timer */
+	if (refreshTimer) 
+	{
+		[refreshTimer invalidate];
+		refreshTimer = nil;
+		[graphRefreshTimer invalidate];
+		graphRefreshTimer = nil;
+	}
+	if (self.device)
+	{
+		NSTimeInterval refreshInterval = 15.0;
+		if (self.device.refreshInterval > 30.0) refreshInterval = self.device.refreshInterval * 0.5;
+		refreshTimer = [NSTimer scheduledTimerWithTimeInterval:refreshInterval 
+														target:self
+													  selector:@selector(refreshTimerFired:)
+													  userInfo:nil
+													   repeats:YES];
+		graphRefreshTimer = [NSTimer scheduledTimerWithTimeInterval:refreshInterval + (refreshInterval * 0.5)
+															 target:self
+														   selector:@selector(graphRefreshTimerFired:)
+														   userInfo:nil
+															repeats:YES];
+		
+	}
 }
 
 - (void) selectEntity:(LTEntity *)entity
@@ -207,7 +234,7 @@
 	[selectedContainer release];
 	selectedContainer = [value retain];
 	
-	/* Rebuild object list */
+	/* Remove all and Rebuild object list */
 	[self rebuildObjectScrollView];
 	
 	/* Set selection on container icon */
@@ -229,8 +256,11 @@
 	else [self hideGraphAndLegend];
 	
 	/* Save selection */
-	[[NSUserDefaults standardUserDefaults] setObject:selectedContainer.entityAddress forKey:[self lastSelectionKey]];
-	[[NSUserDefaults standardUserDefaults] synchronize];
+	if (selectedContainer)
+	{
+		[[NSUserDefaults standardUserDefaults] setObject:selectedContainer.entityAddress forKey:[self lastSelectionKey]];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+	}
 }
 
 - (void) setSelectedObject:(LTEntity *)value
@@ -265,8 +295,11 @@
 	}
 	
 	/* Save selection */
-	[[NSUserDefaults standardUserDefaults] setObject:selectedObject.entityAddress forKey:[self lastSelectionKey]];
-	[[NSUserDefaults standardUserDefaults] synchronize];
+	if (selectedObject)
+	{
+		[[NSUserDefaults standardUserDefaults] setObject:selectedObject.entityAddress forKey:[self lastSelectionKey]];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+	}
 }
 
 - (void) hideObjectScrollView
@@ -368,15 +401,25 @@
 #pragma mark -
 #pragma mark Container and Object Horizontal ScrollView
 
-- (void) rebuildContainerScrollView
+- (void) rebuildContainerScrollViewRemovingExistingViews:(BOOL)removeExisting
 {
-	for (LTContainerIconViewController *vc in containerIconViewControllers)
-	{
-		[vc.view removeFromSuperview];
-	}
-	[containerIconViewControllers removeAllObjects];
+	/* This method may or may not remove all existing views depending on
+	 * the removeExiting flag. This method is called from a few places including
+	 * when a device is set (removeExisting:YES) and when a device is refrsshed
+	 * (removeExisting:NO).
+	 */
 	
-	CGFloat contentWidth = 0.0;
+	if (removeExisting)
+	{
+		for (LTContainerIconViewController *vc in containerIconViewControllers)
+		{
+			[vc.view removeFromSuperview];
+		}
+		[containerIconViewControllers removeAllObjects];
+		[containerIconViewControllerDict removeAllObjects];
+	}
+	
+	CGFloat tileWidth = 120.0;
 	CGFloat contentHeight = 90.0;
 	for (LTEntity *container in self.device.children)
 	{
@@ -386,20 +429,27 @@
 		if ([container.name isEqualToString:@"snmp_sysinfo"]) continue;
 		if ([container.name isEqualToString:@"icmp"]) continue;
 		if ([container.name isEqualToString:@"ipaddr"]) continue;
-
-		/* Create view */
-		LTContainerIconViewController *vc = [[LTContainerIconViewController alloc] initWithContainer:container];
-		[containerScrollView addSubview:vc.view];
-		CGRect viewFrame = vc.view.frame;
-		viewFrame.origin.x = vc.view.frame.size.width * containerIconViewControllers.count;
-		viewFrame.origin.y = 0.0;
-		contentWidth = viewFrame.origin.x + viewFrame.size.width;
-		vc.view.frame = viewFrame;
-		vc.delegate = self;
-		[containerIconViewControllers addObject:vc];
-		[vc release];
+		
+		/* Check to see if view exists */
+		LTContainerIconViewController *vc = [containerIconViewControllerDict objectForKey:container.name];
+		if (!vc)
+		{
+			/* View Doesn't Exist, Create It */
+			vc = [[LTContainerIconViewController alloc] initWithContainer:container];
+			[containerScrollView addSubview:vc.view];
+			CGRect viewFrame = vc.view.frame;
+			viewFrame.origin.x = tileWidth * containerIconViewControllers.count;
+			viewFrame.origin.y = 0.0;
+			viewFrame.size.width = tileWidth;
+			viewFrame.size.height = contentHeight;
+			vc.view.frame = viewFrame;
+			vc.delegate = self;
+			[containerIconViewControllers addObject:vc];
+			[containerIconViewControllerDict setObject:vc forKey:container.name];
+			[vc release];
+		}
 	}
-	containerScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
+	containerScrollView.contentSize = CGSizeMake(tileWidth * containerIconViewControllers.count, contentHeight);
 	
 	if (containerIconViewControllers.count > 0) 
 	{
@@ -415,45 +465,49 @@
 
 - (void) rebuildObjectScrollView
 {
-	for (LTObjectIconViewController *vc in objectIconViewControllers)
-	{
-		[vc.view removeFromSuperview];
-	}
-	[objectIconViewControllers removeAllObjects];
+	/* This function always removed all existing views
+	 * and completely rebuilds them. It's only called
+	 * if the container selection changes
+	 */
+    for (LTObjectIconViewController *vc in objectIconViewControllers)
+    {
+        [vc.view removeFromSuperview];
+    }
+    [objectIconViewControllers removeAllObjects];
 	
-	if (self.selectedContainer.children.count > 1)
-	{
-		CGFloat contentWidth = 0.0;
-		CGFloat contentHeight = 48.0;
-		for (LTEntity *object in self.selectedContainer.children)
-		{
-			LTObjectIconViewController *vc = [[LTObjectIconViewController alloc] initWithObject:object];
-			[objectScrollView addSubview:vc.view];
-			CGRect viewFrame = vc.view.frame;
-			viewFrame.origin.x = vc.view.frame.size.width * objectIconViewControllers.count;
-			viewFrame.origin.y = 0.0;
-			contentWidth = viewFrame.origin.x + viewFrame.size.width;
-			vc.view.frame = viewFrame;
-			vc.delegate = self;
-			[objectIconViewControllers addObject:vc];
-			[vc release];
-		}
-		objectScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
-	}
-
-	if (objectIconViewControllers.count > 0) 
-	{
-		[self showObjectScrollView];
-	}
-	else 
-	{
-		if (self.selectedContainer.children.count == 1)
-		{ 
-			/* Single object, select it */
-			self.selectedObject = [self.selectedContainer.children objectAtIndex:0]; 
-		}
-		[self hideObjectScrollView];
-	}
+    if (self.selectedContainer.children.count > 1)
+    {
+        CGFloat contentWidth = 0.0;
+        CGFloat contentHeight = 48.0;
+        for (LTEntity *object in self.selectedContainer.children)
+        {
+            LTObjectIconViewController *vc = [[LTObjectIconViewController alloc] initWithObject:object];
+            [objectScrollView addSubview:vc.view];
+            CGRect viewFrame = vc.view.frame;
+            viewFrame.origin.x = vc.view.frame.size.width * objectIconViewControllers.count;
+            viewFrame.origin.y = 0.0;
+            contentWidth = viewFrame.origin.x + viewFrame.size.width;
+            vc.view.frame = viewFrame;
+            vc.delegate = self;
+            [objectIconViewControllers addObject:vc];
+            [vc release];
+        }
+        objectScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
+    }
+	
+    if (objectIconViewControllers.count > 0)
+    {
+        [self showObjectScrollView];
+    }
+    else
+    {
+        if (self.selectedContainer.children.count == 1)
+        {
+            /* Single object, select it */
+            self.selectedObject = [self.selectedContainer.children objectAtIndex:0];
+        }
+        [self hideObjectScrollView];
+    }
 }
 
 - (void) resizeAndInvalidateGraphViewContent
@@ -498,8 +552,10 @@
 	
 	/* Setup the container scrollview */
 	containerIconViewControllers = [[NSMutableArray array] retain];
-	[self rebuildContainerScrollView];
+	containerIconViewControllerDict = [[NSMutableDictionary dictionary] retain];
+	[self rebuildContainerScrollViewRemovingExistingViews:YES];
 	objectIconViewControllers = [[NSMutableArray array] retain];
+	objectIconViewControllerDict = [[NSMutableDictionary dictionary] retain];
 	
 	/* Move/Hide interface components */
 	containerEnclosingView.hidden = YES;
@@ -620,6 +676,9 @@
 - (void)dealloc 
 {
 	[containerIconViewControllers release];	
+	[containerIconViewControllerDict release];
+	[refreshTimer invalidate];
+	[graphRefreshTimer invalidate];
     [super dealloc];
 }
 
@@ -630,8 +689,9 @@
 {
 	if (self.device.children.count != containerIconViewControllers.count)
 	{
-		[self rebuildContainerScrollView];
+		[self rebuildContainerScrollViewRemovingExistingViews:NO];
 	}
+	
 	if (modalRefreshInProgress)
 	{
 		/* The modal controller will dismiss itself when it has appeared
@@ -666,6 +726,32 @@
 - (void) entityRefreshStatusUpdated:(NSNotification *)note
 {
 	
+}
+
+#pragma mark -
+#pragma mark Refresh
+
+- (void) refresh
+{
+	[self.device refresh];
+}
+
+- (void) refreshTimerFired:(NSTimer *)timer
+{
+	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	if (appDelegate.isActive)
+	{
+		[self refresh];
+	}
+}
+
+- (void) graphRefreshTimerFired:(NSTimer *)timer
+{
+	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	if (appDelegate.isActive)
+	{
+		[graphView refreshGraph];
+	}
 }
 
 #pragma mark -

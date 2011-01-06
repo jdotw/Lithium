@@ -19,6 +19,8 @@
 	NSMutableDictionary *orphanDict;
 	NSMutableArray *displayFavorites;
 	NSMutableArray *displayOrphans;
+	
+	NSTimer *refreshTimer;
 }
 
 - (void) addToFavorites:(LTEntity *)entity;

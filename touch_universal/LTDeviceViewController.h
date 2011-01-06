@@ -21,6 +21,7 @@
 	IBOutlet UIView *containerEnclosingView;
 	IBOutlet UIScrollView *containerScrollView;
 	NSMutableArray *containerIconViewControllers;
+	NSMutableDictionary *containerIconViewControllerDict;	// Keyed on Container name 
 	LTEntity *selectedContainer;
 	NSArray *selectedContainerGraphableMetrics;
 
@@ -28,6 +29,7 @@
 	IBOutlet UIView *objectEnclosingView;
 	IBOutlet UIScrollView *objectScrollView;
 	NSMutableArray *objectIconViewControllers;
+	NSMutableDictionary *objectIconViewControllerDict;		// Keyed on Object name
 	LTEntity *selectedObject;
 	NSArray *selectedObjectGraphableMetrics;
 	BOOL objectScrollViewIsHidden;
@@ -68,9 +70,14 @@
 	UIBarButtonItem *sysinfoToolbarItem;
 	UIBarButtonItem *incidentsToolbarItem;
 	UIBarButtonItem *settingsToolbarItem;	
+	
+	/* Refresh Timer */
+	NSTimer *refreshTimer;
+	NSTimer *graphRefreshTimer;	// Refresh offset by half of refreshTimer
 }
 
 - (void) displayDevice:(LTEntity *)device withInitialSelection:(LTEntity *)initialSelection;
+- (void) refresh;
 
 @property (nonatomic,retain) LTEntity *device;
 @property (nonatomic,retain) LTEntity *selectedContainer;

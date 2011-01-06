@@ -45,10 +45,18 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];	
+
+	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
+													target:self
+												  selector:@selector(refreshTimerFired:)
+												  userInfo:nil
+												   repeats:YES];
 }
 
 - (void) awakeFromNib
 {
+	[super awakeFromNib];
+
 	/* We are the root-level controller, observe core deployment changes */
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(groupTreeRefreshFinished:)
@@ -60,8 +68,6 @@
 
 	/* Build item list */
 	[self sortAndFilterChildren];
-		
-	[super awakeFromNib];
 	
 	/* Tableview set */
 	self.tableView.allowsSelectionDuringEditing = YES;
@@ -77,9 +83,19 @@
 	
 }
 
+#pragma mark Memory Management
+
+- (void)didReceiveMemoryWarning {
+	// Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
+}
+
 - (void)dealloc 
 {
 	[children release];
+	[refreshTimer invalidate];
     [super dealloc];
 }
 
@@ -93,51 +109,28 @@
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
-	[self refreshTimerFired:nil];
+	[self refresh];
 	[self sortAndFilterChildren];
 	[[self tableView] reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
 {
-    [super viewDidAppear:animated];
-	
-	refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:60.0
-													 target:self
-												   selector:@selector(refreshTimerFired:)
-												   userInfo:nil
-													repeats:YES] retain];
+    [super viewDidAppear:animated];	
 }
 
 - (void)viewWillDisappear:(BOOL)animated 
 {
-	[super viewWillDisappear:animated];
-	
-	[refreshTimer invalidate];
-	[refreshTimer release];
-	refreshTimer = nil;
-}
-
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+	[super viewWillDisappear:animated];	
 }
 
 #pragma mark Refresh Timer
 
-- (void) refreshTouched:(id)sender
+- (void) refresh
 {
 	if (group)
 	{
 		/* Refresh local group */
-		group.lastRefresh = nil;
 		[group refresh];
 	}
 	else
@@ -157,12 +150,11 @@
 
 - (void) refreshTimerFired:(NSTimer *)timer
 {
-	/* Chck if app s active/locked */
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	if (!appDelegate.isActive) return;
-	for (LTCoreDeployment *core in [appDelegate coreDeployments])
+	/* Chck if view is visible */
+	if (self.isVisible)
 	{
-		for (LTCustomer *customer in core.children)
+		AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
 		{
 			[customer.groupTree refresh];
 		}
@@ -536,7 +528,6 @@
 	
 	if (group)
 	{
-		if (group.refreshInProgress) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(entityRefreshFinished:)
 													 name:@"RefreshFinished" 

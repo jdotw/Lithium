@@ -11,14 +11,14 @@
 @implementation LCXMLParseOperation
 
 - (void) main
-{
+{	
 	/* Create stack */
 	nodeStack = [[NSMutableArray array] retain];
 	
 	/* Parse XML */
-	NSXMLParser *parser = [[[NSXMLParser alloc] initWithData:xmlData] autorelease];
+	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
 	[parser setDelegate:self];
-	[parser setShouldResolveExternalEntities:YES];
+//	[parser setShouldResolveExternalEntities:YES];
 	[parser parse];
 
 	/* Call delegate on main thread */
@@ -30,6 +30,8 @@
 		 */
 		[delegate performSelectorOnMainThread:@selector(xmlParserDidFinish:) withObject:rootNode waitUntilDone:YES];
 	}
+	
+	[parser release];
 }
 
 - (void) dealloc
@@ -43,6 +45,9 @@
 
 - (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)element namespaceURI:(NSString *)namespace qualifiedName:(NSString *)qname attributes:(NSDictionary *)attribdict
 {
+	/* Create auto-release pool */
+	autoReleasePool = [[NSAutoreleasePool alloc] init];
+
 	/* Create new node */
 	LCXMLNode *node = [LCXMLNode new];
 	node.name = element;
@@ -80,6 +85,9 @@
 		[parent.properties setObject:node.value forKey:node.name];
 		[parent.children removeObject:node];
 	}
+	
+	[autoReleasePool drain];
+	autoReleasePool = nil;
 }
 
 @synthesize delegate;

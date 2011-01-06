@@ -57,6 +57,12 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
+	
+	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
+													target:self
+												  selector:@selector(refreshTimerFired:)
+												  userInfo:nil
+												   repeats:YES];
 }
 
 - (void) saveFavorites
@@ -235,6 +241,33 @@
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"DisplayFavoritesRebuilt" object:self];
+}
+
+- (void) refresh
+{
+	/* This function refreshes the internal list of 
+	 * favorites as well as refreshing the entities 
+	 */
+	
+	/* Rebuild entity list */
+	[self rebuildDisplayFavorites];
+
+	/* Refresh the entities */
+	for (LTEntity *entity in favorites)
+	{
+		[entity refresh];
+	}
+	
+	/* Reload table */
+	[[self tableView] reloadData];	
+}
+
+- (void) refreshTimerFired:(NSTimer *)timer
+{
+	if (self.isVisible)
+	{
+		[self refresh];
+	}
 }
 
 - (void) entityRefreshFinished:(NSNotification *)notification
@@ -442,7 +475,9 @@
     }
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
+	[refreshTimer invalidate];
     [super dealloc];
 }
 

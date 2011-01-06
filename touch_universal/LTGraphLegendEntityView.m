@@ -164,9 +164,30 @@
 }
 
 - (void)dealloc {
+	if (entity)
+	{
+		[[NSNotificationCenter defaultCenter] removeObserver:self
+														name:@"RefreshFinished"
+													  object:entity.device];
+	}
 	[swatchColor release];
 	[entity release];
     [super dealloc];
+}
+
+- (void) deviceRefreshFinished:(NSNotification *)note
+{
+	descLabel.text = entity ? [NSString stringWithFormat:@"%@ %@", entity.parent.desc, entity.desc] : @" ";
+	valueLabel.text = entity.currentValue ? : @" ";
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
+	
+	[self setNeedsDisplay];
 }
 
 - (void) setSwatchColor:(UIColor *)value
@@ -180,14 +201,27 @@
 
 - (void) setEntity:(LTEntity *)value
 {
+	if (entity)
+	{
+		[[NSNotificationCenter defaultCenter] removeObserver:self
+														name:@"RefreshFinished"
+													  object:entity.device];
+	}
+	
 	[entity release];
 	entity = [value retain];
 	
-	descLabel.text = entity ? [NSString stringWithFormat:@"%@ %@", entity.parent.desc, entity.desc] : @" ";
-	valueLabel.text = entity.currentValue ? : @" ";
+	[self deviceRefreshFinished:nil];	// Updates labels, etc
 	
-	[self layoutSubviews];
+	if (entity)
+	{
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(deviceRefreshFinished:)
+													 name:@"RefreshFinished"
+												   object:entity.device];
+	}
 	
+	[self setNeedsLayout];
 }
 
 @end

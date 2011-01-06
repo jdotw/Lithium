@@ -29,6 +29,7 @@
 }
 
 - (id)initWithEntity:(LTEntity *)initEntity;
+- (void) refresh;
 
 @property (retain) LTEntity *entity;
 @property (nonatomic,assign) UINavigationController *externalNavigationController;

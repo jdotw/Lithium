@@ -26,7 +26,6 @@
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
 - (void) entityRefreshFinished:(NSNotification *)notification;
 - (void) sortAndFilterChildren;
-- (void) refreshTimerFired:(NSTimer *)timer;
 @end
 
 @implementation LTEntityTableViewController
@@ -83,6 +82,15 @@
 		/* Hide search for non-customer view */
 		self.tableView.tableHeaderView = nil;
 	}
+	
+	NSTimeInterval timerInterval;
+	if (self.entity.device.refreshInterval < 15.0) timerInterval = 15.0;
+	else timerInterval = (self.entity.refreshInterval * 0.5f);
+	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:timerInterval
+													target:self
+												  selector:@selector(refreshTimerFired:)
+												  userInfo:nil
+												   repeats:YES];
 }
 
 - (void) viewDidUnload
@@ -93,6 +101,8 @@
 
 - (void) awakeFromNib
 {
+	[super awakeFromNib];
+
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 
 	/* We are the root-level controller, observe core deployment changes */
@@ -110,13 +120,13 @@
 												 name:@"LTCoreDeploymentReachabilityChanged" object:nil];
 	[self coreDeploymentArrayUpdated:nil];
 	
-	[super awakeFromNib];
 	
 	self.tableView.allowsSelectionDuringEditing = YES;
 }
 
 - (void)dealloc 
 {
+	[refreshTimer invalidate];
 	[children release];
     [super dealloc];
 }
@@ -131,34 +141,21 @@
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
-	[self refreshTimerFired:nil];
 	if (!hasAppeared)
 	{
 		hasAppeared = YES;
 	}
+	[self refresh];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
 {
     [super viewDidAppear:animated];
-
-	NSTimeInterval timerInterval;
-	if (self.entity.refreshInterval < 15.0) timerInterval = 15.0;
-	else timerInterval = (self.entity.refreshInterval * 0.5f);
-	refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:timerInterval
-													 target:self
-												   selector:@selector(refreshTimerFired:)
-												   userInfo:nil
-													repeats:YES] retain];
 }
 		
 - (void)viewWillDisappear:(BOOL)animated 
 {
 	[super viewWillDisappear:animated];
-
-	[refreshTimer invalidate];
-	[refreshTimer release];
-	refreshTimer = nil;
 }
 
 
@@ -179,35 +176,31 @@
     // Release anything that's not essential, such as cached data
 }
 
-
-#pragma mark Refresh Timer
+#pragma mark -
+#pragma mark Refresh Methods
 
 - (void) refreshTimerFired:(NSTimer *)timer
 {
 	/* Chck if app s active/locked */
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	if (!appDelegate.isActive) return;
+	if (self.isVisible)
+	{
+		[self refresh];
+	}
+}
 
+- (void) refresh
+{
 	if (entity)
 	{
 		[entity refresh];
-		if (entity.refreshInProgress) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	}
 	else
 	{
 		for (LTEntity *child in children)
 		{
 			[child refresh];
-			if (child.refreshInProgress) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		}
 	}
-}
-
-- (IBAction) refreshTouched:(id)sender
-{
-	entity.lastRefresh = nil;
-	[entity refresh];
-	if (entity.refreshInProgress) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];	
 }
 
 #pragma mark "Table view methods"
@@ -690,7 +683,6 @@
 
 - (void) entityRefreshFinished:(NSNotification *)notification
 {
-	if (entity)	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
 	if ([notification object] == self.entity || [self.entity.children containsObject:[notification object]])
 	{
 		[self sortAndFilterChildren];	
@@ -813,7 +805,6 @@
 
 	if (entity)
 	{
-		if (entity.refreshInProgress) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(entityRefreshStatusUpdated:)
 													 name:@"LTEntityXmlStatusChanged" object:entity];		

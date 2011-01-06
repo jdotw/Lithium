@@ -7,11 +7,15 @@
 //
 
 #import "LTTableViewController.h"
+#import "AppDelegate.h"
 
 #import "LTTableViewSectionHeaderView.h"
 #import "LTEntityRefreshProgressViewCell.h"
 
 @implementation LTTableViewController
+
+#pragma mark -
+#pragma mark Constructors
 
 //- (id)initWithStyle:(UITableViewStyle)style 
 //{
@@ -20,6 +24,9 @@
 //    }
 //    return self;
 //}
+
+#pragma mark -
+#pragma mark View Delegates
 
 /*
 - (void)viewDidLoad {
@@ -30,21 +37,24 @@
 }
 */
 
-/*
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated 
+{
     [super viewWillAppear:animated];
+	isVisible = YES;
 }
-*/
+
 /*
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
 */
-/*
-- (void)viewWillDisappear:(BOOL)animated {
+
+- (void)viewWillDisappear:(BOOL)animated 
+{
 	[super viewWillDisappear:animated];
+	isVisible = NO;
 }
-*/
+
 /*
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
@@ -59,6 +69,14 @@
 }
 */
 
+- (void)viewDidUnload {
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
+}
+
+#pragma mark -
+#pragma mark Memory Management
+
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -66,11 +84,9 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+- (void)dealloc {
+    [super dealloc];
 }
-
 
 #pragma mark Table view methods
 
@@ -175,11 +191,24 @@
 }
 */
 
+#pragma mark -
+#pragma mark Subclass methods
 
-- (void)dealloc {
-    [super dealloc];
+- (void) refresh
+{
+	// Subclass should over-ride this
 }
 
+#pragma mark -
+#pragma mark Properties
+
+@synthesize isVisible;
+- (BOOL) isVisible
+{
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+	if (!appDelegate.isActive) return NO;
+	else return isVisible;
+}
 
 @end
 

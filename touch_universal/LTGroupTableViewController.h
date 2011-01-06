@@ -22,6 +22,7 @@
 	UISegmentedControl *displayStyleSegment;
 }
 
+- (void) refresh;
 @property (retain) LTGroup *group;
 
 @end

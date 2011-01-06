@@ -22,13 +22,14 @@
 	LTEntity *entity;
 	
 	BOOL refreshCountOnly;
+	int currentRequest;			// 1 = CountAndVersion, 2 = Full List
 	
 	unsigned long listVersion;
 	unsigned long incidentCount;
 }
 
-- (void) refreshCount;
-- (void) refreshList;
+- (void) refreshCountOnly;
+- (void) refresh;
 
 @property (readonly) unsigned long incidentCount;
 @property (readonly) NSMutableArray *incidents;

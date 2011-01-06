@@ -18,11 +18,11 @@
 	/* The subclass will create a urlRequest for us to use, then call [super main] */
 	
 	/* Execute the API Request */
-//	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-//	[appDelegate performSelectorOnMainThread:@selector(apiCallDidBegin:)
-//								  withObject:self
-//							   waitUntilDone:NO
-//									   modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+	[appDelegate performSelectorOnMainThread:@selector(apiCallDidBegin:)
+								  withObject:self
+							   waitUntilDone:NO
+									   modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
 
 	if ([delegate respondsToSelector:@selector(apiCallDidBegin:)])
 	{
@@ -47,10 +47,6 @@
 	}
 	
 	/* Signal completion to delegates */
-//	[appDelegate performSelectorOnMainThread:@selector(apiCallDidFinish:)
-//								  withObject:self
-//							   waitUntilDone:NO
-//									   modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
 	if (delegate && [delegate respondsToSelector:@selector(apiCallDidFinish:)])
 	{
 		[delegate performSelectorOnMainThread:@selector(apiCallDidFinish:)
@@ -61,6 +57,21 @@
 	
 	/* Clean up */
 //	[importPool drain];
+	
+}
+
+- (void) dealloc
+{
+	/* Tell the appDelegate that we're done. This is done in dealloc
+	 * because at the end of main we may or may not still be in the 
+	 * operation queue when the appDelegate gets the message
+	 */
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+	[appDelegate performSelectorOnMainThread:@selector(apiCallDidFinish:)
+								  withObject:self
+							   waitUntilDone:NO
+									   modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
+	[super dealloc];
 }
 
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *) space 

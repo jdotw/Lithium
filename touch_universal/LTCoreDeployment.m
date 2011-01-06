@@ -141,7 +141,7 @@
 				[children addObject:curCustomer];
 				[childDict setObject:curCustomer forKey:curCustomer.name];
 				[curCustomer refresh];
-				[curCustomer.incidentList refresh];
+				[curCustomer.incidentList refreshCountOnly];
 				[curCustomer autorelease];	
 				
 				[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCustomerAdded" object:curCustomer];

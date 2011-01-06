@@ -20,7 +20,6 @@
 
 @interface LTIncidentListTableViewController (Private)
 
-- (void) incidentListRefreshFinished:(NSNotification *)notification;
 - (void) rebuildIncidentsArray;
 
 @end
@@ -28,16 +27,30 @@
 
 @implementation LTIncidentListTableViewController
 
+#pragma mark -
+#pragma mark Constructors
+
 - (void) awakeFromNib
 {
+	/* The awakeFromNib is only called for IncidentListTableViewControllers that 
+	 * are instated from a NIB (i.e the root Incident List) and hence will only
+	 * ever show the active incident list and not a historic list 
+	 */
 	[super awakeFromNib];	
 
 	/* Listen to refresh of any incident list (we are the global list if awoken from NIB) */
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(incidentListRefreshFinished:)
-												 name:@"IncidentListRefreshFinished" 
+												 name:@"LTIncidentListRefreshFinished" 
 											   object:nil];
 	
+	/* Listen to any chance in the incident count */
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(incidentListCountUpdated:)
+												 name:@"LTIncidentListCountUpdated"
+											   object:nil];	
+
+	/* Create sort segment (Sort by Device | Sort by Time) */
 	sortSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Sort by Device", @"Sort by Time", nil]];
 	sortSegment.segmentedControlStyle = UISegmentedControlStyleBar;
 	sortSegment.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"IncidentsViewMode"];
@@ -45,21 +58,13 @@
 					action:@selector(sortTypeChanged:)
 		  forControlEvents:UIControlEventValueChanged];
 	self.navigationItem.titleView = sortSegment;
-
+	
+	/* Update array */
 	[self rebuildIncidentsArray];
 }
 
-- (IBAction) sortTypeChanged:(id)sender
-{
-	[[NSUserDefaults standardUserDefaults] setInteger:sortSegment.selectedSegmentIndex forKey:@"IncidentsViewMode"];
-	[[NSUserDefaults standardUserDefaults] synchronize];
-	[self rebuildIncidentsArray];
-}
-
-- (void) incidentListRefreshFinished:(NSNotification *)notification
-{
-	[self rebuildIncidentsArray];
-}
+#pragma mark -
+#pragma mark List Management
 
 - (void) rebuildIncidentsArray
 {
@@ -158,38 +163,67 @@
 	}
 	
 	[[self tableView] reloadData];
-	
-	if ([sortedChildren count] > 0)
-	{ 
-		[self.navigationController.tabBarItem setBadgeValue:[NSString stringWithFormat:@"%i", incidentCount]]; 
-		[[UIApplication sharedApplication] setApplicationIconBadgeNumber:incidentCount];
+}
+
+- (void) refresh
+{
+	/* Refreshes all incident lists */
+	if (device)
+	{
+		[device.customer.incidentList refresh];
 	}
 	else 
 	{
-		[self.navigationController.tabBarItem setBadgeValue:nil];
-		[[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+		for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+		{ 
+			[customer.incidentList refresh]; 
+		}		
 	}
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"IncidentArrayRebuilt" object:self];
 }
 
-- (IBAction) refreshTouched:(id)sender
+- (void) incidentListRefreshFinished:(NSNotification *)notification
 {
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
-	{ 
-		[customer.incidentList refresh]; 
+	/* An Incident List has been refreshed, rebuild our array */
+	[self rebuildIncidentsArray];
+}
+
+- (void) incidentListCountUpdated:(NSNotification *)notification
+{
+	/* An incident list had its count updated
+	 * If we are visible, request a full list refresh
+	 */
+	
+	if (self.isVisible)
+	{
+		LTIncidentList *list = [notification object];
+		[list refresh];
 	}
 }
 
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
-    }
-    return self;
+- (IBAction) sortTypeChanged:(id)sender
+{
+	/* Sort type changed, rebuild array */
+	[[NSUserDefaults standardUserDefaults] setInteger:sortSegment.selectedSegmentIndex forKey:@"IncidentsViewMode"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	[self rebuildIncidentsArray];
 }
-*/
+
+- (void) refreshTimerFired:(NSTimer *)timer
+{
+	/* Auto-refresh timer fired, only refresh if we are active */
+	if (self.isVisible)
+	{
+		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+		for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+		{ 
+			[customer.incidentList refresh]; 
+		}		
+	}
+}
+
+#pragma mark -
+#pragma mark View Delegates
 
 - (void)viewDidLoad 
 {
@@ -198,27 +232,22 @@
 	self.tableView.backgroundColor = [UIColor colorWithWhite:0.29 alpha:1.0];
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.navigationItem.title = @"Incidents";
+	
+	/* Add auto-refresh timer */
+	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
+													target:self
+												  selector:@selector(refreshTimerFired:)
+												  userInfo:nil
+												   repeats:YES];
+	
+	/* Refresh */
+	[self refresh];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated 
+{
     [super viewWillAppear:animated];
 }
-
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
 
 - (CGSize) contentSizeForViewInPopover
 {
@@ -230,13 +259,8 @@
     return YES;
 }
 
-- (void)didReceiveMemoryWarning 
-{
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
-
-#pragma mark Table view methods
+#pragma mark -
+#pragma mark Table View Delegate Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
@@ -256,9 +280,6 @@
 	else return nil;
 }
 
-
-
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (sortedChildren.count > 0)
@@ -308,28 +329,29 @@
 	}	
 }
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {	
     NSString *CellIdentifier = @"Default";
 	
 	if (sortedChildren.count < 1)
 	{ 
+		/* There's no incidents to display, show a progress row with 
+		 * either the "No Incidents" or "Downloading Incident List..." text
+		 */
 		LTEntityRefreshProgressViewCell *cell = (LTEntityRefreshProgressViewCell *) [tableView dequeueReusableCellWithIdentifier:@"Refresh"];
 		if (!cell)
 		{ 
 			cell = [[[LTEntityRefreshProgressViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Refresh"] autorelease];
-			if (self.refreshInProgress)
-			{
-				[cell.progressView startAnimating];
-				cell.progressLabel.text = @"Downloading Incident List...";
-			}
-			else 
-			{
-				[cell.progressView stopAnimating];
-				cell.progressLabel.text = @"No Incidents";
-			}
-
+		}
+		if (self.refreshInProgress)
+		{
+			[cell.progressView startAnimating];
+			cell.progressLabel.text = @"Downloading Incident List...";
+		}
+		else 
+		{
+			[cell.progressView stopAnimating];
+			cell.progressLabel.text = @"No Incidents";
 		}
 		return cell;
 	}
@@ -375,7 +397,6 @@
 	else return indexPath;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	if (sortedChildren.count < 1) return;
@@ -403,10 +424,13 @@
 	}
 }
 
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    return YES;
+	if (sortedChildren.count > 0)
+	{ return YES; }
+	else 
+	{ return NO; }
+
 }
 
 - (NSString *) tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -414,8 +438,9 @@
 	return @"Clear";
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	/* Handle clearing an incident by swiping it */
     if (editingStyle == UITableViewCellEditingStyleDelete) 
 	{
 		/* Clear the Incident */
@@ -443,46 +468,44 @@
     }   
 }
 
+#pragma mark -
+#pragma mark Memory Management
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+- (void)didReceiveMemoryWarning 
+{
+    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+    // Release anything that's not essential, such as cached data
 }
-*/
 
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void)dealloc 
 {
 	if (self.device)
 	{
 		[[NSNotificationCenter defaultCenter] removeObserver:self 
-														name:@"IncidentListRefreshFinished"  
+														name:@"LTIncidentListRefreshFinished"  
 													  object:self.device.customer.incidentList];
 		[device release];
 	}		
+	[[NSNotificationCenter defaultCenter] removeObserver:self 
+													name:@"LTIncidentListRefreshFinished"  
+												  object:nil];
 	[sortedChildren release];
+	[refreshTimer invalidate];
     [super dealloc];
 }
+
+#pragma mark -
+#pragma mark Properties
 
 @synthesize sortedChildren, device;
 
 - (BOOL) refreshInProgress
 {
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	for (LTCoreDeployment *core in appDelegate.coreDeployments)
+	for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
 	{
-		for (LTCustomer *customer in core.children)
-		{
-			if (customer.incidentList.refreshInProgress) return YES;
-		}
+		if (customer.incidentList.refreshInProgress) return YES;
 	}
 	return NO;
 }
@@ -495,7 +518,7 @@
 	/* Listen to refresh just from the device->customer's incident list */
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(incidentListRefreshFinished:)
-												 name:@"IncidentListRefreshFinished" 
+												 name:@"LTIncidentListRefreshFinished" 
 											   object:device.customer.incidentList];	
 	
 	[self rebuildIncidentsArray];

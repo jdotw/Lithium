@@ -305,7 +305,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	/* DEBUG */
 	NSLog (@"ENTITY %i:%@: XML Size is %li", self.type, self.desc, [receivedData length]);
 //	NSLog (@"XML: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
-//	[receivedData writeToFile:[NSString stringWithFormat:@"/Users/jwilson/%i-%@.xml", self.type, self.desc] atomically:NO];
+	[receivedData writeToFile:[NSString stringWithFormat:@"/Users/jwilson/%i-%@.xml", self.type, self.desc] atomically:NO];
 	
 	/* Parse XML */
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -322,6 +322,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (void) xmlParserDidFinish:(LCXMLNode *)rootNode
 {
+	NSLog (@"LTEntity xmlParserDidFinish called");
 	/* Check Thread */
 	if ([NSThread currentThread] != [NSThread mainThread])
 	{
@@ -767,6 +768,14 @@ static NSMutableDictionary *_xmlTranslation = nil;
 - (NSString *) description
 {
 	return [[super description] stringByAppendingFormat:@"%i:%@:%@", self.type, self.name, self.desc];
+}
+
+- (void) setRefreshInProgress:(BOOL)value
+{
+	[super setRefreshInProgress:value];
+	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	if (self.refreshInProgress) [appDelegate entityRefreshDidBegin:self];
+	else [appDelegate entityRefreshDidFinish:self];
 }
 
 @end

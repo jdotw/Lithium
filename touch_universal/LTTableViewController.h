@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LTTableViewController : UITableViewController {
-
+@interface LTTableViewController : UITableViewController 
+{
+	BOOL isVisible;
 }
+
+- (void) refresh;
+@property (nonatomic, readonly) BOOL isVisible;
 
 @end

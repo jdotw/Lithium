@@ -18,8 +18,11 @@
 	NSArray *sortedChildren;
 	
 	LTEntity *device;
+	
+	NSTimer *refreshTimer;
 }
 
+- (void) refresh;
 
 @property (copy) NSArray *sortedChildren;
 @property (readonly) BOOL refreshInProgress;

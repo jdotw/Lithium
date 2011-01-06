@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class LTAuthenticationTableViewController, LTFavoritesTableViewController, LTCoreDeployment, LTIncidentListTableViewController;
+@class LTAuthenticationTableViewController, LTFavoritesTableViewController, LTCoreDeployment, LTIncidentListTableViewController, LTEntity;
 
 @interface AppDelegate : NSObject <UIApplicationDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, UITabBarDelegate>
 {
@@ -19,6 +19,7 @@
 	LTAuthenticationTableViewController *authViewController;
 	IBOutlet LTFavoritesTableViewController *favoritesController;
 	IBOutlet LTIncidentListTableViewController *incidentsController;
+	IBOutlet UITabBarItem *incidentsTabBarItem;
 	
 	/* State */
 	BOOL isActive;
@@ -28,12 +29,16 @@
 
 	/* Operation Queue */
 	NSOperationQueue *operationQueue;
+	NSMutableArray *entityRefreshQueue;
 	
 	/* NetService Browser */
 	NSNetServiceBrowser *coreServiceBrowser;
 	
 	/* Core Deployments */
 	NSMutableDictionary *coreDeploymentDict;	/* Keyed by UUID String */
+	
+	/* Refresh Timers */
+	NSTimer *incidentCountRefreshTimer;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -47,12 +52,14 @@
 - (void) addCore:(LTCoreDeployment *)core;
 - (void) removeCore:(LTCoreDeployment *)core;
 - (void) saveCoreDeployments;
+- (void) entityRefreshDidBegin:(LTEntity *)entity;
+- (void) entityRefreshDidFinish:(LTEntity *)entity;
 
 @property (assign) BOOL isActive;
 
 @property (copy) NSData *pushToken;
 
-@property (retain) NSOperationQueue *operationQueue;
-
+@property (readonly) NSOperationQueue *operationQueue;
+@property (readonly) NSMutableArray *entityRefreshQueue;
 
 @end

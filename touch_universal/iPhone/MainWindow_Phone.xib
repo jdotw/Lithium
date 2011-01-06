@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="9"/>
 			<integer value="2"/>
+			<integer value="9"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -309,6 +309,14 @@
 					</object>
 					<int key="connectionID">43</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">incidentsTabBarItem</string>
+						<reference key="source" ref="987256611"/>
+						<reference key="destination" ref="677929951"/>
+					</object>
+					<int key="connectionID">44</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -599,7 +607,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">43</int>
+			<int key="maxID">44</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -613,6 +621,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>favoritesController</string>
 							<string>incidentsController</string>
+							<string>incidentsTabBarItem</string>
 							<string>tabBarController</string>
 							<string>window</string>
 						</object>
@@ -620,6 +629,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>LTFavoritesTableViewController</string>
 							<string>LTIncidentListTableViewController</string>
+							<string>UITabBarItem</string>
 							<string>UITabBarController</string>
 							<string>UIWindow</string>
 						</object>
@@ -630,6 +640,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>favoritesController</string>
 							<string>incidentsController</string>
+							<string>incidentsTabBarItem</string>
 							<string>tabBarController</string>
 							<string>window</string>
 						</object>
@@ -642,6 +653,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">incidentsController</string>
 								<string key="candidateClassName">LTIncidentListTableViewController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">incidentsTabBarItem</string>
+								<string key="candidateClassName">UITabBarItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tabBarController</string>
