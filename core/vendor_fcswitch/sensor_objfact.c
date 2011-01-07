@@ -57,9 +57,6 @@ int v_sensor_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, str
   i_metric_enumstr_add (sensor->status, 4, "Warning");
   i_metric_enumstr_add (sensor->status, 5, "Failed");
 
-  sensor->info = l_snmp_metric_create (self, obj, "info", "Info", METRIC_STRING, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.1.8.1.5"), index_oidstr, RECMETHOD_NONE, 0);
-  sensor->info->summary_flag = 1;
-
   sensor->message = l_snmp_metric_create (self, obj, "message", "Message", METRIC_STRING, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.1.8.1.6"), index_oidstr, RECMETHOD_NONE, 0);
   sensor->message->summary_flag = 1;
   

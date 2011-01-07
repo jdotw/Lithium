@@ -6,8 +6,6 @@ typedef struct v_unit_item_s
   /* Switch Unit */
   struct i_metric_s *type;
   struct i_metric_s *port_count;
-  struct i_metric_s *state;
-  struct i_metric_s *status;
   struct i_metric_s *product;
   struct i_metric_s *serial;
   struct i_metric_s *uptime;

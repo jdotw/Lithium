@@ -4,7 +4,6 @@ typedef struct v_sensor_item_s
   unsigned long index;
   
   struct i_metric_s *status;
-  struct i_metric_s *info;
   struct i_metric_s *message;
 
 } v_sensor_item;

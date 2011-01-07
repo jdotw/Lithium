@@ -83,22 +83,6 @@ int v_unit_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   unit->port_count = l_snmp_metric_create (self, obj, "port_count", "Port Count", METRIC_GAUGE, ".1.3.6.1.3.94.1.6.1.4", index_oidstr, RECMETHOD_NONE, 0);
   unit->port_count->summary_flag = 1;
 
-  /* Admin State */
-  unit->state = l_snmp_metric_create (self, obj, "adminstate", "Admin State", METRIC_INTEGER, ".1.3.6.1.3.94.1.6.1.5", index_oidstr, RECMETHOD_NONE, 0);
-  unit->state->summary_flag = 1;
-  i_metric_enumstr_add (unit->state, 1, "Unknown");
-  i_metric_enumstr_add (unit->state, 2, "Online");
-  i_metric_enumstr_add (unit->state, 3, "Offline");
-
-  /* Op Status */
-  unit->status = l_snmp_metric_create (self, obj, "opstate", "Operational State", METRIC_INTEGER, ".1.3.6.1.3.94.1.6.1.6", index_oidstr, RECMETHOD_NONE, 0);
-  unit->status->summary_flag = 1;
-  i_metric_enumstr_add (unit->status, 1, "Unknown");
-  i_metric_enumstr_add (unit->status, 2, "Unused");
-  i_metric_enumstr_add (unit->status, 3, "OK");
-  i_metric_enumstr_add (unit->status, 4, "Warning");
-  i_metric_enumstr_add (unit->status, 5, "Failed");
-
   /* Product */
   unit->product = l_snmp_metric_create (self, obj, "product", "Product", METRIC_STRING, ".1.3.6.1.3.94.1.6.1.7", index_oidstr, RECMETHOD_NONE, 0);
   unit->product->summary_flag = 1;
