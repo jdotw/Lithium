@@ -55,6 +55,13 @@
 										modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
 	}
 	
+
+	/* Notify the app delegate that we're done */
+	[appDelegate performSelectorOnMainThread:@selector(apiCallDidFinish:)
+								  withObject:self
+							   waitUntilDone:NO
+									   modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
+	
 	/* Clean up */
 //	[importPool drain];
 	
@@ -62,15 +69,6 @@
 
 - (void) dealloc
 {
-	/* Tell the appDelegate that we're done. This is done in dealloc
-	 * because at the end of main we may or may not still be in the 
-	 * operation queue when the appDelegate gets the message
-	 */
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	[appDelegate performSelectorOnMainThread:@selector(apiCallDidFinish:)
-								  withObject:self
-							   waitUntilDone:NO
-									   modes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, UITrackingRunLoopMode, nil]];
 	[super dealloc];
 }
 
