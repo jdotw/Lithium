@@ -174,7 +174,6 @@
 	NSDictionary *txtRecord = [NSNetService dictionaryFromTXTRecordData:netService.TXTRecordData];
 	NSString *uuidString = [[[NSString alloc] initWithData:[txtRecord objectForKey:@"uuid"]
 												  encoding:NSUTF8StringEncoding] autorelease];
-	NSLog (@"Found %@ (%@) (UUID: %@)", netService, netService.hostName, uuidString);
 	if (![coreDeploymentDict objectForKey:uuidString])
 	{		
 		/* Add new discovered core */
@@ -192,7 +191,7 @@
 
 - (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict
 {
-	NSLog (@"%@ didnt resolve %@", sender, errorDict);
+
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
