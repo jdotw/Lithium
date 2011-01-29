@@ -16,6 +16,7 @@ typedef struct v_port_item_s
   struct i_metric_s *speed_enum;
   struct i_metric_s *speed;         // Set by a refcb off speed_enum
   struct i_metric_s *type;
+  struct i_metric_s *alias;
 
   /* Stats */
   struct i_metric_s *rx_byte_count;    // Words with alloc_unit of 4

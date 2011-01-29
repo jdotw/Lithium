@@ -112,7 +112,7 @@ int i_searchcache_delete (i_resource *self, i_entity *entity)
   /* Create query */
   char *entaddr_str = i_entity_address_string (entity, NULL);
   char *delete_str;
-  asprintf (&delete_str, "DELETE FROM searchcache WHERE address='%s'", entaddr_str);
+  asprintf (&delete_str, "DELETE FROM searchcache WHERE ent_address='%s'", entaddr_str);
   free (entaddr_str);
 
   /* Connect to SQL db (sync) */

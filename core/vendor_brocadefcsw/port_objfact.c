@@ -146,6 +146,7 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
 
   /* Physical State */ 
   port->phystate = l_snmp_metric_create (self, obj, "phystate", "Physical State", METRIC_INTEGER, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.3", index_oidstr, RECMETHOD_NONE, 0);
+  port->phystate->summary_flag = 1;
   i_metric_enumstr_add (port->phystate, 1, "No Card");
   i_metric_enumstr_add (port->phystate, 2, "No Transceiver");
   i_metric_enumstr_add (port->phystate, 3, "Laser Fault");
@@ -155,6 +156,10 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
   i_metric_enumstr_add (port->phystate, 7, "Port Fault");
   i_metric_enumstr_add (port->phystate, 8, "Diag Fault");
   i_metric_enumstr_add (port->phystate, 9, "Reference Locking");
+
+  /* Alias (Name) */  
+  port->alias = l_snmp_metric_create (self, obj, "alias", "Alias", METRIC_STRING, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.36", index_oidstr, RECMETHOD_NONE, 0);
+  port->alias->summary_flag = 1;
 
   /* Link state */
   port->linkstate = l_snmp_metric_create (self, obj, "linkstate", "Link State", METRIC_INTEGER, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.6", index_oidstr, RECMETHOD_NONE, 0);
