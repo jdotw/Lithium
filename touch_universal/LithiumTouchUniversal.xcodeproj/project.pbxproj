@@ -27,7 +27,6 @@
 		104B84A21293123500E77D88 /* noiseback-light.png in Resources */ = {isa = PBXBuildFile; fileRef = 104B84A11293123500E77D88 /* noiseback-light.png */; };
 		104B84F1129315A100E77D88 /* LTEntityTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */; };
 		104B8550129317AD00E77D88 /* LTFavoritesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */; };
-		104B85641293181600E77D88 /* LTSetupTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B85631293181600E77D88 /* LTSetupTableViewController.xib */; };
 		104B857B1293188E00E77D88 /* LTIncidentListTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B857A1293188E00E77D88 /* LTIncidentListTableViewController.xib */; };
 		104B8586129318AB00E77D88 /* LTGroupTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B8585129318AB00E77D88 /* LTGroupTableViewController.xib */; };
 		104DEF0912835E6A008A7936 /* LTGraphScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104DEF0812835E6A008A7936 /* LTGraphScrollView.m */; };
@@ -77,7 +76,6 @@
 		105EDEE911BC392000B294B4 /* tools_grey_16.tif in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA511BC392000B294B4 /* tools_grey_16.tif */; };
 		105EDEEA11BC392000B294B4 /* tools_16.tif in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEA611BC392000B294B4 /* tools_16.tif */; };
 		105EDEEC11BC392000B294B4 /* LTFavoritesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEAA11BC392000B294B4 /* LTFavoritesTableViewController.m */; };
-		105EDEEE11BC392000B294B4 /* LTSetupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEAE11BC392000B294B4 /* LTSetupTableViewController.m */; };
 		105EDEEF11BC392000B294B4 /* CoreEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEB011BC392000B294B4 /* CoreEditView.xib */; };
 		105EDEF011BC392000B294B4 /* LTCoreEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEB211BC392000B294B4 /* LTCoreEditTableViewController.m */; };
 		105EDEF111BC392000B294B4 /* LTAuthenticationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEB511BC392000B294B4 /* LTAuthenticationTableViewController.m */; };
@@ -181,7 +179,6 @@
 		104B84A11293123500E77D88 /* noiseback-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noiseback-light.png"; sourceTree = "<group>"; };
 		104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTEntityTableViewController.xib; sourceTree = "<group>"; };
 		104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTFavoritesTableViewController.xib; sourceTree = "<group>"; };
-		104B85631293181600E77D88 /* LTSetupTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTSetupTableViewController.xib; sourceTree = "<group>"; };
 		104B857A1293188E00E77D88 /* LTIncidentListTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTIncidentListTableViewController.xib; sourceTree = "<group>"; };
 		104B8585129318AB00E77D88 /* LTGroupTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTGroupTableViewController.xib; sourceTree = "<group>"; };
 		104DEF0712835E6A008A7936 /* LTGraphScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphScrollView.h; sourceTree = "<group>"; };
@@ -266,8 +263,6 @@
 		105EDEA611BC392000B294B4 /* tools_16.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tools_16.tif; sourceTree = "<group>"; };
 		105EDEA911BC392000B294B4 /* LTFavoritesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTFavoritesTableViewController.h; sourceTree = "<group>"; };
 		105EDEAA11BC392000B294B4 /* LTFavoritesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTFavoritesTableViewController.m; sourceTree = "<group>"; };
-		105EDEAD11BC392000B294B4 /* LTSetupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSetupTableViewController.h; sourceTree = "<group>"; };
-		105EDEAE11BC392000B294B4 /* LTSetupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSetupTableViewController.m; sourceTree = "<group>"; };
 		105EDEB011BC392000B294B4 /* CoreEditView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoreEditView.xib; sourceTree = "<group>"; };
 		105EDEB111BC392000B294B4 /* LTCoreEditTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTCoreEditTableViewController.h; sourceTree = "<group>"; };
 		105EDEB211BC392000B294B4 /* LTCoreEditTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTCoreEditTableViewController.m; sourceTree = "<group>"; };
@@ -570,7 +565,6 @@
 				102C692111BCE8BB0032D043 /* Device View (iPad Only) */,
 				105EDEB711BC392000B294B4 /* Generic Table View */,
 				105EDEB311BC392000B294B4 /* Authentication View */,
-				105EDEAB11BC392000B294B4 /* Setup Tab */,
 				105EDEA711BC392000B294B4 /* Favorites Tab */,
 				105EDE9711BC392000B294B4 /* Incidents Tab */,
 				105EDE9311BC392000B294B4 /* Groups Tab */,
@@ -583,8 +577,9 @@
 		105EDE7311BC392000B294B4 /* Devices Tab */ = {
 			isa = PBXGroup;
 			children = (
-				104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */,
+				105EDEAF11BC392000B294B4 /* Core Add and Edit */,
 				105EDE7B11BC392000B294B4 /* Metric View */,
+				104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */,
 				105EDE7511BC392000B294B4 /* LTEntityTableViewController.h */,
 				105EDE7611BC392000B294B4 /* LTEntityTableViewController.m */,
 				105EDE7711BC392000B294B4 /* LTEntityTableViewCell.h */,
@@ -672,17 +667,6 @@
 				105EDEAA11BC392000B294B4 /* LTFavoritesTableViewController.m */,
 			);
 			name = "Favorites Tab";
-			sourceTree = "<group>";
-		};
-		105EDEAB11BC392000B294B4 /* Setup Tab */ = {
-			isa = PBXGroup;
-			children = (
-				105EDEAF11BC392000B294B4 /* Core Add and Edit */,
-				104B85631293181600E77D88 /* LTSetupTableViewController.xib */,
-				105EDEAD11BC392000B294B4 /* LTSetupTableViewController.h */,
-				105EDEAE11BC392000B294B4 /* LTSetupTableViewController.m */,
-			);
-			name = "Setup Tab";
 			sourceTree = "<group>";
 		};
 		105EDEAF11BC392000B294B4 /* Core Add and Edit */ = {
@@ -1055,7 +1039,6 @@
 				104B84A21293123500E77D88 /* noiseback-light.png in Resources */,
 				104B84F1129315A100E77D88 /* LTEntityTableViewController.xib in Resources */,
 				104B8550129317AD00E77D88 /* LTFavoritesTableViewController.xib in Resources */,
-				104B85641293181600E77D88 /* LTSetupTableViewController.xib in Resources */,
 				104B857B1293188E00E77D88 /* LTIncidentListTableViewController.xib in Resources */,
 				104B8586129318AB00E77D88 /* LTGroupTableViewController.xib in Resources */,
 				108742C4129325D6002FAC11 /* LTTableViewCellBack-Gray.png in Resources */,
@@ -1142,7 +1125,6 @@
 				105EDEE511BC392000B294B4 /* LTActionTableViewController.m in Sources */,
 				105EDEE611BC392000B294B4 /* LTActionInfoCell.m in Sources */,
 				105EDEEC11BC392000B294B4 /* LTFavoritesTableViewController.m in Sources */,
-				105EDEEE11BC392000B294B4 /* LTSetupTableViewController.m in Sources */,
 				105EDEF011BC392000B294B4 /* LTCoreEditTableViewController.m in Sources */,
 				105EDEF111BC392000B294B4 /* LTAuthenticationTableViewController.m in Sources */,
 				105EDEF611BC392000B294B4 /* LTTableViewCellBackground.m in Sources */,

@@ -14,7 +14,6 @@
 #import "LTGroupTableViewController.h"
 #import "LTFavoritesTableViewController.h"
 #import "LTIncidentListTableViewController.h"
-#import "LTSetupTableViewController.h"
 
 @implementation AppDelegate
 

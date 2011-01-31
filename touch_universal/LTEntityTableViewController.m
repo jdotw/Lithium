@@ -20,7 +20,6 @@
 #import "LTDeviceViewController.h"
 #import "LTTableView.h"
 #import "LTDeviceEditTableViewController.h"
-#import "LTSetupTableViewController.h"
 #import "AppDelegate_Pad.h"
 
 @interface LTEntityTableViewController (private)
