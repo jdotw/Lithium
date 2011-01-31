@@ -99,6 +99,7 @@
 		105EDF2611BC39FC00B294B4 /* GreyDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 105EDF2111BC39FC00B294B4 /* GreyDot.tiff */; };
 		105EDF2811BC3A0E00B294B4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105EDF2711BC3A0E00B294B4 /* SystemConfiguration.framework */; };
 		105EDF5111BC3AF400B294B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105EDF5011BC3AF400B294B4 /* QuartzCore.framework */; };
+		1066F2E312F60A7000487979 /* LTDeviceEditLocationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1066F2E212F60A7000487979 /* LTDeviceEditLocationListTableViewController.m */; };
 		106CB6E211BF79D000F3382D /* LTWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 106CB6E111BF79D000F3382D /* LTWindow.m */; };
 		107819121290A797006E60F4 /* navlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 107819111290A797006E60F4 /* navlist.png */; };
 		107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107C3276127FB97F00C2321F /* LTObjectIconViewController.m */; };
@@ -296,6 +297,8 @@
 		105EDF2111BC39FC00B294B4 /* GreyDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = GreyDot.tiff; sourceTree = "<group>"; };
 		105EDF2711BC3A0E00B294B4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		105EDF5011BC3AF400B294B4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		1066F2E112F60A7000487979 /* LTDeviceEditLocationListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditLocationListTableViewController.h; sourceTree = "<group>"; };
+		1066F2E212F60A7000487979 /* LTDeviceEditLocationListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditLocationListTableViewController.m; sourceTree = "<group>"; };
 		106CB6E011BF79D000F3382D /* LTWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTWindow.h; sourceTree = "<group>"; };
 		106CB6E111BF79D000F3382D /* LTWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTWindow.m; sourceTree = "<group>"; };
 		107819111290A797006E60F4 /* navlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navlist.png; sourceTree = "<group>"; };
@@ -392,6 +395,7 @@
 		102C692111BCE8BB0032D043 /* Device View (iPad Only) */ = {
 			isa = PBXGroup;
 			children = (
+				1066F2C812F603B500487979 /* Toolbar Icons */,
 				10042ABE1296473B00460772 /* LTDeviceViewBack.png */,
 				10B4875E129352AF006F3267 /* noiseback-gray.png */,
 				107819111290A797006E60F4 /* navlist.png */,
@@ -447,6 +451,7 @@
 		104F699612C03EF000074651 /* Device Setup (iPad Only) */ = {
 			isa = PBXGroup;
 			children = (
+				1066F2E012F60A4F00487979 /* Location Selection */,
 				10D6F39612C1512800A717D3 /* SNMP Authentication Selection */,
 				10D6F38F12C14F9E00A717D3 /* SNMP Encryption Selection */,
 				10D6F37E12C14B5400A717D3 /* Refresh Interval Selection */,
@@ -576,16 +581,6 @@
 		105EDE7311BC392000B294B4 /* Devices Tab */ = {
 			isa = PBXGroup;
 			children = (
-				1005630F12B72012009E1467 /* reload_small.png */,
-				1005631012B72012009E1467 /* reload_small@2x.png */,
-				1005630712B719E0009E1467 /* handshake_small.png */,
-				1005630812B719E0009E1467 /* handshake_small@2x.png */,
-				100562EC12B7184A009E1467 /* info_small.png */,
-				100562ED12B7184A009E1467 /* info_small@2x.png */,
-				100562F412B7189A009E1467 /* settings_small.png */,
-				100562F512B7189A009E1467 /* settings_small@2x.png */,
-				100562F812B718A6009E1467 /* flag_small.png */,
-				100562F912B718A6009E1467 /* flag_small@2x.png */,
 				104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */,
 				105EDE7B11BC392000B294B4 /* Metric View */,
 				105EDE7511BC392000B294B4 /* LTEntityTableViewController.h */,
@@ -762,6 +757,32 @@
 				105EDF2111BC39FC00B294B4 /* GreyDot.tiff */,
 			);
 			name = Dots;
+			sourceTree = "<group>";
+		};
+		1066F2C812F603B500487979 /* Toolbar Icons */ = {
+			isa = PBXGroup;
+			children = (
+				1005630F12B72012009E1467 /* reload_small.png */,
+				1005631012B72012009E1467 /* reload_small@2x.png */,
+				1005630712B719E0009E1467 /* handshake_small.png */,
+				1005630812B719E0009E1467 /* handshake_small@2x.png */,
+				100562EC12B7184A009E1467 /* info_small.png */,
+				100562ED12B7184A009E1467 /* info_small@2x.png */,
+				100562F412B7189A009E1467 /* settings_small.png */,
+				100562F512B7189A009E1467 /* settings_small@2x.png */,
+				100562F812B718A6009E1467 /* flag_small.png */,
+				100562F912B718A6009E1467 /* flag_small@2x.png */,
+			);
+			name = "Toolbar Icons";
+			sourceTree = "<group>";
+		};
+		1066F2E012F60A4F00487979 /* Location Selection */ = {
+			isa = PBXGroup;
+			children = (
+				1066F2E112F60A7000487979 /* LTDeviceEditLocationListTableViewController.h */,
+				1066F2E212F60A7000487979 /* LTDeviceEditLocationListTableViewController.m */,
+			);
+			name = "Location Selection";
 			sourceTree = "<group>";
 		};
 		107C3271127FB95400C2321F /* Object View */ = {
@@ -1149,6 +1170,7 @@
 				10D6F38112C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m in Sources */,
 				10D6F39212C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m in Sources */,
 				10D6F39912C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m in Sources */,
+				1066F2E312F60A7000487979 /* LTDeviceEditLocationListTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1194,7 +1216,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;

@@ -349,8 +349,8 @@
     // Return the number of rows in the section.
 	if ([self typeForSection:section] == TYPE_BASIC)
 	{
-		/* Basic device info (Type, Desc, IP Address) */
-		return 3;
+		/* Basic device info (Type, Desc, IP Address, Location) */
+		return 4;
 	}
 	else if ([self typeForSection:section] == TYPE_FEATURE_SELECT)
 	{
