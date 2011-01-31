@@ -20,6 +20,7 @@
 #import "LTDeviceViewController.h"
 #import "LTTableView.h"
 #import "LTDeviceEditTableViewController.h"
+#import "LTSetupTableViewController.h"
 #import "AppDelegate_Pad.h"
 
 @interface LTEntityTableViewController (private)
@@ -52,6 +53,10 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(entityRefreshFinished:)
 												 name:@"RefreshFinished" 
+											   object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self.tableView
+											 selector:@selector(reloadData) 
+												 name:kDeviceListGroupByLocation
 											   object:nil];
 
 	if (entity)
@@ -96,7 +101,6 @@
 - (void) viewDidUnload
 {
 	[super viewDidUnload];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:nil];	
 }
 
 - (void) awakeFromNib
@@ -126,8 +130,17 @@
 
 - (void)dealloc 
 {
+	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	[refreshTimer invalidate];
 	[children release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kDeviceListGroupByLocation object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentAdded" object:appDelegate];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentUpdated" object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentRemoved" object:appDelegate];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTCoreDeploymentReachabilityChanged" object:nil];
+	if (entity) [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTEntityXmlStatusChanged" object:entity];
+	
     [super dealloc];
 }
 
@@ -205,6 +218,11 @@
 
 #pragma mark "Table view methods"
 
+- (BOOL) _groupDevicesByLocation
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:kDeviceListGroupByLocation];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
 	if (tableView == self.searchDisplayController.searchResultsTableView)
@@ -213,7 +231,7 @@
 	}
 	else
 	{
-		if (entity.type == 1)
+		if (entity.type == 1 && [self _groupDevicesByLocation])
 		{
 			return entity.children.count;
 		}
@@ -232,7 +250,7 @@
 	}
 	else 
 	{
-		if (entity.type == ENT_CUSTOMER)
+		if (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation])
 		{
 			return [[entity.children objectAtIndex:section] desc];
 		}
@@ -256,7 +274,7 @@
 		{
 			if ([children count] == 0 && entity.refreshInProgress)
 			{ return 1; }
-			else if (entity.type == ENT_CUSTOMER)
+			else if (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation])
 			{
 				return [[[entity.children objectAtIndex:section] children] count];
 			}
@@ -297,7 +315,7 @@
 	{
 		if (entity)
 		{
-			if (entity.type == ENT_CUSTOMER)
+			if (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation])
 			{
 				return [[[entity.children objectAtIndex:indexPath.section] children] objectAtIndex:indexPath.row];
 			}
@@ -338,8 +356,6 @@
 		label.backgroundColor = [UIColor clearColor];
 		label.textColor = [UIColor grayColor];
 		label.textAlignment = UITextAlignmentCenter;
-//		label.shadowColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
-//		label.shadowOffset = CGSizeMake(0.0, 1.0);
 		return label;
 	}
 	else
@@ -611,7 +627,7 @@
 	
 	NSArray *unfilteredEntities = nil;
 	
-	if (entity.type == ENT_CUSTOMER)
+	if (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation])
 	{
 		/* Build a list of all devices */
 		unfilteredEntities = [entity.children valueForKeyPath:@"@unionOfArrays.children"];
@@ -731,7 +747,7 @@
 
 - (IBAction) addDeviceTouched:(id)sender
 {
-	LTDeviceEditTableViewController *vc = [[LTDeviceEditTableViewController alloc] initForNewDeviceAtSite:self.entity];
+	LTDeviceEditTableViewController *vc = [[LTDeviceEditTableViewController alloc] initForNewDeviceAtSite:self.entity.site customer:self.entity.customer];
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:vc];
 	navController.navigationBar.tintColor = [UIColor colorWithWhite:120.0/255.0 alpha:1.0];
 	navController.modalPresentationStyle = UIModalPresentationFormSheet;

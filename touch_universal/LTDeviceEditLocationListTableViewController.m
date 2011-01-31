@@ -20,7 +20,7 @@
 - (id)initWithCustomer:(LTCustomer *)initCustomer editTableViewController:(LTDeviceEditTableViewController *)initEditTVC
 {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    self = [super initWithStyle:UITableViewStylePlain];
+    self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) 
 	{
 		self.customer = initCustomer;
@@ -35,6 +35,7 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
+	self.title = @"Select Location";
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -92,6 +93,7 @@
 	LTEntity *rowSite = [self.customer.children objectAtIndex:indexPath.row];
 	editTVC.site = rowSite;
 	[self.tableView reloadData];
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark -

@@ -14,19 +14,28 @@
 
 @implementation LTSetupTableViewController
 
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) {
-    }
-    return self;
-}
-*/
+#pragma mark -
+#pragma mark Control Creation
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Overriden to allow any orientation.
-    return YES;
+- (UIButton *) createButtonControl:(UIButtonType)type
+{
+	// create a UIButton (UIButtonTypeContactAdd)
+	UIButton *button = [UIButton buttonWithType:type];
+	button.frame = CGRectMake(0.0, 0.0, 25.0, 25.0);
+	[button setTitle:@"Detail Disclosure" forState:UIControlStateNormal];
+	button.backgroundColor = [UIColor clearColor];
+	return button;
 }
+
+- (UISwitch *) createSwitchControl
+{
+	CGRect frame = CGRectMake(0.0, 0.0, 94.0, 27.0);
+	UISwitch *switchCtl = [[[UISwitch alloc] initWithFrame:frame] autorelease];
+	switchCtl.backgroundColor = [UIColor clearColor];
+	return switchCtl;
+}
+
+#pragma mark View Delegates
 
 - (void)viewDidLoad 
 {
@@ -41,74 +50,54 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
+	return YES;
+}
+
+#pragma mark Core List
+
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification
 {
 	[[self tableView] reloadData];
 }
 
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
-
+#pragma mark -
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
-    return 1;
-}
-
-
-// Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
-{
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	if (section == 0)
-	{
-		return [appDelegate.coreDeployments count] + 1;
-	}
-    else return 0;
+    return 2;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	if (section == 0)
-	{ return @"Lithium Core Deployments"; }
-	else
-	{ return nil; }
+	switch (section) {
+		case 0:
+			return @"Lithium Core Deployments";
+		case 1:
+			return @"Device List";
+		default:
+			return nil;
+			break;
+	}
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+	switch (section) {
+		case 0:
+			/* Lithium Core Deployments */
+			return [appDelegate.coreDeployments count] + 1;
+		case 1:
+			/* Device List */
+			return 1;
+		default:
+			return 0;
+	}
+}
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"Cell";
@@ -120,46 +109,38 @@
     
     // Set up the cell...
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	if ([indexPath section] == 0)
+	if (indexPath.section == 0)
 	{
+		/* Lithium Core Deployments */
 		if ([indexPath row] < appDelegate.coreDeployments.count)
 		{ 
 			LTCoreDeployment *core = [appDelegate.coreDeployments objectAtIndex:[indexPath row]];
 			cell.textLabel.text = core.ipAddress;
 			UISwitch *switchCtl = [self createSwitchControl];
 			switchCtl.on = core.enabled;
+			[switchCtl addTarget:self action:@selector(coreSwitched:) forControlEvents:UIControlEventValueChanged];
 			cell.accessoryView = switchCtl;
 		}
 		else
 		{ 
 			cell.textLabel.text = @"Add Lithium Core Deployment...";
-			cell.accessoryView = [self createContactAddButton];
+			UIButton *addButton = [self createButtonControl:UIButtonTypeContactAdd];
+			[addButton addTarget:self action:@selector(addNewCoreTouched:) forControlEvents:UIControlEventTouchUpInside];
+			cell.accessoryView = addButton;
 		}
+	}
+	else if (indexPath.section == 1)
+	{
+		/* Device List Settings */
+		cell.textLabel.text = @"Group by Location";
+		UISwitch *switchCtl = [self createSwitchControl];
+		switchCtl.on = [[NSUserDefaults standardUserDefaults] boolForKey:kDeviceListGroupByLocation];
+		[switchCtl addTarget:self action:@selector(deviceListGroupingSwitched:) forControlEvents:UIControlEventValueChanged];
+		cell.accessoryView = switchCtl;
 	}
 
     return cell;
 }
-
-- (UIButton *) createContactAddButton
-{
-	// create a UIButton (UIButtonTypeContactAdd)
-	UIButton *contactAddButtonType = [UIButton buttonWithType:UIButtonTypeContactAdd];
-	contactAddButtonType.frame = CGRectMake(0.0, 0.0, 25.0, 25.0);
-	[contactAddButtonType setTitle:@"Detail Disclosure" forState:UIControlStateNormal];
-	contactAddButtonType.backgroundColor = [UIColor clearColor];
-	[contactAddButtonType addTarget:self action:@selector(addNewCoreTouched:) forControlEvents:UIControlEventTouchUpInside];
-	return contactAddButtonType;
-}
-
-- (UISwitch *) createSwitchControl
-{
-	CGRect frame = CGRectMake(0.0, 0.0, 94.0, 27.0);
-	UISwitch *switchCtl = [[[UISwitch alloc] initWithFrame:frame] autorelease];
-	[switchCtl addTarget:self action:@selector(coreSwitched:) forControlEvents:UIControlEventValueChanged];
-	switchCtl.backgroundColor = [UIColor clearColor];
-	return switchCtl;
-}
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
@@ -178,22 +159,6 @@
 	}
 }
 
-- (IBAction) addNewCoreTouched:(id)sender
-{
-	LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-	[self.navigationController presentModalViewController:navController animated:YES];
-	[controller release];
-	[navController release];	
-}
-
-- (IBAction) coreSwitched:(id)sender
-{
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	
-	[appDelegate saveCoreDeployments];	
-}
-
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath 
 {
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -207,7 +172,6 @@
 	else
 	{ return NO; }
 }
-
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath 
 { 
@@ -225,20 +189,45 @@
     }
 }
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the item to be re-orderable.
-    return YES;
+    return NO;
 }
-*/
+
+#pragma mark -
+#pragma mark UI Actions
+
+- (IBAction) addNewCoreTouched:(id)sender
+{
+	LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+	[self.navigationController presentModalViewController:navController animated:YES];
+	[controller release];
+	[navController release];	
+}
+
+- (IBAction) coreSwitched:(id)sender
+{
+	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+	/* FIX Doesnt Do Anything! */
+	[appDelegate saveCoreDeployments];	
+}
+
+- (IBAction) deviceListGroupingSwitched:(UISwitch *)switchCtl
+{
+	[[NSUserDefaults standardUserDefaults] setBool:switchCtl.on forKey:kDeviceListGroupByLocation];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDeviceListGroupByLocation object:self];
+}
+
+#pragma mark -
+#pragma mark Memory Management
+
+- (void)didReceiveMemoryWarning 
+{
+	[super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+	// Release anything that's not essential, such as cached data
+}
 
 - (void)dealloc {
     [super dealloc];

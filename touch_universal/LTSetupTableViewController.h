@@ -8,14 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface LTSetupTableViewController : UITableViewController 
 {
-
+	UIButton *addCoreButton;
+	UIButton *groupByLocationSwitch;
 }
 
-- (UIButton *) createContactAddButton;
+- (UIButton *) createButtonControl:(UIButtonType)type;
 - (UISwitch *) createSwitchControl;
 - (IBAction) addNewCoreTouched:(id)sender;
+
+
 
 @end

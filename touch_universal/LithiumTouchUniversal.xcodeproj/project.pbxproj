@@ -18,6 +18,7 @@
 		1005630A12B719E0009E1467 /* handshake_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1005630812B719E0009E1467 /* handshake_small@2x.png */; };
 		1005631112B72012009E1467 /* reload_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 1005630F12B72012009E1467 /* reload_small.png */; };
 		1005631212B72012009E1467 /* reload_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1005631012B72012009E1467 /* reload_small@2x.png */; };
+		1010B92412F6654F0071E18D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1010B92312F6654F0071E18D /* Settings.bundle */; };
 		102C692711BCE8F40032D043 /* LTDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C692511BCE8F40032D043 /* LTDeviceViewController.m */; };
 		102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C692611BCE8F40032D043 /* LTDeviceViewController.xib */; };
 		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
@@ -168,6 +169,7 @@
 		1005630812B719E0009E1467 /* handshake_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "handshake_small@2x.png"; sourceTree = "<group>"; };
 		1005630F12B72012009E1467 /* reload_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload_small.png; sourceTree = "<group>"; };
 		1005631012B72012009E1467 /* reload_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload_small@2x.png"; sourceTree = "<group>"; };
+		1010B92312F6654F0071E18D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		102C692411BCE8F40032D043 /* LTDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceViewController.h; sourceTree = "<group>"; };
 		102C692511BCE8F40032D043 /* LTDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceViewController.m; sourceTree = "<group>"; };
 		102C692611BCE8F40032D043 /* LTDeviceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTDeviceViewController.xib; sourceTree = "<group>"; };
@@ -935,6 +937,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				1010B92312F6654F0071E18D /* Settings.bundle */,
 				105EDF1411BC39C500B294B4 /* Resources */,
 				105EDE7211BC392000B294B4 /* UI Classes */,
 				105EDE6E11BC390A00B294B4 /* Push Notifications */,
@@ -1093,6 +1096,7 @@
 				1005631112B72012009E1467 /* reload_small.png in Resources */,
 				1005631212B72012009E1467 /* reload_small@2x.png in Resources */,
 				104F690212C01E3D00074651 /* checkerboard.png in Resources */,
+				1010B92412F6654F0071E18D /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

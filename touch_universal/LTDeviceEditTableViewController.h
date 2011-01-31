@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class LTEntity;
+@class LTEntity, LTCustomer;
 
 @interface LTDeviceEditTableViewController : UITableViewController <UITextFieldDelegate>
 {
@@ -38,11 +38,12 @@
 }
 
 - (id)initWithDeviceToEdit:(LTEntity *)initDevice;
-- (id)initForNewDeviceAtSite:(LTEntity *)initSite;
-
+- (id)initForNewDeviceAtSite:(LTEntity *)initSite customer:(LTCustomer *)initCustomer;
+- (id)initWithCustomer:(LTCustomer *)initCustomer;
 
 @property (nonatomic,retain) LTEntity *device;
 @property (nonatomic,retain) LTEntity *site;
+@property (nonatomic,retain) LTCustomer *customer;
 
 /* Device Properties that are externally accessible */
 @property (nonatomic,assign) int devSNMPVersion;

@@ -10,6 +10,8 @@
 
 @class LTAuthenticationTableViewController, LTFavoritesTableViewController, LTCoreDeployment, LTIncidentListTableViewController, LTEntity;
 
+#define kDeviceListGroupByLocation @"LTSetupDeviceListGroupByLocation"
+
 @interface AppDelegate : NSObject <UIApplicationDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate, UITabBarDelegate>
 {
 	/* UI Elements */

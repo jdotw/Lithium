@@ -14,24 +14,26 @@
 #import "LTDeviceEditRefreshIntervalListTableViewController.h"
 #import "LTDeviceEditSNMPAuthenticationListTableViewController.h"
 #import "LTDeviceEditSNMPPrivacyListTableViewController.h"
+#import "LTDeviceEditLocationListTableViewController.h"
 #import "LTCustomer.h"
 #import "LTCoreDeployment.h"
 
 @implementation LTDeviceEditTableViewController
 
-@synthesize device, site;
+@synthesize device, site, customer;
 @synthesize devSNMPVersion, devSNMPAuthMethod, devSNMPPrivacyMethod, devVendorModule;
 @synthesize devRefreshInterval, devProtocol;
 
 #define kLastUsedVendorKey @"LTDeviceEditTableViewControllerLastUsedVendorModule"
 #define kLastUsedRefreshInterval @"LTDeviceEditTableViewControllerLastUsedRefreshInterval"
+#define kLastUsedLocationName @"LTDeviceEditTableViewControllerLastUsedLocationName"
 
 #pragma mark -
 #pragma mark Initialization
 
 - (id)initWithDeviceToEdit:(LTEntity *)initDevice
 {
-    self = [self initWithStyle:UITableViewStyleGrouped];
+    self = [self initWithCustomer:initDevice.customer];
     if (self) 
 	{
 		self.device = initDevice;
@@ -61,12 +63,15 @@
     return self;
 }
 
-- (id)initForNewDeviceAtSite:(LTEntity *)initSite
+- (id)initForNewDeviceAtSite:(LTEntity *)initSite customer:(LTCustomer *)initCustomer
 {	
-    self = [self initWithStyle:UITableViewStyleGrouped];
+	/* It's OK for initSite to be nil, a default one will
+	 * chosen by initWithCustomer
+	 */
+    self = [self initWithCustomer:initCustomer];
     if (self) 
 	{
-		self.site = initSite;
+		if (initSite) self.site = initSite;
 		devVendorModule = [[NSUserDefaults standardUserDefaults] objectForKey:kLastUsedVendorKey] ? : @"osx_server";
 		devSNMPVersion = 2;
 		devRefreshInterval = 60;
@@ -103,11 +108,20 @@
 	return switchCtl;
 }
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithCustomer:(LTCustomer *)initCustomer
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) 
 	{
+		/* Set Customer */
+		self.customer = initCustomer;
+		
+		/* Set Default/Last-Used Site */
+		if ([[NSUserDefaults standardUserDefaults] objectForKey:kLastUsedLocationName])
+		{ self.site = [self.customer.childDict objectForKey:[[NSUserDefaults standardUserDefaults] objectForKey:kLastUsedLocationName]]; }
+		else if (self.customer.children.count > 0)
+		{ self.site = [self.customer.children objectAtIndex:0]; }
+		
 		/* Create Labels for properties */
 		devDesc = [self propertyTextField];
 		devDesc.placeholder = @"Description";
@@ -349,8 +363,9 @@
     // Return the number of rows in the section.
 	if ([self typeForSection:section] == TYPE_BASIC)
 	{
-		/* Basic device info (Type, Desc, IP Address, Location) */
-		return 4;
+		/* Basic device info (Type, Desc, IP Address, (Location: New Device Only)) */
+		if (self.device) return 3;	// Dont show location
+		else return 4;	// Show location
 	}
 	else if ([self typeForSection:section] == TYPE_FEATURE_SELECT)
 	{
@@ -431,6 +446,11 @@
 			case 2:
 				cell.textLabel.text = @"IP Address";
 				cell.accessoryView = devIPAddress;
+				break;
+			case 3:
+				cell.textLabel.text = @"Location";
+				cell.detailTextLabel.text = self.site.desc;
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 				break;
 		}
 	}
@@ -581,46 +601,10 @@
     return cell;
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    return NO;
 }
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 
 #pragma mark -
 #pragma mark Table view delegate
@@ -636,8 +620,16 @@
 	if ([self typeForSection:indexPath.section] == TYPE_BASIC && indexPath.row == 0)
 	{
 		/* Selected Device Module Type */
-		LTDeviceEditModuleListTableViewController *vc = [[LTDeviceEditModuleListTableViewController alloc] initWithCustomer:self.device.customer
+		LTDeviceEditModuleListTableViewController *vc = [[LTDeviceEditModuleListTableViewController alloc] initWithCustomer:self.customer
 																											  deviceEditTVC:self];
+		[self.navigationController pushViewController:vc animated:YES];
+		[vc release];
+	}
+	else if ([self typeForSection:indexPath.section] == TYPE_BASIC && indexPath.row == 3)
+	{
+		/* Selected Location */
+		LTDeviceEditLocationListTableViewController *vc = [[LTDeviceEditLocationListTableViewController alloc] initWithCustomer:self.customer
+																												  editTableViewController:self];
 		[self.navigationController pushViewController:vc animated:YES];
 		[vc release];
 	}
@@ -705,7 +697,8 @@
 	
 	/* Update last-used NSUserDefaults */
 	[[NSUserDefaults standardUserDefaults] setInteger:devRefreshInterval forKey:kLastUsedRefreshInterval];
-	[[NSUserDefaults standardUserDefaults] setObject:devVendorModule forKey:kLastUsedVendorKey];
+	if (devVendorModule) [[NSUserDefaults standardUserDefaults] setObject:devVendorModule forKey:kLastUsedVendorKey];
+	if (self.site.name) [[NSUserDefaults standardUserDefaults] setObject:self.site.name forKey:kLastUsedLocationName];	
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	
 	/* Create place-holder device if needed */

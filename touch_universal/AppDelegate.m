@@ -14,11 +14,17 @@
 #import "LTGroupTableViewController.h"
 #import "LTFavoritesTableViewController.h"
 #import "LTIncidentListTableViewController.h"
+#import "LTSetupTableViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions 
-{    	
+{   
+ 	/* Setup Defaults */
+	NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+	[defaults setObject:[NSNumber numberWithBool:YES] forKey:kDeviceListGroupByLocation];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+	
 	/* Create Core Deployment Dict */
 	coreDeploymentDict = [[NSMutableDictionary dictionary] retain];
 	[[NSNotificationCenter defaultCenter] addObserver:self

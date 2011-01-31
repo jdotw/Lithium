@@ -641,6 +641,8 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	{ entity = entity.parent; }
 	return entity;
 }
+- (LTEntity *) site
+{ return [self parentOfType:2]; }
 - (LTEntity *) container 
 { return [self parentOfType:4]; }
 - (LTEntity *) object
