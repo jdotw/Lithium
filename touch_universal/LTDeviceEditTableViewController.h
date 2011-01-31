@@ -31,7 +31,7 @@
 	int devProtocol;
 	UISwitch *devUseICMP;
 	UISwitch *devUseProcessList;
-	UISwitch *devUseLOM;	
+	UISwitch *devUseLOM;
 	
 	/* State */
 	UITextField *editingTextField;

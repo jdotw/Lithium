@@ -56,7 +56,7 @@
 
 	if (entity)
 	{
-		if (entity.type == 2 && UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) 
+		if (entity.type >= 1 && entity.type < 3 && UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) 
 		{
 			/* Entity is a Customer or Site, show an Add button to add a device
 			 * only if the device is an iPad 

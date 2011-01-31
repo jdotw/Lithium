@@ -13,6 +13,14 @@
 
 @synthesize entityState, cell;
 
+- (void) setEntityState:(int)value
+{
+	entityState = value;
+	
+	/* Ensure the cell is re-drawn with the right background */
+	[self setNeedsDisplay];
+}
+
 - (id)initWithFrame:(CGRect)frame 
 {
     if (self = [super initWithFrame:frame]) 
@@ -22,9 +30,9 @@
     return self;
 }
 
-
 - (void)drawRect:(CGRect)rect 
 {
+	/* Draw status-color background */
 	UIImage *backImage;
 	switch (self.entityState) 
 	{
@@ -64,18 +72,7 @@
 	topLineRect = CGRectMake(CGRectGetMinX(self.bounds)+indentOffset, CGRectGetMinY(self.bounds)+0.0, 
 							 CGRectGetWidth(self.bounds)-indentOffset, 1.0);
 	UIRectFill(topLineRect);
-	
-	// Gradient
-//	UIImage *image = [UIImage imageNamed:@"CellLowerGradient.png"];
-//	[image drawInRect:CGRectMake(CGRectGetMinX(self.bounds)+indentOffset, CGRectGetMaxY(self.bounds)-6.0, 
-//								 CGRectGetWidth(self.bounds)-indentOffset, 6.0)
-//			blendMode:kCGBlendModeSourceAtop 
-//				alpha:0.2];
-	
-	// Over the top gradient 
-	
 }
-
 
 - (void)dealloc {
     [super dealloc];
