@@ -33,7 +33,7 @@
 				if (defaultKey)
 				{
 					unsigned int defaultIndex = [emailAddresses indexForIdentifier:defaultKey];
-					if (defaultIndex >= 0) self.feedbackEmailAddress = [emailAddresses valueAtIndex: defaultIndex];
+					if (defaultIndex != NSNotFound) self.feedbackEmailAddress = [emailAddresses valueAtIndex: defaultIndex];
 				}
 			}
 		}
