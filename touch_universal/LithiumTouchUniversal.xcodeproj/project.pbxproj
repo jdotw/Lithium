@@ -130,6 +130,8 @@
 		109DA4371282B14200577BAA /* LTEntityIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 109DA4361282B14200577BAA /* LTEntityIconView.m */; };
 		10B4875F129352AF006F3267 /* noiseback-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 10B4875E129352AF006F3267 /* noiseback-gray.png */; };
 		10B487AA12935AC5006F3267 /* LCObjectIconViewDropShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 10B487A912935AC5006F3267 /* LCObjectIconViewDropShadow.png */; };
+		10BAC71B12F7814E008289AB /* ConsoleLogoDark.png in Resources */ = {isa = PBXBuildFile; fileRef = 10BAC71A12F7814E008289AB /* ConsoleLogoDark.png */; };
+		10BAC72112F781EF008289AB /* TopLeftSourceListArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 10BAC72012F781EF008289AB /* TopLeftSourceListArrow.png */; };
 		10BAD5CC11C2C88900147DCA /* LTGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10BAD5CB11C2C88900147DCA /* LTGraphView.m */; };
 		10BB416C1294DFF900B75489 /* LTMetricLandscapeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10BB416B1294DFF900B75489 /* LTMetricLandscapeViewController.xib */; };
 		10BB41EA1295BE5A00B75489 /* LTMetricTableViewGraphBack@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10BB41E91295BE5A00B75489 /* LTMetricTableViewGraphBack@2x.png */; };
@@ -334,6 +336,8 @@
 		109DA4361282B14200577BAA /* LTEntityIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityIconView.m; sourceTree = "<group>"; };
 		10B4875E129352AF006F3267 /* noiseback-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noiseback-gray.png"; sourceTree = "<group>"; };
 		10B487A912935AC5006F3267 /* LCObjectIconViewDropShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LCObjectIconViewDropShadow.png; sourceTree = "<group>"; };
+		10BAC71A12F7814E008289AB /* ConsoleLogoDark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ConsoleLogoDark.png; sourceTree = "<group>"; };
+		10BAC72012F781EF008289AB /* TopLeftSourceListArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TopLeftSourceListArrow.png; sourceTree = "<group>"; };
 		10BAD5CA11C2C88900147DCA /* LTGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphView.h; sourceTree = "<group>"; };
 		10BAD5CB11C2C88900147DCA /* LTGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphView.m; sourceTree = "<group>"; };
 		10BB416B1294DFF900B75489 /* LTMetricLandscapeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTMetricLandscapeViewController.xib; sourceTree = "<group>"; };
@@ -394,6 +398,8 @@
 			children = (
 				1066F2C812F603B500487979 /* Toolbar Icons */,
 				10042ABE1296473B00460772 /* LTDeviceViewBack.png */,
+				10BAC72012F781EF008289AB /* TopLeftSourceListArrow.png */,
+				10BAC71A12F7814E008289AB /* ConsoleLogoDark.png */,
 				10B4875E129352AF006F3267 /* noiseback-gray.png */,
 				107819111290A797006E60F4 /* navlist.png */,
 				109DA38712829C8600577BAA /* noiseback.png */,
@@ -1080,6 +1086,8 @@
 				1005631212B72012009E1467 /* reload_small@2x.png in Resources */,
 				104F690212C01E3D00074651 /* checkerboard.png in Resources */,
 				1010B92412F6654F0071E18D /* Settings.bundle in Resources */,
+				10BAC71B12F7814E008289AB /* ConsoleLogoDark.png in Resources */,
+				10BAC72112F781EF008289AB /* TopLeftSourceListArrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
