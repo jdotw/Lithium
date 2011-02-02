@@ -62,17 +62,17 @@ int module_entry (i_resource *self, i_form *config_form)
   if (num != 0)
   { i_printf (1, "qlogic vendor module_entry failed to initialise l_snmp_objfact"); return -1; }      
 
-  num = l_snmp_iface_enable (self);
-  if (num != 0)
-  { i_printf (1, "qlogic vendor module_entry failed to enable SNMP Interface List sub-system"); return -1; }
-
   num = v_unit_enable (self);
   if (num != 0)
   { i_printf (1, "qlogic vendor module_entry failed to enable the unit sub-system"); return -1; }
 
-  num = l_snmp_ipaddr_enable (self);
-  if (num != 0)
-  { i_printf (1, "qlogic vendor module_entry failed to enable SNMP Interface List sub-system"); return -1; }
+//  num = l_snmp_iface_enable (self);
+//  if (num != 0)
+//  { i_printf (1, "qlogic vendor module_entry failed to enable SNMP Interface List sub-system"); return -1; }
+
+//  num = l_snmp_ipaddr_enable (self);
+//  if (num != 0)
+//  { i_printf (1, "qlogic vendor module_entry failed to enable SNMP Interface List sub-system"); return -1; }
 
   return 0;
 }
