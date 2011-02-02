@@ -132,10 +132,6 @@ i_rrdtool_cmd* i_rrd_update_rrdcached (i_resource *self, char *filename, char *a
   asprintf(&buf, "UPDATE %s %s\n", escaped_filename, arg_str);
   free (escaped_filename);
 
-  /* DEBUG */
-  i_printf(1, "REQ: '%s'", buf);
-  /* END DEBUG */
-
   nbytes = strlen(buf);
   write(socket_fd, buf, nbytes);
   free(buf);
@@ -146,13 +142,6 @@ i_rrdtool_cmd* i_rrd_update_rrdcached (i_resource *self, char *filename, char *a
   {
     i_printf (1, "i_rrd_update_rrdcached failed to read response");
   }
-
-  /* DEBUG */
-  else
-  {
-    i_printf(1, "RESP: '%s'", resp);
-  }
-  /* END DEBUG */
 
   close(socket_fd);
   
