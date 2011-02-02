@@ -90,8 +90,9 @@ int i_path_mkdir (char *path, mode_t mode)
 char* i_path_escape_spaces (char *path)
 {
   char *escape;
-
-  escape = (char *)malloc((strlen(path)*2)+1);    // Double is overkill but safe 
+  size_t escape_len = (strlen(path)*2)+1;
+  escape = (char *)malloc(escape_len);    // Double is overkill but safe 
+  memset(escape, 0, escape_len);
   unsigned int i;
   unsigned int escape_i = 0;
   for (i=0; i < strlen(path); i++)
@@ -107,6 +108,7 @@ char* i_path_escape_spaces (char *path)
     escape[escape_i] = path[i];
     escape_i++;
   }
+  escape[escape_i] = '\0';
 
   return escape;
 }
