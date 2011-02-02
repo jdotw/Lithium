@@ -404,11 +404,11 @@
 				107819111290A797006E60F4 /* navlist.png */,
 				109DA38712829C8600577BAA /* noiseback.png */,
 				104B84A11293123500E77D88 /* noiseback-light.png */,
+				104DEF6C12836995008A7936 /* ContainerScrollBack.png */,
+				104DEF6D12836995008A7936 /* ObjectScrollBack.png */,
 				102C692411BCE8F40032D043 /* LTDeviceViewController.h */,
 				102C692511BCE8F40032D043 /* LTDeviceViewController.m */,
 				102C692611BCE8F40032D043 /* LTDeviceViewController.xib */,
-				104DEF6C12836995008A7936 /* ContainerScrollBack.png */,
-				104DEF6D12836995008A7936 /* ObjectScrollBack.png */,
 				1088A2EA12933F1E00C89DB5 /* Common Container and Object Classes */,
 				102C695311BD60E40032D043 /* Container View */,
 				107C3271127FB95400C2321F /* Object View */,
@@ -1171,6 +1171,37 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		10C74E5E12F8F7EC0079A0DE /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 7326;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "Ad Hoc";
+		};
+		10C74E5F12F8F7EC0079A0DE /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = LithiumTouchUniversal_Prefix.pch;
+				INFOPLIST_FILE = "LithiumTouchUniversal-Info.plist";
+				PRODUCT_NAME = Lithium;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1203,7 +1234,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 7325;
+				CURRENT_PROJECT_VERSION = 7326;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1220,7 +1251,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CURRENT_PROJECT_VERSION = 7325;
+				CURRENT_PROJECT_VERSION = 7326;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1240,6 +1271,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
+				10C74E5F12F8F7EC0079A0DE /* Ad Hoc */,
 				1D6058950D05DD3E006BFB54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1249,6 +1281,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
+				10C74E5E12F8F7EC0079A0DE /* Ad Hoc */,
 				C01FCF5008A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
