@@ -10,6 +10,7 @@
 #include <sys/wait.h> 
 #include <netdb.h> 
 #include <stdint.h>
+#include <sys/un.h>
 
 #include "induction.h"
 #include "rrd.h"
@@ -103,16 +104,71 @@ i_rrdtool_cmd *i_rrd_create (i_resource *self, char *filename, time_t start_time
   return NULL;
 }
 
+i_rrdtool_cmd* i_rrd_update_rrdcached (i_resource *self, char *filename, char *arg_str)
+{
+  struct sockaddr_un address;
+  int socket_fd, nbytes;
+  char *buf;
+
+  socket_fd = socket(PF_UNIX, SOCK_STREAM, 0);
+  if(socket_fd < 0)
+  {
+    i_printf(1, "i_rrd_update_rrdcached failed to create socket");
+    return NULL;
+  }
+
+  memset(&address, 0, sizeof(address));
+  address.sun_family = AF_UNIX;
+  strcpy(address.sun_path, "/var/tmp/.lcrrdcached.sock");
+
+  if(connect(socket_fd, (struct sockaddr *) &address, SUN_LEN(&address)) != 0)
+  {
+    i_printf(1, "i_rrd_update_rrdcached failed to call connect (%s)", strerror(errno));
+    close(socket_fd);
+    return NULL;
+  }
+
+  char *escaped_filename = i_path_escape_spaces (filename);
+  asprintf(&buf, "UPDATE %s %s\n", escaped_filename, arg_str);
+  free (escaped_filename);
+
+  /* DEBUG */
+  i_printf(1, "REQ: '%s'", buf);
+  /* END DEBUG */
+
+  nbytes = strlen(buf);
+  write(socket_fd, buf, nbytes);
+  free(buf);
+
+  char resp[1024];
+  nbytes = read(socket_fd, &resp, 1023);
+  if (nbytes < 1)
+  {
+    i_printf (1, "i_rrd_update_rrdcached failed to read response");
+  }
+
+  /* DEBUG */
+  else
+  {
+    i_printf(1, "RESP: '%s'", resp);
+  }
+  /* END DEBUG */
+
+  close(socket_fd);
+  
+  return 0;
+}
+
 i_rrdtool_cmd* i_rrd_update (i_resource *self, int priority, char *filename, char *arg_str, int (*cbfunc) (i_resource *self, i_rrdtool_cmd *cmd, int result, void *passdata), void *passdata)
 {
   int num;
   char *command_str;
+
 #if (defined (__i386__) || defined( __x86_64__ ))
-  char *daemon_str = "--daemon /var/tmp/.lcrrdcached.sock";
-#else
-  char *daemon_str = "";
+  return i_rrd_update_rrdcached(self, filename, arg_str);
 #endif
-  asprintf (&command_str, "update '%s' %s %s\n", filename, daemon_str, arg_str);
+  
+  asprintf (&command_str, "update '%s' %s\n", filename, arg_str);
 
   size_t data_len = strlen(command_str) + 1 + sizeof(uint32_t);
   char *data = (char *) malloc (data_len);

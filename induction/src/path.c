@@ -86,3 +86,28 @@ int i_path_mkdir (char *path, mode_t mode)
 
   return 0;
 }
+
+char* i_path_escape_spaces (char *path)
+{
+  char *escape;
+
+  escape = (char *)malloc((strlen(path)*2)+1);    // Double is overkill but safe 
+  unsigned int i;
+  unsigned int escape_i = 0;
+  for (i=0; i < strlen(path); i++)
+  {
+    if (path[i] == ' ')
+    {
+      /* Escape the space */
+      escape[escape_i] = '\\';
+      escape_i++;
+    }
+
+    /* Perform normal copy */
+    escape[escape_i] = path[i];
+    escape_i++;
+  }
+
+  return escape;
+}
+  
