@@ -65,6 +65,7 @@ int v_intenv_enable (i_resource *self)
    * Trigger Sets 
    */
 
+  i_triggerset *tset;
   tset = i_triggerset_create ("temp", "Temperature", "temp");
   tset->default_applyflag = 0;
   i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_GT, 40, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
