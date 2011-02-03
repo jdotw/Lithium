@@ -113,7 +113,7 @@ i_rrdtool_cmd* i_rrd_update_rrdcached (i_resource *self, char *filename, char *a
   socket_fd = socket(PF_UNIX, SOCK_STREAM, 0);
   if(socket_fd < 0)
   {
-    i_printf(1, "i_rrd_update_rrdcached failed to create socket");
+    i_printf(2, "i_rrd_update_rrdcached failed to create socket");
     return NULL;
   }
 
@@ -123,7 +123,7 @@ i_rrdtool_cmd* i_rrd_update_rrdcached (i_resource *self, char *filename, char *a
 
   if(connect(socket_fd, (struct sockaddr *) &address, SUN_LEN(&address)) != 0)
   {
-    i_printf(1, "i_rrd_update_rrdcached failed to call connect (%s)", strerror(errno));
+    i_printf(2, "i_rrd_update_rrdcached failed to call connect (%s)", strerror(errno));
     close(socket_fd);
     return NULL;
   }
@@ -140,7 +140,7 @@ i_rrdtool_cmd* i_rrd_update_rrdcached (i_resource *self, char *filename, char *a
   nbytes = read(socket_fd, &resp, 1023);
   if (nbytes < 1)
   {
-    i_printf (1, "i_rrd_update_rrdcached failed to read response");
+    i_printf (2, "i_rrd_update_rrdcached failed to read response");
   }
 
   close(socket_fd);

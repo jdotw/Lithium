@@ -157,6 +157,19 @@
 															repeats:YES];
 		
 	}
+	
+	/* Show/Hide Background Logo */
+	if (self.device)
+	{
+		/* Hide Background Logo when device is selected */
+		consoleLogoImage.hidden = YES;
+	}
+	else 
+	{
+		/* Show Background Logo when device is selected */
+		consoleLogoImage.hidden = NO;
+	}
+	
 }
 
 - (void) selectEntity:(LTEntity *)entity
@@ -637,6 +650,10 @@
 {
 	[super viewWillAppear:animated];
 	[self resizeAndInvalidateGraphViewContent];
+	
+	/* Set initial state of top-left labels */
+	topLeftLabel.hidden = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
+	topLeftArrowImage.hidden = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -773,20 +790,39 @@
 
 - (void) splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
 {
+	/* Source List is available as a pop-over */
+	pc.delegate = self;
 	barButtonItem.enabled = YES;
 	barButtonItem.image = [UIImage imageNamed:@"navlist.png"];
 	self.navigationItem.leftBarButtonItem = barButtonItem;
-	sidePopoverController = pc;
-	sidePopoverBarButtonItem = barButtonItem;
 	if (!self.activePopoverController) self.activePopoverController = pc;
+	
+	/* Show the source-list instructions 
+	 * Note: These are obstructed by the container/object scrollers 
+	 *       when a device is selected
+	 */
+	topLeftLabel.hidden = NO;
+	topLeftArrowImage.hidden = NO;	
 }
 
 - (void) splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
+	/* Source List is being shown in left-hand-side */
 	self.navigationItem.leftBarButtonItem = nil;
-	sidePopoverController = nil;
-	sidePopoverBarButtonItem = nil;
-	if (self.activePopoverController == sidePopoverController) self.activePopoverController = nil;
+	
+	/* Hide instructions */
+	topLeftLabel.hidden = YES;
+	topLeftArrowImage.hidden = YES;
+}
+	
+- (void) splitViewController:(UISplitViewController *)svc popoverController:(UIPopoverController *)pc willPresentViewController:(UIViewController *)aViewController
+{
+	/* Source list is about to present as the active popover */
+	self.activePopoverController = pc;
+	 
+	/* Hide the source-list instructions */
+	topLeftLabel.hidden = YES;
+	topLeftArrowImage.hidden = YES;
 }
 
 #pragma mark -
@@ -794,17 +830,8 @@
 
 - (void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
+	/* NULLify self.activePopoverController if necessary */
 	if (self.activePopoverController == popoverController) self.activePopoverController = nil;
-	availToolbarItem.enabled = YES;
-	sysinfoToolbarItem.enabled = YES;
-	incidentsToolbarItem.enabled = YES;
-	settingsToolbarItem.enabled = YES;
-	
-	/* Default to having the sidePopoverController as the
-	 * active PopOver controller because we get no 
-	 * feedback as to when this popover goes active
-	 */
-	if (sidePopoverController) self.activePopoverController = sidePopoverController;		
 }
 
 #pragma mark -

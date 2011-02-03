@@ -12,7 +12,7 @@
 
 @class LTGraphLegendTableViewController, LTGraphView, LTModalProgressViewController;
 
-@interface LTDeviceViewController : UIViewController <UIScrollViewDelegate, UIPopoverControllerDelegate>
+@interface LTDeviceViewController : UIViewController <UIScrollViewDelegate, UIPopoverControllerDelegate, UISplitViewControllerDelegate>
 {
 	/* Entity */
 	LTEntity *_device;
@@ -74,6 +74,11 @@
 	/* Refresh Timer */
 	NSTimer *refreshTimer;
 	NSTimer *graphRefreshTimer;	// Refresh offset by half of refreshTimer
+	
+	/* Background UI Elements */
+	IBOutlet UIImageView *consoleLogoImage;
+	IBOutlet UIImageView *topLeftArrowImage;
+	IBOutlet UILabel *topLeftLabel;
 }
 
 - (void) displayDevice:(LTEntity *)device withInitialSelection:(LTEntity *)initialSelection;

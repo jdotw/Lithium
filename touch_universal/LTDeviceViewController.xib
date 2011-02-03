@@ -58,7 +58,7 @@
 					</object>
 					<object class="IBUIImageView" id="850300861">
 						<reference key="NSNextResponder" ref="766721923"/>
-						<int key="NSvFlags">-2147483347</int>
+						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{152, 248}, {465, 465}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -606,6 +606,30 @@
 					</object>
 					<int key="connectionID">66</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">consoleLogoImage</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="850300861"/>
+					</object>
+					<int key="connectionID">71</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">topLeftArrowImage</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="905199776"/>
+					</object>
+					<int key="connectionID">72</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">topLeftLabel</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="734758818"/>
+					</object>
+					<int key="connectionID">73</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -845,7 +869,7 @@
 					<string>LTGraphLegendTableViewController</string>
 					<string>{{422, 110}, {768, 1024}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{822, 132}, {768, 1024}}</string>
+					<string>{{710, 180}, {768, 1024}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSMutableArray">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -951,7 +975,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">70</int>
+			<int key="maxID">73</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -963,6 +987,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>consoleLogoImage</string>
 							<string>containerEnclosingView</string>
 							<string>containerScrollView</string>
 							<string>graphEnclosingView</string>
@@ -979,9 +1004,12 @@
 							<string>rightAvgLabel</string>
 							<string>rightMaxLabel</string>
 							<string>rightMinLabel</string>
+							<string>topLeftArrowImage</string>
+							<string>topLeftLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIImageView</string>
 							<string>UIView</string>
 							<string>UIScrollView</string>
 							<string>UIView</string>
@@ -998,12 +1026,15 @@
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
+							<string>UIImageView</string>
+							<string>UILabel</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>consoleLogoImage</string>
 							<string>containerEnclosingView</string>
 							<string>containerScrollView</string>
 							<string>graphEnclosingView</string>
@@ -1020,9 +1051,15 @@
 							<string>rightAvgLabel</string>
 							<string>rightMaxLabel</string>
 							<string>rightMinLabel</string>
+							<string>topLeftArrowImage</string>
+							<string>topLeftLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">consoleLogoImage</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">containerEnclosingView</string>
 								<string key="candidateClassName">UIView</string>
@@ -1085,6 +1122,14 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">rightMinLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">topLeftArrowImage</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">topLeftLabel</string>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 						</object>
