@@ -241,12 +241,12 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
   port->too_many_rdy_count = l_snmp_metric_create (self, obj, "too_many_rdy_count", "Too Many RDYs Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.19", index_oidstr, RECMETHOD_NONE, 0);  
   port->too_many_rdy_count->hidden = 1;
   port->too_many_rdy_rate = i_metric_acrate_create (self, obj, "too_many_rdy_rate", "Too Many RDYs", "err/s", RECMETHOD_RRD, port->too_many_rdy_count, 0);
-  port->too_many_rdy_rate->record_defaultflag = 1;
+//  port->too_many_rdy_rate->record_defaultflag = 1;
 
   port->no_tx_credit_count = l_snmp_metric_create (self, obj, "no_tx_credit_count", "No TX Credit Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.20", index_oidstr, RECMETHOD_NONE, 0);  
   port->no_tx_credit_count->hidden = 1;
   port->no_tx_credit_rate = i_metric_acrate_create (self, obj, "no_tx_credit_rate", "No TX Credits", "err/s", RECMETHOD_RRD, port->no_tx_credit_count, 0);
-  port->no_tx_credit_rate->record_defaultflag = 1;
+//  port->no_tx_credit_rate->record_defaultflag = 1;
 
   port->rx_inenc_err_count = l_snmp_metric_create (self, obj, "rx_inenc_err_count", "In-Frame Encoding Error Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.21", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_inenc_err_count->hidden = 1;
@@ -257,7 +257,7 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
   port->rx_outenc_err_count = l_snmp_metric_create (self, obj, "rx_outenc_err_count", "Out-Frame Encoding Error Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.26", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_outenc_err_count->hidden = 1;
   port->rx_outenc_err_rate = i_metric_acrate_create (self, obj, "rx_outenc_err_rate", "Out-Frame Encoding Errors", "err/s", RECMETHOD_RRD, port->rx_outenc_err_count, 0);
-  port->rx_outenc_err_rate->record_defaultflag = 1;
+//  port->rx_outenc_err_rate->record_defaultflag = 1;
 
   port->rx_crc_count = l_snmp_metric_create (self, obj, "rx_crc_count", "CRC Error Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.22", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_crc_count->hidden = 1;
@@ -267,32 +267,32 @@ int v_port_objfact_fab_port (i_resource *self, i_container *cnt, i_object *obj, 
   port->rx_trunc_count = l_snmp_metric_create (self, obj, "rx_trunc_count", "Truncated Frame Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.23", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_trunc_count->hidden = 1;
   port->rx_trunc_rate = i_metric_acrate_create (self, obj, "rx_trunc_rate", "Truncated Frames", "err/s", RECMETHOD_RRD, port->rx_trunc_count, 0);
-  port->rx_trunc_rate->record_defaultflag = 1;
+//  port->rx_trunc_rate->record_defaultflag = 1;
 
   port->rx_too_long_count = l_snmp_metric_create (self, obj, "rx_too_long_count", "Oversize Frame Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.24", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_too_long_count->hidden = 1;
   port->rx_too_long_rate = i_metric_acrate_create (self, obj, "rx_too_long_rate", "Oversize Frames", "err/s", RECMETHOD_RRD, port->rx_too_long_count, 0);
-  port->rx_too_long_rate->record_defaultflag = 1;
+//  port->rx_too_long_rate->record_defaultflag = 1;
 
   port->rx_bad_eof_count = l_snmp_metric_create (self, obj, "rx_bad_eof_count", "Bad EOF Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.25", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_bad_eof_count->hidden = 1;
   port->rx_bad_eof_rate = i_metric_acrate_create (self, obj, "rx_bad_eof_rate", "Bad EOFs", "err/s", RECMETHOD_RRD, port->rx_bad_eof_count, 0);
-  port->rx_bad_eof_rate->record_defaultflag = 1;
+//  port->rx_bad_eof_rate->record_defaultflag = 1;
 
   port->rx_bad_os_count = l_snmp_metric_create (self, obj, "rx_bad_os_count", "Bad Ordered-Set Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.27", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_bad_os_count->hidden = 1;
   port->rx_bad_os_rate = i_metric_acrate_create (self, obj, "rx_bad_os_rate", "Bad Ordered-Sets", "err/s", RECMETHOD_RRD, port->rx_bad_os_count, 0);
-  port->rx_bad_os_rate->record_defaultflag = 1;
+//  port->rx_bad_os_rate->record_defaultflag = 1;
 
   port->rx_lip_count = l_snmp_metric_create (self, obj, "rx_lip_count", "Loop Inits Received Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.31", index_oidstr, RECMETHOD_NONE, 0);  
   port->rx_lip_count->hidden = 1;
   port->rx_lip_rate = i_metric_acrate_create (self, obj, "rx_lip_rate", "Loop Inits Received", "lip/s", RECMETHOD_RRD, port->rx_lip_count, 0);
-  port->rx_lip_rate->record_defaultflag = 1;
+//  port->rx_lip_rate->record_defaultflag = 1;
 
   port->tx_lip_count = l_snmp_metric_create (self, obj, "tx_lip_count", "Loop Inits Sent Count", METRIC_COUNT, ".1.3.6.1.4.1.1588.2.1.1.1.6.2.1.32", index_oidstr, RECMETHOD_NONE, 0);  
   port->tx_lip_count->hidden = 1;
   port->tx_lip_rate = i_metric_acrate_create (self, obj, "tx_lip_rate", "Loop Inits Sent", "lip/s", RECMETHOD_RRD, port->tx_lip_count, 0);
-  port->tx_lip_rate->record_defaultflag = 1;
+//  port->tx_lip_rate->record_defaultflag = 1;
 
   /* Evaluate all triggersets */
   i_triggerset_evalapprules_allsets (self, obj);

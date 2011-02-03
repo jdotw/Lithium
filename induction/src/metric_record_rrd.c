@@ -35,13 +35,22 @@ int i_metric_record_rrd (i_resource *self, i_metric *met)
    * for the given metric.
    */
 
+  /* Get current time */
   struct timeval now_tv;
-  i_metric_value *curval;
-
   gettimeofday (&now_tv, NULL);
 
+  /* Check last update time */
+  if (now_tv.tv_sec <= met->rrd_lastupdate_sec)
+  {
+    /* It's too soon for an update; rrd updates must be done in 1-second
+     * intervals
+     */
+    i_printf(1, "i_metric_record_rrd discarded update for %s:%s:%s due to < 1sec interval between updates", met->obj->cnt->name_str, met->obj->name_str, met->name_str);
+    return 0;
+  }
+
   /* Check for a current value */
-  curval = i_metric_curval (met);
+  i_metric_value *curval = i_metric_curval (met);
   if (!curval) 
   { return -1; }
 
@@ -57,6 +66,7 @@ int i_metric_record_rrd (i_resource *self, i_metric *met)
     met->rrd_update_args = temp;
   }
   met->rrd_update_count++;
+  met->rrd_lastupdate_sec = now_tv.tv_sec;
     
   /* Check 5-min recording interval */
   if ((now_tv.tv_sec - met->rrd_5min_tstamp.tv_sec) >= 300 || strlen(met->rrd_update_args) > 9000)

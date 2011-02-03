@@ -175,72 +175,72 @@ int v_port_objfact_fab (i_resource *self, i_container *cnt, i_object *obj, struc
   port->rx_link_reset_count = l_snmp_metric_create (self, obj, "rx_link_reset_count", "Link Resets Received Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.33"), index_oidstr, RECMETHOD_NONE, 0);
   port->rx_link_reset_count->hidden = 1;
   port->rx_link_reset_rate = i_metric_acrate_create (self, obj, "rx_link_reset_rate", "Link Resets Received", "lr/s", RECMETHOD_RRD, port->rx_link_reset_count, 0);
-  port->rx_link_reset_rate->record_defaultflag = 1;
+//  port->rx_link_reset_rate->record_defaultflag = 1;
 
   port->tx_link_reset_count = l_snmp_metric_create (self, obj, "tx_link_reset_count", "Link Resets Sent Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.34"), index_oidstr, RECMETHOD_NONE, 0);
   port->tx_link_reset_count->hidden = 1;
   port->tx_link_reset_rate = i_metric_acrate_create (self, obj, "tx_link_reset_rate", "Link Resets Sent", "lr/s", RECMETHOD_RRD, port->tx_link_reset_count, 0);
-  port->tx_link_reset_rate->record_defaultflag = 1;
+//  port->tx_link_reset_rate->record_defaultflag = 1;
 
   port->rx_ols_count = l_snmp_metric_create (self, obj, "rx_ols_count", "Offline Seq Received Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.36"), index_oidstr, RECMETHOD_NONE, 0);
   port->rx_ols_count->hidden = 1;
   port->rx_ols_rate = i_metric_acrate_create (self, obj, "rx_ols_rate", "Offline Seq Received", "seq/s", RECMETHOD_RRD, port->rx_ols_count, 0);
-  port->rx_ols_rate->record_defaultflag = 1;
+//  port->rx_ols_rate->record_defaultflag = 1;
 
   port->tx_ols_count = l_snmp_metric_create (self, obj, "tx_ols_count", "Offline Seq Sent Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.37"), index_oidstr, RECMETHOD_NONE, 0);
   port->tx_ols_count->hidden = 1;
   port->tx_ols_rate = i_metric_acrate_create (self, obj, "tx_ols_rate", "Offline Seq Sent", "seq/s", RECMETHOD_RRD, port->tx_ols_count, 0);
-  port->tx_ols_rate->record_defaultflag = 1;
+//  port->tx_ols_rate->record_defaultflag = 1;
 
   port->link_failure_count = l_snmp_metric_create (self, obj, "link_failure_count", "Link Failures", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.39"), index_oidstr, RECMETHOD_NONE, 0);
   port->link_failure_count->hidden = 1;
   port->link_failure_rate = i_metric_acrate_create (self, obj, "link_failure_rate", "Link Failure Rate", "err/s", RECMETHOD_RRD, port->link_failure_count, 0);
-  port->link_failure_rate->record_defaultflag = 1;
+//  port->link_failure_rate->record_defaultflag = 1;
 
   port->invalid_word_count = l_snmp_metric_create (self, obj, "invalid_word_count", "Invalid Word Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.41"), index_oidstr, RECMETHOD_NONE, 0);
   port->invalid_word_count->hidden = 1;
   port->invalid_word_rate = i_metric_acrate_create (self, obj, "invalid_word_rate", "Invalid Word Errors", "err/s", RECMETHOD_RRD, port->invalid_word_count, 0);
-  port->invalid_word_rate->record_defaultflag = 1;
+//  port->invalid_word_rate->record_defaultflag = 1;
 
   port->sequence_error_count = l_snmp_metric_create (self, obj, "sequence_error_count", "Sequence Error Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.42"), index_oidstr, RECMETHOD_NONE, 0);
   port->sequence_error_count->hidden = 1;
   port->sequence_error_rate = i_metric_acrate_create (self, obj, "sequence_error_rate", "Sequence Errors", "err/s", RECMETHOD_RRD, port->sequence_error_count, 0);
-  port->sequence_error_rate->record_defaultflag = 1;
+//  port->sequence_error_rate->record_defaultflag = 1;
 
   port->lost_signal_count = l_snmp_metric_create (self, obj, "lost_signal_count", "Lost Signal Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.43"), index_oidstr, RECMETHOD_NONE, 0);
   port->lost_signal_count->hidden = 1;
   port->lost_signal_rate = i_metric_acrate_create (self, obj, "lost_signal_rate", "Lost Signal Rate", "err/s", RECMETHOD_RRD, port->lost_signal_count, 0);
-  port->lost_signal_rate->record_defaultflag = 1;
+//  port->lost_signal_rate->record_defaultflag = 1;
 
   port->lost_sync_count = l_snmp_metric_create (self, obj, "lost_sync_count", "Lost Sync Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.44"), index_oidstr, RECMETHOD_NONE, 0);
   port->lost_sync_count->hidden = 1;
   port->lost_sync_rate = i_metric_acrate_create (self, obj, "lost_sync_rate", "Lost Sync Rate", "err/s", RECMETHOD_RRD, port->lost_sync_count, 0);
-  port->lost_sync_rate->record_defaultflag = 1;
+//  port->lost_sync_rate->record_defaultflag = 1;
 
   port->invalid_os_count = l_snmp_metric_create (self, obj, "invalid_os_count", "Bad Ordered Set Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.45"), index_oidstr, RECMETHOD_NONE, 0);
   port->invalid_os_count->hidden = 1;
   port->invalid_os_rate = i_metric_acrate_create (self, obj, "invalid_os_rate", "Bad Ordered Sets", "err/s", RECMETHOD_RRD, port->invalid_os_count, 0);
-  port->invalid_os_rate->record_defaultflag = 1;
+//  port->invalid_os_rate->record_defaultflag = 1;
 
   port->frame_too_long_count = l_snmp_metric_create (self, obj, "frame_too_long_count", "Oversize Frame Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.46"), index_oidstr, RECMETHOD_NONE, 0);
   port->frame_too_long_count->hidden = 1;
   port->frame_too_long_rate = i_metric_acrate_create (self, obj, "frame_too_long_rate", "Oversize Frames", "err/s", RECMETHOD_RRD, port->frame_too_long_count, 0);
-  port->frame_too_long_rate->record_defaultflag = 1;
+//  port->frame_too_long_rate->record_defaultflag = 1;
 
   port->frame_trunc_count = l_snmp_metric_create (self, obj, "frame_trunc_count", "Truncated Frame Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.47"), index_oidstr, RECMETHOD_NONE, 0);
   port->frame_trunc_count->hidden = 1;
   port->frame_trunc_rate = i_metric_acrate_create (self, obj, "frame_trunc_rate", "Truncated Frames", "err/s", RECMETHOD_RRD, port->frame_trunc_count, 0);
-  port->frame_trunc_rate->record_defaultflag = 1;
+//  port->frame_trunc_rate->record_defaultflag = 1;
 
   port->addr_error_count = l_snmp_metric_create (self, obj, "addr_error_count", "Address Error Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.48"), index_oidstr, RECMETHOD_NONE, 0);
   port->addr_error_count->hidden = 1;
   port->addr_error_rate = i_metric_acrate_create (self, obj, "addr_error_rate", "Address Errors", "err/s", RECMETHOD_RRD, port->addr_error_count, 0);
-  port->addr_error_rate->record_defaultflag = 1;
+//  port->addr_error_rate->record_defaultflag = 1;
 
   port->delim_error_count = l_snmp_metric_create (self, obj, "delim_error_count", "Delimiter Error Count", METRIC_COUNT_HEX64, v_unit_oid_glue(unit->oid_suffix, ".1.3.6.1.3.94.4.5.1.49"), index_oidstr, RECMETHOD_NONE, 0);
   port->delim_error_count->hidden = 1;
   port->delim_error_rate = i_metric_acrate_create (self, obj, "delim_error_rate", "Delimiter Errors", "err/s", RECMETHOD_RRD, port->delim_error_count, 0);
-  port->delim_error_rate->record_defaultflag = 1;
+//  port->delim_error_rate->record_defaultflag = 1;
 
   /* 
    * Generic Error Stats 

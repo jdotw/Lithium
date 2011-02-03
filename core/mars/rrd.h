@@ -8,7 +8,11 @@ typedef struct
   struct i_socket_callback_s *sockcb;
 } m_rrd_proc;
 
-#define RRD_PROC_COUNT 5
+#if (defined (__i386__) || defined( __x86_64__ ))
+  #define RRD_PROC_COUNT 1
+#else
+  #define RRD_PROC_COUNT 5
+#endif
 #define MAX_P1_Q_LENGTH 10000
 #define MAX_P2_Q_LENGTH 1000
 

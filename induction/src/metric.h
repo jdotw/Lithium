@@ -126,6 +126,7 @@ typedef struct i_metric_s
   /* RRD Validity variables */
   time_t rrd_month_vsec;                /* Earliest time a new month rrd file needs to be created */
   time_t rrd_year_vsec;                 /* Earliest time a new year rrd file needs to be created */
+  time_t rrd_lastupdate_sec;               /* Time stamp of last rrd update (to enforce minimum update interval) */
 
   /* RRD value queues */
   struct timeval rrd_5min_tstamp;       /* Last time a 5-min update was done */ 
