@@ -13,6 +13,8 @@
 
 @implementation LTTableView
 
+@synthesize backgroundImage;
+
 + (UITableViewCellStyle) defaultCellStyle
 {
 	return UITableViewStylePlain;
@@ -21,12 +23,22 @@
 - (void) awakeFromNib
 {
 	self.separatorStyle = UITableViewCellSeparatorStyleNone;
+	self.backgroundImage = [UIImage imageNamed:@"noiseback-light.png"];
 }
 
 - (void) drawRect:(CGRect)theRect
 {
-	UIImage *image = [UIImage imageNamed:@"noiseback-light.png"];
-	[image drawAsPatternInRect:self.bounds];
+	[super drawRect:theRect];
+	if (self.backgroundImage)
+	{
+		[self.backgroundImage drawAsPatternInRect:self.bounds];
+	}
+}
+
+- (void) setBackgroundColor:(UIColor *)color
+{
+	[super setBackgroundColor:color];
+	self.backgroundImage = nil;
 }
 
 @end

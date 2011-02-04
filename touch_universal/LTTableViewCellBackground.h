@@ -18,5 +18,6 @@
 
 @property (assign, nonatomic) UITableViewCell *cell;
 @property (assign, nonatomic) int entityState;
+@property (nonatomic, assign) BOOL drawEntityStateBackgroundColor;
 
 @end

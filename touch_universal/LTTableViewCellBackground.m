@@ -11,7 +11,7 @@
 
 @implementation LTTableViewCellBackground
 
-@synthesize entityState, cell;
+@synthesize entityState, cell, drawEntityStateBackgroundColor;
 
 - (void) setEntityState:(int)value
 {
@@ -25,7 +25,7 @@
 {
     if (self = [super initWithFrame:frame]) 
 	{
-		
+		self.drawEntityStateBackgroundColor = YES;
     }
     return self;
 }
@@ -34,24 +34,31 @@
 {
 	/* Draw status-color background */
 	UIImage *backImage;
-	switch (self.entityState) 
+	if (drawEntityStateBackgroundColor)
 	{
-		case 1:
-			/* Yellow */
-			backImage = [UIImage imageNamed:@"LTTableViewCellBack-Yellow"];
-			break;
-		case 2:
-			/* Orange */
-			backImage = [UIImage imageNamed:@"LTTableViewCellBack-Orange"];
-			break;
-		case 3:
-			/* Red */
-			backImage = [UIImage imageNamed:@"LTTableViewCellBack-Red"];
-			break;
-		default:
-			/* Grey */
-			backImage = [UIImage imageNamed:@"LTTableViewCellBack-Gray"];
-			break;
+		switch (self.entityState) 
+		{
+			case 1:
+				/* Yellow */
+				backImage = [UIImage imageNamed:@"LTTableViewCellBack-Yellow"];
+				break;
+			case 2:
+				/* Orange */
+				backImage = [UIImage imageNamed:@"LTTableViewCellBack-Orange"];
+				break;
+			case 3:
+				/* Red */
+				backImage = [UIImage imageNamed:@"LTTableViewCellBack-Red"];
+				break;
+			default:
+				/* Grey */
+				backImage = [UIImage imageNamed:@"LTTableViewCellBack-Gray"];
+				break;
+		}
+	}
+	else 
+	{
+		backImage = [UIImage imageNamed:@"LTTableViewCellBack-Gray"];
 	}
 	[backImage drawInRect:self.bounds];
 	

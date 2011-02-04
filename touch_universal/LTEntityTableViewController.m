@@ -21,6 +21,8 @@
 #import "LTTableView.h"
 #import "LTDeviceEditTableViewController.h"
 #import "AppDelegate_Pad.h"
+#import "LTHardwareEntityTableViewCell.h"
+#import "LTDeviceEntityTableViewCell.h"
 
 @interface LTEntityTableViewController (private)
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
@@ -69,7 +71,12 @@
 																									target:self
 																									action:@selector(addDeviceTouched:)] autorelease];
 		}
-			
+		
+		if (entity.type >= 2)
+		{
+			/* Children entities will be "hardware" entities, use the rack background */
+			self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"RackBackTile.png"]];
+		}
 	}
 	else
 	{
@@ -290,17 +297,14 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (tableView != self.searchDisplayController.searchResultsTableView && [children count] == 0 && entity.refreshInProgress)
-	{ return self.tableView.frame.size.height; }
+	{
+		/* Refresh cell */
+		return self.tableView.frame.size.height; 
+	}
 	else
 	{ 
-		if (tableView.frame.size.height > 600)
-		{ 
-			return 52.0; 
-		}
-		else
-		{
-			return 48.0; 
-		}
+		/* Normal Cell */
+		return 52.0; 
 	}
 }
 
@@ -384,7 +388,20 @@
 	
     NSString *CellIdentifier;
 	if (displayEntity)
-	{ CellIdentifier = @"Entity"; }
+	{ 
+		if (displayEntity.type >= 3)
+		{
+			switch (displayEntity.type) {
+				case 3:
+					CellIdentifier = @"Device";
+					break;
+				default:
+					CellIdentifier = @"Hardware";
+					break;
+			}
+		}
+		else CellIdentifier = @"Entity"; 
+	}
 	else 
 	{ CellIdentifier = @"Refresh"; }
     LTEntityTableViewCell *cell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -393,6 +410,14 @@
 		if ([CellIdentifier isEqualToString:@"Entity"])
 		{
 			cell = [[[LTEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+		}
+		else if ([CellIdentifier isEqualToString:@"Device"])
+		{
+			cell = [[[LTDeviceEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+		}
+		else if ([CellIdentifier isEqualToString:@"Hardware"])
+		{
+			cell = [[[LTHardwareEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
 		}
 		else if ([CellIdentifier isEqualToString:@"Refresh"])
 		{
@@ -653,7 +678,7 @@
 - (void) searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
 {
 	tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-	tableView.backgroundColor = [UIColor colorWithWhite:0.29 alpha:1.0];	
+	tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"RackBackTile.png"]];
 }
 
 -(void) searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller

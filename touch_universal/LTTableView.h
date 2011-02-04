@@ -14,5 +14,7 @@
 }
 
 + (UITableViewCellStyle) defaultCellStyle;
+@property (nonatomic, retain) UIImage *backgroundImage;
+
 
 @end

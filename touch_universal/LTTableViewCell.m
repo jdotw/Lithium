@@ -13,7 +13,7 @@
 
 @implementation LTTableViewCell
 
-@synthesize entityState;
+@synthesize entityState, drawEntityStateBackgroundColor;
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -62,6 +62,15 @@
 			break;
 	}
 }
+
+- (void) setDrawEntityStateBackgroundColor:(BOOL)value
+{
+	drawEntityStateBackgroundColor = value;
+	if ([self.backgroundView isMemberOfClass:[LTTableViewCellBackground class]])
+	{ ((LTTableViewCellBackground *)self.backgroundView).drawEntityStateBackgroundColor = self.drawEntityStateBackgroundColor; }
+}
+
+	
 
 - (void)dealloc {
     [super dealloc];

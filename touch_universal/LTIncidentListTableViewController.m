@@ -360,6 +360,7 @@
     if (cell == nil) 
 	{
 		cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+		cell.drawEntityStateBackgroundColor = NO;
     }
 	
     // Set up the cell...

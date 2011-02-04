@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface LTTableViewCell : UITableViewCell 
 {
-
+	
 }
 
 @property (nonatomic, assign) int entityState;
+@property (nonatomic, assign) BOOL drawEntityStateBackgroundColor;
 
 @end
