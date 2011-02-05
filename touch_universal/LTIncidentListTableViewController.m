@@ -17,6 +17,9 @@
 #import "LTEntityDescriptor.h"
 #import "LTEntityRefreshProgressViewCell.h"
 #import "LTTableViewCell.h"
+#import "LTIncidentTableViewCell.h"
+#import "LTRackTableViewHeaderView.h"
+#import "LTDeviceEntityTableViewCell.h"
 
 @interface LTIncidentListTableViewController (Private)
 
@@ -24,6 +27,8 @@
 
 @end
 
+#define SORT_BY_DEVICE 0
+#define SORT_BY_TIME 1
 
 @implementation LTIncidentListTableViewController
 
@@ -37,6 +42,9 @@
 	 * ever show the active incident list and not a historic list 
 	 */
 	[super awakeFromNib];	
+    
+    /* Setup rack appearance of table view */
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"RackBackTile.png"]];
 
 	/* Listen to refresh of any incident list (we are the global list if awoken from NIB) */
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -87,14 +95,7 @@
 					if (!group)
 					{
 						group = [[LTIncidentListGroup new] autorelease];
-						if ([incident.entityDescriptor.siteName isEqualToString:@"default"])
-						{ group.title = [NSString stringWithFormat:@"%@", incident.entityDescriptor.devDesc];	}
-						else
-						{ 
-							group.title = [NSString stringWithFormat:@"%@ @ %@", incident.entityDescriptor.devDesc, incident.entityDescriptor.siteDesc];
-							if ([incident.entityDescriptor.siteSuburb length] > 0) 
-							{ group.title = [NSString stringWithFormat:@"%@ (%@)", group.title, incident.entityDescriptor.siteSuburb]; }
-						}
+                        group.title = incident.entityDescriptor.devDesc;
 						[deviceDict setObject:group forKey:key];
 						[array addObject:group];
 					}
@@ -270,6 +271,34 @@
 	{ return 1; }
 }
 
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (sortSegment.selectedSegmentIndex == SORT_BY_DEVICE) return 48.;
+    else if (sortSegment.selectedSegmentIndex == SORT_BY_TIME) return 28.; 
+    else return 20.;
+}
+
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (sortSegment.selectedSegmentIndex == SORT_BY_DEVICE && section < sortedChildren.count)
+    {
+        /* Use device view */
+        LTDeviceEntityTableViewCell *deviceView = [[LTDeviceEntityTableViewCell alloc] initWithReuseIdentifier:@"blah"];
+        LTIncidentListGroup *group = [sortedChildren objectAtIndex:section];
+        deviceView.textLabel.text = group.title;
+        deviceView.entityState = group.highestEntityState;
+        return deviceView;
+    }
+    if (sortSegment.selectedSegmentIndex == SORT_BY_TIME && section < sortedChildren.count)
+    {
+        /* Use rack section header */
+        LTRackTableViewHeaderView *header = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero]; 
+        header.textLabel.text = [self tableView:tableView titleForHeaderInSection:section];
+        return header;
+    }
+    else return nil;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	if (sortedChildren.count > 0)
@@ -296,7 +325,7 @@
 	if ([sortedChildren count] == 0)
 	{ return [self.tableView frame].size.height; }
 	else
-	{ return 48.0; }
+	{ return 32.0; }    // Ticket image height is 40., use 32. to overlap
 }
 
 - (NSString *) incidentActiveIntervalString:(LTIncident *)incident
@@ -356,31 +385,28 @@
 		return cell;
 	}
     
-    LTTableViewCell *cell = (LTTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    LTIncidentTableViewCell *cell = (LTIncidentTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-		cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-		cell.drawEntityStateBackgroundColor = NO;
+		cell = [[[LTIncidentTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
 	
     // Set up the cell...
 	LTIncidentListGroup *group = (LTIncidentListGroup *) [sortedChildren objectAtIndex:indexPath.section];
 	LTIncident *incident = [group.children objectAtIndex:[indexPath row]];
-	cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
-	cell.detailTextLabel.font = [UIFont systemFontOfSize:10.0];
 	if (sortSegment.selectedSegmentIndex == 0)
 	{
 		/* By-Device Display */
-		cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@", incident.entityDescriptor.cntDesc, incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.entityDescriptor.trgDesc];
+		cell.incidentLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@", incident.entityDescriptor.cntDesc, incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.entityDescriptor.trgDesc];
 		cell.detailTextLabel.text = [NSString stringWithFormat:@"Reached or exceeded %@ for %@", incident.raisedValue, [self incidentActiveIntervalString:incident]];
 	}
 	else
 	{
 		/* By-Time Display */
 		if (![incident.entityDescriptor.siteName isEqualToString:@"default"])
-		{ cell.textLabel.text = [NSString stringWithFormat:@"%@ %@ @ %@", incident.entityDescriptor.devDesc, incident.entityDescriptor.cntDesc, incident.entityDescriptor.siteDesc]; }
+		{ cell.incidentLabel.text = [NSString stringWithFormat:@"%@ %@ @ %@", incident.entityDescriptor.devDesc, incident.entityDescriptor.cntDesc, incident.entityDescriptor.siteDesc]; }
 		else
-		{ cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", incident.entityDescriptor.devDesc, incident.entityDescriptor.cntDesc]; } 
+		{ cell.incidentLabel.text = [NSString stringWithFormat:@"%@ %@", incident.entityDescriptor.devDesc, incident.entityDescriptor.cntDesc]; } 
 		cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@ Reached or exceeded %@", incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.raisedValue];
 	}
 	cell.entityState = incident.entityDescriptor.opState;

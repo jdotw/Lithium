@@ -17,6 +17,7 @@
 
 @property (readonly) NSMutableArray *children;
 @property (copy) NSString *title;
+@property (readonly) int highestEntityState;
 
 
 @end

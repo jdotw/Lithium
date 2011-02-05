@@ -23,6 +23,7 @@
 #import "AppDelegate_Pad.h"
 #import "LTHardwareEntityTableViewCell.h"
 #import "LTDeviceEntityTableViewCell.h"
+#import "LTRackTableViewHeaderView.h"
 
 @interface LTEntityTableViewController (private)
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
@@ -33,6 +34,11 @@
 @implementation LTEntityTableViewController
 
 @synthesize externalNavigationController;
+
+- (BOOL) _groupDevicesByLocation
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:kDeviceListGroupByLocation];
+}
 
 - (id)initWithEntity:(LTEntity *)initEntity
 {
@@ -72,7 +78,7 @@
 																									action:@selector(addDeviceTouched:)] autorelease];
 		}
 		
-		if (entity.type >= 2)
+		if (entity.type >= 2 || (entity.type == 1 && [self _groupDevicesByLocation]))
 		{
 			/* Children entities will be "hardware" entities, use the rack background */
 			self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"RackBackTile.png"]];
@@ -154,7 +160,7 @@
 
 - (CGSize) contentSizeForViewInPopover
 {
-	return CGSizeMake(300.0, 500.0);
+	return CGSizeMake(320.0, 500.0);
 }
 
 - (void)viewWillAppear:(BOOL)animated 
@@ -224,11 +230,6 @@
 
 #pragma mark "Table view methods"
 
-- (BOOL) _groupDevicesByLocation
-{
-	return [[NSUserDefaults standardUserDefaults] boolForKey:kDeviceListGroupByLocation];
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
 	if (tableView == self.searchDisplayController.searchResultsTableView)
@@ -265,6 +266,24 @@
 			return nil;
 		}		
 	}
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *label = [self tableView:tableView titleForHeaderInSection:section];
+    if (label)
+    { 
+        LTRackTableViewHeaderView *header = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero]; 
+        header.textLabel.text = label;
+        return header;
+    }
+    else
+    { return nil; }
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 28.0;    // Rack "tape" header view is always 28. high
 }
 
 // Customize the number of rows in the table view.

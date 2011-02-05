@@ -128,6 +128,17 @@
 		1099A2C312AEC566007C1274 /* SyncLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 1099A2C212AEC566007C1274 /* SyncLogo.png */; };
 		109DA38812829C8600577BAA /* noiseback.png in Resources */ = {isa = PBXBuildFile; fileRef = 109DA38712829C8600577BAA /* noiseback.png */; };
 		109DA4371282B14200577BAA /* LTEntityIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 109DA4361282B14200577BAA /* LTEntityIconView.m */; };
+		109E815912FCD89700265BAF /* LTRackTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 109E815812FCD89700265BAF /* LTRackTableViewHeaderView.m */; };
+		109E815B12FCDA9900265BAF /* HeaderViewWhiteTape1.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E815A12FCDA9900265BAF /* HeaderViewWhiteTape1.png */; };
+		109E815D12FCDF1D00265BAF /* RackHeaderViewBackTile.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E815C12FCDF1D00265BAF /* RackHeaderViewBackTile.png */; };
+		109E815F12FCE68E00265BAF /* DarkScrewHole.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E815E12FCE68E00265BAF /* DarkScrewHole.png */; };
+		109E816312FCE87000265BAF /* LTIncidentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 109E816212FCE87000265BAF /* LTIncidentTableViewCell.m */; };
+		109E816B12FCFC1500265BAF /* IncidentFlag-Gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E816612FCFC1500265BAF /* IncidentFlag-Gray.png */; };
+		109E816C12FCFC1500265BAF /* IncidentFlag-Green.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E816712FCFC1500265BAF /* IncidentFlag-Green.png */; };
+		109E816D12FCFC1500265BAF /* IncidentFlag-Orange.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E816812FCFC1500265BAF /* IncidentFlag-Orange.png */; };
+		109E816E12FCFC1500265BAF /* IncidentFlag-Red.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E816912FCFC1500265BAF /* IncidentFlag-Red.png */; };
+		109E817112FCFD4500265BAF /* IncidentPaperTicket1.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E817012FCFD4500265BAF /* IncidentPaperTicket1.png */; };
+		109E817512FCFE3300265BAF /* IncidentFlag-Yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 109E817412FCFE3300265BAF /* IncidentFlag-Yellow.png */; };
 		10A73B6F12FBB191005CFDD5 /* LTHardwareEntityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 10A73B6E12FBB191005CFDD5 /* LTHardwareEntityTableViewCell.m */; };
 		10A73B9112FBBBB2005CFDD5 /* LED-Blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A73B8B12FBBBB2005CFDD5 /* LED-Blue.png */; };
 		10A73B9212FBBBB2005CFDD5 /* LED-Green.png in Resources */ = {isa = PBXBuildFile; fileRef = 10A73B8C12FBBBB2005CFDD5 /* LED-Green.png */; };
@@ -346,6 +357,19 @@
 		109DA38712829C8600577BAA /* noiseback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noiseback.png; sourceTree = "<group>"; };
 		109DA4351282B14200577BAA /* LTEntityIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTEntityIconView.h; sourceTree = "<group>"; };
 		109DA4361282B14200577BAA /* LTEntityIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTEntityIconView.m; sourceTree = "<group>"; };
+		109E815712FCD89700265BAF /* LTRackTableViewHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTRackTableViewHeaderView.h; sourceTree = "<group>"; };
+		109E815812FCD89700265BAF /* LTRackTableViewHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTRackTableViewHeaderView.m; sourceTree = "<group>"; };
+		109E815A12FCDA9900265BAF /* HeaderViewWhiteTape1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HeaderViewWhiteTape1.png; sourceTree = "<group>"; };
+		109E815C12FCDF1D00265BAF /* RackHeaderViewBackTile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RackHeaderViewBackTile.png; sourceTree = "<group>"; };
+		109E815E12FCE68E00265BAF /* DarkScrewHole.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DarkScrewHole.png; sourceTree = "<group>"; };
+		109E816112FCE87000265BAF /* LTIncidentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTIncidentTableViewCell.h; sourceTree = "<group>"; };
+		109E816212FCE87000265BAF /* LTIncidentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTIncidentTableViewCell.m; sourceTree = "<group>"; };
+		109E816612FCFC1500265BAF /* IncidentFlag-Gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentFlag-Gray.png"; sourceTree = "<group>"; };
+		109E816712FCFC1500265BAF /* IncidentFlag-Green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentFlag-Green.png"; sourceTree = "<group>"; };
+		109E816812FCFC1500265BAF /* IncidentFlag-Orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentFlag-Orange.png"; sourceTree = "<group>"; };
+		109E816912FCFC1500265BAF /* IncidentFlag-Red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentFlag-Red.png"; sourceTree = "<group>"; };
+		109E817012FCFD4500265BAF /* IncidentPaperTicket1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IncidentPaperTicket1.png; sourceTree = "<group>"; };
+		109E817412FCFE3300265BAF /* IncidentFlag-Yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentFlag-Yellow.png"; sourceTree = "<group>"; };
 		10A73B6D12FBB191005CFDD5 /* LTHardwareEntityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTHardwareEntityTableViewCell.h; sourceTree = "<group>"; };
 		10A73B6E12FBB191005CFDD5 /* LTHardwareEntityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTHardwareEntityTableViewCell.m; sourceTree = "<group>"; };
 		10A73B8B12FBBBB2005CFDD5 /* LED-Blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LED-Blue.png"; sourceTree = "<group>"; };
@@ -591,6 +615,7 @@
 		105EDE7211BC392000B294B4 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
+				109E815612FCD84700265BAF /* Table View Header and Footer Views */,
 				10A73B4B12FBADB0005CFDD5 /* Table View Cells */,
 				104F699612C03EF000074651 /* Device Setup (iPad Only) */,
 				10934AB011BEA0F5009EF1F7 /* Graph View */,
@@ -838,9 +863,36 @@
 			name = "Graph View";
 			sourceTree = "<group>";
 		};
+		109E815612FCD84700265BAF /* Table View Header and Footer Views */ = {
+			isa = PBXGroup;
+			children = (
+				109E815712FCD89700265BAF /* LTRackTableViewHeaderView.h */,
+				109E815812FCD89700265BAF /* LTRackTableViewHeaderView.m */,
+				109E815A12FCDA9900265BAF /* HeaderViewWhiteTape1.png */,
+				109E815C12FCDF1D00265BAF /* RackHeaderViewBackTile.png */,
+			);
+			name = "Table View Header and Footer Views";
+			sourceTree = "<group>";
+		};
+		109E816012FCE85600265BAF /* Incident Table View Cell */ = {
+			isa = PBXGroup;
+			children = (
+				109E816112FCE87000265BAF /* LTIncidentTableViewCell.h */,
+				109E816212FCE87000265BAF /* LTIncidentTableViewCell.m */,
+				109E817012FCFD4500265BAF /* IncidentPaperTicket1.png */,
+				109E817412FCFE3300265BAF /* IncidentFlag-Yellow.png */,
+				109E816612FCFC1500265BAF /* IncidentFlag-Gray.png */,
+				109E816712FCFC1500265BAF /* IncidentFlag-Green.png */,
+				109E816812FCFC1500265BAF /* IncidentFlag-Orange.png */,
+				109E816912FCFC1500265BAF /* IncidentFlag-Red.png */,
+			);
+			name = "Incident Table View Cell";
+			sourceTree = "<group>";
+		};
 		10A73B4B12FBADB0005CFDD5 /* Table View Cells */ = {
 			isa = PBXGroup;
 			children = (
+				109E816012FCE85600265BAF /* Incident Table View Cell */,
 				10A73B5812FBAE30005CFDD5 /* Hardware Table View Cells */,
 				105EDE7711BC392000B294B4 /* LTEntityTableViewCell.h */,
 				105EDE7811BC392000B294B4 /* LTEntityTableViewCell.m */,
@@ -882,6 +934,7 @@
 			isa = PBXGroup;
 			children = (
 				10A73C5D12FBC26B005CFDD5 /* ScrewHole.png */,
+				109E815E12FCE68E00265BAF /* DarkScrewHole.png */,
 			);
 			name = Screws;
 			sourceTree = "<group>";
@@ -1186,6 +1239,15 @@
 				10A73CC412FBEA37005CFDD5 /* DeviceVent.png in Resources */,
 				10A73CC512FBEA37005CFDD5 /* DeviceVentMesh.png in Resources */,
 				10A73CFF12FBF082005CFDD5 /* RackBackTile.png in Resources */,
+				109E815B12FCDA9900265BAF /* HeaderViewWhiteTape1.png in Resources */,
+				109E815D12FCDF1D00265BAF /* RackHeaderViewBackTile.png in Resources */,
+				109E815F12FCE68E00265BAF /* DarkScrewHole.png in Resources */,
+				109E816B12FCFC1500265BAF /* IncidentFlag-Gray.png in Resources */,
+				109E816C12FCFC1500265BAF /* IncidentFlag-Green.png in Resources */,
+				109E816D12FCFC1500265BAF /* IncidentFlag-Orange.png in Resources */,
+				109E816E12FCFC1500265BAF /* IncidentFlag-Red.png in Resources */,
+				109E817112FCFD4500265BAF /* IncidentPaperTicket1.png in Resources */,
+				109E817512FCFE3300265BAF /* IncidentFlag-Yellow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1265,6 +1327,8 @@
 				1066F2E312F60A7000487979 /* LTDeviceEditLocationListTableViewController.m in Sources */,
 				10A73B6F12FBB191005CFDD5 /* LTHardwareEntityTableViewCell.m in Sources */,
 				10A73CC812FBEA6B005CFDD5 /* LTDeviceEntityTableViewCell.m in Sources */,
+				109E815912FCD89700265BAF /* LTRackTableViewHeaderView.m in Sources */,
+				109E816312FCE87000265BAF /* LTIncidentTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
