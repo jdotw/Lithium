@@ -372,7 +372,7 @@
 {
 	if (!graphAndLegendIsHidden)
 	{
-		[UIView animateWithDuration:0.25 animations:^{ graphEnclosingView.alpha = 0.; graphLegendTableView.alpha = 0.; }];
+		[UIView animateWithDuration:0.25 animations:^{ graphEnclosingView.alpha = 0.; graphLegendTableView.alpha = 0.; graphLegendEnclosingView.alpha = 0.; }];
 		graphAndLegendIsHidden = YES;
 	}
 }
@@ -381,7 +381,7 @@
 {
 	if (graphAndLegendIsHidden)
 	{
-		[UIView animateWithDuration:0.25 animations:^{ graphEnclosingView.alpha = 1.; graphLegendTableView.alpha = 1.; }];
+		[UIView animateWithDuration:0.25 animations:^{ graphEnclosingView.alpha = 1.; graphLegendTableView.alpha = 1.; graphLegendEnclosingView.alpha = 1.; }];
 		graphAndLegendIsHidden = NO;
 	}
 }
@@ -573,6 +573,7 @@
 	/* Move/Hide interface components */
 	containerEnclosingView.hidden = YES;
 	graphEnclosingView.alpha = 0.;
+    graphLegendEnclosingView.alpha = 0.;
 	graphLegendTableView.alpha = 0.;
 	graphAndLegendIsHidden = YES;
 	CGRect graphRect = graphEnclosingView.frame;

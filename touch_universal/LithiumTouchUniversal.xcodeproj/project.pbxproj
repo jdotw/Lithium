@@ -100,6 +100,7 @@
 		105EDF5111BC3AF400B294B4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 105EDF5011BC3AF400B294B4 /* QuartzCore.framework */; };
 		1066F2E312F60A7000487979 /* LTDeviceEditLocationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1066F2E212F60A7000487979 /* LTDeviceEditLocationListTableViewController.m */; };
 		106CB6E211BF79D000F3382D /* LTWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 106CB6E111BF79D000F3382D /* LTWindow.m */; };
+		106DB11E12FDF651006262FE /* GraphLegendLipGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 106DB11D12FDF651006262FE /* GraphLegendLipGradient.png */; };
 		107819121290A797006E60F4 /* navlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 107819111290A797006E60F4 /* navlist.png */; };
 		107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107C3276127FB97F00C2321F /* LTObjectIconViewController.m */; };
 		107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */; };
@@ -323,6 +324,7 @@
 		1066F2E212F60A7000487979 /* LTDeviceEditLocationListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditLocationListTableViewController.m; sourceTree = "<group>"; };
 		106CB6E011BF79D000F3382D /* LTWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTWindow.h; sourceTree = "<group>"; };
 		106CB6E111BF79D000F3382D /* LTWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTWindow.m; sourceTree = "<group>"; };
+		106DB11D12FDF651006262FE /* GraphLegendLipGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GraphLegendLipGradient.png; sourceTree = "<group>"; };
 		107819111290A797006E60F4 /* navlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navlist.png; sourceTree = "<group>"; };
 		107C3275127FB97F00C2321F /* LTObjectIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTObjectIconViewController.h; sourceTree = "<group>"; };
 		107C3276127FB97F00C2321F /* LTObjectIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTObjectIconViewController.m; sourceTree = "<group>"; };
@@ -456,6 +458,7 @@
 				104B84A11293123500E77D88 /* noiseback-light.png */,
 				104DEF6C12836995008A7936 /* ContainerScrollBack.png */,
 				104DEF6D12836995008A7936 /* ObjectScrollBack.png */,
+				106DB11D12FDF651006262FE /* GraphLegendLipGradient.png */,
 				102C692411BCE8F40032D043 /* LTDeviceViewController.h */,
 				102C692511BCE8F40032D043 /* LTDeviceViewController.m */,
 				102C692611BCE8F40032D043 /* LTDeviceViewController.xib */,
@@ -1248,6 +1251,7 @@
 				109E816E12FCFC1500265BAF /* IncidentFlag-Red.png in Resources */,
 				109E817112FCFD4500265BAF /* IncidentPaperTicket1.png in Resources */,
 				109E817512FCFE3300265BAF /* IncidentFlag-Yellow.png in Resources */,
+				106DB11E12FDF651006262FE /* GraphLegendLipGradient.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

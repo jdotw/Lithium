@@ -49,6 +49,7 @@
 	IBOutlet UILabel *rightMinLabel;
 	LTGraphView *graphView;
 	BOOL graphAndLegendIsHidden;
+    IBOutlet UIView *graphLegendEnclosingView;
 	IBOutlet UITableView *graphLegendTableView;
 	IBOutlet LTGraphLegendTableViewController *graphLegendTableViewController;
 
