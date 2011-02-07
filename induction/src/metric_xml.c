@@ -161,6 +161,12 @@ void i_metric_xml_summary (i_entity *ent, xmlNodePtr ent_node, unsigned short fl
   /* Units */
   xmlNewChild (ent_node, NULL, BAD_CAST "units", BAD_CAST met->unit_str);
 
+  /* Trigger Presences */
+  if (met->trg_list && met->trg_list->size)
+  { xmlNewChild (ent_node, NULL, BAD_CAST "has_triggers", BAD_CAST "1"); }
+  else
+  { xmlNewChild (ent_node, NULL, BAD_CAST "has_triggers", BAD_CAST "0"); }
+
   /* Add one value, Max Vals and Aggregate Delta */
   if (!(flags & ENTXML_MOBILE))
   {

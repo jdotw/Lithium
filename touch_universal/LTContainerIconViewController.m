@@ -9,8 +9,6 @@
 #import "LTContainerIconViewController.h"
 #import "LTEntity.h"
 #import "LTEntityIconView.h"
-#import "LTMetricGraphRequest.h"
-#import "LTContainerIconViewGraphView.h"
 
 @implementation LTContainerIconViewController
 
@@ -18,9 +16,6 @@
 {
 	self = [super initWithNibName:@"LTContainerIconViewController" entity:container];
 	if (!self) return nil;
-	
-	((LTEntityIconView *)[self view]).selectedBackgroundImage = [UIImage imageNamed:@"LTContainerIconViewBack-Selected"];
-	graphView.container = container;
 	
 	return self;
 }
@@ -35,7 +30,6 @@
 							   
 - (void) dealloc
 {
-	[graphReq release];
 	[super dealloc];
 }
 

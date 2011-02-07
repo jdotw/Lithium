@@ -26,6 +26,7 @@
 	IBOutlet UISearchDisplayController *searchDisplayController;
 	NSMutableArray *searchFilteredItems;
 	
+    
 }
 
 - (id)initWithEntity:(LTEntity *)initEntity;
@@ -33,5 +34,6 @@
 
 @property (retain) LTEntity *entity;
 @property (nonatomic,assign) UINavigationController *externalNavigationController;
+@property (nonatomic,assign) BOOL drawAsRack;        // Enables the 'Rack' style drawing
 
 @end

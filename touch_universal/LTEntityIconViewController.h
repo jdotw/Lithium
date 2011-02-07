@@ -8,17 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@class LTEntity;
+@class LTEntity, LTMetricGraphRequest, LTEntityIconViewGraphView;
 
 @interface LTEntityIconViewController : UIViewController 
 {
-	IBOutlet UIImageView *imageView;
 	IBOutlet UILabel *label;
+	IBOutlet LTEntityIconViewGraphView *graphView;
+
 	LTEntity *_entity;
+	id delegate;	
 	
 	BOOL selected;
-	
-	id delegate;	
 }
 
 - (id) initWithNibName:(NSString *)nibName entity:(LTEntity *)entity;
@@ -26,6 +26,5 @@
 @property (retain, nonatomic) LTEntity *entity;
 @property (assign, nonatomic) BOOL selected;
 @property (assign, nonatomic) id delegate;
-
 
 @end

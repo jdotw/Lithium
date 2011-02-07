@@ -651,15 +651,22 @@
 {
 	[super viewWillAppear:animated];
 	[self resizeAndInvalidateGraphViewContent];
-	
-	/* Set initial state of top-left labels */
-	topLeftLabel.hidden = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
-	topLeftArrowImage.hidden = UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation);
+}
+
+- (void) viewDidAppearTimerCallback:(NSTimer *)timer
+{
+    [sidePopoverController presentPopoverFromBarButtonItem:sidePopoverBarButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];    
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
 	[super viewDidAppear:animated];
+    
+    if (!viewHasAppearedBefore && UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+    {
+        [NSTimer scheduledTimerWithTimeInterval:0.0 target:self selector:@selector(viewDidAppearTimerCallback:) userInfo:nil repeats:NO];
+    }
+    viewHasAppearedBefore = YES;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -678,8 +685,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-
-
 #pragma mark -
 #pragma mark Memory Management
 
@@ -689,7 +694,6 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
-
 
 - (void)dealloc 
 {
@@ -791,6 +795,9 @@
 
 - (void) splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
 {
+    sidePopoverBarButtonItem = barButtonItem;
+    sidePopoverController= pc;
+
 	/* Source List is available as a pop-over */
 	pc.delegate = self;
 	barButtonItem.enabled = YES;
@@ -798,32 +805,21 @@
 	self.navigationItem.leftBarButtonItem = barButtonItem;
 	if (!self.activePopoverController) self.activePopoverController = pc;
 	
-	/* Show the source-list instructions 
-	 * Note: These are obstructed by the container/object scrollers 
-	 *       when a device is selected
-	 */
-	topLeftLabel.hidden = NO;
-	topLeftArrowImage.hidden = NO;	
 }
 
 - (void) splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
+    sidePopoverController = nil;
+    sidePopoverBarButtonItem = nil;
+    
 	/* Source List is being shown in left-hand-side */
-	self.navigationItem.leftBarButtonItem = nil;
-	
-	/* Hide instructions */
-	topLeftLabel.hidden = YES;
-	topLeftArrowImage.hidden = YES;
+	self.navigationItem.leftBarButtonItem = nil;	
 }
 	
 - (void) splitViewController:(UISplitViewController *)svc popoverController:(UIPopoverController *)pc willPresentViewController:(UIViewController *)aViewController
 {
 	/* Source list is about to present as the active popover */
 	self.activePopoverController = pc;
-	 
-	/* Hide the source-list instructions */
-	topLeftLabel.hidden = YES;
-	topLeftArrowImage.hidden = YES;
 }
 
 #pragma mark -

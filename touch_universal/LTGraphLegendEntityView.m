@@ -22,6 +22,11 @@
 		self.opaque = NO;
 		
         // Initialization code
+        ledView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        ledView.userInteractionEnabled = NO;
+        [self addSubview:ledView];
+        [ledView release];
+        
 		swatchView = [[UIView alloc] initWithFrame:CGRectZero];
 		swatchView.userInteractionEnabled = NO;
 		[self addSubview:swatchView];
@@ -87,24 +92,53 @@
 
 - (void) layoutSubviews
 {
-	CGFloat padding = 8.0;
+    /* Cell Layout 
+     *
+     * [ LED ] [ Swatch ] [ Description ] [ Value ]
+     */
+    
+    /* LED -- Left-hand-side square based on cell height
+     *
+     * The rect width will be 0 if there are no triggers
+     */
+    CGRect ledRect = CGRectMake(0.0, 0.0, CGRectGetHeight(self.bounds), CGRectGetHeight(self.bounds));
+    ledView.frame = ledRect;
 	
 	/* Swatch */
-	CGFloat swatchWidth=12.0;
-	swatchView.frame = CGRectMake(padding, CGRectGetMidY(self.bounds)-(swatchWidth*0.5), swatchWidth, swatchWidth);
+    CGFloat swatchXOffset = CGRectGetMaxX(ledRect);
+    CGRect swatchRect = CGRectMake(swatchXOffset, CGRectGetMidY(self.bounds)-(12.*0.5), 12., 12.);
+    BOOL swatchVisible;
+    if (self.swatchColor == [UIColor clearColor])
+    {
+        /* Swatch is clear, zero width */
+        swatchRect.size.width = 0.;
+        swatchVisible = NO;
+    }
+    else
+    {
+        /* Swatch has color, normal width */
+        swatchVisible = YES;
+    }
+    swatchView.frame = swatchRect;
 	
 	/* Labels */
+    CGFloat labelXOffset = CGRectGetMaxX(swatchRect) + (swatchVisible ? 8. : 0.);   // Offset depends on whether swatch is shown
+    CGFloat labelXPadding = 8.;
 	CGFloat descValueSplit = 0.7;
-	CGRect labelRect = CGRectMake(CGRectGetMaxX(swatchView.frame)+padding, CGRectGetMidY(self.bounds)-(descLabel.font.pointSize*0.5), 
-								   CGRectGetWidth(self.bounds) - ((CGRectGetMaxX(swatchView.frame)+padding) + padding), descLabel.font.pointSize);
+    
+    /* Calculate rect containing both labels */
+	CGRect labelRect = CGRectMake(labelXOffset, CGRectGetMidY(self.bounds)-(descLabel.font.pointSize*0.5), 
+								   CGRectGetWidth(self.bounds) - labelXOffset - labelXPadding, descLabel.font.pointSize);
 	
+    /* Calculate desc label using descValueSplit */
 	CGRect descLabelRect = labelRect;
 	descLabelRect.size.width *= descValueSplit;
-	descLabel.frame = CGRectIntegral(descLabelRect);;
+	descLabel.frame = CGRectIntegral(descLabelRect);
 
+    /* Calculate value label using descValueSplit */
 	CGRect valueLabelRect = labelRect;
-	valueLabelRect.size.width = (labelRect.size.width * (1.0-descValueSplit)) - (2.0 * padding);
-	valueLabelRect.origin.x = CGRectGetMaxX(descLabelRect) + padding;
+	valueLabelRect.size.width = (labelRect.size.width * (1.0-descValueSplit)) - (2.0 * labelXPadding);
+	valueLabelRect.origin.x = CGRectGetMaxX(descLabelRect) + labelXPadding;
 	valueLabel.frame = CGRectIntegral(valueLabelRect);
 	
 	/* Check to see if a popover is waitingto be displayed */
@@ -141,26 +175,6 @@
 	UIBezierPath *outlineLightInnder = [UIBezierPath bezierPathWithRoundedRect:CGRectOffset(self.bounds, -1.0, -1.0) cornerRadius:6.0];
 	[[UIColor colorWithWhite:1.0 alpha:0.1] setStroke];
 	[outlineLightInnder stroke];
-
-	/* Draw clipped status color */
-	UIBezierPath *statusClipPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(CGRectGetMinX(self.bounds)+1.0, CGRectGetMinY(self.bounds)+1,
-																					  CGRectGetWidth(self.bounds)-2.0, CGRectGetHeight(self.bounds)-2.0)
-															  cornerRadius:6.0];
-	[statusClipPath addClip];
-	UIImage *statusImage = nil;
-	switch (entity.opState)
-	{
-		case 1:
-			statusImage = [UIImage imageNamed:@"LTTableViewCellBack-Yellow.png"];
-			break;
-		case 2:
-			statusImage = [UIImage imageNamed:@"LTTableViewCellBack-Orange.png"];
-			break;
-		case 3:
-			statusImage = [UIImage imageNamed:@"LTTableViewCellBack-Red.png"];
-			break;
-	}	
-	[statusImage drawInRect:self.bounds blendMode:kCGBlendModeNormal alpha:0.7];
 }
 
 - (void)dealloc {
@@ -186,6 +200,25 @@
 	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
 	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
 	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
+    switch (entity.opState)
+    {
+        case 3:
+            ledView.image = [UIImage imageNamed:@"LED-Red.png"];
+            break;
+        case 2:
+            ledView.image = [UIImage imageNamed:@"LED-Orange.png"];
+            break;
+        case 1:
+            ledView.image = [UIImage imageNamed:@"LED-Yellow.png"];
+            break;
+        case 0:
+            ledView.image = [UIImage imageNamed:@"LED-Green.png"];
+            break;
+        default:
+            ledView.image = [UIImage imageNamed:@"LED-Red.png"];
+            break;
+    }
+    ledView.hidden = !entity.hasTriggers;
 	
 	[self setNeedsDisplay];
 }

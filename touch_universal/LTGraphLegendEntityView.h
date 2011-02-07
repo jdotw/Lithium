@@ -12,6 +12,7 @@
 
 @interface LTGraphLegendEntityView : UIView 
 {
+    UIImageView *ledView;
 	UIView *swatchView;
 	UILabel *descLabel;
 	UILabel *valueLabel;

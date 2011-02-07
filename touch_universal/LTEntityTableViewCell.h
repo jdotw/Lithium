@@ -22,5 +22,6 @@
 @property (nonatomic,retain) LTEntity *entity;
 @property (nonatomic,assign) BOOL showFullLocation;
 @property (nonatomic,assign) BOOL showCurrentValue;
+@property (nonatomic,assign) BOOL drawAsRack;        // Enables the 'Rack' style drawing
 
 @end

@@ -12,7 +12,7 @@
 
 @implementation LTEntityTableViewCell
 
-@synthesize entity, showCurrentValue, showFullLocation;
+@synthesize entity, showCurrentValue, showFullLocation, drawAsRack=_drawAsRack;
 
 - (id) initWithReuseIdentifier:(NSString *)reuseIdentifier
 {

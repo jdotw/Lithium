@@ -17,9 +17,6 @@
 	self = [super initWithNibName:@"LTObjectIconViewController" entity:object];
 	if (!self) return nil;
 	
-	LTEntityIconView *iconView = (LTEntityIconView *)[self view];
-	iconView.selectedBackgroundImage = [UIImage imageNamed:@"LTObjectIconViewBack-Selected"];
-
 	return self;
 }
 

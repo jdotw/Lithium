@@ -33,7 +33,7 @@
 
 @implementation LTEntityTableViewController
 
-@synthesize externalNavigationController;
+@synthesize externalNavigationController, drawAsRack=_drawAsRack;
 
 - (BOOL) _groupDevicesByLocation
 {
@@ -76,13 +76,7 @@
 			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
 																									target:self
 																									action:@selector(addDeviceTouched:)] autorelease];
-		}
-		
-		if (entity.type >= 2 || (entity.type == 1 && [self _groupDevicesByLocation]))
-		{
-			/* Children entities will be "hardware" entities, use the rack background */
-			self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"RackBackTile.png"]];
-		}
+		}		
 	}
 	else
 	{
@@ -99,7 +93,7 @@
 		/* Hide search for non-customer view */
 		self.tableView.tableHeaderView = nil;
 	}
-	
+    	
 	NSTimeInterval timerInterval;
 	if (self.entity.device.refreshInterval < 15.0) timerInterval = 15.0;
 	else timerInterval = (self.entity.refreshInterval * 0.5f);
@@ -156,6 +150,7 @@
     [super dealloc];
 }
 
+#pragma mark -
 #pragma mark "View Delegates"
 
 - (CGSize) contentSizeForViewInPopover
@@ -199,6 +194,18 @@
 {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
+}
+
+#pragma mark -
+#pragma mark View Configuration
+
+- (void)setDrawAsRack:(BOOL)value
+{
+    _drawAsRack = value;
+    if (_drawAsRack)
+    {
+        self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"RackBackTile.png"]];        
+    }
 }
 
 #pragma mark -
@@ -458,6 +465,7 @@
 		cell.textLabel.text = displayEntity.desc;
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
 		cell.entity = displayEntity;
+        cell.drawAsRack = self.drawAsRack;
 		if (displayEntity.type == 0)
 		{
 			/* Displaying a deployment, use the detailtextLabel (subtitle)
@@ -481,6 +489,9 @@
 				cell.detailTextLabel.text = nil;
 			}				
 		}
+        
+        /* iPad Specific Cell Setup */
+        if (UI_USER_INTERFACE_IDIOM()
 	}
 	else
 	{
@@ -868,6 +879,12 @@
 												 selector:@selector(entityRefreshStatusUpdated:)
 													 name:@"LTEntityXmlStatusChanged" object:entity];		
 	}
+    
+    if (entity.type == ENT_SITE || (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation]))
+    {
+        /* The child entities are 'hardware' and we should draw as a rack */
+        self.drawAsRack = YES;
+    }
 }	
 	
 

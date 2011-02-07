@@ -130,4 +130,13 @@
 	ledImageView.image = ledImage;
 }
 
+- (void)setDrawAsRack:(BOOL)value
+{
+    [super setDrawAsRack:value];
+    topLeftScrewImageView.hidden = !value;
+    topRightScrewImageView.hidden = !value;
+    bottomLeftScrewImageView.hidden = !value;
+    bottomRightScrewImageView.hidden = !value;
+}
+
 @end

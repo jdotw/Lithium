@@ -1,24 +1,23 @@
 //
-//  LTContainerIconViewGraphView.m
+//  LTEntityIconViewGraphView.m
 //  LithiumTouchUniversal
 //
 //  Created by James Wilson on 29/11/10.
 //  Copyright 2010 LithiumCorp. All rights reserved.
 //
 
-#import "LTContainerIconViewGraphView.h"
+#import "LTEntityIconViewGraphView.h"
 #import "LTMetricGraphRequest.h"
 #import "LTEntity.h"
 
-@implementation LTContainerIconViewGraphView
+@implementation LTEntityIconViewGraphView
 
-@synthesize container=container_;
+@synthesize entity=entity_;
 
 - (void)awakeFromNib
 {
 	self.opaque = NO;
 	self.backgroundColor = [UIColor clearColor];
-	
 }
 
 - (void)drawRect:(CGRect)rect 
@@ -45,10 +44,10 @@
 			CGContextDrawPDFPage(ctx, pageRef);
 			UIImage *graphImage = UIGraphicsGetImageFromCurrentImageContext();
 			UIGraphicsEndImageContext();
-			[graphImage drawInRect:self.bounds blendMode:kCGBlendModeLuminosity alpha:0.8];
+			[graphImage drawInRect:self.bounds blendMode:kCGBlendModeLuminosity alpha:0.9];
 		}
 	}
-	else if (self.container)
+	else if (self.entity)
 	{
 		/* Create graph request */
 		NSDate *now = [NSDate date];
@@ -58,7 +57,7 @@
 		graphReq.endSec = (int) [now timeIntervalSince1970];
 		graphReq.startSec = (int) [now timeIntervalSince1970] - 86400;
 		graphReq.allWhiteLines = YES;
-		[graphReq.metrics addObjectsFromArray:[self.container graphableMetrics]];
+		[graphReq.metrics addObjectsFromArray:[self.entity graphableMetrics]];
 		if (!graphReq.customer && graphReq.metrics.count > 0)
 		{
 			graphReq.customer = [[graphReq.metrics objectAtIndex:0] customer];
@@ -70,7 +69,7 @@
 }
 
 - (void)dealloc {
-	[container_ release];
+	[entity_ release];
 	[graphReq release];
     [super dealloc];
 }

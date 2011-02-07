@@ -26,6 +26,7 @@
 											   green:0.0
 												blue:0.0
 											   alpha:0.5];
+        self.opaque = NO;
 		self.textLabel.backgroundColor = [UIColor clearColor];
 		self.textLabel.textColor = [UIColor whiteColor];
 		self.textLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.6];

@@ -23,22 +23,7 @@
 - (void) awakeFromNib
 {
 	self.separatorStyle = UITableViewCellSeparatorStyleNone;
-	self.backgroundImage = [UIImage imageNamed:@"noiseback-light.png"];
-}
-
-- (void) drawRect:(CGRect)theRect
-{
-	[super drawRect:theRect];
-	if (self.backgroundImage)
-	{
-		[self.backgroundImage drawAsPatternInRect:self.bounds];
-	}
-}
-
-- (void) setBackgroundColor:(UIColor *)color
-{
-	[super setBackgroundColor:color];
-	self.backgroundImage = nil;
+    self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"noiseback-light.png"]];
 }
 
 @end

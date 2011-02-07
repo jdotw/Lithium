@@ -10,11 +10,11 @@
 
 @class LTEntity, LTMetricGraphRequest;
 
-@interface LTContainerIconViewGraphView : UIView 
+@interface LTEntityIconViewGraphView : UIView 
 {
 	LTMetricGraphRequest *graphReq;
 }
 
-@property (nonatomic,retain) LTEntity *container;
+@property (nonatomic,retain) LTEntity *entity;
 
 @end

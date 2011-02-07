@@ -78,8 +78,6 @@
 	
 	/* Background UI Elements */
 	IBOutlet UIImageView *consoleLogoImage;
-	IBOutlet UIImageView *topLeftArrowImage;
-	IBOutlet UILabel *topLeftLabel;
 }
 
 - (void) displayDevice:(LTEntity *)device withInitialSelection:(LTEntity *)initialSelection;

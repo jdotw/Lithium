@@ -10,6 +10,7 @@
 #import "LTEntity.h"
 #import "LTEntityTableViewController.h"
 #import "LTEntityIconView.h"
+#import "LTEntityIconViewGraphView.h"
 
 @implementation LTEntityIconViewController
 
@@ -46,17 +47,17 @@
 	_entity = [entity retain];
 	
 	label.text = self.entity.desc;
-	imageView.image = self.entity.icon;
+    
+    graphView.entity = entity;
 }
 
 - (void) setSelected:(BOOL)value
 {
 	selected = value;
-	
-	LTEntityIconView *entityIconView = (LTEntityIconView *)[self view];
-	entityIconView.selected = selected;
-	
-	[self.view setNeedsDisplay];
+    
+    LTEntityIconView *iconView = (LTEntityIconView *)[self view];
+    iconView.selected = value;
+    [iconView setNeedsDisplay];
 }
 
 - (void)viewDidLoad 

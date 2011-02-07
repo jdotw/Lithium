@@ -16,7 +16,6 @@
 }
 
 @property (nonatomic, assign) BOOL selected;
-@property (nonatomic, retain) UIImage *selectedBackgroundImage;
 @property (nonatomic, retain) LTEntity *entity;
 
 @end
