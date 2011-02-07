@@ -169,5 +169,8 @@
 @property (readonly) LTEntity *object;
 @property (readonly) LTEntity *metric;
 
+@property (readonly) BOOL isPercentage;
+
+
 
 @end

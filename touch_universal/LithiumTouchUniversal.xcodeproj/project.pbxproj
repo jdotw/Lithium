@@ -35,6 +35,8 @@
 		104DEFA81283796D008A7936 /* LTGraphBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104DEFA71283796D008A7936 /* LTGraphBackgroundView.m */; };
 		104F690212C01E3D00074651 /* checkerboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 104F690112C01E3D00074651 /* checkerboard.png */; };
 		104F699912C03F2300074651 /* LTDeviceEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 104F699812C03F2300074651 /* LTDeviceEditTableViewController.m */; };
+		105A245C12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105A245B12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.m */; };
+		105A246012FF89E0001B9543 /* LTSubDeviceTableViewCellBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 105A245F12FF89E0001B9543 /* LTSubDeviceTableViewCellBackgroundView.m */; };
 		105EDDDD11BC2FFE00B294B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */; };
 		105EDE5411BC38D100B294B4 /* LCXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE3411BC38D100B294B4 /* LCXMLNode.m */; };
 		105EDE5511BC38D100B294B4 /* LCXMLParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDE3611BC38D100B294B4 /* LCXMLParseOperation.m */; };
@@ -226,6 +228,10 @@
 		104F690112C01E3D00074651 /* checkerboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkerboard.png; sourceTree = "<group>"; };
 		104F699712C03F2300074651 /* LTDeviceEditTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditTableViewController.h; sourceTree = "<group>"; };
 		104F699812C03F2300074651 /* LTDeviceEditTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditTableViewController.m; sourceTree = "<group>"; };
+		105A245A12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSubDeviceEntityTableViewCell.h; sourceTree = "<group>"; };
+		105A245B12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSubDeviceEntityTableViewCell.m; sourceTree = "<group>"; };
+		105A245E12FF89E0001B9543 /* LTSubDeviceTableViewCellBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSubDeviceTableViewCellBackgroundView.h; sourceTree = "<group>"; };
+		105A245F12FF89E0001B9543 /* LTSubDeviceTableViewCellBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSubDeviceTableViewCellBackgroundView.m; sourceTree = "<group>"; };
 		105EDDDB11BC2FFE00B294B4 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		105EDE3311BC38D100B294B4 /* LCXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCXMLNode.h; sourceTree = "<group>"; };
@@ -541,6 +547,17 @@
 				104F699812C03F2300074651 /* LTDeviceEditTableViewController.m */,
 			);
 			name = "Device Setup (iPad Only)";
+			sourceTree = "<group>";
+		};
+		105A245D12FF89A0001B9543 /* iPad-Only Entity Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				105A245A12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.h */,
+				105A245B12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.m */,
+				105A245E12FF89E0001B9543 /* LTSubDeviceTableViewCellBackgroundView.h */,
+				105A245F12FF89E0001B9543 /* LTSubDeviceTableViewCellBackgroundView.m */,
+			);
+			name = "iPad-Only Entity Table View Cells";
 			sourceTree = "<group>";
 		};
 		105EDDF611BC344900B294B4 /* Icons */ = {
@@ -925,6 +942,7 @@
 		10A73B4B12FBADB0005CFDD5 /* Table View Cells */ = {
 			isa = PBXGroup;
 			children = (
+				105A245D12FF89A0001B9543 /* iPad-Only Entity Table View Cells */,
 				109E816012FCE85600265BAF /* Incident Table View Cell */,
 				10A73B5812FBAE30005CFDD5 /* Hardware Table View Cells */,
 				105EDE7711BC392000B294B4 /* LTEntityTableViewCell.h */,
@@ -1373,6 +1391,8 @@
 				10A73CC812FBEA6B005CFDD5 /* LTDeviceEntityTableViewCell.m in Sources */,
 				109E815912FCD89700265BAF /* LTRackTableViewHeaderView.m in Sources */,
 				109E816312FCE87000265BAF /* LTIncidentTableViewCell.m in Sources */,
+				105A245C12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.m in Sources */,
+				105A246012FF89E0001B9543 /* LTSubDeviceTableViewCellBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

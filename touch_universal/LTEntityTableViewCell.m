@@ -59,6 +59,46 @@
 	{ self.entityState = entity.opState; }
 }
 
+- (LTEntity *) valueMetricForEntity:(LTEntity *)parentEntity
+{
+    /* Returns the 'best' or most appropriate metric entity
+     * that can be used to show a value for the given entity
+     */
+    if (parentEntity.type == 6) return parentEntity;
+    
+    /* Locate an object */
+    LTEntity *obj = nil;
+    if (parentEntity.type == 4 && parentEntity.children.count == 1) 
+    { obj = [parentEntity.children objectAtIndex:0]; }
+    else if (parentEntity.type == 5) obj = parentEntity;
+    
+    /* Iterate through metrics */
+    LTEntity *valueMetric = nil;
+    for (LTEntity *metric in obj.children)
+    {
+        /* Prefer metrics that are a percentage, and have triggers */
+        if (metric.hasTriggers && metric.isPercentage) 
+        {
+            /* Best match found */
+            valueMetric = metric;
+            break;
+        }
+        else if (!valueMetric && metric.isPercentage)
+        {
+            /* First percentage */
+            valueMetric = metric;
+            break;
+        }
+        else if (!valueMetric && metric.hasTriggers)
+        {
+            /* First non-percentage with triggers */
+            valueMetric = metric;
+            break;
+        }
+    }
+    return valueMetric;
+}
+
 - (void) setEntity:(LTEntity *)value
 {
 	/* If the entity if an object with one metric, 
@@ -81,12 +121,8 @@
 	[self entityStateChanged:nil];
 
 	/* Entity Type-specific handling */
-	if (entity.type == 6)
+	if ([self valueMetricForEntity:value])
 	{
-		/* If we're a metric, append the object name to the desc */
-		if (![self.entity.entityDescriptor.objName isEqualToString:@"master"]) 
-		{ desc = [NSString stringWithFormat:@"%@ %@", self.entity.entityDescriptor.objName, desc]; }
-		
 		/* And set showCurrentValue to YES by default */
 		self.showCurrentValue = YES;
 	}
@@ -94,7 +130,7 @@
 
 - (void) updateCurrentValue:(NSNotification *)note
 {
-	valueLabel.text = self.entity.currentValue;
+	valueLabel.text = [self valueMetricForEntity:self.entity].currentValue;
 	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
 	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
 	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
@@ -137,6 +173,25 @@
 	{
 		self.detailTextLabel.text = nil;
 	}
+}
+
+- (void)layoutSubviews
+{
+    /* Call super-class layout to handle textLabel and detailTextLabel layout */
+    [super layoutSubviews];
+    
+    /* Then, if necessary, adjust layout to fit in the current value */
+    if (self.showCurrentValue)
+    {
+        CGRect labelRect = self.textLabel.frame;
+        labelRect.size.width *= 0.7;  // 70/30 split between label and value 
+        self.textLabel.frame = labelRect;
+        
+        CGRect detailRect = self.detailTextLabel.frame;
+        
+        
+        CGRect valueRect = CGRectMake(CGRectGetMinX(self.textLabel.frame)+(CGRectGetWidth(self.textLabel.frame)*0, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
+    }
 }
 
 @end

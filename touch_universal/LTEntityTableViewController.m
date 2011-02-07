@@ -24,6 +24,7 @@
 #import "LTHardwareEntityTableViewCell.h"
 #import "LTDeviceEntityTableViewCell.h"
 #import "LTRackTableViewHeaderView.h"
+#import "LTSubDeviceTableViewCellBackgroundView.h"
 
 @interface LTEntityTableViewController (private)
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
@@ -94,6 +95,7 @@
 		self.tableView.tableHeaderView = nil;
 	}
     	
+    /* Add Refresh Timer */
 	NSTimeInterval timerInterval;
 	if (self.entity.device.refreshInterval < 15.0) timerInterval = 15.0;
 	else timerInterval = (self.entity.refreshInterval * 0.5f);
@@ -102,6 +104,16 @@
 												  selector:@selector(refreshTimerFired:)
 												  userInfo:nil
 												   repeats:YES];
+    
+    /* iPad-Specific Table Setup */
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+    {
+        if (entity.type >= ENT_DEVICE)
+        {
+            self.drawAsRack = NO;
+            self.tableView.backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"LTDeviceViewBack.png"]];
+        }
+    }
 }
 
 - (void) viewDidUnload
@@ -491,7 +503,13 @@
 		}
         
         /* iPad Specific Cell Setup */
-        if (UI_USER_INTERFACE_IDIOM()
+        if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+        {
+            if (entity.type >= ENT_DEVICE)
+            {
+                cell.backgroundView = [[LTSubDeviceTableViewCellBackgroundView alloc] initWithFrame:CGRectZero];
+            }
+        }
 	}
 	else
 	{

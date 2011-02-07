@@ -780,4 +780,10 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	else [appDelegate entityRefreshDidFinish:self];
 }
 
+- (BOOL) isPercentage
+{
+    if (self.type == 6 && [self.units isEqualToString:@"%"]) return YES;
+    else return NO;
+}
+
 @end
