@@ -104,12 +104,12 @@ int l_group_xml_listcb (i_resource *self, i_list *group_list, i_list *entity_lis
     xmlNewChild (entity_node, NULL, BAD_CAST "parent", BAD_CAST str);
     free (str);
 
-    i_entity *local_entity = i_entity_local_get (self, (i_entity_address *)g_ent->entdesc);
-
-    if (local_entity)
-    { xmlAddChild (entity_node, i_entity_descriptor_xml (i_entity_descriptor_struct_static(local_entity))); }
-//    else
-//    { xmlAddChild (entity_node, i_entity_descriptor_xml (g_ent->entdesc)); }
+    /* Since 5.0.9, there's no full entitiy tree kept in
+     * the customer process, so the entdesc is used 
+     * instead of doing a local entity look up
+     */
+    
+    xmlAddChild (entity_node, i_entity_descriptor_xml (g_ent->entdesc));
 
     xmlAddChild (root_node, entity_node); 
   }
