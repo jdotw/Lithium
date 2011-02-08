@@ -1,22 +1,14 @@
-if test -x /usr/bin/libtoolize; then
-  echo -n "Running 'libtoolize' ... "
-  libtoolize --force
-  echo "Done"
-else
-  if test -x /usr/bin/glibtoolize; then
-    echo -n "Running 'glibtoolize' ... "
-    glibtoolize --force
-    echo "Done"
-  fi
-fi
+echo -n "Running 'glibtoolize' ... "
+/Xcode3/usr/bin/glibtoolize --force
+echo "Done"
 echo -n "Running 'aclocal' ... "
-aclocal
+/Xcode3/usr/bin/aclocal
 echo "Done"
 echo -n "Running 'autoconf' ... "
-autoconf
+/Xcode3/usr/bin/autoconf
 echo "Done"
 echo -n "Running 'automake' ... "
-automake -a
+/Xcode3/usr/bin/automake -a
 echo "Done"
 
 PREFIX=/Library/Lithium/LithiumCore.app
@@ -27,7 +19,7 @@ CONFIGURE_PATHS="--prefix=$PREFIX --bindir=$PREFIX/Contents/MacOS --sbindir=$PRE
 
 ARGS="--disable-dependency-tracking $CONFIGURE_PATHS"
 echo "Running './configure $ARGS'"
-PATH="$PATH:/Library/Lithium/LithiumCore.app/Contents/MacOS" \
-CFLAGS="-mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -I/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Headers" \
-LDFLAGS="-Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -L/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries" \
+PATH="/Xcode3/usr/bin:/Xcode3/usr/sbin:$PATH:/Library/Lithium/LithiumCore.app/Contents/MacOS" \
+CFLAGS="-mmacosx-version-min=10.5 -isysroot /Xcode3/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -I/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Headers" \
+LDFLAGS="-Wl,-syslibroot,/Xcode3/SDKs/MacOSX10.5.sdk -L/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries" \
 ./configure $ARGS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History'
