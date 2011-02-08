@@ -38,7 +38,13 @@
 
 - (BOOL) _groupDevicesByLocation
 {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:kDeviceListGroupByLocation];
+    /* Returns true if the list is currently grouping all
+     * devics together by location
+     */
+    if (self.entity.type == ENT_CUSTOMER && [[NSUserDefaults standardUserDefaults] boolForKey:kDeviceListGroupByLocation])
+    { return YES; }
+    else
+    { return NO; }
 }
 
 - (id)initWithEntity:(LTEntity *)initEntity
@@ -249,17 +255,6 @@
 }
 
 #pragma mark "Table view methods"
-
-- (BOOL) _groupDevicesByLocation
-{
-    /* Returns true if the list is currently grouping all
-     * devics together by location
-     */
-    if (self.entity.type == ENT_CUSTOMER && [[NSUserDefaults standardUserDefaults] boolForKey:kDeviceListGroupByLocation])
-    { return YES; }
-    else
-    { return NO; }
-}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
