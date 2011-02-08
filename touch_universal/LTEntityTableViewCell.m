@@ -85,7 +85,6 @@
             break;
         }
     }
-    NSLog (@"Found valueMetric %i:%@=%@ for %i:%@", valueMetric.type, valueMetric.desc, valueMetric.currentValue, parentEntity.type, parentEntity.desc);
     return valueMetric;
 }
 
@@ -131,8 +130,6 @@
         self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
         self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
     }
-    
-    NSLog (@"self.detailTextLabel.text is '%@' for %i:%@", self.detailTextLabel.text, self.entity.type, self.entity.desc);
 }
 
 - (void) setShowCurrentValue:(BOOL)value

@@ -169,7 +169,7 @@
 			parentGroup = (LTGroup *) parentGroup.parent;
 		}
 		group.indentLevel = indent;
-		
+		NSLog (@"Group %@ indentLevel set to %i", group.desc, group.indentLevel);
 	}	
 	
 	/* Set indent level for new entities */

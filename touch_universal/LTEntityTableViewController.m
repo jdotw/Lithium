@@ -443,8 +443,6 @@
 	else 
 	{ CellIdentifier = @"Refresh"; }
     
-    NSLog (@"Using cell type %@ for %i:%@", CellIdentifier, displayEntity.type, displayEntity.desc);
-    
     LTEntityTableViewCell *cell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{

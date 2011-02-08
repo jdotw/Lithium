@@ -330,6 +330,8 @@
         {
             LTRackTableViewHeaderView *headerView = (LTRackTableViewHeaderView *) cell.backgroundView;
             headerView.textLabel.text = cell.textLabel.text;
+            headerView.indentLevel = cell.indentationLevel;
+            NSLog (@"Section DisplayEntity is %@, indentLevel is %i", displayEntity.desc, headerView.indentLevel);
             cell.textLabel.text = nil;
         }
 	}
@@ -490,7 +492,7 @@
 	
 	if (group)
 	{
-		/* Representing a specific Entity */
+		/* Representing a specific Group */
 		[self recursivelyBuildChildrenUsingGroup:group];
 	}
 	else

@@ -11,7 +11,7 @@
 
 @implementation LTRackTableViewHeaderView
 
-@synthesize  textLabel;
+@synthesize  textLabel, indentLevel, indentPerLevel;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -45,14 +45,22 @@
         brScrew = [[UIImageView alloc] initWithFrame:CGRectZero];
         brScrew.image = [UIImage imageNamed:@"DarkScrewHole.png"];
         [self addSubview:brScrew];
+        
+        /* Default indent config */
+        indentLevel = 0;
+        indentPerLevel = 10.;
     }
     return self;
 }
 
 - (void)layoutSubviews
 {
+    /* Calculate indent offset */
+    NSLog (@"%@ layingout subviews (%@), indentPerLevel is %f, indentLevel is %i", self, self.textLabel.text, indentPerLevel, indentLevel);
+    CGFloat indentXOffset = 18. + (indentPerLevel * indentLevel);
+    
     /* Layout the Tape Image -- Image is always 174x22 */
-    CGRect tapeRect = {{18., 2.},{174.,22.}};
+    CGRect tapeRect = {{indentXOffset, 2.},{174.,22.}};
     tapeImageView.frame = tapeRect;
     
     /* Layout the label inside the tape image */
@@ -86,7 +94,18 @@
 	screwRect.origin.x = CGRectGetMaxX(self.bounds)-xOffset-screwRect.size.width;
 	screwRect.origin.y = CGRectGetMaxY(self.bounds)-yOffset-screwRect.size.height;
 	brScrew.frame = screwRect;
+}
 
+- (void) setIndentLevel:(NSInteger)value;
+{
+    indentLevel = value;
+    [self setNeedsLayout];
+}
+
+- (void) setIndentPerLevel:(CGFloat)value
+{
+    indentPerLevel = value;
+    [self setNeedsLayout];
 }
 
 - (void)dealloc

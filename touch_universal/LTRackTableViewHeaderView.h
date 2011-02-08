@@ -18,8 +18,13 @@
     UIImageView *trScrew;
     UIImageView *blScrew;
     UIImageView *brScrew;
+    
+    NSInteger indentLevel;
+    CGFloat indentPerLevel;
 }
 
 @property (nonatomic,readonly) UILabel *textLabel;
+@property (nonatomic,assign) NSInteger indentLevel;
+@property (nonatomic,assign) CGFloat indentPerLevel;
 
 @end
