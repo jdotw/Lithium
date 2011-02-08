@@ -32,7 +32,7 @@
 - (id)initWithEntity:(LTEntity *)initEntity;
 - (void) refresh;
 
-@property (retain) LTEntity *entity;
+@property (retain,nonatomic) LTEntity *entity;
 @property (nonatomic,assign) UINavigationController *externalNavigationController;
 @property (nonatomic,assign) BOOL drawAsRack;        // Enables the 'Rack' style drawing
 

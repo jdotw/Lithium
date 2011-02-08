@@ -26,7 +26,6 @@
 	self.browser = initBrowser;
 	
 	/* Load NIB */
-	NSLog (@"At view load customer.children is %@", self.customer.children);
 	[self loadView];
 	
 	/* Observe Selection */
@@ -35,7 +34,6 @@
 					 forKeyPath:@"selection" 
 						options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld) 
 						context:nil];
-	NSLog (@"Tree controller has arranged objects %@", [treeController arrangedObjects]);
 	
 	return self;
 }

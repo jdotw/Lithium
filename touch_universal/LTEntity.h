@@ -20,6 +20,10 @@
 #define ENT_METRIC 6
 #define ENT_TRIGGER 7
 
+#define kLTEntityStateChanged @"LTEntityStateChanged"           // Fires on adminSate or opState change
+#define kLTEntityChildrenChanged @"LTEntityChildrenChanged"     // Fires on children array add/remove
+#define kLTEntityValueChanged @"LTEntityValueChanged"           // Fires when the _existing_ currentValue changes (not on initial set)
+
 @class LTCustomer, LTCoreDeployment, LTEntityDescriptor;
 
 @interface LTEntity : LTAPIRequest
@@ -80,6 +84,7 @@
 	BOOL hasBeenRefreshed;
 	NSDate *lastRefresh;
 	NSString *xmlStatus;
+    BOOL isNew;             // Only true when entity is new and not yet added to parent 
 	
 	int indentLevel;
 }
@@ -170,7 +175,6 @@
 @property (readonly) LTEntity *metric;
 
 @property (readonly) BOOL isPercentage;
-
-
+@property (nonatomic,assign) BOOL isNew;
 
 @end

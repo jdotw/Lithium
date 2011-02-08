@@ -246,9 +246,9 @@
 {
 	[selectedContainer release];
 	selectedContainer = [value retain];
-	
-	/* Remove all and Rebuild object list */
-	[self rebuildObjectScrollView];
+    
+    /* Reset object selection to nil */
+    self.selectedObject = nil;
 	
 	/* Set selection on container icon */
 	for (LTContainerIconViewController *vc in containerIconViewControllers)
@@ -267,6 +267,12 @@
 	[self graphMetrics:selectedContainer.graphableMetrics fromEntity:selectedContainer];
 	if (self.selectedContainer) [self showGraphAndLegend];
 	else [self hideGraphAndLegend];
+	
+	/* Remove all and Rebuild object list; this must be
+     * done after the above graph layer because an object
+     * selection may be set during the rebuild 
+     */
+	[self rebuildObjectScrollView];
 	
 	/* Save selection */
 	if (selectedContainer)
@@ -296,16 +302,6 @@
 	
 	/* Reset graph */
 	[self graphMetrics:selectedObject.graphableMetrics fromEntity:selectedObject];
-	
-	/* Show/Hide Graph */
-	if (self.selectedObject) 
-	{
-		[self showGraphAndLegend];
-	}
-	else
-	{
-		[self hideGraphAndLegend];
-	}
 	
 	/* Save selection */
 	if (selectedObject)
@@ -488,7 +484,11 @@
     }
     [objectIconViewControllers removeAllObjects];
 	
-    if (self.selectedContainer.children.count > 1)
+    /* Add object views to the scroller if there's more than 1 object
+     * or if the lone object is not a "master" object
+     */
+    if (self.selectedContainer.children.count > 1 ||
+        (self.selectedContainer.children.count == 1 && ![[[self.selectedContainer.children objectAtIndex:0] name] isEqualToString:@"master"]))
     {
         CGFloat contentWidth = 0.0;
         CGFloat contentHeight = 48.0;
@@ -508,17 +508,21 @@
         objectScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
     }
 	
-    if (objectIconViewControllers.count > 0)
+    if (self.selectedContainer.children.count == 1 && 
+        [[[self.selectedContainer.children objectAtIndex:0] name] isEqualToString:@"master"])
     {
+        /* Single, master object present, select it and hide the object scroller */
+        self.selectedObject = [self.selectedContainer.children objectAtIndex:0];
+        [self hideObjectScrollView];
+    }
+    else if (self.selectedContainer.children > 0)
+    {
+        /* Children is > 0, show object scroll view */
         [self showObjectScrollView];
     }
     else
     {
-        if (self.selectedContainer.children.count == 1)
-        {
-            /* Single object, select it */
-            self.selectedObject = [self.selectedContainer.children objectAtIndex:0];
-        }
+        /* Otherwise, hide the scroll view */
         [self hideObjectScrollView];
     }
 }

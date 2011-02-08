@@ -43,14 +43,15 @@
 
 - (id)initWithEntity:(LTEntity *)initEntity
 {
+    /* THis initialization is only used when viewing 
+     * actual entities and not for the root list 
+     * of Lithium Core deployments which uses awake from NIB
+     */
 	self = [super initWithNibName:@"LTEntityTableViewController" bundle:nil];
 	if (!self) return nil;
 	
 	self.entity = initEntity;
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(coreDeploymentReachabilityChanged:)
-												 name:@"LTCoreDeploymentReachabilityChanged" object:nil];		
-	
+    
 	return self;
 }
 
@@ -58,14 +59,15 @@
 {
     [super viewDidLoad];
 	
+    /* Listening to *all* RefreshFinished notifications is intentional,
+     * it ensures that we catch the refresh of root entity, child entities
+     * and the root customer, all of which trigger a refresh 
+     */
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(entityRefreshFinished:)
 												 name:@"RefreshFinished" 
 											   object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self.tableView
-											 selector:@selector(reloadData) 
-												 name:kDeviceListGroupByLocation
-											   object:nil];
+    
 
 	if (entity)
 	{
@@ -127,7 +129,7 @@
 
 	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 
-	/* We are the root-level controller, observe core deployment changes */
+	/* We are the root-level controller, observe core deployment and customer changes */
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(coreDeploymentArrayUpdated:)
 												 name:@"CoreDeploymentAdded" object:appDelegate];
@@ -151,7 +153,6 @@
 	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	[refreshTimer invalidate];
 	[children release];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kDeviceListGroupByLocation object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentAdded" object:appDelegate];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentUpdated" object:nil];
@@ -249,6 +250,17 @@
 
 #pragma mark "Table view methods"
 
+- (BOOL) _groupDevicesByLocation
+{
+    /* Returns true if the list is currently grouping all
+     * devics together by location
+     */
+    if (self.entity.type == ENT_CUSTOMER && [[NSUserDefaults standardUserDefaults] boolForKey:kDeviceListGroupByLocation])
+    { return YES; }
+    else
+    { return NO; }
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
 {
 	if (tableView == self.searchDisplayController.searchResultsTableView)
@@ -257,7 +269,7 @@
 	}
 	else
 	{
-		if (entity.type == 1 && [self _groupDevicesByLocation])
+		if (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation])
 		{
 			return entity.children.count;
 		}
@@ -776,17 +788,39 @@
 
 - (void) coreDeploymentReachabilityChanged:(NSNotification *)notification
 {
-	[self sortAndFilterChildren];
-	[[self tableView] reloadData];
+    if (entity && entity.coreDeployment.reachable)
+    {
+        /* Trigger a refresh based on reachability change */
+        [entity refresh];
+    }
+    else if (!entity)
+    {
+        /* We're displaying the list of cores, update the table to reflect reachability */
+        [self sortAndFilterChildren];
+        [[self tableView] reloadData];
+    }
+}
+
+- (void) entityStateChanged:(NSNotificationCenter *)notification
+{
+    /* Called when the root entity changes state */
+    
+}
+
+- (void) entityChildrenChanged:(NSNotification *)notification
+{
+    NSLog (@"%@ Got entityChildrenChanged for %@", self, [notification object]);
+    
+    /* Called when there is a change in an entities children 
+     * to force a reload of the table data 
+     */
+    [self sortAndFilterChildren];	
+    [[self tableView] reloadData];        
 }
 
 - (void) entityRefreshFinished:(NSNotification *)notification
 {
-	if ([notification object] == self.entity || [self.entity.children containsObject:[notification object]])
-	{
-		[self sortAndFilterChildren];	
-		[[self tableView] reloadData];
-	}
+    /* What used to be done here is now done only on children changes */
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)notification
@@ -894,19 +928,35 @@
 {
 	if (entity)
 	{
+        /* Remove old notification listeners */
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTEntityXmlStatusChanged" object:entity];
-		[entity release];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityChildrenChanged object:entity];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTCoreDeploymentReachabilityChanged" object:entity.coreDeployment];
 	}
 
+    [entity release];
 	entity = [value retain];
+
 	self.navigationItem.title = entity.desc;
 	[self sortAndFilterChildren];
 
 	if (entity)
 	{
+        /* Listen to change in XML Status to update refresh progress */
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(entityRefreshStatusUpdated:)
 													 name:@"LTEntityXmlStatusChanged" object:entity];		
+        
+        /* Listen to changes in children array to reload table */
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entityChildrenChanged:)
+                                                     name:kLTEntityChildrenChanged
+                                                   object:entity];   
+        
+        /* Listen for changes in reachability to trigger a refresh */
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(coreDeploymentReachabilityChanged:)
+                                                     name:@"LTCoreDeploymentReachabilityChanged" object:entity.coreDeployment];		
+        
 	}
     
     if (entity.type == ENT_SITE || (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation]))

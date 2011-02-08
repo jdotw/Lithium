@@ -59,23 +59,18 @@
 	[self setActiveIncidentsAutoRefresh:YES];
 	[[self activeIncidentsList] normalPriorityRefresh];
 	
-	/* Create other lists*/
+	/* Create other lists, but don't refresh them yet.
+	 * All child list refreshes should be done only
+	 * after a successful refresh of the customer itself
+	 */
 	userList = [[LCUserList userListWithCustomer:self] retain];
-	[[self userList] refreshWithPriority:XMLREQ_PRIO_HIGH];
 	vendorList = [[LCVendorList vendorListWithCustomer:self] retain];
-	[[self vendorList] refreshWithPriority:XMLREQ_PRIO_HIGH];
 	serviceList = [[LCServiceList serviceListForCustomer:self] retain];
-	[[self serviceList] refreshWithPriority:XMLREQ_PRIO_HIGH];
 	processProfileList = [[LCProcessProfileList profileListForCustomer:self] retain];
-	[[self processProfileList] refreshWithPriority:XMLREQ_PRIO_HIGH];
 	xsanList = [[LCXsanList xsanListForCustomer:self] retain];
-	[[self xsanList] refreshWithPriority:XMLREQ_PRIO_HIGH];
 	lunList = [[LCLunList lunListForCustomer:self] retain];
-	[[self lunList] refreshWithPriority:XMLREQ_PRIO_HIGH];
 	documentList = (LCDocumentList *) [[LCDocumentList alloc] initWithCustomer:self];
-	[[self documentList] refreshWithPriority:XMLREQ_PRIO_HIGH];
 	groupTree = (LCGroupTree *) [[LCGroupTree alloc] initWithCustomer:self];
-	[[self groupTree] refreshWithPriority:XMLREQ_PRIO_HIGH];
 	
 	/* Fire refresh */
 	[self normalPriorityRefresh];
@@ -242,10 +237,30 @@
 - (void) refreshWithPriority:(int)priority
 {
 	[super refreshWithPriority:priority];
-	[xsanList refreshWithPriority:priority];
-	[serviceList refreshWithPriority:priority];
-	[processProfileList refreshWithPriority:priority];
-	[lunList refreshWithPriority:priority];
+}
+
+- (void) XMLRequestFinished:(id)sender
+{
+	/* Check to see if this was a refresh that finished */
+	BOOL successfulRefresh;
+	if (sender == refreshXMLRequest && [sender success]) successfulRefresh = YES;
+	else successfulRefresh = NO;
+	
+	/* Perform super-class handling of XMLRequestFinished:(id)sender */
+	[super XMLRequestFinished:sender];
+	
+	/* Perform related-list refresh operations if this refresh was successful */
+	if (successfulRefresh)
+	{
+		[userList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+		[vendorList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+		[serviceList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+		[processProfileList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+		[xsanList refreshWithPriority:XMLREQ_PRIO_NORMAL];		
+		[lunList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+		[documentList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+		[groupTree refreshWithPriority:XMLREQ_PRIO_NORMAL];
+	}
 }
 
 #pragma mark "User Auth Levels"

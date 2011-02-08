@@ -42,7 +42,7 @@ sudo rm -rf "$DSYMDIR/Console/$BUILDNUM"
 
 cd "$SRCDIR"
 
-/Developer/usr/bin/xcodebuild -project "Lithium Console.xcodeproj" \
+/Xcode3/usr/bin/xcodebuild -project "Lithium Console.xcodeproj" \
   -alltargets \
   -configuration "Release 10.6" \
   -sdk "macosx10.5" \
@@ -51,7 +51,7 @@ cd "$SRCDIR"
   OBJROOT="$PKGDIR/1. Applications/Console" \
   clean
 
-/Developer/usr/bin/xcodebuild -project "Lithium Console.xcodeproj" \
+/Xcode3/usr/bin/xcodebuild -project "Lithium Console.xcodeproj" \
   -alltargets \
   -configuration "Release 10.6" \
   -sdk "macosx10.5" \

@@ -42,13 +42,21 @@
 - (void) setEntity:(LTEntity *)entity
 {
 	[self loadView];
+
+    if (_entity)
+    {
+        /* Remove old observers */
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityStateChanged object:_entity];
+    }
 	
 	[_entity release];
 	_entity = [entity retain];
 	
 	label.text = self.entity.desc;
-    
     graphView.entity = entity;
+    
+    /* Add state change observer */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entityStateChanged:) name:kLTEntityStateChanged object:_entity];
 }
 
 - (void) setSelected:(BOOL)value
@@ -84,6 +92,12 @@
 						   animated:YES];
 		[vc release];
 	}
+}
+
+- (void) entityStateChanged:(NSNotification *)note
+{
+    /* Received when an entity changes state */
+    [self.view setNeedsDisplay];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

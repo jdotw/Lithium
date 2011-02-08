@@ -352,6 +352,8 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (void) updateEntityUsingXMLNode:(LCXMLNode *)node
 {
+    BOOL childrenChanged = NO;
+    
 	/* Update local properties */
 	for (NSString *key in [node.properties allKeys])
 	{
@@ -370,6 +372,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 			{
 				childEntity = [[LTEntity new] autorelease];
 				childEntity.parent = self;
+                childEntity.isNew = YES;
 			}
 			
 			/* Clear all current values */
@@ -389,6 +392,9 @@ static NSMutableDictionary *_xmlTranslation = nil;
 					AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 					[appDelegate.favoritesController bindFavoritesFromDevice:childEntity];
 				}					
+                
+                childrenChanged = YES;  // Ensure notification is sent 
+                childEntity.isNew = NO; // Entity is not new now that it's in the parents children list
 			}
 		}
 		else if ([childNode.name isEqualToString:@"value"])
@@ -400,11 +406,19 @@ static NSMutableDictionary *_xmlTranslation = nil;
 			curValue.timestamp = [NSDate dateWithTimeIntervalSince1970:[[childNode.properties objectForKey:@"tstamp_sec"] floatValue]];
 
 			/* Set entity current value */
+            BOOL currentValueChanged = NO;      // Changes to YES if currentValue is present and updated
 			if (!currentValueSet)
 			{
+                if (self.currentValue && ![self.currentValue isEqualToString:[childNode.properties objectForKey:@"valstr"]])
+                { currentValueChanged = YES; }
 				self.currentValue = [childNode.properties objectForKey:@"valstr"];
 				currentValueSet = YES;
 			}
+            if (currentValueChanged)
+            {
+                NSLog (@"Dispatching LTEntityValueChanged for %@", self);
+                [[NSNotificationCenter defaultCenter] postNotificationName:kLTEntityValueChanged object:self];
+            }
 			
 			/* Enqueue */
 			if (!self.values)
@@ -413,6 +427,12 @@ static NSMutableDictionary *_xmlTranslation = nil;
 			
 		}
 	}
+    
+    if (childrenChanged)
+    {
+        /* Post notification for children list change */
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLTEntityChildrenChanged object:self];
+    }
 }
 
 #pragma mark "XML Property Setting"
@@ -650,7 +670,30 @@ static NSMutableDictionary *_xmlTranslation = nil;
 - (LTEntity *) metric
 { return [self parentOfType:6]; }
 @synthesize adminState;
+- (void) setAdminState:(int)value
+{
+    if (adminState != value)
+    {
+        adminState = value;
+        if (!self.isNew)
+        {
+            NSLog (@"Dispatching kLTEntityStateChanged for %@ because of adminstate change", self);
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLTEntityStateChanged object:self];
+        }
+    }
+}
 @synthesize opState;
+- (void) setOpState:(int)value
+{
+    if (opState != value)
+    {
+        opState = value;
+        if (!self.isNew)
+        {   NSLog (@"Dispatching kLTEntityStateChanged for %@ because of opstate change", self);
+            [[NSNotificationCenter defaultCenter] postNotificationName:kLTEntityStateChanged object:self];    
+        }
+    }
+}
 @synthesize currentValue;
 @synthesize maxValue;
 @synthesize hasBeenRefreshed;
@@ -785,5 +828,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
     if (self.type == 6 && [self.units isEqualToString:@"%"]) return YES;
     else return NO;
 }
+
+@synthesize isNew;
 
 @end
