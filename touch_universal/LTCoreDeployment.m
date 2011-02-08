@@ -274,7 +274,7 @@
 static void reachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReachabilityFlags flags, void *info)
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCoreDeploymentReachabilityChanged" 
-														object:nil];
+														object:info];
 }
 
 - (void) setIpAddress:(NSString *)value

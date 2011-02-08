@@ -43,25 +43,25 @@
 	NSTimer *incidentCountRefreshTimer;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
-@property (retain) LTAuthenticationTableViewController *authViewController;
-@property (assign) LTFavoritesTableViewController *favoritesController;
-@property (assign) LTIncidentListTableViewController *incidentsController;
+@property (nonatomic,retain) IBOutlet UIWindow *window;
+@property (nonatomic,retain) IBOutlet UITabBarController *tabBarController;
+@property (nonatomic,retain) LTAuthenticationTableViewController *authViewController;
+@property (nonatomic,assign) LTFavoritesTableViewController *favoritesController;
+@property (nonatomic,assign) LTIncidentListTableViewController *incidentsController;
 
 
-@property (copy) NSMutableArray *coreDeployments;
+@property (nonatomic,copy) NSMutableArray *coreDeployments;
 - (void) addCore:(LTCoreDeployment *)core;
 - (void) removeCore:(LTCoreDeployment *)core;
 - (void) saveCoreDeployments;
 - (void) entityRefreshDidBegin:(LTEntity *)entity;
 - (void) entityRefreshDidFinish:(LTEntity *)entity;
 
-@property (assign) BOOL isActive;
+@property (nonatomic,assign) BOOL isActive;
 
-@property (copy) NSData *pushToken;
+@property (nonatomic,copy) NSData *pushToken;
 
-@property (readonly) NSOperationQueue *operationQueue;
-@property (readonly) NSMutableArray *entityRefreshQueue;
+@property (nonatomic,readonly) NSOperationQueue *operationQueue;
+@property (nonatomic,readonly) NSMutableArray *entityRefreshQueue;
 
 @end

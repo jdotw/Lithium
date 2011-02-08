@@ -222,9 +222,11 @@
 		if ([rootNode.properties objectForKey:@"count"]) 
 		{ 
 			unsigned long newCount = (unsigned long) [[rootNode.properties objectForKey:@"count"] integerValue]; 
+            NSLog (@"newCount is %i, incidentCount is %i", newCount, incidentCount);
 			if (newCount != incidentCount)
 			{
 				incidentCount = newCount;
+                NSLog (@"Dispatching LTIncidentListCountUpdated");
 				[[NSNotificationCenter defaultCenter] postNotificationName:@"LTIncidentListCountUpdated" object:self];
 			}
 		}

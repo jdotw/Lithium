@@ -177,6 +177,22 @@
 
 - (void) deviceRefreshFinished:(NSNotification *)note
 {
+	/* What used to be done here is now done on entity state 
+     * and value change notifications
+     */
+    
+    // No longer used
+}
+
+- (void) entityStateChanged:(NSNotification *)note
+{
+    /* Entity state changed, force a redraw */
+    [self setNeedsDisplay];
+}
+
+- (void) entityValueChanged:(NSNotification *)note
+{
+    /* Entity value changes, update strings */
 	descLabel.text = entity ? [NSString stringWithFormat:@"%@ %@", entity.parent.desc, entity.desc] : @" ";
 	valueLabel.text = entity.currentValue ? : @" ";
 	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
@@ -185,9 +201,7 @@
 	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
 	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
 	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
-	
-	[self setNeedsDisplay];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];    
 }
 
 - (void) setSwatchColor:(UIColor *)value
@@ -203,22 +217,31 @@
 {
 	if (entity)
 	{
-		[[NSNotificationCenter defaultCenter] removeObserver:self
-														name:@"RefreshFinished"
-													  object:entity.device];
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:kLTEntityStateChanged
+                                                      object:entity];
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:kLTEntityValueChanged
+                                                      object:entity];
 	}
 	
 	[entity release];
 	entity = [value retain];
-	
-	[self deviceRefreshFinished:nil];	// Updates labels, etc
+    
+    /* Update View for new Entity */
+    [self entityStateChanged:nil];
+    [self entityValueChanged:nil];
 	
 	if (entity)
 	{
 		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(deviceRefreshFinished:)
-													 name:@"RefreshFinished"
-												   object:entity.device];
+												 selector:@selector(entityStateChanged:)
+													 name:kLTEntityStateChanged
+												   object:entity];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(entityValueChanged:)
+													 name:kLTEntityValueChanged
+												   object:entity];
 	}
 	
 	[self setNeedsLayout];
