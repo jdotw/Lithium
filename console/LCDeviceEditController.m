@@ -701,7 +701,7 @@
 	if ([[item representedObject] isEqualToString:defaultSelection]) [self moduleMenuClicked:item];
 	[item autorelease];
 	
-	item = [[NSMenuItem alloc] initWithTitle:@"Active Storage XRAID" action:@selector(moduleMenuClicked:) keyEquivalent:@""];
+	item = [[NSMenuItem alloc] initWithTitle:@"Active Storage RAID" action:@selector(moduleMenuClicked:) keyEquivalent:@""];
 	[item setRepresentedObject:@"activestorage"];
 	[storageModuleMenu insertItem:item atIndex:[[storageModuleMenu itemArray] count]];
 	if ([[item representedObject] isEqualToString:defaultSelection]) [self moduleMenuClicked:item];

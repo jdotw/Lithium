@@ -276,10 +276,8 @@
 														 xmlname:@"action_device_minimum_severity_update"
 														  refsec:0
 														  xmlout:xmlDoc];
-		[xmlReq setDebug:YES];
 		[xmlReq setPriority:XMLREQ_PRIO_HIGH];
 		[xmlReq performAsyncRequest];
-		NSLog (@"Sending minimumActionSeverityUpdate for %@ to %i", self, self.minimumActionSeverity);
 	}
 }
 

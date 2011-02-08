@@ -20,7 +20,6 @@
 {
 	/* Objects */
 	LCGroup *group;
-	NSTimer *refreshTimer;
 	LCBrowser2Controller *browser;
 
 	/* Outline */

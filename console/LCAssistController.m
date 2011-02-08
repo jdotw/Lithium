@@ -123,14 +123,21 @@
 	 * Storage 
 	 */
 	
-	task = [LCAssistDeviceTask taskForVendor:@"xraid"
-								  deviceType:@"Xserve RAID"
-							  requiredFields:@"xraid"
+	task = [LCAssistDeviceTask taskForVendor:@"activestorage"
+								  deviceType:@"ActiveRAID"
+							  requiredFields:@"snmp"
 							  withController:self];
-	[task setBlurb:@"Lithium can monitor Apple Xserve RAID units using proprietary monitoring protocols.\n\nYou will need to specify the 'monitoring' password for the Xserve RAID unit (the default is 'public')."];
-	[task setThumbnail:[NSImage imageNamed:@"tn_xraid.png"]];
+	[task setBlurb:@"Lithium can monitor Active Storage ActiveRAID devices using SNMP.\n\nYou will need to specify a read-only SNMP community string or SNMPv3 parameters."];
 	[devTaskDict setObject:task forKey:[task vendor]];
 	[devTasks addObject:task];
+
+	task = [LCAssistDeviceTask taskForVendor:@"brocadefcsw"
+								  deviceType:@"Brocade Fibre Channel Switch"
+							  requiredFields:@"snmp"
+							  withController:self];
+	[task setBlurb:@"Lithium can monitor Brocade Fibre Channel Switches using SNMP.\n\nYou will need to specify a read-only SNMP community string or SNMPv3 parameters."];
+	[devTaskDict setObject:task forKey:[task vendor]];
+	[devTasks addObject:task];	
 
 	task = [LCAssistDeviceTask taskForVendor:@"qlogic"
 								  deviceType:@"Qlogic Fibre Channel Switch"
@@ -140,6 +147,14 @@
 	[devTaskDict setObject:task forKey:[task vendor]];
 	[devTasks addObject:task];	
 	
+	task = [LCAssistDeviceTask taskForVendor:@"genericfcswitch"
+								  deviceType:@"Generic Fibre Channel Switch"
+							  requiredFields:@"snmp"
+							  withController:self];
+	[task setBlurb:@"Lithium can monitor Generic Fibre Channel Switches that support the Fibre Alliance (FA-40) SNMP MIB.\n\nYou will need to specify a read-only SNMP community string or SNMPv3 parameters."];
+	[devTaskDict setObject:task forKey:[task vendor]];
+	[devTasks addObject:task];	
+
 	task = [LCAssistDeviceTask taskForVendor:@"vtrak"
 								  deviceType:@"Promise VTrak RAID"
 							  requiredFields:@"snmp"
@@ -163,6 +178,16 @@
 	[task setBlurb:@"Lithium can monitor Infortrend based RAID units using SNMP.\n\nYou will need to specify a read-only SNMP community string or SNMPv3 parameters."];
 	[devTaskDict setObject:task forKey:[task vendor]];
 	[devTasks addObject:task];	
+	
+	task = [LCAssistDeviceTask taskForVendor:@"xraid"
+								  deviceType:@"Xserve RAID"
+							  requiredFields:@"xraid"
+							  withController:self];
+	[task setBlurb:@"Lithium can monitor Apple Xserve RAID units using proprietary monitoring protocols.\n\nYou will need to specify the 'monitoring' password for the Xserve RAID unit (the default is 'public')."];
+	[task setThumbnail:[NSImage imageNamed:@"tn_xraid.png"]];
+	[devTaskDict setObject:task forKey:[task vendor]];
+	[devTasks addObject:task];
+	
 	
 	/*
 	 * Network 

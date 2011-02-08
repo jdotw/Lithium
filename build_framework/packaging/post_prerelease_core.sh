@@ -31,3 +31,9 @@ scp LithiumCore-$BUILDNUM.dmg www.lithiumcorp.com:/www/download.lithiumcorp.com/
 # 
 
 cd $BASEDIR
+
+#
+# Print URL
+#
+
+echo "Uploaded to http://download.lithiumcorp.com/lithium5/core/osx/prerelease/LithiumCore-$BUILDNUM.$BUILDNUM_SHORT.dmg"

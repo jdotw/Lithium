@@ -78,7 +78,7 @@ echo "Console Build number is $CONSOLEBUILDNUM"
 
 cd "$COREADMINSRCDIR"
 
-/Developer/usr/bin/xcodebuild -project "LCAdminTools.xcodeproj" \
+/Xcode3/usr/bin/xcodebuild -project "LCAdminTools.xcodeproj" \
   -alltargets \
   -configuration "Release" \
   -sdk "macosx10.5" \
@@ -87,7 +87,7 @@ cd "$COREADMINSRCDIR"
   OBJROOT="$PKGDIR/1. Applications/Core Admin" \
   clean
 
-/Developer/usr/bin/xcodebuild -project "LCAdminTools.xcodeproj" \
+/Xcode3/usr/bin/xcodebuild -project "LCAdminTools.xcodeproj" \
   -alltargets \
   -configuration "Release" \
   -sdk "macosx10.5" \
@@ -112,7 +112,7 @@ cp -r "$PKGDIR/1. Applications/Core Admin/Release/Lithium Core Admin.app.dSYM" "
 # Create Installer Package
 #
 
-/Developer/usr/bin/packagemaker \
+/Xcode3/usr/bin/packagemaker \
   --doc "$PKGDIR/3. Distribution Package/Lithium Core 5.0.pmdoc" \
   --out "$INSTALLERDIR/Lithium-Core-$COREBUILDNUM.pkg" \
   --title "Lithium Core $COREBUILDNUM Installer"
