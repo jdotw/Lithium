@@ -81,7 +81,7 @@
     /* Draw selection overlay (Darken) */
     if (self.selected)
     { 
-        [[self _selectionOverlayImage] drawInRect:self.bounds blendMode:kCGBlendModePlusDarker alpha:0.6]; 
+        [[self _selectionOverlayImage] drawInRect:self.bounds blendMode:kCGBlendModeMultiply alpha:1.]; 
     }
 }
 

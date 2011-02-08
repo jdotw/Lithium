@@ -14,28 +14,17 @@
 
 @synthesize entity, showCurrentValue, showFullLocation, drawAsRack=_drawAsRack;
 
-- (id) initWithReuseIdentifier:(NSString *)reuseIdentifier
+- (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 
-	self.detailTextLabel.font = [UIFont systemFontOfSize:11.0];
-	
-	/* This may be used later as an accessory view */
-	valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-	valueLabel.backgroundColor = [UIColor clearColor];
-	valueLabel.textColor = [UIColor whiteColor];
-	valueLabel.highlightedTextColor = [UIColor whiteColor];
-	valueLabel.opaque = NO;
-	valueLabel.font = [UIFont systemFontOfSize:16.0];
-	valueLabel.textAlignment = UITextAlignmentRight;	
-    
 	return self;
 }
 
 - (void)dealloc 
 {
 	[entity release];
-	[valueLabel release];
+	[self.detailTextLabel release];
     [super dealloc];
 }
 
@@ -96,6 +85,7 @@
             break;
         }
     }
+    NSLog (@"Found valueMetric %i:%@=%@ for %i:%@", valueMetric.type, valueMetric.desc, valueMetric.currentValue, parentEntity.type, parentEntity.desc);
     return valueMetric;
 }
 
@@ -130,32 +120,25 @@
 
 - (void) updateCurrentValue:(NSNotification *)note
 {
-	valueLabel.text = [self valueMetricForEntity:self.entity].currentValue;
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
-	
-	CGSize stringSize = [valueLabel.text sizeWithFont:valueLabel.font];
-	valueLabel.frame = CGRectMake(0., 0., stringSize.width, stringSize.height);	
+	self.detailTextLabel.text = [self valueMetricForEntity:self.entity].currentValue;
+    if (self.detailTextLabel.text)
+    {
+        self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
+        self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
+        self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
+        self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
+        self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
+        self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
+        self.detailTextLabel.text = [self.detailTextLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
+    }
+    
+    NSLog (@"self.detailTextLabel.text is '%@' for %i:%@", self.detailTextLabel.text, self.entity.type, self.entity.desc);
 }
 
 - (void) setShowCurrentValue:(BOOL)value
 {
 	showCurrentValue = value;
-	
-	if (showCurrentValue)
-	{
-		self.accessoryView = valueLabel;
-		[self updateCurrentValue:nil];
-	}
-	else 
-	{
-		self.accessoryView = nil;
-	}
+	[self updateCurrentValue:nil];
 }
 
 - (void) setShowFullLocation:(BOOL)value
@@ -173,25 +156,6 @@
 	{
 		self.detailTextLabel.text = nil;
 	}
-}
-
-- (void)layoutSubviews
-{
-    /* Call super-class layout to handle textLabel and detailTextLabel layout */
-    [super layoutSubviews];
-    
-    /* Then, if necessary, adjust layout to fit in the current value */
-    if (self.showCurrentValue)
-    {
-        CGRect labelRect = self.textLabel.frame;
-        labelRect.size.width *= 0.7;  // 70/30 split between label and value 
-        self.textLabel.frame = labelRect;
-        
-        CGRect detailRect = self.detailTextLabel.frame;
-        
-        
-        CGRect valueRect = CGRectMake(CGRectGetMinX(self.textLabel.frame)+(CGRectGetWidth(self.textLabel.frame)*0, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
-    }
 }
 
 @end

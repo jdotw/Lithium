@@ -283,7 +283,7 @@
     if (sortSegment.selectedSegmentIndex == SORT_BY_DEVICE && section < sortedChildren.count)
     {
         /* Use device view */
-        LTDeviceEntityTableViewCell *deviceView = [[LTDeviceEntityTableViewCell alloc] initWithReuseIdentifier:@"blah"];
+        LTDeviceEntityTableViewCell *deviceView = [[LTDeviceEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"dummy"];
         LTIncidentListGroup *group = [sortedChildren objectAtIndex:section];
         deviceView.textLabel.text = group.title;
         deviceView.entityState = group.highestEntityState;

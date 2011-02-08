@@ -17,7 +17,7 @@
 	UILabel *valueLabel;
 }
 
-- (id) initWithReuseIdentifier:(NSString *)reuseIdentifier;
+- (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 @property (nonatomic,retain) LTEntity *entity;
 @property (nonatomic,assign) BOOL showFullLocation;

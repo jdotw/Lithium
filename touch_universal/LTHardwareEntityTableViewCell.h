@@ -18,10 +18,6 @@
 
 @interface LTHardwareEntityTableViewCell : LTEntityTableViewCell 
 {
-	/* LED Indicator */
-	CGFloat ledIndicatorXOffset;	// The X offset of the LED Indicator
-	UIImageView *ledImageView;
-	
 	/* Screws */
 	UIImageView *topLeftScrewImageView;
 	UIImageView *topRightScrewImageView;

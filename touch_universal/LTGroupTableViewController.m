@@ -21,6 +21,7 @@
 #import "LTTableView.h"
 #import "LTTableViewSectionHeaderView.h"
 #import "AppDelegate_Pad.h"
+#import "LTRackTableViewHeaderView.h"
 
 @interface LTGroupTableViewController (private)
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
@@ -34,7 +35,7 @@
 - (id)initWithStyle:(UITableViewStyle)style 
 {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) 
+    if ((self = [super initWithStyle:style])) 
 	{
 		self.tableView.backgroundColor = [UIColor colorWithRed:32.0/255.0 green:32.0/255.0 blue:32.0/255.0 alpha:1.0];
 		self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;		
@@ -187,20 +188,23 @@
 	{
 		/* Aggregated groups */
 		if ([children count] > 0)
-		{ return [children count]; }
+		{ 
+            return [children count]; 
+        }
 		else 
 		{
+            /* No groups present, see if a refresh is in progress */
 			AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-			for (LTCoreDeployment *core in [appDelegate coreDeployments])
-			{
-				for (LTCustomer *customer in core.children)
-				{
-					if ([customer.groupTree refreshInProgress]) 
-					{
-						return 1;
-					}
-				}
+			for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+            {
+                if ([customer.groupTree refreshInProgress]) 
+                {
+                    /* A refresh is in progress, use refresh indicator */
+                    return 1;	
+                }
 			}
+            
+            /* No groups, no refresh -- no rows */
 			return 0;
 		}
 	}
@@ -276,7 +280,7 @@
 		}
 		else 
 		{
-			cell = [[[LTEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+			cell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 		}
 
 		if (displayEntity) 
@@ -289,7 +293,7 @@
 			}
 			if ([CellIdentifier isEqualToString:@"GroupHeader"])
 			{
-				cell.backgroundView = [[LTTableViewSectionHeaderView alloc] initWithFrame:CGRectZero];
+				cell.backgroundView = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero];
 			}
 			
 		}
@@ -320,6 +324,14 @@
 		else cell.showFullLocation = NO;
 		if (displayEntity.type == 6) cell.showCurrentValue = YES;
 		else cell.showCurrentValue = NO;
+        
+        /* Setup Cell for Group Headers */
+        if ([CellIdentifier isEqualToString:@"GroupHeader"])
+        {
+            LTRackTableViewHeaderView *headerView = (LTRackTableViewHeaderView *) cell.backgroundView;
+            headerView.textLabel.text = cell.textLabel.text;
+            cell.textLabel.text = nil;
+        }
 	}
 	else
 	{

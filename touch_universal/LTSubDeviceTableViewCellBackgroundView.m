@@ -23,6 +23,9 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    [[UIColor colorWithWhite:0.2 alpha:1.0] setFill];
+    UIRectFill(self.bounds);
+    
     /* Draw two-line bottom divider */
     CGRect dividerRect = CGRectMake(0., CGRectGetMaxY(self.bounds)-2., CGRectGetWidth(self.bounds), 1.);
     [[UIColor colorWithWhite:0.0 alpha:0.75] setFill];

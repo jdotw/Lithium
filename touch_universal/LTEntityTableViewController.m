@@ -111,7 +111,7 @@
         if (entity.type >= ENT_DEVICE)
         {
             self.drawAsRack = NO;
-            self.tableView.backgroundView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"LTDeviceViewBack.png"]];
+            self.tableView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:1.0];
         }
     }
 }
@@ -442,20 +442,23 @@
 	}
 	else 
 	{ CellIdentifier = @"Refresh"; }
+    
+    NSLog (@"Using cell type %@ for %i:%@", CellIdentifier, displayEntity.type, displayEntity.desc);
+    
     LTEntityTableViewCell *cell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
 		if ([CellIdentifier isEqualToString:@"Entity"])
 		{
-			cell = [[[LTEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+			cell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 		}
 		else if ([CellIdentifier isEqualToString:@"Device"])
 		{
-			cell = [[[LTDeviceEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+			cell = [[[LTDeviceEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 		}
 		else if ([CellIdentifier isEqualToString:@"Hardware"])
 		{
-			cell = [[[LTHardwareEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+			cell = [[[LTHardwareEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 		}
 		else if ([CellIdentifier isEqualToString:@"Refresh"])
 		{
@@ -508,6 +511,16 @@
             if (entity.type >= ENT_DEVICE)
             {
                 cell.backgroundView = [[LTSubDeviceTableViewCellBackgroundView alloc] initWithFrame:CGRectZero];
+                cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
+                cell.textLabel.shadowColor = [UIColor blackColor];
+                cell.textLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+                cell.textLabel.minimumFontSize = 12.0;
+                cell.textLabel.adjustsFontSizeToFitWidth = YES;
+                cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
+                cell.detailTextLabel.shadowColor = [UIColor blackColor];
+                cell.detailTextLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+                cell.detailTextLabel.minimumFontSize = 12.0;
+                cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
             }
         }
 	}

@@ -11,9 +11,9 @@
 
 @implementation LTDeviceEntityTableViewCell
 
-- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier {
-    
-    self = [super initWithReuseIdentifier:reuseIdentifier];
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     if (self) 
 	{
 		/* Create Vent Image Views */

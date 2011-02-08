@@ -23,6 +23,6 @@
 }
 
 - (void) refresh;
-@property (retain) LTGroup *group;
+@property (retain,nonatomic) LTGroup *group;
 
 @end

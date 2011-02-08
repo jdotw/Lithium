@@ -11,18 +11,13 @@
 
 @implementation LTHardwareEntityTableViewCell
 
-- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier {
-    
-    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) 
 	{
         // Initialization code.
 		self.drawEntityStateBackgroundColor = NO;	// Don't show entity color in background
-		ledIndicatorXOffset = -10.0;
-		
-		/* Create LED Indicator */
-		ledImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-		[self addSubview:ledImageView];
 		
 		/* Screw Indicators */
 		topLeftScrewImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -37,6 +32,8 @@
 		bottomRightScrewImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 		bottomRightScrewImageView.image = [UIImage imageNamed:@"ScrewHole.png"];
 		[self addSubview:bottomRightScrewImageView];
+        
+        self.detailTextLabel.text = nil;
     }
     return self;
 }
@@ -50,30 +47,13 @@
 }
 
 - (void)dealloc {
-	[ledImageView release];
     [super dealloc];
 }
 
-- (void) layoutSubviews
+- (void) WRONGlayoutSubviews
 {
 	[super layoutSubviews];
 
-	NSLog (@"Layout: %@", NSStringFromCGRect(self.bounds));
-		   
-	
-	/* Layout LED Indicator -- Image is always 49x40 */
-	CGRect ledRect = CGRectMake(ledIndicatorXOffset, CGRectGetMidY(self.bounds)-(0.5*40.0), 
-								49.0, 40.0);
-	ledImageView.frame = ledRect;
-	
-	/* Shift text label to the right of the LED */
-	CGFloat labelXOffset = 22.0;
-	CGRect labelRect = self.textLabel.frame;
-	labelRect.origin.x += labelXOffset;
-	labelRect.origin.y -= 1.;
-	labelRect.size.width -= labelXOffset;
-	self.textLabel.frame = labelRect;
-	
 	/* 
 	 * Layout screws -- Image is always 9x9 
 	 */
@@ -127,7 +107,7 @@
 			ledImage = [UIImage imageNamed:@"LED-Off.png"];
 			break;
 	}
-	ledImageView.image = ledImage;
+	self.imageView.image = ledImage;
 }
 
 - (void)setDrawAsRack:(BOOL)value

@@ -383,7 +383,7 @@
 		LTEntityTableViewCell *metricCell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (metricCell == nil) 
 		{
-			metricCell = [[[LTEntityTableViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
+			metricCell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 		}
 		metricCell.showFullLocation = YES;
 		metricCell.showCurrentValue = YES;
