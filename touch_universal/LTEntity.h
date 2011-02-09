@@ -96,8 +96,8 @@
 				   xmlName:(NSString *)xmlName 
 					   xml:(NSString *)xml;
 - (void) setXmlValue:(id)value forKey:(NSString *)key;
+- (void) updateEntityUsingXML:(TBXML *)xml;
 - (void) updateEntityUsingXMLNode:(TBXMLElement *)node;
-//- (void) xmlParserDidFinish:(LCXMLNode *)rootNode;
 - (NSString *) urlPrefix;
 - (NSURL *) urlForXml:(NSString *)xmlName timestamp:(int)urlRefSec;
 - (LTEntity *) parentOfType:(int)type;

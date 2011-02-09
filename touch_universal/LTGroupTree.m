@@ -68,49 +68,46 @@
 	}	
 }
 
-- (void) xmlParserDidFinish:(LCXMLNode *)rootNode
+- (void) updateEntityUsingXML:(TBXML *)xml
 {
-	/* Check Thread */
-	if ([NSThread currentThread] != [NSThread mainThread])
-	{
-		[NSException raise:@"LTGroupTree-parserDidFinish-IncorrectThread"
-					format:@"An instance of LTEntity received a message to parserDidFinish on a thread that was NOT that main thread"];
-	}
-	
 	/* Interpret */
 	NSMutableArray *newGroups = [NSMutableArray array];
 	NSMutableArray *newEntities = [NSMutableArray array];
 	NSMutableArray *seenGroups = [NSMutableArray array];
 	NSMutableArray *seenEntities = [NSMutableArray array];
-	for (LCXMLNode *childNode in rootNode.children)
-	{ 
-		if ([childNode.name isEqualToString:@"group"]) 
+    TBXMLElement *node = xml.rootXMLElement;
+    for (node=node->firstChild; node; node = node->nextSibling)
+    {
+        NSString *nodeName = [TBXML elementName:node];
+
+		if ([nodeName isEqualToString:@"group"]) 
 		{
 			/* Child Group */
-			LTGroup *childGroup = [childDict objectForKey:[childNode.properties objectForKey:@"id"]];
+			LTGroup *childGroup = [childDict objectForKey:[TBXML textForElementNamed:@"id" parentElement:node]];
 			if (!childGroup)
 			{
 				/* Create new group */
 				childGroup = [LTGroup new];
-				childGroup.groupID = [[childNode.properties objectForKey:@"id"] intValue];
-				childGroup.parentID = [[childNode.properties objectForKey:@"parent"] intValue];
+				childGroup.groupID = [TBXML intFromTextForElementNamed:@"id" parentElement:node];
+				childGroup.parentID = [TBXML intFromTextForElementNamed:@"parent" parentElement:node];
 				childGroup.customer = customer;
 				[childDict setObject:childGroup forKey:[NSString stringWithFormat:@"%i", childGroup.groupID]];
 				[newGroups addObject:childGroup];
 			}
-			childGroup.desc = [childNode.properties objectForKey:@"desc"];			
+			childGroup.desc = [TBXML textForElementNamed:@"desc" parentElement:node];
 			[seenGroups addObject:childGroup];
 		}
-		else if ([childNode.name isEqualToString:@"entity"])
+		else if ([nodeName isEqualToString:@"entity"])
 		{
 			/* Entity */
-			for (LCXMLNode *entityNode in childNode.children)
-			{
+            TBXMLElement *entDescNode = [TBXML childElementNamed:@"entity_descriptor" parentElement:node];
+            if (entDescNode)
+            {
 				/* Interpret entityDescriptor */
-				LTEntityDescriptor *childEntDesc = [LTEntityDescriptor entityDescriptorFromXml:entityNode]; 
+				LTEntityDescriptor *childEntDesc = [LTEntityDescriptor entityDescriptorFromXml:entDescNode]; 
 				
 				/* Get Parent Group */
-				LTGroup *parentGroup = [childDict objectForKey:[childNode.properties objectForKey:@"parent"]];
+				LTGroup *parentGroup = [childDict objectForKey:[TBXML textForElementNamed:@"parent" parentElement:node]];
 				
 				/* Check for existing entity */
 				LTEntity *entity = [parentGroup.childDict objectForKey:childEntDesc.entityAddress];
@@ -125,7 +122,7 @@
 					entity.password = [customer password];
 					entity.customer = customer;
 					entity.customerName = customer.name;
-					entity.resourceAddress = [entityNode.properties objectForKey:@"resaddr"] ? : customer.resourceAddress;
+					entity.resourceAddress = [TBXML textForElementNamed:@"resaddr" parentElement:entDescNode] ? : customer.resourceAddress;
 					entity.ipAddress = customer.ipAddress;
 					entity.coreDeployment = customer.coreDeployment;
 					entity.entityDescriptor = childEntDesc;
@@ -182,13 +179,8 @@
 	[self recursivelyCheckObsoleteGroups:seenGroups
 							 andEntities:seenEntities 
 								 inGroup:self]; 
-	
-	/* Clean-up */
-    [receivedData release];
-	
-	/* Post Notification */
-	self.refreshInProgress = NO;
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];
+
+	/* Post group-tree specific notification */
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTGroupTreeRefreshFinished" object:self];
 }
 

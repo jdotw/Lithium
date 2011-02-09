@@ -111,9 +111,12 @@ xmlNodePtr i_entity_xml (i_entity *ent, unsigned short flags, time_t sync_versio
   if (add_detail == 1)
   {
     /* Priority */
-    asprintf (&str, "%lu", ent->prio);
-    xmlNewChild (ent_node, NULL, BAD_CAST "prio", BAD_CAST str);
-    free (str);
+    if (!(flags & ENTXML_MOBILE))
+    {
+      asprintf (&str, "%lu", ent->prio);
+      xmlNewChild (ent_node, NULL, BAD_CAST "prio", BAD_CAST str);
+      free (str);
+    }
 
     /* Resource */
     char *resaddrstr = NULL;
@@ -134,7 +137,7 @@ xmlNodePtr i_entity_xml (i_entity *ent, unsigned short flags, time_t sync_versio
 
     /* Refresh info */
 //    if (ent->ent_type == 3 || ent->ent_type == 6)
-    if (ent->ent_type == 3)
+    if (ent->ent_type == 3 && !(flags & ENTXML_MOBILE))
     {
       /* For Device and Metric only */
 //      asprintf (&str, "%u", ent->refresh_method);
@@ -497,9 +500,12 @@ int i_xml_entity_handler (i_resource *self, i_xml_request *req, int flags)
     char *str;
 
     /* Auth Level */
-    asprintf (&str, "%i", req->auth->level);
-    xmlNewChild (node, NULL, BAD_CAST "auth_level", BAD_CAST str);
-    free (str);
+    if (!(flags & ENTXML_MOBILE))
+    {
+      asprintf (&str, "%i", req->auth->level);
+      xmlNewChild (node, NULL, BAD_CAST "auth_level", BAD_CAST str);
+      free (str);
+    }
 
     /* Absolutely latest version */
     asprintf (&str, "%li", time(NULL));

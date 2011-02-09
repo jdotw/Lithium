@@ -13,7 +13,6 @@
 #import "LTAuthenticationTableViewController.h"
 #import "AppDelegate.h"
 #import "LTAction.h"
-#import "LCXMLParseOperation.h"
 #import "LCXMLNode.h"
 
 #define REQ_COUNTANDVERSION 1
@@ -177,159 +176,150 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 
-{
-	/* Parse XML */
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	LCXMLParseOperation *xmlParser = [[LCXMLParseOperation new] autorelease];
-	xmlParser.xmlData = receivedData;
-	xmlParser.delegate = self;
-	[appDelegate.operationQueue addOperation:xmlParser];
+{    
+    /* Parse XML Using TBXML */
+    BOOL listHasChanged = NO;
+    TBXML *xml = [TBXML tbxmlWithXMLData:receivedData];
+    if (xml && xml.rootXMLElement)
+    {
+        /* Check for version info */
+        if ([TBXML textForElementNamed:@"version" parentElement:xml.rootXMLElement]) 
+        { 
+            /* Check the version number */
+            unsigned int newVersion = (unsigned long) [TBXML intFromTextForElementNamed:@"version" parentElement:xml.rootXMLElement]; 
+            if (newVersion != listVersion)
+            {
+                /* The list has changed */
+                listHasChanged = YES;
+                
+                /* If this is a list request, the new version number can be set */
+                if (currentRequest == REQ_LIST)
+                {
+                    listVersion = newVersion;
+                }
+            }
+                
+            /* Update incident count */
+            if ([TBXML textForElementNamed:@"count" parentElement:xml.rootXMLElement]) 
+            { 
+                unsigned long newCount = (unsigned long) [TBXML intFromTextForElementNamed:@"count" parentElement:xml.rootXMLElement]; 
+                if (newCount != incidentCount)
+                {
+                    incidentCount = newCount;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"LTIncidentListCountUpdated" object:self];
+                }
+            }
+        }
 	
-	/* Clean-up */
-    [connection release];
-	
-}
-
-- (void) xmlParserDidFinish:(LCXMLNode *)rootNode
-{
-	/* Check Thread */
-	if ([NSThread currentThread] != [NSThread mainThread])
-	{
-		[NSException raise:@"LTEntity-parserDidFinish-IncorrectThread"
-					format:@"An instance of LTEntity received a message to parserDidFinish on a thread that was NOT that main thread"];
-	}
-	
-	/* Check for version info */
-	BOOL listHasChanged = NO;
-	if ([rootNode.properties objectForKey:@"version"]) 
-	{ 
-		/* Check the version number */
-		unsigned int newVersion = (unsigned long) [[rootNode.properties objectForKey:@"version"] integerValue]; 
-		if (newVersion != listVersion)
-		{
-			/* The list has changed */
-			listHasChanged = YES;
-			
-			/* If this is a list request, the new version number can be set */
-			if (currentRequest == REQ_LIST)
-			{
-				listVersion = newVersion;
-			}
-		}
-			
-		/* Update incident count */
-		if ([rootNode.properties objectForKey:@"count"]) 
-		{ 
-			unsigned long newCount = (unsigned long) [[rootNode.properties objectForKey:@"count"] integerValue]; 
-			if (newCount != incidentCount)
-			{
-				incidentCount = newCount;
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"LTIncidentListCountUpdated" object:self];
-			}
-		}
-	}
-	
-	/* Interpret Incident List*/
-	if (currentRequest == REQ_LIST)
-	{
-		NSMutableArray *seenIncidents = [NSMutableArray array];
-		for (LCXMLNode *childNode in rootNode.children)
-		{ 
-			if ([childNode.name isEqualToString:@"incident"])
-			{
-				LTIncident *curIncident = [incidentDict objectForKey:[childNode.properties objectForKey:@"id"]];
-				if (!curIncident)
-				{
-					curIncident = [LTIncident new];
-					curIncident.identifier = [[childNode.properties objectForKey:@"id"] intValue];
-					if ([[childNode.properties objectForKey:@"start_sec"] intValue] > 0)
-					{ curIncident.startDate = [NSDate dateWithTimeIntervalSince1970:[[childNode.properties objectForKey:@"start_sec"] doubleValue]]; }
-					curIncident.raisedValue = [childNode.properties objectForKey:@"raised_valstr"];
-					[incidents addObject:curIncident];
-					[incidentDict setObject:curIncident forKey:[childNode.properties objectForKey:@"id"]];
-				}
-				[seenIncidents addObject:curIncident];
-				if ([[childNode.properties objectForKey:@"end_sec"] intValue] > 0)
-				{ curIncident.endDate = [NSDate dateWithTimeIntervalSince1970:[[childNode.properties objectForKey:@"end_sec"] doubleValue]]; }			
-				curIncident.caseIdentifier = [[childNode.properties objectForKey:@"caseid"] intValue];
-							
-				for (LCXMLNode *incChildNode in childNode.children)
-				{
-					if ([incChildNode.name isEqualToString:@"action"])
-					{
-						LTAction *curAction = [curIncident.actionDict objectForKey:[incChildNode.properties objectForKey:@"id"]];
-						if (!curAction)
-						{
-							curAction = [LTAction new];
-							curAction.identifier = [[incChildNode.properties objectForKey:@"id"] intValue];
-							curAction.desc = [incChildNode.properties objectForKey:@"desc"];
-							curAction.incident = curIncident;
-							curAction.scriptFile = [incChildNode.properties objectForKey:@"script_file"];
-							curAction.enabled = [[incChildNode.properties objectForKey:@"enabled"] intValue];
-							curAction.activationMode = [[incChildNode.properties objectForKey:@"activation"] intValue];
-							curAction.delay = [[incChildNode.properties objectForKey:@"delay"] intValue];
-							curAction.rerun = [[incChildNode.properties objectForKey:@"rerun"] intValue];
-							curAction.rerunDelay = [[incChildNode.properties objectForKey:@"rerun_delay"] intValue];
-							curAction.timeFiltered = [[incChildNode.properties objectForKey:@"time_filter"] intValue];
-							curAction.dayMask = [[incChildNode.properties objectForKey:@"day_mask"] intValue];
-							curAction.startHour = [[incChildNode.properties objectForKey:@"start_hour"] intValue];
-							curAction.endHour = [[incChildNode.properties objectForKey:@"end_hour"] intValue];						
-							[curIncident.actions addObject:curAction];
-							[curIncident.actionDict setObject:curAction forKey:[incChildNode.properties objectForKey:@"id"]];
-						}
-						curAction.runCount = [[incChildNode.properties objectForKey:@"run_count"] intValue];
-						curAction.runState = [[incChildNode.properties objectForKey:@"runstate"] intValue];
-										}
-					else if ([incChildNode.name isEqualToString:@"entity_descriptor"])
-					{
-						if (!curIncident.entityDescriptor)
-						{ 
-							/* Interpret entityDescriptor */
-							curIncident.entityDescriptor = [LTEntityDescriptor entityDescriptorFromXml:incChildNode]; 
-							curIncident.resourceAddress = curIncident.entityDescriptor.resourceAddress;
-							
-							/* Create stand-alone entity for the incident */
-							curIncident.metric = [LTEntity new];
-							curIncident.metric.type = 6;
-							curIncident.metric.name = curIncident.entityDescriptor.metName;
-							curIncident.metric.desc = curIncident.entityDescriptor.metDesc;
-							curIncident.metric.username = [customer username];
-							curIncident.metric.password = [customer password];
-							curIncident.metric.customer = customer;
-							curIncident.metric.customerName = curIncident.entityDescriptor.custName;
-							curIncident.metric.resourceAddress = curIncident.resourceAddress;
-							curIncident.metric.ipAddress = [customer ipAddress];
-							curIncident.metric.coreDeployment = [customer coreDeployment];
-							LTEntityDescriptor *metEntityDesc = [curIncident.entityDescriptor copy]; 
-							metEntityDesc.type = 6;
-							metEntityDesc.trgName = nil;
-							metEntityDesc.trgDesc = nil;
-							curIncident.metric.entityDescriptor = metEntityDesc;
-							curIncident.metric.entityAddress = [curIncident.metric.entityDescriptor entityAddress];						
-						}
-						
-					}
-				}
-				
-			}
-		}	
-		
-		/* Check obsolescence */
-		NSMutableArray *obsoleteIncidents = [NSMutableArray array];
-		for (LTIncident *inc in incidents)
-		{
-			if (![seenIncidents containsObject:inc])
-			{ [obsoleteIncidents addObject:inc]; }
-		}
-		for (LTIncident *inc in obsoleteIncidents)
-		{
-			[incidents removeObject:inc];
-			[incidentDict removeObjectForKey:[NSString stringWithFormat:@"%i", inc.identifier]];
-		}
-	}
+        /* Interpret Incident List*/
+        if (currentRequest == REQ_LIST)
+        {
+            NSMutableArray *seenIncidents = [NSMutableArray array];
+            TBXMLElement *node = xml.rootXMLElement;
+            for (node=node->firstChild; node; node = node->nextSibling)
+            {
+                NSString *nodeName = [TBXML elementName:node];
+                if ([nodeName isEqualToString:@"incident"])
+                {
+                    LTIncident *curIncident = [incidentDict objectForKey:[TBXML textForElementNamed:@"id" parentElement:node]];
+                    if (!curIncident)
+                    {
+                        curIncident = [LTIncident new];
+                        curIncident.identifier = [TBXML intFromTextForElementNamed:@"id" parentElement:node];
+                        if ([TBXML intFromTextForElementNamed:@"start_sec" parentElement:node] > 0)
+                        { curIncident.startDate = [NSDate dateWithTimeIntervalSince1970:[[TBXML textForElementNamed:@"start_sec" 
+                                                                                                      parentElement:node] doubleValue]]; }
+                        curIncident.raisedValue = [TBXML textForElementNamed:@"raised_valstr" parentElement:node];
+                        [incidents addObject:curIncident];
+                        [incidentDict setObject:curIncident forKey:[TBXML textForElementNamed:@"id" parentElement:node]];
+                    }
+                    [seenIncidents addObject:curIncident];
+                    if ([TBXML intFromTextForElementNamed:@"end_sec" parentElement:node] > 0)
+                    { curIncident.endDate = [NSDate dateWithTimeIntervalSince1970:[[TBXML textForElementNamed:@"end_sec" 
+                                                                                                parentElement:node] doubleValue]]; }
+                    curIncident.caseIdentifier = [TBXML intFromTextForElementNamed:@"caseid" parentElement:node];
+                                
+                    TBXMLElement *incChildNode;
+                    for (incChildNode = node->firstChild; incChildNode; incChildNode=incChildNode->nextSibling)
+                    {
+                        NSString *childNodeName = [TBXML elementName:incChildNode];
+                        if ([childNodeName isEqualToString:@"action"])
+                        {
+                            LTAction *curAction = [curIncident.actionDict objectForKey:[TBXML textForElementNamed:@"id" parentElement:incChildNode]];
+                            if (!curAction)
+                            {
+                                curAction = [LTAction new];
+                                curAction.identifier = [TBXML intFromTextForElementNamed:@"id" parentElement:incChildNode];
+                                curAction.desc = [TBXML textForElementNamed:@"desc" parentElement:incChildNode];
+                                curAction.incident = curIncident;
+                                curAction.scriptFile = [TBXML textForElementNamed:@"script_file" parentElement:incChildNode];
+                                curAction.enabled = [TBXML intFromTextForElementNamed:@"enabled" parentElement:incChildNode];
+                                curAction.activationMode = [TBXML intFromTextForElementNamed:@"activation" parentElement:incChildNode];
+                                curAction.delay = [TBXML intFromTextForElementNamed:@"delay" parentElement:incChildNode];
+                                curAction.rerun = [TBXML intFromTextForElementNamed:@"rerun" parentElement:incChildNode];
+                                curAction.rerunDelay = [TBXML intFromTextForElementNamed:@"rerun_delay" parentElement:incChildNode];
+                                curAction.timeFiltered = [TBXML intFromTextForElementNamed:@"time_filter" parentElement:incChildNode];
+                                curAction.dayMask = [TBXML intFromTextForElementNamed:@"day_mask" parentElement:incChildNode];
+                                curAction.startHour = [TBXML intFromTextForElementNamed:@"start_hour" parentElement:incChildNode];
+                                curAction.endHour = [TBXML intFromTextForElementNamed:@"end_hour" parentElement:incChildNode];
+                                [curIncident.actions addObject:curAction];
+                                [curIncident.actionDict setObject:curAction forKey:[TBXML textForElementNamed:@"id" parentElement:incChildNode]];
+                            }
+                            curAction.runCount = [TBXML intFromTextForElementNamed:@"run_count" parentElement:incChildNode];
+                            curAction.runState = [TBXML intFromTextForElementNamed:@"runstate" parentElement:incChildNode];
+                        }
+                        else if ([childNodeName isEqualToString:@"entity_descriptor"])
+                        {
+                            if (!curIncident.entityDescriptor)
+                            { 
+                                /* Interpret entityDescriptor */
+                                curIncident.entityDescriptor = [LTEntityDescriptor entityDescriptorFromXml:incChildNode]; 
+                                curIncident.resourceAddress = curIncident.entityDescriptor.resourceAddress;
+                                
+                                /* Create stand-alone entity for the incident */
+                                curIncident.metric = [LTEntity new];
+                                curIncident.metric.type = 6;
+                                curIncident.metric.name = curIncident.entityDescriptor.metName;
+                                curIncident.metric.desc = curIncident.entityDescriptor.metDesc;
+                                curIncident.metric.username = [customer username];
+                                curIncident.metric.password = [customer password];
+                                curIncident.metric.customer = customer;
+                                curIncident.metric.customerName = curIncident.entityDescriptor.custName;
+                                curIncident.metric.resourceAddress = curIncident.resourceAddress;
+                                curIncident.metric.ipAddress = [customer ipAddress];
+                                curIncident.metric.coreDeployment = [customer coreDeployment];
+                                LTEntityDescriptor *metEntityDesc = [curIncident.entityDescriptor copy]; 
+                                metEntityDesc.type = 6;
+                                metEntityDesc.trgName = nil;
+                                metEntityDesc.trgDesc = nil;
+                                curIncident.metric.entityDescriptor = metEntityDesc;
+                                curIncident.metric.entityAddress = [curIncident.metric.entityDescriptor entityAddress];						
+                            }
+                            
+                        }
+                    }
+                    
+                }
+            }	
+            
+            /* Check obsolescence */
+            NSMutableArray *obsoleteIncidents = [NSMutableArray array];
+            for (LTIncident *inc in incidents)
+            {
+                if (![seenIncidents containsObject:inc])
+                { [obsoleteIncidents addObject:inc]; }
+            }
+            for (LTIncident *inc in obsoleteIncidents)
+            {
+                [incidents removeObject:inc];
+                [incidentDict removeObjectForKey:[NSString stringWithFormat:@"%i", inc.identifier]];
+            }
+        }
+    }
 	
 	/* Clean-up */
     [receivedData release];
+    [connection release];
 		
 	/* Check to see if a follow-up refresh is needed */
 	if (currentRequest == REQ_COUNTANDVERSION && listHasChanged && !refreshCountOnly)

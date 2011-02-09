@@ -48,13 +48,10 @@
 
 - (void) updateEntityUsingXMLNode:(TBXMLElement *)rootNode
 {
-    [super updateEntityUsingXMLNode:rootNode];
-
-    /* Post customer-specific notification */
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCustomerRefreshFinished" object:self];
-
-	/* Parse Custom Module List */
-	self.customModules = [NSMutableDictionary dictionary];
+    /* Parse core version; this is done first to ensure any further
+     * refresh operations use the right xml names for the right version
+     */
+    NSLog (@"CoreVesion: %@", [TBXML textForElementNamed:@"core_version" parentElement:rootNode]);
     if ([TBXML childElementNamed:@"core_version" parentElement:rootNode])
     {
         NSArray *components = [[TBXML textForElementNamed:@"core_version" parentElement:rootNode] componentsSeparatedByString:@"."];
@@ -62,6 +59,15 @@
         if (components.count > 1) coreVersionMinor = [[components objectAtIndex:1] intValue];
         if (components.count > 2) coreVersionPoint = [[components objectAtIndex:2] intValue];
     }
+
+    /* Call super-class to parse children and properties */
+    [super updateEntityUsingXMLNode:rootNode];
+
+    /* Post customer-specific notification */
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCustomerRefreshFinished" object:self];
+
+	/* Parse Custom Module List */
+	self.customModules = [NSMutableDictionary dictionary];
     TBXMLElement *moduleList = [TBXML childElementNamed:@"custom_module_list" parentElement:rootNode];
     if (moduleList)
     {

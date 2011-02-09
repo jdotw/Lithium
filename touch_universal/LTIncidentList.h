@@ -31,11 +31,11 @@
 - (void) refreshCountOnly;
 - (void) refresh;
 
-@property (readonly) unsigned long incidentCount;
-@property (readonly) NSMutableArray *incidents;
-@property (readonly) NSMutableDictionary *incidentDict;
-@property (assign) BOOL historicList;
-@property (assign) int maxResultsCount;
-@property (retain) LTEntity *entity;
+@property (nonatomic,readonly) unsigned long incidentCount;
+@property (nonatomic,readonly) NSMutableArray *incidents;
+@property (nonatomic,readonly) NSMutableDictionary *incidentDict;
+@property (nonatomic,assign) BOOL historicList;
+@property (nonatomic,assign) int maxResultsCount;
+@property (nonatomic,retain) LTEntity *entity;
 
 @end

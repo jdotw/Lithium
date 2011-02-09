@@ -13,7 +13,13 @@
 
 + (NSString *) textForElementNamed:(NSString *)name parentElement:(TBXMLElement *)parentElement
 {
-    return [TBXML textForElement:[TBXML childElementNamed:name parentElement:parentElement]];
+    TBXMLElement *element = [TBXML childElementNamed:name parentElement:parentElement];
+    return element ? [TBXML textForElement:element] : nil;
+}
+
++ (NSInteger) intFromTextForElementNamed:(NSString *)name parentElement:(TBXMLElement *)parentElement
+{
+    return [[TBXML textForElementNamed:name parentElement:parentElement] intValue];
 }
 
 @end
