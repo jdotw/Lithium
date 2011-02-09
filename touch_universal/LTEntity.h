@@ -11,6 +11,7 @@
 #import "LTMetricValue.h"
 #import "LCXMLNode.h"
 #import "LTAPIRequest.h"
+#import "TBXML.h"
 
 #define ENT_CUSTOMER 1
 #define ENT_SITE 2
@@ -95,84 +96,84 @@
 				   xmlName:(NSString *)xmlName 
 					   xml:(NSString *)xml;
 - (void) setXmlValue:(id)value forKey:(NSString *)key;
-- (void) updateEntityUsingXMLNode:(LCXMLNode *)node;
-- (void) xmlParserDidFinish:(LCXMLNode *)rootNode;
+- (void) updateEntityUsingXMLNode:(TBXMLElement *)node;
+//- (void) xmlParserDidFinish:(LCXMLNode *)rootNode;
 - (NSString *) urlPrefix;
 - (NSURL *) urlForXml:(NSString *)xmlName timestamp:(int)urlRefSec;
 - (LTEntity *) parentOfType:(int)type;
 - (LTEntity *) locateChildUsingEntityDescriptor:(LTEntityDescriptor *)entDesc;
 - (LTEntity *) locateChildType:(int)childType usingEntityDescriptor:(LTEntityDescriptor *)entDesc;
 	 
-@property (assign) int type;
-@property (copy) NSString *name;
-@property (copy) NSString *desc;
-@property (assign) int adminState;
-@property (assign) int opState;
-@property (copy) NSString *currentValue;
-@property (retain) NSMutableArray *values;
-@property (copy) NSString *maxValue;
-@property (assign) NSTimeInterval refreshInterval;
-@property (assign) int recordMethod;
-@property (assign) BOOL recordEnabled;
-@property (copy) NSString *units;
-@property (assign) int kbase;
-@property (assign) unsigned long allocUnit;
-@property (assign) BOOL hasTriggers;
-@property (assign) BOOL showInSummary;
-@property unsigned long version;
-@property unsigned long syncVersion;
-@property (copy) NSString *uuidString;
+@property (nonatomic,assign) int type;
+@property (nonatomic,copy) NSString *name;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic,assign) int adminState;
+@property (nonatomic,assign) int opState;
+@property (nonatomic,copy) NSString *currentValue;
+@property (nonatomic,retain) NSMutableArray *values;
+@property (nonatomic,copy) NSString *maxValue;
+@property (nonatomic,assign) NSTimeInterval refreshInterval;
+@property (nonatomic,assign) int recordMethod;
+@property (nonatomic,assign) BOOL recordEnabled;
+@property (nonatomic,copy) NSString *units;
+@property (nonatomic,assign) int kbase;
+@property (nonatomic,assign) unsigned long allocUnit;
+@property (nonatomic,assign) BOOL hasTriggers;
+@property (nonatomic,assign) BOOL showInSummary;
+@property (nonatomic,assign) unsigned long version;
+@property (nonatomic,assign) unsigned long syncVersion;
+@property (nonatomic,copy) NSString *uuidString;
 
 /* Device Properties */
-@property (copy) NSString *deviceIpAddress;
-@property (copy) NSString *lomIpAddress;
-@property (assign) int snmpVersion;
-@property (copy) NSString *snmpCommunity;
-@property (assign) int snmpAuthMethod;
-@property (copy) NSString *snmpAuthPassword;
-@property (assign) int snmpPrivacyMethod;
-@property (copy) NSString *snmpPrivacyPassword;
-@property (copy) NSString *deviceUsername;
-@property (copy) NSString *devicePassword;
-@property (copy) NSString *lomUsername;
-@property (copy) NSString *lomPassword;
-@property (copy) NSString *vendorModule;
-@property (assign) int deviceProtocol;
-@property (assign) BOOL useICMP;
-@property (assign) BOOL useProcessList;
-@property (assign) BOOL useLOM;
+@property (nonatomic,copy) NSString *deviceIpAddress;
+@property (nonatomic,copy) NSString *lomIpAddress;
+@property (nonatomic,assign) int snmpVersion;
+@property (nonatomic,copy) NSString *snmpCommunity;
+@property (nonatomic,assign) int snmpAuthMethod;
+@property (nonatomic,copy) NSString *snmpAuthPassword;
+@property (nonatomic,assign) int snmpPrivacyMethod;
+@property (nonatomic,copy) NSString *snmpPrivacyPassword;
+@property (nonatomic,copy) NSString *deviceUsername;
+@property (nonatomic,copy) NSString *devicePassword;
+@property (nonatomic,copy) NSString *lomUsername;
+@property (nonatomic,copy) NSString *lomPassword;
+@property (nonatomic,copy) NSString *vendorModule;
+@property (nonatomic,assign) int deviceProtocol;
+@property (nonatomic,assign) BOOL useICMP;
+@property (nonatomic,assign) BOOL useProcessList;
+@property (nonatomic,assign) BOOL useLOM;
 
-@property (copy) NSString *resourceAddress;
-@property (readonly) NSString *deviceEntityAddress;
-@property (copy) NSString *entityAddress;
-@property (retain) LTEntityDescriptor *entityDescriptor;
-@property (retain) NSString *ipAddress;
-@property (retain) NSString *customerName;
-@property (retain) NSString *username;
-@property (retain) NSString *password;
-@property (readonly) NSMutableArray *children;
-@property (readonly) NSMutableDictionary *childDict;
-@property (assign) LTEntity *parent;
-@property (readonly) LTEntity *device;
-@property (assign) LTCoreDeployment *coreDeployment;
-@property (assign) BOOL hasBeenRefreshed;
-@property (copy) NSDate *lastRefresh;
-@property (readonly) NSMutableDictionary *xmlTranslation;
-@property (copy) NSString *xmlStatus;
+@property (nonatomic,copy) NSString *resourceAddress;
+@property (nonatomic,readonly) NSString *deviceEntityAddress;
+@property (nonatomic,copy) NSString *entityAddress;
+@property (nonatomic,retain) LTEntityDescriptor *entityDescriptor;
+@property (nonatomic,retain) NSString *ipAddress;
+@property (nonatomic,retain) NSString *customerName;
+@property (nonatomic,retain) NSString *username;
+@property (nonatomic,retain) NSString *password;
+@property (nonatomic,readonly) NSMutableArray *children;
+@property (nonatomic,readonly) NSMutableDictionary *childDict;
+@property (nonatomic,assign) LTEntity *parent;
+@property (nonatomic,readonly) LTEntity *device;
+@property (nonatomic,assign) LTCoreDeployment *coreDeployment;
+@property (nonatomic,assign) BOOL hasBeenRefreshed;
+@property (nonatomic,copy) NSDate *lastRefresh;
+@property (nonatomic,readonly) NSMutableDictionary *xmlTranslation;
+@property (nonatomic,copy) NSString *xmlStatus;
 
-@property (assign) int indentLevel;
+@property (nonatomic,assign) int indentLevel;
 
-@property (readonly) NSString *longDisplayString;
-@property (readonly) NSString *longLocationString;
+@property (nonatomic,readonly) NSString *longDisplayString;
+@property (nonatomic,readonly) NSString *longLocationString;
 
-@property (readonly) UIImage *icon;
+@property (nonatomic,readonly) UIImage *icon;
 
-@property (readonly) NSArray *graphableMetrics;
+@property (nonatomic,readonly) NSArray *graphableMetrics;
 
-@property (readonly) LTEntity *site;
-@property (readonly) LTEntity *container;
-@property (readonly) LTEntity *object;
-@property (readonly) LTEntity *metric;
+@property (nonatomic,readonly) LTEntity *site;
+@property (nonatomic,readonly) LTEntity *container;
+@property (nonatomic,readonly) LTEntity *object;
+@property (nonatomic,readonly) LTEntity *metric;
 
 @property (nonatomic,assign) BOOL isNew;
 

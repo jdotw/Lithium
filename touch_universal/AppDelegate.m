@@ -176,6 +176,12 @@
 
 - (void) netServiceDidResolveAddress:(NSNetService *)netService
 {
+	if ([[netService hostName] hasSuffix:@"members.mac.com"] || [[netService hostName] hasSuffix:@"members.mac.com."])
+	{
+		/* Skip members.mac.com resolutions */
+		return;
+	}
+
 	NSDictionary *txtRecord = [NSNetService dictionaryFromTXTRecordData:netService.TXTRecordData];
 	NSString *uuidString = [[[NSString alloc] initWithData:[txtRecord objectForKey:@"uuid"]
 												  encoding:NSUTF8StringEncoding] autorelease];
@@ -201,7 +207,7 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
 {
-	if ([[netService hostName] hasSuffix:@"members.mac.com"])
+	if ([[netService hostName] hasSuffix:@"members.mac.com"] || [[netService hostName] hasSuffix:@"members.mac.com."])
 	{
 		/* Skip members.mac.com resolutions */
 		return;

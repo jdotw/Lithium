@@ -14,8 +14,13 @@
 #import "LCXMLParseOperation.h"
 #import "LTCoreDeployment.h"
 #import "LTFavoritesTableViewController.h"
+#import "TBXML-Lithium.h"
 
 static NSMutableDictionary *_xmlTranslation = nil;
+
+@interface LTEntity (Privaye)
+- (void) setXmlValueUsingNode:(TBXMLElement *)node forKey:(NSString *)key;
+@end
 
 @implementation LTEntity
 
@@ -141,7 +146,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	if (self.type == 1)
 	{
 		/* Always load authorative tree for iPad */
-		NSLog(@"Doing AUTHORATIVE refresh for %@", self.entityAddress);
 		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
 		{ url = [self urlForXml:@"entity_tree_authorative_mobile" timestamp:0]; }
 		else
@@ -151,7 +155,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	else if (self.type == 3 && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 	{
 		/* iPad Loading Device, use Mobile Summary */
-		NSLog(@"Doing SUMMARY refresh for %@", self.entityAddress);
 		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
 		{ url = [self urlForXml:@"entity_tree_summary_mobile" timestamp:0]; }
 		else
@@ -303,41 +306,20 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
 
 	/* DEBUG */
-	NSLog (@"ENTITY %i:%@: XML Size is %li", self.type, self.desc, [receivedData length]);
-//	NSLog (@"XML: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
 	[receivedData writeToFile:[NSString stringWithFormat:@"/Users/jwilson/%i-%@.xml", self.type, self.desc] atomically:NO];
-	
-	/* Parse XML */
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	LCXMLParseOperation *xmlParser = [[LCXMLParseOperation new] autorelease];
-	xmlParser.xmlData = receivedData;
-	xmlParser.delegate = self;
-	[appDelegate.operationQueue addOperation:xmlParser];
+
+	/* Update status */
 	self.xmlStatus = @"Processing Data...";
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
+    
+    /* Parse XML using TBXML */
+    TBXML *tbxml = [[TBXML tbxmlWithXMLData:receivedData] retain];
+    if (tbxml.rootXMLElement) [self updateEntityUsingXMLNode:[TBXML childElementNamed:@"entity" parentElement:tbxml.rootXMLElement]];
+    [tbxml release];
 	
 	/* Cleanup */
-	[connection release];
-}
-
-- (void) xmlParserDidFinish:(LCXMLNode *)rootNode
-{
-	NSLog (@"LTEntity xmlParserDidFinish called");
-	/* Check Thread */
-	if ([NSThread currentThread] != [NSThread mainThread])
-	{
-		[NSException raise:@"LTEntity-parserDidFinish-IncorrectThread"
-					format:@"An instance of LTEntity received a message to parserDidFinish on a thread that was NOT that main thread"];
-	}
-	
-	/* Interpret */
-	for (LCXMLNode *childNode in rootNode.children)
-	{ 
-		[self updateEntityUsingXMLNode:childNode]; 
-	}	
-	
-	/* Clean-up */
     [receivedData release];
+	[connection release];
 	
 	/* Update Status */
 	self.xmlStatus = @"Done.";
@@ -350,84 +332,84 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	
 }
 
-- (void) updateEntityUsingXMLNode:(LCXMLNode *)node
+- (void) updateEntityUsingXMLNode:(TBXMLElement *)node
 {
     BOOL childrenChanged = NO;
     
 	/* Update local properties */
-	for (NSString *key in [node.properties allKeys])
-	{
-		[self setXmlValue:[node.properties objectForKey:key] forKey:key];
-	}
-	
-	/* Recursively update */
-	BOOL currentValueSet = NO;
-	for (LCXMLNode *childNode in node.children)
-	{
-		if ([childNode.name isEqualToString:@"entity"])
-		{
-			/* Locate/Create Child */
-			LTEntity *childEntity = [childDict objectForKey:[childNode.properties objectForKey:@"name"]];
-			if (!childEntity)
-			{
-				childEntity = [[LTEntity new] autorelease];
-				childEntity.parent = self;
+    BOOL currentValueSet = NO;
+    for (node=node->firstChild; node; node = node->nextSibling)
+    {
+        NSString *nodeName = [TBXML elementName:node];
+        if ([nodeName isEqualToString:@"entity"])
+        {
+            /* Loops through <entity> elements */
+            
+            /* Locate/Create Child */
+            LTEntity *childEntity = [childDict objectForKey:[TBXML textForElement:[TBXML childElementNamed:@"name" parentElement:node]]];
+            if (!childEntity)
+            {
+                childEntity = [[LTEntity new] autorelease];
+                childEntity.parent = self;
                 childEntity.isNew = YES;
-			}
+            }
 			
-			/* Clear all current values */
-			[childEntity.values removeAllObjects];
+            /* Clear all current values */
+            [childEntity.values removeAllObjects];
 			
-			/* Perform update */
-			[childEntity updateEntityUsingXMLNode:childNode];
+            /* Perform update recursively */
+            [childEntity updateEntityUsingXMLNode:node];
 			
-			/* Add new child if necessary */
-			if (![childDict objectForKey:childEntity.name])
-			{
-				[children addObject:childEntity];
-				[childDict setObject:childEntity forKey:childEntity.name];
-				
-				if (childEntity.type == 3)
-				{ 
-					AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-					[appDelegate.favoritesController bindFavoritesFromDevice:childEntity];
-				}					
+            /* Add new child if necessary */
+            if (![childDict objectForKey:childEntity.name])
+            {
+                [children addObject:childEntity];
+                [childDict setObject:childEntity forKey:childEntity.name];
+                
+                if (childEntity.type == 3)
+                { 
+                    AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+                    [appDelegate.favoritesController bindFavoritesFromDevice:childEntity];
+                }					
                 
                 childrenChanged = YES;  // Ensure notification is sent 
                 childEntity.isNew = NO; // Entity is not new now that it's in the parents children list
-			}
-		}
-		else if ([childNode.name isEqualToString:@"value"])
-		{
-			/* Create Value */
-			LTMetricValue *curValue = [[[LTMetricValue alloc] init] autorelease];
-			curValue.stringValue = [childNode.properties objectForKey:@"valstr"];
-			curValue.floatValue = [[childNode.properties objectForKey:@"valstr_raw"] floatValue];
-			curValue.timestamp = [NSDate dateWithTimeIntervalSince1970:[[childNode.properties objectForKey:@"tstamp_sec"] floatValue]];
-
-			/* Set entity current value */
+            }
+        }
+        else if ([nodeName isEqualToString:@"value"])
+        {
+            /* Create Value */
+            LTMetricValue *curValue = [[[LTMetricValue alloc] init] autorelease];
+            curValue.stringValue = [TBXML textForElementNamed:@"valstr" parentElement:node];
+            curValue.floatValue = [[TBXML textForElementNamed:@"valstr_raw" parentElement:node] floatValue];
+            curValue.timestamp = [NSDate dateWithTimeIntervalSince1970:[[TBXML textForElementNamed:@"tstamp_sec" parentElement:node] floatValue]];
+            
+            /* Set entity current value */
             BOOL currentValueChanged = NO;      // Changes to YES if currentValue is present and updated
-			if (!currentValueSet)
-			{
-                if (self.currentValue && ![self.currentValue isEqualToString:[childNode.properties objectForKey:@"valstr"]])
+            if (!currentValueSet)
+            {
+                if (self.currentValue && ![self.currentValue isEqualToString:curValue.stringValue])
                 { currentValueChanged = YES; }
-				self.currentValue = [childNode.properties objectForKey:@"valstr"];
-				currentValueSet = YES;
-			}
+                self.currentValue = curValue.stringValue;
+                currentValueSet = YES;
+            }
             if (currentValueChanged)
             {
-                NSLog (@"Dispatching LTEntityValueChanged for %@", self);
                 [[NSNotificationCenter defaultCenter] postNotificationName:kLTEntityValueChanged object:self];
             }
 			
-			/* Enqueue */
-			if (!self.values)
-			{ values = [[NSMutableArray array] retain]; }
-			[values addObject:curValue];
-			
-		}
-	}
-    
+            /* Enqueue */
+            if (!self.values)
+            { values = [[NSMutableArray array] retain]; }
+            [values addObject:curValue];
+        }
+        else
+        {
+            /* Update local properties */
+            [self setXmlValueUsingNode:node forKey:nodeName];
+        }
+    }
+	
     if (childrenChanged)
     {
         /* Post notification for children list change */
@@ -440,17 +422,10 @@ static NSMutableDictionary *_xmlTranslation = nil;
 - (NSMutableDictionary *) xmlTranslation
 { return [LTEntity xmlTranslation]; }
 
-- (void) setXmlValue:(id)value forKey:(NSString *)key
+- (void) _setXmlValue:(id)value forKey:(NSString *)key
 {
 	/* Get Translated Key */
-	if ([self.xmlTranslation objectForKey:key])
-	{ 
-		key = [self.xmlTranslation objectForKey:key]; 
-	}
-	else
-	{
-		return;
-	}
+    key = [self.xmlTranslation objectForKey:key]; 
 	
 	/* Get value */
 	const char *valueType = [[self methodSignatureForSelector:NSSelectorFromString(key)] methodReturnType];
@@ -486,6 +461,19 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	/* Set value */
 	[self setValue:value forKey:key]; 	
 }
+
+- (void) setXmlValueUsingNode:(TBXMLElement *)node forKey:(NSString *)key
+{
+    if (![self.xmlTranslation objectForKey:key]) return;
+    [self _setXmlValue:[TBXML textForElement:node] forKey:key];
+    
+}
+- (void) setXmlValue:(id)value forKey:(NSString *)key
+{
+    if (![self.xmlTranslation objectForKey:key]) return;
+    [self _setXmlValue:value forKey:key];
+}
+
 
 + (BOOL)accessInstanceVariablesDirectly
 {
@@ -677,7 +665,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
         adminState = value;
         if (!self.isNew)
         {
-            NSLog (@"Dispatching kLTEntityStateChanged for %@ because of adminstate change", self);
             [[NSNotificationCenter defaultCenter] postNotificationName:kLTEntityStateChanged object:self];
         }
     }
@@ -689,7 +676,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
     {
         opState = value;
         if (!self.isNew)
-        {   NSLog (@"Dispatching kLTEntityStateChanged for %@ because of opstate change", self);
+        {
             [[NSNotificationCenter defaultCenter] postNotificationName:kLTEntityStateChanged object:self];    
         }
     }

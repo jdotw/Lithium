@@ -29,6 +29,11 @@
 		104B8550129317AD00E77D88 /* LTFavoritesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */; };
 		104B857B1293188E00E77D88 /* LTIncidentListTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B857A1293188E00E77D88 /* LTIncidentListTableViewController.xib */; };
 		104B8586129318AB00E77D88 /* LTGroupTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B8585129318AB00E77D88 /* LTGroupTableViewController.xib */; };
+		104C8DDA13022E5A0067B1C8 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 104C8DD713022E5A0067B1C8 /* NSDataAdditions.m */; };
+		104C8DDB13022E5A0067B1C8 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 104C8DD913022E5A0067B1C8 /* TBXML.m */; };
+		104C8DDD13022F3F0067B1C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 104C8DDC13022F3F0067B1C8 /* libz.dylib */; };
+		104C8DE0130234DE0067B1C8 /* TBXML-Lithium.m in Sources */ = {isa = PBXBuildFile; fileRef = 104C8DDF130234DE0067B1C8 /* TBXML-Lithium.m */; };
+		104C8DE61302485B0067B1C8 /* LTValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 104C8DE51302485B0067B1C8 /* LTValue.m */; };
 		104DEF0912835E6A008A7936 /* LTGraphScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104DEF0812835E6A008A7936 /* LTGraphScrollView.m */; };
 		104DEF6E12836995008A7936 /* ContainerScrollBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 104DEF6C12836995008A7936 /* ContainerScrollBack.png */; };
 		104DEF6F12836995008A7936 /* ObjectScrollBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 104DEF6D12836995008A7936 /* ObjectScrollBack.png */; };
@@ -183,6 +188,15 @@
 		104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTFavoritesTableViewController.xib; sourceTree = "<group>"; };
 		104B857A1293188E00E77D88 /* LTIncidentListTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTIncidentListTableViewController.xib; sourceTree = "<group>"; };
 		104B8585129318AB00E77D88 /* LTGroupTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTGroupTableViewController.xib; sourceTree = "<group>"; };
+		104C8DD613022E5A0067B1C8 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
+		104C8DD713022E5A0067B1C8 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
+		104C8DD813022E5A0067B1C8 /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
+		104C8DD913022E5A0067B1C8 /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
+		104C8DDC13022F3F0067B1C8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		104C8DDE130234DE0067B1C8 /* TBXML-Lithium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TBXML-Lithium.h"; sourceTree = "<group>"; };
+		104C8DDF130234DE0067B1C8 /* TBXML-Lithium.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TBXML-Lithium.m"; sourceTree = "<group>"; };
+		104C8DE41302485B0067B1C8 /* LTValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTValue.h; sourceTree = "<group>"; };
+		104C8DE51302485B0067B1C8 /* LTValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTValue.m; sourceTree = "<group>"; };
 		104DEF0712835E6A008A7936 /* LTGraphScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphScrollView.h; sourceTree = "<group>"; };
 		104DEF0812835E6A008A7936 /* LTGraphScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphScrollView.m; sourceTree = "<group>"; };
 		104DEF6C12836995008A7936 /* ContainerScrollBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContainerScrollBack.png; sourceTree = "<group>"; };
@@ -382,6 +396,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				104C8DDD13022F3F0067B1C8 /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -438,6 +453,19 @@
 				10318BEE12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m */,
 			);
 			name = "Device Module Selection";
+			sourceTree = "<group>";
+		};
+		104C8DD513022E4E0067B1C8 /* TBXML */ = {
+			isa = PBXGroup;
+			children = (
+				104C8DD613022E5A0067B1C8 /* NSDataAdditions.h */,
+				104C8DD713022E5A0067B1C8 /* NSDataAdditions.m */,
+				104C8DD813022E5A0067B1C8 /* TBXML.h */,
+				104C8DD913022E5A0067B1C8 /* TBXML.m */,
+				104C8DDE130234DE0067B1C8 /* TBXML-Lithium.h */,
+				104C8DDF130234DE0067B1C8 /* TBXML-Lithium.m */,
+			);
+			name = TBXML;
 			sourceTree = "<group>";
 		};
 		104F698612C03E6600074651 /* Shared UI */ = {
@@ -927,6 +955,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				104C8DDC13022F3F0067B1C8 /* libz.dylib */,
 				1010B92312F6654F0071E18D /* Settings.bundle */,
 				105EDF1411BC39C500B294B4 /* Resources */,
 				105EDE7211BC392000B294B4 /* UI Classes */,
@@ -945,8 +974,11 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				104C8DD513022E4E0067B1C8 /* TBXML */,
 				32CA4F630368D1EE00C91783 /* LithiumTouchUniversal_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				104C8DE41302485B0067B1C8 /* LTValue.h */,
+				104C8DE51302485B0067B1C8 /* LTValue.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -1165,6 +1197,10 @@
 				10D6F39212C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m in Sources */,
 				10D6F39912C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m in Sources */,
 				1066F2E312F60A7000487979 /* LTDeviceEditLocationListTableViewController.m in Sources */,
+				104C8DDA13022E5A0067B1C8 /* NSDataAdditions.m in Sources */,
+				104C8DDB13022E5A0067B1C8 /* TBXML.m in Sources */,
+				104C8DE0130234DE0067B1C8 /* TBXML-Lithium.m in Sources */,
+				104C8DE61302485B0067B1C8 /* LTValue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

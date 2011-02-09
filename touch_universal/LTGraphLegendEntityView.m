@@ -164,12 +164,7 @@
 }
 
 - (void)dealloc {
-	if (entity)
-	{
-		[[NSNotificationCenter defaultCenter] removeObserver:self
-														name:@"RefreshFinished"
-													  object:entity.device];
-	}
+    self.entity = nil;
 	[swatchColor release];
 	[entity release];
     [super dealloc];

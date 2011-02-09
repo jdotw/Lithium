@@ -11,6 +11,7 @@
 #import "LTAuthenticationTableViewController.h"
 #import "LTPushRegistrationRequest.h"
 #import "LTGroupTree.h"
+#import "TBXML-Lithium.h"
 
 @implementation LTCustomer
 
@@ -45,38 +46,35 @@
 	[super dealloc];
 }
 
-- (void) xmlParserDidFinish:(LCXMLNode *)rootNode
+- (void) updateEntityUsingXMLNode:(TBXMLElement *)rootNode
 {
-	[super xmlParserDidFinish:rootNode];
+    [super updateEntityUsingXMLNode:rootNode];
+
+    /* Post customer-specific notification */
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCustomerRefreshFinished" object:self];
 
 	/* Parse Custom Module List */
 	self.customModules = [NSMutableDictionary dictionary];
-	for (LCXMLNode *entityNode in rootNode.children)
-	{
-		
-		if ([entityNode.name isEqualToString:@"entity"])
-		{
-			if ([entityNode.properties objectForKey:@"core_version"])
-			{
-				NSArray *components = [[entityNode.properties objectForKey:@"core_version"] componentsSeparatedByString:@"."];
-				if (components.count > 0) coreVersionMajor = [[components objectAtIndex:0] intValue];
-				if (components.count > 1) coreVersionMinor = [[components objectAtIndex:1] intValue];
-				if (components.count > 2) coreVersionPoint = [[components objectAtIndex:2] intValue];
-			}
-			for (LCXMLNode *listNode in entityNode.children)
-			{
-				if ([listNode.name isEqualToString:@"custom_module_list"])
-				{
-					for (LCXMLNode *vendorNode in listNode.children)
-					{
-						[self.customModules setObject:[vendorNode.properties objectForKey:@"desc"] 
-											   forKey:[vendorNode.properties objectForKey:@"name"]];
-					}
-				}
-			}
-		}
-	}
+    if ([TBXML childElementNamed:@"core_version" parentElement:rootNode])
+    {
+        NSLog (@"%i:%@ core version is %@", self.type, self.desc, [TBXML textForElementNamed:@"core_version" parentElement:rootNode]);
+        NSArray *components = [[TBXML textForElementNamed:@"core_version" parentElement:rootNode] componentsSeparatedByString:@"."];
+        if (components.count > 0) coreVersionMajor = [[components objectAtIndex:0] intValue];
+        if (components.count > 1) coreVersionMinor = [[components objectAtIndex:1] intValue];
+        if (components.count > 2) coreVersionPoint = [[components objectAtIndex:2] intValue];
+    }
+    TBXMLElement *moduleList = [TBXML childElementNamed:@"custom_module_list" parentElement:rootNode];
+    if (moduleList)
+    {
+        TBXMLElement *moduleNode;
+        for (moduleNode = [TBXML childElementNamed:@"module" parentElement:moduleList]; 
+             moduleNode; 
+             moduleNode = [TBXML nextSiblingNamed:@"module" searchFromElement:moduleNode])
+        {
+            [self.customModules setObject:[TBXML textForElementNamed:@"desc" parentElement:moduleNode]
+                                   forKey:[TBXML textForElementNamed:@"name" parentElement:moduleNode]];
+        }
+    }
 }
 
 - (NSString *) resourceAddress
