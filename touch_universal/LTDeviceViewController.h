@@ -67,6 +67,7 @@
 	UIPopoverController *activePopoverController;
 	
 	/* Top-right toolbar items */
+    UIToolbar *topRightToolbar;
 	UIBarButtonItem *availToolbarItem;
 	UIBarButtonItem *sysinfoToolbarItem;
 	UIBarButtonItem *incidentsToolbarItem;

@@ -266,7 +266,7 @@
 	{
 		if (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation])
 		{
-			return entity.children.count;
+			return children.count;
 		}
 		else 
 		{
@@ -285,7 +285,7 @@
 	{
 		if (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation])
 		{
-			return [[entity.children objectAtIndex:section] desc];
+			return [[children objectAtIndex:section] desc];
 		}
 		else 
 		{
@@ -327,7 +327,7 @@
 			{ return 1; }
 			else if (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation])
 			{
-				return [[[entity.children objectAtIndex:section] children] count];
+				return [[[children objectAtIndex:section] children] count];
 			}
 			else
 			{ return [children count]; }
@@ -365,7 +365,17 @@
 		{
 			if (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation])
 			{
-				return [[[entity.children objectAtIndex:indexPath.section] children] objectAtIndex:indexPath.row];
+                /* The children array will contain locations */
+                if (indexPath.section < children.count)
+                {
+                    LTEntity *location = [children objectAtIndex:indexPath.section];
+                    if (indexPath.row < location.children.count)
+                    { return [location.children objectAtIndex:indexPath.row]; }
+                    else
+                    { return nil; }
+                }
+                else
+                { return nil; }
 			}
 			else
 			{
@@ -720,7 +730,7 @@
 	if (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation])
 	{
 		/* Build a list of all devices */
-		unfilteredEntities = [entity.children valueForKeyPath:@"@unionOfArrays.children"];
+		unfilteredEntities = [children valueForKeyPath:@"@unionOfArrays.children"];
 	}
 	else 
 	{
@@ -728,11 +738,11 @@
 	}
 
 	NSPredicate *filterPredicate = nil;
-	if ([scope isEqualToString:@"Description"])
+	if ([scope isEqualToString:@"Name"])
 	{
 		filterPredicate = [NSPredicate predicateWithFormat:@"desc CONTAINS[cd] %@", searchText];
 	}
-	else if ([scope isEqualToString:@"Address"])
+	else if ([scope isEqualToString:@"IP"])
 	{
 		filterPredicate = [NSPredicate predicateWithFormat:@"ipAddress CONTAINS[cd] %@", searchText];
 	}
@@ -868,7 +878,51 @@
 	[navController release];	
 }
 
-#pragma mark "Properties"
+#pragma mark -
+#pragma mark Internal List Management
+
+- (void) sortAndFilterChildren
+{
+	[children release];
+	children = [[NSMutableArray array] retain];
+
+	/* Build children array */
+	if (entity)
+	{
+		/* Representing a specific Entity */
+		for (LTEntity *child in entity.children)
+		{
+			[children addObject:child]; 
+		}
+	}
+	else
+	{
+		/* Representing deployment list */
+		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];		
+		[children addObjectsFromArray:[appDelegate coreDeployments]];
+	}	
+
+    /* Sort list */
+    if (entity.type == 5)
+    {
+        /* Sort metric list by triggers/no-triggers and recording method */
+        NSSortDescriptor *opStateSortDesc = [[[NSSortDescriptor alloc] initWithKey:@"opState" ascending:NO] autorelease];
+        
+        NSSortDescriptor *summarySortDesc = [[[NSSortDescriptor alloc] initWithKey:@"showInSummary" ascending:NO] autorelease];
+        NSSortDescriptor *triggerSortDesc = [[[NSSortDescriptor alloc] initWithKey:@"hasTriggers" ascending:NO] autorelease];
+        NSSortDescriptor *graphableSortDesc = [[[NSSortDescriptor alloc] initWithKey:@"recordEnabled" ascending:NO] autorelease];
+        [children sortUsingDescriptors:[NSArray arrayWithObjects:opStateSortDesc, summarySortDesc, triggerSortDesc, graphableSortDesc, nil]];
+    }
+    else
+    {
+        /* Default sort: By description */
+        NSSortDescriptor *sortDesc = [[[NSSortDescriptor alloc] initWithKey:@"desc" ascending:YES selector:@selector(localizedCompare:)] autorelease];
+        [children sortUsingDescriptors:[NSArray arrayWithObjects:sortDesc, nil]];			
+    }
+}
+
+#pragma mark -
+#pragma mark Properties
 
 - (NSString *) title
 { 
@@ -882,42 +936,6 @@
 	{ return @"Devices"; }
 }
 
-- (void) sortAndFilterChildren
-{
-	[children release];
-	children = [[NSMutableArray array] retain];
-	
-	if (entity)
-	{
-		/* Representing a specific Entity */
-		for (LTEntity *child in entity.children)
-		{
-			[children addObject:child]; 
-		}
-		if (entity.type == 5)
-		{
-			/* Sort metric list by triggers/no-triggers and recording method */
-			NSSortDescriptor *opStateSortDesc = [[[NSSortDescriptor alloc] initWithKey:@"opState" ascending:NO] autorelease];
-												 
-			NSSortDescriptor *summarySortDesc = [[[NSSortDescriptor alloc] initWithKey:@"showInSummary" ascending:NO] autorelease];
-			NSSortDescriptor *triggerSortDesc = [[[NSSortDescriptor alloc] initWithKey:@"hasTriggers" ascending:NO] autorelease];
-			NSSortDescriptor *graphableSortDesc = [[[NSSortDescriptor alloc] initWithKey:@"recordEnabled" ascending:NO] autorelease];
-			[children sortUsingDescriptors:[NSArray arrayWithObjects:opStateSortDesc, summarySortDesc, triggerSortDesc, graphableSortDesc, nil]];
-		}
-		else
-		{
-			NSSortDescriptor *opStateSortDesc = [[[NSSortDescriptor alloc] initWithKey:@"opState" ascending:NO] autorelease];
-			[children sortUsingDescriptors:[NSArray arrayWithObjects:opStateSortDesc, nil]];			
-		}
-	}
-	else
-	{
-		/* Representing deployment list */
-		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];		
-		[children addObjectsFromArray:[appDelegate coreDeployments]];
-	}	
-}
-	
 @synthesize entity;
 - (void) setEntity:(LTEntity *)value
 {

@@ -81,10 +81,11 @@
 	CGFloat viewWidth = CGRectGetWidth(self.bounds) / (CGFloat) entities.count;
 	for (LTGraphLegendEntityView *entityView in entityViews)
 	{
-		entityView.frame = CGRectMake(CGRectGetMinX(self.bounds) + ([entityViews indexOfObject:entityView] * viewWidth) + xPadding, 
-									  CGRectGetMinY(self.bounds) + yPadding, 
-									  viewWidth - (2 * xPadding), 
-									  CGRectGetHeight(self.bounds) - (2 * yPadding));
+        CGRect entityFrame = CGRectMake(CGRectGetMinX(self.bounds) + ([entityViews indexOfObject:entityView] * viewWidth) + xPadding, 
+                                        CGRectGetMinY(self.bounds) + yPadding, 
+                                        viewWidth - (2 * xPadding), 
+                                        CGRectGetHeight(self.bounds) - (2 * yPadding));
+		entityView.frame = CGRectIntegral(entityFrame);
 		[entityView setNeedsLayout];
 	}
 }

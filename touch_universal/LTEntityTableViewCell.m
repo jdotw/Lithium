@@ -24,7 +24,6 @@
 - (void)dealloc 
 {
 	[entity release];
-	[self.detailTextLabel release];
     [super dealloc];
 }
 

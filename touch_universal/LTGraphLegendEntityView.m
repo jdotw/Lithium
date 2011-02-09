@@ -9,7 +9,7 @@
 #import "LTGraphLegendEntityView.h"
 #import "LTEntity.h"
 #import "LTEntityTableViewController.h"
-
+#import "LTMetricTableViewController.h"
 
 @implementation LTGraphLegendEntityView
 
@@ -67,7 +67,15 @@
 - (UIPopoverController *) presentPopoverForEntityFromRect:(CGRect)rect
 {
 	/* Draw pop-over for the entity */
-	LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:self.entity.parent];
+	UITableViewController *vc;
+    if (self.entity.type == 6) 
+    {
+        vc = [[LTMetricTableViewController alloc] initWithMetric:self.entity];
+    }
+    else
+    {
+        vc = [[LTEntityTableViewController alloc] initWithEntity:self.entity];
+    }
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
 	UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:nav];
 	if (self.frame.size.height > 0. && self.frame.size.width > 0.)
@@ -178,12 +186,7 @@
 }
 
 - (void)dealloc {
-	if (entity)
-	{
-		[[NSNotificationCenter defaultCenter] removeObserver:self
-														name:@"RefreshFinished"
-													  object:entity.device];
-	}
+    self.entity = nil;
 	[swatchColor release];
 	[entity release];
     [super dealloc];

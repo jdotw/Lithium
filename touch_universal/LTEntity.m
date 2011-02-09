@@ -432,6 +432,17 @@ static NSMutableDictionary *_xmlTranslation = nil;
     {
         /* Post notification for children list change */
         [[NSNotificationCenter defaultCenter] postNotificationName:kLTEntityChildrenChanged object:self];
+        
+        /* Check to see if we're a location */
+        if (self.type == ENT_SITE)
+        {
+            /* We're a location, the device list must be sorted manually to
+             * ensure that when the "Grouped by Location" view mode is used
+             * in the entity table view that the device list is sorted properly
+             */
+            NSSortDescriptor *sortDesc = [[[NSSortDescriptor alloc] initWithKey:@"desc" ascending:YES selector:@selector(localizedCompare:)] autorelease];
+            [children sortUsingDescriptors:[NSArray arrayWithObjects:sortDesc, nil]];			
+        }
     }
 }
 

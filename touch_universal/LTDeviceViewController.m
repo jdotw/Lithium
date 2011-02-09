@@ -29,6 +29,7 @@
 - (void) graphMetrics:(NSArray *)metrics fromEntity:(LTEntity *)parentEntity;
 - (void) resizeAndInvalidateGraphViewContent;
 - (void) availabilityTapped:(id)sender;
+- (void) incidentsTapped:(id)sender;
 
 @end
 
@@ -36,6 +37,95 @@
 @implementation LTDeviceViewController
 
 @synthesize device=_device, selectedContainer, selectedObject, entityToHighlight, activePopoverController;
+
+#pragma mark -
+#pragma User Preferences
+
+- (NSString *) lastSelectionKey
+{
+	return [NSString stringWithFormat:@"LTDeviceViewControllerLastSelectionFor%@", self.device.entityAddress];
+}
+
+#pragma mark -
+#pragma mark Notification Receivers
+
+- (void) deviceRefreshFinished:(NSNotification *)note
+{
+	if (modalRefreshInProgress || !note)
+	{
+		/* The modal controller will dismiss itself when it has appeared
+		 * This is done to avoid the race condition of the dismiss being
+		 * called before the modal view has actually appeared
+         *
+         * If note was zero, then we've been called manually from when the 
+         * device was displayed
+		 */
+		modalRefreshInProgress = NO;
+		LTEntity *availContainer = [self.device.childDict objectForKey:@"avail"];
+        
+		if (self.entityToHighlight)
+		{
+			/* Device is refreshed and we have something to highlight */
+			[self selectEntity:self.entityToHighlight];
+			self.entityToHighlight = nil;
+		}
+		else if (availContainer.opState > 0)
+		{
+			/* Device is refreshed, nothing to highlight but availability is bad,
+             * pop up the availability pop-over to show avail info
+             */
+			[self availabilityTapped:availToolbarItem];
+		}
+        else if (self.device.opState > 0)
+        {
+            /* Availability is OK, but opState is not normal,
+             * pop up the incident pop-over to show problem
+             */
+            [self incidentsTapped:incidentsToolbarItem];
+        }
+		else if ([[NSUserDefaults standardUserDefaults] objectForKey:[self lastSelectionKey]])
+		{
+			/* Last resort, try to use last-selected container/object */
+			NSString *entAddr = [[NSUserDefaults standardUserDefaults] objectForKey:[self lastSelectionKey]];
+			LTEntityDescriptor *entDesc = [[[LTEntityDescriptor alloc] initWithEntityAddress:entAddr] autorelease];
+			LTEntity *lastSelectionEntity = [self.device locateChildUsingEntityDescriptor:entDesc];
+			if (lastSelectionEntity) [self selectEntity:lastSelectionEntity];
+		}
+	}
+}
+
+- (void) entityRefreshStatusUpdated:(NSNotification *)note
+{
+}
+
+- (void) deviceChildrenChanged:(NSNotification *)note
+{
+    /* Update container scrollview */
+	[self rebuildContainerScrollViewRemovingExistingViews:NO];
+}
+
+- (void) deviceStateChanged:(NSNotification *)note
+{
+    /* Configure title */
+    UIColor *tintColor = [UIColor colorWithRed:0.29 green:0.29 blue:0.29 alpha:1.0];
+    switch (self.device.opState) 
+    {
+        case 3:
+            tintColor = [UIColor colorWithRed:130./255. green:66./255. blue:63./255. alpha:1.0];
+            break;
+        case 2:
+        case 1:
+            tintColor = [UIColor colorWithRed:112./255. green:93./255. blue:63./255. alpha:1.0];
+            break;
+        case 0:
+            tintColor = [UIColor colorWithRed:0.29 green:0.35 blue:0.29 alpha:1.0];
+            break;
+        default:
+            break;
+    }
+    self.navigationController.navigationBar.tintColor = tintColor;
+    topRightToolbar.tintColor = tintColor;
+}
 
 #pragma mark -
 #pragma mark Entity Selection
@@ -72,39 +162,41 @@
 	 */
 	if (initialSelection.type > ENT_DEVICE)
 	{
-		if (self.device.hasBeenRefreshed) [self selectEntity:initialSelection];
-		else self.entityToHighlight = initialSelection;
+		self.entityToHighlight = initialSelection;
 	}
-	else 
-	{
-		/* Just viewing device, check to see if availability is OK and
-		 * if not, present the availability pop-over 
-		 */
-		self.entityToHighlight = nil;
-		LTEntity *availContainer = [self.device.childDict objectForKey:@"avail"];
-		if (availContainer.opState > 0) [self availabilityTapped:availToolbarItem];
-	}
-	
-	/* If the device hasn't been refreshed yet, pop up a 
-	 * modal progress view 
-	 */
-	
+
+	/* Check refresh state */
 	if (!self.device.hasBeenRefreshed && self.device.refreshInProgress)
 	{
+        /* If the device hasn't been refreshed yet, pop up a 
+         * modal progress view 
+         */
 		LTModalProgressViewController *modalVC = [[LTModalProgressViewController alloc] initWithEntity:self.device];
 		modalVC.modalPresentationStyle = UIModalPresentationFormSheet;
 		[self presentModalViewController:modalVC animated:YES];
 		[modalVC release];
 		modalRefreshInProgress = YES;
 	}	
+    else
+    {
+        /* Refresh is not happening, fake a callback to 
+         * the refresh finished notification
+         */
+        [self deviceRefreshFinished:nil];
+    }
 }
 
 - (void) setDevice:(LTEntity *)value
 {
 	/* Remove old observers */
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:self.device];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTEntityXmlStatusChanged" object:self.device];
-	
+    if (_device)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:_device];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTEntityXmlStatusChanged" object:_device];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityStateChanged object:_device];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityChildrenChanged object:_device];
+    }
+    
 	/* Set device */
 	[_device release];
 	_device = [value retain];
@@ -124,12 +216,25 @@
 	
 	/* Add new observers */
 	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(entityRefreshFinished:)
-												 name:@"RefreshFinished" object:self.device];
+											 selector:@selector(deviceRefreshFinished:)
+												 name:@"RefreshFinished" 
+                                               object:_device];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(entityRefreshStatusUpdated:)
-												 name:@"LTEntityXmlStatusChanged" object:self.device];	
-	
+												 name:@"LTEntityXmlStatusChanged" 
+                                               object:_device];	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(deviceStateChanged:)
+												 name:kLTEntityStateChanged
+                                               object:_device];	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(deviceChildrenChanged:)
+												 name:kLTEntityChildrenChanged
+                                               object:_device];	
+    
+    /* Update view for new device (fake notifications) */
+    [self deviceStateChanged:nil];
+    
 	/* Refresh the device */
 	[self.device refresh];
 	
@@ -236,11 +341,6 @@
 
 #pragma mark -
 #pragma mark Selection Management (from ScrollView)
-
-- (NSString *) lastSelectionKey
-{
-	return [NSString stringWithFormat:@"LTDeviceViewControllerLastSelectionFor%@", self.device.entityAddress];
-}
 
 - (void) setSelectedContainer:(LTEntity *)value
 {
@@ -595,10 +695,10 @@
 	horizontalScrollDropShadowView.hidden = YES;
 	[self.view bringSubviewToFront:containerEnclosingView];
 	[self resizeAndInvalidateGraphViewContent];
-	
+    
 	/* Create top-right toolbar */
-	UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 200.0, 44.01)];
-	tools.tintColor = [UIColor colorWithWhite:0.29 alpha:1.0];
+	topRightToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 200.0, 44.01)];
+	topRightToolbar.tintColor = self.navigationController.navigationBar.tintColor;
 	NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
 
 	/* Availability */
@@ -645,10 +745,9 @@
 	[settingsToolbarItem release];
 	
 	/* Place buttons in toolbar and add to nav bar */
-	[tools setItems:buttons animated:NO];
+	[topRightToolbar setItems:buttons animated:NO];
 	[buttons release];
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tools];
-	[tools release];
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:topRightToolbar];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -701,57 +800,12 @@
 
 - (void)dealloc 
 {
+    [topRightToolbar release];
 	[containerIconViewControllers release];	
 	[containerIconViewControllerDict release];
 	[refreshTimer invalidate];
 	[graphRefreshTimer invalidate];
     [super dealloc];
-}
-
-#pragma mark -
-#pragma mark Entity Delegate
-
-- (void) entityRefreshFinished:(NSNotification *)note
-{
-	if (self.device.children.count != containerIconViewControllers.count)
-	{
-		[self rebuildContainerScrollViewRemovingExistingViews:NO];
-	}
-	
-	if (modalRefreshInProgress)
-	{
-		/* The modal controller will dismiss itself when it has appeared
-		 * This is done to avoid the race condition of the dismiss being
-		 * called before the modal view has actually appeared
-		 */
-		modalRefreshInProgress = NO;
-		LTEntity *availContainer = [self.device.childDict objectForKey:@"avail"];
-
-		if (self.entityToHighlight)
-		{
-			/* Device is refreshed and we have something to highlight */
-			[self selectEntity:self.entityToHighlight];
-			self.entityToHighlight = nil;
-		}
-		else if (availContainer.opState > 0)
-		{
-			/* Device is refreshed, nothing to highlight but availability is bad */
-			[self availabilityTapped:availToolbarItem];
-		}
-		else if ([[NSUserDefaults standardUserDefaults] objectForKey:[self lastSelectionKey]])
-		{
-			/* Try to use last-selected */
-			NSString *entAddr = [[NSUserDefaults standardUserDefaults] objectForKey:[self lastSelectionKey]];
-			LTEntityDescriptor *entDesc = [[[LTEntityDescriptor alloc] initWithEntityAddress:entAddr] autorelease];
-			LTEntity *lastSelectionEntity = [self.device locateChildUsingEntityDescriptor:entDesc];
-			if (lastSelectionEntity) [self selectEntity:lastSelectionEntity];
-		}
-	}
-}
-
-- (void) entityRefreshStatusUpdated:(NSNotification *)note
-{
-	
 }
 
 #pragma mark -
