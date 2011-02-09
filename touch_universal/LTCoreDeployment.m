@@ -16,7 +16,7 @@
 #import "LTCoreDeployment.h"
 #import "AppDelegate.h"
 #import "LCXMLNode.h"
-#import "LCXMLParseOperation.h"
+#import "TBXML-Lithium.h"
 
 
 @implementation LTCoreDeployment
@@ -93,65 +93,52 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 
 {
-	/* Parse XML */
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	LCXMLParseOperation *xmlParser = [[LCXMLParseOperation new] autorelease];
-	xmlParser.xmlData = receivedData;
-	xmlParser.delegate = self;
-	[appDelegate.operationQueue addOperation:xmlParser];
-	
-	/* Cleanup */
-	[connection release];
-}
-
-- (void) xmlParserDidFinish:(LCXMLNode *)rootNode
-{
-	/* Check Thread */
-	if ([NSThread currentThread] != [NSThread mainThread])
-	{
-		[NSException raise:@"LTCoreDeployment-parserDidFinish-IncorrectThread"
-					format:@"An instance of LTEntity received a message to parserDidFinish on a thread that was NOT that main thread"];
-	}
-	
-	/* Interpret */
-	LTCustomer *firstCustomer = nil;
-	for (LCXMLNode *childNode in rootNode.children)
-	{ 
-		if ([childNode.name isEqualToString:@"customer"])
-		{
-			LTCustomer *curCustomer = [childDict objectForKey:[childNode.properties objectForKey:@"name"]];
-			if (!curCustomer)
-			{
-				curCustomer = [LTCustomer new];
-				curCustomer.ipAddress = self.ipAddress;
-				curCustomer.coreDeployment = self;
-			}
-			if (!firstCustomer) firstCustomer = [curCustomer retain];
-			
-			curCustomer.name = [childNode.properties objectForKey:@"name"];
-			curCustomer.desc = [childNode.properties objectForKey:@"name"];
-			curCustomer.customerName = [childNode.properties objectForKey:@"name"];
-			curCustomer.url = [childNode.properties objectForKey:@"baseurl"];
-			curCustomer.cluster = [childNode.properties objectForKey:@"cluster"];
-			curCustomer.node = [childNode.properties objectForKey:@"node"];
-			curCustomer.uuidString = [childNode.properties objectForKey:@"uuid"];
-			
-			if (![children containsObject:curCustomer])
-			{
-				[children addObject:curCustomer];
-				[childDict setObject:curCustomer forKey:curCustomer.name];
-				[curCustomer refresh];
-				[curCustomer.incidentList refreshCountOnly];
-				[curCustomer autorelease];	
-				
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCustomerAdded" object:curCustomer];
-			}
-		}			
-			
-	}	
+    /* Parse XML using TBXML */
+    TBXML *xml = [TBXML tbxmlWithXMLData:receivedData];
+    LTCustomer *firstCustomer = nil;
+    if (xml && xml.rootXMLElement)
+    {
+        /* Loop through XML nodes */
+        TBXMLElement *node = xml.rootXMLElement;
+        for (node=node->firstChild; node; node=node->nextSibling)
+        {
+            NSString *nodeName = [TBXML elementName:node];
+            if ([nodeName isEqualToString:@"customer"])
+            {
+                LTCustomer *curCustomer = [childDict objectForKey:[TBXML textForElementNamed:@"name" parentElement:node]];
+                if (!curCustomer)
+                {
+                    curCustomer = [LTCustomer new];
+                    curCustomer.ipAddress = self.ipAddress;
+                    curCustomer.coreDeployment = self;
+                }
+                if (!firstCustomer) firstCustomer = [curCustomer retain];
+                
+                curCustomer.name = [TBXML textForElementNamed:@"name" parentElement:node];
+                curCustomer.desc = curCustomer.name;
+                curCustomer.customerName = curCustomer.name;
+                curCustomer.url = [TBXML textForElementNamed:@"baseurl" parentElement:node];
+                curCustomer.cluster = [TBXML textForElementNamed:@"cluster" parentElement:node];
+                curCustomer.node = [TBXML textForElementNamed:@"node" parentElement:node];
+                curCustomer.uuidString = [TBXML textForElementNamed:@"uuid" parentElement:node];
+                
+                if (![children containsObject:curCustomer])
+                {
+                    [children addObject:curCustomer];
+                    [childDict setObject:curCustomer forKey:curCustomer.name];
+                    [curCustomer refresh];
+                    [curCustomer.incidentList refreshCountOnly];
+                    [curCustomer autorelease];	
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"LTCustomerAdded" object:curCustomer];
+                }
+            }			
+        }
+    }
 	
 	/* Clean-up */
     [receivedData release];
+	[connection release];
 	
 	/* Set Core UUID (First customer UUID) */
 	if (!self.uuidString && firstCustomer.uuidString)
@@ -168,67 +155,6 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCoreDeploymentRefreshFinished" object:self];
 }
-
-
-//- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict 
-//{
-//	curXmlString = [[NSMutableString alloc] init];
-//	
-//	if ([elementName isEqualToString:@"customer"])
-//	{
-//		curCustomer = [LTCustomer new];
-//		curCustomer.ipAddress = self.ipAddress;
-//		curCustomer.coreDeployment = self;
-//	}
-//}
-//
-//- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string 
-//{
-//	[curXmlString appendString:string];
-//}
-//
-//- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName 
-//{
-//	if ([elementName isEqualToString:@"customer"])
-//	{
-//		if (![children containsObject:curCustomer])
-//		{
-//			[children addObject:curCustomer];
-//			[curCustomer refresh];
-//			[curCustomer.incidentList refresh];
-//			[curCustomer autorelease];			
-//		}
-//		curCustomer = nil;
-//
-//	}
-//	else if ([elementName isEqualToString:@"name"])
-//	{ 
-//		LTCustomer *existingCust = [childDict objectForKey:curXmlString];
-//		if (existingCust)
-//		{
-//			/* Switch to using exisring */
-//			[curCustomer release];
-//			curCustomer = existingCust;
-//		}
-//		else
-//		{
-//			/* Add new */
-//			curCustomer.name = curXmlString;
-//			curCustomer.desc = curXmlString;
-//			curCustomer.customerName = curXmlString;
-//			[childDict setObject:curCustomer forKey:curCustomer.name];
-//		}
-//	}
-//	else if ([elementName isEqualToString:@"baseurl"])
-//	{ curCustomer.url = curXmlString; }
-//	else if ([elementName isEqualToString:@"cluster"])
-//	{ curCustomer.cluster = curXmlString; }
-//	else if ([elementName isEqualToString:@"node"])
-//	{ curCustomer.node = curXmlString; }
-//	
-//	[curXmlString release];
-//	curXmlString = nil;
-//}
 
 #pragma mark "Reachability"
 

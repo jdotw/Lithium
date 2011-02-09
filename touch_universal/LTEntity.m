@@ -11,7 +11,6 @@
 #import "LTAuthenticationTableViewController.h"
 #import "AppDelegate.h"
 #import "LTCustomer.h"
-#import "LCXMLParseOperation.h"
 #import "LTCoreDeployment.h"
 #import "LTFavoritesTableViewController.h"
 #import "TBXML-Lithium.h"
@@ -146,26 +145,16 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	if (self.type == 1)
 	{
 		/* Always load authorative tree for iPad */
-		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
-		{ url = [self urlForXml:@"entity_tree_authorative_mobile" timestamp:0]; }
-		else
-		{ url = [self urlForXml:@"entity_tree_authorative" timestamp:0]; }
-
+        url = [self urlForXml:@"entity_tree_authorative_mobile" timestamp:0]; 
 	}
 	else if (self.type == 3 && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 	{
 		/* iPad Loading Device, use Mobile Summary */
-		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
-		{ url = [self urlForXml:@"entity_tree_summary_mobile" timestamp:0]; }
-		else
-		{ url = [self urlForXml:@"entity_tree_summary" timestamp:0]; }
+		url = [self urlForXml:@"entity_tree_summary_mobile" timestamp:0];
 	}
 	else
 	{ 
-		if (self.customer.coreVersionMajor >= 5 && self.customer.coreVersionPoint >= 10)
-		{ url = [self urlForXml:@"entity_tree_one_level_mobile" timestamp:0]; }
-		else 
-		{ url = [self urlForXml:@"entity_tree_one_level" timestamp:0]; }
+		url = [self urlForXml:@"entity_tree_one_level_mobile" timestamp:0];
 	}
 	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:url
 															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
@@ -312,10 +301,16 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	self.xmlStatus = @"Processing Data...";
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
     
+    /* DEBUG */
+    NSDate *start = [NSDate date];
+    
     /* Parse XML using TBXML */
-    TBXML *tbxml = [[TBXML tbxmlWithXMLData:receivedData] retain];
-    if (tbxml.rootXMLElement) [self updateEntityUsingXMLNode:[TBXML childElementNamed:@"entity" parentElement:tbxml.rootXMLElement]];
+    TBXML *tbxml = [[TBXML alloc] initWithXMLData:receivedData];
+    if (tbxml.rootXMLElement) [self updateEntityUsingXML:tbxml];
     [tbxml release];
+    
+    /* DEBUG */
+    NSLog (@"Parsing %i:%@ %u bytes took %f seconds", self.type, self.desc, [receivedData length], [[NSDate date] timeIntervalSinceDate:start]);
 	
 	/* Cleanup */
     [receivedData release];
@@ -332,54 +327,27 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	
 }
 
+- (void) updateEntityUsingXML:(TBXML *)xml
+{
+    [self updateEntityUsingXMLNode:[TBXML childElementNamed:@"entity" parentElement:xml.rootXMLElement]];
+}
+
 - (void) updateEntityUsingXMLNode:(TBXMLElement *)node
 {
-    BOOL childrenChanged = NO;
+    if (!node) return;
+    TBXMLElement *rootNode = node;
     
-	/* Update local properties */
+    /* Create local autorelease pool */
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+	/* Update local properties and value */
     BOOL currentValueSet = NO;
     for (node=node->firstChild; node; node = node->nextSibling)
     {
-        NSString *nodeName = [TBXML elementName:node];
-        if ([nodeName isEqualToString:@"entity"])
-        {
-            /* Loops through <entity> elements */
-            
-            /* Locate/Create Child */
-            LTEntity *childEntity = [childDict objectForKey:[TBXML textForElement:[TBXML childElementNamed:@"name" parentElement:node]]];
-            if (!childEntity)
-            {
-                childEntity = [[LTEntity new] autorelease];
-                childEntity.parent = self;
-                childEntity.isNew = YES;
-            }
-			
-            /* Clear all current values */
-            [childEntity.values removeAllObjects];
-			
-            /* Perform update recursively */
-            [childEntity updateEntityUsingXMLNode:node];
-			
-            /* Add new child if necessary */
-            if (![childDict objectForKey:childEntity.name])
-            {
-                [children addObject:childEntity];
-                [childDict setObject:childEntity forKey:childEntity.name];
-                
-                if (childEntity.type == 3)
-                { 
-                    AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-                    [appDelegate.favoritesController bindFavoritesFromDevice:childEntity];
-                }					
-                
-                childrenChanged = YES;  // Ensure notification is sent 
-                childEntity.isNew = NO; // Entity is not new now that it's in the parents children list
-            }
-        }
-        else if ([nodeName isEqualToString:@"value"])
+        if (strcmp(node->name, "value")==0)
         {
             /* Create Value */
-            LTMetricValue *curValue = [[[LTMetricValue alloc] init] autorelease];
+            LTMetricValue *curValue = [LTMetricValue new];
             curValue.stringValue = [TBXML textForElementNamed:@"valstr" parentElement:node];
             curValue.floatValue = [[TBXML textForElementNamed:@"valstr_raw" parentElement:node] floatValue];
             curValue.timestamp = [NSDate dateWithTimeIntervalSince1970:[[TBXML textForElementNamed:@"tstamp_sec" parentElement:node] floatValue]];
@@ -402,14 +370,63 @@ static NSMutableDictionary *_xmlTranslation = nil;
             if (!self.values)
             { values = [[NSMutableArray array] retain]; }
             [values addObject:curValue];
+            [curValue release];
         }
         else
         {
             /* Update local properties */
-            [self setXmlValueUsingNode:node forKey:nodeName];
+            [self setXmlValueUsingNode:node forKey:[TBXML elementName:node]];
         }
     }
-	
+
+    /* Drain autorelease pool */
+    [pool drain];
+    pool = nil;
+    
+    /* Create new autorelease pool for child parsing */
+    pool = [[NSAutoreleasePool alloc] init];
+
+    /* Recursively parse children */
+    BOOL childrenChanged = NO;
+    for (node=rootNode->firstChild; node; node = node->nextSibling)
+    {
+        if (strcmp(node->name, "entity")==0)
+        {
+            /* Locate/Create Child */
+            LTEntity *childEntity = [[childDict objectForKey:[TBXML textForElement:[TBXML childElementNamed:@"name" parentElement:node]]] retain];
+            if (!childEntity)
+            {
+                childEntity = [LTEntity new];
+                childEntity.parent = self;
+                childEntity.isNew = YES;
+            }
+            
+            /* Clear all current values */
+            [childEntity.values removeAllObjects];
+            
+            /* Perform update recursively */
+            [childEntity updateEntityUsingXMLNode:node];
+            
+            /* Add new child if necessary */
+            if (![childDict objectForKey:childEntity.name])
+            {
+                [children addObject:childEntity];
+                [childDict setObject:childEntity forKey:childEntity.name];
+                
+                if (childEntity.type == 3)
+                { 
+                    AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+                    [appDelegate.favoritesController bindFavoritesFromDevice:childEntity];
+                }					
+                
+                childrenChanged = YES;  // Ensure notification is sent 
+                childEntity.isNew = NO; // Entity is not new now that it's in the parents children list
+            }
+            
+            /* Release childEntity */
+            [childEntity release];
+        }
+    }
     if (childrenChanged)
     {
         /* Post notification for children list change */
@@ -426,6 +443,10 @@ static NSMutableDictionary *_xmlTranslation = nil;
             [children sortUsingDescriptors:[NSArray arrayWithObjects:sortDesc, nil]];			
         }
     }
+    
+    /* Drain autorelease pool */
+    [pool drain];
+    pool = nil;
 }
 
 #pragma mark "XML Property Setting"
@@ -475,7 +496,15 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (void) setXmlValueUsingNode:(TBXMLElement *)node forKey:(NSString *)key
 {
-    if (![self.xmlTranslation objectForKey:key]) return;
+    if (![self.xmlTranslation objectForKey:key])
+    {
+//        NSLog (@"%i:%@ Unknown Key: %@", self.type, self.desc, key);
+        return;
+    }
+    else
+    {
+//        NSLog (@"%i:%@ KNOWN key %@", self.type, self.desc, key);
+    }
     [self _setXmlValue:[TBXML textForElement:node] forKey:key];
     
 }

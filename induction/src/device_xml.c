@@ -34,7 +34,7 @@
 
 extern i_resource *global_self;
 
-void i_device_xml (i_entity *ent, xmlNodePtr ent_node)
+void i_device_xml (i_entity *ent, xmlNodePtr ent_node, unsigned short flags)
 {
   char *str;
   
@@ -70,36 +70,40 @@ void i_device_xml (i_entity *ent, xmlNodePtr ent_node)
   { 
     xmlNewChild (ent_node, NULL, BAD_CAST "vendor", BAD_CAST dev->vendor_str); 
   }
-  xmlNewChild (ent_node, NULL, BAD_CAST "profile", BAD_CAST dev->profile_str);
   asprintf (&str, "%li", dev->refresh_interval);
   xmlNewChild (ent_node, NULL, BAD_CAST "refresh_interval", BAD_CAST str);
   free (str);
   asprintf (&str, "%i", dev->protocol);
   xmlNewChild (ent_node, NULL, BAD_CAST "protocol", BAD_CAST str);
   free (str);
+
+  if (!(flags & ENTXML_MOBILE))
+  {
+    xmlNewChild (ent_node, NULL, BAD_CAST "profile", BAD_CAST dev->profile_str);
+    asprintf (&str, "%i", dev->nagios);
+    xmlNewChild (ent_node, NULL, BAD_CAST "nagios", BAD_CAST str);
+    free (str);
+    asprintf (&str, "%i", dev->xsan);
+    xmlNewChild (ent_node, NULL, BAD_CAST "xsan", BAD_CAST str);
+    free (str);
+    asprintf (&str, "%i", dev->lithiumsnmp);
+    xmlNewChild (ent_node, NULL, BAD_CAST "lithiumsnmp", BAD_CAST str);
+    free (str);
+    asprintf (&str, "%i", dev->mark);
+    xmlNewChild (ent_node, NULL, BAD_CAST "mark", BAD_CAST str);
+    free (str);
+    asprintf (&str, "%i", dev->minimum_action_severity);
+    xmlNewChild (ent_node, NULL, BAD_CAST "minimum_action_severity", BAD_CAST str);
+    free (str);
+  }
   asprintf (&str, "%i", dev->icmp);
   xmlNewChild (ent_node, NULL, BAD_CAST "icmp", BAD_CAST str);
   free (str);
   asprintf (&str, "%i", dev->lom);
   xmlNewChild (ent_node, NULL, BAD_CAST "lom", BAD_CAST str);
   free (str);
-  asprintf (&str, "%i", dev->nagios);
-  xmlNewChild (ent_node, NULL, BAD_CAST "nagios", BAD_CAST str);
-  free (str);
-  asprintf (&str, "%i", dev->xsan);
-  xmlNewChild (ent_node, NULL, BAD_CAST "xsan", BAD_CAST str);
-  free (str);
-  asprintf (&str, "%i", dev->lithiumsnmp);
-  xmlNewChild (ent_node, NULL, BAD_CAST "lithiumsnmp", BAD_CAST str);
-  free (str);
   asprintf (&str, "%i", dev->swrun);
   xmlNewChild (ent_node, NULL, BAD_CAST "swrun", BAD_CAST str);
-  free (str);
-  asprintf (&str, "%i", dev->mark);
-  xmlNewChild (ent_node, NULL, BAD_CAST "mark", BAD_CAST str);
-  free (str);
-  asprintf (&str, "%i", dev->minimum_action_severity);
-  xmlNewChild (ent_node, NULL, BAD_CAST "minimum_action_severity", BAD_CAST str);
   free (str);
 
   /* Refresh info */
@@ -112,10 +116,10 @@ void i_device_xml (i_entity *ent, xmlNodePtr ent_node)
     asprintf (&str, "%lu", dev->refresh_count);
     xmlNewChild (ent_node, NULL, BAD_CAST "refresh_count", BAD_CAST str);
     free (str);
-    
-    xmlNewChild (ent_node, NULL, BAD_CAST "resource_started", BAD_CAST "1");
+
+    if (!(flags & ENTXML_MOBILE)) xmlNewChild (ent_node, NULL, BAD_CAST "resource_started", BAD_CAST "1");
   }
-  else if (global_self->type == RES_CUSTOMER)
+  else if (global_self->type == RES_CUSTOMER && !(flags & ENTXML_MOBILE))
   {
     if (dev->resaddr)
     { xmlNewChild (ent_node, NULL, BAD_CAST "resource_started", BAD_CAST "1"); }

@@ -12,5 +12,6 @@
 @interface TBXML (TBXML_Lithium)
 
 + (NSString *) textForElementNamed:(NSString *)name parentElement:(TBXMLElement *)parentElement;
++ (NSInteger) intFromTextForElementNamed:(NSString *)name parentElement:(TBXMLElement *)parentElement;
 
 @end

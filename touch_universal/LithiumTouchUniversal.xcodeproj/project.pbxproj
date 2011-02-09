@@ -33,7 +33,6 @@
 		104C8DDB13022E5A0067B1C8 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 104C8DD913022E5A0067B1C8 /* TBXML.m */; };
 		104C8DDD13022F3F0067B1C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 104C8DDC13022F3F0067B1C8 /* libz.dylib */; };
 		104C8DE0130234DE0067B1C8 /* TBXML-Lithium.m in Sources */ = {isa = PBXBuildFile; fileRef = 104C8DDF130234DE0067B1C8 /* TBXML-Lithium.m */; };
-		104C8DE61302485B0067B1C8 /* LTValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 104C8DE51302485B0067B1C8 /* LTValue.m */; };
 		104DEF0912835E6A008A7936 /* LTGraphScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104DEF0812835E6A008A7936 /* LTGraphScrollView.m */; };
 		104DEF6E12836995008A7936 /* ContainerScrollBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 104DEF6C12836995008A7936 /* ContainerScrollBack.png */; };
 		104DEF6F12836995008A7936 /* ObjectScrollBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 104DEF6D12836995008A7936 /* ObjectScrollBack.png */; };
@@ -231,8 +230,6 @@
 		104C8DDC13022F3F0067B1C8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		104C8DDE130234DE0067B1C8 /* TBXML-Lithium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TBXML-Lithium.h"; sourceTree = "<group>"; };
 		104C8DDF130234DE0067B1C8 /* TBXML-Lithium.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TBXML-Lithium.m"; sourceTree = "<group>"; };
-		104C8DE41302485B0067B1C8 /* LTValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTValue.h; sourceTree = "<group>"; };
-		104C8DE51302485B0067B1C8 /* LTValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTValue.m; sourceTree = "<group>"; };
 		104DEF0712835E6A008A7936 /* LTGraphScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTGraphScrollView.h; sourceTree = "<group>"; };
 		104DEF0812835E6A008A7936 /* LTGraphScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTGraphScrollView.m; sourceTree = "<group>"; };
 		104DEF6C12836995008A7936 /* ContainerScrollBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ContainerScrollBack.png; sourceTree = "<group>"; };
@@ -1147,7 +1144,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				104C8DDC13022F3F0067B1C8 /* libz.dylib */,
 				1010B92312F6654F0071E18D /* Settings.bundle */,
 				105EDF1411BC39C500B294B4 /* Resources */,
 				105EDE7211BC392000B294B4 /* UI Classes */,
@@ -1169,8 +1165,6 @@
 				104C8DD513022E4E0067B1C8 /* TBXML */,
 				32CA4F630368D1EE00C91783 /* LithiumTouchUniversal_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
-				104C8DE41302485B0067B1C8 /* LTValue.h */,
-				104C8DE51302485B0067B1C8 /* LTValue.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -1178,6 +1172,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				104C8DDC13022F3F0067B1C8 /* libz.dylib */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
@@ -1428,7 +1423,6 @@
 				104C8DDA13022E5A0067B1C8 /* NSDataAdditions.m in Sources */,
 				104C8DDB13022E5A0067B1C8 /* TBXML.m in Sources */,
 				104C8DE0130234DE0067B1C8 /* TBXML-Lithium.m in Sources */,
-				104C8DE61302485B0067B1C8 /* LTValue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

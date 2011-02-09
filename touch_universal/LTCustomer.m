@@ -48,6 +48,19 @@
 
 - (void) updateEntityUsingXMLNode:(TBXMLElement *)rootNode
 {
+    /* Parse core version; this is done first to ensure any further
+     * refresh operations use the right xml names for the right version
+     */
+    NSLog (@"CoreVesion: %@", [TBXML textForElementNamed:@"core_version" parentElement:rootNode]);
+    if ([TBXML childElementNamed:@"core_version" parentElement:rootNode])
+    {
+        NSArray *components = [[TBXML textForElementNamed:@"core_version" parentElement:rootNode] componentsSeparatedByString:@"."];
+        if (components.count > 0) coreVersionMajor = [[components objectAtIndex:0] intValue];
+        if (components.count > 1) coreVersionMinor = [[components objectAtIndex:1] intValue];
+        if (components.count > 2) coreVersionPoint = [[components objectAtIndex:2] intValue];
+    }
+
+    /* Call super-class to parse children and properties */
     [super updateEntityUsingXMLNode:rootNode];
 
     /* Post customer-specific notification */
@@ -55,14 +68,6 @@
 
 	/* Parse Custom Module List */
 	self.customModules = [NSMutableDictionary dictionary];
-    if ([TBXML childElementNamed:@"core_version" parentElement:rootNode])
-    {
-        NSLog (@"%i:%@ core version is %@", self.type, self.desc, [TBXML textForElementNamed:@"core_version" parentElement:rootNode]);
-        NSArray *components = [[TBXML textForElementNamed:@"core_version" parentElement:rootNode] componentsSeparatedByString:@"."];
-        if (components.count > 0) coreVersionMajor = [[components objectAtIndex:0] intValue];
-        if (components.count > 1) coreVersionMinor = [[components objectAtIndex:1] intValue];
-        if (components.count > 2) coreVersionPoint = [[components objectAtIndex:2] intValue];
-    }
     TBXMLElement *moduleList = [TBXML childElementNamed:@"custom_module_list" parentElement:rootNode];
     if (moduleList)
     {

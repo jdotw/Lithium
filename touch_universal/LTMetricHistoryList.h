@@ -30,11 +30,11 @@
 
 - (void) refresh;
 
-@property (readonly) NSMutableArray *values;
-@property (retain) LTEntity *metric;
-@property (assign) float minValue;
-@property (assign) float avgValue;
-@property (assign) float maxValue;
-@property (assign) BOOL hasRealData;
+@property (nonatomic,readonly) NSMutableArray *values;
+@property (nonatomic,retain) LTEntity *metric;
+@property (nonatomic,assign) float minValue;
+@property (nonatomic,assign) float avgValue;
+@property (nonatomic,assign) float maxValue;
+@property (nonatomic,assign) BOOL hasRealData;
 
 @end
