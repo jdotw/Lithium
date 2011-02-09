@@ -85,21 +85,16 @@
 	}	
 }
 
-- (void) xmlParserDidFinish:(LCXMLNode *)rootNode
+- (void) updateEntityUsingXMLNode:(TBXMLElement *)node
 {
-	/* Check Thread */
-	if ([NSThread currentThread] != [NSThread mainThread])
-	{
-		[NSException raise:@"LTGroup-parserDidFinish-IncorrectThread"
-					format:@"An instance of LTEntity received a message to parserDidFinish on a thread that was NOT that main thread"];
-	}
-	
 	/* Interpret */
 	NSMutableArray *seenGroups = [NSMutableArray array];
 	NSMutableArray *seenEntities = [NSMutableArray array];
-	for (LCXMLNode *childNode in rootNode.children)
-	{ 
-		if ([childNode.name isEqualToString:@"group"]) {
+    for (node=node->firstChild; node; node = node->nextSibling)
+    {
+        NSString *nodeName = [TBXML elementName:node];
+		if ([nodeName isEqualToString:@"group"]) 
+        {
 			/* Child Group */
 			LTGroup *childGroup = [childDict objectForKey:[childNode.properties objectForKey:@"id"]];
 			if (!childGroup)
@@ -115,7 +110,8 @@
 			childGroup.desc = [childNode.properties objectForKey:@"desc"];			
 			[seenGroups addObject:childGroup];
 		}
-		else {
+		else if ([nodeName isEqualToString:@"entity"])
+        {
 			/* Entity */
 			for (LCXMLNode *entityNode in childNode.children)
 			{

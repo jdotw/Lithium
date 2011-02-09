@@ -57,7 +57,6 @@
 	self.customModules = [NSMutableDictionary dictionary];
     if ([TBXML childElementNamed:@"core_version" parentElement:rootNode])
     {
-        NSLog (@"%i:%@ core version is %@", self.type, self.desc, [TBXML textForElementNamed:@"core_version" parentElement:rootNode]);
         NSArray *components = [[TBXML textForElementNamed:@"core_version" parentElement:rootNode] componentsSeparatedByString:@"."];
         if (components.count > 0) coreVersionMajor = [[components objectAtIndex:0] intValue];
         if (components.count > 1) coreVersionMinor = [[components objectAtIndex:1] intValue];

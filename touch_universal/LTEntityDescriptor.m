@@ -261,54 +261,54 @@
 	return xmlString;
 }
 
-+ (LTEntityDescriptor *) entityDescriptorFromXml:(LCXMLNode *)xmlNode
++ (LTEntityDescriptor *) entityDescriptorFromXml:(TBXMLElement *)xmlNode
 {
 	LTEntityDescriptor *entDesc = [[LTEntityDescriptor alloc] init];
+    
+    entDesc.type = [TBXML textForElementNamed:@"type_num" parentElement:xmlNode];
 	
-	entDesc.type = [[xmlNode.properties objectForKey:@"type_num"] intValue];
-	
-	entDesc.name = [xmlNode.properties objectForKey:@"name"];
-	entDesc.desc = [xmlNode.properties objectForKey:@"desc"];
-	entDesc.opState = [[xmlNode.properties objectForKey:@"opstate_num"] intValue];
-	entDesc.adminState = [[xmlNode.properties objectForKey:@"adminstate_num"] intValue];
+	entDesc.name = [TBXML textForElementNamed:@"name" parentElement:xmlNode];
+	entDesc.desc = [TBXML textForElementNamed:@"desc" parentElement:xmlNode];
+	entDesc.opState = [[TBXML textForElementNamed:@"opstate_num" parentElement:xmlNode] intValue];
+	entDesc.adminState = [[TBXML textForElementNamed:@"adminstate_num" parentElement:xmlNode] intValue];
 
-	entDesc.custName = [xmlNode.properties objectForKey:@"cust_name"];
-	entDesc.custDesc = [xmlNode.properties objectForKey:@"cust_desc"];
-	entDesc.custOpState = [[xmlNode.properties objectForKey:@"cust_opstate_num"] intValue];
-	entDesc.custAdminState = [[xmlNode.properties objectForKey:@"cust_adminstate_num"] intValue];
+	entDesc.custName = [TBXML textForElementNamed:@"cust_name" parentElement:xmlNode];
+	entDesc.custDesc = [TBXML textForElementNamed:@"cust_desc" parentElement:xmlNode];
+	entDesc.custOpState = [[TBXML textForElementNamed:@"cust_opstate_num" parentElement:xmlNode] intValue];
+	entDesc.custAdminState = [[TBXML textForElementNamed:@"cust_adminstate_num"] parentElement:xmlNode] intValue];
 
-	entDesc.siteName = [xmlNode.properties objectForKey:@"site_name"];
-	entDesc.siteDesc = [xmlNode.properties objectForKey:@"site_desc"];
-	entDesc.siteSuburb = [xmlNode.properties objectForKey:@"site_suburb"];
-	entDesc.siteOpState = [[xmlNode.properties objectForKey:@"site_opstate_num"] intValue];
-	entDesc.siteAdminState = [[xmlNode.properties objectForKey:@"site_adminstate_num"] intValue];
+	entDesc.siteName = [TBXML textForElementNamed:@"site_name" parentElement:xmlNode];
+	entDesc.siteDesc = [TBXML textForElementNamed:@"site_desc" parentElement:xmlNode];
+	entDesc.siteSuburb = [TBXML textForElementNamed:@"site_suburb" parentElement:xmlNode];
+	entDesc.siteOpState = [[TBXML textForElementNamed:@"site_opstate_num" parentElement:xmlNode] intValue];
+	entDesc.siteAdminState = [[TBXML textForElementNamed:@"site_adminstate_num"] parentElement:xmlNode] intValue];
 	
-	entDesc.devName = [xmlNode.properties objectForKey:@"dev_name"];
-	entDesc.devDesc = [xmlNode.properties objectForKey:@"dev_desc"];
-	entDesc.devOpState = [[xmlNode.properties objectForKey:@"dev_opstate_num"] intValue];
-	entDesc.devAdminState = [[xmlNode.properties objectForKey:@"dev_adminstate_num"] intValue];
+	entDesc.devName = [TBXML textForElementNamed:@"dev_name" parentElement:xmlNode];
+	entDesc.devDesc = [TBXML textForElementNamed:@"dev_desc" parentElement:xmlNode];
+	entDesc.devOpState = [[TBXML textForElementNamed:@"dev_opstate_num" parentElement:xmlNode] intValue];
+	entDesc.devAdminState = [[TBXML textForElementNamed:@"dev_adminstate_num"] parentElement:xmlNode] intValue];
 
-	entDesc.cntName = [xmlNode.properties objectForKey:@"cnt_name"];
-	entDesc.cntDesc = [xmlNode.properties objectForKey:@"cnt_desc"];
-	entDesc.cntOpState = [[xmlNode.properties objectForKey:@"cnt_opstate_num"] intValue];
-	entDesc.cntAdminState = [[xmlNode.properties objectForKey:@"cnt_adminstate_num"] intValue];
+	entDesc.cntName = [TBXML textForElementNamed:@"cnt_name" parentElement:xmlNode];
+	entDesc.cntDesc = [TBXML textForElementNamed:@"cnt_desc" parentElement:xmlNode];
+	entDesc.cntOpState = [[TBXML textForElementNamed:@"cnt_opstate_num" parentElement:xmlNode] intValue];
+	entDesc.cntAdminState = [[TBXML textForElementNamed:@"cnt_adminstate_num"] parentElement:xmlNode] intValue];
 
-	entDesc.objName = [xmlNode.properties objectForKey:@"obj_name"];
-	entDesc.objDesc = [xmlNode.properties objectForKey:@"obj_desc"];
-	entDesc.objOpState = [[xmlNode.properties objectForKey:@"obj_opstate_num"] intValue];
-	entDesc.objAdminState = [[xmlNode.properties objectForKey:@"obj_adminstate_num"] intValue];
+	entDesc.objName = [TBXML textForElementNamed:@"obj_name" parentElement:xmlNode];
+	entDesc.objDesc = [TBXML textForElementNamed:@"obj_desc" parentElement:xmlNode];
+	entDesc.objOpState = [[TBXML textForElementNamed:@"obj_opstate_num" parentElement:xmlNode] intValue];
+	entDesc.objAdminState = [[TBXML textForElementNamed:@"obj_adminstate_num"] parentElement:xmlNode] intValue];
+
+	entDesc.metName = [TBXML textForElementNamed:@"met_name" parentElement:xmlNode];
+	entDesc.metDesc = [TBXML textForElementNamed:@"met_desc" parentElement:xmlNode];
+	entDesc.metOpState = [[TBXML textForElementNamed:@"met_opstate_num" parentElement:xmlNode] intValue];
+	entDesc.metAdminState = [[TBXML textForElementNamed:@"met_adminstate_num"] parentElement:xmlNode] intValue];
+
+	entDesc.trgName = [TBXML textForElementNamed:@"trg_name" parentElement:xmlNode];
+	entDesc.trgDesc = [TBXML textForElementNamed:@"trg_desc" parentElement:xmlNode];
+	entDesc.trgOpState = [[TBXML textForElementNamed:@"trg_opstate_num" parentElement:xmlNode] intValue];
+	entDesc.trgAdminState = [[TBXML textForElementNamed:@"trg_adminstate_num"] parentElement:xmlNode] intValue];
 	
-	entDesc.metName = [xmlNode.properties objectForKey:@"met_name"];
-	entDesc.metDesc = [xmlNode.properties objectForKey:@"met_desc"];
-	entDesc.metOpState = [[xmlNode.properties objectForKey:@"met_opstate_num"] intValue];
-	entDesc.metAdminState = [[xmlNode.properties objectForKey:@"met_adminstate_num"] intValue];
-	
-	entDesc.trgName = [xmlNode.properties objectForKey:@"trg_name"];
-	entDesc.trgDesc = [xmlNode.properties objectForKey:@"trg_desc"];
-	entDesc.trgOpState = [[xmlNode.properties objectForKey:@"trg_opstate_num"] intValue];
-	entDesc.trgAdminState = [[xmlNode.properties objectForKey:@"trg_adminstate_num"] intValue];
-	
-	entDesc.resourceAddress = [xmlNode.properties objectForKey:@"resaddr"];
+	entDesc.resourceAddress = [TBXML textForElementNamed:@"resaddr" parentElement:xmlNode];
 		
 	return [entDesc autorelease];
 }
@@ -354,7 +354,7 @@
 - (NSString *) entityAddress
 {
 	NSMutableString *address = [NSMutableString stringWithFormat:@"%i", self.type];
-	if (self.type >= 1) [address appendFormat:@":%@", self.custName];
+	if (self.type >= 1) [address appendFormat:@":%@", self.trgName];
 	if (self.type >= 2) [address appendFormat:@":%@", self.siteName];
 	if (self.type >= 3) [address appendFormat:@":%@", self.devName];
 	if (self.type >= 4) [address appendFormat:@":%@", self.cntName];

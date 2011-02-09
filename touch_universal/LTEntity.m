@@ -334,9 +334,10 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (void) updateEntityUsingXMLNode:(TBXMLElement *)node
 {
-    BOOL childrenChanged = NO;
+    if (!node) return;
     
 	/* Update local properties */
+    BOOL childrenChanged = NO;
     BOOL currentValueSet = NO;
     for (node=node->firstChild; node; node = node->nextSibling)
     {

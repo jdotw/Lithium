@@ -169,7 +169,6 @@
 	else 
 	{ 
 		/* Acive list, update the count (and version) first */
-		NSLog (@"[%@ refresh] requesting count and version", self);
 		[self _requestCountAndVersion];
 	}
 }

@@ -43,7 +43,6 @@
 	
 	/* Register for push */
 #ifndef DEMO
-	NSLog (@"Registering for PUSH notifications");
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert];
 #endif
 	
@@ -108,7 +107,6 @@
 - (void) initialDeploymentCheckTimerCallback:(NSTimer *)timer
 {
 	/* This is called 0.5s after the app loads to ensure that atleast one deployment was found */
-	NSLog (@"Doing check for deployment");
 	if (self.coreDeployments.count < 1)
 	{
 		LTCoreEditTableViewController *controller = [[LTCoreEditTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -168,7 +166,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-	//	NSLog (@"PUSH: %@", userInfo);
+
 }
 
 #pragma mark -

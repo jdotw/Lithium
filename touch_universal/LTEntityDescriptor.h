@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "LTEntity.h"
+#import "TBXML-Lithium.h"
 
 @interface LTEntityDescriptor : NSObject 
 {
@@ -58,7 +59,7 @@
 
 #pragma mark "XML Methods"
 - (NSString *) xmlNodeString;
-+ (LTEntityDescriptor *) entityDescriptorFromXml:(LCXMLNode *)xmlNode;
++ (LTEntityDescriptor *) entityDescriptorFromXml:(TBXMLElement *)xmlNode;
 
 #pragma mark "Properties"
 @property (readonly) NSString *entityAddress;
