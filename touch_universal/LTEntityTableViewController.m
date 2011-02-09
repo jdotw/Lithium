@@ -814,8 +814,6 @@
 
 - (void) entityChildrenChanged:(NSNotification *)notification
 {
-    NSLog (@"%@ Got entityChildrenChanged for %@", self, [notification object]);
-    
     /* Called when there is a change in an entities children 
      * to force a reload of the table data 
      */
