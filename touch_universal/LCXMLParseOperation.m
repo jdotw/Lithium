@@ -19,6 +19,7 @@
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
 	[parser setDelegate:self];
 //	[parser setShouldResolveExternalEntities:YES];
+    
 	[parser parse];
 
 	/* Call delegate on main thread */
