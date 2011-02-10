@@ -143,6 +143,7 @@
 @property (nonatomic,assign) BOOL useProcessList;
 @property (nonatomic,assign) BOOL useLOM;
 
+@property (nonatomic,readonly) NSString *deviceResourceAddress;
 @property (nonatomic,copy) NSString *resourceAddress;
 @property (nonatomic,readonly) NSString *deviceEntityAddress;
 @property (nonatomic,copy) NSString *entityAddress;

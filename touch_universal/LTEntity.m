@@ -594,7 +594,19 @@ static NSMutableDictionary *_xmlTranslation = nil;
     {
         [copy setValue:[self valueForKey:key] forKey:key];
     }
-    copy.parent = self.parent;    // Also takes care of customer, coreDeployment, etc
+    if (self.parent)
+    {
+        copy.parent = self.parent; // Also takes care of customer, coreDeployment, etc
+    }
+    else
+    {
+        copy.ipAddress = self.ipAddress;
+        copy.customerName = self.customerName;
+        copy.username = self.username;
+        copy.password = self.password;
+        copy.customer = self.customer;
+        copy.coreDeployment = self.coreDeployment;
+    }
     copy.entityAddress = self.entityAddress;
     copy.resourceAddress = self.resourceAddress;
     
@@ -608,19 +620,38 @@ static NSMutableDictionary *_xmlTranslation = nil;
 @synthesize type;
 @synthesize name;
 @synthesize desc;
+@synthesize deviceResourceAddress;
+- (NSString *) deviceResourceAddress
+{
+    /* Dynamically creates/assumes the device resource address
+     * by creating the deviceEntityAddress and then using the devname
+     * to create the res addr as <Cust>:<Cust>:7:0:<Name>
+     */
+    NSArray *parts = [[self deviceEntityAddress] componentsSeparatedByString:@":"];
+    if (parts.count > 3)
+    {
+        NSString *devName = [parts objectAtIndex:3];
+        NSString *custResAddr = [self.customer resourceAddress];
+        NSArray *custParts = [custResAddr componentsSeparatedByString:@":"];
+        if (custParts.count > 1)
+        {
+            return [NSString stringWithFormat:@"%@:%@:7:0:%@", [custParts objectAtIndex:0], [custParts objectAtIndex:0], devName];
+        }
+        else return nil;
+    }
+    else return nil;
+}
 @synthesize resourceAddress;
 - (NSString *) resourceAddress
 {
 	if (resourceAddress) return resourceAddress;
 	else
 	{
-		LTEntity *entityParent = self.parent;
-		while (entityParent)
-		{
-			if (entityParent.resourceAddress) return entityParent.resourceAddress;
-			else entityParent = entityParent.parent;
-		}
-		return nil;
+        /* Otherwise, use customer or device depending 
+         * on our entity type 
+         */
+        if (self.type < 3) return self.customer.resourceAddress;
+        else return [self deviceResourceAddress];
 	}
 }
 @synthesize entityAddress;

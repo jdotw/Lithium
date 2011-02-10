@@ -792,6 +792,15 @@
 - (void) entityRefreshFinished:(NSNotification *)notification
 {
     /* What used to be done here is now done only on children changes */
+    if (entity.children.count == 0)
+    {
+        /* The refresh finished, but there's no children. 
+         * Call a reload to make sure that the progress indicator
+         * cell goes away. If there were children, the entityChildrenChanged
+         * note would have fired to reload table data
+         */
+        [[self tableView] reloadData];        
+    }
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)notification
