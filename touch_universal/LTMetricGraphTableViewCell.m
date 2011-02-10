@@ -14,7 +14,7 @@
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) 
+    if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) 
 	{
 		self.backgroundView = [[[LTMetricGraphTableViewCellBackground alloc] initWithFrame:CGRectZero] autorelease];
         self.graphView = [[LTGraphView alloc] initWithFrame:CGRectZero];
@@ -109,26 +109,27 @@
 	CGFloat labelXPadding = 2.0;
 	CGFloat labelHeight = 11.0;
 	CGFloat labelWidth = CGRectGetWidth(self.contentView.bounds) * 0.5;
-	leftMaxLabel.frame = CGRectMake(CGRectGetMinX(self.contentView.bounds) + labelXPadding, CGRectGetMinY(self.contentView.bounds) + labelYPadding,
-									labelWidth-(labelXPadding*2.0), labelHeight);
-	leftAvgLabel.frame = CGRectMake(CGRectGetMinX(self.contentView.bounds) + labelXPadding, (CGRectGetMidY(self.contentView.bounds) - (labelHeight*0.5))+ labelYPadding,
-									labelWidth-(labelXPadding*2.0), labelHeight);
-	leftMinLabel.frame = CGRectMake(CGRectGetMinX(self.contentView.bounds) + labelXPadding, CGRectGetMaxY(self.contentView.bounds) - labelYPadding - labelHeight,
-									labelWidth-(labelXPadding*2.0), labelHeight);
-	rightMaxLabel.frame = CGRectMake(CGRectGetMaxX(self.contentView.bounds) - labelWidth - labelXPadding, CGRectGetMinY(self.contentView.bounds) + labelYPadding,
-									labelWidth, labelHeight);
-	rightAvgLabel.frame = CGRectMake(CGRectGetMaxX(self.contentView.bounds) - labelWidth - labelXPadding, (CGRectGetMidY(self.contentView.bounds) - (labelHeight*0.5))+ labelYPadding,
-									labelWidth, labelHeight);
-	rightMinLabel.frame = CGRectMake(CGRectGetMaxX(self.contentView.bounds) - labelWidth - labelXPadding, CGRectGetMaxY(self.contentView.bounds) - labelYPadding - labelHeight,
-									labelWidth, labelHeight);
-	
-	/* Graph Layout */
-	CGFloat graphYOffset = labelYPadding + (labelHeight * 0.5);
-	graphView.frame = CGRectMake(CGRectGetMinX(self.contentView.bounds), CGRectGetMinY(self.contentView.bounds) + graphYOffset,
-								 CGRectGetWidth(self.contentView.bounds), CGRectGetHeight(self.contentView.bounds)-(2.0 * graphYOffset));
+	leftMaxLabel.frame = CGRectIntegral(CGRectMake(CGRectGetMinX(self.contentView.bounds) + labelXPadding, CGRectGetMinY(self.contentView.bounds) + labelYPadding,
+									labelWidth-(labelXPadding*2.0), labelHeight));
+	leftAvgLabel.frame = CGRectIntegral(CGRectMake(CGRectGetMinX(self.contentView.bounds) + labelXPadding, (CGRectGetMidY(self.contentView.bounds) - (labelHeight*0.5))+ labelYPadding,
+                                                   labelWidth-(labelXPadding*2.0), labelHeight));
+	leftMinLabel.frame = CGRectIntegral(CGRectMake(CGRectGetMinX(self.contentView.bounds) + labelXPadding, CGRectGetMaxY(self.contentView.bounds) - labelYPadding - labelHeight,
+                                                   labelWidth-(labelXPadding*2.0), labelHeight));
+	rightMaxLabel.frame = CGRectIntegral(CGRectMake(CGRectGetMaxX(self.contentView.bounds) - labelWidth - labelXPadding, CGRectGetMinY(self.contentView.bounds) + labelYPadding,
+                                                    labelWidth, labelHeight));
+	rightAvgLabel.frame = CGRectIntegral(CGRectMake(CGRectGetMaxX(self.contentView.bounds) - labelWidth - labelXPadding, (CGRectGetMidY(self.contentView.bounds) - (labelHeight*0.5))+ labelYPadding, labelWidth, labelHeight));
+	rightMinLabel.frame = CGRectIntegral(CGRectMake(CGRectGetMaxX(self.contentView.bounds) - labelWidth - labelXPadding, CGRectGetMaxY(self.contentView.bounds) - labelYPadding - labelHeight, labelWidth, labelHeight));
 	
 	/* Background layout */
 	graphBackground.frame = self.contentView.bounds;
+
+	/* Graph Layout */
+	CGFloat graphYOffset = (labelYPadding + (labelHeight * 0.5))-2.;
+    NSLog (@"graphYOffset is %f", graphYOffset);
+    NSLog (@"GraphViewCell frame was %@", NSStringFromCGRect(graphView.frame));
+	graphView.frame = CGRectIntegral(CGRectMake(CGRectGetMinX(self.contentView.bounds), CGRectGetMinY(graphBackground.maxLineRect)+1,
+                                                CGRectGetWidth(self.contentView.bounds),  (CGRectGetMinY(graphBackground.minLineRect)+1) - CGRectGetMinY(graphBackground.maxLineRect)));
+    NSLog (@"GraphViewCell laying out graph view into %@", NSStringFromCGRect(graphView.frame));
 	
 }
 

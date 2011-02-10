@@ -38,12 +38,15 @@
 	incidentList.historicList = YES;
 	incidentList.maxResultsCount = 20;
 	
-	landscapeGraphRequest = [[LTMetricGraphRequest alloc] init];
-	landscapeGraphRequest.size = CGSizeMake(480.0, 320.0);
-	
 	self.metric = initMetric;	// Also sets up incidentList
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self
+
+	return self;
+}
+
+- (void)dealloc 
+{
+    /* Remove notifications */
+    [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(incidentListRefreshFinished:)
 												 name:@"LTIncidentListRefreshFinished" 
 											   object:incidentList];
@@ -52,12 +55,12 @@
 												 name:@"ActionUpdated" 
 											   object:nil];
 
-	return self;
-}
-
-- (void)dealloc 
-{
-	[metric release];
+    /* nil the metric to remove observers and release */
+    self.metric = nil;
+    
+    /* Release other ivars */
+    [incidentList release];
+    
     [super dealloc];
 }
 
@@ -93,7 +96,7 @@
 		[metric refresh];
 	}
 	[incidentList refresh];
-	[landscapeGraphRequest refresh];
+//	[landscapeGraphRequest refresh];
 }
 
 - (void)viewWillDisappear:(BOOL)animated 
@@ -544,6 +547,7 @@
 	{
 		/* Add to Favorites */
 		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+        NSLog (@"Adding %@ to %@", self.metric, appDelegate.favoritesController);
 		[appDelegate.favoritesController addToFavorites:self.metric];
 	}
 }
@@ -551,23 +555,29 @@
 @synthesize metric;
 - (void) setMetric:(LTEntity *)value
 {
+    if (metric)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:metric];
+    }
 	[metric release];
+    
 	metric = [value retain];
 	
 	self.title = metric.desc;
-	
 	incidentList.entity = metric;
 	
-	landscapeGraphRequest.metric = metric;	
+    [metric refresh];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(metricRefreshFinished:)
-												 name:@"RefreshFinished" 
-											   object:metric];
+    if (metric)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(metricRefreshFinished:)
+                                                     name:@"RefreshFinished" 
+                                                   object:metric];
+    }
 }
+
 @synthesize incident;
-
-
 
 @end
 

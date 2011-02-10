@@ -16,6 +16,8 @@
 @property (nonatomic, retain) IBOutlet UILabel *maxLabel;
 @property (nonatomic, retain) IBOutlet UILabel *avgLabel;
 @property (nonatomic, retain) IBOutlet UILabel *minLabel;	
-
+@property (nonatomic,readonly) CGRect minLineRect;
+@property (nonatomic,readonly) CGRect midLineRect;
+@property (nonatomic,readonly) CGRect maxLineRect;
 
 @end

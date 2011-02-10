@@ -67,7 +67,9 @@
 
 - (void) saveFavorites
 {
+    NSLog(@"When saving, descriptorDict is %@", descriptorDict);
 	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:descriptorDict];
+    NSLog(@"Saved data is %@", data);
 	[[NSUserDefaults standardUserDefaults] setObject:data forKey:@"favoritesData"];
 	[[NSUserDefaults standardUserDefaults] synchronize];	
 }
@@ -346,9 +348,10 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
+    NSLog(@"FAV: numberOfRows %i / %i", displayFavorites.count, displayOrphans.count);
 	if (section == 0) return displayFavorites.count;
 	else if (section == 1) return displayOrphans.count;
-	return 0;
+	else return 0;
 }
 
 // Customize the appearance of table view cells.

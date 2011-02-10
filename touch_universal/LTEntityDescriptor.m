@@ -354,7 +354,7 @@
 - (NSString *) entityAddress
 {
 	NSMutableString *address = [NSMutableString stringWithFormat:@"%i", self.type];
-	if (self.type >= 1) [address appendFormat:@":%@", self.trgName];
+	if (self.type >= 1) [address appendFormat:@":%@", self.custName];
 	if (self.type >= 2) [address appendFormat:@":%@", self.siteName];
 	if (self.type >= 3) [address appendFormat:@":%@", self.devName];
 	if (self.type >= 4) [address appendFormat:@":%@", self.cntName];

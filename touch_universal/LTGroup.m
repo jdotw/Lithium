@@ -31,7 +31,6 @@
 - (void) refresh
 {
 	/* Refresh the group */
-    NSLog (@"%@ UPDATING DIRECTLY using refresh", self);
 	
 	/* Check state */
 	if (refreshInProgress || ![(LTCoreDeployment *)customer.coreDeployment enabled])
@@ -87,8 +86,6 @@
 
 - (void) updateEntityUsingXML:(TBXML *)xml
 {
-    NSLog (@"%@ UPDATING DIRECTLY using updateEntityUsingXML", self);
-    
 	/* Loop through XML nodes */
 	NSMutableArray *seenGroups = [NSMutableArray array];
 	NSMutableArray *seenEntities = [NSMutableArray array];

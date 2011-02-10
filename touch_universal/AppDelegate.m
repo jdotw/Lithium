@@ -177,6 +177,7 @@
 	if ([[netService hostName] hasSuffix:@"members.mac.com"] || [[netService hostName] hasSuffix:@"members.mac.com."])
 	{
 		/* Skip members.mac.com resolutions */
+        NSLog (@"netServiceDidResolveAddress ignored .mac.com resolution %@", [netService hostName]);
 		return;
 	}
 
@@ -208,6 +209,7 @@
 	if ([[netService hostName] hasSuffix:@"members.mac.com"] || [[netService hostName] hasSuffix:@"members.mac.com."])
 	{
 		/* Skip members.mac.com resolutions */
+        NSLog (@"netServiceBrowser:didFindService ignored .mac.com resolution %@", [netService hostName]);
 		return;
 	}
 	netService.delegate = self;

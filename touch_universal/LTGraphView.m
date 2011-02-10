@@ -24,7 +24,7 @@
     if ((self = [super initWithFrame:frame])) 
 	{
 		CATiledLayer *tiledLayer = (CATiledLayer *) self.layer;
-		tiledLayer.tileSize = CGSizeMake(512.0, 9000.0);
+		tiledLayer.tileSize = CGSizeMake(512.0, 9000.0);            // The graph view must *never* be taller than 512px
 		tiledLayer.levelsOfDetail = 4;
 		tiledLayer.levelsOfDetailBias = 1;
 		tiledLayer.delegate = self;
@@ -44,6 +44,7 @@
 
 - (void)dealloc 
 {
+    NSLog (@"%@ DEALLOC", self);
 	[graphRequestCache release];
 	[metrics release];
 	[minLabels release];
@@ -70,20 +71,7 @@
 	else
 	{
 		/* Drawing in a plain view (metric popup) */
-		contentSize = self.superview.bounds.size;
-		
-		/* Check to see if the slice is sane. 
-		 * For a non-scrollview drawing there seems to be 
-		 * some odd calls to the delegate to draw in half
-		 * or less of the viewable area before the 'real'
-		 * calls come in for a slice that's the whole view 
-		 * Ignore any clipRects that arent out full view 
-		 */
-		
-		if (clipRect.origin.x != 0. || (clipRect.size.width != layer.tileSize.width && clipRect.size.width != contentSize.width)) 
-		{
-			return;
-		}
+		contentSize = self.bounds.size;		
 	}
 
 	/* Time orientation, by default the visible width of the graph is 24 hours */
@@ -118,6 +106,7 @@
 			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
 			CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), graphImageMargin, 
 										  clipRect.size.width, contentSize.height - (2 * graphImageMargin));
+            NSLog (@"Using imageRect %@ -- contentSize is %@", NSStringFromCGRect(imageRect), NSStringFromCGSize(contentSize));
 
 
 			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));

@@ -13,10 +13,25 @@
 
 @synthesize minLabel, avgLabel, maxLabel;
 
+- (CGRect) minLineRect
+{
+    return CGRectMake(CGRectGetMinX(self.bounds), roundf(CGRectGetMidY(minLabel.frame)), CGRectGetWidth(self.bounds), 1.0);
+}
+
+- (CGRect) midLineRect
+{
+    return CGRectMake(CGRectGetMinX(self.bounds), roundf(CGRectGetMidY(avgLabel.frame)), CGRectGetWidth(self.bounds), 1.0);
+}
+
+- (CGRect) maxLineRect
+{
+    return CGRectMake(CGRectGetMinX(self.bounds), roundf(CGRectGetMidY(maxLabel.frame)), CGRectGetWidth(self.bounds), 1.0);
+}
+
 - (void)drawRect:(CGRect)rect 
 {
 	/* Draw min/avg/max lines */
-	CGRect minLineRect = CGRectMake(CGRectGetMinX(rect), roundf(CGRectGetMidY(minLabel.frame)), CGRectGetWidth(rect), 1.0);
+	CGRect minLineRect = self.minLineRect;
 	if (CGRectContainsRect(rect, minLineRect))
 	{
 		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:minLineRect];
@@ -26,7 +41,7 @@
 		[[UIColor colorWithWhite:1.0 alpha:0.1] setFill];
 		[outerPath fill];
 	}
-	CGRect midLineRect = CGRectMake(CGRectGetMinX(rect), roundf(CGRectGetMidY(avgLabel.frame)), CGRectGetWidth(rect), 1.0);
+	CGRect midLineRect = self.midLineRect;
 	if (CGRectContainsRect(rect, midLineRect))
 	{
 		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:midLineRect];
@@ -36,7 +51,7 @@
 		[[UIColor colorWithWhite:1.0 alpha:0.1] setFill];
 		[outerPath fill];
 	}
-	CGRect maxLineRect = CGRectMake(CGRectGetMinX(rect), roundf(CGRectGetMidY(maxLabel.frame)), CGRectGetWidth(rect), 1.0);
+	CGRect maxLineRect = self.maxLineRect;
 	if (CGRectContainsRect(rect, maxLineRect))
 	{
 		UIBezierPath *innerPath = [UIBezierPath bezierPathWithRect:maxLineRect];

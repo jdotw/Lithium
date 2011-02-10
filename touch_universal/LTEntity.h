@@ -27,7 +27,7 @@
 
 @class LTCustomer, LTCoreDeployment, LTEntityDescriptor;
 
-@interface LTEntity : LTAPIRequest
+@interface LTEntity : LTAPIRequest <NSCopying>
 {
 	int type;
 	NSString *name;
@@ -79,8 +79,8 @@
 	
 	NSMutableArray *children;
 	NSMutableDictionary *childDict;
-	LTEntity *parent;
-	LTCoreDeployment *coreDeployment;
+	LTEntity *parent;                       // Assigneg property
+	LTCoreDeployment *coreDeployment;       // Assigned property
 	
 	BOOL hasBeenRefreshed;
 	NSDate *lastRefresh;

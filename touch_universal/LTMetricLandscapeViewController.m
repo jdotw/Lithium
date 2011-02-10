@@ -62,6 +62,8 @@
 }
 
 - (void)dealloc {
+    NSLog (@"%@ dealloc", self);
+    [graphView release];
     [super dealloc];
 }
 

@@ -26,7 +26,6 @@
 	LTIncidentList *incidentList;
 	
 	LTMetricLandscapeViewController *landscapeViewController;
-	LTMetricGraphRequest *landscapeGraphRequest;	
 	
 	IBOutlet UISearchBar *searchBar;
 	IBOutlet UISearchDisplayController *searchDisplayController;
@@ -35,7 +34,7 @@
 - (id) initWithMetric:(LTEntity *)initMetric;
 - (NSString *) intervalString:(NSTimeInterval)timeInterval;
 
-@property (retain) LTEntity *metric;
-@property (retain) LTIncident *incident;
+@property (nonatomic,retain) LTEntity *metric;
+@property (nonatomic,retain) LTIncident *incident;
 
 @end
