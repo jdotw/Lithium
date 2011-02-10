@@ -997,48 +997,5 @@
 	{ return @"Devices"; }
 }
 
-@synthesize entity;
-- (void) setEntity:(LTEntity *)value
-{
-	if (entity)
-	{
-        /* Remove old notification listeners */
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTEntityXmlStatusChanged" object:entity];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityChildrenChanged object:entity];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTCoreDeploymentReachabilityChanged" object:entity.coreDeployment];
-	}
-
-    [entity release];
-	entity = [value retain];
-
-	self.navigationItem.title = entity.desc;
-	[self sortAndFilterChildren];
-
-	if (entity)
-	{
-        /* Listen to change in XML Status to update refresh progress */
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(entityRefreshStatusUpdated:)
-													 name:@"LTEntityXmlStatusChanged" object:entity];		
-        
-        /* Listen to changes in children array to reload table */
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entityChildrenChanged:)
-                                                     name:kLTEntityChildrenChanged
-                                                   object:entity];   
-        
-        /* Listen for changes in reachability to trigger a refresh */
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(coreDeploymentReachabilityChanged:)
-                                                     name:@"LTCoreDeploymentReachabilityChanged" object:entity.coreDeployment];		
-        
-	}
-    
-    if (entity.type == ENT_SITE || (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation]))
-    {
-        /* The child entities are 'hardware' and we should draw as a rack */
-        self.drawAsRack = YES;
-    }
-}	
-
 @end
 
