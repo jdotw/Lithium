@@ -387,6 +387,7 @@
 			{
 				/* Metric */
 				LTMetricTableViewController *metricView = [[LTMetricTableViewController alloc] initWithMetric:selectedEntity];
+                [selectedEntity refresh];
 				viewController = metricView;	
 			}
 			else

@@ -138,6 +138,7 @@
 					entity.entityAddress = childEntDesc.entityAddress;
 					[children addObject:entity];
 					[childDict setObject:entity forKey:[entity.entityDescriptor entityAddress]];
+                    NSLog(@"LTGroup created new entity %i:%@ with coreDeployment %@", entity.type, entity.desc, entity.coreDeployment);
 				}
 				entity.desc = childEntDesc.desc;
 				entity.opState = childEntDesc.opState;

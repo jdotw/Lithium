@@ -595,8 +595,10 @@ static NSMutableDictionary *_xmlTranslation = nil;
         [copy setValue:[self valueForKey:key] forKey:key];
     }
     copy.parent = self.parent;    // Also takes care of customer, coreDeployment, etc
+    copy.entityAddress = self.entityAddress;
+    copy.resourceAddress = self.resourceAddress;
     
-    NSLog (@"%i:%@ was successfully copied as %p", self.type, self.desc, copy);
+    NSLog (@"%i:%@ was successfully copied as %p (CoreDeployment is %@, Parent is %@ (parent core Dep is %@))", self.type, self.desc, copy, copy.coreDeployment, copy.parent, self.parent.coreDeployment);
 
     return copy;
 }
@@ -631,6 +633,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
     else
     {
         /* Recursively build an entityAddress using our parent */
+        NSLog (@"Dynamically creating an entityAddress for %i:%@", self.type, self.desc);
         NSString *parentAddress = [self.parent entityAddress];
         if (parentAddress)
         {
@@ -647,7 +650,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
         }
         else
         {
-            NSLog(@"Failed to assemble dynamic entity address for %i:%@", self.type, self.name);
+            NSLog(@"Failed to assemble dynamic entity address for %p %i:%@", self, self.type, self.name);
             return nil;
         }
     }

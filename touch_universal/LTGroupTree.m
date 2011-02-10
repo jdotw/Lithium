@@ -90,7 +90,7 @@
 				childGroup = [LTGroup new];
 				childGroup.groupID = [TBXML intFromTextForElementNamed:@"id" parentElement:node];
 				childGroup.parentID = [TBXML intFromTextForElementNamed:@"parent" parentElement:node];
-				childGroup.customer = customer;
+				childGroup.parent = customer;   // This is a temporary parent so that all properties are set (coreDeployment, etc)
 				[childDict setObject:childGroup forKey:[NSString stringWithFormat:@"%i", childGroup.groupID]];
 				[newGroups addObject:childGroup];
 			}
@@ -131,6 +131,8 @@
 					[parentGroup.children addObject:entity];
 					[parentGroup.childDict setObject:entity forKey:entity.entityAddress];
 					[newEntities addObject:entity];
+                    
+                    NSLog(@"LTGroupTree created new entity %p %i:%@ with coreDeployment %@", entity, entity.type, entity.desc, entity.coreDeployment);
 				}
 				entity.desc = childEntDesc.desc;
 				entity.opState = childEntDesc.opState;
@@ -148,7 +150,7 @@
 			LTGroup *parentGroup = [childDict objectForKey:[NSString stringWithFormat:@"%i", group.parentID]];
 			[parentGroup.children addObject:group];
 			[parentGroup.childDict setObject:group forKey:[NSString stringWithFormat:@"%i", group.groupID]];
-			group.parent = parentGroup;
+			group.parent = parentGroup;     // This will override the temporary setting of 'customer' as the parent
 		}
 		else
 		{
