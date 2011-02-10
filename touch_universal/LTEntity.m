@@ -159,6 +159,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:url
 															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
 														 timeoutInterval:60.0];
+    NSLog (@"TheRequest: %@", theRequest);
 
 	/* Outbound XML doc to be sent */
 	NSString *formBoundary = [[NSProcessInfo processInfo] globallyUniqueString];
@@ -232,7 +233,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	[postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	[theRequest setHTTPBody:postData];
 	
-	/* Begin download */
 	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 	if (theConnection) 
 	{
