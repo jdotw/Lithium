@@ -127,6 +127,7 @@
 					entity.coreDeployment = customer.coreDeployment;
 					entity.entityDescriptor = childEntDesc;
 					entity.entityAddress = childEntDesc.entityAddress;
+                    NSLog (@"entityAddress is %@", entity.entityAddress);
 					[parentGroup.children addObject:entity];
 					[parentGroup.childDict setObject:entity forKey:entity.entityAddress];
 					[newEntities addObject:entity];

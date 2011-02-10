@@ -154,7 +154,7 @@
 
 		/* Process PDF */
 		self.imageData = receivedData;
-
+        
 		/* Set Status */
 		refreshInProgress = NO;
 		finished = YES;

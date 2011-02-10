@@ -85,12 +85,34 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (void) dealloc
 {
+    if (self.type == 3) NSLog (@"DEALLOC DEVICE: %p", self);
 	[name release];
 	[desc release];
+    [currentValue release];
+    [values release];
+    [maxValue release];
+    [units release];
+    [uuidString release];
+    [deviceIpAddress release];
+    [lomIpAddress release];
+    [snmpCommunity release];
+    [snmpAuthPassword release];
+    [snmpPrivacyPassword release];
+    [deviceUsername release];
+    [devicePassword release];
+    [lomUsername release];
+    [lomPassword release];
+    [vendorModule release];
 	[resourceAddress release];
+    [entityAddress release];
+    [entityDescriptor release];
+    
 	[children release];
 	[childDict release];
+    
+    [lastRefresh release];
 	[xmlStatus release];
+    
 	[super dealloc];
 }
 
@@ -175,6 +197,9 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	[postData appendData:[xmlString dataUsingEncoding:NSUTF8StringEncoding]];
 	[postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	[theRequest setHTTPBody:postData];
+    
+    /* DEBUG*/
+    NSLog (@"ENTITY REQ: %@", theRequest);
 	
 	/* Begin download */
 	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
@@ -295,7 +320,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
 
 	/* DEBUG */
-	[receivedData writeToFile:[NSString stringWithFormat:@"/Users/jwilson/%i-%@.xml", self.type, self.desc] atomically:NO];
+//	[receivedData writeToFile:[NSString stringWithFormat:@"/Users/jwilson/%i-%@.xml", self.type, self.desc] atomically:NO];
 
 	/* Update status */
 	self.xmlStatus = @"Processing Data...";
@@ -498,12 +523,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 {
     if (![self.xmlTranslation objectForKey:key])
     {
-//        NSLog (@"%i:%@ Unknown Key: %@", self.type, self.desc, key);
         return;
-    }
-    else
-    {
-//        NSLog (@"%i:%@ KNOWN key %@", self.type, self.desc, key);
     }
     [self _setXmlValue:[TBXML textForElement:node] forKey:key];
     
@@ -569,6 +589,29 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	return graphableMetrics;
 }
 
+#pragma mark -
+#pragma mark Entity Copying
+
+/* Entities are copied to make a 'working copy' of an
+ * entity that can be freed when the data is no longer needed
+ */
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    LTEntity *copy = [[LTEntity allocWithZone:zone] init];
+    
+    /* Copy the entity using the xmlTranslation */
+    for (NSString *key in [[self xmlTranslation] allValues])
+    {
+        [copy setValue:[self valueForKey:key] forKey:key];
+    }
+    copy.parent = self.parent;    // Also takes care of customer, coreDeployment, etc
+    
+    NSLog (@"%i:%@ was successfully copied as %p", self.type, self.desc, copy);
+
+    return copy;
+}
+
 #pragma mark "Properties"
 
 @synthesize type;
@@ -592,26 +635,33 @@ static NSMutableDictionary *_xmlTranslation = nil;
 @synthesize entityAddress;
 - (NSString *) entityAddress
 {
-	if (!entityAddress)
-	{
-		NSMutableArray *addressStack = [NSMutableArray array];
-		LTEntity *entity = self;
-		while (entity.type > 0)
-		{
-			[addressStack insertObject:entity atIndex:0];
-			entity = entity.parent;
-		}
-
-		NSMutableString *dynamicEntityAddress = [NSMutableString stringWithFormat:@"%i", self.type];
-		for (LTEntity *stackEntity in addressStack)
-		{
-			[dynamicEntityAddress appendFormat:@":%@", stackEntity.name];
-		}
-
-		return dynamicEntityAddress;
-	}
-	else
-	{ return entityAddress; }
+    if (entityAddress)
+    {
+        return entityAddress;
+    }
+    else
+    {
+        /* Recursively build an entityAddress using our parent */
+        NSString *parentAddress = [self.parent entityAddress];
+        if (parentAddress)
+        {
+            NSArray *parts = [parentAddress componentsSeparatedByString:@":"];
+            NSMutableString *localAddress = [NSMutableString stringWithFormat:@"%i", self.type];
+            for (NSString *part in parts)
+            {
+                if ([parts indexOfObject:part] == 0) continue;
+                [localAddress appendFormat:@":%@", part];
+            }
+            [localAddress appendFormat:@":%@", self.name];
+            self.entityAddress = localAddress;
+            return localAddress;
+        }
+        else
+        {
+            NSLog(@"Failed to assemble dynamic entity address for %i:%@", self.type, self.name);
+            return nil;
+        }
+    }
 }
 
 - (NSString *) deviceEntityAddress

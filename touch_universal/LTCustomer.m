@@ -51,7 +51,6 @@
     /* Parse core version; this is done first to ensure any further
      * refresh operations use the right xml names for the right version
      */
-    NSLog (@"CoreVesion: %@", [TBXML textForElementNamed:@"core_version" parentElement:rootNode]);
     if ([TBXML childElementNamed:@"core_version" parentElement:rootNode])
     {
         NSArray *components = [[TBXML textForElementNamed:@"core_version" parentElement:rootNode] componentsSeparatedByString:@"."];

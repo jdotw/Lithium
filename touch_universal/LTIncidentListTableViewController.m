@@ -440,9 +440,8 @@
 	else
 	{
 		/* iPhone-style Incident selection */
-		LTIncidentTableViewController *incidentView = [[LTIncidentTableViewController alloc] initWithStyle:UITableViewStylePlain];
+		LTIncidentTableViewController *incidentView = [[LTIncidentTableViewController alloc] initWithMetric:incident.metric];
 		incidentView.incident = incident;
-		incidentView.metric = incident.metric;
 		LTEntityDescriptor *entityDescriptor = [incident.metric entityDescriptor];
 		incidentView.navigationItem.prompt = [NSString stringWithFormat:@"%@ @ %@ %@ %@", entityDescriptor.devDesc, entityDescriptor.siteDesc, entityDescriptor.cntDesc, entityDescriptor.objDesc];
 		[incident.metric refresh];

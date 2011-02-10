@@ -47,6 +47,9 @@
     { return NO; }
 }
 
+#pragma mark -
+#pragma mark Constructors
+
 - (id)initWithEntity:(LTEntity *)initEntity
 {
     /* THis initialization is only used when viewing 
@@ -60,6 +63,80 @@
     
 	return self;
 }
+
+- (void)dealloc 
+{
+    /* Remove general observers */
+	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentAdded" object:appDelegate];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentUpdated" object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentRemoved" object:appDelegate];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTCoreDeploymentReachabilityChanged" object:nil];
+    
+    /* nil the entity to remove observers and release */
+    self.entity = nil;
+    
+    /* Release other ivars */
+	[refreshTimer invalidate];
+	[children release];
+	
+    [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Entity
+
+@synthesize entity;
+- (void) setEntity:(LTEntity *)value
+{
+	if (entity)
+	{
+        /* Remove old notification listeners */
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTEntityXmlStatusChanged" object:entity];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityChildrenChanged object:entity];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTCoreDeploymentReachabilityChanged" object:entity.coreDeployment];
+	}    
+    [entity release];
+    
+    if (value.type == 3)
+    {
+        /* Create a copy of the device entity. This allows us to 
+         * dispose of the entity and all child objects safely
+         * when the view is dealloced. 
+         */
+        entity = [value copy];      
+    }
+    else
+    {
+        /* Do not copy customer or site entities */
+        entity = [value retain];
+    }
+    
+    /* Configure view and content */
+	self.navigationItem.title = entity.desc;
+	[self sortAndFilterChildren];
+    
+    /* Add observers */
+	if (entity)
+	{
+        /* Listen to change in XML Status to update refresh progress */
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(entityRefreshStatusUpdated:)
+													 name:@"LTEntityXmlStatusChanged" object:entity];		
+        
+        /* Listen to changes in children array to reload table */
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(entityChildrenChanged:)
+                                                     name:kLTEntityChildrenChanged
+                                                   object:entity];   
+        
+        /* Listen for changes in reachability to trigger a refresh */
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(coreDeploymentReachabilityChanged:)
+                                                     name:@"LTCoreDeploymentReachabilityChanged" object:entity.coreDeployment];		
+        
+	}
+}	
 
 - (void)viewDidLoad 
 {
@@ -103,16 +180,6 @@
 		self.tableView.tableHeaderView = nil;
 	}
     	
-    /* Add Refresh Timer */
-	NSTimeInterval timerInterval;
-	if (self.entity.device.refreshInterval < 15.0) timerInterval = 15.0;
-	else timerInterval = (self.entity.refreshInterval * 0.5f);
-	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:timerInterval
-													target:self
-												  selector:@selector(refreshTimerFired:)
-												  userInfo:nil
-												   repeats:YES];
-    
     /* iPad-Specific Table Setup */
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
     {
@@ -154,21 +221,6 @@
 	self.tableView.allowsSelectionDuringEditing = YES;
 }
 
-- (void)dealloc 
-{
-	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-	[refreshTimer invalidate];
-	[children release];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentAdded" object:appDelegate];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentUpdated" object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentRemoved" object:appDelegate];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTCoreDeploymentReachabilityChanged" object:nil];
-	if (entity) [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTEntityXmlStatusChanged" object:entity];
-	
-    [super dealloc];
-}
-
 #pragma mark -
 #pragma mark "View Delegates"
 
@@ -190,6 +242,20 @@
 - (void)viewDidAppear:(BOOL)animated 
 {
     [super viewDidAppear:animated];
+
+    /* Install auto-refresh timer 
+     * This is done in viewDidAppear because the timer
+     * will retain the viewcontroller
+     */
+    NSTimeInterval timerInterval;
+	if (self.entity.device.refreshInterval < 15.0) timerInterval = 15.0;
+	else timerInterval = (self.entity.refreshInterval * 0.5f);
+	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:timerInterval
+													target:self
+												  selector:@selector(refreshTimerFired:)
+												  userInfo:nil
+												   repeats:YES];
+
 }
 		
 - (void)viewWillDisappear:(BOOL)animated 
@@ -198,11 +264,11 @@
 }
 
 
-/*
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
+    [refreshTimer invalidate];
+    refreshTimer = nil;
 }
-*/
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
@@ -671,15 +737,12 @@
 {
 	[super tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
 	
-	if (
-#ifdef UI_USER_INTERFACE_IDIOM
-		UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
-#else
-		1
-#endif
-		)
+    LTEntity *displayEntity = [self entityAtIndexPath:indexPath inTableView:tableView];
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone && displayEntity.type > 3)
 	{ 
-		/* Refresh the entity just-in-time (phone only) */
+		/* Call a just-ahead-of-time refresh for entities 
+         * that are below the device -- iPhone only
+         */
 		LTEntity *displayEntity = [self entityAtIndexPath:indexPath inTableView:tableView];
 		[displayEntity refresh];
 	}
@@ -976,7 +1039,6 @@
         self.drawAsRack = YES;
     }
 }	
-	
 
 @end
 
