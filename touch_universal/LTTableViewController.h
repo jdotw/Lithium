@@ -18,6 +18,7 @@
 }
 
 - (void) refresh;
+- (void) forceRefresh;
 
 @property (nonatomic,readonly) BOOL isVisible;
 @property (nonatomic,assign) BOOL pullToRefresh;
