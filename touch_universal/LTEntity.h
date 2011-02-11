@@ -91,6 +91,7 @@
 }
 
 - (void) refresh;
+- (void) forceRefresh;
 - (void) postXmlToResource:(NSString *)resourceAddress 
 			 entityAddress:(NSString *)entityAddress 
 				   xmlName:(NSString *)xmlName 

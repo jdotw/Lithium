@@ -7,14 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EGORefreshTableHeaderView.h"
 
-
-@interface LTTableViewController : UITableViewController 
+@interface LTTableViewController : UITableViewController <EGORefreshTableHeaderDelegate, UITableViewDelegate, UITableViewDataSource>
 {
 	BOOL isVisible;
+    
+    EGORefreshTableHeaderView *_refreshHeaderView;
+    BOOL _reloading;
 }
 
 - (void) refresh;
-@property (nonatomic, readonly) BOOL isVisible;
+
+@property (nonatomic,readonly) BOOL isVisible;
+@property (nonatomic,assign) BOOL pullToRefresh;
+@property (nonatomic,readonly) BOOL refreshInProgress;
 
 @end

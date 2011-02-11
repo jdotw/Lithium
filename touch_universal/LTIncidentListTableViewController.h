@@ -25,7 +25,7 @@
 - (void) refresh;
 
 @property (copy) NSArray *sortedChildren;
-@property (readonly) BOOL refreshInProgress;
+@property (readonly,nonatomic) BOOL refreshInProgress;
 @property (nonatomic,retain) LTEntity *device;
 
 @end
