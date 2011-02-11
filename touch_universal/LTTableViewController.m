@@ -14,6 +14,9 @@
 
 @implementation LTTableViewController
 
+@synthesize reloading=_reloading;
+@synthesize refreshHeaderView=_refreshHeaderView;
+
 #pragma mark -
 #pragma mark View Delegates
 

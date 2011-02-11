@@ -320,7 +320,8 @@
 			[child refresh];
 		}
 	}
-    _reloading = [self refreshInProgress];
+    
+    self.reloading = [self refreshInProgress];
 }
 
 - (void) forceRefresh
@@ -336,7 +337,7 @@
 			[child forceRefresh];
 		}
 	}
-    _reloading = [self refreshInProgress];
+    self.reloading = [self refreshInProgress];
 }
 
 - (BOOL) refreshInProgress
@@ -950,11 +951,11 @@
         [[self tableView] reloadData];        
     }
 
-    if (_reloading && ![self refreshInProgress])
+    if (self.reloading && ![self refreshInProgress])
     {
         /* Cancel pull to refresh view */
-        _reloading = NO;
-        [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+        self.reloading = NO;
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
     }        
 }
 

@@ -12,9 +12,6 @@
 @interface LTTableViewController : UITableViewController <EGORefreshTableHeaderDelegate, UITableViewDelegate, UITableViewDataSource>
 {
 	BOOL isVisible;
-    
-    EGORefreshTableHeaderView *_refreshHeaderView;
-    BOOL _reloading;
 }
 
 - (void) refresh;
@@ -23,5 +20,7 @@
 @property (nonatomic,readonly) BOOL isVisible;
 @property (nonatomic,assign) BOOL pullToRefresh;
 @property (nonatomic,readonly) BOOL refreshInProgress;
+@property (nonatomic,assign) BOOL reloading;
+@property (nonatomic,retain) EGORefreshTableHeaderView *refreshHeaderView;
 
 @end

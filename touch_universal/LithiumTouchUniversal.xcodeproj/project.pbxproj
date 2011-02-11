@@ -33,6 +33,7 @@
 		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
 		102C695811BD61170032D043 /* LTContainerIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C695611BD61170032D043 /* LTContainerIconViewController.xib */; };
 		10318BEF12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10318BEE12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m */; };
+		1044E38B130565830014BDB5 /* LTTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1044E38A130565830014BDB5 /* LTTableViewController.m */; };
 		104B84A21293123500E77D88 /* noiseback-light.png in Resources */ = {isa = PBXBuildFile; fileRef = 104B84A11293123500E77D88 /* noiseback-light.png */; };
 		104B84F1129315A100E77D88 /* LTEntityTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */; };
 		104B8550129317AD00E77D88 /* LTFavoritesTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */; };
@@ -98,7 +99,6 @@
 		105EDEF511BC392000B294B4 /* CellLowerGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEBC11BC392000B294B4 /* CellLowerGradient.png */; };
 		105EDEF611BC392000B294B4 /* LTTableViewCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEBE11BC392000B294B4 /* LTTableViewCellBackground.m */; };
 		105EDEF711BC392000B294B4 /* LTTableViewCellSelectedBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEC011BC392000B294B4 /* LTTableViewCellSelectedBackground.m */; };
-		105EDEF811BC392000B294B4 /* LTTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEC211BC392000B294B4 /* LTTableViewController.m */; };
 		105EDEF911BC392000B294B4 /* LTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEC411BC392000B294B4 /* LTTableViewCell.m */; };
 		105EDEFA11BC392000B294B4 /* TableViewSectionHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = 105EDEC511BC392000B294B4 /* TableViewSectionHeader.png */; };
 		105EDEFB11BC392000B294B4 /* LTTableViewSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDEC711BC392000B294B4 /* LTTableViewSectionHeaderView.m */; };
@@ -241,6 +241,8 @@
 		102C695611BD61170032D043 /* LTContainerIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTContainerIconViewController.xib; sourceTree = "<group>"; };
 		10318BED12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditModuleListTableViewController.h; sourceTree = "<group>"; };
 		10318BEE12C0799E00A76C73 /* LTDeviceEditModuleListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditModuleListTableViewController.m; sourceTree = "<group>"; };
+		1044E389130565830014BDB5 /* LTTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTableViewController.h; sourceTree = "<group>"; };
+		1044E38A130565830014BDB5 /* LTTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableViewController.m; sourceTree = "<group>"; };
 		104B84A11293123500E77D88 /* noiseback-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noiseback-light.png"; sourceTree = "<group>"; };
 		104B84F0129315A100E77D88 /* LTEntityTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTEntityTableViewController.xib; sourceTree = "<group>"; };
 		104B854F129317AD00E77D88 /* LTFavoritesTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTFavoritesTableViewController.xib; sourceTree = "<group>"; };
@@ -350,8 +352,6 @@
 		105EDEBE11BC392000B294B4 /* LTTableViewCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableViewCellBackground.m; sourceTree = "<group>"; };
 		105EDEBF11BC392000B294B4 /* LTTableViewCellSelectedBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTableViewCellSelectedBackground.h; sourceTree = "<group>"; };
 		105EDEC011BC392000B294B4 /* LTTableViewCellSelectedBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableViewCellSelectedBackground.m; sourceTree = "<group>"; };
-		105EDEC111BC392000B294B4 /* LTTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTableViewController.h; sourceTree = "<group>"; };
-		105EDEC211BC392000B294B4 /* LTTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableViewController.m; sourceTree = "<group>"; };
 		105EDEC311BC392000B294B4 /* LTTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTableViewCell.h; sourceTree = "<group>"; };
 		105EDEC411BC392000B294B4 /* LTTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTableViewCell.m; sourceTree = "<group>"; };
 		105EDEC511BC392000B294B4 /* TableViewSectionHeader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TableViewSectionHeader.png; sourceTree = "<group>"; };
@@ -751,13 +751,13 @@
 		105EDE7211BC392000B294B4 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
+				105EDEB711BC392000B294B4 /* Generic Table View */,
 				109E815612FCD84700265BAF /* Table View Header and Footer Views */,
 				10A73B4B12FBADB0005CFDD5 /* Table View Cells */,
 				104F699612C03EF000074651 /* Device Setup (iPad Only) */,
 				10934AB011BEA0F5009EF1F7 /* Graph View */,
 				10C3F46B11BF53FD00CBD469 /* Modal Progress */,
 				102C692111BCE8BB0032D043 /* Device View (iPad Only) */,
-				105EDEB711BC392000B294B4 /* Generic Table View */,
 				105EDEB311BC392000B294B4 /* Authentication View */,
 				105EDEA711BC392000B294B4 /* Favorites Tab */,
 				105EDE9711BC392000B294B4 /* Incidents Tab */,
@@ -882,6 +882,8 @@
 		105EDEB711BC392000B294B4 /* Generic Table View */ = {
 			isa = PBXGroup;
 			children = (
+				1044E389130565830014BDB5 /* LTTableViewController.h */,
+				1044E38A130565830014BDB5 /* LTTableViewController.m */,
 				108742C2129325D6002FAC11 /* LTTableViewCellBack-Gray.png */,
 				108742C3129325D6002FAC11 /* LTTableViewCellBack-Red.png */,
 				1087434012933017002FAC11 /* LTTableViewCellBack-Orange.png */,
@@ -891,8 +893,6 @@
 				105EDEBE11BC392000B294B4 /* LTTableViewCellBackground.m */,
 				105EDEBF11BC392000B294B4 /* LTTableViewCellSelectedBackground.h */,
 				105EDEC011BC392000B294B4 /* LTTableViewCellSelectedBackground.m */,
-				105EDEC111BC392000B294B4 /* LTTableViewController.h */,
-				105EDEC211BC392000B294B4 /* LTTableViewController.m */,
 				105EDEC311BC392000B294B4 /* LTTableViewCell.h */,
 				105EDEC411BC392000B294B4 /* LTTableViewCell.m */,
 				105EDEC511BC392000B294B4 /* TableViewSectionHeader.png */,
@@ -1479,7 +1479,6 @@
 				105EDEF111BC392000B294B4 /* LTAuthenticationTableViewController.m in Sources */,
 				105EDEF611BC392000B294B4 /* LTTableViewCellBackground.m in Sources */,
 				105EDEF711BC392000B294B4 /* LTTableViewCellSelectedBackground.m in Sources */,
-				105EDEF811BC392000B294B4 /* LTTableViewController.m in Sources */,
 				105EDEF911BC392000B294B4 /* LTTableViewCell.m in Sources */,
 				105EDEFB11BC392000B294B4 /* LTTableViewSectionHeaderView.m in Sources */,
 				105EDEFD11BC392000B294B4 /* LTTableView.m in Sources */,
@@ -1517,6 +1516,7 @@
 				104C8DDB13022E5A0067B1C8 /* TBXML.m in Sources */,
 				104C8DE0130234DE0067B1C8 /* TBXML-Lithium.m in Sources */,
 				1029AD3213053B1500F03EE5 /* EGORefreshTableHeaderView.m in Sources */,
+				1044E38B130565830014BDB5 /* LTTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
