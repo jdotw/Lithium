@@ -85,6 +85,7 @@
         }
     }
     return valueMetric;
+}
 
 - (void) entityValueChanged:(NSNotification *)note
 {

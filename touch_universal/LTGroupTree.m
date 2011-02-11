@@ -160,7 +160,7 @@
 	/* Set indent level for new groups */
 	for (LTGroup *group in newGroups)
 	{
-		int indent = 0;
+		int indent = -1;
 		LTGroup *parentGroup = (LTGroup *) group.parent;
 		while (parentGroup)
 		{
@@ -168,6 +168,11 @@
 			parentGroup = (LTGroup *) parentGroup.parent;
 		}
 		group.indentLevel = indent;
+        NSLog(@"Group %@ is indent %i", group.desc, indentLevel);
+        for (LTEntity *groupEntity in group.children)
+        {
+            groupEntity.indentLevel = group.indentLevel+1;
+        }
 		NSLog (@"Group %@ indentLevel set to %i", group.desc, group.indentLevel);
 	}	
 	

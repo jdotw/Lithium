@@ -176,7 +176,7 @@
 
 	if (entity.type != 1 && entity.type != 2)
 	{
-		/* Hide search for non-customer view */
+		/* Hide search for entities that arent a customer os site */
 		self.tableView.tableHeaderView = nil;
 	}
     	

@@ -46,6 +46,8 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];	
+    
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"RackBackTile.png"]];
 
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
 													target:self
@@ -70,17 +72,9 @@
 	/* Build item list */
 	[self sortAndFilterChildren];
 	
-	/* Tableview set */
+	/* Tableview setup */
 	self.tableView.allowsSelectionDuringEditing = YES;
-
-	/* Create segment control */
-	displayStyleSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Groups Tree View", @"Top Level Groups", nil]];
-	displayStyleSegment.segmentedControlStyle = UISegmentedControlStyleBar;
-	displayStyleSegment.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"GroupsViewMode"];
-	[displayStyleSegment addTarget:self
-							action:@selector(displayStyleChanged:)
-				  forControlEvents:UIControlEventValueChanged];
-	self.navigationItem.titleView = displayStyleSegment;
+	self.navigationItem.title = @"Groups";
 	
 }
 
@@ -281,6 +275,8 @@
 		else 
 		{
 			cell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+            cell.indentationWidth = 10.;
+            cell.drawAsRack = YES;
 		}
 
 		if (displayEntity) 

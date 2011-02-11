@@ -73,6 +73,7 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];	
+    self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"RackBackTile.png"]];
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -329,6 +330,7 @@
 		metricCell.entity = displayEntity;
 		metricCell.showFullLocation = YES;
 		metricCell.showCurrentValue = YES;
+        metricCell.drawAsRack = YES;
 		cell = metricCell;
 	}
     
