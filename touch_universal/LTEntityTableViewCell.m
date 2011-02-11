@@ -59,8 +59,32 @@
 	{ self.entityState = entity.opState; }
 }
 
+- (void) entityValueChanged:(NSNotification *)note
+{
+    /* Update value label */
+	valueLabel.text = self.entity.currentValue;
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
+	
+    /* Trigger layout update */
+	CGSize stringSize = [valueLabel.text sizeWithFont:valueLabel.font];
+	valueLabel.frame = CGRectMake(0., 0., stringSize.width, stringSize.height);	
+    [valueLabel.superview setNeedsLayout];
+}
+
 - (void) setEntity:(LTEntity *)value
 {
+    /* Remove old observers */
+    if (entity)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityStateChanged object:entity];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityValueChanged object:entity];
+    }
 	/* If the entity if an object with one metric, 
 	 * use that metric as the entity rather than the object
 	 */
@@ -79,7 +103,7 @@
 	
 	/* Trigger a status update */
 	[self entityStateChanged:nil];
-
+    
 	/* Entity Type-specific handling */
 	if (entity.type == 6)
 	{
@@ -90,21 +114,19 @@
 		/* And set showCurrentValue to YES by default */
 		self.showCurrentValue = YES;
 	}
-}
-
-- (void) updateCurrentValue:(NSNotification *)note
-{
-	valueLabel.text = self.entity.currentValue;
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
-	
-	CGSize stringSize = [valueLabel.text sizeWithFont:valueLabel.font];
-	valueLabel.frame = CGRectMake(0., 0., stringSize.width, stringSize.height);	
+    
+    /* Observe changes in state and value */
+    if (entity)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(entityStateChanged:)
+                                                     name:kLTEntityStateChanged
+                                                   object:entity];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(entityValueChanged:)
+                                                     name:kLTEntityValueChanged
+                                                   object:entity];
+    }
 }
 
 - (void) setShowCurrentValue:(BOOL)value
@@ -114,7 +136,7 @@
 	if (showCurrentValue)
 	{
 		self.accessoryView = valueLabel;
-		[self updateCurrentValue:nil];
+		[self entityValueChanged:nil];
 	}
 	else 
 	{

@@ -44,7 +44,6 @@
 
 - (void)dealloc 
 {
-    NSLog (@"%@ DEALLOC", self);
 	[graphRequestCache release];
 	[metrics release];
 	[minLabels release];
@@ -106,7 +105,6 @@
 			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
 			CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), graphImageMargin, 
 										  clipRect.size.width, contentSize.height - (2 * graphImageMargin));
-            NSLog (@"Using imageRect %@ -- contentSize is %@", NSStringFromCGRect(imageRect), NSStringFromCGSize(contentSize));
 
 
 			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));

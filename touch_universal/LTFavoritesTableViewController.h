@@ -8,27 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-#import "LTEntity.h"
 #import "LTTableViewController.h"
+
+@class LTEntity;
 
 @interface LTFavoritesTableViewController : LTTableViewController 
 {
 	UISegmentedControl *displaySegment;
 	NSMutableArray *favorites;
-	NSMutableDictionary *descriptorDict;
-	NSMutableDictionary *orphanDict;
-	NSMutableArray *displayFavorites;
-	NSMutableArray *displayOrphans;
 	
 	NSTimer *refreshTimer;
 }
 
 - (void) addToFavorites:(LTEntity *)entity;
 - (void) removeFromFavorites:(LTEntity *)entity;
-- (void) bindFavoritesFromDevice:(LTEntity *)device;
-- (void) rebuildDisplayFavorites;
-
-@property (nonatomic, retain) NSMutableArray *displayFavorites;
-
 
 @end

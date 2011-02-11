@@ -93,7 +93,6 @@
 					<bool key="IBUIHorizontal">NO</bool>
 					<object class="IBUINavigationController" key="IBUISelectedViewController" id="754802315">
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="643864983">
-							<bool key="IBUIEnabled">NO</bool>
 							<string key="IBUITitle">Favorites</string>
 							<object class="NSCustomResource" key="IBUIImage">
 								<string key="NSClassName">NSImage</string>

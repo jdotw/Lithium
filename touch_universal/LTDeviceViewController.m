@@ -836,6 +836,14 @@
 {
 	/* NULLify self.activePopoverController if necessary */
 	if (self.activePopoverController == popoverController) self.activePopoverController = nil;
+
+    /* The popover may have been one triggered by the availability,
+     * sysinfo or incidents buttons in the top right.
+     * Re-enable them now that the popover is gone 
+     */
+    availToolbarItem.enabled = YES;
+    sysinfoToolbarItem.enabled = YES;
+    incidentsToolbarItem.enabled = YES;
 }
 
 #pragma mark -

@@ -124,13 +124,8 @@
 	graphBackground.frame = self.contentView.bounds;
 
 	/* Graph Layout */
-	CGFloat graphYOffset = (labelYPadding + (labelHeight * 0.5))-2.;
-    NSLog (@"graphYOffset is %f", graphYOffset);
-    NSLog (@"GraphViewCell frame was %@", NSStringFromCGRect(graphView.frame));
 	graphView.frame = CGRectIntegral(CGRectMake(CGRectGetMinX(self.contentView.bounds), CGRectGetMinY(graphBackground.maxLineRect)+1,
-                                                CGRectGetWidth(self.contentView.bounds),  (CGRectGetMinY(graphBackground.minLineRect)+1) - CGRectGetMinY(graphBackground.maxLineRect)));
-    NSLog (@"GraphViewCell laying out graph view into %@", NSStringFromCGRect(graphView.frame));
-	
+                                                CGRectGetWidth(self.contentView.bounds),  (CGRectGetMinY(graphBackground.minLineRect)+1) - CGRectGetMinY(graphBackground.maxLineRect)));	
 }
 
 - (void)dealloc 

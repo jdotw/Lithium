@@ -85,7 +85,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (void) dealloc
 {
-    if (self.type == 3) NSLog (@"DEALLOC DEVICE: %p", self);
 	[name release];
 	[desc release];
     [currentValue release];
@@ -197,9 +196,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	[postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	[theRequest setHTTPBody:postData];
     
-    /* DEBUG*/
-    NSLog (@"ENTITY REQ: %@", theRequest);
-	
 	/* Begin download */
 	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 	if (theConnection) 
@@ -381,8 +377,12 @@ static NSMutableDictionary *_xmlTranslation = nil;
             BOOL currentValueChanged = NO;      // Changes to YES if currentValue is present and updated
             if (!currentValueSet)
             {
-                if (self.currentValue && ![self.currentValue isEqualToString:curValue.stringValue])
-                { currentValueChanged = YES; }
+                if (![self.currentValue isEqualToString:curValue.stringValue] && !self.isNew)
+                { 
+                    /* A currentValue was set and has now changed, always notify */
+                    NSLog (@"%i:%@ Triggering valuechanged update!", self.type, self.desc);
+                    currentValueChanged = YES; 
+                }
                 self.currentValue = curValue.stringValue;
                 currentValueSet = YES;
             }
@@ -438,12 +438,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
                 [children addObject:childEntity];
                 [childDict setObject:childEntity forKey:childEntity.name];
                 
-                if (childEntity.type == 3)
-                { 
-                    AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-                    [appDelegate.favoritesController bindFavoritesFromDevice:childEntity];
-                }					
-                
                 childrenChanged = YES;  // Ensure notification is sent 
                 childEntity.isNew = NO; // Entity is not new now that it's in the parents children list
             }
@@ -498,11 +492,11 @@ static NSMutableDictionary *_xmlTranslation = nil;
 				/* No special handling needed */
 				break;
 			default:
-				NSLog (@"LTEntity:%@ WARNING: Value type %s for %@ is not explicity handled, assuming native (%@) will be OK.", [self class], valueType, key, [value class]);
+				NSLog (@"WARNING: LTEntity:%@ Value type %s for %@ is not explicity handled, assuming native (%@) will be OK.", [self class], valueType, key, [value class]);
 		}
 	}
 	else
-	{ NSLog (@"LTEntity:%@ WARNING: Failed to find valueType for key %@, no value type translation will be done.", [self class], key); }
+	{ NSLog (@"WARNING: LTEntity:%@  Failed to find valueType for key %@, no value type translation will be done.", [self class], key); }
 	
 	/* Set value */
 	[self setValue:value forKey:key]; 	
@@ -531,7 +525,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (void) setValue:(id)value forUndefinedKey:(NSString *)key
 {
-	NSLog (@"LCXMLObject:%@ ERROR: tried to set value for undefined key %@", [self class], key);
+	NSLog (@"ERROR: LCXMLObject:%@ tried to set value for undefined key %@", [self class], key);
 }
 
 #pragma mark Graphable Metrics
@@ -610,8 +604,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
     copy.entityAddress = self.entityAddress;
     copy.resourceAddress = self.resourceAddress;
     
-    NSLog (@"%i:%@ was successfully copied as %p (CoreDeployment is %@, Parent is %@ (parent core Dep is %@))", self.type, self.desc, copy, copy.coreDeployment, copy.parent, self.parent.coreDeployment);
-
     return copy;
 }
 
@@ -664,7 +656,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
     else
     {
         /* Recursively build an entityAddress using our parent */
-        NSLog (@"Dynamically creating an entityAddress for %i:%@", self.type, self.desc);
         NSString *parentAddress = [self.parent entityAddress];
         if (parentAddress)
         {
@@ -681,7 +672,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
         }
         else
         {
-            NSLog(@"Failed to assemble dynamic entity address for %p %i:%@", self, self.type, self.name);
+            NSLog(@"ERROR: Failed to assemble dynamic entity address for %p %i:%@", self, self.type, self.name);
             return nil;
         }
     }
