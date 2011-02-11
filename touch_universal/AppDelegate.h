@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class LTAuthenticationTableViewController, LTFavoritesTableViewController, LTCoreDeployment, LTIncidentListTableViewController, LTEntity;
+@class LTAuthenticationTableViewController, LTFavoritesTableViewController, LTCoreDeployment, LTIncidentListTableViewController, LTEntity, LTCustomer;
 
 #define kDeviceListGroupByLocation @"LTSetupDeviceListGroupByLocation"
 
@@ -56,6 +56,8 @@
 - (void) saveCoreDeployments;
 - (void) entityRefreshDidBegin:(LTEntity *)entity;
 - (void) entityRefreshDidFinish:(LTEntity *)entity;
+
+- (LTCustomer *) customerNamed:(NSString *)name;
 
 @property (nonatomic,assign) BOOL isActive;
 

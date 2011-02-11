@@ -53,7 +53,7 @@
 				<object class="NSPSMatrix" key="NSFrameMatrix"/>
 				<string key="NSFrameSize">{320, 480}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSNextKeyView"/>
+				<reference key="NSWindow"/>
 				<object class="NSColor" key="IBUIBackgroundColor" id="933537616">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
@@ -75,13 +75,13 @@
 				<bool key="IBUIHorizontal">NO</bool>
 				<object class="IBUINavigationController" key="IBUISelectedViewController" id="960881092">
 					<object class="IBUITabBarItem" key="IBUITabBarItem" id="669260921">
-						<bool key="IBUIEnabled">NO</bool>
 						<string key="IBUITitle">Favorites</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">favorite.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<reference key="IBUITabBar" ref="617093630"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="286523032"/>
 					<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -109,6 +109,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="IBUIViewController" id="621302244">
 							<object class="IBUINavigationItem" key="IBUINavigationItem" id="170866385">
+								<reference key="IBUINavigationBar"/>
 								<string key="IBUITitle">Favorites</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
@@ -133,6 +134,7 @@
 								<string key="NSResourceName">list.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							<reference key="IBUITabBar" ref="617093630"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="286523032"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -182,6 +184,7 @@
 								<string key="NSResourceName">folder.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							<reference key="IBUITabBar" ref="617093630"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="286523032"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -232,6 +235,7 @@
 								<string key="NSResourceName">flag.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							<reference key="IBUITabBar" ref="617093630"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="286523032"/>
 						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -279,11 +283,20 @@
 					<int key="NSvFlags">266</int>
 					<string key="NSFrame">{{0, 431}, {320, 49}}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MCAwAA</bytes>
 					</object>
 					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+					<object class="NSMutableArray" key="IBUIItems">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<reference ref="921177509"/>
+						<reference ref="1001427270"/>
+						<reference ref="669260921"/>
+						<reference ref="677929951"/>
+					</object>
+					<reference key="IBUISelectedItem" ref="669260921"/>
 				</object>
 			</object>
 		</object>

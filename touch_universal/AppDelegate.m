@@ -161,7 +161,6 @@
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-	NSLog (@"FAILED to register: %@", error);
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -177,7 +176,6 @@
 	if ([[netService hostName] hasSuffix:@"members.mac.com"] || [[netService hostName] hasSuffix:@"members.mac.com."])
 	{
 		/* Skip members.mac.com resolutions */
-        NSLog (@"netServiceDidResolveAddress ignored .mac.com resolution %@", [netService hostName]);
 		return;
 	}
 
@@ -209,7 +207,6 @@
 	if ([[netService hostName] hasSuffix:@"members.mac.com"] || [[netService hostName] hasSuffix:@"members.mac.com."])
 	{
 		/* Skip members.mac.com resolutions */
-        NSLog (@"netServiceBrowser:didFindService ignored .mac.com resolution %@", [netService hostName]);
 		return;
 	}
 	netService.delegate = self;
@@ -312,6 +309,19 @@
 {
 	if ([entityRefreshQueue containsObject:entity]) [entityRefreshQueue removeObject:entity];	
 	[self updateNetworkActivityIndicator];
+}
+
+#pragma mark -
+#pragma mark Customer Finder
+
+- (LTCustomer *) customerNamed:(NSString *)name
+{
+    for (LTCoreDeployment *core in self.coreDeployments)
+    {
+        for (LTCustomer *customer in core.children)
+        { if ([customer.name isEqualToString:name]) return customer; }
+    }
+    return nil;
 }
 
 #pragma mark -

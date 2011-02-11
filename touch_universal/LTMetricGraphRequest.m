@@ -130,7 +130,7 @@
 		/* Retrieve the PDF */
 		refreshStage = 2;
 		NSString *urlString = [NSString stringWithFormat:@"%@/image_cache/%@", [self.metric urlPrefix], imageFile];
-		if (debug) NSLog (@"%@ fetching actual image from %@", self, urlString);
+		if (debug) NSLog (@"INFO: %@ fetching actual image from %@", self, urlString);
 		NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
 																  cachePolicy:NSURLRequestReloadIgnoringCacheData
 															  timeoutInterval:30.0];
@@ -150,7 +150,7 @@
 	else if (refreshStage == 2)
 	{
 		/* Logging */
-		if (debug) NSLog (@"Second stage received %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+		if (debug) NSLog (@"INFO: Second stage received %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
 
 		/* Process PDF */
 		self.imageData = receivedData;

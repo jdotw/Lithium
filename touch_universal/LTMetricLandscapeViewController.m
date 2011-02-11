@@ -61,8 +61,8 @@
     // Release anything that's not essential, such as cached data
 }
 
-- (void)dealloc {
-    NSLog (@"%@ dealloc", self);
+- (void)dealloc 
+{
     [graphView release];
     [super dealloc];
 }

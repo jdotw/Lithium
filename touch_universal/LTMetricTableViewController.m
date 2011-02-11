@@ -547,7 +547,6 @@
 	{
 		/* Add to Favorites */
 		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-        NSLog (@"Adding %@ to %@", self.metric, appDelegate.favoritesController);
 		[appDelegate.favoritesController addToFavorites:self.metric];
 	}
 }

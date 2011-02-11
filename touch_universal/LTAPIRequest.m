@@ -37,7 +37,7 @@
 
 	/* Execute the subclass-created request */
 	finished = NO;
-	if (debug) NSLog (@"%@ - Fetching %@", self, [urlReq URL]);
+	if (debug) NSLog (@"INFO: %@ - Fetching %@", self, [urlReq URL]);
 	NSURLConnection *urlConn = [NSURLConnection connectionWithRequest:urlReq delegate:self];
 	if (urlConn != nil)
 	{

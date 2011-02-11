@@ -123,7 +123,10 @@
 				LTEntity *entity = [childDict objectForKey:childEntDesc.entityAddress];
 				if (!entity)
 				{					
-					/* Create stand-alone entity for the group */
+					/* Create stand-alone entity for the group 
+                     * Do NOT set the entities parent, this way it is
+                     * correctly identified as an orphan entity
+                     */
 					entity = [LTEntity new];
 					entity.type = childEntDesc.type;
 					entity.name = childEntDesc.name;

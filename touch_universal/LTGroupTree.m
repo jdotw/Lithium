@@ -90,7 +90,7 @@
 				childGroup = [LTGroup new];
 				childGroup.groupID = [TBXML intFromTextForElementNamed:@"id" parentElement:node];
 				childGroup.parentID = [TBXML intFromTextForElementNamed:@"parent" parentElement:node];
-				childGroup.customer = customer;
+				childGroup.parent = customer;   // This is a temporary parent so that all properties are set (coreDeployment, etc)
 				[childDict setObject:childGroup forKey:[NSString stringWithFormat:@"%i", childGroup.groupID]];
 				[newGroups addObject:childGroup];
 			}
@@ -113,21 +113,22 @@
 				LTEntity *entity = [parentGroup.childDict objectForKey:childEntDesc.entityAddress];
 				if (!entity)
 				{					
-					/* Create stand-alone entity for the group */
+					/* Create stand-alone entity for the group. 
+                     * Do NOT set the entities parent, this way it is
+                     * correctly identified as an orphan entity
+                     */
 					entity = [LTEntity new];
-					entity.parent = parentGroup;
 					entity.type = childEntDesc.type;
 					entity.name = childEntDesc.name;
 					entity.username = [customer username];
 					entity.password = [customer password];
 					entity.customer = customer;
 					entity.customerName = customer.name;
-					entity.resourceAddress = [TBXML textForElementNamed:@"resaddr" parentElement:entDescNode] ? : customer.resourceAddress;
+					entity.resourceAddress = [TBXML textForElementNamed:@"resaddr" parentElement:entDescNode];  // This may be nil
 					entity.ipAddress = customer.ipAddress;
 					entity.coreDeployment = customer.coreDeployment;
 					entity.entityDescriptor = childEntDesc;
 					entity.entityAddress = childEntDesc.entityAddress;
-                    NSLog (@"entityAddress is %@", entity.entityAddress);
 					[parentGroup.children addObject:entity];
 					[parentGroup.childDict setObject:entity forKey:entity.entityAddress];
 					[newEntities addObject:entity];
@@ -148,7 +149,7 @@
 			LTGroup *parentGroup = [childDict objectForKey:[NSString stringWithFormat:@"%i", group.parentID]];
 			[parentGroup.children addObject:group];
 			[parentGroup.childDict setObject:group forKey:[NSString stringWithFormat:@"%i", group.groupID]];
-			group.parent = parentGroup;
+			group.parent = parentGroup;     // This will override the temporary setting of 'customer' as the parent
 		}
 		else
 		{
@@ -169,12 +170,6 @@
 		group.indentLevel = indent;
 		NSLog (@"Group %@ indentLevel set to %i", group.desc, group.indentLevel);
 	}	
-	
-	/* Set indent level for new entities */
-	for (LTEntity *entity in newEntities)
-	{
-		entity.indentLevel = entity.parent.indentLevel + 1;
-	}
 	
 	/* Check for obsolete objects */
 	[self recursivelyCheckObsoleteGroups:seenGroups
