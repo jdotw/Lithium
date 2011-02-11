@@ -2,28 +2,28 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>StringsTable</key>
-	<string>Root</string>
-	<key>Settings Page Title</key>
-	<string>Lithium</string>
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Device List</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Group by Location</string>
-			<key>Key</key>
-			<string>LTSetupDeviceListGroupByLocation</string>
 			<key>DefaultValue</key>
 			<true/>
+			<key>Key</key>
+			<string>LTSetupDeviceListGroupByLocation</string>
+			<key>Title</key>
+			<string>Show All in Single List</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 	</array>
+	<key>Settings Page Title</key>
+	<string>Lithium</string>
+	<key>StringsTable</key>
+	<string>Root</string>
 </dict>
 </plist>
