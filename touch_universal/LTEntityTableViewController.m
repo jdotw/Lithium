@@ -189,6 +189,8 @@
             self.tableView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:1.0];
         }
     }
+    
+    self.pullToRefresh = YES;
 }
 
 - (void) viewDidUnload
@@ -318,8 +320,60 @@
 			[child refresh];
 		}
 	}
+    _reloading = [self refreshInProgress];
 }
 
+- (void) forceRefresh
+{
+	if (entity)
+	{
+		[entity forceRefresh];
+	}
+	else
+	{
+		for (LTEntity *child in children)
+		{
+			[child forceRefresh];
+		}
+	}
+    _reloading = [self refreshInProgress];
+}
+
+- (BOOL) refreshInProgress
+{
+    if (self.entity)
+    {
+        return self.entity.refreshInProgress;
+    }
+    else
+    {
+		for (LTEntity *child in children)
+        {
+            if (child.refreshInProgress) return YES;
+        }
+        return NO;
+    }    
+}
+
+- (NSDate *) egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
+{	
+    if (self.entity)
+    {
+        return self.entity.lastRefresh;
+    }
+    else
+    {
+        NSDate *date = nil;
+        for (LTEntity *child in children)
+        {
+            if (!date || [child.lastRefresh laterDate:date] == child.lastRefresh)
+            { date = child.lastRefresh; }
+        }
+        return date;
+    }
+}
+
+#pragma mark -
 #pragma mark "Table view methods"
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -845,8 +899,8 @@
     return YES;
 }
 
-
-#pragma mark "KVO Callbacks"
+#pragma mark -
+#pragma mark Notification Receivers
 
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification
 {
@@ -886,7 +940,6 @@
 
 - (void) entityRefreshFinished:(NSNotification *)notification
 {
-    /* What used to be done here is now done only on children changes */
     if (entity.children.count == 0)
     {
         /* The refresh finished, but there's no children. 
@@ -896,6 +949,13 @@
          */
         [[self tableView] reloadData];        
     }
+
+    if (_reloading && ![self refreshInProgress])
+    {
+        /* Cancel pull to refresh view */
+        _reloading = NO;
+        [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    }        
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)notification

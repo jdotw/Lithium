@@ -15,27 +15,7 @@
 @implementation LTTableViewController
 
 #pragma mark -
-#pragma mark Constructors
-
-//- (id)initWithStyle:(UITableViewStyle)style 
-//{
-//    if (self = [super initWithStyle:style]) 
-//	{
-//    }
-//    return self;
-//}
-
-#pragma mark -
 #pragma mark View Delegates
-
-/*
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-*/
 
 - (void)viewWillAppear:(BOOL)animated 
 {
@@ -43,51 +23,111 @@
 	isVisible = YES;
 }
 
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-
 - (void)viewWillDisappear:(BOOL)animated 
 {
 	[super viewWillDisappear:animated];
 	isVisible = NO;
 }
 
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
-
-/*
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
-*/
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+- (void) viewDidUnload
+{
+    _refreshHeaderView=nil;
+
 }
 
 #pragma mark -
 #pragma mark Memory Management
 
-- (void)didReceiveMemoryWarning {
-	// Releases the view if it doesn't have a superview.
+- (void)didReceiveMemoryWarning 
+{
     [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
+    _refreshHeaderView = nil;
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Pull-to-Refresh
+
+@synthesize pullToRefresh=_pullToRefresh;
+- (void) setPullToRefresh:(BOOL)value
+{
+    _pullToRefresh = value;
+    
+    if (_pullToRefresh)
+    {
+        if (_refreshHeaderView == nil) 
+        {
+            EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
+            view.delegate = self;
+            [self.tableView addSubview:view];
+            _refreshHeaderView = view;
+            [view release];
+            
+        }
+        
+        //  update the last update date
+        [_refreshHeaderView refreshLastUpdatedDate];
+    }
+    else
+    {
+        if (_refreshHeaderView)
+        {
+            [_refreshHeaderView removeFromSuperview];
+            _refreshHeaderView = nil;
+        }
+    }
+}
+
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{		
+	[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{	
+	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];	
+}
+
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view
+{	
+	[self forceRefresh];
+    if (![self refreshInProgress])
+    {
+        /* The refresh didnt start */
+        _reloading = NO;
+        [_refreshHeaderView performSelector:@selector(egoRefreshScrollViewDataSourceDidFinishedLoading:) 
+                                 withObject:self.tableView 
+                                 afterDelay:0.0];
+    }
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view
+{	
+	return _reloading; // should return if data source model is reloading
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
+{	
+    [NSException raise:@"egoRefreshTableHeaderDataSourceLastUpdated" 
+                format:@"Subclass %@ must implement egoRefreshTableHeaderDataSourceLastUpdated:", self];
+	return nil;
+}
+
+#pragma mark -
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -197,6 +237,28 @@
 - (void) refresh
 {
 	// Subclass should over-ride this
+    if (self.pullToRefresh)
+    {
+        [NSException raise:@"refresh" format:@"refresh must be overridden by subclass %@", self];
+    }
+}
+
+- (void) forceRefresh
+{
+	// Subclass should over-ride this
+    if (self.pullToRefresh)
+    {
+        [NSException raise:@"forceRefresh" format:@"forceRefresh must be overridden by subclass %@", self];
+    }    
+}
+
+- (BOOL) refreshInProgress
+{
+    if (self.pullToRefresh)
+    {
+        [NSException raise:@"refreshInProgress" format:@"refreshInProgress must be overridden by subclass %@", self];
+    }
+    return NO;
 }
 
 #pragma mark -

@@ -134,21 +134,14 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 #pragma mark "Refresh (Entity Tree)"
 
-- (void) refresh
+- (void) _refresh
 {
-	/* Refresh the entity and tree below */
+	/* 
+     * Refresh the entity and tree below 
+     */
 
 	/* Check state */
 	if (refreshInProgress || ![(LTCoreDeployment *)coreDeployment enabled])
-	{
-		return;
-	}
-	if (self.type == 2 && parent)
-	{
-		[parent refresh];
-		return;
-	}
-	if (lastRefresh && [[NSDate date] timeIntervalSinceDate:lastRefresh] < (self.refreshInterval / 2.0f))
 	{
 		return;
 	}
@@ -213,6 +206,23 @@ static NSMutableDictionary *_xmlTranslation = nil;
 		self.xmlStatus = @"Unable to connect to Lithium Core...";
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
 	}	
+}
+
+- (void) refresh
+{
+    /* Only performs a refresh if there is likely to be
+     * new data available from Core
+     */
+    if (!lastRefresh || [[NSDate date] timeIntervalSinceDate:lastRefresh] > (self.refreshInterval / 2.0f))
+	{
+		[self _refresh];
+	}
+}
+
+- (void) forceRefresh
+{
+    /* Performs a refresh regardless */
+    [self _refresh];
 }
 
 - (void) postXmlToResource:(NSString *)destResourceAddress 

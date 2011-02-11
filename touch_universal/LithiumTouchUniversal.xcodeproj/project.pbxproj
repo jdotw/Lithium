@@ -19,6 +19,15 @@
 		1005631112B72012009E1467 /* reload_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 1005630F12B72012009E1467 /* reload_small.png */; };
 		1005631212B72012009E1467 /* reload_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1005631012B72012009E1467 /* reload_small@2x.png */; };
 		1010B92412F6654F0071E18D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1010B92312F6654F0071E18D /* Settings.bundle */; };
+		1029AD3213053B1500F03EE5 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1029AD2813053B1500F03EE5 /* EGORefreshTableHeaderView.m */; };
+		1029AD3313053B1500F03EE5 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1029AD2A13053B1500F03EE5 /* blackArrow.png */; };
+		1029AD3413053B1500F03EE5 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1029AD2B13053B1500F03EE5 /* blackArrow@2x.png */; };
+		1029AD3513053B1500F03EE5 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1029AD2C13053B1500F03EE5 /* blueArrow.png */; };
+		1029AD3613053B1500F03EE5 /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1029AD2D13053B1500F03EE5 /* blueArrow@2x.png */; };
+		1029AD3713053B1500F03EE5 /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1029AD2E13053B1500F03EE5 /* grayArrow.png */; };
+		1029AD3813053B1500F03EE5 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1029AD2F13053B1500F03EE5 /* grayArrow@2x.png */; };
+		1029AD3913053B1500F03EE5 /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 1029AD3013053B1500F03EE5 /* whiteArrow.png */; };
+		1029AD3A13053B1500F03EE5 /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1029AD3113053B1500F03EE5 /* whiteArrow@2x.png */; };
 		102C692711BCE8F40032D043 /* LTDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C692511BCE8F40032D043 /* LTDeviceViewController.m */; };
 		102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C692611BCE8F40032D043 /* LTDeviceViewController.xib */; };
 		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
@@ -214,6 +223,16 @@
 		1005630F12B72012009E1467 /* reload_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reload_small.png; sourceTree = "<group>"; };
 		1005631012B72012009E1467 /* reload_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload_small@2x.png"; sourceTree = "<group>"; };
 		1010B92312F6654F0071E18D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		1029AD2713053B1500F03EE5 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		1029AD2813053B1500F03EE5 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		1029AD2A13053B1500F03EE5 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
+		1029AD2B13053B1500F03EE5 /* blackArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackArrow@2x.png"; sourceTree = "<group>"; };
+		1029AD2C13053B1500F03EE5 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
+		1029AD2D13053B1500F03EE5 /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
+		1029AD2E13053B1500F03EE5 /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
+		1029AD2F13053B1500F03EE5 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grayArrow@2x.png"; sourceTree = "<group>"; };
+		1029AD3013053B1500F03EE5 /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
+		1029AD3113053B1500F03EE5 /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
 		102C692411BCE8F40032D043 /* LTDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceViewController.h; sourceTree = "<group>"; };
 		102C692511BCE8F40032D043 /* LTDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceViewController.m; sourceTree = "<group>"; };
 		102C692611BCE8F40032D043 /* LTDeviceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTDeviceViewController.xib; sourceTree = "<group>"; };
@@ -491,6 +510,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1029AD2413053B1500F03EE5 /* EGOTableViewPullRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				1029AD2513053B1500F03EE5 /* Classes */,
+				1029AD2913053B1500F03EE5 /* Resources */,
+			);
+			path = EGOTableViewPullRefresh;
+			sourceTree = "<group>";
+		};
+		1029AD2513053B1500F03EE5 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1029AD2613053B1500F03EE5 /* View */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		1029AD2613053B1500F03EE5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1029AD2713053B1500F03EE5 /* EGORefreshTableHeaderView.h */,
+				1029AD2813053B1500F03EE5 /* EGORefreshTableHeaderView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1029AD2913053B1500F03EE5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1029AD2A13053B1500F03EE5 /* blackArrow.png */,
+				1029AD2B13053B1500F03EE5 /* blackArrow@2x.png */,
+				1029AD2C13053B1500F03EE5 /* blueArrow.png */,
+				1029AD2D13053B1500F03EE5 /* blueArrow@2x.png */,
+				1029AD2E13053B1500F03EE5 /* grayArrow.png */,
+				1029AD2F13053B1500F03EE5 /* grayArrow@2x.png */,
+				1029AD3013053B1500F03EE5 /* whiteArrow.png */,
+				1029AD3113053B1500F03EE5 /* whiteArrow@2x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		102C692111BCE8BB0032D043 /* Device View (iPad Only) */ = {
 			isa = PBXGroup;
 			children = (
@@ -1182,6 +1242,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				1029AD2413053B1500F03EE5 /* EGOTableViewPullRefresh */,
 				104C8DD513022E4E0067B1C8 /* TBXML */,
 				32CA4F630368D1EE00C91783 /* LithiumTouchUniversal_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -1361,6 +1422,14 @@
 				10665F071304F7B8007152B2 /* Icon-72.png in Resources */,
 				10665F081304F7B8007152B2 /* Icon@2x.png in Resources */,
 				10B721D31304F92D00A00C8F /* iTunesArtwork in Resources */,
+				1029AD3313053B1500F03EE5 /* blackArrow.png in Resources */,
+				1029AD3413053B1500F03EE5 /* blackArrow@2x.png in Resources */,
+				1029AD3513053B1500F03EE5 /* blueArrow.png in Resources */,
+				1029AD3613053B1500F03EE5 /* blueArrow@2x.png in Resources */,
+				1029AD3713053B1500F03EE5 /* grayArrow.png in Resources */,
+				1029AD3813053B1500F03EE5 /* grayArrow@2x.png in Resources */,
+				1029AD3913053B1500F03EE5 /* whiteArrow.png in Resources */,
+				1029AD3A13053B1500F03EE5 /* whiteArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1447,6 +1516,7 @@
 				104C8DDA13022E5A0067B1C8 /* NSDataAdditions.m in Sources */,
 				104C8DDB13022E5A0067B1C8 /* TBXML.m in Sources */,
 				104C8DE0130234DE0067B1C8 /* TBXML-Lithium.m in Sources */,
+				1029AD3213053B1500F03EE5 /* EGORefreshTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -90,6 +90,11 @@
 	}	
 }
 
+- (void) forceRefresh
+{
+    [self refresh];
+}
+
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 
 {
@@ -149,9 +154,12 @@
 		
 	}
 	[firstCustomer release];
+    
+    /* Set State */
+    self.lastRefresh = [NSDate date];
+	self.refreshInProgress = NO;
 	
 	/* Post Notification */
-	self.refreshInProgress = NO;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTCoreDeploymentRefreshFinished" object:self];
 }
