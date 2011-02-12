@@ -29,6 +29,8 @@
 	
 	IBOutlet UISearchBar *searchBar;
 	IBOutlet UISearchDisplayController *searchDisplayController;
+    
+    NSTimer *refreshTimer;
 }
 
 - (id) initWithMetric:(LTEntity *)initMetric;

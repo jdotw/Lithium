@@ -49,11 +49,7 @@
     
     self.tableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"RackBackTile.png"]];
 
-	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
-													target:self
-												  selector:@selector(refreshTimerFired:)
-												  userInfo:nil
-												   repeats:YES];
+    self.pullToRefresh = YES;
 }
 
 - (void) awakeFromNib
@@ -90,7 +86,6 @@
 - (void)dealloc 
 {
 	[children release];
-	[refreshTimer invalidate];
     [super dealloc];
 }
 
@@ -112,11 +107,23 @@
 - (void)viewDidAppear:(BOOL)animated 
 {
     [super viewDidAppear:animated];	
+    
+    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
+													target:self
+												  selector:@selector(refreshTimerFired:)
+												  userInfo:nil
+												   repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated 
 {
 	[super viewWillDisappear:animated];	
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [refreshTimer invalidate];
+    refreshTimer = nil;    
 }
 
 #pragma mark Refresh Timer
@@ -141,6 +148,29 @@
 			}
 		}
 	}	
+    _reloading = [self refreshInProgress];
+}
+
+- (void)forceRefresh
+{
+    if (group)
+    {
+        /* Force a refresh of single group */
+        [group forceRefresh];
+    }
+    else
+    {
+        /* Force a refresh of all groups */
+		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+		for (LTCoreDeployment *core in [appDelegate coreDeployments])
+		{
+			for (LTCustomer *customer in core.children)
+			{
+				[customer.groupTree forceRefresh];
+			}
+		}
+    }
+    _reloading = [self refreshInProgress];
 }
 
 - (void) refreshTimerFired:(NSTimer *)timer
@@ -154,6 +184,42 @@
 			[customer.groupTree refresh];
 		}
 	}
+}
+
+- (BOOL) refreshInProgress
+{
+    if (group)
+    { return group.refreshInProgress; }
+    else
+    {
+		AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+        {
+            LTGroupTree *groupTree = (LTGroupTree *)customer.groupTree;
+            if (groupTree.refreshInProgress) return YES;
+        }
+        return NO;
+    }
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
+{
+    if (self.group) 
+    {
+        return self.group.lastRefresh;
+    }
+    else
+    {
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSDate *latestRefresh = nil;
+        for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+        {
+            LTGroupTree *groupTree = (LTGroupTree *)customer.groupTree;
+            if (!latestRefresh || [groupTree.lastRefresh laterDate:latestRefresh] == groupTree.lastRefresh)
+            { latestRefresh = groupTree.lastRefresh; }
+        }
+        return latestRefresh;
+    }
 }
 
 #pragma mark "Table view methods"
@@ -437,17 +503,31 @@
 	if (displayEntity.type == 6) [displayEntity refresh];
 }
 
-#pragma mark "KVO Callbacks"
+#pragma mark "Notifcation Receivers"
 
 - (void) groupTreeRefreshFinished:(NSNotification *)notification
 {
 	[self sortAndFilterChildren];
 	[[self tableView] reloadData];
+
+    if (_reloading && ![self refreshInProgress])
+    {
+        /* Cancel pull to refresh view */
+        _reloading = NO;
+        [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    }
 }
 
 - (void) entityRefreshFinished:(NSNotification *)notification
 {
 	[[self tableView] reloadData];
+
+    if (_reloading && ![self refreshInProgress])
+    {
+        /* Cancel pull to refresh view */
+        _reloading = NO;
+        [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    }
 }
 
 - (void) deploymentRefreshFinished:(NSNotification *)notification

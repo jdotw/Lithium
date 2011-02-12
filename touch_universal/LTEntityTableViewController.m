@@ -965,7 +965,8 @@
 	[[self tableView] reloadData];
 }
 
-#pragma mark "Entity Actions"
+#pragma mark -
+#pragma mark UI Actions
 
 - (IBAction) actionClicked:(id)sender
 {

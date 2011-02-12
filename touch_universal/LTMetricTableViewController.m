@@ -29,6 +29,9 @@
 
 @implementation LTMetricTableViewController
 
+#pragma mark -
+#pragma mark Initialization
+
 - (id) initWithMetric:(LTEntity *)initMetric
 {
 	self = [super initWithNibName:@"LTEntityTableViewController" bundle:nil];
@@ -41,6 +44,11 @@
 	self.metric = initMetric;	// Also sets up incidentList
 
 	return self;
+}
+
+- (void)didReceiveMemoryWarning 
+{
+    [super didReceiveMemoryWarning]; 
 }
 
 - (void)dealloc 
@@ -64,6 +72,37 @@
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Metric
+
+@synthesize metric;
+- (void) setMetric:(LTEntity *)value
+{
+    if (metric)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:metric];
+    }
+	
+    [metric release];
+	metric = [value retain];
+	
+	self.title = metric.desc;
+	incidentList.entity = metric;
+	
+    [metric refresh];
+	
+    if (metric)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(metricRefreshFinished:)
+                                                     name:@"RefreshFinished" 
+                                                   object:metric];
+    }
+}
+
+#pragma mark -
+#pragma mark View Delegates
+
 - (CGSize) contentSizeForViewInPopover
 {
 	return CGSizeMake(320.0, 500.0);
@@ -77,6 +116,8 @@
 																							target:self action:@selector(actionClicked:)] autorelease];
 	
 	self.tableView.tableHeaderView = nil;		// Hides search bar
+    
+    self.pullToRefresh = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated 
@@ -96,7 +137,12 @@
 		[metric refresh];
 	}
 	[incidentList refresh];
-//	[landscapeGraphRequest refresh];
+    
+    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:(metric.device.refreshInProgress * 0.5)
+                                                    target:self
+                                                  selector:@selector(refreshTimerFired:)
+                                                  userInfo:nil
+                                                   repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated 
@@ -107,27 +153,18 @@
 												  object:nil];
 }
 
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-}
-*/
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-- (void)didReceiveMemoryWarning 
+- (void) viewDidDisappear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning]; 
-	// Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+    [refreshTimer invalidate];
+    refreshTimer = nil;
 }
 
+- (NSDate *) egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
+{
+    return metric.lastRefresh;
+}
+
+#pragma mark -
 #pragma mark Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
@@ -402,46 +439,6 @@
 	}
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	int sectionType = [self sectionTypeForSection:indexPath.section];
@@ -450,26 +447,24 @@
 	else return indexPath;
 }
 
+#pragma mark -
+#pragma mark Notification Receivers
+
 - (void) incidentListRefreshFinished:(NSNotification *)notification
 {
-	if (alert && !metric.refreshInProgress)
-	{
-		[alert dismissWithClickedButtonIndex:0 animated:YES];
-		[alert release];
-		alert = nil;
-	}
 	[[self tableView] reloadData];
 }
 
 - (void) metricRefreshFinished:(NSNotification *)notification
 {
-	if (alert && !incidentList.refreshInProgress)
-	{
-		[alert dismissWithClickedButtonIndex:0 animated:YES];
-		[alert release];
-		alert = nil;
-	}
-	[[self tableView] reloadData];	
+    if (_reloading && ![self refreshInProgress])
+    {
+        /* Cancel pull to refresh view */
+        _reloading = NO;
+        [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    }        
+    
+    [[self tableView] reloadData];
 }
 
 - (void) orientationDidChange:(NSNotification *)notification
@@ -523,8 +518,33 @@
 	[[self tableView] reloadData];
 }
 
+#pragma mark -
+#pragma mark Refresh Methods
 
-#pragma mark "Entity Actions"
+- (BOOL) refreshInProgress
+{
+    return metric.refreshInProgress;
+}
+
+- (void) refresh
+{
+    [metric refresh];
+    _reloading = [self refreshInProgress];
+}
+
+- (void) forceRefresh
+{
+    [metric forceRefresh];
+    _reloading = [self refreshInProgress];
+}
+
+- (void) refreshTimerFired:(NSTimer *)timer
+{
+    [self refresh];
+}
+
+#pragma mark -
+#pragma mark UI Actions
 
 - (IBAction) actionClicked:(id)sender
 {
@@ -551,30 +571,8 @@
 	}
 }
 
-@synthesize metric;
-- (void) setMetric:(LTEntity *)value
-{
-    if (metric)
-    {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:metric];
-    }
-	[metric release];
-    
-	metric = [value retain];
-	
-	self.title = metric.desc;
-	incidentList.entity = metric;
-	
-    [metric refresh];
-	
-    if (metric)
-    {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(metricRefreshFinished:)
-                                                     name:@"RefreshFinished" 
-                                                   object:metric];
-    }
-}
+#pragma mark -
+#pragma mark Properties
 
 @synthesize incident;
 

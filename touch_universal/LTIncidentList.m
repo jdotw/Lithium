@@ -143,7 +143,7 @@
 	[self _requestCountAndVersion];
 }
 
-- (void) refresh
+- (void) _refresh
 {
 	/* If this is NOT a historic list then this function first 
 	 * refreshes the Incident Version/Count and then if there 
@@ -151,14 +151,14 @@
 	 */
 	
 	refreshCountOnly = NO;
-
+    
 	/* Check state */
 	if (refreshInProgress || ![(LTCoreDeployment *)[(LTEntity *)customer coreDeployment] enabled])
 	{
 		/* Customer disabled or refresh already in progress, do not proceed */
 		return;
 	}
-
+    
 	/* Request count or list */
 	if (historicList)
 	{ 
@@ -169,7 +169,17 @@
 	{ 
 		/* Acive list, update the count (and version) first */
 		[self _requestCountAndVersion];
-	}
+	}    
+}
+
+- (void) refresh
+{
+    [self _refresh];
+}
+
+- (void) forceRefresh
+{
+    [self _refresh];
 }
 
 #pragma mark Parsing
@@ -316,7 +326,7 @@
             }
         }
     }
-	
+    
 	/* Clean-up */
     [receivedData release];
     [connection release];
@@ -335,7 +345,14 @@
 		/* No follow-up needed, set State and Post Notification */
 		self.refreshInProgress = NO;
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"LTIncidentListRefreshFinished" object:self];
+
 	}
+    
+    /* Set last refresh date */
+    if (currentRequest == REQ_LIST)
+    {
+        self.lastRefresh = [NSDate date];
+    }
 }
 
 #pragma mark "Properties"
@@ -353,5 +370,6 @@
 	self.customer = entity.customer;
 }
 @synthesize incidentCount;
+@synthesize lastRefresh;
 
 @end
