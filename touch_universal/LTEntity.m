@@ -390,7 +390,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
                 if (![self.currentValue isEqualToString:curValue.stringValue] && !self.isNew)
                 { 
                     /* A currentValue was set and has now changed, always notify */
-                    NSLog (@"%i:%@ Triggering valuechanged update!", self.type, self.desc);
                     currentValueChanged = YES; 
                 }
                 self.currentValue = curValue.stringValue;

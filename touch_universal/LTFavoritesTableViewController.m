@@ -61,6 +61,14 @@
     /* Remove customer-add observer */
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTCustomerAdded" object:nil];
     
+    /* Remove all refresh observers */
+    for (LTEntity *entity in favorites)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:@"RefreshFinished"
+                                                      object:entity];
+    }
+    
     /* Release ivars */
     [favorites release];
     
@@ -73,6 +81,7 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];	
+    self.pullToRefresh = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -96,8 +105,8 @@
     refreshTimer = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
     return YES;
 }
 
@@ -135,7 +144,15 @@
 {
     /* Remove all existing objects */
     if (favorites)
-    { [favorites removeAllObjects]; }
+    { 
+        for (LTEntity *entity in favorites)
+        {
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:@"RefreshFinished"
+                                                          object:entity];
+        }
+        [favorites removeAllObjects]; 
+    }
     else
     { favorites = [[NSMutableArray array] retain]; }
     
@@ -162,6 +179,12 @@
         
         /* Add entity to favorites array */
         [favorites addObject:favorite];
+        
+        /* Add refresh observer */
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(entityRefreshFinished:)
+                                                     name:@"RefreshFinished"
+                                                   object:favorite];
     }
     
     /* Sort the favorites by desc */
@@ -198,7 +221,13 @@
     [[NSUserDefaults standardUserDefaults] setObject:storedFavorites forKey:kFavoritesData];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    /* Reload */
+    /* Add refresh observer */
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(entityRefreshFinished:)
+                                                 name:@"RefreshFinished"
+                                               object:favorite];
+    
+    /* Reload tableview */
     [self.tableView reloadData];
 }
 
@@ -212,7 +241,12 @@
     for (LTEntity *favorite in [NSArray arrayWithArray:favorites])
     {
         if ([favorite.entityAddress isEqualToString:entity.entityAddress])
-        { [favorites removeObject:favorite]; }
+        { 
+            [favorites removeObject:favorite]; 
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:@"RefreshFinished"
+                                                          object:entity];            
+        }
     }
     
     /* Remove from stores list */
@@ -250,22 +284,62 @@
 #pragma mark -
 #pragma mark Refresh
 
+- (BOOL) refreshInProgress
+{
+    for (LTEntity *entity in favorites)
+    {
+        if (entity.refreshInProgress) return YES;
+    }
+    return NO;
+}
+
 - (void) refresh
 {
-	/* This function refreshes the internal list of 
-	 * favorites as well as refreshing the entities 
-	 */
-	
 	/* Refresh the entities */
 	for (LTEntity *entity in favorites)
 	{
 		[entity refresh];
 	}
+    _reloading = [self refreshInProgress];
+}
+
+- (void) forceRefresh
+{
+    /* Force-refresh the entities */
+	for (LTEntity *entity in favorites)
+	{
+		[entity forceRefresh];
+	}
+    _reloading = [self refreshInProgress];    
 }
 
 - (void) refreshTimerFired:(NSTimer *)timer
 {
 	[self refresh];
+}
+
+- (NSDate *) egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
+{	
+    NSDate *date = nil;
+    for (LTEntity *entity in favorites)
+    {
+        if (!date || [entity.lastRefresh laterDate:date] == entity.lastRefresh)
+        { date = entity.lastRefresh; }
+    }
+    return date;
+}
+
+#pragma mark -
+#pragma mark Notification Receivers
+
+- (void) entityRefreshFinished:(NSNotification *)note
+{
+    if (_reloading && ![self refreshInProgress])
+    {
+        /* Cancel pull to refresh view */
+        _reloading = NO;
+        [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    }        
 }
 
 #pragma mark "Table view methods"

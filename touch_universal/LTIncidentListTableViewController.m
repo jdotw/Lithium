@@ -28,7 +28,7 @@
 @implementation LTIncidentListTableViewController
 
 #pragma mark -
-#pragma mark Constructors
+#pragma mark Initialization
 
 - (void) awakeFromNib
 {
@@ -165,27 +165,99 @@
 	[[self tableView] reloadData];
 }
 
+#pragma mark -
+#pragma mark Refresh
+
+- (BOOL) refreshInProgress
+{
+    if (device)
+    { return device.customer.incidentList.refreshInProgress; }
+    else
+    {
+        AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+        for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+        {
+            if (customer.incidentList.refreshInProgress) return YES;
+        }
+        return NO;
+    }
+}
+
 - (void) refresh
 {
-	/* Refreshes all incident lists */
 	if (device)
 	{
+        /* Refresh just the device's customer incidentList */
 		[device.customer.incidentList refresh];
 	}
 	else 
 	{
+        /* Refreshes all incident lists */
 		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 		for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
 		{ 
 			[customer.incidentList refresh]; 
 		}		
 	}
+    _reloading = [self refreshInProgress];
+}
+
+- (void) forceRefresh
+{
+	if (device)
+	{
+        /* Refresh just the device's customer incidentList */
+		[device.customer.incidentList forceRefresh];
+	}
+	else 
+	{
+        /* Refreshes all incident lists */
+		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+		for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+		{ 
+			[customer.incidentList forceRefresh]; 
+		}		
+	}
+    _reloading = [self refreshInProgress];    
+}
+
+- (void) refreshTimerFired:(NSTimer *)timer
+{
+	/* Auto-refresh timer fired */
+    [self refresh];
+}
+
+- (NSDate *) egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
+{	
+    if (device)
+    {
+        return self.device.customer.incidentList.lastRefresh;
+    }
+    else
+    {
+        NSDate *date = nil;
+		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+		for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+		{ 
+            if (!date || [customer.incidentList.lastRefresh laterDate:date] == customer.incidentList.lastRefresh)
+            { date = customer.incidentList.lastRefresh; }
+        }
+        return date;
+    }
 }
 
 - (void) incidentListRefreshFinished:(NSNotification *)notification
 {
 	/* An Incident List has been refreshed, rebuild our array */
 	[self rebuildIncidentsArray];
+    
+    /* Cancel pull to refresh */
+    if (_reloading && ![self refreshInProgress])
+    {
+        /* Cancel pull to refresh view */
+        _reloading = NO;
+        [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    }        
 }
 
 - (void) incidentListCountUpdated:(NSNotification *)notification
@@ -209,19 +281,6 @@
 	[self rebuildIncidentsArray];
 }
 
-- (void) refreshTimerFired:(NSTimer *)timer
-{
-	/* Auto-refresh timer fired, only refresh if we are active */
-	if (self.isVisible)
-	{
-		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-		for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
-		{ 
-			[customer.incidentList refresh]; 
-		}		
-	}
-}
-
 #pragma mark -
 #pragma mark View Delegates
 
@@ -232,13 +291,7 @@
 	self.tableView.backgroundColor = [UIColor colorWithWhite:0.29 alpha:1.0];
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.navigationItem.title = @"Incidents";
-	
-	/* Add auto-refresh timer */
-	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
-													target:self
-												  selector:@selector(refreshTimerFired:)
-												  userInfo:nil
-												   repeats:YES];
+    self.pullToRefresh = YES;
 	
 	/* Refresh */
 	[self refresh];
@@ -247,6 +300,25 @@
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    /* Add auto-refresh timer */
+	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
+													target:self
+												  selector:@selector(refreshTimerFired:)
+												  userInfo:nil
+												   repeats:YES];
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [refreshTimer invalidate];
+    refreshTimer = nil;
 }
 
 - (CGSize) contentSizeForViewInPopover
@@ -490,7 +562,6 @@
 													name:@"LTIncidentListRefreshFinished"  
 												  object:nil];
 	[sortedChildren release];
-	[refreshTimer invalidate];
     [super dealloc];
 }
 
@@ -498,16 +569,6 @@
 #pragma mark Properties
 
 @synthesize sortedChildren, device;
-
-- (BOOL) refreshInProgress
-{
-	AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-	for (LTCustomer *customer in [appDelegate valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
-	{
-		if (customer.incidentList.refreshInProgress) return YES;
-	}
-	return NO;
-}
 
 - (void) setDevice:(LTEntity *)value
 {

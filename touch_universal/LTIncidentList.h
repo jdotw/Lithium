@@ -30,6 +30,7 @@
 
 - (void) refreshCountOnly;
 - (void) refresh;
+- (void) forceRefresh;
 
 @property (nonatomic,readonly) unsigned long incidentCount;
 @property (nonatomic,readonly) NSMutableArray *incidents;
@@ -37,5 +38,6 @@
 @property (nonatomic,assign) BOOL historicList;
 @property (nonatomic,assign) int maxResultsCount;
 @property (nonatomic,retain) LTEntity *entity;
+@property (nonatomic,retain) NSDate *lastRefresh;
 
 @end
