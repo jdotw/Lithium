@@ -457,11 +457,11 @@
 
 - (void) metricRefreshFinished:(NSNotification *)notification
 {
-    if (_reloading && ![self refreshInProgress])
+    if (self.reloading && ![self refreshInProgress])
     {
         /* Cancel pull to refresh view */
-        _reloading = NO;
-        [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+        self.reloading = NO;
+        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
     }        
     
     [[self tableView] reloadData];
@@ -529,13 +529,13 @@
 - (void) refresh
 {
     [metric refresh];
-    _reloading = [self refreshInProgress];
+    self.reloading = [self refreshInProgress];
 }
 
 - (void) forceRefresh
 {
     [metric forceRefresh];
-    _reloading = [self refreshInProgress];
+    self.reloading = [self refreshInProgress];
 }
 
 - (void) refreshTimerFired:(NSTimer *)timer
