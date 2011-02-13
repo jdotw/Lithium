@@ -32,6 +32,14 @@
 
 @implementation LTGroupTableViewController
 
+#pragma mark -
+#pragma mark Preferences
+
+- (BOOL) _showEntitiesInRootList
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"LTSetupGroupListShowEntities"];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style 
 {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -277,16 +285,25 @@
 		/* Single group */
 		if ([children count] == 0 && group.refreshInProgress)
 		{ return [self.tableView frame].size.height; }
-		else
-		{ return 48.0; }
+		else if ([[[children objectAtIndex:indexPath.row] class] isSubclassOfClass:[LTGroup class]])
+        {
+            return 28.0;
+        }
+        else
+		{ 
+            return 48.0; 
+        }
 	}
 	else
 	{
 		/* Aggregated groups, or top-level of showing groups only */
 		if ([children count] > 0)
 		{ 
-			if ([[[children objectAtIndex:indexPath.row] class] isSubclassOfClass:[LTGroup class]] && [displayStyleSegment selectedSegmentIndex] == 0)
-			{ return 28.0; }
+            BOOL childIsAGroup = [[[children objectAtIndex:indexPath.row] class] isSubclassOfClass:[LTGroup class]];
+			if (childIsAGroup && [self _showEntitiesInRootList])
+			{ 
+                return 28.0; 
+            }
 			else 
 			{
 				return 48.0;
@@ -325,7 +342,8 @@
 	{ CellIdentifier = @"Metric"; }
 	else if (displayEntity)
 	{
-		if ([displayEntity isMemberOfClass:[LTGroup class]] && [displayStyleSegment selectedSegmentIndex] == 0) CellIdentifier = @"GroupHeader";
+        BOOL entityIsAGroup = [displayEntity isMemberOfClass:[LTGroup class]];
+		if (entityIsAGroup && (group || [self _showEntitiesInRootList])) CellIdentifier = @"GroupHeader";
 		else CellIdentifier = @"EntityOrGroup"; 
 	}
 	else 
@@ -343,23 +361,13 @@
 			cell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
             cell.indentationWidth = 10.;
             cell.drawAsRack = YES;
-		}
-
-		if (displayEntity) 
-		{
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) 
-			{ cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
-			if ([displayEntity isMemberOfClass:[LTGroup class]])
-			{
-				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-			}
-			if ([CellIdentifier isEqualToString:@"GroupHeader"])
-			{
-				cell.backgroundView = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero];
-			}
-			
-		}
-		
+            
+            if ([CellIdentifier isEqualToString:@"GroupHeader"] && (group || [self _showEntitiesInRootList]))
+            {
+                cell.backgroundView = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero];
+            }
+		}		
+        
     }
     
     // Set up the cell...
@@ -370,18 +378,8 @@
 		
 		if ([displayEntity.customer.coreDeployment reachable] && [displayEntity.customer.coreDeployment enabled]) cell.imageView.alpha = 1.0;
 		else cell.imageView.alpha = 0.5;
+		cell.indentationLevel = displayEntity.indentLevel;			
 		
-		if (displayStyleSegment && [displayStyleSegment selectedSegmentIndex] == 0)
-		{
-			cell.indentationLevel = displayEntity.indentLevel;			
-		}
-		else
-		{
-			cell.indentationLevel = 0;
-		}
-		
-//		cell.metricLabel.text = displayEntity.longDisplayString;
-//		cell.deviceLabel.text = displayEntity.longLocationString;
 		if (displayEntity.type > 3) cell.showFullLocation = YES;
 		else cell.showFullLocation = NO;
 		if (displayEntity.type == 6) cell.showCurrentValue = YES;
@@ -395,6 +393,17 @@
             headerView.indentLevel = cell.indentationLevel;
             NSLog (@"Section DisplayEntity is %@, indentLevel is %i", displayEntity.desc, headerView.indentLevel);
             cell.textLabel.text = nil;
+        }
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) 
+        { cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
+        if ([displayEntity isMemberOfClass:[LTGroup class]])
+        {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        else
+        {
+            cell.accessoryType = UITableViewCellAccessoryNone; 
         }
 	}
 	else
@@ -538,22 +547,20 @@
 
 #pragma mark "Item Management"
 
-- (IBAction) displayStyleChanged:(id)sender
-{
-	[[NSUserDefaults standardUserDefaults] setInteger:[displayStyleSegment selectedSegmentIndex] forKey:@"GroupsViewMode"];
-	[self sortAndFilterChildren];
-	[[self tableView] reloadData];
-}
-
 - (void) recursivelyBuildChildrenUsingGroup:(LTGroup *)buildGroup
 {
 	for (id item in buildGroup.children)
 	{
-		[children addObject:item];
-		if ([[item class] isSubclassOfClass:[LTGroup class]] && (displayStyleSegment && [displayStyleSegment selectedSegmentIndex] == 0))
-		{
-			[self recursivelyBuildChildrenUsingGroup:item];
-		}
+        BOOL itemIsAGroup = [[item class] isSubclassOfClass:[LTGroup class]];        
+        if (itemIsAGroup || group || [self _showEntitiesInRootList])
+        {
+            /* Item is a group, or regardless of what it is this is not the 
+             * root list, or if it is the root list, _showEntitiesInRootList is enabled
+             */
+            [children addObject:item];
+        }
+
+		[self recursivelyBuildChildrenUsingGroup:item];
 	}		
 }
 

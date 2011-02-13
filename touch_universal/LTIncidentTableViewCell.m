@@ -52,7 +52,10 @@
          */
         incidentLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
         incidentLabel.textColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
-        incidentLabel.font = [UIFont fontWithName:@"Chalkduster" size:12.0];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        { incidentLabel.font = [UIFont fontWithName:@"Chalkduster" size:12.0]; }
+        else
+        { incidentLabel.font = [UIFont fontWithName:@"MarkerFelt-Wide" size:12.0]; }
         incidentLabel.backgroundColor = [UIColor clearColor];        
         [ticket addSubview:incidentLabel];
         

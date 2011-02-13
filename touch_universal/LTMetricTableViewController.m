@@ -27,6 +27,10 @@
 
 #define kAnimationKey @"transitionViewAnimation"
 
+@interface LTMetricTableViewController (Private)
+- (void) updateNavigationBarTintColor;
+@end
+
 @implementation LTMetricTableViewController
 
 #pragma mark -
@@ -81,6 +85,7 @@
     if (metric)
     {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:metric];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityStateChanged object:metric];
     }
 	
     [metric release];
@@ -88,6 +93,7 @@
 	
 	self.title = metric.desc;
 	incidentList.entity = metric;
+    [self updateNavigationBarTintColor];
 	
     [metric refresh];
 	
@@ -96,6 +102,10 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(metricRefreshFinished:)
                                                      name:@"RefreshFinished" 
+                                                   object:metric];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(metricStateChanged:)
+                                                     name:kLTEntityStateChanged 
                                                    object:metric];
     }
 }
@@ -127,6 +137,7 @@
 											 selector:@selector(orientationDidChange:)
 												 name:UIDeviceOrientationDidChangeNotification
 											   object:nil];
+    [self updateNavigationBarTintColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -162,6 +173,11 @@
 - (NSDate *) egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view
 {
     return metric.lastRefresh;
+}
+
+- (void)updateNavigationBarTintColor
+{
+    self.navigationController.navigationBar.tintColor = self.metric.opStateTintColor ? : [UIColor colorWithWhite:0.29 alpha:1.0];
 }
 
 #pragma mark -
@@ -465,6 +481,11 @@
     }        
     
     [[self tableView] reloadData];
+}
+
+- (void) metricStateChanged:(NSNotification *)notification
+{
+    [self updateNavigationBarTintColor];
 }
 
 - (void) orientationDidChange:(NSNotification *)notification

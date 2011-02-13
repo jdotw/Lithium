@@ -30,6 +30,7 @@
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
 - (void) entityRefreshFinished:(NSNotification *)notification;
 - (void) sortAndFilterChildren;
+- (void) updateNavigationBarTintColor;
 @end
 
 @implementation LTEntityTableViewController
@@ -96,6 +97,7 @@
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTEntityXmlStatusChanged" object:entity];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityChildrenChanged object:entity];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTCoreDeploymentReachabilityChanged" object:entity.coreDeployment];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kLTEntityStateChanged object:entity];
 	}    
     [entity release];
     
@@ -116,6 +118,7 @@
     /* Configure view and content */
 	self.navigationItem.title = entity.desc;
 	[self sortAndFilterChildren];
+    [self updateNavigationBarTintColor];
     
     /* Add observers */
 	if (entity)
@@ -134,6 +137,12 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(coreDeploymentReachabilityChanged:)
                                                      name:@"LTCoreDeploymentReachabilityChanged" object:entity.coreDeployment];		
+        
+        /* Listen to change in entity state */
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(entityStateChanged:)
+                                                     name:kLTEntityStateChanged
+                                                   object:entity];
         
 	}
 }	
@@ -189,6 +198,17 @@
             self.tableView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:1.0];
         }
     }
+    else
+    {
+        /* iPhone Table Setup */
+        if ((entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation]) || entity.type == ENT_SITE)
+        {
+            /* This is either an aggregated site+device list 
+             * or a list of devices at a site, draw as a rack
+             */
+            self.drawAsRack = YES;
+        }
+    }
     
     self.pullToRefresh = YES;
 }
@@ -239,6 +259,7 @@
 		hasAppeared = YES;
 	}
 	[self refresh];
+    [self updateNavigationBarTintColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -281,6 +302,19 @@
 {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
+}
+
+- (void)updateNavigationBarTintColor
+{
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPhone || 
+        (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad && self.entity.type > ENT_DEVICE))
+    {
+        self.navigationController.navigationBar.tintColor = self.entity.opStateTintColor ? : [UIColor colorWithWhite:0.29 alpha:1.0];
+    }
+    else
+    {
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:0.29 alpha:1.0];
+    }
 }
 
 #pragma mark -
@@ -924,10 +958,10 @@
     }
 }
 
-- (void) entityStateChanged:(NSNotificationCenter *)notification
+- (void) entityStateChanged:(NSNotification *)notification
 {
     /* Called when the root entity changes state */
-    
+    [self updateNavigationBarTintColor];
 }
 
 - (void) entityChildrenChanged:(NSNotification *)notification

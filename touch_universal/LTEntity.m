@@ -942,4 +942,25 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 @synthesize isNew;
 
+- (UIColor *) opStateTintColor
+{
+    UIColor *tintColor = [UIColor colorWithWhite:0.29 alpha:1.0];
+    switch (self.opState) 
+    {
+        case 3:
+            tintColor = [UIColor colorWithRed:130./255. green:66./255. blue:63./255. alpha:1.0];
+            break;
+        case 2:
+        case 1:
+            tintColor = [UIColor colorWithRed:112./255. green:93./255. blue:63./255. alpha:1.0];
+            break;
+        case 0:
+            tintColor = [UIColor colorWithRed:0.29 green:0.35 blue:0.29 alpha:1.0];
+            break;
+        default:
+            break;
+    }
+    return tintColor;
+}
+
 @end

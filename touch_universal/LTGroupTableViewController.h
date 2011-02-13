@@ -18,8 +18,6 @@
 	NSMutableArray *children;
 	
 	NSTimer *refreshTimer;
-	
-	UISegmentedControl *displayStyleSegment;
 }
 
 - (void) refresh;

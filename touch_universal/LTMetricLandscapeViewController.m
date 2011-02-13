@@ -53,6 +53,12 @@
 	graphScrollView.delegate = self;
 	[graphScrollView scrollRectToVisible:CGRectMake(CGRectGetMaxX(contentRect) - CGRectGetWidth(graphScrollView.frame),
 													0.0, CGRectGetWidth(graphScrollView.frame), CGRectGetHeight(graphScrollView.frame)) animated:NO];
+    
+    metricLabel.layer.shadowOffset = CGSizeMake(2.0, 2.0);
+    metricLabel.layer.shadowRadius = 3.0;
+    metricLabel.layer.shadowOpacity = 0.8;
+
+    metricLabel.text = self.metric.longLocationString;
 	
 }
 

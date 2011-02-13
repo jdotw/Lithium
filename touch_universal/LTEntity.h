@@ -180,4 +180,7 @@
 @property (readonly) BOOL isPercentage;
 @property (nonatomic,assign) BOOL isNew;
 
+@property (nonatomic,readonly) UIColor *opStateTintColor;
+
+
 @end

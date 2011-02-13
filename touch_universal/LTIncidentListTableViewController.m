@@ -104,12 +104,15 @@
 				}
 			}
 		}
-		NSSortDescriptor *sortDesc = [[NSSortDescriptor alloc] initWithKey:@"startDate" ascending:NO];
+        
+        /* Sort by device desc and then incident severity */
+        NSSortDescriptor *descSort = [NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES selector:@selector(localizedCompare:)];
+        NSSortDescriptor *opStateSort = [NSSortDescriptor sortDescriptorWithKey:@"metric.opState" ascending:NO];
+        [array sortUsingDescriptors:[NSArray arrayWithObject:descSort]];
 		for (LTIncidentListGroup *group in array)
 		{
-			[group.children sortUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
+			[group.children sortUsingDescriptors:[NSArray arrayWithObject:opStateSort]];
 		}
-		[sortDesc release];
 		self.sortedChildren = array;
 	}
 	else if (!sortSegment || sortSegment.selectedSegmentIndex == 1)

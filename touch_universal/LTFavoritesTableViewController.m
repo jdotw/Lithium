@@ -189,7 +189,7 @@
     }
     
     /* Sort the favorites by desc */
-    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"desc" ascending:YES];
+    NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"desc" ascending:YES selector:@selector(localizedCompare:)];
     [favorites sortUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
 }
 

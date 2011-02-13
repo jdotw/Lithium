@@ -165,7 +165,6 @@
 	if ([[cell class] isSubclassOfClass:[LTEntityRefreshProgressViewCell class]])
 	{
 		LTEntityRefreshProgressViewCell *progressCell = (LTEntityRefreshProgressViewCell *) cell;
-		progressCell.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
 		progressCell.opaque = NO;
 		progressCell.progressLabel.backgroundColor = [UIColor clearColor];
 		progressCell.progressView.backgroundColor = [UIColor clearColor];

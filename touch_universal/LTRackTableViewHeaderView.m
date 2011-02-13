@@ -27,7 +27,10 @@
         [self addSubview:tapeImageView];
         textLabel = [[UILabel alloc] initWithFrame:CGRectZero];        
         textLabel.textColor = [[UIColor blueColor] colorWithAlphaComponent:0.8];
-        textLabel.font = [UIFont fontWithName:@"Chalkduster" size:12.0];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        { textLabel.font = [UIFont fontWithName:@"Chalkduster" size:12.0]; }
+        else
+        { textLabel.font = [UIFont fontWithName:@"MarkerFelt-Wide" size:12.0]; }
         textLabel.backgroundColor = [UIColor clearColor];
         textLabel.transform = CGAffineTransformMakeRotation(-1. * M_PI / 180);
         [tapeImageView addSubview:textLabel];

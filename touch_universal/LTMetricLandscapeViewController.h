@@ -21,6 +21,7 @@
 	IBOutlet UILabel *rightMaxLabel;
 	IBOutlet UILabel *rightAvgLabel;
 	IBOutlet UILabel *rightMinLabel;
+    IBOutlet UILabel *metricLabel;
 	
 	LTGraphView *graphView;
 }
