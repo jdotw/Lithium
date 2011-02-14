@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LTTableViewController.h"
 
 @class LTDeviceEditTableViewController;
 
 
-@interface LTDeviceEditSNMPPrivacyListTableViewController : UITableViewController 
+@interface LTDeviceEditSNMPPrivacyListTableViewController : LTTableViewController 
 {
 	LTDeviceEditTableViewController *editTVC;
 }

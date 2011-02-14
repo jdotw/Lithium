@@ -113,7 +113,7 @@
 	if (refreshStage == 1)
 	{
 		/* Logging */
-		if (debug) NSLog (@"First stage received %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+		if (debug) NSLog (@"INFO: First stage received %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
 		
 		/* Parse XML */
 		NSXMLParser *parser = [[NSXMLParser alloc] initWithData:receivedData];

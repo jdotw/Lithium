@@ -17,10 +17,10 @@
     if (self = [super initWithFrame:frame]) 
 	{
         // Initialization code
-		imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TableViewSectionHeader.png"]];
+		imageView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TableViewSectionHeader.png"]] autorelease];
 		[self addSubview:imageView];
 
-		titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		titleLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
 		titleLabel.backgroundColor = [UIColor clearColor];
 		titleLabel.opaque = NO;
 		titleLabel.textColor = [UIColor whiteColor];

@@ -17,8 +17,8 @@
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) 
 	{
 		self.backgroundView = [[[LTMetricGraphTableViewCellBackground alloc] initWithFrame:CGRectZero] autorelease];
-        self.graphView = [[LTGraphView alloc] initWithFrame:CGRectZero];
-		graphBackground = [[LTGraphBackgroundView alloc] initWithFrame:CGRectZero];
+        self.graphView = [[[LTGraphView alloc] initWithFrame:CGRectZero] autorelease];
+		graphBackground = [[[LTGraphBackgroundView alloc] initWithFrame:CGRectZero] autorelease];
 		[self.contentView addSubview:graphBackground];
 		[self.contentView insertSubview:self.graphView aboveSubview:graphBackground];
 		graphBackground.opaque = NO;

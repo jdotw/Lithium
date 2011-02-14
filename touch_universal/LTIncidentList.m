@@ -34,6 +34,7 @@
 
 - (void) dealloc
 {
+    self.entity = nil;  // nil the entity to release and remove observers, etc
 	[incidents release];
 	[incidentDict release];
 	[super dealloc];
@@ -234,7 +235,7 @@
                     LTIncident *curIncident = [incidentDict objectForKey:[TBXML textForElementNamed:@"id" parentElement:node]];
                     if (!curIncident)
                     {
-                        curIncident = [LTIncident new];
+                        curIncident = [[LTIncident new] autorelease];
                         curIncident.identifier = [TBXML intFromTextForElementNamed:@"id" parentElement:node];
                         if ([TBXML intFromTextForElementNamed:@"start_sec" parentElement:node] > 0)
                         { curIncident.startDate = [NSDate dateWithTimeIntervalSince1970:[[TBXML textForElementNamed:@"start_sec" 
@@ -258,7 +259,7 @@
                             LTAction *curAction = [curIncident.actionDict objectForKey:[TBXML textForElementNamed:@"id" parentElement:incChildNode]];
                             if (!curAction)
                             {
-                                curAction = [LTAction new];
+                                curAction = [[LTAction new] autorelease];
                                 curAction.identifier = [TBXML intFromTextForElementNamed:@"id" parentElement:incChildNode];
                                 curAction.desc = [TBXML textForElementNamed:@"desc" parentElement:incChildNode];
                                 curAction.incident = curIncident;
@@ -287,7 +288,7 @@
                                 curIncident.resourceAddress = curIncident.entityDescriptor.resourceAddress;
                                 
                                 /* Create stand-alone entity for the incident */
-                                curIncident.metric = [LTEntity new];
+                                curIncident.metric = [[LTEntity new] autorelease];
                                 curIncident.metric.type = 6;
                                 curIncident.metric.name = curIncident.entityDescriptor.metName;
                                 curIncident.metric.desc = curIncident.entityDescriptor.metDesc;
@@ -298,7 +299,7 @@
                                 curIncident.metric.resourceAddress = curIncident.resourceAddress;
                                 curIncident.metric.ipAddress = [customer ipAddress];
                                 curIncident.metric.coreDeployment = [customer coreDeployment];
-                                LTEntityDescriptor *metEntityDesc = [curIncident.entityDescriptor copy]; 
+                                LTEntityDescriptor *metEntityDesc = [[curIncident.entityDescriptor copy] autorelease];
                                 metEntityDesc.type = 6;
                                 metEntityDesc.trgName = nil;
                                 metEntityDesc.trgDesc = nil;

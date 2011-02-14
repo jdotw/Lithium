@@ -60,7 +60,7 @@
         [ticket addSubview:incidentLabel];
         
         /* Flag */
-        flag = [[UIImageView alloc] initWithFrame:CGRectZero];
+        flag = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
         flag.contentMode = UIViewContentModeCenter;
         [ticket addSubview:flag];
         

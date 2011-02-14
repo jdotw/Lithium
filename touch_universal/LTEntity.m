@@ -173,7 +173,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:url
 															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
 														 timeoutInterval:60.0];
-    NSLog (@"TheRequest: %@", theRequest);
 
 	/* Outbound XML doc to be sent */
 	NSString *formBoundary = [[NSProcessInfo processInfo] globallyUniqueString];
@@ -621,6 +620,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
         copy.customer = self.customer;
         copy.coreDeployment = self.coreDeployment;
     }
+    copy.entityDescriptor = self.entityDescriptor;
     copy.entityAddress = self.entityAddress;
     copy.resourceAddress = self.resourceAddress;
     

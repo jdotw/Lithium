@@ -26,6 +26,6 @@
 	
 }
 
-@property (retain) LTGraphView *graphView;
+@property (nonatomic,retain) LTGraphView *graphView;
 
 @end

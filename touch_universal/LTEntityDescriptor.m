@@ -141,25 +141,25 @@
 				self.type = [string intValue];
 				break;
 			case 1:
-				self.custName = [string copy];
+				self.custName = string;
 				break;
 			case 2:
-				self.siteName = [string copy];
+				self.siteName = string;
 				break;
 			case 3:
-				self.devName = [string copy];
+				self.devName = string;
 				break;
 			case 4:
-				self.cntName = [string copy];
+				self.cntName = string;
 				break;
 			case 5:
-				self.objName = [string copy];
+				self.objName = string;
 				break;
 			case 6:
-				self.metName = [string copy];
+				self.metName = string;
 				break;
 			case 7:
-				self.trgName = [string copy];
+				self.trgName = string;
 				break;
 		}
 	}

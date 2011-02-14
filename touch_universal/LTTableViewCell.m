@@ -19,9 +19,9 @@
 {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) 
 	{
-		self.backgroundView = [[LTTableViewCellBackground alloc] initWithFrame:CGRectZero];
+		self.backgroundView = [[[LTTableViewCellBackground alloc] initWithFrame:CGRectZero] autorelease];
 		((LTTableViewCellBackground *)self.backgroundView).cell = self;
-		self.selectedBackgroundView = [[LTTableViewCellSelectedBackground alloc] initWithFrame:CGRectZero];
+		self.selectedBackgroundView = [[[LTTableViewCellSelectedBackground alloc] initWithFrame:CGRectZero] autorelease];
 		self.backgroundColor = [UIColor colorWithRed:0.0
 											   green:0.0
 												blue:0.0

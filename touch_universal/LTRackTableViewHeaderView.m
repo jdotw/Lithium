@@ -59,7 +59,6 @@
 - (void)layoutSubviews
 {
     /* Calculate indent offset */
-    NSLog (@"%@ layingout subviews (%@), indentPerLevel is %f, indentLevel is %i", self, self.textLabel.text, indentPerLevel, indentLevel);
     CGFloat indentXOffset = 18. + (indentPerLevel * indentLevel);
     
     /* Layout the Tape Image -- Image is always 174x22 */

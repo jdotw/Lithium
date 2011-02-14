@@ -32,8 +32,14 @@
 	isVisible = NO;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) 
+    { return YES; }
+    else if (interfaceOrientation == UIInterfaceOrientationPortrait)
+    { return YES; }
+    else
+    { return NO; }
 }
 
 - (void) viewDidUnload
@@ -183,7 +189,9 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-	if ([self respondsToSelector:@selector(tableView:titleForHeaderInSection:)] && [self tableView:tableView titleForHeaderInSection:section])
+	if (self.tableView.style == UITableViewStylePlain
+        && [self respondsToSelector:@selector(tableView:titleForHeaderInSection:)] 
+        && [self tableView:tableView titleForHeaderInSection:section])
 	{ 
 		LTTableViewSectionHeaderView *view = [[[LTTableViewSectionHeaderView alloc] initWithFrame:CGRectZero] autorelease];
 		view.titleLabel.text = [self tableView:tableView titleForHeaderInSection:section];

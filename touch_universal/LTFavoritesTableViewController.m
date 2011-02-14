@@ -14,6 +14,7 @@
 #import "LTEntityTableViewController.h"
 #import "AppDelegate_Pad.h"
 #import "LTCustomer.h"
+#import "LTHardwareEntityTableViewCell.h"
 
 #define kFavoritesData @"LTFavoritesArray"
 
@@ -104,11 +105,6 @@
     /* Remove refresh timer */
     [refreshTimer invalidate];
     refreshTimer = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
-{
-    return YES;
 }
 
 #pragma mark -
@@ -396,10 +392,10 @@
 	else
 	{
 		NSString *CellIdentifier = @"Metric";
-		LTEntityTableViewCell *metricCell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		LTHardwareEntityTableViewCell *metricCell = (LTHardwareEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (metricCell == nil) 
 		{
-			metricCell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+			metricCell = [[[LTHardwareEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 		}
 		metricCell.entity = displayEntity;
 		metricCell.showFullLocation = YES;

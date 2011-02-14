@@ -69,7 +69,11 @@
 
 - (void)dealloc 
 {
+    self.metric = nil;
+    graphScrollView.delegate = nil;
+    
     [graphView release];
+
     [super dealloc];
 }
 

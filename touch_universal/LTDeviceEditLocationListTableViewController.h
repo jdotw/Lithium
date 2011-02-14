@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "LTTableViewController.h"
+
 @class LTCustomer, LTDeviceEditTableViewController;
 
-@interface LTDeviceEditLocationListTableViewController : UITableViewController 
+@interface LTDeviceEditLocationListTableViewController : LTTableViewController 
 {
 	LTDeviceEditTableViewController *editTVC;	
 }

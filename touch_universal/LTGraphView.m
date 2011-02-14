@@ -35,20 +35,31 @@
 		
 		self.opaque = NO;
 		
-		UILongPressGestureRecognizer *longRecog = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(graphLongTouch:)];
+		UILongPressGestureRecognizer *longRecog = [[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(graphLongTouch:)] autorelease];
 		[self addGestureRecognizer:longRecog];
 		
     }
     return self;
 }
 
+- (void) removeAllCachedGraphRequests
+{
+    for (LTMetricGraphRequest *req in [graphRequestCache allValues])
+    {
+        req.delegate = nil;
+    }
+    [graphRequestCache removeAllObjects];
+}
+
 - (void)dealloc 
 {
+    [self removeAllCachedGraphRequests];
 	[graphRequestCache release];
 	[metrics release];
 	[minLabels release];
 	[avgLabels release];
 	[maxLabels release];
+    [graphStartDate release];
     [super dealloc];
 }
 
@@ -119,7 +130,7 @@
 	else if (!graphReq)
 	{
 		/* Configure graph request */
-		graphReq = [[LTMetricGraphRequest alloc] init];
+		graphReq = [[[LTMetricGraphRequest alloc] init] autorelease];
 		graphReq.delegate = self;
 		[graphRequestCache setObject:graphReq forKey:NSStringFromCGRect(clipRect)];
 		graphReq.size = CGSizeMake(clipRect.size.width, self.superview.frame.size.height);
@@ -247,7 +258,7 @@
 	/* Draw date line */
 	CGFloat dateLineYOffset = hourLineYOffset * 2.0;
 	NSDate *dateToDraw = sliceEndDate;
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
 	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 	[formatter setDateStyle:NSDateFormatterMediumStyle];
 	[formatter setTimeStyle:NSDateFormatterNoStyle];
@@ -357,7 +368,7 @@
 
 - (void) refreshGraph
 {
-	[graphRequestCache removeAllObjects];
+    [self removeAllCachedGraphRequests];
 	[self.layer setNeedsDisplayInRect:self.layer.bounds];
 	graphStartDate = [[NSDate date] retain];	
 }

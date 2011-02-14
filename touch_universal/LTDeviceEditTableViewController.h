@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LTTableViewController.h"
 
 @class LTEntity, LTCustomer;
 
-@interface LTDeviceEditTableViewController : UITableViewController <UITextFieldDelegate>
+@interface LTDeviceEditTableViewController : LTTableViewController <UITextFieldDelegate>
 {
 	/* Device Properties */
 	UITextField *devDesc;

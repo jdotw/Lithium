@@ -10,8 +10,9 @@
 
 #import "LTEntity.h"
 #import "LTCustomer.h"
+#import "LTTableViewController.h"
 
-@interface LTAuthenticationTableViewController : UITableViewController 
+@interface LTAuthenticationTableViewController : LTTableViewController 
 {
 	UITextField *usernameTextField;
 	UITextField *passwordTextField;

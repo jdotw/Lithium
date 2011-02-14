@@ -17,30 +17,30 @@
     if (self) 
 	{
 		/* Create Vent Image Views */
-        topLeftVentInlay = [[UIImageView alloc] initWithFrame:CGRectZero];
+        topLeftVentInlay = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		topLeftVentInlay.image = [UIImage imageNamed:@"DeviceVent.png"];
 		[self addSubview:topLeftVentInlay];
-        topRightVentInlay = [[UIImageView alloc] initWithFrame:CGRectZero];
+        topRightVentInlay = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		topRightVentInlay.image = [UIImage imageNamed:@"DeviceVent.png"];
 		[self addSubview:topRightVentInlay];
-        bottomLeftVentInlay = [[UIImageView alloc] initWithFrame:CGRectZero];
+        bottomLeftVentInlay = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		bottomLeftVentInlay.image = [UIImage imageNamed:@"DeviceVent.png"];
 		[self addSubview:bottomLeftVentInlay];
-        bottomRightVentInlay = [[UIImageView alloc] initWithFrame:CGRectZero];
+        bottomRightVentInlay = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		bottomRightVentInlay.image = [UIImage imageNamed:@"DeviceVent.png"];
 		[self addSubview:bottomRightVentInlay];
 		
 		/* Create Vent Mesh Image Views */
-        topLeftVentMesh = [[UIImageView alloc] initWithFrame:CGRectZero];
+        topLeftVentMesh = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		topLeftVentMesh.image = [UIImage imageNamed:@"DeviceVentMesh.png"];
 		[self addSubview:topLeftVentMesh];
-        topRightVentMesh = [[UIImageView alloc] initWithFrame:CGRectZero];
+        topRightVentMesh = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		topRightVentMesh.image = [UIImage imageNamed:@"DeviceVentMesh.png"];
 		[self addSubview:topRightVentMesh];
-        bottomLeftVentMesh = [[UIImageView alloc] initWithFrame:CGRectZero];
+        bottomLeftVentMesh = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		bottomLeftVentMesh.image = [UIImage imageNamed:@"DeviceVentMesh.png"];
 		[self addSubview:bottomLeftVentMesh];
-        bottomRightVentMesh = [[UIImageView alloc] initWithFrame:CGRectZero];
+        bottomRightVentMesh = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		bottomRightVentMesh.image = [UIImage imageNamed:@"DeviceVentMesh.png"];
 		[self addSubview:bottomRightVentMesh];
     }
@@ -58,14 +58,6 @@
 
 - (void)dealloc 
 {
-	[topLeftVentInlay release];
-	[topRightVentInlay release];
-	[bottomLeftVentInlay release];
-	[bottomRightVentInlay release];
-	[topLeftVentMesh release];
-	[topRightVentMesh release];
-	[bottomLeftVentMesh release];
-	[bottomRightVentMesh release];
     [super dealloc];
 }
 

@@ -99,11 +99,6 @@
 
 #pragma mark "View Delegates"
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Overriden to allow any orientation.
-    return YES;
-}
-
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
@@ -319,7 +314,7 @@
 				{
 					if ([customer.groupTree refreshInProgress]) 
 					{
-						return [self.tableView frame].size.height;;
+						return [self.tableView frame].size.height;
 					}
 				}
 			}
@@ -391,7 +386,6 @@
             LTRackTableViewHeaderView *headerView = (LTRackTableViewHeaderView *) cell.backgroundView;
             headerView.textLabel.text = cell.textLabel.text;
             headerView.indentLevel = cell.indentationLevel;
-            NSLog (@"Section DisplayEntity is %@, indentLevel is %i", displayEntity.desc, headerView.indentLevel);
             cell.textLabel.text = nil;
         }
         

@@ -304,6 +304,7 @@
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:0.29 alpha:1.0];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -328,11 +329,6 @@
 - (CGSize) contentSizeForViewInPopover
 {
 	return CGSizeMake(320.0, 200.0);
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
-{
-    return YES;
 }
 
 #pragma mark -
@@ -360,16 +356,17 @@
         /* Use device view */
         LTDeviceEntityTableViewCell *deviceView = [[LTDeviceEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"dummy"];
         LTIncidentListGroup *group = [sortedChildren objectAtIndex:section];
+        deviceView.drawAsRack = YES;
         deviceView.textLabel.text = group.title;
         deviceView.entityState = group.highestEntityState;
-        return deviceView;
+        return [deviceView autorelease];
     }
     if (sortSegment.selectedSegmentIndex == SORT_BY_TIME && section < sortedChildren.count)
     {
         /* Use rack section header */
         LTRackTableViewHeaderView *header = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero]; 
         header.textLabel.text = [self tableView:tableView titleForHeaderInSection:section];
-        return header;
+        return [header autorelease];
     }
     else return nil;
 }
@@ -398,7 +395,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if ([sortedChildren count] == 0)
-	{ return [self.tableView frame].size.height; }
+	{ 
+        return [self.tableView frame].size.height; 
+    }
 	else
 	{ return 32.0; }    // Ticket image height is 40., use 32. to overlap
 }
@@ -514,12 +513,16 @@
 	}
 	else
 	{
-		/* iPhone-style Incident selection */
-		LTIncidentTableViewController *incidentView = [[LTIncidentTableViewController alloc] initWithMetric:incident.metric];
+		/* iPhone-style Incident selection 
+         *
+         * Use a copy of the metric so that the metric is disposed of
+         * after the metric tableview is dealloced 
+         */
+		LTIncidentTableViewController *incidentView = [[LTIncidentTableViewController alloc] initWithMetric:[[incident.metric copy] autorelease]];
 		incidentView.incident = incident;
-		LTEntityDescriptor *entityDescriptor = [incident.metric entityDescriptor];
+		LTEntityDescriptor *entityDescriptor = [incidentView.metric entityDescriptor];
 		incidentView.navigationItem.prompt = [NSString stringWithFormat:@"%@ @ %@ %@ %@", entityDescriptor.devDesc, entityDescriptor.siteDesc, entityDescriptor.cntDesc, entityDescriptor.objDesc];
-		[incident.metric refresh];
+		[incidentView.metric refresh];
 		[self.navigationController pushViewController:incidentView animated:YES];
 		[incidentView release];
 	}

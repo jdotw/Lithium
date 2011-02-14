@@ -20,16 +20,16 @@
 		self.drawEntityStateBackgroundColor = NO;	// Don't show entity color in background
 		
 		/* Screw Indicators */
-		topLeftScrewImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		topLeftScrewImageView = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		topLeftScrewImageView.image = [UIImage imageNamed:@"ScrewHole.png"];
 		[self addSubview:topLeftScrewImageView];
-		topRightScrewImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		topRightScrewImageView = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		topRightScrewImageView.image = [UIImage imageNamed:@"ScrewHole.png"];
 		[self addSubview:topRightScrewImageView];
-		bottomLeftScrewImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		bottomLeftScrewImageView = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		bottomLeftScrewImageView.image = [UIImage imageNamed:@"ScrewHole.png"];
 		[self addSubview:bottomLeftScrewImageView];
-		bottomRightScrewImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		bottomRightScrewImageView = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
 		bottomRightScrewImageView.image = [UIImage imageNamed:@"ScrewHole.png"];
 		[self addSubview:bottomRightScrewImageView];
         
@@ -50,7 +50,7 @@
     [super dealloc];
 }
 
-- (void) WRONGlayoutSubviews
+- (void) layoutSubviews
 {
 	[super layoutSubviews];
 

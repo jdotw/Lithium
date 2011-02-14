@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LTTableViewController.h"
 
 @class LTCustomer, LTDeviceEditTableViewController;
 
-@interface LTDeviceEditModuleListTableViewController : UITableViewController 
+@interface LTDeviceEditModuleListTableViewController : LTTableViewController 
 {
 	LTCustomer *customer;
 	LTDeviceEditTableViewController *editTVC;

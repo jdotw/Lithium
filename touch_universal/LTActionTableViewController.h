@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #import "LTAction.h"
+#import "LTTableViewController.h"
 
-@interface LTActionTableViewController : UITableViewController 
+@interface LTActionTableViewController : LTTableViewController 
 {
 	LTAction *action;
 	UIAlertView *executeAlertView;

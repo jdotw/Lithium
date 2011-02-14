@@ -10,7 +10,10 @@
 
 #import "LTMetricTableViewController.h"
 
-@interface LTIncidentTableViewController : LTMetricTableViewController {
+@class LTIncident;
+
+@interface LTIncidentTableViewController : LTMetricTableViewController 
+{
 
 }
 

@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #import "LTCoreDeployment.h"
+#import "LTTableViewController.h"
 
-@interface LTCoreEditTableViewController : UITableViewController 
+@interface LTCoreEditTableViewController : LTTableViewController 
 {
 	UITextField *addressTextField;
 	UITextField *descTextField;

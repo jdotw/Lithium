@@ -293,11 +293,6 @@
     refreshTimer = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
-{
-    return YES;
-}
-
 - (void)didReceiveMemoryWarning 
 {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview

@@ -56,7 +56,7 @@
 }
 
 - (void)dealloc 
-{
+{    
     /* Remove notifications */
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(incidentListRefreshFinished:)
@@ -72,6 +72,7 @@
     
     /* Release other ivars */
     [incidentList release];
+    [incident release];
     
     [super dealloc];
 }
@@ -312,15 +313,14 @@
 	{
 		if ([CellIdentifier isEqualToString:@"Graph"])
 		{
-			graphViewCell = [[LTMetricGraphTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+			graphViewCell = [[[LTMetricGraphTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			graphViewCell.graphView.metrics = [NSArray arrayWithObject:metric];
 			graphViewCell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell = graphViewCell;
 		}
 		else if ([CellIdentifier isEqualToString:@"Subtitle"])
 		{
-			cell = [[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-			[cell autorelease];
+			cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 		}
 		else
 		{ cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease]; }
@@ -502,9 +502,9 @@
 			if(!landscapeViewController)
 			{
 				landscapeViewController = [[LTMetricLandscapeViewController alloc] initWithMetric:self.metric];
+                [window addSubview:landscapeViewController.view];
 			}
 			
-			[window addSubview:landscapeViewController.view];
 			if (orientation == UIDeviceOrientationLandscapeLeft)
 			{
 				landscapeViewController.view.frame = CGRectMake(-80.0, 80.0, 480.0, 320.0);
