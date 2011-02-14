@@ -18,6 +18,8 @@
 	/* Reachability */
 	SCNetworkReachabilityRef reachabilityRef;
 	
+    /* Refresh success and alerts */
+    BOOL refreshFailAlertShown;
 }
 
 - (void) showUnreachableAlert;
@@ -27,5 +29,6 @@
 @property (nonatomic, assign) BOOL useSSL;
 @property (nonatomic, readonly) BOOL reachable;
 @property (nonatomic, assign) BOOL discovered;
+@property (nonatomic, assign) BOOL refreshFailAlertShown;
 
 @end

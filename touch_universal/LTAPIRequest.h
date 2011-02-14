@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define kLTAPIRequestFailed @"LTAPIRequestFailed"
+
 @class LTCustomer;
 
 @interface LTAPIRequest : NSOperation 

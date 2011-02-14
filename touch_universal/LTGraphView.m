@@ -44,11 +44,18 @@
 
 - (void) removeAllCachedGraphRequests
 {
-    for (LTMetricGraphRequest *req in [graphRequestCache allValues])
+    if (graphRequestCache)
     {
-        req.delegate = nil;
+        @synchronized(graphRequestCache)
+        {
+            NSLog(@"cache %@", graphRequestCache); 
+            for (LTMetricGraphRequest *req in [graphRequestCache allValues])
+            {
+                req.delegate = nil;
+            }
+            [graphRequestCache removeAllObjects];
+        }
     }
-    [graphRequestCache removeAllObjects];
 }
 
 - (void)dealloc 
@@ -91,96 +98,102 @@
 	
 	/* Check for cached request */
 	if (!graphRequestCache) graphRequestCache = [[NSMutableDictionary dictionary] retain];
-	LTMetricGraphRequest *graphReq = [graphRequestCache objectForKey:NSStringFromCGRect(clipRect)];
-	if (graphReq && !graphReq.refreshInProgress)
-	{
-		/* Draw image */
-		CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)[graphReq imageData]);
-		if (provider)
-		{
-			CGContextSaveGState (ctx);
-			
-			CGFloat yScale = 1.0;
-			CGFloat yOffset = 0.0;
-			if (minMaxSet)
-			{
-				yOffset = layer.frame.size.height * (graphReq.minValue / (maxValue - minValue));
-				
-				yScale = 1.0 / (maxValue / (graphReq.maxValue - graphReq.minValue));
-			}
-			
-			CGFloat graphImageMargin = 0.0;
-			
-			CGPDFDocumentRef documentRef = CGPDFDocumentCreateWithProvider(provider);
-			CFRelease(provider);
-			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
-			CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), graphImageMargin, 
-										  clipRect.size.width, contentSize.height - (2 * graphImageMargin));
+    @synchronized(graphRequestCache)
+    {
+        LTMetricGraphRequest *graphReq = [graphRequestCache objectForKey:NSStringFromCGRect(clipRect)];
+        if (graphReq && !graphReq.refreshInProgress)
+        {
+            /* Draw image */
+            CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)[graphReq imageData]);
+            if (provider)
+            {
+                CGContextSaveGState (ctx);
+                
+                CGFloat yScale = 1.0;
+                CGFloat yOffset = 0.0;
+                if (minMaxSet)
+                {
+                    yOffset = layer.frame.size.height * (graphReq.minValue / (maxValue - minValue));
+                    
+                    yScale = 1.0 / (maxValue / (graphReq.maxValue - graphReq.minValue));
+                }
+                
+                CGFloat graphImageMargin = 0.0;
+                
+                CGPDFDocumentRef documentRef = CGPDFDocumentCreateWithProvider(provider);
+                CFRelease(provider);
+                CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
+                CGRect imageRect = CGRectMake(CGRectGetMinX(clipRect), graphImageMargin, 
+                                              clipRect.size.width, contentSize.height - (2 * graphImageMargin));
 
 
-			CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));
-			CGContextScaleCTM(ctx, 1.0, -1.0 * yScale);
-			CGContextConcatCTM(ctx, CGPDFPageGetDrawingTransform(pageRef, kCGPDFCropBox, imageRect, 0, false));
-			
-			CGContextDrawPDFPage(ctx, pageRef);
-			
-			CGContextRestoreGState(ctx);
-		}
-	}
-	else if (!graphReq)
-	{
-		/* Configure graph request */
-		graphReq = [[[LTMetricGraphRequest alloc] init] autorelease];
-		graphReq.delegate = self;
-		[graphRequestCache setObject:graphReq forKey:NSStringFromCGRect(clipRect)];
-		graphReq.size = CGSizeMake(clipRect.size.width, self.superview.frame.size.height);
-		graphReq.endSec = (int) [graphStartDate timeIntervalSince1970] - (offset * secondsPerPixel);
-		graphReq.startSec = graphReq.endSec - (clipRect.size.width * secondsPerPixel);
-		graphReq.rectToInvalidate = clipRect;
-		[graphReq.metrics addObjectsFromArray:self.metrics];
-		if (!graphReq.customer && graphReq.metrics.count > 0)
-		{
-			graphReq.customer = [[graphReq.metrics objectAtIndex:0] customer];
-		}
-		
-		/* Perform refresh */
-		[graphReq refresh];
-	}
-	if (graphReq && graphReq.refreshInProgress)
-	{
-		if (clipRect.size.width > .0 && clipRect.size.height > .0)
-		{
-			/* Draw checker board pattern to incidate loading */
-			UIGraphicsBeginImageContext(clipRect.size);
-			
-			UIImage *checkers = [UIImage imageNamed:@"checkerboard.png"];
-			CGFloat xOffset = 0. - (((int)clipRect.origin.x) % 10);	// Ensures the 10px chequer board tiles properly
-			CGFloat yOffset = 0. - (((int)clipRect.origin.y) % 10);	// Ensures the 10px chequer board tiles properly;
-			
-			CGFloat imageWidth = checkers.size.width;
-			CGFloat imageHeight = checkers.size.height;
-			while (xOffset < clipRect.size.width)
-			{
-				while (yOffset < clipRect.size.height)
-				{
-					/* Draw */
-					[checkers drawAtPoint:CGPointMake(xOffset, yOffset) blendMode:kCGBlendModeNormal alpha:.05];
-					
-					/* Move offset down */
-					yOffset += imageHeight;
-				}
-				
-				/* Drawn as far down as we need, now move to the right and reset yOffset */
-				xOffset += imageWidth;
-				yOffset = 0.;
-			}
-			
-			UIImage *checkerSlice = UIGraphicsGetImageFromCurrentImageContext();
-			UIGraphicsEndImageContext();
-			
-			CGContextDrawImage(ctx, clipRect, checkerSlice.CGImage);
-		}
-	}
+                CGContextTranslateCTM(ctx, 0.0, (imageRect.size.height  - yOffset));
+                CGContextScaleCTM(ctx, 1.0, -1.0 * yScale);
+                CGContextConcatCTM(ctx, CGPDFPageGetDrawingTransform(pageRef, kCGPDFCropBox, imageRect, 0, false));
+                
+                CGContextDrawPDFPage(ctx, pageRef);
+                
+                CGContextRestoreGState(ctx);
+                
+//                CGPDFDocumentRelease(documentRef); CRASHES
+                CGPDFPageRelease(pageRef);
+            }
+        }
+        else if (!graphReq)
+        {
+            /* Configure graph request */
+            graphReq = [[[LTMetricGraphRequest alloc] init] autorelease];
+            graphReq.delegate = self;
+            [graphRequestCache setObject:graphReq forKey:NSStringFromCGRect(clipRect)];
+            graphReq.size = CGSizeMake(clipRect.size.width, self.superview.frame.size.height);
+            graphReq.endSec = (int) [graphStartDate timeIntervalSince1970] - (offset * secondsPerPixel);
+            graphReq.startSec = graphReq.endSec - (clipRect.size.width * secondsPerPixel);
+            graphReq.rectToInvalidate = clipRect;
+            [graphReq.metrics addObjectsFromArray:self.metrics];
+            if (!graphReq.customer && graphReq.metrics.count > 0)
+            {
+                graphReq.customer = [[graphReq.metrics objectAtIndex:0] customer];
+            }
+            
+            /* Perform refresh */
+            [graphReq refresh];
+        }
+        if (graphReq && graphReq.refreshInProgress)
+        {
+            if (clipRect.size.width > .0 && clipRect.size.height > .0)
+            {
+                /* Draw checker board pattern to incidate loading */
+                UIGraphicsBeginImageContext(clipRect.size);
+                
+                UIImage *checkers = [UIImage imageNamed:@"checkerboard.png"];
+                CGFloat xOffset = 0. - (((int)clipRect.origin.x) % 10);	// Ensures the 10px chequer board tiles properly
+                CGFloat yOffset = 0. - (((int)clipRect.origin.y) % 10);	// Ensures the 10px chequer board tiles properly;
+                
+                CGFloat imageWidth = checkers.size.width;
+                CGFloat imageHeight = checkers.size.height;
+                while (xOffset < clipRect.size.width)
+                {
+                    while (yOffset < clipRect.size.height)
+                    {
+                        /* Draw */
+                        [checkers drawAtPoint:CGPointMake(xOffset, yOffset) blendMode:kCGBlendModeNormal alpha:.05];
+                        
+                        /* Move offset down */
+                        yOffset += imageHeight;
+                    }
+                    
+                    /* Drawn as far down as we need, now move to the right and reset yOffset */
+                    xOffset += imageWidth;
+                    yOffset = 0.;
+                }
+                
+                UIImage *checkerSlice = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                CGContextDrawImage(ctx, clipRect, checkerSlice.CGImage);
+            }
+        }
+    }
 	
 	/* Common date/time variables */
 	NSDate *sliceEndDate = [NSDate dateWithTimeIntervalSince1970:([graphStartDate timeIntervalSince1970] - (offset * secondsPerPixel))];
@@ -370,6 +383,8 @@
 {
     [self removeAllCachedGraphRequests];
 	[self.layer setNeedsDisplayInRect:self.layer.bounds];
+    
+    [graphStartDate release];
 	graphStartDate = [[NSDate date] retain];	
 }
 

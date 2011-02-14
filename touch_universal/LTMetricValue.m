@@ -11,14 +11,24 @@
 
 @implementation LTMetricValue
 
+- (void) dealloc
+{
+    [timestamp release];
+    [stringValue release];
+    [super dealloc];
+}
+
 @synthesize floatValue;
 @synthesize stringValue;
 - (void) setStringValue:(NSString *)value
 {
 	[stringValue release];
-	stringValue = [value copy];
-	stringValue = [[stringValue stringByReplacingOccurrencesOfString:@"bit" withString:@"b"] copy];
-	stringValue = [[stringValue stringByReplacingOccurrencesOfString:@"byte" withString:@"B"] copy];
+    
+    NSString *copy = [[value copy] autorelease];
+	copy = [copy stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
+	copy = [copy stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
+    
+    stringValue = [copy retain];
 }
 @synthesize timestamp;
 @synthesize minValue;

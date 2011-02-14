@@ -305,15 +305,22 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-	/* FIX */
-    NSLog(@"ERROR: Connection failed! Error - %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
-	
+	/* Set flags */
+	self.lastRefresh = [NSDate date];
 	self.xmlStatus = @"Failed to download data.";
+    self.lastRefreshFailed = YES;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
 
+	/* Post Notification */
+	self.refreshInProgress = NO;
+	self.hasBeenRefreshed = YES;
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];	
+
+    /* Call super to clean up and post any failure alerts */
 	[super connection:connection didFailWithError:error];
+
+    /* Local clean up */
+    [connection release];   // Our connection is alloc/init'ed locally 
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -322,6 +329,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	/* Set flags */
 	self.lastRefresh = [NSDate date];
 	self.xmlStatus = @"Download Completed.";
+    self.lastRefreshFailed = NO;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
 
 	/* DEBUG */
@@ -337,14 +345,16 @@ static NSMutableDictionary *_xmlTranslation = nil;
     /* Parse XML using TBXML */
     TBXML *tbxml = [[TBXML alloc] initWithXMLData:receivedData];
     if (tbxml.rootXMLElement) [self updateEntityUsingXML:tbxml];
+    else
+    {
+        /* Bad XML Received */
+        self.lastRefreshFailed = YES;
+        NSLog (@"BAD XML: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+    }
     [tbxml release];
     
     /* DEBUG */
     NSLog (@"Parsing %i:%@ %u bytes took %f seconds", self.type, self.desc, [receivedData length], [[NSDate date] timeIntervalSinceDate:start]);
-	
-	/* Cleanup */
-    [receivedData release];
-	[connection release];
 	
 	/* Update Status */
 	self.xmlStatus = @"Done.";
@@ -353,8 +363,13 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	/* Post Notification */
 	self.refreshInProgress = NO;
 	self.hasBeenRefreshed = YES;
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];
-	
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"RefreshFinished" object:self];	
+
+    /* Call super (it will cleanup receivedData) */
+    [super connectionDidFinishLoading:connection];
+    
+    /* Local clean up */
+    [connection release];   // Our connection is alloc/init'ed locally 
 }
 
 - (void) updateEntityUsingXML:(TBXML *)xml
@@ -391,7 +406,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
                     /* A currentValue was set and has now changed, always notify */
                     currentValueChanged = YES; 
                 }
-                self.currentValue = curValue.stringValue;
+                self.currentValue = [[curValue.stringValue copy] autorelease];  // Done the long way round to catch a mem leak
                 currentValueSet = YES;
             }
             if (currentValueChanged)
@@ -962,5 +977,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
     }
     return tintColor;
 }
+
+@synthesize lastRefreshFailed;
 
 @end

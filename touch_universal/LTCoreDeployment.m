@@ -21,6 +21,8 @@
 
 @implementation LTCoreDeployment
 
+
+
 #pragma mark "Constructors"
 
 - (LTCoreDeployment *) init
@@ -255,6 +257,6 @@ static void reachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 #pragma mark "Properties"
 
 @synthesize enabled, useSSL, discovered;
-
+@synthesize refreshFailAlertShown;
 
 @end

@@ -10,6 +10,7 @@
 
 #import "AppDelegate.h"
 #import "LTAuthenticationTableViewController.h"
+#import "LTCoreDeployment.h"
 
 @implementation LTAPIRequest
 
@@ -106,10 +107,8 @@
 }		
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    [connection release];
-    [receivedData release];
-	
+{	
+    /* Set State */
 	refreshInProgress = NO;
 	finished = YES;
 	
@@ -117,6 +116,41 @@
     NSLog(@"ERROR: Connection failed! Error - %@ %@",
           [error localizedDescription],
           [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);	
+    
+    NSLog (@"FAIL for %@ (%@)", self.customer.name, self.customer.coreDeployment);
+
+    /* Record error */
+    LTCoreDeployment *coreDeployment = nil;
+    if (self.customer) coreDeployment = self.customer.coreDeployment;
+    else if ([self isMemberOfClass:[LTCoreDeployment class]]) coreDeployment = (LTCoreDeployment *)self;
+    if (coreDeployment && !coreDeployment.lastRefreshFailed)
+    {
+        /* First (recent) failure, post a reachability change notification */
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LTCoreDeploymentReachabilityChanged" 
+                                                            object:coreDeployment];
+    }
+    coreDeployment.lastRefreshFailed = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLTAPIRequestFailed object:self];
+    
+    /* Clean up */
+//    [connection release]; // DO NOT RELEASE -- In the NSOperation mode it's held onto by main
+    [receivedData release];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    /* Set State */
+	refreshInProgress = NO;
+	finished = YES;
+
+    /* Cleanup */
+    [receivedData release];
+//	[connection release]; // DO NOT RELEASE -- In the NSOperation mode it's held onto by main
+    
+    /* Reset failure stats */
+    NSLog (@"SUCCESS for %@ (%@)", self.customer.name, self.customer.coreDeployment);
+    self.customer.coreDeployment.lastRefreshFailed = NO;
+    self.customer.coreDeployment.refreshFailAlertShown = NO;
 }
 
 @synthesize customer;

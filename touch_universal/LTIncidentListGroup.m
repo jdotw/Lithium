@@ -20,6 +20,13 @@
 	return self;
 }
 
+- (void) dealloc
+{
+    [children release];
+    [title release];
+    [super dealloc];
+}
+
 @synthesize children;
 @synthesize title;
 

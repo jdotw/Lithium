@@ -71,7 +71,9 @@
 	UIBarButtonItem *availToolbarItem;
 	UIBarButtonItem *sysinfoToolbarItem;
 	UIBarButtonItem *incidentsToolbarItem;
-	UIBarButtonItem *settingsToolbarItem;	
+	UIBarButtonItem *settingsToolbarItem;
+	UIBarButtonItem *warningToolbarItem;
+    BOOL topRightToolbarIsShowingWarning;
 	
 	/* Refresh Timer */
 	NSTimer *refreshTimer;

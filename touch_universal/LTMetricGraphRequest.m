@@ -124,7 +124,7 @@
 		/* Clean-up */
 		[parser release];
 		[curXmlString release];
-//		[connection release];
+//		[connection release]; // DO NOT RELEASE -- In the NSOperation mode it's held onto by main
 		[receivedData release];
 		
 		/* Retrieve the PDF */
@@ -158,11 +158,15 @@
 		/* Set Status */
 		refreshInProgress = NO;
 		finished = YES;
+        
+        /* Clean up */
+        [connection release];     // It's OK to release this one, it's what was created and retained in stage 1
 	}
 }
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict 
 {
+    if (curXmlString) [curXmlString release];
 	curXmlString = [[NSMutableString alloc] init];
 }
 

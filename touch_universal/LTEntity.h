@@ -86,6 +86,7 @@
 	NSDate *lastRefresh;
 	NSString *xmlStatus;
     BOOL isNew;             // Only true when entity is new and not yet added to parent 
+    BOOL lastRefreshFailed;     // Set by local didFail method
 	
 	int indentLevel;
 }
@@ -162,6 +163,7 @@
 @property (nonatomic,copy) NSDate *lastRefresh;
 @property (nonatomic,readonly) NSMutableDictionary *xmlTranslation;
 @property (nonatomic,copy) NSString *xmlStatus;
+@property (nonatomic,assign) BOOL lastRefreshFailed;
 
 @property (nonatomic,assign) int indentLevel;
 

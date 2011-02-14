@@ -26,7 +26,9 @@
 	IBOutlet UISearchDisplayController *searchDisplayController;
 	NSMutableArray *searchFilteredItems;
 	
-    
+    UIBarButtonItem *warningButton;
+    UIBarButtonItem *nonWarningBarButtonItem;
+    BOOL rightBarButtonItemIsShowingWarning;
 }
 
 - (id)initWithEntity:(LTEntity *)initEntity;

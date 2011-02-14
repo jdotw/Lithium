@@ -18,6 +18,7 @@
 #import "LTIncidentListTableViewController.h"
 #import "LTDeviceEditTableViewController.h"
 #import "AppDelegate.h"
+#import "LTCoreDeployment.h"
 
 @interface LTDeviceViewController (Private)
 
@@ -30,6 +31,8 @@
 - (void) resizeAndInvalidateGraphViewContent;
 - (void) availabilityTapped:(id)sender;
 - (void) incidentsTapped:(id)sender;
+- (NSArray *) _warningToolbarItems;
+- (NSArray *) _normalToolbarItems;
 
 @end
 
@@ -92,6 +95,21 @@
 			if (lastSelectionEntity) [self selectEntity:lastSelectionEntity];
 		}
 	}
+    
+    if (self.device.lastRefreshFailed && !topRightToolbarIsShowingWarning)
+    {
+        /* Last refresh failed, show warning */
+        [self.activePopoverController dismissPopoverAnimated:YES];
+        [self popoverControllerDidDismissPopover:self.activePopoverController];		// Manually dismissing doesn't call this delegate function
+        [topRightToolbar setItems:[self _warningToolbarItems] animated:YES];
+        topRightToolbarIsShowingWarning = YES;
+    }
+    else if (!self.device.lastRefreshFailed && topRightToolbarIsShowingWarning)
+    {
+        /* Last refresh OK, hide warning */
+        [topRightToolbar setItems:[self _normalToolbarItems] animated:YES];
+        topRightToolbarIsShowingWarning = NO;
+    }
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)note
@@ -684,7 +702,6 @@
 	/* Create top-right toolbar */
 	topRightToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 200.0, 44.01)];
 	topRightToolbar.tintColor = self.navigationController.navigationBar.tintColor;
-	NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
 
 	/* Availability */
 	availToolbarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"handshake_small.png"]
@@ -693,9 +710,6 @@
 													   action:@selector(availabilityTapped:)];
 	availToolbarItem.style = UIBarButtonItemStylePlain;
 	availToolbarItem.enabled = NO;
-	[buttons addObject:availToolbarItem];
-	[availToolbarItem release];
-	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];	
 	
 	/* Info (System Info) Button */
 	sysinfoToolbarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info_small.png"]
@@ -704,9 +718,6 @@
 														 action:@selector(systemInfoTapped:)];
 	sysinfoToolbarItem.style = UIBarButtonItemStylePlain;
 	sysinfoToolbarItem.enabled = NO;
-	[buttons addObject:sysinfoToolbarItem];
-	[sysinfoToolbarItem release];
-	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];
 
 	/* Incident List */
 	incidentsToolbarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"flag_small.png"]
@@ -715,9 +726,6 @@
 														   action:@selector(incidentsTapped:)];
 	incidentsToolbarItem.style = UIBarButtonItemStylePlain;
 	incidentsToolbarItem.enabled = NO;
-	[buttons addObject:incidentsToolbarItem];
-	[incidentsToolbarItem release];
-	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];
 
 	/* Device Settings */
 	settingsToolbarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings_small.png"]
@@ -726,13 +734,18 @@
 														  action:@selector(deviceSettingsTapped:)];
 	settingsToolbarItem.style = UIBarButtonItemStylePlain;
 	settingsToolbarItem.enabled = NO;
-	[buttons addObject:settingsToolbarItem];
-	[settingsToolbarItem release];
 	
 	/* Place buttons in toolbar and add to nav bar */
-	[topRightToolbar setItems:buttons animated:NO];
-	[buttons release];
+	[topRightToolbar setItems:[self _normalToolbarItems] animated:NO];
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:topRightToolbar];
+    
+    /* Create Warning toolbar item that is used when the device
+     * fails to refresh 
+     */
+    warningToolbarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"warning_small.png"]
+                                                          style:UIBarButtonItemStylePlain
+                                                         target:self
+                                                         action:@selector(warningTouched:)];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -786,10 +799,16 @@
 - (void)dealloc 
 {
     [topRightToolbar release];
+    [warningToolbarItem release];
 	[containerIconViewControllers release];	
 	[containerIconViewControllerDict release];
 	[refreshTimer invalidate];
 	[graphRefreshTimer invalidate];
+    [warningToolbarItem release];
+    [availToolbarItem release];
+    [sysinfoToolbarItem release];
+    [incidentsToolbarItem release];
+    [settingsToolbarItem release];
     [super dealloc];
 }
 
@@ -883,7 +902,32 @@
 }
 
 #pragma mark -
-#pragma mark Toolbar Item Actions
+#pragma mark Toolbar Methods and Actions
+
+- (NSArray *) _normalToolbarItems
+{
+    NSMutableArray *buttons = [NSMutableArray array];
+	[buttons addObject:availToolbarItem];
+    availToolbarItem.enabled = YES;
+	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];	    
+	[buttons addObject:sysinfoToolbarItem];
+    sysinfoToolbarItem.enabled = YES;
+	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];	    
+	[buttons addObject:incidentsToolbarItem];
+    incidentsToolbarItem.enabled = YES;
+	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];	    
+	[buttons addObject:settingsToolbarItem];
+    settingsToolbarItem.enabled = YES;
+    return buttons;
+}
+
+- (NSArray *) _warningToolbarItems
+{
+    NSMutableArray *buttons = [NSMutableArray array];
+	[buttons addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease]];	    
+	[buttons addObject:warningToolbarItem];
+    return buttons;
+}
 
 - (void) availabilityTapped:(id)sender
 {
@@ -971,6 +1015,21 @@
 		[vc release];
 		[nc release];
 	}
+}
+
+- (void) warningTouched:(id)sender
+{
+    /* User touched the 'warning' button that shows
+     * when a refresh has failed 
+     */
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Refresh Failed"
+                                                    message:[NSString stringWithFormat:@"Unable to download monitoring data from %@.", self.device.coreDeployment.desc]
+                                                   delegate:nil
+                                          cancelButtonTitle:@"Dismiss"
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
 }
 
 @end

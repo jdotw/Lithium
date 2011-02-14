@@ -23,11 +23,11 @@
 	float maxValue;
 }
 
-@property (assign) float floatValue;
-@property (copy) NSString *stringValue;
-@property (copy) NSDate *timestamp;
-@property (assign) float minValue;
-@property (assign) float avgValue;
-@property (assign) float maxValue;
+@property (nonatomic,assign) float floatValue;
+@property (nonatomic,copy) NSString *stringValue;
+@property (nonatomic,copy) NSDate *timestamp;
+@property (nonatomic,assign) float minValue;
+@property (nonatomic,assign) float avgValue;
+@property (nonatomic,assign) float maxValue;
 
 @end

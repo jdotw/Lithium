@@ -34,6 +34,8 @@
 			CFRelease(provider);
 			CGPDFPageRef pageRef = CGPDFDocumentGetPage(documentRef, 1);
 			CGRect imageRect = self.bounds;
+            
+            /* Prepare context */
 			CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 0.0);
 			CGContextFillRect(ctx, CGContextGetClipBoundingBox(ctx));
 			CGContextTranslateCTM(ctx, 0.0, imageRect.size.height);
@@ -41,10 +43,16 @@
 			CGContextConcatCTM(ctx, CGPDFPageGetDrawingTransform(pageRef, kCGPDFCropBox, imageRect, 0, false));
 			CGContextSetBlendMode(ctx, kCGBlendModeNormal);
 			
+            /* Draw PDF and create image from it */
 			CGContextDrawPDFPage(ctx, pageRef);
 			UIImage *graphImage = UIGraphicsGetImageFromCurrentImageContext();
 			UIGraphicsEndImageContext();
 			[graphImage drawInRect:self.bounds blendMode:kCGBlendModeLuminosity alpha:0.9];
+            
+            /* Clean up */
+            CGPDFPageRelease(pageRef);
+//            CGPDFDocumentRelease(documentRef);    // Crashes
+            
 		}
 	}
 	else if (self.entity)

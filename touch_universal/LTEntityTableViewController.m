@@ -81,6 +81,7 @@
     /* Release other ivars */
 	[refreshTimer invalidate];
 	[children release];
+    [warningButton release];
 	
     [super dealloc];
 }
@@ -143,7 +144,7 @@
                                                  selector:@selector(entityStateChanged:)
                                                      name:kLTEntityStateChanged
                                                    object:entity];
-        
+                
 	}
 }	
 
@@ -201,7 +202,7 @@
     else
     {
         /* iPhone Table Setup */
-        if ((entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation]) || entity.type == ENT_SITE)
+        if (!entity || (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation]) || entity.type == ENT_SITE)
         {
             /* This is either an aggregated site+device list 
              * or a list of devices at a site, draw as a rack
@@ -211,6 +212,15 @@
     }
     
     self.pullToRefresh = YES;
+    
+    /* Create warning button that is used to show
+     * refresh problems in the nav bar
+     */
+    warningButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"warning_small_white.png"]
+                                                      style:UIBarButtonItemStylePlain
+                                                     target:self
+                                                     action:@selector(warningButtonTouched:)];
+
 }
 
 - (void) viewDidUnload
@@ -660,6 +670,10 @@
 			{ 
 				cell.detailTextLabel.text = @"Deployment is disabled";
 			}
+			else if (deployment.lastRefreshFailed)
+			{
+				cell.detailTextLabel.text = @"Unable to connect to deployment";
+			}
 			else if (deployment.discovered)
 			{
 				cell.detailTextLabel.text = @"Discovered deployment";
@@ -985,7 +999,31 @@
         /* Cancel pull to refresh view */
         self.reloading = NO;
         [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-    }        
+    }
+    
+    if (entity.lastRefreshFailed && !rightBarButtonItemIsShowingWarning && self.navigationItem.rightBarButtonItem != warningButton)
+    {
+        /* Last refresh failed!
+         *
+         * Save the current rightBarButtonItem to nonWarningBarButtonItem
+         * And then insert a "Warning" button in the top-right to indicate
+         * the problem
+         */
+        
+        nonWarningBarButtonItem = [self.navigationItem.rightBarButtonItem retain];
+        
+        self.navigationItem.rightBarButtonItem = warningButton;
+        
+        rightBarButtonItemIsShowingWarning = YES;
+    }
+    else if (!entity.lastRefreshFailed && rightBarButtonItemIsShowingWarning)
+    {
+        /* Restore normal rightBarButtonItem */
+        self.navigationItem.rightBarButtonItem = nonWarningBarButtonItem;
+        [nonWarningBarButtonItem release];
+        nonWarningBarButtonItem = nil;
+        rightBarButtonItemIsShowingWarning = NO;
+    }
 }
 
 - (void) entityRefreshStatusUpdated:(NSNotification *)notification
@@ -1037,6 +1075,21 @@
 	[self.navigationController presentModalViewController:navController animated:YES];
 	[vc release];
 	[navController release];	
+}
+
+- (void) warningButtonTouched:(id)sender
+{
+    /* User touched the 'warning' button that shows
+     * when a refresh has failed 
+     */
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Refresh Failed"
+                                                    message:[NSString stringWithFormat:@"Unable to download monitoring data from %@.", entity.coreDeployment.desc]
+                                                   delegate:nil
+                                          cancelButtonTitle:@"Dismiss"
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
 }
 
 #pragma mark -
