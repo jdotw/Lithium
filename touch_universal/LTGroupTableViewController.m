@@ -22,6 +22,11 @@
 #import "LTTableViewSectionHeaderView.h"
 #import "AppDelegate_Pad.h"
 #import "LTRackTableViewHeaderView.h"
+#import "LTHardwareEntityTableViewCell.h"
+#import "LTDeviceEntityTableViewCell.h"
+#import "LTContainerEntityTableViewCell.h"
+#import "LTObjectEntityTableViewCell.h"
+#import "LTMetricEntityTableViewCell.h"
 
 @interface LTGroupTableViewController (private)
 - (void) coreDeploymentArrayUpdated:(NSNotification *)notification;
@@ -105,6 +110,8 @@
 	[self refresh];
 	[self sortAndFilterChildren];
 	[[self tableView] reloadData];
+    
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:0.29 alpha:1.0];
 }
 
 - (void)viewDidAppear:(BOOL)animated 
@@ -333,26 +340,67 @@
 	}
 	
     NSString *CellIdentifier;
-	if (displayEntity.type == 6)
-	{ CellIdentifier = @"Metric"; }
-	else if (displayEntity)
-	{
+    /* Set CellIdentifier based on entity type */
+    if (displayEntity.type >= 3)
+    {
+        switch (displayEntity.type) {
+            case 3:
+                CellIdentifier = @"Device";
+                break;
+            case 4:
+                CellIdentifier = @"Container";
+                break;
+            case 5:
+                CellIdentifier = @"Object";
+                break;
+            case 6:
+                CellIdentifier = @"Metric";
+                break;
+            default:
+                CellIdentifier = @"Hardware";
+                break;
+        }
+    }
+    else if (displayEntity)
+    {
         BOOL entityIsAGroup = [displayEntity isMemberOfClass:[LTGroup class]];
-		if (entityIsAGroup && (group || [self _showEntitiesInRootList])) CellIdentifier = @"GroupHeader";
-		else CellIdentifier = @"EntityOrGroup"; 
-	}
-	else 
-	{ CellIdentifier = @"Refresh"; }
+        if (entityIsAGroup && (group || [self _showEntitiesInRootList])) CellIdentifier = @"GroupHeader";
+        else CellIdentifier = @"EntityOrGroup"; 
+    }
+    else 
+    { CellIdentifier = @"Refresh"; }
+    
+    /* Create or re-use a cell */
     LTEntityTableViewCell *cell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
-		if ([CellIdentifier isEqualToString:@"Refresh"])
+		if ([CellIdentifier isEqualToString:@"Device"])
+		{
+			cell = [[[LTDeviceEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		else if ([CellIdentifier isEqualToString:@"Container"])
+		{
+			cell = [[[LTContainerEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		else if ([CellIdentifier isEqualToString:@"Object"])
+		{
+			cell = [[[LTObjectEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		else if ([CellIdentifier isEqualToString:@"Metric"])
+		{
+			cell = [[[LTMetricEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		else if ([CellIdentifier isEqualToString:@"Hardware"])
+		{
+			cell = [[[LTHardwareEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+		}
+		else if ([CellIdentifier isEqualToString:@"Refresh"])
 		{
 			cell = [[[LTEntityRefreshProgressViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
-		else 
-		{
+        else
+        {
 			cell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
             cell.indentationWidth = 10.;
             cell.drawAsRack = YES;
@@ -360,12 +408,11 @@
             if ([CellIdentifier isEqualToString:@"GroupHeader"] && (group || [self _showEntitiesInRootList]))
             {
                 cell.backgroundView = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero];
-            }
-		}		
-        
+            }            
+        }
     }
     
-    // Set up the cell...
+    /* Setup the cell */
 	if (displayEntity)
 	{
 		cell.textLabel.text = displayEntity.desc;
@@ -374,12 +421,8 @@
 		if ([displayEntity.customer.coreDeployment reachable] && [displayEntity.customer.coreDeployment enabled]) cell.imageView.alpha = 1.0;
 		else cell.imageView.alpha = 0.5;
 		cell.indentationLevel = displayEntity.indentLevel;			
+        NSLog (@"Using indent level %i for %i:%@", displayEntity.indentLevel, displayEntity.type, displayEntity.desc);
 		
-		if (displayEntity.type > 3) cell.showFullLocation = YES;
-		else cell.showFullLocation = NO;
-		if (displayEntity.type == 6) cell.showCurrentValue = YES;
-		else cell.showCurrentValue = NO;
-        
         /* Setup Cell for Group Headers */
         if ([CellIdentifier isEqualToString:@"GroupHeader"])
         {
@@ -390,14 +433,21 @@
         }
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) 
-        { cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
-        if ([displayEntity isMemberOfClass:[LTGroup class]])
-        {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        { 
+            /* iPhone style -- Accessory on all cells */
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; 
         }
         else
         {
-            cell.accessoryType = UITableViewCellAccessoryNone; 
+            /* iPad Style -- Accessory on groups only */
+            if ([displayEntity isMemberOfClass:[LTGroup class]])
+            {
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            else
+            {
+                cell.accessoryType = UITableViewCellAccessoryNone; 
+            }
         }
 	}
 	else
@@ -554,7 +604,7 @@
             [children addObject:item];
         }
 
-		[self recursivelyBuildChildrenUsingGroup:item];
+		if (itemIsAGroup) [self recursivelyBuildChildrenUsingGroup:item];
 	}		
 }
 

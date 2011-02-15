@@ -86,65 +86,35 @@
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	for (LTEntity *entity in rowMetrics)
 	{
-		NSString *minColour;
-		NSString *avgColour;
-		NSString *maxColour;
 		UIColor *swatchColor = [UIColor whiteColor];
 		
 		switch ([graphView.metrics indexOfObject:entity])
 		{
 			case 0:		/* Blue */
-				minColour = @"0e1869";
-				avgColour = @"031bc5";
 				swatchColor = [UIColor colorWithRed:(CGFloat)0x03/0xff green:(CGFloat)0x1b/0xff blue:(CGFloat)0xc5/0xff alpha:1.0];
-				maxColour = @"0000ff";
 				break;
 			case 1:		/* Green */
-				minColour = @"006b00";
-				avgColour = @"009c00";
 				swatchColor = [UIColor colorWithRed:(CGFloat)0x00/0xff green:(CGFloat)0x9c/0xff blue:(CGFloat)0x00/0xff alpha:1.0];
-				maxColour = @"00ed00";
 				break;
 			case 2:		/* Red */
-				minColour = @"6b0000";
-				avgColour = @"9c0000";
 				swatchColor = [UIColor colorWithRed:(CGFloat)0x9c/0xff green:(CGFloat)0x00/0xff blue:(CGFloat)0x00/0xff alpha:1.0];
-				maxColour = @"ed0000";
 				break;
 			case 3:		/* Purple */
-				minColour = @"620585";
-				avgColour = @"8e0abf";
 				swatchColor = [UIColor colorWithRed:(CGFloat)0x8e/0xff green:(CGFloat)0x0a/0xff blue:(CGFloat)0xbf/0xff alpha:1.0];
-				maxColour = @"ba00ff";
 				break;
 			case 4:		/* Yellow */
-				minColour = @"6f7304";
-				avgColour = @"a7ad04";
 				swatchColor = [UIColor colorWithRed:(CGFloat)0xa7/0xff green:(CGFloat)0xad/0xff blue:(CGFloat)0x04/0xff alpha:1.0];
-				maxColour = @"f6ff00";
 				break;
 			case 5:		/* Cyan */
-				minColour = @"038a8a";
-				avgColour = @"01bcbc";
 				swatchColor = [UIColor colorWithRed:(CGFloat)0x01/0xff green:(CGFloat)0xbc/0xff blue:(CGFloat)0xbc/0xff alpha:1.0];
-				maxColour = @"00ffff";
 				break;
 			case 6:		/* Orange */
-				minColour = @"8a5f03";
-				avgColour = @"c38501";
 				swatchColor = [UIColor colorWithRed:(CGFloat)0xc3/0xff green:(CGFloat)0x85/0xff blue:(CGFloat)0x01/0xff alpha:1.0];
-				maxColour = @"ffae00";
 				break;
 			case 7:		/* Pink */
-				minColour = @"790352";
-				avgColour = @"a51c78";
 				swatchColor = [UIColor colorWithRed:(CGFloat)0xa5/0xff green:(CGFloat)0x1c/0xff blue:(CGFloat)0x78/0xff alpha:1.0];
-				maxColour = @"f80baa";
 				break;		
 			case NSNotFound:
-				minColour = nil;
-				avgColour = nil;
-				maxColour = nil;
 				swatchColor = [UIColor clearColor];
 				break;
 		}				

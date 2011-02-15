@@ -203,22 +203,7 @@
 
 - (void) entityStateChanged:(NSNotification *)note
 {
-    /* Entity state changed, force a redraw */
-    [self setNeedsDisplay];
-}
-
-- (void) entityValueChanged:(NSNotification *)note
-{
-    /* Entity value changes, update strings */
-	descLabel.text = entity ? [NSString stringWithFormat:@"%@ %@", entity.parent.desc, entity.desc] : @" ";
-	valueLabel.text = entity.currentValue ? : @" ";
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
-	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
+    /* Entity state changed, update LED */
     switch (entity.opState)
     {
         case 3:
@@ -237,9 +222,30 @@
             ledView.image = [UIImage imageNamed:@"LED-Red.png"];
             break;
     }
-    ledView.hidden = !entity.hasTriggers;
-	
+    
+    NSLog (@"%i:%@ entity.hasTriggers is %i", self.entity.type, self.entity.desc, self.entity.hasTriggers);
+}
+
+- (void) entityValueChanged:(NSNotification *)note
+{
+    /* Entity value changes, update strings */
+	descLabel.text = entity ? [NSString stringWithFormat:@"%@ %@", entity.parent.desc, entity.desc] : @" ";
+	valueLabel.text = entity.currentValue ? : @" ";
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bits" withString:@"b"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bytes" withString:@"B"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"bit" withString:@"b"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"byte" withString:@"B"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"writes" withString:@"wr"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"reads" withString:@"rd"];
+	valueLabel.text = [valueLabel.text stringByReplacingOccurrencesOfString:@"sec" withString:@"s"];
+    
 	[self setNeedsDisplay];
+}
+
+- (void) entityRefreshFinished:(NSNotification *)note
+{
+    /* Hide/Show LED based on trigger presence */
+    ledView.hidden = !entity.hasTriggers;
 }
 
 - (void) setSwatchColor:(UIColor *)value
@@ -261,6 +267,9 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:kLTEntityValueChanged
                                                       object:entity];
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:@"RefreshFinished"
+                                                      object:entity];
 	}
 	
 	[entity release];
@@ -269,6 +278,7 @@
     /* Update View for new Entity */
     [self entityStateChanged:nil];
     [self entityValueChanged:nil];
+    [self entityRefreshFinished:nil];
 	
 	if (entity)
 	{
@@ -279,6 +289,10 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(entityValueChanged:)
 													 name:kLTEntityValueChanged
+												   object:entity];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(entityRefreshFinished:)
+													 name:@"RefreshFinished"
 												   object:entity];
 	}
 	

@@ -24,6 +24,7 @@
 #import "LTMetricLandscapeViewController.h"
 #import "LTTableViewController.h"
 #import "LTTableViewCell.h"
+#import "LTSubDeviceTableViewCellBackgroundView.h"
 
 #define kAnimationKey @"transitionViewAnimation"
 
@@ -345,6 +346,19 @@
 			cell.textLabel.text = string;
 			cell.detailTextLabel.text = [NSString stringWithFormat:@"Over the last %@", [self intervalString:elapsedTime]];
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            /* Sub-device cell setup */
+            cell.backgroundView = [[LTSubDeviceTableViewCellBackgroundView alloc] initWithFrame:CGRectZero];
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
+            cell.textLabel.shadowColor = [UIColor blackColor];
+            cell.textLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+            cell.textLabel.minimumFontSize = 12.0;
+            cell.textLabel.adjustsFontSizeToFitWidth = YES;
+            cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
+            cell.detailTextLabel.shadowColor = [UIColor blackColor];
+            cell.detailTextLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+            cell.detailTextLabel.minimumFontSize = 12.0;
+            cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
 		}
 	}
 	else if ([self sectionTypeForSection:indexPath.section] == SECTION_ACTIONS)
@@ -381,25 +395,26 @@
 			cell.detailTextLabel.text = [NSString stringWithFormat:@"Metric reached or exceeded %@", pastIncident.raisedValue];
 		}
 		cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.imageView.contentMode = UIViewContentModeCenter;
 		switch (pastIncident.entityDescriptor.opState)
 		{
 			case -2:
 				cell.imageView.image = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"BlueDot" ofType:@"tiff"]];
 				break;				
 			case 0:
-				cell.imageView.image = [UIImage imageNamed:@"GreenDot.tiff"];
+				cell.imageView.image = [UIImage imageNamed:@"IncidentFlag-Green.png"];
 				break;
 			case 1:
-				cell.imageView.image = [UIImage imageNamed:@"YellowDot.tiff"];
+				cell.imageView.image = [UIImage imageNamed:@"IncidentFlag-Yellow.png"];
 				break;
 			case 2:
-				cell.imageView.image = [UIImage imageNamed:@"YellowDot.tiff"];
+				cell.imageView.image = [UIImage imageNamed:@"IncidentFlag-Orange.png"];
 				break;
 			case 3:
-				cell.imageView.image = [UIImage imageNamed:@"RedDot.tiff"];
+				cell.imageView.image = [UIImage imageNamed:@"IncidentFlag-Red.png"];
 				break;
 			default:
-				cell.imageView.image = [UIImage imageNamed:@"GreyDot.tiff"];
+				cell.imageView.image = [UIImage imageNamed:@"IncidentFlag-Gray.png"];
 		}
 	}
 

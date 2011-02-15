@@ -100,7 +100,7 @@
 			if (!childGroup)
 			{
 				/* Create new group */
-				childGroup = [LTGroup new];
+				childGroup = [[LTGroup new] autorelease];
                 childGroup.groupID = [TBXML intFromTextForElementNamed:@"id" parentElement:node];
 				childGroup.parent = self;
 				childGroup.customer = self.customer;
@@ -127,7 +127,7 @@
                      * Do NOT set the entities parent, this way it is
                      * correctly identified as an orphan entity
                      */
-					entity = [LTEntity new];
+					entity = [[LTEntity new] autorelease];
 					entity.type = childEntDesc.type;
 					entity.name = childEntDesc.name;
 					entity.username = [customer username];
@@ -139,6 +139,7 @@
 					entity.coreDeployment = customer.coreDeployment;
 					entity.entityDescriptor = childEntDesc;
 					entity.entityAddress = childEntDesc.entityAddress;
+                    entity.groupParent = self;
 					[children addObject:entity];
 					[childDict setObject:entity forKey:[entity.entityDescriptor entityAddress]];
 				}

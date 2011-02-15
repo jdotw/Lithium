@@ -21,10 +21,13 @@
     
     NSInteger indentLevel;
     CGFloat indentPerLevel;
+    
+    BOOL showScrews;
 }
 
 @property (nonatomic,readonly) UILabel *textLabel;
 @property (nonatomic,assign) NSInteger indentLevel;
 @property (nonatomic,assign) CGFloat indentPerLevel;
+@property (nonatomic,assign) BOOL showScrews;
 
 @end

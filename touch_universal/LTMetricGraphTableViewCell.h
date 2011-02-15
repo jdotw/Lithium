@@ -23,9 +23,12 @@
 	UILabel *rightMinLabel;
 	UILabel *rightAvgLabel;
 	UILabel *rightMaxLabel;
+    
+    UILabel *metricLabel;
 	
 }
 
 @property (nonatomic,retain) LTGraphView *graphView;
+@property (nonatomic,readonly) UILabel *metricLabel;
 
 @end

@@ -48,6 +48,7 @@
         brScrew = [[UIImageView alloc] initWithFrame:CGRectZero];
         brScrew.image = [UIImage imageNamed:@"DarkScrewHole.png"];
         [self addSubview:brScrew];
+        showScrews = YES;
         
         /* Default indent config */
         indentLevel = 0;
@@ -59,7 +60,7 @@
 - (void)layoutSubviews
 {
     /* Calculate indent offset */
-    CGFloat indentXOffset = 18. + (indentPerLevel * indentLevel);
+    CGFloat indentXOffset = 12. + (indentPerLevel * indentLevel);
     
     /* Layout the Tape Image -- Image is always 174x22 */
     CGRect tapeRect = {{indentXOffset, 2.},{174.,22.}};
@@ -74,8 +75,8 @@
 	 * Layout screws -- Image is always 9x9 
 	 */
 	CGRect screwRect = {{0., 0.}, {9., 9.}};
-	CGFloat xOffset = 2.;
-	CGFloat yOffset = 2.;
+	CGFloat xOffset = 4.;   // Use .4 to keep it in line with the device
+	CGFloat yOffset = 3.;
 	
 	/* Top Left */
 	screwRect.origin.x = xOffset;
@@ -113,6 +114,16 @@
 - (void)dealloc
 {
     [super dealloc];
+}
+
+@synthesize showScrews;
+- (void) setShowScrews:(BOOL)value
+{
+    showScrews = value;
+    tlScrew.hidden = !value;
+    trScrew.hidden = !value;
+    blScrew.hidden = !value;
+    brScrew.hidden = !value;
 }
 
 @end

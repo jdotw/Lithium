@@ -10,10 +10,11 @@
 
 @interface LTTableViewCell : UITableViewCell 
 {
-	
+    UILabel *locationLabel;         // Subtitle label for use with a Value style Cell	
 }
 
 @property (nonatomic, assign) int entityState;
 @property (nonatomic, assign) BOOL drawEntityStateBackgroundColor;
+@property (nonatomic,readonly) UILabel *locationLabel;
 
 @end

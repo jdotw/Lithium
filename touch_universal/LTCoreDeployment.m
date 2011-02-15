@@ -115,7 +115,7 @@
                 LTCustomer *curCustomer = [childDict objectForKey:[TBXML textForElementNamed:@"name" parentElement:node]];
                 if (!curCustomer)
                 {
-                    curCustomer = [LTCustomer new];
+                    curCustomer = [[LTCustomer new] autorelease];
                     curCustomer.ipAddress = self.ipAddress;
                     curCustomer.coreDeployment = self;
                 }
@@ -135,7 +135,6 @@
                     [childDict setObject:curCustomer forKey:curCustomer.name];
                     [curCustomer refresh];
                     [curCustomer.incidentList refreshCountOnly];
-                    [curCustomer autorelease];	
                     
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"LTCustomerAdded" object:curCustomer];
                 }

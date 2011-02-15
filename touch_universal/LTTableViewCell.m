@@ -13,7 +13,7 @@
 
 @implementation LTTableViewCell
 
-@synthesize entityState, drawEntityStateBackgroundColor;
+@synthesize entityState, drawEntityStateBackgroundColor, locationLabel;
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -36,6 +36,13 @@
 		self.detailTextLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.6];
 		self.detailTextLabel.shadowOffset = CGSizeMake(0.0, -1.);
 		if (style == UITableViewCellStyleSubtitle) self.detailTextLabel.font = [UIFont systemFontOfSize:12.];
+        
+        locationLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+        locationLabel.font = [UIFont systemFontOfSize:12.0];
+        locationLabel.backgroundColor = [UIColor clearColor];
+        locationLabel.textAlignment = UITextAlignmentLeft;
+        locationLabel.textColor = [UIColor whiteColor];
+        [self addSubview:locationLabel];
     }
     return self;	
 }
@@ -54,12 +61,13 @@
 		case -2:
 		case -1:
 			self.textLabel.alpha = 0.3;
-			self.detailTextLabel.alpha = 0.3
-			;
+			self.detailTextLabel.alpha = 0.3;
+            self.locationLabel.alpha = 0.3;
 			break;
 		default:
 			self.textLabel.alpha = 1.0;
 			self.detailTextLabel.alpha = 1.0;
+            self.locationLabel.alpha = 1.0;
 			break;
 	}
 }

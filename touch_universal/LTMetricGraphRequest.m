@@ -30,6 +30,8 @@
 	[metrics release];
 	[imageData release];
 	[graphInfo release];
+    [referenceDate release];
+    [imageFile release];
 	[super dealloc];
 }
 
@@ -113,7 +115,7 @@
 	if (refreshStage == 1)
 	{
 		/* Logging */
-		if (debug) NSLog (@"INFO: First stage received %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+		if (debug) NSLog (@"INFO: First stage received %@", [[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding] autorelease]);
 		
 		/* Parse XML */
 		NSXMLParser *parser = [[NSXMLParser alloc] initWithData:receivedData];
@@ -161,6 +163,7 @@
         
         /* Clean up */
         [connection release];     // It's OK to release this one, it's what was created and retained in stage 1
+        [receivedData release];     // It's OK to release this one, it was created at the end of stage 1 (after the other was released)
 	}
 }
 
@@ -178,7 +181,10 @@
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName 
 {
 	if ([elementName isEqualToString:@"imagefile"])
-	{ imageFile = [curXmlString copy]; }
+	{ 
+        [imageFile release];
+        imageFile = [curXmlString copy]; 
+    }
 	else if ([elementName isEqualToString:@"output"])
 	{ 
 		/* Parse output */

@@ -23,6 +23,11 @@
 	UIImageView *topRightScrewImageView;
 	UIImageView *bottomLeftScrewImageView;
 	UIImageView *bottomRightScrewImageView;
+    
+    /* Sparkle */
+    NSTimer *sparkleTimer;
 }
+
+- (void) sparkle:(NSTimer *)timer;
 
 @end

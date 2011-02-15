@@ -25,7 +25,7 @@
 #define kLTEntityChildrenChanged @"LTEntityChildrenChanged"     // Fires on children array add/remove
 #define kLTEntityValueChanged @"LTEntityValueChanged"           // Fires when the _existing_ currentValue changes (not on initial set)
 
-@class LTCustomer, LTCoreDeployment, LTEntityDescriptor;
+@class LTCustomer, LTCoreDeployment, LTEntityDescriptor, LTGroup;
 
 @interface LTEntity : LTAPIRequest <NSCopying>
 {
@@ -89,6 +89,7 @@
     BOOL lastRefreshFailed;     // Set by local didFail method
 	
 	int indentLevel;
+    LTGroup *groupParent;                   // Group parent
 }
 
 - (void) refresh;
@@ -183,6 +184,8 @@
 @property (nonatomic,assign) BOOL isNew;
 
 @property (nonatomic,readonly) UIColor *opStateTintColor;
+@property (nonatomic,readonly) LTEntity *valueMetric;
 
+@property (nonatomic,retain) LTGroup *groupParent;
 
 @end

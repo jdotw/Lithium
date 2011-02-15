@@ -18,8 +18,10 @@
 	UIImageView *topRightVentMesh;
 	UIImageView *bottomLeftVentInlay;
 	UIImageView *bottomLeftVentMesh;
+    UIImageView *bottomLeftVentGlow;
 	UIImageView *bottomRightVentInlay;
 	UIImageView *bottomRightVentMesh;
+    UIImageView *bottomRightVentGlow;
 }
 
 @end

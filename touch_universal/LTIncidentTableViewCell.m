@@ -12,9 +12,29 @@
  * The paper-ticket style Incident Table View Cell
  */
 
+static float tapeVectors[16][2] = {
+    { 0.1, 0.06 },
+    { 0.12, 0.05 },
+    { -0.15, 0.08 },
+    { 0.15, 0.02 },
+    { 0.20, -0.01 },
+    { -0.01, 0.08 },
+    { 0.02, -0.09 },
+    { 0.30, 0.03 },
+    { -0.02, -0.01 },
+    { -0.30, 0.00 },
+    { 0.11, -0.06 },
+    { -0.08, -0.02 },
+    { 0.01, 0.03 },
+    { 0.04, -0.07 },
+    { -0.16, 0.03 },
+    { 0.23, -0.00 },
+};
+#define TAPE_VEC_COUNT 16
+
 @implementation LTIncidentTableViewCell
 
-@synthesize incidentLabel;
+@synthesize incidentLabel, row, lastRow, firstRow;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -41,7 +61,7 @@
                 angle = 0.2;
                 break;
         }
-        ticket.transform = incidentLabel.transform = CGAffineTransformMakeRotation(angle * M_PI / 180);
+        ticket.transform = CGAffineTransformMakeRotation(angle * M_PI / 180);
         ticket.image = [UIImage imageNamed:@"IncidentPaperTicket1.png"];
         ticket.clipsToBounds = NO;
         [self addSubview:ticket];
@@ -63,6 +83,18 @@
         flag = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
         flag.contentMode = UIViewContentModeCenter;
         [ticket addSubview:flag];
+        
+        /* Create top tape view */
+        topTapeView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+        topTapeView.backgroundColor = [UIColor colorWithWhite:0.4 alpha:0.2];
+        topTapeView.opaque = NO;
+        [self addSubview:topTapeView];
+
+        /* Create top tape view */
+        bottomTapeView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+        bottomTapeView.backgroundColor = [UIColor colorWithWhite:0.4 alpha:0.2];
+        bottomTapeView.opaque = NO;
+        [self addSubview:bottomTapeView];
         
     }
     return self;
@@ -106,7 +138,8 @@
 - (void)layoutSubviews
 {
     /* Layout the ticket image -- image is always 288x40 */
-    CGRect ticketRect = {{CGRectGetMidX(self.bounds)-(288.*0.5), CGRectGetMidY(self.bounds)-(40.*0.5)}, {288., 40.}};
+    CGFloat ticketImageHeight = 50.;
+    CGRect ticketRect = {{CGRectGetMidX(self.bounds)-(288.*0.5), CGRectGetMidY(self.bounds)-(ticketImageHeight*0.5)}, {288., ticketImageHeight}};
     ticket.frame = ticketRect;
     
     /* Layout Flag -- Square to the left inside the ticket */
@@ -118,6 +151,37 @@
     CGRect labelRect = {{CGRectGetMaxX(flagRect)+labelXOffset, 0.}, 
         {CGRectGetWidth(ticket.bounds)-CGRectGetMaxX(flagRect)-labelXOffset, CGRectGetHeight(ticket.bounds)}};
     incidentLabel.frame = labelRect;
+
+    /* Tape constants */
+    CGFloat tapeHeight = 20.;
+    CGFloat tapeWidth = 10.;
+    
+    /* Layout Top Tape */
+//    if (!self.firstRow)
+    {
+        CGFloat tapeXShiftMultiple = tapeVectors[self.row % TAPE_VEC_COUNT][0];
+        CGFloat tapeRotation = tapeVectors[self.row % TAPE_VEC_COUNT][1];
+        CGRect topTapeRect = CGRectMake(CGRectGetMidX(ticket.bounds)-(CGRectGetWidth(ticket.bounds)*tapeXShiftMultiple), 
+                                        CGRectGetMinY(ticket.bounds)-(tapeHeight*0.75), 
+                                        tapeWidth, tapeHeight);
+        topTapeRect = CGRectIntersection(topTapeRect, ticket.bounds);   // Keep it within the ticket
+        topTapeView.frame = topTapeRect;
+        topTapeView.transform = CGAffineTransformMakeRotation(tapeRotation);
+    }
+
+    /* Layout Bottom Tape */
+    if (!self.lastRow)
+    {
+        CGFloat tapeXShiftMultiple = tapeVectors[(self.row+1) % TAPE_VEC_COUNT][0];
+        CGFloat tapeRotation = tapeVectors[(self.row+1) % TAPE_VEC_COUNT][1];
+        CGRect bottomTapeRect = CGRectMake(CGRectGetMidX(ticket.bounds)-(CGRectGetWidth(ticket.bounds)*tapeXShiftMultiple), 
+                                           CGRectGetMaxY(ticket.bounds)-(tapeHeight*0.75), 
+                                        tapeWidth, tapeHeight);
+        bottomTapeRect = CGRectIntersection(bottomTapeRect, ticket.bounds);   // Keep it within the ticket
+        bottomTapeView.frame = bottomTapeRect;
+        bottomTapeView.transform = CGAffineTransformMakeRotation(tapeRotation);
+    }
+
 }
 
 @end

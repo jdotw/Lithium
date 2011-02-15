@@ -49,6 +49,9 @@
 		104DEFA81283796D008A7936 /* LTGraphBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 104DEFA71283796D008A7936 /* LTGraphBackgroundView.m */; };
 		104F690212C01E3D00074651 /* checkerboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 104F690112C01E3D00074651 /* checkerboard.png */; };
 		104F699912C03F2300074651 /* LTDeviceEditTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 104F699812C03F2300074651 /* LTDeviceEditTableViewController.m */; };
+		1059DB741309CD1100D1EF1B /* LTContainerEntityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1059DB731309CD1000D1EF1B /* LTContainerEntityTableViewCell.m */; };
+		1059DB771309CD5100D1EF1B /* LTObjectEntityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1059DB761309CD5000D1EF1B /* LTObjectEntityTableViewCell.m */; };
+		1059DB7A1309CD6400D1EF1B /* LTMetricEntityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1059DB791309CD6300D1EF1B /* LTMetricEntityTableViewCell.m */; };
 		105A245C12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 105A245B12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.m */; };
 		105A246012FF89E0001B9543 /* LTSubDeviceTableViewCellBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 105A245F12FF89E0001B9543 /* LTSubDeviceTableViewCellBackgroundView.m */; };
 		105EDDDD11BC2FFE00B294B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 105EDDDC11BC2FFE00B294B4 /* AppDelegate.m */; };
@@ -117,6 +120,9 @@
 		10665F071304F7B8007152B2 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 10665F041304F7B8007152B2 /* Icon-72.png */; };
 		10665F081304F7B8007152B2 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10665F051304F7B8007152B2 /* Icon@2x.png */; };
 		1066F2E312F60A7000487979 /* LTDeviceEditLocationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1066F2E212F60A7000487979 /* LTDeviceEditLocationListTableViewController.m */; };
+		106A8C1E130A060A008D75DD /* DeviceVentRedGlow1.png in Resources */ = {isa = PBXBuildFile; fileRef = 106A8C1B130A060A008D75DD /* DeviceVentRedGlow1.png */; };
+		106A8C1F130A060A008D75DD /* DeviceVentBlueGlow1.png in Resources */ = {isa = PBXBuildFile; fileRef = 106A8C1C130A060A008D75DD /* DeviceVentBlueGlow1.png */; };
+		106A8C20130A060A008D75DD /* DeviceVentBlueGlow2.png in Resources */ = {isa = PBXBuildFile; fileRef = 106A8C1D130A060A008D75DD /* DeviceVentBlueGlow2.png */; };
 		106CB6E211BF79D000F3382D /* LTWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 106CB6E111BF79D000F3382D /* LTWindow.m */; };
 		106DB11E12FDF651006262FE /* GraphLegendLipGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 106DB11D12FDF651006262FE /* GraphLegendLipGradient.png */; };
 		107819121290A797006E60F4 /* navlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 107819111290A797006E60F4 /* navlist.png */; };
@@ -268,6 +274,12 @@
 		104F690112C01E3D00074651 /* checkerboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkerboard.png; sourceTree = "<group>"; };
 		104F699712C03F2300074651 /* LTDeviceEditTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditTableViewController.h; sourceTree = "<group>"; };
 		104F699812C03F2300074651 /* LTDeviceEditTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditTableViewController.m; sourceTree = "<group>"; };
+		1059DB721309CD1000D1EF1B /* LTContainerEntityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTContainerEntityTableViewCell.h; sourceTree = "<group>"; };
+		1059DB731309CD1000D1EF1B /* LTContainerEntityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTContainerEntityTableViewCell.m; sourceTree = "<group>"; };
+		1059DB751309CD5000D1EF1B /* LTObjectEntityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTObjectEntityTableViewCell.h; sourceTree = "<group>"; };
+		1059DB761309CD5000D1EF1B /* LTObjectEntityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTObjectEntityTableViewCell.m; sourceTree = "<group>"; };
+		1059DB781309CD6200D1EF1B /* LTMetricEntityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTMetricEntityTableViewCell.h; sourceTree = "<group>"; };
+		1059DB791309CD6300D1EF1B /* LTMetricEntityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTMetricEntityTableViewCell.m; sourceTree = "<group>"; };
 		105A245A12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSubDeviceEntityTableViewCell.h; sourceTree = "<group>"; };
 		105A245B12FF8998001B9543 /* LTSubDeviceEntityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTSubDeviceEntityTableViewCell.m; sourceTree = "<group>"; };
 		105A245E12FF89E0001B9543 /* LTSubDeviceTableViewCellBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTSubDeviceTableViewCellBackgroundView.h; sourceTree = "<group>"; };
@@ -379,6 +391,9 @@
 		10665F051304F7B8007152B2 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		1066F2E112F60A7000487979 /* LTDeviceEditLocationListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditLocationListTableViewController.h; sourceTree = "<group>"; };
 		1066F2E212F60A7000487979 /* LTDeviceEditLocationListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditLocationListTableViewController.m; sourceTree = "<group>"; };
+		106A8C1B130A060A008D75DD /* DeviceVentRedGlow1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeviceVentRedGlow1.png; sourceTree = "<group>"; };
+		106A8C1C130A060A008D75DD /* DeviceVentBlueGlow1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeviceVentBlueGlow1.png; sourceTree = "<group>"; };
+		106A8C1D130A060A008D75DD /* DeviceVentBlueGlow2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeviceVentBlueGlow2.png; sourceTree = "<group>"; };
 		106CB6E011BF79D000F3382D /* LTWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTWindow.h; sourceTree = "<group>"; };
 		106CB6E111BF79D000F3382D /* LTWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTWindow.m; sourceTree = "<group>"; };
 		106DB11D12FDF651006262FE /* GraphLegendLipGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GraphLegendLipGradient.png; sourceTree = "<group>"; };
@@ -1080,6 +1095,12 @@
 				10A73B6E12FBB191005CFDD5 /* LTHardwareEntityTableViewCell.m */,
 				10A73CC612FBEA6B005CFDD5 /* LTDeviceEntityTableViewCell.h */,
 				10A73CC712FBEA6B005CFDD5 /* LTDeviceEntityTableViewCell.m */,
+				1059DB721309CD1000D1EF1B /* LTContainerEntityTableViewCell.h */,
+				1059DB731309CD1000D1EF1B /* LTContainerEntityTableViewCell.m */,
+				1059DB751309CD5000D1EF1B /* LTObjectEntityTableViewCell.h */,
+				1059DB761309CD5000D1EF1B /* LTObjectEntityTableViewCell.m */,
+				1059DB781309CD6200D1EF1B /* LTMetricEntityTableViewCell.h */,
+				1059DB791309CD6300D1EF1B /* LTMetricEntityTableViewCell.m */,
 			);
 			name = "Hardware Table View Cells";
 			sourceTree = "<group>";
@@ -1111,6 +1132,9 @@
 			children = (
 				10A73CC212FBEA37005CFDD5 /* DeviceVent.png */,
 				10A73CC312FBEA37005CFDD5 /* DeviceVentMesh.png */,
+				106A8C1B130A060A008D75DD /* DeviceVentRedGlow1.png */,
+				106A8C1C130A060A008D75DD /* DeviceVentBlueGlow1.png */,
+				106A8C1D130A060A008D75DD /* DeviceVentBlueGlow2.png */,
 			);
 			name = "Device Vents";
 			sourceTree = "<group>";
@@ -1446,6 +1470,9 @@
 				10CA717C1308BFBA00992C2C /* warning_small@2x.png in Resources */,
 				10CA717F1308C0D000992C2C /* warning_small_white.png in Resources */,
 				10CA71801308C0D000992C2C /* warning_small_white@2x.png in Resources */,
+				106A8C1E130A060A008D75DD /* DeviceVentRedGlow1.png in Resources */,
+				106A8C1F130A060A008D75DD /* DeviceVentBlueGlow1.png in Resources */,
+				106A8C20130A060A008D75DD /* DeviceVentBlueGlow2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1533,6 +1560,9 @@
 				104C8DE0130234DE0067B1C8 /* TBXML-Lithium.m in Sources */,
 				1029AD3213053B1500F03EE5 /* EGORefreshTableHeaderView.m in Sources */,
 				1044E38B130565830014BDB5 /* LTTableViewController.m in Sources */,
+				1059DB741309CD1100D1EF1B /* LTContainerEntityTableViewCell.m in Sources */,
+				1059DB771309CD5100D1EF1B /* LTObjectEntityTableViewCell.m in Sources */,
+				1059DB7A1309CD6400D1EF1B /* LTMetricEntityTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

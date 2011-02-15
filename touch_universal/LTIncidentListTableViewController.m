@@ -344,14 +344,14 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (sortSegment.selectedSegmentIndex == SORT_BY_DEVICE) return 48.;
-    else if (sortSegment.selectedSegmentIndex == SORT_BY_TIME) return 28.; 
+    if (sortSegment && sortSegment.selectedSegmentIndex == SORT_BY_DEVICE) return 48.;
+    else if (!sortSegment || sortSegment.selectedSegmentIndex == SORT_BY_TIME) return 28.; 
     else return 20.;
 }
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (sortSegment.selectedSegmentIndex == SORT_BY_DEVICE && section < sortedChildren.count)
+    if (sortSegment && sortSegment.selectedSegmentIndex == SORT_BY_DEVICE && section < sortedChildren.count)
     {
         /* Use device view */
         LTDeviceEntityTableViewCell *deviceView = [[LTDeviceEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"dummy"];
@@ -361,11 +361,12 @@
         deviceView.entityState = group.highestEntityState;
         return [deviceView autorelease];
     }
-    if (sortSegment.selectedSegmentIndex == SORT_BY_TIME && section < sortedChildren.count)
+    if (!sortSegment || (sortSegment.selectedSegmentIndex == SORT_BY_TIME && section < sortedChildren.count))
     {
         /* Use rack section header */
         LTRackTableViewHeaderView *header = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero]; 
         header.textLabel.text = [self tableView:tableView titleForHeaderInSection:section];
+        if (!sortSegment) header.showScrews = NO;
         return [header autorelease];
     }
     else return nil;
@@ -399,7 +400,7 @@
         return [self.tableView frame].size.height; 
     }
 	else
-	{ return 32.0; }    // Ticket image height is 40., use 32. to overlap
+	{ return 38.0; }    // Ticket image height is 40., use 32. to overlap
 }
 
 - (NSString *) incidentActiveIntervalString:(LTIncident *)incident
@@ -468,7 +469,7 @@
     // Set up the cell...
 	LTIncidentListGroup *group = (LTIncidentListGroup *) [sortedChildren objectAtIndex:indexPath.section];
 	LTIncident *incident = [group.children objectAtIndex:[indexPath row]];
-	if (sortSegment.selectedSegmentIndex == 0)
+	if (sortSegment && sortSegment.selectedSegmentIndex == 0)
 	{
 		/* By-Device Display */
 		cell.incidentLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@", incident.entityDescriptor.cntDesc, incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.entityDescriptor.trgDesc];
@@ -488,6 +489,13 @@
 	{ cell.accessoryType = UITableViewCellAccessoryNone; }
 	else
 	{ cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
+    cell.row = indexPath.row;
+    if (cell.row == 0) cell.firstRow = YES;
+    else cell.firstRow = NO;
+    if (cell.row == ([self tableView:tableView numberOfRowsInSection:indexPath.section]-1)) 
+    { cell.lastRow = YES; }
+    else
+    { cell.lastRow = NO; }
 	
     return cell;
 }

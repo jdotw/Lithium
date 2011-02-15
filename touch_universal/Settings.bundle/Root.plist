@@ -36,6 +36,22 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>User Interface</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Sparkle</string>
+			<key>Key</key>
+			<string>LTSparkle</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
 	</array>
 	<key>Settings Page Title</key>
 	<string>Lithium</string>

@@ -87,7 +87,7 @@
 			if (!childGroup)
 			{
 				/* Create new group */
-				childGroup = [LTGroup new];
+				childGroup = [[LTGroup new] autorelease];
 				childGroup.groupID = [TBXML intFromTextForElementNamed:@"id" parentElement:node];
 				childGroup.parentID = [TBXML intFromTextForElementNamed:@"parent" parentElement:node];
 				childGroup.parent = customer;   // This is a temporary parent so that all properties are set (coreDeployment, etc)
@@ -117,7 +117,7 @@
                      * Do NOT set the entities parent, this way it is
                      * correctly identified as an orphan entity
                      */
-					entity = [LTEntity new];
+					entity = [[LTEntity new] autorelease];
 					entity.type = childEntDesc.type;
 					entity.name = childEntDesc.name;
 					entity.username = [customer username];
@@ -129,6 +129,7 @@
 					entity.coreDeployment = customer.coreDeployment;
 					entity.entityDescriptor = childEntDesc;
 					entity.entityAddress = childEntDesc.entityAddress;
+                    entity.groupParent = parentGroup;
 					[parentGroup.children addObject:entity];
 					[parentGroup.childDict setObject:entity forKey:entity.entityAddress];
 					[newEntities addObject:entity];
@@ -137,6 +138,8 @@
 				entity.opState = childEntDesc.opState;
 				entity.adminState = childEntDesc.adminState;
 				[seenEntities addObject:entity];
+                
+                NSLog (@"ParentGroup for %i:%@ is %@", entity.type, entity.desc, parentGroup);
 			}
 		}
 	}	
@@ -170,6 +173,7 @@
 		group.indentLevel = indent;
         for (LTEntity *groupEntity in group.children)
         {
+            NSLog (@"Group entity %i:%@ is a child of group %@ which has an indent of %i", groupEntity.type, groupEntity.desc, group.desc, group.indentLevel);
             groupEntity.indentLevel = group.indentLevel+1;
         }
 	}	

@@ -15,6 +15,10 @@
 #import "AppDelegate_Pad.h"
 #import "LTCustomer.h"
 #import "LTHardwareEntityTableViewCell.h"
+#import "LTDeviceEntityTableViewCell.h"
+#import "LTContainerEntityTableViewCell.h"
+#import "LTObjectEntityTableViewCell.h"
+#import "LTMetricEntityTableViewCell.h"
 
 #define kFavoritesData @"LTFavoritesArray"
 
@@ -86,6 +90,13 @@
     self.pullToRefresh = YES;
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:0.29 alpha:1.0];
+    displaySegment.tintColor = self.navigationController.navigationBar.tintColor;
+}
+
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -134,7 +145,7 @@
     entity.coreDeployment = customer.coreDeployment;
     entity.entityDescriptor = entDesc;
     entity.entityAddress = entDesc.entityAddress;
-    return entity;
+    return [entity autorelease];
 }
 
 - (void) loadFavorites:(NSNotification *)note
@@ -375,34 +386,108 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     LTEntity *displayEntity = [favorites objectAtIndex:indexPath.row];
-
-	UITableViewCell *cell = nil;
+    
+    /* Set CellIdentifier based on entity type */
+    NSString *CellIdentifier;
 	if (displaySegment.selectedSegmentIndex == 0)
 	{
-		NSString *CellIdentifier = @"Graph";
-		LTMetricGraphTableViewCell *graphViewCell = (LTMetricGraphTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (graphViewCell == nil) 
-		{
-			graphViewCell = [(LTMetricGraphTableViewCell *) [[LTMetricGraphTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-		}
-		graphViewCell.graphView.metrics = [NSArray arrayWithObject:displayEntity];
-		
-		cell = graphViewCell;
-	}
-	else
+		CellIdentifier = @"Graph";
+    }
+    else
+    {
+        if (displayEntity.type >= 3)
+        {
+            switch (displayEntity.type) {
+                case 3:
+                    CellIdentifier = @"Device";
+                    break;
+                case 4:
+                    CellIdentifier = @"Container";
+                    break;
+                case 5:
+                    CellIdentifier = @"Object";
+                    break;
+                case 6:
+                    CellIdentifier = @"Metric";
+                    break;
+                default:
+                    CellIdentifier = @"Hardware";
+                    break;
+            }
+        }
+        else
+        {
+            CellIdentifier = @"Entity"; 
+        }
+    }
+    
+    /* Create or Re-Use Cell */
+	UITableViewCell *cell = (UITableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) 
 	{
-		NSString *CellIdentifier = @"Metric";
-		LTHardwareEntityTableViewCell *metricCell = (LTHardwareEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-		if (metricCell == nil) 
-		{
-			metricCell = [[[LTHardwareEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-		}
-		metricCell.entity = displayEntity;
-		metricCell.showFullLocation = YES;
-		metricCell.showCurrentValue = YES;
-        metricCell.drawAsRack = YES;
-		cell = metricCell;
-	}
+        if ([CellIdentifier isEqualToString:@"Graph"])
+        {
+            LTMetricGraphTableViewCell *graphViewCell = (LTMetricGraphTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (graphViewCell == nil) 
+            {
+                graphViewCell = [(LTMetricGraphTableViewCell *) [[LTMetricGraphTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            cell = graphViewCell;
+        }
+        else
+        {
+            LTEntityTableViewCell *entityCell = nil;
+            if ([CellIdentifier isEqualToString:@"Device"])
+            {
+                entityCell = [[[LTDeviceEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            else if ([CellIdentifier isEqualToString:@"Container"])
+            {
+                entityCell = [[[LTContainerEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            else if ([CellIdentifier isEqualToString:@"Object"])
+            {
+                entityCell = [[[LTObjectEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            else if ([CellIdentifier isEqualToString:@"Metric"])
+            {
+                entityCell = [[[LTMetricEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+            }
+            else if ([CellIdentifier isEqualToString:@"Hardware"])
+            {
+                entityCell = [[[LTHardwareEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+            }
+            else
+            {
+                entityCell = [[[LTEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+            }
+            cell = entityCell;
+        }
+    }
+    
+    /* Configure Cell */
+    if ([CellIdentifier isEqualToString:@"Graph"])
+    {
+        LTMetricGraphTableViewCell *graphViewCell = (LTMetricGraphTableViewCell *)cell;
+        graphViewCell.graphView.metrics = [NSArray arrayWithObject:displayEntity];        
+        graphViewCell.metricLabel.text = displayEntity.longLocationString;
+    }
+    else
+    {
+        LTEntityTableViewCell *entityCell = (LTEntityTableViewCell *)cell;
+        entityCell.entity = displayEntity;
+        entityCell.drawAsRack = YES;
+        entityCell.showLocation = YES;
+        
+        if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+        {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        else
+        {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+    }
     
     return cell;
 }

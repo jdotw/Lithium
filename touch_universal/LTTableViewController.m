@@ -18,18 +18,39 @@
 @synthesize refreshHeaderView=_refreshHeaderView;
 
 #pragma mark -
+#pragma mark Sparkle
+
+- (void) sparkleTimerFired:(NSTimer *)timer
+{
+    for (UIView *view in self.tableView.subviews)
+    {
+        if ([view respondsToSelector:@selector(sparkle:)])
+        { [view performSelector:@selector(sparkle:) withObject:timer]; }
+    }
+}
+
+#pragma mark -
 #pragma mark View Delegates
 
 - (void)viewWillAppear:(BOOL)animated 
 {
     [super viewWillAppear:animated];
 	isVisible = YES;
+    
+    sparkleTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                    target:self
+                                                  selector:@selector(sparkleTimerFired:)
+                                                  userInfo:nil 
+                                                   repeats:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated 
 {
 	[super viewWillDisappear:animated];
 	isVisible = NO;
+    
+    [sparkleTimer invalidate];
+    sparkleTimer = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 

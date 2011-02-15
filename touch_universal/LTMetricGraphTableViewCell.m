@@ -12,6 +12,8 @@
 
 @implementation LTMetricGraphTableViewCell
 
+@synthesize metricLabel;
+
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) 
@@ -91,6 +93,17 @@
 		graphBackground.minLabel = leftMinLabel;
 		graphBackground.avgLabel = leftAvgLabel;
 		graphBackground.maxLabel = leftMaxLabel;
+        
+        /* Create metric label */
+        metricLabel = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+		metricLabel.textColor = leftMinLabel.textColor;
+		metricLabel.backgroundColor = leftMinLabel.backgroundColor;
+		metricLabel.font = leftMinLabel.font;
+        metricLabel.textAlignment = UITextAlignmentCenter;
+        metricLabel.layer.shadowOffset = CGSizeMake(2.0, 2.0);
+        metricLabel.layer.shadowRadius = 3.0;
+        metricLabel.layer.shadowOpacity = 0.8;
+        [self.contentView addSubview:metricLabel];
     }
     return self;
 }
@@ -119,6 +132,11 @@
                                                     labelWidth, labelHeight));
 	rightAvgLabel.frame = CGRectIntegral(CGRectMake(CGRectGetMaxX(self.contentView.bounds) - labelWidth - labelXPadding, (CGRectGetMidY(self.contentView.bounds) - (labelHeight*0.5))+ labelYPadding, labelWidth, labelHeight));
 	rightMinLabel.frame = CGRectIntegral(CGRectMake(CGRectGetMaxX(self.contentView.bounds) - labelWidth - labelXPadding, CGRectGetMaxY(self.contentView.bounds) - labelYPadding - labelHeight, labelWidth, labelHeight));
+    
+    /* Metric label */
+    CGRect metricLabelRect = CGRectMake(CGRectGetMinX(self.bounds)+10.0, CGRectGetMidY(self.bounds)-(CGRectGetHeight(self.bounds)*0.25), 
+                                        CGRectGetWidth(self.bounds)-20.0, 20.0);
+    metricLabel.frame = metricLabelRect;
 	
 	/* Background layout */
 	graphBackground.frame = self.contentView.bounds;

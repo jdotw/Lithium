@@ -133,7 +133,7 @@
 	
 	returnTextField.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
 	
-	return returnTextField;
+	return [returnTextField autorelease];
 }
 
 - (UISwitch *) createSwitchControl

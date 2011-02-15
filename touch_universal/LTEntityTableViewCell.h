@@ -14,14 +14,14 @@
 
 @interface LTEntityTableViewCell : LTTableViewCell 
 {
-	UILabel *valueLabel;
+    
+    BOOL showLocation;              // Use the location label to show full location
 }
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 @property (nonatomic,retain) LTEntity *entity;
-@property (nonatomic,assign) BOOL showFullLocation;
-@property (nonatomic,assign) BOOL showCurrentValue;
 @property (nonatomic,assign) BOOL drawAsRack;        // Enables the 'Rack' style drawing
+@property (nonatomic,assign) BOOL showLocation;
 
 @end

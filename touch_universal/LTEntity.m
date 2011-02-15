@@ -112,6 +112,8 @@ static NSMutableDictionary *_xmlTranslation = nil;
     [lastRefresh release];
 	[xmlStatus release];
     
+    [groupParent release];
+    
 	[super dealloc];
 }
 
@@ -248,7 +250,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 														 timeoutInterval:60.0];
 	
 	/* Outbound XML doc to be sent */
-	NSMutableString *xmlString = [xml mutableCopy];
+	NSMutableString *xmlString = [[xml mutableCopy] autorelease];
 	NSString *formBoundary = [[NSProcessInfo processInfo] globallyUniqueString];
 	NSString *boundaryString = [NSString stringWithFormat: @"multipart/form-data; boundary=%@", formBoundary];
 	[theRequest addValue:boundaryString forHTTPHeaderField:@"Content-Type"];
@@ -349,7 +351,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
     {
         /* Bad XML Received */
         self.lastRefreshFailed = YES;
-        NSLog (@"BAD XML: %@", [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding]);
+        NSLog (@"BAD XML: %@", [[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding] autorelease]);
     }
     [tbxml release];
     
@@ -979,5 +981,47 @@ static NSMutableDictionary *_xmlTranslation = nil;
 }
 
 @synthesize lastRefreshFailed;
+
+- (LTEntity *) valueMetric
+{
+    /* Returns the 'best' or most appropriate metric entity
+     * that can be used to show a value for the given entity
+     */
+    if (self.type == 6) return self;
+    
+    /* Locate an object */
+    LTEntity *obj = nil;
+    if (self.type == 4 && self.children.count == 1) 
+    { obj = [self.children objectAtIndex:0]; }
+    else if (self.type == 5) obj = self;
+    
+    /* Iterate through metrics */
+    LTEntity *valueMetric = nil;
+    for (LTEntity *metric in obj.children)
+    {
+        /* Prefer metrics that are a percentage, and have triggers */
+        if (metric.hasTriggers && metric.isPercentage) 
+        {
+            /* Best match found */
+            valueMetric = metric;
+            break;
+        }
+        else if (!valueMetric && metric.isPercentage)
+        {
+            /* First percentage */
+            valueMetric = metric;
+            break;
+        }
+        else if (!valueMetric && metric.hasTriggers)
+        {
+            /* First non-percentage with triggers */
+            valueMetric = metric;
+            break;
+        }
+    }
+    return valueMetric;
+}
+
+@synthesize  groupParent;
 
 @end

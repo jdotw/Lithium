@@ -12,6 +12,8 @@
 @interface LTTableViewController : UITableViewController <EGORefreshTableHeaderDelegate, UITableViewDelegate, UITableViewDataSource>
 {
 	BOOL isVisible;
+    
+    NSTimer *sparkleTimer;
 }
 
 - (void) refresh;

@@ -135,8 +135,7 @@
                 
                 CGContextRestoreGState(ctx);
                 
-//                CGPDFDocumentRelease(documentRef); CRASHES
-                CGPDFPageRelease(pageRef);
+                CGPDFDocumentRelease(documentRef);
             }
         }
         else if (!graphReq)
@@ -269,7 +268,9 @@
 	}
 
 	/* Draw date line */
-	CGFloat dateLineYOffset = hourLineYOffset * 2.0;
+    CGFloat dateLineYOffset;
+    if (self.bounds.size.height < 200.0) dateLineYOffset = hourLineYOffset * 1.5;
+    else dateLineYOffset = hourLineYOffset * 2.;
 	NSDate *dateToDraw = sliceEndDate;
 	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
 	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];

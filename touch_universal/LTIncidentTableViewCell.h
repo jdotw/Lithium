@@ -15,8 +15,17 @@
     UIImageView *ticket;
     UILabel *incidentLabel;
     UIImageView *flag;
+    UIView *topTapeView;
+    UIView *bottomTapeView;
+    
+    NSInteger row;
+    BOOL lastRow;
+    BOOL firstRow;
 }
 
 @property (nonatomic,readonly) UILabel *incidentLabel;
+@property (nonatomic,assign) NSInteger row;
+@property (nonatomic,assign) BOOL lastRow;
+@property (nonatomic,assign) BOOL firstRow;
 
 @end

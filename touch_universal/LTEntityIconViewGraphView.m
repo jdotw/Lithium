@@ -50,8 +50,7 @@
 			[graphImage drawInRect:self.bounds blendMode:kCGBlendModeLuminosity alpha:0.9];
             
             /* Clean up */
-            CGPDFPageRelease(pageRef);
-//            CGPDFDocumentRelease(documentRef);    // Crashes
+            CGPDFDocumentRelease(documentRef); 
             
 		}
 	}

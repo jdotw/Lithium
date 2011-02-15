@@ -23,6 +23,9 @@
 #import "AppDelegate_Pad.h"
 #import "LTHardwareEntityTableViewCell.h"
 #import "LTDeviceEntityTableViewCell.h"
+#import "LTContainerEntityTableViewCell.h"
+#import "LTObjectEntityTableViewCell.h"
+#import "LTMetricEntityTableViewCell.h"
 #import "LTRackTableViewHeaderView.h"
 #import "LTSubDeviceTableViewCellBackgroundView.h"
 
@@ -148,6 +151,9 @@
 	}
 }	
 
+#pragma mark -
+#pragma mark "View Delegates"
+
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
@@ -190,24 +196,31 @@
 		self.tableView.tableHeaderView = nil;
 	}
     	
-    /* iPad-Specific Table Setup */
+    /* Rack vs. Non-Rack Setup */
     if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
     {
-        if (entity.type >= ENT_DEVICE)
+        /* iPad Table Setup */
+        if (entity.type < ENT_DEVICE)
         {
-            self.drawAsRack = NO;
-            self.tableView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:1.0];
+            /* Cust/Site/Device navigation */
+            if (!entity || (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation]) || entity.type == ENT_SITE)
+            {
+                /* Draw rack-style for Cores, Site+Device and Device list */
+                self.drawAsRack = YES;
+            }
         }
     }
     else
     {
         /* iPhone Table Setup */
-        if (!entity || (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation]) || entity.type == ENT_SITE)
+        if (entity.type < ENT_DEVICE)
         {
-            /* This is either an aggregated site+device list 
-             * or a list of devices at a site, draw as a rack
-             */
-            self.drawAsRack = YES;
+            /* Cust/Site/Device navigation */
+            if (entity.type != ENT_CUSTOMER && ![self _groupDevicesByLocation])
+            {
+                /* Not a list of sites, draw a rack */
+                self.drawAsRack = YES;
+            }
         }
     }
     
@@ -252,9 +265,6 @@
 	
 	self.tableView.allowsSelectionDuringEditing = YES;
 }
-
-#pragma mark -
-#pragma mark "View Delegates"
 
 - (CGSize) contentSizeForViewInPopover
 {
@@ -459,7 +469,7 @@
     NSString *label = [self tableView:tableView titleForHeaderInSection:section];
     if (label)
     { 
-        LTRackTableViewHeaderView *header = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero]; 
+        LTRackTableViewHeaderView *header = [[[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero] autorelease];
         header.textLabel.text = label;
         return header;
     }
@@ -601,6 +611,7 @@
 {
     LTEntity *displayEntity = [self entityAtIndexPath:indexPath inTableView:tableView];
 	
+    /* Set CellIdentifier based on entity type */
     NSString *CellIdentifier;
 	if (displayEntity)
 	{ 
@@ -610,16 +621,30 @@
 				case 3:
 					CellIdentifier = @"Device";
 					break;
+                case 4:
+                    CellIdentifier = @"Container";
+                    break;
+                case 5:
+                    CellIdentifier = @"Object";
+                    break;
+                case 6:
+                    CellIdentifier = @"Metric";
+                    break;
 				default:
 					CellIdentifier = @"Hardware";
 					break;
 			}
 		}
+        else if (displayEntity.type == 0)
+        {
+            CellIdentifier = @"Core";
+        }
 		else CellIdentifier = @"Entity"; 
 	}
 	else 
 	{ CellIdentifier = @"Refresh"; }
-    
+
+    /* Create or re-use a cell */
     LTEntityTableViewCell *cell = (LTEntityTableViewCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
 	{
@@ -631,6 +656,22 @@
 		{
 			cell = [[[LTDeviceEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 		}
+		else if ([CellIdentifier isEqualToString:@"Container"])
+		{
+			cell = [[[LTContainerEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		else if ([CellIdentifier isEqualToString:@"Object"])
+		{
+			cell = [[[LTObjectEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		else if ([CellIdentifier isEqualToString:@"Metric"])
+		{
+			cell = [[[LTMetricEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		}
+		else if ([CellIdentifier isEqualToString:@"Core"])
+		{
+			cell = [[[LTHardwareEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+		}
 		else if ([CellIdentifier isEqualToString:@"Hardware"])
 		{
 			cell = [[[LTHardwareEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
@@ -640,22 +681,16 @@
 			cell = [[[LTEntityRefreshProgressViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		}
-		if (displayEntity)
-		{
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && displayEntity.type == 3)
-			{ cell.accessoryType = UITableViewCellAccessoryNone; }
-			else
-			{ cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
-		}
     }
     
     // Set up the cell...
 	if (displayEntity)
 	{
-		cell.textLabel.text = displayEntity.desc;
-		cell.textLabel.font = [UIFont boldSystemFontOfSize:16.0];
+        /* Entity Cell */
 		cell.entity = displayEntity;
         cell.drawAsRack = self.drawAsRack;
+        
+        /* Core-Specific Cell Setup */
 		if (displayEntity.type == 0)
 		{
 			/* Displaying a deployment, use the detailtextLabel (subtitle)
@@ -684,28 +719,18 @@
 			}				
 		}
         
-        /* iPad Specific Cell Setup */
-        if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
-        {
-            if (entity.type >= ENT_DEVICE)
-            {
-                cell.backgroundView = [[LTSubDeviceTableViewCellBackgroundView alloc] initWithFrame:CGRectZero];
-                cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
-                cell.textLabel.shadowColor = [UIColor blackColor];
-                cell.textLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-                cell.textLabel.minimumFontSize = 12.0;
-                cell.textLabel.adjustsFontSizeToFitWidth = YES;
-                cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
-                cell.detailTextLabel.shadowColor = [UIColor blackColor];
-                cell.detailTextLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-                cell.detailTextLabel.minimumFontSize = 12.0;
-                cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
-            }
-        }
+        /* Set Accessory Type */
+        if (displayEntity)
+		{
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && displayEntity.type == 3)
+			{ cell.accessoryType = UITableViewCellAccessoryNone; }
+			else
+			{ cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator; }
+		}
 	}
 	else
 	{
-		/* Refresh info */
+		/* Refresh Cell -- Set refresh info */
 		LTEntityRefreshProgressViewCell *progressCell = (LTEntityRefreshProgressViewCell *) cell;
 		if (![entity.coreDeployment enabled])
 		{
