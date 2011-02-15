@@ -48,7 +48,6 @@
     {
         @synchronized(graphRequestCache)
         {
-            NSLog(@"cache %@", graphRequestCache); 
             for (LTMetricGraphRequest *req in [graphRequestCache allValues])
             {
                 req.delegate = nil;

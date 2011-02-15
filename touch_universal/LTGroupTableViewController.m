@@ -421,7 +421,6 @@
 		if ([displayEntity.customer.coreDeployment reachable] && [displayEntity.customer.coreDeployment enabled]) cell.imageView.alpha = 1.0;
 		else cell.imageView.alpha = 0.5;
 		cell.indentationLevel = displayEntity.indentLevel;			
-        NSLog (@"Using indent level %i for %i:%@", displayEntity.indentLevel, displayEntity.type, displayEntity.desc);
 		
         /* Setup Cell for Group Headers */
         if ([CellIdentifier isEqualToString:@"GroupHeader"])

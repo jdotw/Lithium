@@ -50,7 +50,6 @@
         if (self.entity.valueMetric)
         {
             _valueEntity = [self.entity.valueMetric retain];
-            NSLog (@"got entityChildrenChanged: _ValueEntity is %i:%@ with value %@", _valueEntity.type, _valueEntity.desc, _valueEntity.currentValue);
             
             /* Add and fire value changed notification */
             [self valueEntityValueChanged:nil];

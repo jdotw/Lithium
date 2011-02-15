@@ -138,8 +138,6 @@
 				entity.opState = childEntDesc.opState;
 				entity.adminState = childEntDesc.adminState;
 				[seenEntities addObject:entity];
-                
-                NSLog (@"ParentGroup for %i:%@ is %@", entity.type, entity.desc, parentGroup);
 			}
 		}
 	}	
@@ -173,7 +171,6 @@
 		group.indentLevel = indent;
         for (LTEntity *groupEntity in group.children)
         {
-            NSLog (@"Group entity %i:%@ is a child of group %@ which has an indent of %i", groupEntity.type, groupEntity.desc, group.desc, group.indentLevel);
             groupEntity.indentLevel = group.indentLevel+1;
         }
 	}	

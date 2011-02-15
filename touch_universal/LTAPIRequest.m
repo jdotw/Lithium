@@ -117,8 +117,6 @@
           [error localizedDescription],
           [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);	
     
-    NSLog (@"FAIL for %@ (%@)", self.customer.name, self.customer.coreDeployment);
-
     /* Record error */
     LTCoreDeployment *coreDeployment = nil;
     if (self.customer) coreDeployment = self.customer.coreDeployment;
@@ -148,7 +146,6 @@
 //	[connection release]; // DO NOT RELEASE -- In the NSOperation mode it's held onto by main
     
     /* Reset failure stats */
-    NSLog (@"SUCCESS for %@ (%@)", self.customer.name, self.customer.coreDeployment);
     self.customer.coreDeployment.lastRefreshFailed = NO;
     self.customer.coreDeployment.refreshFailAlertShown = NO;
 }

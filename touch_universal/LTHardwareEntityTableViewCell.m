@@ -52,12 +52,6 @@
     // Configure the view for the selected state.
 }
 
-- (void)dealloc 
-{
-    NSLog (@"%@ DEALLOC", self);
-    [super dealloc];
-}
-
 - (void) layoutSubviews
 {
 	[super layoutSubviews];

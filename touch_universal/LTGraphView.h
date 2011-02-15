@@ -32,9 +32,9 @@
 
 - (void) refreshGraph;
 
-@property (retain) NSArray *metrics;
-@property (readonly) NSMutableArray *minLabels;
-@property (readonly) NSMutableArray *avgLabels;
-@property (readonly) NSMutableArray *maxLabels;
+@property (nonatomic,retain) NSArray *metrics;
+@property (nonatomic,readonly) NSMutableArray *minLabels;
+@property (nonatomic,readonly) NSMutableArray *avgLabels;
+@property (nonatomic,readonly) NSMutableArray *maxLabels;
 
 @end
