@@ -74,9 +74,9 @@
     /* 
 	 * Layout screws -- Image is always 9x9 
 	 */
-	CGRect screwRect = {{0., 0.}, {9., 9.}};
-	CGFloat xOffset = 4.;   // Use .4 to keep it in line with the device
-	CGFloat yOffset = 3.;
+	CGRect screwRect = {{0., 0.}, {8., 8.}};
+	CGFloat xOffset = 5.;   // Use .5 to keep it in line with the device
+	CGFloat yOffset = 4.;
 	
 	/* Top Left */
 	screwRect.origin.x = xOffset;

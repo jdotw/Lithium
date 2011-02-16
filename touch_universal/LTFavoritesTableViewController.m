@@ -366,7 +366,7 @@
 	{
 		/* iPhone */
 		if (displaySegment.selectedSegmentIndex == 0)
-		{ return 80.0f; }
+		{ return 120.0f; }
 		else
 		{ return 48.0; }
 	}

@@ -341,9 +341,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 	self.xmlStatus = @"Processing Data...";
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
     
-    /* DEBUG */
-    NSDate *start = [NSDate date];
-    
     /* Parse XML using TBXML */
     TBXML *tbxml = [[TBXML alloc] initWithXMLData:receivedData];
     if (tbxml.rootXMLElement) [self updateEntityUsingXML:tbxml];
@@ -351,13 +348,9 @@ static NSMutableDictionary *_xmlTranslation = nil;
     {
         /* Bad XML Received */
         self.lastRefreshFailed = YES;
-        NSLog (@"BAD XML: %@", [[[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding] autorelease]);
     }
     [tbxml release];
     
-    /* DEBUG */
-    NSLog (@"Parsing %i:%@ %u bytes took %f seconds", self.type, self.desc, [receivedData length], [[NSDate date] timeIntervalSinceDate:start]);
-	
 	/* Update Status */
 	self.xmlStatus = @"Done.";
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTEntityXmlStatusChanged" object:self];
@@ -376,7 +369,8 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (void) updateEntityUsingXML:(TBXML *)xml
 {
-    [self updateEntityUsingXMLNode:[TBXML childElementNamed:@"entity" parentElement:xml.rootXMLElement]];
+    TBXMLElement *entity = [TBXML childElementNamed:@"entity" parentElement:xml.rootXMLElement];
+    if (entity) [self updateEntityUsingXMLNode:entity];
 }
 
 - (void) updateEntityUsingXMLNode:(TBXMLElement *)node

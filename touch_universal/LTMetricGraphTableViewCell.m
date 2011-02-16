@@ -134,8 +134,8 @@
 	rightMinLabel.frame = CGRectIntegral(CGRectMake(CGRectGetMaxX(self.contentView.bounds) - labelWidth - labelXPadding, CGRectGetMaxY(self.contentView.bounds) - labelYPadding - labelHeight, labelWidth, labelHeight));
     
     /* Metric label */
-    CGRect metricLabelRect = CGRectMake(CGRectGetMinX(self.bounds)+10.0, CGRectGetMidY(self.bounds)-(CGRectGetHeight(self.bounds)*0.25), 
-                                        CGRectGetWidth(self.bounds)-20.0, 20.0);
+    CGRect metricLabelRect = CGRectMake(CGRectGetMinX(self.bounds)+40.0, CGRectGetMidY(self.bounds)-(CGRectGetHeight(self.bounds)*0.33), 
+                                        CGRectGetWidth(self.bounds)-80.0, 20.0);
     metricLabel.frame = metricLabelRect;
 	
 	/* Background layout */

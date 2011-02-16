@@ -59,33 +59,33 @@
 	/* 
 	 * Layout screws -- Image is always 9x9 
 	 */
-	CGRect screwRect = {{0., 0.}, {9., 9.}};
-	CGFloat xOffset = 4.;
-	CGFloat yOffset = 3.;
+	CGRect screwRect = {{0., 0.}, {8., 8.}};
+	CGFloat xOffset = 5.;
+	CGFloat yOffset = 4.;
 	
 	/* Top Left */
 	screwRect.origin.x = xOffset;
 	screwRect.origin.y = yOffset;
 	topLeftScrewImageView.frame = screwRect;
-    topLeftScrewImageView.alpha = 0.6;
+//    topLeftScrewImageView.alpha = 0.6;
 
 	/* Top Right */
 	screwRect.origin.x = CGRectGetMaxX(self.bounds)-xOffset-screwRect.size.width;
 	screwRect.origin.y = yOffset;
 	topRightScrewImageView.frame = screwRect;
-    topRightScrewImageView.alpha = 0.6;
+//    topRightScrewImageView.alpha = 0.6;
 
 	/* Bottom Left */
 	screwRect.origin.x = xOffset;
 	screwRect.origin.y = CGRectGetMaxY(self.bounds)-yOffset-screwRect.size.height-1.0;
 	bottomLeftScrewImageView.frame = screwRect;
-    bottomLeftScrewImageView.alpha = 0.6;
+//    bottomLeftScrewImageView.alpha = 0.6;
 
 	/* Bottom Right */
 	screwRect.origin.x = CGRectGetMaxX(self.bounds)-xOffset-screwRect.size.width;
 	screwRect.origin.y = CGRectGetMaxY(self.bounds)-yOffset-screwRect.size.height-1.0;
 	bottomRightScrewImageView.frame = screwRect;
-    bottomRightScrewImageView.alpha = 0.6;
+//    bottomRightScrewImageView.alpha = 0.6;
     
     if (self.entity.type > 0)
     {

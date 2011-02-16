@@ -222,8 +222,6 @@
             ledView.image = [UIImage imageNamed:@"LED-Red.png"];
             break;
     }
-    
-    NSLog (@"%i:%@ entity.hasTriggers is %i", self.entity.type, self.entity.desc, self.entity.hasTriggers);
 }
 
 - (void) entityValueChanged:(NSNotification *)note

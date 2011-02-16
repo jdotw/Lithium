@@ -210,6 +210,24 @@
 		10D6F38112C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F38012C14B7100A717D3 /* LTDeviceEditRefreshIntervalListTableViewController.m */; };
 		10D6F39212C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F39112C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m */; };
 		10D6F39912C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D6F39812C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m */; };
+		10F63D68130B504D00B7FAA9 /* LED-Blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D62130B504D00B7FAA9 /* LED-Blue@2x.png */; };
+		10F63D69130B504D00B7FAA9 /* LED-Green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D63130B504D00B7FAA9 /* LED-Green@2x.png */; };
+		10F63D6A130B504D00B7FAA9 /* LED-Off@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D64130B504D00B7FAA9 /* LED-Off@2x.png */; };
+		10F63D6B130B504D00B7FAA9 /* LED-Orange@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D65130B504D00B7FAA9 /* LED-Orange@2x.png */; };
+		10F63D6C130B504D00B7FAA9 /* LED-Red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D66130B504D00B7FAA9 /* LED-Red@2x.png */; };
+		10F63D6D130B504D00B7FAA9 /* LED-Yellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D67130B504D00B7FAA9 /* LED-Yellow@2x.png */; };
+		10F63D70130B51C600B7FAA9 /* DeviceVent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D6E130B51C600B7FAA9 /* DeviceVent@2x.png */; };
+		10F63D75130B53AB00B7FAA9 /* ScrewHole@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D74130B53AB00B7FAA9 /* ScrewHole@2x.png */; };
+		10F63D77130B53C100B7FAA9 /* DeviceVentMesh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D76130B53C100B7FAA9 /* DeviceVentMesh@2x.png */; };
+		10F63D79130B550B00B7FAA9 /* DarkScrewHole@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D78130B550B00B7FAA9 /* DarkScrewHole@2x.png */; };
+		10F63D7F130B576600B7FAA9 /* HeaderViewWhiteTape1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D7E130B576600B7FAA9 /* HeaderViewWhiteTape1@2x.png */; };
+		10F63D81130B57F100B7FAA9 /* IncidentPaperTicket1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D80130B57F100B7FAA9 /* IncidentPaperTicket1@2x.png */; };
+		10F63D87130B5AA600B7FAA9 /* IncidentFlag-Gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D82130B5AA400B7FAA9 /* IncidentFlag-Gray@2x.png */; };
+		10F63D88130B5AA600B7FAA9 /* IncidentFlag-Green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D83130B5AA400B7FAA9 /* IncidentFlag-Green@2x.png */; };
+		10F63D89130B5AA600B7FAA9 /* IncidentFlag-Orange@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D84130B5AA400B7FAA9 /* IncidentFlag-Orange@2x.png */; };
+		10F63D8A130B5AA600B7FAA9 /* IncidentFlag-Red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D85130B5AA500B7FAA9 /* IncidentFlag-Red@2x.png */; };
+		10F63D8B130B5AA600B7FAA9 /* IncidentFlag-Yellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D86130B5AA500B7FAA9 /* IncidentFlag-Yellow@2x.png */; };
+		10F63D8D130B5B4200B7FAA9 /* tools_grey_16@2x.tif in Resources */ = {isa = PBXBuildFile; fileRef = 10F63D8C130B5B4200B7FAA9 /* tools_grey_16@2x.tif */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -501,6 +519,24 @@
 		10D6F39112C14FDA00A717D3 /* LTDeviceEditSNMPPrivacyListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditSNMPPrivacyListTableViewController.m; sourceTree = "<group>"; };
 		10D6F39712C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTDeviceEditSNMPAuthenticationListTableViewController.h; sourceTree = "<group>"; };
 		10D6F39812C1514500A717D3 /* LTDeviceEditSNMPAuthenticationListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTDeviceEditSNMPAuthenticationListTableViewController.m; sourceTree = "<group>"; };
+		10F63D62130B504D00B7FAA9 /* LED-Blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LED-Blue@2x.png"; sourceTree = "<group>"; };
+		10F63D63130B504D00B7FAA9 /* LED-Green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LED-Green@2x.png"; sourceTree = "<group>"; };
+		10F63D64130B504D00B7FAA9 /* LED-Off@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LED-Off@2x.png"; sourceTree = "<group>"; };
+		10F63D65130B504D00B7FAA9 /* LED-Orange@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LED-Orange@2x.png"; sourceTree = "<group>"; };
+		10F63D66130B504D00B7FAA9 /* LED-Red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LED-Red@2x.png"; sourceTree = "<group>"; };
+		10F63D67130B504D00B7FAA9 /* LED-Yellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LED-Yellow@2x.png"; sourceTree = "<group>"; };
+		10F63D6E130B51C600B7FAA9 /* DeviceVent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeviceVent@2x.png"; sourceTree = "<group>"; };
+		10F63D74130B53AB00B7FAA9 /* ScrewHole@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ScrewHole@2x.png"; sourceTree = "<group>"; };
+		10F63D76130B53C100B7FAA9 /* DeviceVentMesh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeviceVentMesh@2x.png"; sourceTree = "<group>"; };
+		10F63D78130B550B00B7FAA9 /* DarkScrewHole@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DarkScrewHole@2x.png"; sourceTree = "<group>"; };
+		10F63D7E130B576600B7FAA9 /* HeaderViewWhiteTape1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HeaderViewWhiteTape1@2x.png"; sourceTree = "<group>"; };
+		10F63D80130B57F100B7FAA9 /* IncidentPaperTicket1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentPaperTicket1@2x.png"; sourceTree = "<group>"; };
+		10F63D82130B5AA400B7FAA9 /* IncidentFlag-Gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentFlag-Gray@2x.png"; sourceTree = "<group>"; };
+		10F63D83130B5AA400B7FAA9 /* IncidentFlag-Green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentFlag-Green@2x.png"; sourceTree = "<group>"; };
+		10F63D84130B5AA400B7FAA9 /* IncidentFlag-Orange@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentFlag-Orange@2x.png"; sourceTree = "<group>"; };
+		10F63D85130B5AA500B7FAA9 /* IncidentFlag-Red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentFlag-Red@2x.png"; sourceTree = "<group>"; };
+		10F63D86130B5AA500B7FAA9 /* IncidentFlag-Yellow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IncidentFlag-Yellow@2x.png"; sourceTree = "<group>"; };
+		10F63D8C130B5B4200B7FAA9 /* tools_grey_16@2x.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "tools_grey_16@2x.tif"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* Lithium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lithium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -872,6 +908,7 @@
 				105EDEA411BC392000B294B4 /* tools_grey_48.tif */,
 				105EDEA511BC392000B294B4 /* tools_grey_16.tif */,
 				105EDEA611BC392000B294B4 /* tools_16.tif */,
+				10F63D8C130B5B4200B7FAA9 /* tools_grey_16@2x.tif */,
 			);
 			name = "Incidents Tab";
 			sourceTree = "<group>";
@@ -1050,6 +1087,7 @@
 				109E815712FCD89700265BAF /* LTRackTableViewHeaderView.h */,
 				109E815812FCD89700265BAF /* LTRackTableViewHeaderView.m */,
 				109E815A12FCDA9900265BAF /* HeaderViewWhiteTape1.png */,
+				10F63D7E130B576600B7FAA9 /* HeaderViewWhiteTape1@2x.png */,
 				109E815C12FCDF1D00265BAF /* RackHeaderViewBackTile.png */,
 			);
 			name = "Table View Header and Footer Views";
@@ -1060,12 +1098,18 @@
 			children = (
 				109E816112FCE87000265BAF /* LTIncidentTableViewCell.h */,
 				109E816212FCE87000265BAF /* LTIncidentTableViewCell.m */,
+				10F63D80130B57F100B7FAA9 /* IncidentPaperTicket1@2x.png */,
 				109E817012FCFD4500265BAF /* IncidentPaperTicket1.png */,
 				109E817412FCFE3300265BAF /* IncidentFlag-Yellow.png */,
 				109E816612FCFC1500265BAF /* IncidentFlag-Gray.png */,
 				109E816712FCFC1500265BAF /* IncidentFlag-Green.png */,
 				109E816812FCFC1500265BAF /* IncidentFlag-Orange.png */,
 				109E816912FCFC1500265BAF /* IncidentFlag-Red.png */,
+				10F63D82130B5AA400B7FAA9 /* IncidentFlag-Gray@2x.png */,
+				10F63D83130B5AA400B7FAA9 /* IncidentFlag-Green@2x.png */,
+				10F63D84130B5AA400B7FAA9 /* IncidentFlag-Orange@2x.png */,
+				10F63D85130B5AA500B7FAA9 /* IncidentFlag-Red@2x.png */,
+				10F63D86130B5AA500B7FAA9 /* IncidentFlag-Yellow@2x.png */,
 			);
 			name = "Incident Table View Cell";
 			sourceTree = "<group>";
@@ -1114,6 +1158,12 @@
 				10A73B8E12FBBBB2005CFDD5 /* LED-Orange.png */,
 				10A73B8F12FBBBB2005CFDD5 /* LED-Red.png */,
 				10A73B9012FBBBB2005CFDD5 /* LED-Yellow.png */,
+				10F63D62130B504D00B7FAA9 /* LED-Blue@2x.png */,
+				10F63D63130B504D00B7FAA9 /* LED-Green@2x.png */,
+				10F63D64130B504D00B7FAA9 /* LED-Off@2x.png */,
+				10F63D65130B504D00B7FAA9 /* LED-Orange@2x.png */,
+				10F63D66130B504D00B7FAA9 /* LED-Red@2x.png */,
+				10F63D67130B504D00B7FAA9 /* LED-Yellow@2x.png */,
 			);
 			name = "LED Images";
 			sourceTree = "<group>";
@@ -1121,6 +1171,8 @@
 		10A73C5512FBC263005CFDD5 /* Screws */ = {
 			isa = PBXGroup;
 			children = (
+				10F63D78130B550B00B7FAA9 /* DarkScrewHole@2x.png */,
+				10F63D74130B53AB00B7FAA9 /* ScrewHole@2x.png */,
 				10A73C5D12FBC26B005CFDD5 /* ScrewHole.png */,
 				109E815E12FCE68E00265BAF /* DarkScrewHole.png */,
 			);
@@ -1135,6 +1187,8 @@
 				106A8C1B130A060A008D75DD /* DeviceVentRedGlow1.png */,
 				106A8C1C130A060A008D75DD /* DeviceVentBlueGlow1.png */,
 				106A8C1D130A060A008D75DD /* DeviceVentBlueGlow2.png */,
+				10F63D6E130B51C600B7FAA9 /* DeviceVent@2x.png */,
+				10F63D76130B53C100B7FAA9 /* DeviceVentMesh@2x.png */,
 			);
 			name = "Device Vents";
 			sourceTree = "<group>";
@@ -1473,6 +1527,24 @@
 				106A8C1E130A060A008D75DD /* DeviceVentRedGlow1.png in Resources */,
 				106A8C1F130A060A008D75DD /* DeviceVentBlueGlow1.png in Resources */,
 				106A8C20130A060A008D75DD /* DeviceVentBlueGlow2.png in Resources */,
+				10F63D68130B504D00B7FAA9 /* LED-Blue@2x.png in Resources */,
+				10F63D69130B504D00B7FAA9 /* LED-Green@2x.png in Resources */,
+				10F63D6A130B504D00B7FAA9 /* LED-Off@2x.png in Resources */,
+				10F63D6B130B504D00B7FAA9 /* LED-Orange@2x.png in Resources */,
+				10F63D6C130B504D00B7FAA9 /* LED-Red@2x.png in Resources */,
+				10F63D6D130B504D00B7FAA9 /* LED-Yellow@2x.png in Resources */,
+				10F63D70130B51C600B7FAA9 /* DeviceVent@2x.png in Resources */,
+				10F63D75130B53AB00B7FAA9 /* ScrewHole@2x.png in Resources */,
+				10F63D77130B53C100B7FAA9 /* DeviceVentMesh@2x.png in Resources */,
+				10F63D79130B550B00B7FAA9 /* DarkScrewHole@2x.png in Resources */,
+				10F63D7F130B576600B7FAA9 /* HeaderViewWhiteTape1@2x.png in Resources */,
+				10F63D81130B57F100B7FAA9 /* IncidentPaperTicket1@2x.png in Resources */,
+				10F63D87130B5AA600B7FAA9 /* IncidentFlag-Gray@2x.png in Resources */,
+				10F63D88130B5AA600B7FAA9 /* IncidentFlag-Green@2x.png in Resources */,
+				10F63D89130B5AA600B7FAA9 /* IncidentFlag-Orange@2x.png in Resources */,
+				10F63D8A130B5AA600B7FAA9 /* IncidentFlag-Red@2x.png in Resources */,
+				10F63D8B130B5AA600B7FAA9 /* IncidentFlag-Yellow@2x.png in Resources */,
+				10F63D8D130B5B4200B7FAA9 /* tools_grey_16@2x.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1574,7 +1646,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CURRENT_PROJECT_VERSION = 8641;
+				CURRENT_PROJECT_VERSION = 8642;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1591,11 +1663,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: LithiumCorp";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LithiumTouchUniversal_Prefix.pch;
 				INFOPLIST_FILE = "LithiumTouchUniversal-Info.plist";
 				PRODUCT_NAME = Lithium;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2F80DB8B-A698-4078-965E-B2B00FE6BFF0";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = "Ad Hoc";
@@ -1618,11 +1692,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: LithiumCorp";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LithiumTouchUniversal_Prefix.pch;
 				INFOPLIST_FILE = "LithiumTouchUniversal-Info.plist";
 				PRODUCT_NAME = Lithium;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "75339988-C068-4FCA-A90F-5828E9E11DBE";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1632,7 +1708,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8641;
+				CURRENT_PROJECT_VERSION = 8642;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1649,7 +1725,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CURRENT_PROJECT_VERSION = 8641;
+				CURRENT_PROJECT_VERSION = 8642;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
