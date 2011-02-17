@@ -351,25 +351,29 @@
 
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (sortSegment && sortSegment.selectedSegmentIndex == SORT_BY_DEVICE && section < sortedChildren.count)
+    if (sortedChildren.count > 0)
     {
-        /* Use device view */
-        LTDeviceEntityTableViewCell *deviceView = [[LTDeviceEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"dummy"];
-        LTIncidentListGroup *group = [sortedChildren objectAtIndex:section];
-        deviceView.drawAsRack = YES;
-        deviceView.textLabel.text = group.title;
-        deviceView.entityState = group.highestEntityState;
-        return [deviceView autorelease];
+        if (sortSegment && sortSegment.selectedSegmentIndex == SORT_BY_DEVICE && section < sortedChildren.count)
+        {
+            /* Use device view */
+            LTDeviceEntityTableViewCell *deviceView = [[LTDeviceEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"dummy"];
+            LTIncidentListGroup *group = [sortedChildren objectAtIndex:section];
+            deviceView.drawAsRack = YES;
+            deviceView.textLabel.text = group.title;
+            deviceView.entityState = group.highestEntityState;
+            return [deviceView autorelease];
+        }
+        if (!sortSegment || (sortSegment.selectedSegmentIndex == SORT_BY_TIME && section < sortedChildren.count))
+        {
+            /* Use rack section header */
+            LTRackTableViewHeaderView *header = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero]; 
+            header.textLabel.text = [self tableView:tableView titleForHeaderInSection:section];
+            if (!sortSegment) header.showScrews = NO;
+            return [header autorelease];
+        }
     }
-    if (!sortSegment || (sortSegment.selectedSegmentIndex == SORT_BY_TIME && section < sortedChildren.count))
-    {
-        /* Use rack section header */
-        LTRackTableViewHeaderView *header = [[LTRackTableViewHeaderView alloc] initWithFrame:CGRectZero]; 
-        header.textLabel.text = [self tableView:tableView titleForHeaderInSection:section];
-        if (!sortSegment) header.showScrews = NO;
-        return [header autorelease];
-    }
-    else return nil;
+    
+    return nil;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

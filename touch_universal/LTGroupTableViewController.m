@@ -69,10 +69,14 @@
 {
 	[super awakeFromNib];
 
-	/* We are the root-level controller, observe core deployment changes */
+    /* Observe *all* RefreshFinished messages to catch
+     * when a group tree is refreshed. The groupTreeRefreshFinished:
+     * method checks that the notifier is a LTGroupTree 
+     */
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(groupTreeRefreshFinished:)
-												 name:@"LTGroupTreeRefreshFinished" object:nil];
+												 name:@"RefreshFinished" object:nil];
+	/* We are the root-level controller, observe core deployment changes */
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(deploymentRefreshFinished:)
 												 name:@"LTCoreDeploymentRefreshFinished"
@@ -559,14 +563,17 @@
 
 - (void) groupTreeRefreshFinished:(NSNotification *)notification
 {
-	[self sortAndFilterChildren];
-	[[self tableView] reloadData];
-
-    if (self.reloading && ![self refreshInProgress])
+    if ([[notification object] isMemberOfClass:[LTGroupTree class]])
     {
-        /* Cancel pull to refresh view */
-        self.reloading = NO;
-        [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+        [self sortAndFilterChildren];
+        [[self tableView] reloadData];
+
+        if (self.reloading && ![self refreshInProgress])
+        {
+            /* Cancel pull to refresh view */
+            self.reloading = NO;
+            [self.refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+        }
     }
 }
 

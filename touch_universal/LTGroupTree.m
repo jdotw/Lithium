@@ -179,9 +179,6 @@
 	[self recursivelyCheckObsoleteGroups:seenGroups
 							 andEntities:seenEntities 
 								 inGroup:self]; 
-
-	/* Post group-tree specific notification */
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"LTGroupTreeRefreshFinished" object:self];
 }
 
 - (void) recursivelyCheckObsoleteGroups:(NSArray *)seenGroups 

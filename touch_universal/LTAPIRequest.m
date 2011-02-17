@@ -106,6 +106,17 @@
 						  previousFailureCount:[challenge previousFailureCount]];
 }		
 
+- (void) _postNotification:(NSString *)name
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:name object:self];
+}
+
+- (void) _postReachabilityNotificationForCoreDeployment:(LTCoreDeployment *)deployment
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"LTCoreDeploymentReachabilityChanged" 
+                                                        object:deployment];
+}
+
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {	
     /* Set State */
@@ -124,11 +135,14 @@
     if (coreDeployment && !coreDeployment.lastRefreshFailed)
     {
         /* First (recent) failure, post a reachability change notification */
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"LTCoreDeploymentReachabilityChanged" 
-                                                            object:coreDeployment];
+        [self performSelectorOnMainThread:@selector(_postReachabilityNotificationForCoreDeployment:)
+                               withObject:coreDeployment
+                            waitUntilDone:YES];
     }
     coreDeployment.lastRefreshFailed = YES;
-    [[NSNotificationCenter defaultCenter] postNotificationName:kLTAPIRequestFailed object:self];
+    [self performSelectorOnMainThread:@selector(_postNotification:)
+                           withObject:kLTAPIRequestFailed 
+                        waitUntilDone:YES];
     
     /* Clean up */
 //    [connection release]; // DO NOT RELEASE -- In the NSOperation mode it's held onto by main

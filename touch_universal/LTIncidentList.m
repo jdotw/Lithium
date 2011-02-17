@@ -350,10 +350,7 @@
 	}
     
     /* Set last refresh date */
-    if (currentRequest == REQ_LIST)
-    {
-        self.lastRefresh = [NSDate date];
-    }
+    self.lastRefresh = [NSDate date];
 }
 
 #pragma mark "Properties"

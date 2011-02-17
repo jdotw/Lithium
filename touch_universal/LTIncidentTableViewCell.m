@@ -137,9 +137,17 @@ static float tapeVectors[16][2] = {
 
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
+    
+    self.textLabel.frame = CGRectZero;
+    self.detailTextLabel.frame = CGRectZero;
+    
+    NSLog (@"Asked to layuoit %@", self);
     /* Layout the ticket image -- image is always 288x40 */
     CGFloat ticketImageHeight = 50.;
-    CGRect ticketRect = {{CGRectGetMidX(self.bounds)-(288.*0.5), CGRectGetMidY(self.bounds)-(ticketImageHeight*0.5)}, {288., ticketImageHeight}};
+    CGFloat ticketWidth = 288.;
+    if (self.editing) ticketWidth = 240.;  // Switch to 240. width when editing to accomodate Clear button
+    CGRect ticketRect = {{CGRectGetMidX(self.bounds)-(288.*0.5), CGRectGetMidY(self.bounds)-(ticketImageHeight*0.5)}, {ticketWidth, ticketImageHeight}};
     ticket.frame = ticketRect;
     
     /* Layout Flag -- Square to the left inside the ticket */
@@ -183,5 +191,10 @@ static float tapeVectors[16][2] = {
     }
 
 }
+
+//- (void)willTransitionToState:(UITableViewCellStateMask)state
+//{
+//    NSLog (@"%@ got willTransitionToState:", self);
+//}
 
 @end
