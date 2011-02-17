@@ -10,6 +10,10 @@
 #import "LTCoreDeployment.h"
 #import "LTCoreEditTableViewController.h"
 #import "LTAuthenticationTableViewController.h"
+#import "LTEntityTableViewController.h"
+#import "LTGroupTableViewController.h"
+#import "LTFavoritesTableViewController.h"
+#import "LTIncidentListTableViewController.h"
 
 @implementation AppDelegate
 
@@ -174,9 +178,46 @@
 	[netService retain];
 }
 
+#pragma mark -
+#pragma mark Tab Bar Delegate
+
+- (void)tabBarController:(UITabBarController *)theTabBarController didSelectViewController:(UIViewController *)viewController
+{
+	NSLog (@"%@ selected %@", theTabBarController, viewController);
+	if ([viewController isMemberOfClass:[LTEntityTableViewController class]])
+	{
+		/* Entity Table View Selected */
+		LTEntityTableViewController *entityTVC = (LTEntityTableViewController *) viewController;
+		[entityTVC refreshTouched:self];
+	}
+	else if ([viewController isMemberOfClass:[LTGroupTableViewController class]])
+	{
+		/* Groups Touched */
+		for (LTCustomer *customer in [self valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+		{ 
+			[customer.groupTree refresh];
+		}		
+	}
+	else if ([viewController isMemberOfClass:[LTFavoritesTableViewController class]])
+	{
+		/* Favorites Touched 
+		 *
+		 * Nothing to do here, it's all local, perhaps just a refresh of each metric/graph? FIX 
+		 */
+	}
+	else if ([viewController isMemberOfClass:[LTIncidentListTableViewController class]])
+	{
+		/* Incidents Touched */
+		for (LTCustomer *customer in [self valueForKeyPath:@"coreDeployments.@unionOfArrays.children"])
+		{ 
+			[customer.incidentList refresh]; 
+		}		
+	}
+}
+
 
 #pragma mark -
-#pragma mark "Properties"
+#pragma mark Properties
 
 @synthesize window;
 @synthesize tabBarController;
