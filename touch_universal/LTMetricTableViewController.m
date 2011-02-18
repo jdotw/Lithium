@@ -584,11 +584,17 @@
 
 - (IBAction) actionClicked:(id)sender
 {
+    /* Determine other buttons */
+    NSMutableArray *otherButtons = [NSMutableArray array];
+    [otherButtons addObject:@"Add To Favorites"];
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) [otherButtons addObject:@"Adjust Triggers"];
+    
 	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ Actions", metric.desc]
 															 delegate:self 
 													cancelButtonTitle:@"Cancel" 
 											   destructiveButtonTitle:nil
-													otherButtonTitles:@"Add To Favorites", nil];
+													otherButtonTitles:nil];
+    [actionSheet ins
 	actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
 	if ([sender isMemberOfClass:[UIBarButtonItem class]])
 	{ [actionSheet showFromBarButtonItem:sender animated:YES]; }
@@ -605,6 +611,10 @@
 		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 		[appDelegate.favoritesController addToFavorites:self.metric];
 	}
+    else if (buttonIndex == 1)
+    {
+        /* Adjust Triggers */
+    }
 }
 
 #pragma mark -

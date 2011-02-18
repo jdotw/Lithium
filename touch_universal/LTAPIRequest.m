@@ -154,5 +154,6 @@
 @synthesize refreshInProgress;
 @synthesize delegate;
 @synthesize debug;
+@synthesize receivedData;
 
 @end

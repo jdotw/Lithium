@@ -30,5 +30,6 @@
 @property (nonatomic, retain) LTCustomer *customer;
 @property (nonatomic, assign) BOOL refreshInProgress;
 @property (nonatomic, assign) BOOL debug;
+@property (nonatomic, retain) NSMutableData *receivedData;
 
 @end
