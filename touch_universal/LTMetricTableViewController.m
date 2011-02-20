@@ -25,6 +25,7 @@
 #import "LTTableViewController.h"
 #import "LTTableViewCell.h"
 #import "LTSubDeviceTableViewCellBackgroundView.h"
+#import "LTTriggerSetListTableViewController.h"
 
 #define kAnimationKey @"transitionViewAnimation"
 
@@ -585,16 +586,14 @@
 - (IBAction) actionClicked:(id)sender
 {
     /* Determine other buttons */
-    NSMutableArray *otherButtons = [NSMutableArray array];
-    [otherButtons addObject:@"Add To Favorites"];
-    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) [otherButtons addObject:@"Adjust Triggers"];
-    
 	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@ Actions", metric.desc]
 															 delegate:self 
-													cancelButtonTitle:@"Cancel" 
+													cancelButtonTitle:nil
 											   destructiveButtonTitle:nil
 													otherButtonTitles:nil];
-    [actionSheet ins
+    [actionSheet addButtonWithTitle:@"Add To Favorites"];
+    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad) [actionSheet addButtonWithTitle:@"Adjust Triggers"];
+    [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
 	actionSheet.actionSheetStyle = UIActionSheetStyleDefault;
 	if ([sender isMemberOfClass:[UIBarButtonItem class]])
 	{ [actionSheet showFromBarButtonItem:sender animated:YES]; }
@@ -605,6 +604,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    NSLog (@"Index %i", buttonIndex);
 	if (buttonIndex == 0)
 	{
 		/* Add to Favorites */
@@ -614,6 +614,10 @@
     else if (buttonIndex == 1)
     {
         /* Adjust Triggers */
+        LTTriggerSetListTableViewController *vc = [[[LTTriggerSetListTableViewController alloc] initWithMetric:self.metric] autorelease];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        nav.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self.navigationController presentModalViewController:nav animated:YES];
     }
 }
 

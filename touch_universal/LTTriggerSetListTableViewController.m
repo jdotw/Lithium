@@ -61,6 +61,8 @@
     [[self tableView] reloadData];
     self.navigationItem.titleView = nil;
     self.navigationItem.title = @"Trigger Sets";
+    
+    NSLog (@"Refresh finisherd and has %@", tsetList.children);
 }
 
 #pragma mark - Refresh
@@ -140,7 +142,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Get tset 
@@ -150,6 +152,7 @@
     cell.textLabel.text = tset.desc;
     if (tset.adminState == 0) cell.detailTextLabel.text = @"Enabled";
     else cell.detailTextLabel.text = @"Disabled";
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }

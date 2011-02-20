@@ -129,6 +129,11 @@
 		106A8C20130A060A008D75DD /* DeviceVentBlueGlow2.png in Resources */ = {isa = PBXBuildFile; fileRef = 106A8C1D130A060A008D75DD /* DeviceVentBlueGlow2.png */; };
 		106CB6E211BF79D000F3382D /* LTWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 106CB6E111BF79D000F3382D /* LTWindow.m */; };
 		106DB11E12FDF651006262FE /* GraphLegendLipGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 106DB11D12FDF651006262FE /* GraphLegendLipGradient.png */; };
+		107204EC130E10F60035CD3D /* LTTriggerSetAppRuleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 107204EB130E10F60035CD3D /* LTTriggerSetAppRuleList.m */; };
+		107204EF130E11050035CD3D /* LTTriggerSetAppRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 107204EE130E11050035CD3D /* LTTriggerSetAppRule.m */; };
+		107204F2130E1B7F0035CD3D /* LTTriggerSetValRuleList.m in Sources */ = {isa = PBXBuildFile; fileRef = 107204F1130E1B7E0035CD3D /* LTTriggerSetValRuleList.m */; };
+		107204F5130E1B990035CD3D /* LTTriggerSetValRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 107204F4130E1B970035CD3D /* LTTriggerSetValRule.m */; };
+		107204F8130E22FE0035CD3D /* LTTriggerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107204F7130E22FD0035CD3D /* LTTriggerTableViewController.m */; };
 		107819121290A797006E60F4 /* navlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 107819111290A797006E60F4 /* navlist.png */; };
 		107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107C3276127FB97F00C2321F /* LTObjectIconViewController.m */; };
 		107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */; };
@@ -428,6 +433,16 @@
 		106CB6E011BF79D000F3382D /* LTWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTWindow.h; sourceTree = "<group>"; };
 		106CB6E111BF79D000F3382D /* LTWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTWindow.m; sourceTree = "<group>"; };
 		106DB11D12FDF651006262FE /* GraphLegendLipGradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GraphLegendLipGradient.png; sourceTree = "<group>"; };
+		107204EA130E10F60035CD3D /* LTTriggerSetAppRuleList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTriggerSetAppRuleList.h; sourceTree = "<group>"; };
+		107204EB130E10F60035CD3D /* LTTriggerSetAppRuleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTriggerSetAppRuleList.m; sourceTree = "<group>"; };
+		107204ED130E11050035CD3D /* LTTriggerSetAppRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTriggerSetAppRule.h; sourceTree = "<group>"; };
+		107204EE130E11050035CD3D /* LTTriggerSetAppRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTriggerSetAppRule.m; sourceTree = "<group>"; };
+		107204F0130E1B7D0035CD3D /* LTTriggerSetValRuleList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTriggerSetValRuleList.h; sourceTree = "<group>"; };
+		107204F1130E1B7E0035CD3D /* LTTriggerSetValRuleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTriggerSetValRuleList.m; sourceTree = "<group>"; };
+		107204F3130E1B970035CD3D /* LTTriggerSetValRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTriggerSetValRule.h; sourceTree = "<group>"; };
+		107204F4130E1B970035CD3D /* LTTriggerSetValRule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTriggerSetValRule.m; sourceTree = "<group>"; };
+		107204F6130E22FD0035CD3D /* LTTriggerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTriggerTableViewController.h; sourceTree = "<group>"; };
+		107204F7130E22FD0035CD3D /* LTTriggerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTriggerTableViewController.m; sourceTree = "<group>"; };
 		107819111290A797006E60F4 /* navlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navlist.png; sourceTree = "<group>"; };
 		107C3275127FB97F00C2321F /* LTObjectIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTObjectIconViewController.h; sourceTree = "<group>"; };
 		107C3276127FB97F00C2321F /* LTObjectIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTObjectIconViewController.m; sourceTree = "<group>"; };
@@ -675,6 +690,8 @@
 				1030FA37130DC9A00083A749 /* LTTriggerSetListTableViewController.m */,
 				10AECF88130DDBB7001EFCB9 /* LTTriggerSetTableViewController.h */,
 				10AECF89130DDBB7001EFCB9 /* LTTriggerSetTableViewController.m */,
+				107204F6130E22FD0035CD3D /* LTTriggerTableViewController.h */,
+				107204F7130E22FD0035CD3D /* LTTriggerTableViewController.m */,
 			);
 			name = "Trigger Adjustment";
 			sourceTree = "<group>";
@@ -688,6 +705,14 @@
 				1030FA3E130DCB450083A749 /* LTTriggerSet.m */,
 				1030FA40130DCB510083A749 /* LTTrigger.h */,
 				1030FA41130DCB510083A749 /* LTTrigger.m */,
+				107204EA130E10F60035CD3D /* LTTriggerSetAppRuleList.h */,
+				107204EB130E10F60035CD3D /* LTTriggerSetAppRuleList.m */,
+				107204ED130E11050035CD3D /* LTTriggerSetAppRule.h */,
+				107204EE130E11050035CD3D /* LTTriggerSetAppRule.m */,
+				107204F0130E1B7D0035CD3D /* LTTriggerSetValRuleList.h */,
+				107204F1130E1B7E0035CD3D /* LTTriggerSetValRuleList.m */,
+				107204F3130E1B970035CD3D /* LTTriggerSetValRule.h */,
+				107204F4130E1B970035CD3D /* LTTriggerSetValRule.m */,
 			);
 			name = Triggers;
 			sourceTree = "<group>";
@@ -1681,6 +1706,11 @@
 				1030FA3F130DCB460083A749 /* LTTriggerSet.m in Sources */,
 				1030FA42130DCB510083A749 /* LTTrigger.m in Sources */,
 				10AECF8A130DDBB7001EFCB9 /* LTTriggerSetTableViewController.m in Sources */,
+				107204EC130E10F60035CD3D /* LTTriggerSetAppRuleList.m in Sources */,
+				107204EF130E11050035CD3D /* LTTriggerSetAppRule.m in Sources */,
+				107204F2130E1B7F0035CD3D /* LTTriggerSetValRuleList.m in Sources */,
+				107204F5130E1B990035CD3D /* LTTriggerSetValRule.m in Sources */,
+				107204F8130E22FE0035CD3D /* LTTriggerTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

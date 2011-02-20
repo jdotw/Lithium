@@ -44,22 +44,22 @@
 - (void) cancel;
 
 #pragma mark "Properties"
-@property (assign) int identifier;
-@property (copy) NSString *desc;
-@property (assign) BOOL enabled;
-@property (assign) int activationMode;
-@property (assign) NSTimeInterval delay;
-@property (assign) BOOL rerun;	
-@property (assign) NSTimeInterval rerunDelay;
-@property (assign) BOOL timeFiltered;
-@property (assign) int dayMask;
-@property (assign) int startHour;
-@property (assign) int endHour;
-@property (assign) int runCount;
-@property (assign) int runState;
-@property (copy) NSString *scriptFile;
-@property (assign) LTIncident *incident;
-@property (assign) int xmlOperationResult;
-@property (copy) NSString *xmlOperationMessage;
+@property (nonatomic,assign) int identifier;
+@property (nonatomic,copy) NSString *desc;
+@property (nonatomic,assign) BOOL enabled;
+@property (nonatomic,assign) int activationMode;
+@property (nonatomic,assign) NSTimeInterval delay;
+@property (nonatomic,assign) BOOL rerun;	
+@property (nonatomic,assign) NSTimeInterval rerunDelay;
+@property (nonatomic,assign) BOOL timeFiltered;
+@property (nonatomic,assign) int dayMask;
+@property (nonatomic,assign) int startHour;
+@property (nonatomic,assign) int endHour;
+@property (nonatomic,assign) int runCount;
+@property (nonatomic,assign) int runState;
+@property (nonatomic,copy) NSString *scriptFile;
+@property (nonatomic,assign) LTIncident *incident;
+@property (nonatomic,assign) int xmlOperationResult;
+@property (nonatomic,copy) NSString *xmlOperationMessage;
 
 @end

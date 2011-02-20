@@ -50,6 +50,8 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.navigationItem.title = self.tset.desc;
 }
 
 - (void)viewDidUnload
@@ -117,7 +119,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell...
@@ -125,16 +127,20 @@
     {
         /* Enabled switch */
         cell.textLabel.text = @"Enabled";
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     else if (indexPath.section == 1)
     {
         /* Trigger List */
         LTTrigger *trg = [self.tset.children objectAtIndex:indexPath.row];
         cell.textLabel.text = trg.desc;
+        cell.detailTextLabel.text = trg.conditionString;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else if (indexPath.section == 2)
     {
         /* Scope */
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     return cell;
@@ -158,6 +164,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 1)
+    {
+        /* Trigger Selected */
+    }
 }
 
 @end

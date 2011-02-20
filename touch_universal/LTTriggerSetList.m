@@ -48,9 +48,10 @@
 	}
 
 	/* Refresh the triggerset list */
-	NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:[self.metric urlForXml:@"triggerset_list" timestamp:0]
+	NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:[self.metric.object urlForXml:@"triggerset_list" timestamp:0]
 															  cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
 														  timeoutInterval:60.0];	
+    NSLog (@"Req is %@", theRequest);
 	
 	/* Establish Connection */
 	NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
@@ -85,7 +86,7 @@
                 {
                     tset = [[LTTriggerSet new] autorelease];
                     tset.name = [TBXML textForElementNamed:@"name" parentElement:node];
-                    tset.desc = [TBXML textForElementNamed:@"name" parentElement:node];
+                    tset.desc = [TBXML textForElementNamed:@"desc" parentElement:node];
                     [childDict setObject:tset forKey:tset.name];
                     [children addObject:tset];
                 }
@@ -105,7 +106,7 @@
                             trg.name = [TBXML textForElementNamed:@"name" parentElement:triggerNode];
                             trg.desc = [TBXML textForElementNamed:@"desc" parentElement:triggerNode];
                             [tset.childDict setObject:trg forKey:trg.name];
-                            [tset.children addObject:tset];
+                            [tset.children addObject:trg];
                         }
                         trg.valueType = [TBXML intFromTextForElementNamed:@"valtype_num" parentElement:triggerNode];
                         trg.effect = [TBXML intFromTextForElementNamed:@"effect_num" parentElement:triggerNode];
