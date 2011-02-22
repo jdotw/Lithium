@@ -7,21 +7,67 @@
 //
 
 #import "LTTriggerTableViewController.h"
-
+#import "LTTrigger.h"
 
 @implementation LTTriggerTableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
+@synthesize trg=_trg;
+
+- (id)initWithTrigger:(LTTrigger *)trg
 {
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
+    self = [super initWithStyle:UITableViewStyleGrouped];
+    if (self) 
+    {
+        _trg = [trg retain];
+        
+        /* Enabled Switch */
+        CGRect switchFrame = CGRectMake(0.0, 0.0, 94.0, 27.0);
+        enabledSwitch = [[UISwitch alloc] initWithFrame:switchFrame];
+        enabledSwitch.backgroundColor = [UIColor clearColor];
+        if (trg.adminState == 0) enabledSwitch.on = YES;
+        else enabledSwitch.on = NO;
+        [enabledSwitch addTarget:self action:@selector(enabledChanged:) forControlEvents:UIControlEventValueChanged];
+        
+        /* Condition Segment */
+        conditionSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"=", @"<", @">", @"!=", @"> <", nil]];
+        conditionSegment.backgroundColor = [UIColor clearColor];
+        conditionSegment.selectedSegmentIndex = self.trg.triggerType-1;
+        [conditionSegment addTarget:self action:@selector(conditionChanged:) forControlEvents:UIControlEventValueChanged];
+        
+        
+        /* xValue Text Field */
+        CGRect fieldRect = CGRectMake(0.0, 0.0, 160, 23);
+        xValueField = [[UITextField alloc] initWithFrame:fieldRect];
+        xValueField.backgroundColor = [UIColor clearColor];
+        xValueField.textAlignment = UITextAlignmentRight;
+        xValueField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        xValueField.delegate = self;
+        
+        /* yValue Text Field */
+        yValueField = [[UITextField alloc] initWithFrame:fieldRect];
+        yValueField.backgroundColor = [UIColor clearColor];
+        yValueField.textAlignment = UITextAlignmentRight;
+        yValueField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        yValueField.delegate = self;
+        
+        /* Set keyboard type */
+        if  (self.trg.valueType != VALTYPE_STRING)
+        {
+            /* Set to numeric keypad for non-string values */
+            xValueField.keyboardType = UIKeyboardTypeDecimalPad;
+            yValueField.keyboardType = UIKeyboardTypeDecimalPad;
+        }
+
     }
     return self;
 }
 
 - (void)dealloc
 {
+    self.trg = nil;
+    [enabledSwitch release];
+    [conditionSegment release];
+    [xValueField release];
     [super dealloc];
 }
 
@@ -44,6 +90,8 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.navigationItem.title = self.trg.desc;
 }
 
 - (void)viewDidUnload
@@ -83,16 +131,32 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+    if (self.trg.adminState == 0) return 3;
+    else return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
+    switch (section)
+    {
+        case 0:
+            /* Enabled */
+            return 1;
+        case 1:
+            /* Condition */
+            return 1;
+        case 2:
+            /* Value */
+            if (self.trg.triggerType == TRGTYPE_RANGE) return 2;
+            else return 1;
+        default:
+            return 0;
+    }
+}
+
+- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -105,61 +169,97 @@
     }
     
     // Configure the cell...
+    if (indexPath.section == 0)
+    {
+        /* Enabled */
+        cell.textLabel.text = @"Enabled";
+        cell.accessoryView = enabledSwitch;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    else if (indexPath.section == 1)
+    {
+        /* Condition */
+        cell.accessoryView = conditionSegment;
+        cell.accessoryType = UITableViewCellAccessoryNone;        
+        cell.textLabel.text = @"Condition";
+    }
+    else if (indexPath.section == 2)
+    {
+        if (indexPath.row == 0)
+        {
+            /* X Value */
+            if (self.trg.triggerType == TRGTYPE_RANGE)
+            { cell.textLabel.text = @"Min Value"; }
+            else 
+            { cell.textLabel.text = @"Value"; }
+            cell.accessoryView = xValueField;
+            xValueField.text = self.trg.xValue;
+        }
+        else if (indexPath.row == 1)
+        {
+            /* Y Value */
+            cell.textLabel.text = @"Max Value";
+            cell.accessoryView = yValueField;
+            yValueField.text = self.trg.yValue;
+        }
+    }
     
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+    if (indexPath.section == 1)
+    {
+        /* Condition */
+    }
 }
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
+- (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;  // Deny all selection
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+}
+
+#pragma mark - UI Actions
+
+- (void) enabledChanged:(id)sender
+{
+    if (enabledSwitch.on)
+    {
+        self.trg.adminState = 0;    // Enabled
+    }
+    else if (!enabledSwitch.on)
+    {
+        self.trg.adminState = 1;    // Disabled
+    }
+    [self.tableView reloadData];    
+}
+
+- (void) conditionChanged:(id)sender
+{
+    self.trg.triggerType = conditionSegment.selectedSegmentIndex+1;
+    [self.tableView reloadData];
+}
+
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == xValueField)
+    {
+        NSLog (@"X Changed to %@", [xValueField.text stringByReplacingCharactersInRange:range withString:string]);
+        self.trg.xValue = [xValueField.text stringByReplacingCharactersInRange:range withString:string];
+    }
+    else if (textField == yValueField)
+    {
+        NSLog (@"Y Changed to %@", [yValueField.text stringByReplacingCharactersInRange:range withString:string]);
+        self.trg.yValue = [yValueField.text stringByReplacingCharactersInRange:range withString:string];
+    }
+    return YES;
 }
 
 @end

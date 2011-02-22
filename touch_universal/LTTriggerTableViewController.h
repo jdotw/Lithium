@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class LTTrigger;
 
-@interface LTTriggerTableViewController : UITableViewController {
+@interface LTTriggerTableViewController : UITableViewController <UITextFieldDelegate>
+{
+    UISwitch *enabledSwitch;
     
+    UISegmentedControl *conditionSegment;
+    
+    UITextField *xValueField;
+    UITextField *yValueField;
 }
+
+@property (nonatomic,retain) LTTrigger *trg;
+- (id)initWithTrigger:(LTTrigger *)trg;
 
 @end

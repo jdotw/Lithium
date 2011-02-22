@@ -7,10 +7,251 @@
 //
 
 #import "LTTriggerSet.h"
-
+#import "LTTriggerSetAppRule.h"
+#import "LTTriggerSetValRule.h"
+#import "LTTrigger.h"
 
 @implementation LTTriggerSet
 
-@synthesize applied;
+@synthesize applied=_applied, appRuleDict, appRules, ruleUpdateInProgress;
+
+- (id) init
+{
+    self = [super init];
+    if (!self) return nil;
+    
+    appRuleDict = [[NSMutableDictionary dictionary] retain];
+    appRules = [[NSMutableArray array] retain];
+    
+    return self;
+}
+
+- (void) dealloc
+{
+    [appRuleDict release];
+    [appRules release];
+    [super dealloc];
+}
+
+- (void) beginAPIUpdate
+{
+    _apiUpdate = YES;
+}
+
+- (void) endAPIUpdate
+{
+    _apiUpdate = NO;
+}
+
+- (void) setApplied:(BOOL)applied
+{
+    _applied = applied;
+    if (_apiUpdate) _apiApplied = applied;
+}
+
+#pragma - Rule Updating
+
+- (LTTriggerSetAppRule *) _scopedAppRuleForObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName
+{
+    /* Return an AppRule the first appRule that matches the scope */
+    for (LTTriggerSetAppRule *appRule in self.appRules)
+    {
+        if ((objName && appRule.objName) && [appRule.objName isEqualToString:objName] 
+            && (devName && appRule.devName) && [appRule.devName isEqualToString:devName] 
+            && (siteName && appRule.siteName) && [appRule.siteName isEqualToString:siteName])
+        {
+            /* Match! */
+            return appRule;
+        }
+    }
+    return nil; // No match
+}
+
+- (BOOL) _setHasChanged
+{
+    if (_applied != _apiApplied) return YES;
+    else return NO;
+}
+
+- (BOOL) setOrTriggersHaveChanged
+{
+    /* Returns YES if there are changes in either the triggerset
+     * or the triggers in the site. This is used to control UI elements 
+     */
+    if ([self _setHasChanged]) return YES;
+    for (LTTrigger *trg in self.children)
+    {
+        if (trg.triggerHasChanged) return YES;
+    }
+    return NO;
+}
+
+- (NSArray *) rulesToUpdateForChangesInObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName
+{
+    /* Returns an array of the ValRule and AppRule objects that need
+     * to be pushed to LithiumCore in order to affect any changes made
+     * in the trigger set and/or triggers based on the scope of the 
+     * changes being dictated by the supplied objName, devName and siteName
+     */
+    
+    NSMutableArray *rulesToUpdate = [NSMutableArray array];
+    
+    /* Determine local appRule changes */
+    if ([self _setHasChanged])
+    {
+        LTTriggerSetAppRule *appRule = [self _scopedAppRuleForObject:objName device:devName site:siteName];
+        if (!appRule) 
+        {
+            appRule = [[LTTriggerSetAppRule new] autorelease];
+            appRule.objName = objName;
+            if (objName) appRule.objDesc = self.object.desc;
+            appRule.devName = devName;
+            if (devName) appRule.devDesc = self.device.desc;
+            appRule.siteName = siteName;
+            if (siteName) appRule.siteDesc = self.site.desc;
+        }
+        appRule.applyFlag = _applied;
+        [rulesToUpdate addObject:appRule];
+    }
+    
+    /* Loop through triggers */
+    for (LTTrigger *trg in self.children)
+    {
+        LTTriggerSetValRule *valRule = [trg ruleToUpdateForChangesInObject:objName device:devName site:siteName];
+        if (valRule) [rulesToUpdate addObject:valRule];
+    }
+    
+    return rulesToUpdate;
+}
+
+- (void) sendRuleUpdatesForScopeObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName
+{
+    /* Get rules */
+    NSArray *rules = [self rulesToUpdateForChangesInObject:objName
+                                                    device:devName
+                                                      site:siteName];
+    if (!rules || rules.count < 1) 
+    {
+        self.ruleUpdateInProgress = NO;
+        NSLog (@"%@ no rules to update!", self);
+        return;
+    }
+    
+    /* Create XML Request */
+	NSMutableString *xmlString;
+	xmlString = [NSMutableString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"];
+	[xmlString appendString:@"<rules>"];    // Root element 
+    for (id rule in rules)
+    {
+        if ([rule isMemberOfClass:[LTTriggerSetAppRule class]])
+        {
+            LTTriggerSetAppRule *appRule = (LTTriggerSetAppRule *)rule;
+            [xmlString appendFormat:@"<apprule>\n"];
+            [xmlString appendFormat:@"<tset_name>%@</tset_name>\n", self.name];
+            [xmlString appendFormat:@"<met_name>%@</met_name>\n", self.metric.name];
+            if (appRule.identifier != 0) [xmlString appendFormat:@"<id>%i</id>\n", appRule.identifier];
+            if (appRule.siteName) [xmlString appendFormat:@"<site_name>%@</site_name>\n", appRule.siteName];
+            if (appRule.siteDesc) [xmlString appendFormat:@"<site_desc>%@</site_desc>\n", appRule.siteDesc];
+            if (appRule.devName) [xmlString appendFormat:@"<dev_name>%@</dev_name>\n", appRule.devName];
+            if (appRule.devDesc) [xmlString appendFormat:@"<dev_desc>%@</dev_desc>\n", appRule.devDesc];
+            if (appRule.objName) [xmlString appendFormat:@"<obj_name>%@</obj_name>\n", appRule.objName];
+            if (appRule.objDesc) [xmlString appendFormat:@"<obj_desc>%@</obj_desc>\n", appRule.objDesc];
+            [xmlString appendFormat:@"<applyflag>%i</applyflag>\n", appRule.applyFlag];
+            [xmlString appendFormat:@"</apprule>"];
+        }
+        else if ([rule isMemberOfClass:[LTTriggerSetValRule class]])
+        {
+            LTTriggerSetValRule *valRule = (LTTriggerSetValRule *)rule;
+            [xmlString appendFormat:@"<valrule>"];
+            [xmlString appendFormat:@"<tset_name>%@</tset_name>\n", self.name];
+            [xmlString appendFormat:@"<met_name>%@</met_name>\n", self.metric.name];
+            if (valRule.identifier != 0) [xmlString appendFormat:@"<id>%i</id>\n", valRule.identifier];
+            if (valRule.siteName) [xmlString appendFormat:@"<site_name>%@</site_name>\n", valRule.siteName];
+            if (valRule.siteDesc) [xmlString appendFormat:@"<site_desc>%@</site_desc>\n", valRule.siteDesc];
+            if (valRule.devName) [xmlString appendFormat:@"<dev_name>%@</dev_name>\n", valRule.devName];
+            if (valRule.devDesc) [xmlString appendFormat:@"<dev_desc>%@</dev_desc>\n", valRule.devDesc];
+            if (valRule.objName) [xmlString appendFormat:@"<obj_name>%@</obj_name>\n", valRule.objName];
+            if (valRule.objDesc) [xmlString appendFormat:@"<obj_desc>%@</obj_desc>\n", valRule.objDesc];
+            if (valRule.trgName) [xmlString appendFormat:@"<trg_name>%@</trg_name>\n", valRule.trgName];
+            if (valRule.trgDesc) [xmlString appendFormat:@"<trg_desc>%@</trg_desc>\n", valRule.trgDesc];
+            if (valRule.xValue) [xmlString appendFormat:@"<xval>%@</xval>\n", valRule.xValue];
+            if (valRule.yValue) [xmlString appendFormat:@"<yval>%@</yval>\n", valRule.yValue];
+            [xmlString appendFormat:@"<duration>%i</duration>\n", valRule.duration];
+            [xmlString appendFormat:@"<trg_type_num>%i</trg_type_num>\n", valRule.triggerType];
+            [xmlString appendFormat:@"<adminstate_num>%i</adminstate_num>\n", valRule.adminState];            
+            [xmlString appendFormat:@"</valrule>\n"];
+        }
+    }
+	[xmlString appendString:@"</rules>\n"];
+
+    NSLog(@"XML for Rule Update is '%@'", xmlString);
+	
+	/* Create request */
+	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[self.object urlForXml:@"triggerset_bulkupdate" timestamp:0]
+															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+														 timeoutInterval:60.0];
+    
+    NSLog(@"Update req is %@", theRequest);
+    
+	/* Outbound XML doc to be sent */
+	NSString *formBoundary = [[NSProcessInfo processInfo] globallyUniqueString];
+	NSString *boundaryString = [NSString stringWithFormat: @"multipart/form-data; boundary=%@", formBoundary];
+	[theRequest addValue:boundaryString forHTTPHeaderField:@"Content-Type"];
+	[theRequest setHTTPMethod: @"POST"];
+	NSMutableData *postData = [NSMutableData data];
+	[postData appendData:[[NSString stringWithFormat:@"--%@\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[postData appendData:[@"Content-Disposition: form-data; name=\"xmlfile\"; filename=\"ltouch.xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[postData appendData:[@"Content-Type: text/xml\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[xmlString replaceOccurrencesOfString:@"\r\n" withString:@"&#xD;&#xA;" options:NSCaseInsensitiveSearch range:NSMakeRange(0,[xmlString length])];
+	[xmlString replaceOccurrencesOfString:@"\n" withString:@"&#xD;&#xA;" options:NSCaseInsensitiveSearch range:NSMakeRange(0,[xmlString length])];
+	[postData appendData:[xmlString dataUsingEncoding:NSUTF8StringEncoding]];
+	[postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", formBoundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	[theRequest setHTTPBody:postData];
+	
+	/* Establish Connection */
+	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+	if (theConnection) 
+	{
+		self.ruleUpdateInProgress = YES;
+		self.receivedData=[NSMutableData data];
+	} 
+	else 
+	{
+		/* FIX */
+		NSLog (@"ERROR: Failed to download console.php");
+        self.ruleUpdateInProgress = NO;
+	}	
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    /* Call super to clean up and record error */
+	[super connection:connection didFailWithError:error];
+    
+    self.ruleUpdateInProgress = NO;
+    
+    /* Call delegate */
+    if (self.delegate) 
+    {
+        [self.delegate performSelector:@selector(triggerSetUpdateDidFail:) withObject:self];
+    }
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+	/* Set state */
+    self.ruleUpdateInProgress = NO;
+    
+    /* Clean up -- Dont use super, we dont want XML parsed */
+    [connection release];
+    self.receivedData = nil;
+
+    /* Call delegate */
+    if (self.delegate) 
+    {
+        [self.delegate performSelector:@selector(triggerSetUpdateDidFinish:) withObject:self];
+    }
+}
+
 
 @end

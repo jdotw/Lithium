@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class LTTriggerSet;
+#import "LTTriggerSet.h"
 
-@interface LTTriggerSetTableViewController : UITableViewController {
+@interface LTTriggerSetTableViewController : UITableViewController <LTTriggerSetDelegate>
+{
+    UISwitch *enabledSwitch;
     
+    UISegmentedControl *objScopeSegment;
+    UISegmentedControl *devScopeSegment;
+    UISegmentedControl *siteScopeSegment;
 }
 
 - (id)initWithTriggerSet:(LTTriggerSet *)tset;

@@ -17,6 +17,7 @@
 #include <induction/value.h>
 #include <induction/trigger.h>
 #include <induction/triggerset.h>
+#include <induction/triggerset_xml.h>
 #include <induction/xml.h>
 
 int xml_triggerset_list (i_resource *self, i_xml_request *xmlreq)
@@ -215,9 +216,31 @@ int xml_triggerset_list (i_resource *self, i_xml_request *xmlreq)
         xmlNewChild (trg_node, NULL, BAD_CAST "adminstate", BAD_CAST "Enabled");
         xmlNewChild (trg_node, NULL, BAD_CAST "adminstate_num", BAD_CAST "0");
       }
+
+      /* Load trigger ValRules -- Although this uses the _sync method, the
+       * data is in fact cached in a local sqlite table so it's OK to use
+       */
+
+      i_list *val_rules = i_triggerset_valrule_sql_load_sync(self, tset, obj, trg);
+      i_triggerset_valrule *val_rule = NULL;
+      for (i_list_move_head(val_rules); (val_rule=i_list_restore(val_rules))!=NULL; i_list_move_next(val_rules))
+      {
+        xmlAddChild(trg_node, i_triggerset_valrule_xml(val_rule));
+      }
       
-      /* Add Tset node */
+      /* Add Trigger node to tset node */
       xmlAddChild (tset_node, trg_node);
+    }
+
+    /* Load Triggerset Apprules -- Although this uses the _sync method, the
+     * data is infact cached in a local sqlite table so it's OK to use 
+     */
+
+    i_list *app_rules = i_triggerset_apprule_sql_load_sync(self, tset, obj);
+    i_triggerset_apprule *app_rule = NULL;
+    for (i_list_move_head(app_rules); (app_rule=i_list_restore(app_rules))!=NULL; i_list_move_next(app_rules))
+    {
+      xmlAddChild(tset_node, i_triggerset_apprule_xml(app_rule));
     }
 
     /* Add Tset node */
