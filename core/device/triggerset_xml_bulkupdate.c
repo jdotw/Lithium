@@ -183,7 +183,7 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
   /* Create return XML (blank) */
   xmlreq->xml_out = i_xml_create ();
   xmlreq->xml_out->doc = xmlNewDoc (BAD_CAST "1.0");
-  root_node = xmlNewNode(NULL, BAD_CAST "triggerset_bulkupdate");
+  xmlNodePtr root_node = xmlNewNode(NULL, BAD_CAST "triggerset_bulkupdate");
   xmlDocSetRootElement (xmlreq->xml_out->doc, root_node);
   
   return 1;
