@@ -46,12 +46,19 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
   i_metric *met = NULL;
   if (xmlreq->xml_in)
   {
+    /* Get root node */
+    xmlNodePtr root_node = xmlDocGetRootElement (xmlreq->xml_in->doc);
+    if (!root_node) { i_printf(1, "xml_triggerset_bulkupdate failed to get root node"); return -1; }
+
+    i_printf(0, "Root Node is %p children is %p", root_node, root_node->children);
     
     /* Iterate through XML */
-    xmlNodePtr root_node = xmlDocGetRootElement (xmlreq->xml_in->doc);
     xmlNodePtr node = NULL;
     for (node = root_node->children; node; node = node->next)
     {
+      /* DEBUG */
+      i_printf(0, "ROOT: %s", node->name);
+
       /* Look for met_name and find triggerset and metric */
       if (strcmp((char *)node->name, "met_name")==0)
       {
@@ -70,6 +77,7 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
 
         /* Get metric from the object (entaddr) */
         met = (i_metric *) i_entity_child_get (ENTITY(obj), met_name);
+        i_printf (0, "MET: %s found %p", met_name, met);
         xmlFree (met_name);
         if (!tset || !met)
         { i_printf (1, "xml_triggerset_bulkupdate failed to find specified trigger set"); return -1; }
@@ -82,6 +90,8 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
         xmlNodePtr update_node = NULL;
         for (update_node=node->children; update_node; update_node=update_node->next)
         {
+          i_printf(0, "UPDATE: %s", update_node->name);
+
           if (strcmp((char *)update_node->name, "apprule")==0)
           {
             /* An apprule to be updated */
@@ -90,20 +100,20 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
             for (rule_node=update_node->children; rule_node; rule_node=rule_node->next)
             {
               char *str = (char *) xmlNodeListGetString (xmlreq->xml_in->doc, rule_node->xmlChildrenNode, 1);
-              if (str && !strcmp((char *)node->name, "id")) rule->id = atol(str);
-              if (str && !strcmp((char *)node->name, "site_name")) rule->site_name = strdup (str);
-              if (str && !strcmp((char *)node->name, "site_desc")) rule->site_desc = strdup (str);
-              if (str && !strcmp((char *)node->name, "dev_name")) rule->dev_name = strdup (str);
-              if (str && !strcmp((char *)node->name, "dev_desc")) rule->dev_desc = strdup (str);
-              if (str && !strcmp((char *)node->name, "obj_name")) rule->obj_name = strdup (str);
-              if (str && !strcmp((char *)node->name, "obj_desc")) rule->obj_desc = strdup (str);
-              if (str && !strcmp((char *)node->name, "applyflag")) rule->applyflag = atoi (str);
+              if (str && !strcmp((char *)rule_node->name, "id")) rule->id = atol(str);
+              if (str && !strcmp((char *)rule_node->name, "site_name")) rule->site_name = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "site_desc")) rule->site_desc = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "dev_name")) rule->dev_name = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "dev_desc")) rule->dev_desc = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "obj_name")) rule->obj_name = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "obj_desc")) rule->obj_desc = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "applyflag")) rule->applyflag = atoi (str);
               xmlFree (str);
             }
 
             /* Add or update the rule */
             if (rule->id != 0) i_triggerset_apprule_update (self, obj, tset, rule);
-            else i_triggerset_apprule_add (self, obj, tset, rule);
+            else i_triggerset_apprule_add_exclusive (self, obj, tset, rule);
           }
           else if (strcmp((char *)update_node->name, "valrule")==0)
           {
@@ -114,27 +124,27 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
             {
               char *str = (char *) xmlNodeListGetString (xmlreq->xml_in->doc, rule_node->xmlChildrenNode, 1);
 
-              if (str && !strcmp((char *)node->name, "id")) rule->id = atol (str);
-              if (str && !strcmp((char *)node->name, "site_name")) rule->site_name = strdup (str);
-              if (str && !strcmp((char *)node->name, "site_desc")) rule->site_desc = strdup (str);
-              if (str && !strcmp((char *)node->name, "dev_name")) rule->dev_name = strdup (str);
-              if (str && !strcmp((char *)node->name, "dev_desc")) rule->dev_desc = strdup (str);
-              if (str && !strcmp((char *)node->name, "obj_name")) rule->obj_name = strdup (str);
-              if (str && !strcmp((char *)node->name, "obj_desc")) rule->obj_desc = strdup (str);
-              if (str && !strcmp((char *)node->name, "trg_name")) rule->trg_name = strdup (str);
-              if (str && !strcmp((char *)node->name, "trg_desc")) rule->trg_desc = strdup (str);
-              if (str && !strcmp((char *)node->name, "xval")) rule->xval_str = strdup (str);
-              if (str && !strcmp((char *)node->name, "yval")) rule->yval_str = strdup (str);
-              if (str && !strcmp((char *)node->name, "duration")) rule->duration_sec = atol (str);
-              if (str && !strcmp((char *)node->name, "trg_type_num")) rule->trg_type = atoi (str);
-              if (str && !strcmp((char *)node->name, "adminstate_num")) rule->adminstate = atoi (str);
+              if (str && !strcmp((char *)rule_node->name, "id")) rule->id = atol (str);
+              if (str && !strcmp((char *)rule_node->name, "site_name")) rule->site_name = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "site_desc")) rule->site_desc = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "dev_name")) rule->dev_name = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "dev_desc")) rule->dev_desc = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "obj_name")) rule->obj_name = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "obj_desc")) rule->obj_desc = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "trg_name")) rule->trg_name = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "trg_desc")) rule->trg_desc = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "xval")) rule->xval_str = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "yval")) rule->yval_str = strdup (str);
+              if (str && !strcmp((char *)rule_node->name, "duration")) rule->duration_sec = atol (str);
+              if (str && !strcmp((char *)rule_node->name, "trg_type_num")) rule->trg_type = atoi (str);
+              if (str && !strcmp((char *)rule_node->name, "adminstate_num")) rule->adminstate = atoi (str);
 
               xmlFree (str);
             }
 
             /* Add or update the rule */
             if (rule->id != 0) i_triggerset_valrule_update (self, obj, tset, rule);
-            else i_triggerset_valrule_add (self, obj, tset, rule); 
+            else i_triggerset_valrule_add_exclusive (self, obj, tset, rule); 
           }
         }
       }
@@ -154,7 +164,7 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
             for (rule_node=delete_node->children; rule_node; rule_node=rule_node->next)
             {
               char *str = (char *) xmlNodeListGetString (xmlreq->xml_in->doc, rule_node->xmlChildrenNode, 1);
-              if (str && !strcmp((char *)node->name, "id")) id = atol (str);
+              if (str && !strcmp((char *)rule_node->name, "id")) id = atol (str);
               xmlFree (str);
             }
             if (id != 0) i_triggerset_apprule_remove (self, obj, tset, id);
@@ -167,7 +177,7 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
             for (rule_node=delete_node->children; rule_node; rule_node=rule_node->next)
             {
               char *str = (char *) xmlNodeListGetString (xmlreq->xml_in->doc, rule_node->xmlChildrenNode, 1);
-              if (str && !strcmp((char *)node->name, "id")) id = atol (str);
+              if (str && !strcmp((char *)rule_node->name, "id")) id = atol (str);
               xmlFree (str);
             }
             if (id != 0) i_triggerset_valrule_remove (self, obj, tset, id);
@@ -176,6 +186,8 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
       }
     }
   }
+  else
+  { i_printf(1, "NO XML IN!"); return -1; }
 
   /* Update the metric */
   if (met) i_trigger_process_all (self, met);

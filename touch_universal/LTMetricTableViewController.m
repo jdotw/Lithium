@@ -25,7 +25,7 @@
 #import "LTTableViewController.h"
 #import "LTTableViewCell.h"
 #import "LTSubDeviceTableViewCellBackgroundView.h"
-#import "LTTriggerSetListTableViewController.h"
+#import "LTTriggerSetTableViewController.h"
 
 #define kAnimationKey @"transitionViewAnimation"
 
@@ -614,7 +614,7 @@
     else if (buttonIndex == 1)
     {
         /* Adjust Triggers */
-        LTTriggerSetListTableViewController *vc = [[[LTTriggerSetListTableViewController alloc] initWithMetric:self.metric] autorelease];
+        LTTriggerSetTableViewController *vc = [[[LTTriggerSetTableViewController alloc] initWithMetric:self.metric] autorelease];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         nav.modalPresentationStyle = UIModalPresentationFormSheet;
         [self.navigationController presentModalViewController:nav animated:YES];

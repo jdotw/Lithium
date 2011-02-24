@@ -28,4 +28,6 @@
 @property (nonatomic,assign) int triggerType;
 @property (nonatomic,assign) int adminState;
 
+- (LTTriggerSetValRule *) moreSpecificRule:(LTTriggerSetValRule *)otherRule;
+
 @end

@@ -10,17 +10,22 @@
 
 #import "LTTriggerSet.h"
 
-@interface LTTriggerSetTableViewController : UITableViewController <LTTriggerSetDelegate>
+@class LTTriggerSetList, LTEntity;
+
+@interface LTTriggerSetTableViewController : UITableViewController <LTTriggerSetDelegate, UIAlertViewDelegate>
 {
     UISwitch *enabledSwitch;
     
     UISegmentedControl *objScopeSegment;
     UISegmentedControl *devScopeSegment;
     UISegmentedControl *siteScopeSegment;
+    
+    LTTriggerSetList *tsetList;
 }
 
-- (id)initWithTriggerSet:(LTTriggerSet *)tset;
+- (id)initWithMetric:(LTEntity *)metric;
 
 @property (nonatomic,retain) LTTriggerSet *tset;
+@property (nonatomic,retain) LTEntity *metric;
 
 @end

@@ -18,6 +18,8 @@
     
     UITextField *xValueField;
     UITextField *yValueField;
+    
+    UITextField *durationField;
 }
 
 @property (nonatomic,retain) LTTrigger *trg;

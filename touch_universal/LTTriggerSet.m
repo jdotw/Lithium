@@ -13,7 +13,7 @@
 
 @implementation LTTriggerSet
 
-@synthesize applied=_applied, appRuleDict, appRules, ruleUpdateInProgress;
+@synthesize applied=_applied, defaultApplied, appRuleDict, appRules, ruleUpdateInProgress;
 
 - (id) init
 {
@@ -141,48 +141,48 @@
 	NSMutableString *xmlString;
 	xmlString = [NSMutableString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"];
 	[xmlString appendString:@"<rules>"];    // Root element 
+    [xmlString appendFormat:@"<tset_name>%@</tset_name>", self.name];
+    [xmlString appendFormat:@"<met_name>%@</met_name>", self.metric.name];
+	[xmlString appendString:@"<update>"];   // Rules to be updated (add/edit)
     for (id rule in rules)
     {
         if ([rule isMemberOfClass:[LTTriggerSetAppRule class]])
         {
             LTTriggerSetAppRule *appRule = (LTTriggerSetAppRule *)rule;
-            [xmlString appendFormat:@"<apprule>\n"];
-            [xmlString appendFormat:@"<tset_name>%@</tset_name>\n", self.name];
-            [xmlString appendFormat:@"<met_name>%@</met_name>\n", self.metric.name];
-            if (appRule.identifier != 0) [xmlString appendFormat:@"<id>%i</id>\n", appRule.identifier];
-            if (appRule.siteName) [xmlString appendFormat:@"<site_name>%@</site_name>\n", appRule.siteName];
-            if (appRule.siteDesc) [xmlString appendFormat:@"<site_desc>%@</site_desc>\n", appRule.siteDesc];
-            if (appRule.devName) [xmlString appendFormat:@"<dev_name>%@</dev_name>\n", appRule.devName];
-            if (appRule.devDesc) [xmlString appendFormat:@"<dev_desc>%@</dev_desc>\n", appRule.devDesc];
-            if (appRule.objName) [xmlString appendFormat:@"<obj_name>%@</obj_name>\n", appRule.objName];
-            if (appRule.objDesc) [xmlString appendFormat:@"<obj_desc>%@</obj_desc>\n", appRule.objDesc];
-            [xmlString appendFormat:@"<applyflag>%i</applyflag>\n", appRule.applyFlag];
+            [xmlString appendFormat:@"<apprule>"];
+            if (appRule.identifier != 0) [xmlString appendFormat:@"<id>%i</id>", appRule.identifier];
+            if (appRule.siteName) [xmlString appendFormat:@"<site_name>%@</site_name>", appRule.siteName];
+            if (appRule.siteDesc) [xmlString appendFormat:@"<site_desc>%@</site_desc>", appRule.siteDesc];
+            if (appRule.devName) [xmlString appendFormat:@"<dev_name>%@</dev_name>", appRule.devName];
+            if (appRule.devDesc) [xmlString appendFormat:@"<dev_desc>%@</dev_desc>", appRule.devDesc];
+            if (appRule.objName) [xmlString appendFormat:@"<obj_name>%@</obj_name>", appRule.objName];
+            if (appRule.objDesc) [xmlString appendFormat:@"<obj_desc>%@</obj_desc>", appRule.objDesc];
+            [xmlString appendFormat:@"<applyflag>%i</applyflag>", appRule.applyFlag];
             [xmlString appendFormat:@"</apprule>"];
         }
         else if ([rule isMemberOfClass:[LTTriggerSetValRule class]])
         {
             LTTriggerSetValRule *valRule = (LTTriggerSetValRule *)rule;
             [xmlString appendFormat:@"<valrule>"];
-            [xmlString appendFormat:@"<tset_name>%@</tset_name>\n", self.name];
-            [xmlString appendFormat:@"<met_name>%@</met_name>\n", self.metric.name];
-            if (valRule.identifier != 0) [xmlString appendFormat:@"<id>%i</id>\n", valRule.identifier];
-            if (valRule.siteName) [xmlString appendFormat:@"<site_name>%@</site_name>\n", valRule.siteName];
-            if (valRule.siteDesc) [xmlString appendFormat:@"<site_desc>%@</site_desc>\n", valRule.siteDesc];
-            if (valRule.devName) [xmlString appendFormat:@"<dev_name>%@</dev_name>\n", valRule.devName];
-            if (valRule.devDesc) [xmlString appendFormat:@"<dev_desc>%@</dev_desc>\n", valRule.devDesc];
-            if (valRule.objName) [xmlString appendFormat:@"<obj_name>%@</obj_name>\n", valRule.objName];
-            if (valRule.objDesc) [xmlString appendFormat:@"<obj_desc>%@</obj_desc>\n", valRule.objDesc];
-            if (valRule.trgName) [xmlString appendFormat:@"<trg_name>%@</trg_name>\n", valRule.trgName];
-            if (valRule.trgDesc) [xmlString appendFormat:@"<trg_desc>%@</trg_desc>\n", valRule.trgDesc];
-            if (valRule.xValue) [xmlString appendFormat:@"<xval>%@</xval>\n", valRule.xValue];
-            if (valRule.yValue) [xmlString appendFormat:@"<yval>%@</yval>\n", valRule.yValue];
-            [xmlString appendFormat:@"<duration>%i</duration>\n", valRule.duration];
-            [xmlString appendFormat:@"<trg_type_num>%i</trg_type_num>\n", valRule.triggerType];
-            [xmlString appendFormat:@"<adminstate_num>%i</adminstate_num>\n", valRule.adminState];            
-            [xmlString appendFormat:@"</valrule>\n"];
+            if (valRule.identifier != 0) [xmlString appendFormat:@"<id>%i</id>", valRule.identifier];
+            if (valRule.siteName) [xmlString appendFormat:@"<site_name>%@</site_name>", valRule.siteName];
+            if (valRule.siteDesc) [xmlString appendFormat:@"<site_desc>%@</site_desc>", valRule.siteDesc];
+            if (valRule.devName) [xmlString appendFormat:@"<dev_name>%@</dev_name>", valRule.devName];
+            if (valRule.devDesc) [xmlString appendFormat:@"<dev_desc>%@</dev_desc>", valRule.devDesc];
+            if (valRule.objName) [xmlString appendFormat:@"<obj_name>%@</obj_name>", valRule.objName];
+            if (valRule.objDesc) [xmlString appendFormat:@"<obj_desc>%@</obj_desc>", valRule.objDesc];
+            if (valRule.trgName) [xmlString appendFormat:@"<trg_name>%@</trg_name>", valRule.trgName];
+            if (valRule.trgDesc) [xmlString appendFormat:@"<trg_desc>%@</trg_desc>", valRule.trgDesc];
+            if (valRule.xValue) [xmlString appendFormat:@"<xval>%@</xval>", valRule.xValue];
+            if (valRule.yValue) [xmlString appendFormat:@"<yval>%@</yval>", valRule.yValue];
+            [xmlString appendFormat:@"<duration>%i</duration>", valRule.duration];
+            [xmlString appendFormat:@"<trg_type_num>%i</trg_type_num>", valRule.triggerType];
+            [xmlString appendFormat:@"<adminstate_num>%i</adminstate_num>", valRule.adminState];            
+            [xmlString appendFormat:@"</valrule>"];
         }
     }
-	[xmlString appendString:@"</rules>\n"];
+	[xmlString appendString:@"</update>"];
+	[xmlString appendString:@"</rules>"];
 
     NSLog(@"XML for Rule Update is '%@'", xmlString);
 	

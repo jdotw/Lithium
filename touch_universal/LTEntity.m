@@ -15,6 +15,7 @@
 #import "LTFavoritesTableViewController.h"
 #import "TBXML-Lithium.h"
 #import "LTTriggerSet.h"
+#import "LTTrigger.h"
 
 static NSMutableDictionary *_xmlTranslation = nil;
 
@@ -773,7 +774,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 		}
 		else return nil;
 	}
-    else if ([self isMemberOfClass:[LTTriggerSet class]])
+    else if ([self isMemberOfClass:[LTTriggerSet class]] || [self isMemberOfClass:[LTTrigger class]])
     {
         return [self.parent parentOfType:3];
     }
@@ -792,6 +793,15 @@ static NSMutableDictionary *_xmlTranslation = nil;
         LTTriggerSet *tset = (LTTriggerSet *)self;
         entity = tset.parent;
         NSLog (@"parentOfType on %@ using entity %@ from tset.parent", self, entity);
+    }
+
+    /* Special handling for triggers (created by triggersetlist) */
+    if ([self isMemberOfClass:[LTTrigger class]])
+    {
+        /* Start at the metric */
+        LTTrigger *trg = (LTTrigger *)self;
+        entity = trg.parent;
+        NSLog (@"parentOfType on %@ using entity %@ from trg.parent", self, entity);
     }
 
 	/* Will return self if self.type == type */

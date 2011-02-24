@@ -22,6 +22,7 @@
 
 int xml_triggerset_list (i_resource *self, i_xml_request *xmlreq)
 {
+  char *str;
   i_object *obj;
   i_triggerset *tset;
   xmlNodePtr root_node = NULL;
@@ -85,10 +86,14 @@ int xml_triggerset_list (i_resource *self, i_xml_request *xmlreq)
       xmlNewChild (tset_node, NULL, BAD_CAST "applied", BAD_CAST "No"); 
     }
 
+    /* Default application */
+    asprintf (&str, "%i", tset->default_applyflag);
+    xmlNewChild (tset_node, NULL, BAD_CAST "default_applied_flag", BAD_CAST str);
+    free (str);
+
     /* Loop through triggers */
     for (i_list_move_head(tset->trg_list); (trg=i_list_restore(tset->trg_list))!=NULL; i_list_move_next(tset->trg_list))
     {
-      char *str;
       i_list *valrules;
       i_triggerset_valrule *valrule;
       xmlNodePtr trg_node;
@@ -133,6 +138,11 @@ int xml_triggerset_list (i_resource *self, i_xml_request *xmlreq)
         xmlNewChild (trg_node, NULL, BAD_CAST "trgtype", BAD_CAST i_trigger_typestr (trg->trg_type));
       }
 
+      /* Default Trigger Type */
+      asprintf (&str, "%i", trg->trg_type);
+      xmlNewChild (trg_node, NULL, BAD_CAST "default_trgtype_num", BAD_CAST str);
+      free (str);
+
       /* Units */
       if (met->unit_str)
       { xmlNewChild (trg_node, NULL, BAD_CAST "units", BAD_CAST met->unit_str);  }
@@ -155,6 +165,12 @@ int xml_triggerset_list (i_resource *self, i_xml_request *xmlreq)
           xmlNewChild (trg_node, NULL, BAD_CAST "xval", BAD_CAST i_value_valstr_raw (trg->val_type, trg->val)); 
         }
       }
+
+      /* Default X-Value */
+      if (met->enumstr_list && met->enumstr_list->size > 0)
+      { xmlNewChild (trg_node, NULL, BAD_CAST "default_xval", BAD_CAST i_value_valstr (trg->val_type, trg->val, met->unit_str, met->enumstr_list)); }
+      else
+      { xmlNewChild (trg_node, NULL, BAD_CAST "default_xval", BAD_CAST i_value_valstr_raw (trg->val_type, trg->val)); }
 
       /* Y-Value */
       if (valrule)
@@ -189,6 +205,17 @@ int xml_triggerset_list (i_resource *self, i_xml_request *xmlreq)
         }
       }
 
+      /* Default Y-Value */
+      if (trg->yval)
+      { 
+        if (met->enumstr_list && met->enumstr_list->size > 0)
+        { xmlNewChild (trg_node, NULL, BAD_CAST "default_yval", BAD_CAST i_value_valstr (trg->val_type, trg->yval, met->unit_str, met->enumstr_list)); }
+        else
+        { xmlNewChild (trg_node, NULL, BAD_CAST "default_yval", BAD_CAST i_value_valstr_raw (trg->val_type, trg->yval)); }
+      }
+      else
+      { xmlNewChild (trg_node, NULL, BAD_CAST "default_yval", NULL); }
+
       /* Duration */
       if (valrule)
       {
@@ -202,6 +229,11 @@ int xml_triggerset_list (i_resource *self, i_xml_request *xmlreq)
         xmlNewChild (trg_node, NULL, BAD_CAST "duration", BAD_CAST str);
         free (str);
       }
+
+      /* Default Duration */
+      asprintf (&str, "%li", trg->duration_sec);
+      xmlNewChild (trg_node, NULL, BAD_CAST "default_duration", BAD_CAST str);
+      free (str);
 
       /* Admin State */
       if (valrule)

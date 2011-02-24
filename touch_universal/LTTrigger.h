@@ -50,10 +50,14 @@
 
 @property (nonatomic,assign) int valueType;
 @property (nonatomic,assign) int triggerType;
+@property (nonatomic,assign) int defaultTriggerType;
 @property (nonatomic,assign) int effect;
 @property (nonatomic,copy) NSString *xValue;
+@property (nonatomic,copy) NSString *defaultXValue;
 @property (nonatomic,copy) NSString *yValue;
+@property (nonatomic,copy) NSString *defaultYValue;
 @property (nonatomic,assign) int duration;
+@property (nonatomic,assign) int defaultDuration;
 @property (nonatomic,readonly) NSString *conditionString;
 @property (nonatomic,readonly) NSMutableDictionary *valRuleDict;
 @property (nonatomic,readonly) NSMutableArray *valRules;
@@ -64,5 +68,6 @@
 - (void) endAPIUpdate;
 
 - (LTTriggerSetValRule *) ruleToUpdateForChangesInObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName;
+- (BOOL) lessSpecificRuleMatches:(LTTriggerSetValRule *)matchRule;
 
 @end

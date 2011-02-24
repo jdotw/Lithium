@@ -83,15 +83,16 @@
             if (strcmp(node->name, "triggerset")==0)
             {
                 /* Triggerset Found */
-                LTTriggerSet *tset = [childDict objectForKey:[TBXML textForElementNamed:@"name" parentElement:node]];
+                LTTriggerSet *tset = [childDict objectForKey:[TBXML textForElementNamed:@"metric_name" parentElement:node]];
                 if (!tset)
                 {
                     tset = [[LTTriggerSet new] autorelease];
                     [tset beginAPIUpdate];
                     tset.name = [TBXML textForElementNamed:@"name" parentElement:node];
                     tset.desc = [TBXML textForElementNamed:@"desc" parentElement:node];
+                    tset.defaultApplied = [TBXML intFromTextForElementNamed:@"default_applied_flag" parentElement:node];
                     tset.parent = self.metric;
-                    [childDict setObject:tset forKey:tset.name];
+                    [childDict setObject:tset forKey:[TBXML textForElementNamed:@"metric_name" parentElement:node]];
                     [children addObject:tset];
                 }
                 [tset beginAPIUpdate];
@@ -112,6 +113,7 @@
                             [trg beginAPIUpdate];
                             trg.name = [TBXML textForElementNamed:@"name" parentElement:tsetChild];
                             trg.desc = [TBXML textForElementNamed:@"desc" parentElement:tsetChild];
+                            trg.parent = self.metric;
                             [tset.childDict setObject:trg forKey:trg.name];
                             [tset.children addObject:trg];
                         }
@@ -119,10 +121,13 @@
                         trg.valueType = [TBXML intFromTextForElementNamed:@"valtype_num" parentElement:tsetChild];
                         trg.effect = [TBXML intFromTextForElementNamed:@"effect_num" parentElement:tsetChild];
                         trg.triggerType = [TBXML intFromTextForElementNamed:@"trgtype_num" parentElement:tsetChild];
+                        trg.defaultTriggerType = [TBXML intFromTextForElementNamed:@"default_trgtype_num" parentElement:tsetChild];
                         trg.units = [TBXML textForElementNamed:@"units" parentElement:tsetChild];
                         trg.xValue = [TBXML textForElementNamed:@"xval" parentElement:tsetChild];
+                        trg.defaultXValue = [TBXML textForElementNamed:@"default_xval" parentElement:tsetChild];
                         trg.yValue = [TBXML textForElementNamed:@"yval" parentElement:tsetChild];
-                        trg.duration = [TBXML intFromTextForElementNamed:@"duration" parentElement:tsetChild];
+                        trg.defaultYValue = [TBXML textForElementNamed:@"default_yval" parentElement:tsetChild];
+                        trg.defaultDuration = [TBXML intFromTextForElementNamed:@"default_duration" parentElement:tsetChild];
                         trg.adminState = [TBXML intFromTextForElementNamed:@"adminstate_num" parentElement:tsetChild];
                         
                         /* Loop through trigger children */
@@ -133,27 +138,27 @@
                             if (strcmp(trgChild->name, "valrule")==0)
                             {
                                 /* Found an valrule */
-                                LTTriggerSetValRule *rule = [trg.valRuleDict objectForKey:[TBXML textForElementNamed:@"id" parentElement:node]];
+                                LTTriggerSetValRule *rule = [trg.valRuleDict objectForKey:[TBXML textForElementNamed:@"id" parentElement:trgChild]];
                                 if (!rule)
                                 {
                                     rule = [[LTTriggerSetValRule new] autorelease];
-                                    rule.identifier = [TBXML intFromTextForElementNamed:@"id" parentElement:node];
-                                    [trg.valRuleDict setObject:rule forKey:[TBXML textForElementNamed:@"id" parentElement:node]];
+                                    rule.identifier = [TBXML intFromTextForElementNamed:@"id" parentElement:trgChild];
+                                    [trg.valRuleDict setObject:rule forKey:[TBXML textForElementNamed:@"id" parentElement:trgChild]];
                                     [trg.valRules addObject:rule];
                                 }
-                                rule.siteName = [TBXML textForElementNamed:@"site_name" parentElement:node];
-                                rule.siteDesc = [TBXML textForElementNamed:@"site_desc" parentElement:node];
-                                rule.devName = [TBXML textForElementNamed:@"dev_name" parentElement:node];
-                                rule.devDesc = [TBXML textForElementNamed:@"dev_desc" parentElement:node];
-                                rule.objName = [TBXML textForElementNamed:@"obj_name" parentElement:node];
-                                rule.objDesc = [TBXML textForElementNamed:@"obj_desc" parentElement:node];
-                                rule.trgName = [TBXML textForElementNamed:@"trg_name" parentElement:node];
-                                rule.trgDesc = [TBXML textForElementNamed:@"trg_desc" parentElement:node];
-                                rule.xValue = [TBXML textForElementNamed:@"xval" parentElement:node];
-                                rule.yValue = [TBXML textForElementNamed:@"yval" parentElement:node];
-                                rule.duration = [TBXML intFromTextForElementNamed:@"duration" parentElement:node];
-                                rule.triggerType = [TBXML intFromTextForElementNamed:@"trg_type_num" parentElement:node];
-                                rule.adminState = [TBXML intFromTextForElementNamed:@"adminstate_num" parentElement:node];
+                                rule.siteName = [TBXML textForElementNamed:@"site_name" parentElement:trgChild];
+                                rule.siteDesc = [TBXML textForElementNamed:@"site_desc" parentElement:trgChild];
+                                rule.devName = [TBXML textForElementNamed:@"dev_name" parentElement:trgChild];
+                                rule.devDesc = [TBXML textForElementNamed:@"dev_desc" parentElement:trgChild];
+                                rule.objName = [TBXML textForElementNamed:@"obj_name" parentElement:trgChild];
+                                rule.objDesc = [TBXML textForElementNamed:@"obj_desc" parentElement:trgChild];
+                                rule.trgName = [TBXML textForElementNamed:@"trg_name" parentElement:trgChild];
+                                rule.trgDesc = [TBXML textForElementNamed:@"trg_desc" parentElement:trgChild];
+                                rule.xValue = [TBXML textForElementNamed:@"xval" parentElement:trgChild];
+                                rule.yValue = [TBXML textForElementNamed:@"yval" parentElement:trgChild];
+                                rule.duration = [TBXML intFromTextForElementNamed:@"duration" parentElement:trgChild];
+                                rule.triggerType = [TBXML intFromTextForElementNamed:@"trg_type_num" parentElement:trgChild];
+                                rule.adminState = [TBXML intFromTextForElementNamed:@"adminstate_num" parentElement:trgChild];
                                 
                             }
                         }
@@ -165,21 +170,21 @@
                     if (strcmp(tsetChild->name, "apprule")==0)
                     {
                         /* Found an apprule */
-                        LTTriggerSetAppRule *rule = [tset.appRuleDict objectForKey:[TBXML textForElementNamed:@"id" parentElement:node]];
+                        LTTriggerSetAppRule *rule = [tset.appRuleDict objectForKey:[TBXML textForElementNamed:@"id" parentElement:tsetChild]];
                         if (!rule)
                         {
                             rule = [[LTTriggerSetAppRule new] autorelease];
-                            rule.identifier = [TBXML intFromTextForElementNamed:@"id" parentElement:node];
-                            [tset.appRuleDict setObject:rule forKey:[TBXML textForElementNamed:@"id" parentElement:node]];
+                            rule.identifier = [TBXML intFromTextForElementNamed:@"id" parentElement:tsetChild];
+                            [tset.appRuleDict setObject:rule forKey:[TBXML textForElementNamed:@"id" parentElement:tsetChild]];
                             [tset.appRules addObject:rule];
                         }
-                        rule.siteName = [TBXML textForElementNamed:@"site_name" parentElement:node];
-                        rule.siteDesc = [TBXML textForElementNamed:@"site_desc" parentElement:node];
-                        rule.devName = [TBXML textForElementNamed:@"dev_name" parentElement:node];
-                        rule.devDesc = [TBXML textForElementNamed:@"dev_desc" parentElement:node];
-                        rule.objName = [TBXML textForElementNamed:@"obj_name" parentElement:node];
-                        rule.objDesc = [TBXML textForElementNamed:@"obj_desc" parentElement:node];
-                        rule.applyFlag = [TBXML intFromTextForElementNamed:@"applyflag" parentElement:node];
+                        rule.siteName = [TBXML textForElementNamed:@"site_name" parentElement:tsetChild];
+                        rule.siteDesc = [TBXML textForElementNamed:@"site_desc" parentElement:tsetChild];
+                        rule.devName = [TBXML textForElementNamed:@"dev_name" parentElement:tsetChild];
+                        rule.devDesc = [TBXML textForElementNamed:@"dev_desc" parentElement:tsetChild];
+                        rule.objName = [TBXML textForElementNamed:@"obj_name" parentElement:tsetChild];
+                        rule.objDesc = [TBXML textForElementNamed:@"obj_desc" parentElement:tsetChild];
+                        rule.applyFlag = [TBXML intFromTextForElementNamed:@"applyflag" parentElement:tsetChild];
                         
                     }
                 }

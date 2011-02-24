@@ -12,23 +12,34 @@
 @implementation LTTrigger
 
 @synthesize triggerType=_triggerType, xValue=_xValue, yValue=_yValue, duration=_duration;
+@synthesize defaultTriggerType, defaultXValue, defaultYValue, defaultDuration;
 @synthesize valueType, effect, valRules, valRuleDict;
 
 - (NSString *) conditionString
 {
+    NSString *string = nil;
     switch(self.triggerType)
     {
         case TRGTYPE_LT:
-            return [NSString stringWithFormat:@"< %@", self.xValue];
+            string = [NSString stringWithFormat:@"< %@", self.xValue];
+            break;
         case TRGTYPE_GT:
-            return [NSString stringWithFormat:@"> %@", self.xValue];
+            string = [NSString stringWithFormat:@"> %@", self.xValue];
+            break;
         case TRGTYPE_RANGE:
-            return [NSString stringWithFormat:@"%@ - %@", self.xValue, self.yValue];
+            string = [NSString stringWithFormat:@"%@ - %@", self.xValue, self.yValue];
+            break;
         case TRGTYPE_NOTEQUAL:
-            return [NSString stringWithFormat:@"!= %@", self.xValue];
+            string = [NSString stringWithFormat:@"!= %@", self.xValue];
+            break;
         default:
-            return self.xValue;
+            string = self.xValue;
+            break;
     }
+    
+    if (self.duration > 0) string = [string stringByAppendingFormat:@" for %isec", self.duration];
+    
+    return string;
 }
 
 - (id) init
@@ -101,9 +112,9 @@
 
 #pragma - Rule Updating
 
-- (LTTriggerSetValRule *) _scopedValRuleForObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName
+- (LTTriggerSetValRule *) _updatedScopedValRuleForObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName
 {
-    /* Return a ValRule the first appRule that matches the scope */
+    LTTriggerSetValRule *matchingRule = nil;
     for (LTTriggerSetValRule *valRule in self.valRules)
     {
         if ((objName && valRule.objName) && [valRule.objName isEqualToString:objName] 
@@ -111,10 +122,30 @@
             && (siteName && valRule.siteName) && [valRule.siteName isEqualToString:siteName])
         {
             /* Match! */
-            return valRule;
+            matchingRule = valRule;
+            break;
         }
     }
-    return nil; // No match
+    if (!matchingRule) 
+    {
+        matchingRule = [[LTTriggerSetValRule new] autorelease];
+        matchingRule.objName = objName;
+        if (objName) matchingRule.objDesc = self.object.desc;
+        matchingRule.devName = devName;
+        if (devName) matchingRule.devDesc = self.device.desc;
+        matchingRule.siteName = siteName;
+        if (siteName) matchingRule.siteDesc = self.site.desc;
+        matchingRule.trgName = self.name;
+        matchingRule.trgDesc = self.desc;
+    }
+    matchingRule.adminState = self.adminState;
+    matchingRule.xValue = self.xValue;
+    if (self.triggerType == TRGTYPE_RANGE) matchingRule.yValue = self.yValue;
+    else matchingRule.yValue = nil;
+    matchingRule.duration = self.duration;
+    matchingRule.triggerType = self.triggerType;
+
+    return matchingRule;
 }
 
 - (BOOL) triggerHasChanged
@@ -131,7 +162,7 @@
 
 - (LTTriggerSetValRule *) ruleToUpdateForChangesInObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName
 {
-    /* Returns an array of the ValRule objects that need
+    /* Returns the ValRule objects that need
      * to be pushed to LithiumCore in order to affect any changes made
      * in the trigger based on the scope of the 
      * changes being dictated by the supplied objName, devName and siteName
@@ -139,31 +170,111 @@
     
     LTTriggerSetValRule *valRule = nil;
 
-    /* Determine local appRule changes */
+    /* Determine local valRule changes required */
     if (self.triggerHasChanged)
     {
-        valRule = [self _scopedValRuleForObject:objName device:devName site:siteName];
-        if (!valRule) 
+        /* Get the updates valrule */
+        valRule = [self _updatedScopedValRuleForObject:objName device:devName site:siteName];
+
+        /* Check to see if a less-specific rule or the 
+         * default value will have the same affect 
+         */
+        if ([self lessSpecificRuleMatches:valRule])
         {
-            valRule = [[LTTriggerSetValRule new] autorelease];
-            valRule.objName = objName;
-            if (objName) valRule.objDesc = self.metric.object.desc;
-            valRule.devName = devName;
-            if (devName) valRule.devDesc = self.metric.device.desc;
-            valRule.siteName = siteName;
-            if (siteName) valRule.siteDesc = self.metric.site.desc;
-            valRule.trgName = self.name;
-            valRule.trgDesc = self.desc;
+            /* There is a less-specific rule in the list, 
+             * or the triggers default will have the same affect,
+             * return nil here because no rule needs to be 
+             * updated, rather it needs to be deleted
+             */
+            return nil;
         }
-        valRule.adminState = self.adminState;
-        valRule.xValue = self.xValue;
-        if (self.triggerType == TRGTYPE_RANGE) valRule.yValue = self.yValue;
-        else valRule.yValue = nil;
-        valRule.duration = self.duration;
-        valRule.triggerType = self.triggerType;
+        
     }
     
     return valRule;
+}
+
+- (LTTriggerSetValRule *) ruleToDeleteForChangesInObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName
+{
+    /* Returns the rule object that needs to be deleted
+     * to affect the current changes within the specific scope
+     */
+    
+    LTTriggerSetValRule *valRule = nil;
+    
+    /* Determine local valRule changes required */
+    if (self.triggerHasChanged)
+    {
+        /* Get the updates valrule */
+        valRule = [self _updatedScopedValRuleForObject:objName device:devName site:siteName];
+        
+        /* Check to see if a less-specific rule or the 
+         * default value will have the same affect 
+         */
+        if ([self lessSpecificRuleMatches:valRule])
+        {
+            /* There is a less-specific rule in the list, 
+             * or the triggers default will have the same affect,
+             * return the valRule here because it should be deleted
+             * which will allow the less specific rule or default to
+             * take affect.
+             */
+            return valRule;
+        }
+        else
+        {
+            /* The rule has no less-specific or default match,
+             * return nil to make sure it is not deleted and allows
+            return nil;
+        }
+        
+    }
+    
+    return valRule;
+}
+
+#pragma - Rule Matching
+
+- (BOOL) lessSpecificRuleMatches:(LTTriggerSetValRule *)matchRule
+{
+    /* Returns true if a less-specific rule or the default will 
+     * have the same affect (condition, x and y and duration match)
+     */
+    
+    /* Loop through all valRules to try and find match */
+    for (LTTriggerSetValRule *valRule in self.valRules)
+    {
+        if (valRule == matchRule) continue;
+        if ([matchRule hasTheSameEffectAs:valRules] 
+            && [matchRule moreSpecificRule:valRule] == matchRule)
+        {
+            /* A value in the list matches for condition, 
+             * type and values and is LESS specific that the 
+             * supplied match rule. 
+             */
+            return YES;
+        }
+    }
+    
+    /* Check Default */
+    if (matchRule.triggerType == self.defaultTriggerType && matchRule.duration == self.defaultDuration)
+    {
+        /* Type and duration match, check values */
+        if (self.valueType == VALTYPE_STRING)
+        {
+            if ([matchRule.xValue isEqualToString:self.defaultXValue]
+                && (matchRule.triggerType != TRGTYPE_RANGE || [matchRule.yValue isEqualToString:self.defaultYValue]))
+            { return YES; }
+        }
+        else
+        {
+            if ([matchRule.xValue floatValue] == [self.defaultXValue floatValue]
+                && (matchRule.triggerType != TRGTYPE_RANGE || [matchRule.yValue floatValue] == [self.defaultYValue floatValue]))
+            { return YES; }
+        }
+    }
+    
+    return NO;
 }
 
 @end

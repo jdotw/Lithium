@@ -50,6 +50,14 @@
         yValueField.clearButtonMode = UITextFieldViewModeWhileEditing;
         yValueField.delegate = self;
         
+        /* Duration Text Field */
+        durationField = [[UITextField alloc] initWithFrame:fieldRect];
+        durationField.backgroundColor = [UIColor clearColor];
+        durationField.textAlignment = UITextAlignmentRight;
+        durationField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        durationField.keyboardType = UIKeyboardTypeNumberPad;
+        durationField.delegate = self;
+
         /* Set keyboard type */
         if  (self.trg.valueType != VALTYPE_STRING)
         {
@@ -131,7 +139,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.trg.adminState == 0) return 3;
+    if (self.trg.adminState == 0) return 4;
     else return 1;
 }
 
@@ -149,6 +157,9 @@
             /* Value */
             if (self.trg.triggerType == TRGTYPE_RANGE) return 2;
             else return 1;
+        case 3:
+            /* Duration */
+            return 1;
         default:
             return 0;
     }
@@ -157,6 +168,16 @@
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     return nil;
+}
+
+- (NSString *) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 3)
+    {
+        /* Duration */
+        return @"The amount of time the condition must be present before Lithium will raise an Incident";
+    }
+    else return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -202,6 +223,13 @@
             cell.accessoryView = yValueField;
             yValueField.text = self.trg.yValue;
         }
+    }
+    else if (indexPath.section == 3)
+    {
+        /* Duration */
+        cell.textLabel.text = @"Duration";
+        cell.accessoryView = durationField;
+        durationField.text = [NSString stringWithFormat:@"%i", self.trg.duration];
     }
     
     return cell;
@@ -258,6 +286,11 @@
     {
         NSLog (@"Y Changed to %@", [yValueField.text stringByReplacingCharactersInRange:range withString:string]);
         self.trg.yValue = [yValueField.text stringByReplacingCharactersInRange:range withString:string];
+    }
+    else if (textField == durationField)
+    {
+        self.trg.duration = [[durationField.text stringByReplacingCharactersInRange:range withString:string] intValue];
+        NSLog (@"Duraton changed to %i", self.trg.duration);
     }
     return YES;
 }

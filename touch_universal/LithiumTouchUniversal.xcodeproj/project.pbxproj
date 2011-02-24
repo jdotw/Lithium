@@ -32,7 +32,6 @@
 		102C692811BCE8F40032D043 /* LTDeviceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C692611BCE8F40032D043 /* LTDeviceViewController.xib */; };
 		102C695711BD61170032D043 /* LTContainerIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102C695511BD61170032D043 /* LTContainerIconViewController.m */; };
 		102C695811BD61170032D043 /* LTContainerIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 102C695611BD61170032D043 /* LTContainerIconViewController.xib */; };
-		1030FA38130DC9A00083A749 /* LTTriggerSetListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1030FA37130DC9A00083A749 /* LTTriggerSetListTableViewController.m */; };
 		1030FA3C130DCB200083A749 /* LTTriggerSetList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1030FA3B130DCB200083A749 /* LTTriggerSetList.m */; };
 		1030FA3F130DCB460083A749 /* LTTriggerSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1030FA3E130DCB450083A749 /* LTTriggerSet.m */; };
 		1030FA42130DCB510083A749 /* LTTrigger.m in Sources */ = {isa = PBXBuildFile; fileRef = 1030FA41130DCB510083A749 /* LTTrigger.m */; };
@@ -275,8 +274,6 @@
 		102C695411BD61170032D043 /* LTContainerIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTContainerIconViewController.h; sourceTree = "<group>"; };
 		102C695511BD61170032D043 /* LTContainerIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTContainerIconViewController.m; sourceTree = "<group>"; };
 		102C695611BD61170032D043 /* LTContainerIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTContainerIconViewController.xib; sourceTree = "<group>"; };
-		1030FA36130DC9A00083A749 /* LTTriggerSetListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTriggerSetListTableViewController.h; sourceTree = "<group>"; };
-		1030FA37130DC9A00083A749 /* LTTriggerSetListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTriggerSetListTableViewController.m; sourceTree = "<group>"; };
 		1030FA3A130DCB200083A749 /* LTTriggerSetList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTriggerSetList.h; sourceTree = "<group>"; };
 		1030FA3B130DCB200083A749 /* LTTriggerSetList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTriggerSetList.m; sourceTree = "<group>"; };
 		1030FA3D130DCB450083A749 /* LTTriggerSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTriggerSet.h; sourceTree = "<group>"; };
@@ -680,8 +677,6 @@
 		1030FA35130DC96E0083A749 /* Trigger Adjustment */ = {
 			isa = PBXGroup;
 			children = (
-				1030FA36130DC9A00083A749 /* LTTriggerSetListTableViewController.h */,
-				1030FA37130DC9A00083A749 /* LTTriggerSetListTableViewController.m */,
 				10AECF88130DDBB7001EFCB9 /* LTTriggerSetTableViewController.h */,
 				10AECF89130DDBB7001EFCB9 /* LTTriggerSetTableViewController.m */,
 				107204F6130E22FD0035CD3D /* LTTriggerTableViewController.h */,
@@ -1691,7 +1686,6 @@
 				1059DB741309CD1100D1EF1B /* LTContainerEntityTableViewCell.m in Sources */,
 				1059DB771309CD5100D1EF1B /* LTObjectEntityTableViewCell.m in Sources */,
 				1059DB7A1309CD6400D1EF1B /* LTMetricEntityTableViewCell.m in Sources */,
-				1030FA38130DC9A00083A749 /* LTTriggerSetListTableViewController.m in Sources */,
 				1030FA3C130DCB200083A749 /* LTTriggerSetList.m in Sources */,
 				1030FA3F130DCB460083A749 /* LTTriggerSet.m in Sources */,
 				1030FA42130DCB510083A749 /* LTTrigger.m in Sources */,

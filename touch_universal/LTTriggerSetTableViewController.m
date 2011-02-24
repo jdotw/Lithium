@@ -9,43 +9,49 @@
 #import "LTTriggerSetTableViewController.h"
 
 #import "LTTriggerSet.h"
+#import "LTTriggerSetList.h"
 #import "LTTrigger.h"
 #import "LTTriggerTableViewController.h"
 
 @implementation LTTriggerSetTableViewController
 
-@synthesize tset=_tset;
+@synthesize tset=_tset, metric=_metric;
 
-- (id)initWithTriggerSet:(LTTriggerSet *)tset
+- (id)initWithMetric:(LTEntity *)metric
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) 
     {
-        self.tset = tset;
+        self.metric = metric;
         
+        tsetList = [[LTTriggerSetList alloc] initWithMetric:self.metric];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(triggerSetListRefreshFinished:)
+                                                     name:kLTTriggerSetListRefreshFinished
+                                                   object:tsetList];
+
         /* Enabled Switch */
         CGRect switchFrame = CGRectMake(0.0, 0.0, 94.0, 27.0);
         enabledSwitch = [[UISwitch alloc] initWithFrame:switchFrame];
         enabledSwitch.backgroundColor = [UIColor clearColor];
-        enabledSwitch.on = self.tset.applied;
         [enabledSwitch addTarget:self action:@selector(enabledChanged:) forControlEvents:UIControlEventValueChanged];
 
         /* Object Scope Segment */
-        objScopeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:self.tset.object.desc, @"All Objects", nil]];
+        objScopeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:self.metric.object.desc, @"All Objects", nil]];
         objScopeSegment.backgroundColor = [UIColor clearColor];
         objScopeSegment.frame = CGRectMake(0., 0., 313., 40.);
         [objScopeSegment setSelectedSegmentIndex:0];
         [objScopeSegment addTarget:self action:@selector(objScopeChanged:) forControlEvents:UIControlEventValueChanged];
 
         /* Device Scope Segment */
-        devScopeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:self.tset.device.desc, @"All Devices", nil]];
+        devScopeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:self.metric.device.desc, @"All Devices", nil]];
         devScopeSegment.backgroundColor = [UIColor clearColor];
         devScopeSegment.frame = CGRectMake(0., 0., 313., 40.);
         [devScopeSegment setSelectedSegmentIndex:0];
         [devScopeSegment addTarget:self action:@selector(devScopeChanged:) forControlEvents:UIControlEventValueChanged];
 
         /* Device Scope Segment */
-        siteScopeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:self.tset.site.desc, @"All Sites", nil]];
+        siteScopeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:self.metric.site.desc, @"All Sites", nil]];
         siteScopeSegment.backgroundColor = [UIColor clearColor];
         siteScopeSegment.frame = CGRectMake(0., 0., 313., 40.);
         [siteScopeSegment setSelectedSegmentIndex:0];
@@ -57,7 +63,9 @@
 
 - (void)dealloc
 {
+    self.metric = nil;
     self.tset = nil;
+    [tsetList release];
     [enabledSwitch release];
     [objScopeSegment release];
     [devScopeSegment release];
@@ -79,17 +87,10 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelTouched:)] autorelease];
     
-    self.navigationItem.title = self.tset.desc;
-    
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-                                                                                            target:self
-                                                                                            action:@selector(saveTouched:)] autorelease];
+    [tsetList refresh];
+    self.navigationItem.title = @"Loading Triggers...";
 }
 
 - (void)viewDidUnload
@@ -102,6 +103,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -121,8 +123,53 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
+}
+
+#pragma mark - Notification Received
+
+- (void) alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void) triggerSetListRefreshFinished:(NSNotification *)note
+{
+    /* Find the triggerset for our metric */
+    LTTriggerSet *tset = [tsetList.childDict objectForKey:self.metric.name];
+    if (tset)
+    {
+        /* FOund a maching triggerset */
+        self.tset = tset;
+    }
+    else
+    {
+        /* No triggersets found! */
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Triggers Found"
+                                                        message:@"There does not seem to be any triggers defined for this metric"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Dismiss"
+                                              otherButtonTitles: nil];
+        [alert show];
+    }
+}
+
+#pragma mark - TriggerSet
+
+- (void) setTset:(LTTriggerSet *)tset
+{
+    [_tset release];
+    _tset = [tset retain];
+    
+    if (_tset)
+    {
+        enabledSwitch.on = _tset.applied;   
+        self.navigationItem.title = [NSString stringWithFormat:@"%@ %@", self.metric.object.desc, _tset.desc];
+        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+                                                                                                target:self
+                                                                                                action:@selector(saveTouched:)] autorelease];
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - Table view data source
@@ -130,7 +177,8 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 3;
+    if (self.tset) return 3;
+    else return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -299,6 +347,11 @@
     }
 }
 
+- (void) cancelTouched:(id)sender
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark - TriggerSet Delegate
 
 - (void) triggerSetUpdateDidFail:(LTTriggerSet *)tset
@@ -315,6 +368,7 @@
     /* Update finished */
     NSLog (@"Finished update");
     [self dismissModalViewControllerAnimated:YES];
+    [self.metric.device forceRefresh];
 }
 
 @end

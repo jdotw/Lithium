@@ -23,6 +23,7 @@
 }
 
 @property (nonatomic,assign) BOOL applied;
+@property (nonatomic,assign) BOOL defaultApplied;
 @property (nonatomic,readonly) NSMutableDictionary *appRuleDict;
 @property (nonatomic,readonly) NSMutableArray *appRules;
 @property (nonatomic,assign) BOOL ruleUpdateInProgress;
