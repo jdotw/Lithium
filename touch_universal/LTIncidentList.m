@@ -186,7 +186,6 @@
 #pragma mark Parsing
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
-
 {    
     /* Parse XML Using TBXML */
     BOOL listHasChanged = NO;

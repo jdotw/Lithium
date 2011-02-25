@@ -69,13 +69,13 @@ int i_triggerset_valrule_add (i_resource *self, i_object *obj, i_triggerset *tse
 
 int i_triggerset_valrule_add_exclusive (i_resource *self, i_object *obj, i_triggerset *tset, i_triggerset_valrule *rule)
 {
-  /* Remove any other fully specific match */
-  i_triggerset_valrule_sql_delete_specific (self, obj, tset, rule->trg_name);
+  /* Remove any other more-specific rules to ensure
+   * that this new rule will take affect (hence exclusive) 
+   */
+  i_triggerset_valrule_sql_delete_exclusive(self, obj, tset, rule);
 
   /* Add rule normally */
-  i_triggerset_valrule_add (self, obj, tset, rule);
-
-  return 0;
+  return i_triggerset_valrule_add (self, obj, tset, rule);
 }
 
 int i_triggerset_valrule_update (i_resource *self, i_object *obj, i_triggerset *tset, i_triggerset_valrule *rule)
@@ -88,6 +88,17 @@ int i_triggerset_valrule_update (i_resource *self, i_object *obj, i_triggerset *
   { i_printf (1, "i_triggerset_valrule_update failed to add new rule to SQL"); return -1; }
 
   return 0;
+}
+
+int i_triggerset_valrule_update_exclusive (i_resource *self, i_object *obj, i_triggerset *tset, i_triggerset_valrule *rule)
+{
+  /* Remove any other more-specific rules to ensure
+   * that this new rule will take affect (hence exclusive) 
+   */
+  i_triggerset_valrule_sql_delete_exclusive(self, obj, tset, rule);
+
+  /* Update rule normally */
+  return i_triggerset_valrule_update(self, obj, tset, rule);
 }
 
 int i_triggerset_valrule_remove (i_resource *self, i_object *obj, i_triggerset *tset, long rule_id)

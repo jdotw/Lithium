@@ -219,7 +219,7 @@
             ledView.image = [UIImage imageNamed:@"LED-Green.png"];
             break;
         default:
-            ledView.image = [UIImage imageNamed:@"LED-Red.png"];
+            ledView.image = [UIImage imageNamed:@"LED-Gray.png"];
             break;
     }
 }

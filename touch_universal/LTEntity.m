@@ -14,6 +14,8 @@
 #import "LTCoreDeployment.h"
 #import "LTFavoritesTableViewController.h"
 #import "TBXML-Lithium.h"
+#import "LTTriggerSet.h"
+#import "LTTrigger.h"
 
 static NSMutableDictionary *_xmlTranslation = nil;
 
@@ -772,14 +774,38 @@ static NSMutableDictionary *_xmlTranslation = nil;
 		}
 		else return nil;
 	}
+    else if ([self isMemberOfClass:[LTTriggerSet class]] || [self isMemberOfClass:[LTTrigger class]])
+    {
+        return [self.parent parentOfType:3];
+    }
 	else
 	{ return nil; }
 }
 - (LTEntity *) parentOfType:(int)parentType
 {
-	/* Will return self if self.type == type */
-	if (parentType > self.type) return nil;
+    /* Set initial entity */
 	LTEntity *entity = self;
+    
+    /* Special handling for triggersets */
+    if ([self isMemberOfClass:[LTTriggerSet class]])
+    {
+        /* Start at the metric */
+        LTTriggerSet *tset = (LTTriggerSet *)self;
+        entity = tset.parent;
+    }
+
+    /* Special handling for triggers (created by triggersetlist) */
+    if ([self isMemberOfClass:[LTTrigger class]])
+    {
+        /* Start at the metric */
+        LTTrigger *trg = (LTTrigger *)self;
+        entity = trg.parent;
+    }
+
+	/* Will return self if self.type == type */
+	if (parentType > entity.type) return nil;    
+    
+    /* Loop up the hierarchy to find parent */
 	while (entity && entity.type > parentType)
 	{ entity = entity.parent; }
 	return entity;

@@ -119,6 +119,7 @@ device_la_SOURCES = main.c \
 					triggerset_xml_valrule_delete.c \
 					triggerset_xml_disable_by_trigger.c \
 					triggerset_xml_reset_rules.c \
+					triggerset_xml_bulkupdate.c \
 					pdfgraph_xml_render.c \
 					xmlgraph_xml_render.c \
 					record.c \
