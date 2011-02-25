@@ -139,7 +139,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (self.trg.adminState == 0) return 4;
+    if (self.trg.adminState == 0) return 5;
     else return 1;
 }
 
@@ -159,6 +159,9 @@
             else return 1;
         case 3:
             /* Duration */
+            return 1;
+        case 4:
+            /* Defaults */
             return 1;
         default:
             return 0;
@@ -182,11 +185,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"Default";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    if (cell == nil) 
+    {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     
     // Configure the cell...
@@ -194,6 +198,7 @@
     {
         /* Enabled */
         cell.textLabel.text = @"Enabled";
+        cell.detailTextLabel.text = nil;
         cell.accessoryView = enabledSwitch;
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
@@ -203,6 +208,7 @@
         cell.accessoryView = conditionSegment;
         cell.accessoryType = UITableViewCellAccessoryNone;        
         cell.textLabel.text = @"Condition";
+        cell.detailTextLabel.text = nil;
     }
     else if (indexPath.section == 2)
     {
@@ -223,6 +229,7 @@
             cell.accessoryView = yValueField;
             yValueField.text = self.trg.yValue;
         }
+        cell.detailTextLabel.text = nil;
     }
     else if (indexPath.section == 3)
     {
@@ -230,6 +237,14 @@
         cell.textLabel.text = @"Duration";
         cell.accessoryView = durationField;
         durationField.text = [NSString stringWithFormat:@"%i", self.trg.duration];
+        cell.detailTextLabel.text = nil;
+    }
+    else if (indexPath.section == 4)
+    {
+        /* Defaults */
+        cell.textLabel.text = @"Restore Default";
+        cell.detailTextLabel.text = self.trg.defaultConditionString;
+        cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
     return cell;
@@ -247,11 +262,22 @@
 
 - (NSIndexPath *) tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return nil;  // Deny all selection
+    if (indexPath.section == 4)
+    {
+        /* Allow selection of Restore Default */
+        return  indexPath;
+    }
+    return nil;  // Deny all other selection
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 4 && indexPath.row == 0)
+    {
+        /* Restore to defaults */
+        [self.trg restoreDefaults];
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - UI Actions
@@ -279,18 +305,15 @@
 {
     if (textField == xValueField)
     {
-        NSLog (@"X Changed to %@", [xValueField.text stringByReplacingCharactersInRange:range withString:string]);
         self.trg.xValue = [xValueField.text stringByReplacingCharactersInRange:range withString:string];
     }
     else if (textField == yValueField)
     {
-        NSLog (@"Y Changed to %@", [yValueField.text stringByReplacingCharactersInRange:range withString:string]);
         self.trg.yValue = [yValueField.text stringByReplacingCharactersInRange:range withString:string];
     }
     else if (textField == durationField)
     {
         self.trg.duration = [[durationField.text stringByReplacingCharactersInRange:range withString:string] intValue];
-        NSLog (@"Duraton changed to %i", self.trg.duration);
     }
     return YES;
 }

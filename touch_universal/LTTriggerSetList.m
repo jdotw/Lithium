@@ -53,7 +53,6 @@
 	NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:[self.metric.object urlForXml:@"triggerset_list" timestamp:0]
 															  cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
 														  timeoutInterval:60.0];	
-    NSLog (@"Req is %@", theRequest);
 	
 	/* Establish Connection */
 	NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
@@ -127,6 +126,7 @@
                         trg.defaultXValue = [TBXML textForElementNamed:@"default_xval" parentElement:tsetChild];
                         trg.yValue = [TBXML textForElementNamed:@"yval" parentElement:tsetChild];
                         trg.defaultYValue = [TBXML textForElementNamed:@"default_yval" parentElement:tsetChild];
+                        trg.duration = [TBXML intFromTextForElementNamed:@"duration" parentElement:tsetChild];
                         trg.defaultDuration = [TBXML intFromTextForElementNamed:@"default_duration" parentElement:tsetChild];
                         trg.adminState = [TBXML intFromTextForElementNamed:@"adminstate_num" parentElement:tsetChild];
                         
@@ -159,7 +159,6 @@
                                 rule.duration = [TBXML intFromTextForElementNamed:@"duration" parentElement:trgChild];
                                 rule.triggerType = [TBXML intFromTextForElementNamed:@"trg_type_num" parentElement:trgChild];
                                 rule.adminState = [TBXML intFromTextForElementNamed:@"adminstate_num" parentElement:trgChild];
-                                
                             }
                         }
                         

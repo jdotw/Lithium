@@ -17,6 +17,9 @@
 
 - (NSString *) conditionString
 {
+    if (self.adminState != 0)
+    { return @"Disabled"; }
+    
     NSString *string = nil;
     switch(self.triggerType)
     {
@@ -40,6 +43,33 @@
     if (self.duration > 0) string = [string stringByAppendingFormat:@" for %isec", self.duration];
     
     return string;
+}
+
+- (NSString *) defaultConditionString
+{
+    NSString *string = nil;
+    switch(self.defaultTriggerType)
+    {
+        case TRGTYPE_LT:
+            string = [NSString stringWithFormat:@"< %@", self.defaultXValue];
+            break;
+        case TRGTYPE_GT:
+            string = [NSString stringWithFormat:@"> %@", self.defaultXValue];
+            break;
+        case TRGTYPE_RANGE:
+            string = [NSString stringWithFormat:@"%@ - %@", self.defaultXValue, self.defaultYValue];
+            break;
+        case TRGTYPE_NOTEQUAL:
+            string = [NSString stringWithFormat:@"!= %@", self.defaultXValue];
+            break;
+        default:
+            string = self.defaultXValue;
+            break;
+    }
+    
+    if (self.defaultDuration > 0) string = [string stringByAppendingFormat:@" for %isec", self.defaultDuration];
+    
+    return string;    
 }
 
 - (id) init
@@ -110,6 +140,17 @@
     if (_apiUpdate) _apiAdminState = value;
 }
 
+#pragma - Defaults 
+
+- (void) restoreDefaults
+{
+    self.triggerType = self.defaultTriggerType;
+    self.duration = self.defaultDuration;
+    self.adminState = 0;
+    self.xValue = self.defaultXValue;
+    self.yValue = self.defaultYValue;
+}
+
 #pragma - Rule Updating
 
 - (LTTriggerSetValRule *) _updatedScopedValRuleForObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName
@@ -126,26 +167,28 @@
             break;
         }
     }
-    if (!matchingRule) 
-    {
-        matchingRule = [[LTTriggerSetValRule new] autorelease];
-        matchingRule.objName = objName;
-        if (objName) matchingRule.objDesc = self.object.desc;
-        matchingRule.devName = devName;
-        if (devName) matchingRule.devDesc = self.device.desc;
-        matchingRule.siteName = siteName;
-        if (siteName) matchingRule.siteDesc = self.site.desc;
-        matchingRule.trgName = self.name;
-        matchingRule.trgDesc = self.desc;
-    }
-    matchingRule.adminState = self.adminState;
-    matchingRule.xValue = self.xValue;
-    if (self.triggerType == TRGTYPE_RANGE) matchingRule.yValue = self.yValue;
-    else matchingRule.yValue = nil;
-    matchingRule.duration = self.duration;
-    matchingRule.triggerType = self.triggerType;
 
-    return matchingRule;
+    /* Create updated rule (matching rule may be nil here) */
+    LTTriggerSetValRule *updatedRule = [[LTTriggerSetValRule new] autorelease];
+    updatedRule.identifier = matchingRule.identifier;
+    updatedRule.objName = objName;
+    if (objName) updatedRule.objDesc = self.object.desc;
+    updatedRule.devName = devName;
+    if (devName) updatedRule.devDesc = self.device.desc;
+    updatedRule.siteName = siteName;
+    if (siteName) updatedRule.siteDesc = self.site.desc;
+    updatedRule.trgName = self.name;
+    updatedRule.trgDesc = self.desc;
+    
+    
+    updatedRule.adminState = self.adminState;
+    updatedRule.xValue = self.xValue;
+    if (self.triggerType == TRGTYPE_RANGE) updatedRule.yValue = self.yValue;
+    else updatedRule.yValue = nil;
+    updatedRule.duration = self.duration;
+    updatedRule.triggerType = self.triggerType;
+
+    return updatedRule;
 }
 
 - (BOOL) triggerHasChanged
@@ -211,7 +254,7 @@
         /* Check to see if a less-specific rule or the 
          * default value will have the same affect 
          */
-        if ([self lessSpecificRuleMatches:valRule])
+        if (valRule.identifier > 0 && [self lessSpecificRuleMatches:valRule])
         {
             /* There is a less-specific rule in the list, 
              * or the triggers default will have the same affect,
@@ -225,6 +268,8 @@
         {
             /* The rule has no less-specific or default match,
              * return nil to make sure it is not deleted and allows
+             * the rule to be added to the list of rules to be updated
+             */
             return nil;
         }
         
@@ -245,7 +290,7 @@
     for (LTTriggerSetValRule *valRule in self.valRules)
     {
         if (valRule == matchRule) continue;
-        if ([matchRule hasTheSameEffectAs:valRules] 
+        if ([matchRule hasTheSameEffectAs:valRule] 
             && [matchRule moreSpecificRule:valRule] == matchRule)
         {
             /* A value in the list matches for condition, 
@@ -257,7 +302,7 @@
     }
     
     /* Check Default */
-    if (matchRule.triggerType == self.defaultTriggerType && matchRule.duration == self.defaultDuration)
+    if (matchRule.triggerType == self.defaultTriggerType && matchRule.duration == self.defaultDuration && matchRule.adminState == 0) 
     {
         /* Type and duration match, check values */
         if (self.valueType == VALTYPE_STRING)

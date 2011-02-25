@@ -454,6 +454,119 @@ int i_triggerset_valrule_sql_delete_specific (i_resource *self, i_object *obj, i
   return 0;
 }
 
+int i_triggerset_valrule_sql_delete_exclusive (i_resource *self, i_object *obj, i_triggerset *tset, i_triggerset_valrule *rule)
+{
+  /* Deletes all other rules to ensure that the supplied rule
+   * will take affect for its given scope. 
+   * 
+   * The supplied rule must *not* be deleted by the delete statement; 
+   * the supplied rule may or may not have an ID
+   */
+  
+  char *tmp;
+
+  if (rule->site_name && rule->dev_name && rule->obj_name)
+  {
+    /* This rule is fully qualified, there's no need to delete anything below
+     * it because it is already the most specific
+     */
+    return 0;
+  }
+
+  /* Connect */
+  i_pg_async_conn *conn = i_pg_async_conn_open_customer (self);
+  if (!conn)
+  { i_printf (1, "i_triggerset_valrule_sql_delete_exclusive failed to connect to SQL database"); return -1; }
+
+  /* Create basic query (will delete all for the given cnt/tset/trg) */
+  char *query;
+  asprintf(&query, "DELETE FROM triggerset_valrules WHERE cnt_name='%s' AND tset_name='%s' AND trg_name='%s'", obj->cnt->name_str, tset->name_str, rule->trg_name);
+
+  /* Check if the supplied rule has an ID, if so, we must avoid
+   * deleting it 
+   */
+  if (rule->id != 0)
+  {
+    asprintf(&tmp, "%s AND id != '%li'", query, rule->id);
+    free(query);
+    query = tmp;
+  }
+
+  /* Add filters for site/dev/obj specifics 
+   *
+   * This statement should only delete rules that are MORE specific, that is
+   * it should delete rows where the column is NOT NULL if it is NULL in the
+   * rule
+   */
+  if (rule->site_name || rule->dev_name || rule->obj_name)
+  {
+    /* There's atleast one criteria on the rule, so selective filters
+     * should be used to only delete rules more specific that this rule
+     */
+
+    asprintf (&tmp, "%s AND (", query);
+    free (query);
+    query = tmp;
+
+    char *and_condition = "";
+
+    /* If there's no site specific (all sites), delete any site-specific rule */
+    if (!rule->site_name) 
+    {
+      asprintf(&tmp, "%s %s site_name IS NOT NULL", query, and_condition);
+      free(query);
+      query = tmp;
+      and_condition = "AND";
+    }
+
+    /* If there's no device (all devices), delete any dev-specific rule */
+    if (!rule->dev_name)
+    {
+      asprintf(&tmp, "%s %s dev_name IS NOT NULL", query, and_condition);
+      free(query);
+      query = tmp;
+      and_condition = "AND";
+    }
+
+    /* If there's no object (all objects), delete any obj-specific rule */
+    if (!rule->obj_name)
+    {
+      asprintf(&tmp, "%s %s obj_name IS NOT NULL", query, and_condition);
+      free(query);
+      query = tmp;
+      and_condition = "AND";
+    }
+    
+    asprintf (&tmp, "%s)", query);
+    free (query);
+    query = tmp;
+
+  }
+  else
+  {
+    /* There rule is the least specific type (all objects, all sites, all
+     * device). Do not add any further criteria in order to delete all other
+     * rules present for this cnt/tset/trg
+     */
+  }
+
+  /* DEBUG */
+  i_printf(1, "i_triggerset_valrule_sql_delete_exclusive QUERY: %s", query);
+  /* END DEBUG */
+
+  /* Execute command */
+  int num = i_pg_async_query_exec (self, conn, query, 0, i_triggerset_valrule_sql_sqlcb, tset);
+  free (query);
+  if (num != 0)
+  {
+    i_printf (1, "i_triggerset_valrule_sql_delete_exclusive failed to execute");
+    i_pg_async_conn_close (conn);
+    return -1;
+  }
+
+  return 0;
+}
+
 int i_triggerset_valrule_sql_delete_wildcard (i_resource *self, i_entity *ent)
 {
   /* Removes all rules that apply to the given entity and
@@ -701,7 +814,7 @@ i_list* i_triggerset_valrule_sql_load_sync (i_resource *self, i_triggerset *tset
   if (obj)
   {
     obj_esc = i_postgres_escape (obj->name_str);
-    asprintf (&query, "SELECT id, site_name, site_desc, dev_name, dev_desc, obj_name, obj_desc, trg_name, trg_desc, trgtype, xval, yval, duration, adminstate FROM triggerset_valrules WHERE cnt_name='%s' AND tset_name='%s' AND trg_name='%s' AND (obj_name='%s' OR obj_name IS NULL) AND (dev_name='%s' OR dev_name IS NULL) AND (site_name='%s' OR site_name IS NULL) ORDER BY obj_name, dev_name, site_name ASC",
+    asprintf (&query, "SELECT id, site_name, site_desc, dev_name, dev_desc, obj_name, obj_desc, trg_name, trg_desc, trgtype, xval, yval, duration, adminstate FROM triggerset_valrules WHERE cnt_name='%s' AND tset_name='%s' AND trg_name='%s' AND (obj_name='%s' OR obj_name IS NULL) AND (dev_name='%s' OR dev_name IS NULL) AND (site_name='%s' OR site_name IS NULL) ORDER BY (obj_name is NULL), obj_name, (dev_name is NULL), dev_name, (site_name is NULL), site_name ASC",
       cnt_esc, tset_esc, trg_esc, obj_esc, dev_esc, site_esc);
     free (obj_esc);
   }
@@ -764,6 +877,10 @@ i_list* i_triggerset_valrule_sql_load_sync (i_resource *self, i_triggerset *tset
       yval_str = result[11 + (y * cols)];
       duration_str = result[12 + (y * cols)];
       adminstate_str = result[13 + (y * cols)];
+
+      /* DEBUG */
+      i_printf(0, "DEBUG(obj=%p/%s): row=%i id=%s site=%s dev=%s obj=%s", obj, obj ? obj->name_str : NULL, y, id_str, site_name, dev_name, obj_name);
+      /* END DEBUG */
 
       /* Rule */
       rule = i_triggerset_valrule_create ();

@@ -85,6 +85,7 @@ void i_triggerset_apprule_free (void *ruleptr);
 int i_triggerset_apprule_add (i_resource *self, struct i_object_s *obj, i_triggerset *tset, i_triggerset_apprule *rule);
 int i_triggerset_apprule_add_exclusive (i_resource *self, struct i_object_s *obj, i_triggerset *tset, i_triggerset_apprule *rule);
 int i_triggerset_apprule_update (i_resource *self, struct i_object_s *obj, i_triggerset *tset, i_triggerset_apprule *rule);
+int i_triggerset_apprule_update_exclusive (i_resource *self, struct i_object_s *obj, i_triggerset *tset, i_triggerset_apprule *rule);
 int i_triggerset_apprule_remove (i_resource *self, struct i_object_s *obj, i_triggerset *tset, long rule_id);
 int i_triggerset_apprule_remove_exclusive (i_resource *self, struct i_entity_s *ent);
 
@@ -95,6 +96,7 @@ int i_triggerset_apprule_sql_insert (i_resource *self, struct i_object_s *obj, i
 int i_triggerset_apprule_sql_update (i_resource *self, i_triggerset_apprule *rule, i_triggerset *tset);
 int i_triggerset_apprule_sql_delete (i_resource *self, long rule_id, i_triggerset *tset);
 int i_triggerset_apprule_sql_delete_specific (i_resource *self, struct i_object_s *obj, struct i_triggerset_s *tset);
+int i_triggerset_apprule_sql_delete_exclusive (i_resource *self, struct i_object_s *obj, i_triggerset *tset, i_triggerset_apprule *rule);
 int i_triggerset_apprule_sql_delete_wildcard (i_resource *self, struct i_entity_s *ent);
 int i_triggerset_apprule_sql_sqlcb ();
 int i_triggerset_apprule_sql_load (i_resource *self, i_triggerset *tset, struct i_object_s *obj, int (*cbfunc) (), void *passdata);
@@ -108,6 +110,7 @@ void i_triggerset_valrule_free (void *ruleptr);
 int i_triggerset_valrule_add (i_resource *self, struct i_object_s *obj, i_triggerset *tset, i_triggerset_valrule *rule);
 int i_triggerset_valrule_add_exclusive (i_resource *self, struct i_object_s *obj, i_triggerset *tset, i_triggerset_valrule *rule);
 int i_triggerset_valrule_update (i_resource *self, struct i_object_s *obj, i_triggerset *tset, i_triggerset_valrule *rule);
+int i_triggerset_valrule_update_exclusive (i_resource *self, struct i_object_s *obj, i_triggerset *tset, i_triggerset_valrule *rule);
 int i_triggerset_valrule_remove (i_resource *self, struct i_object_s *obj, i_triggerset *tset, long rule_id);
 int i_triggerset_valrule_remove_exclusive (i_resource *self, struct i_entity_s *ent);
 
@@ -119,6 +122,7 @@ int i_triggerset_valrule_sql_update (i_resource *self, i_triggerset *tset, i_tri
 int i_triggerset_valrule_sql_delete (i_resource *self, i_triggerset *tset, long rule_id);
 int i_triggerset_valrule_sql_delete_specific (i_resource *self, struct i_object_s *obj, i_triggerset *tset, char *trg_name);
 int i_triggerset_valrule_sql_delete_wildcard (i_resource *self, struct i_entity_s *ent);
+int i_triggerset_valrule_sql_delete_exclusive (i_resource *self, struct i_object_s *obj, i_triggerset *tset, i_triggerset_valrule *rule);
 int i_triggerset_valrule_sql_sqlcb ();
 void i_triggerset_valrule_sql_invalidate_cache ();
 i_list* i_triggerset_valrule_sql_load_sync (i_resource *self, i_triggerset *tset, struct i_object_s *obj, struct i_trigger_s *trg);

@@ -83,6 +83,22 @@
 
 #pragma mark - View lifecycle
 
+- (void) _updateRightButtonAndScopeSelectors
+{
+    if ([self.tset setOrTriggersHaveChanged])
+    {
+        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+                                                                                                target:self
+                                                                                                action:@selector(saveTouched:)] autorelease];
+        
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    [self.tableView reloadData];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -103,7 +119,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.tableView reloadData];
+    [self _updateRightButtonAndScopeSelectors];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -165,9 +181,6 @@
     {
         enabledSwitch.on = _tset.applied;   
         self.navigationItem.title = [NSString stringWithFormat:@"%@ %@", self.metric.object.desc, _tset.desc];
-        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-                                                                                                target:self
-                                                                                                action:@selector(saveTouched:)] autorelease];
         [self.tableView reloadData];
     }
 }
@@ -177,7 +190,13 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    if (self.tset) return 3;
+    if (self.tset) 
+    {
+        if ([self.tset setOrTriggersHaveChanged])
+        { return 3; }
+        else
+        { return 2; }
+    }
     else return 0;
 }
 
@@ -293,6 +312,8 @@
 {
     self.tset.applied = enabledSwitch.on;
     [self.tableView reloadData];
+
+    [self _updateRightButtonAndScopeSelectors];
 }
 
 - (void) objScopeChanged:(id)sender
@@ -307,7 +328,7 @@
 
 - (void) siteScopeChanged:(id)sender
 {
-    NSLog (@"Frame is %@", NSStringFromCGRect(siteScopeSegment.frame));
+
 }
 
 - (void) saveTouched:(id)sender

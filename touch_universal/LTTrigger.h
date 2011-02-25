@@ -59,6 +59,7 @@
 @property (nonatomic,assign) int duration;
 @property (nonatomic,assign) int defaultDuration;
 @property (nonatomic,readonly) NSString *conditionString;
+@property (nonatomic,readonly) NSString *defaultConditionString;
 @property (nonatomic,readonly) NSMutableDictionary *valRuleDict;
 @property (nonatomic,readonly) NSMutableArray *valRules;
 @property (nonatomic,readonly) BOOL triggerHasChanged;
@@ -66,8 +67,10 @@
 
 - (void) beginAPIUpdate;
 - (void) endAPIUpdate;
+- (void) restoreDefaults;
 
 - (LTTriggerSetValRule *) ruleToUpdateForChangesInObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName;
+- (LTTriggerSetValRule *) ruleToDeleteForChangesInObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName;
 - (BOOL) lessSpecificRuleMatches:(LTTriggerSetValRule *)matchRule;
 
 @end

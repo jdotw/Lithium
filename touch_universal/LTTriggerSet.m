@@ -124,16 +124,74 @@
     return rulesToUpdate;
 }
 
+- (NSArray *) rulesToDeleteForChangesInObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName
+{
+    /* Returns an array of the ValRule objects that need
+     * to be pushed to LithiumCore in order to affect any changes made
+     * in the trigger set and/or triggers based on the scope of the 
+     * changes being dictated by the supplied objName, devName and siteName
+     */
+    
+    NSMutableArray *rulesToDelete = [NSMutableArray array];
+
+    /* FIX Do app rules also need to be checked for delete? */
+    
+    /* Loop through triggers */
+    for (LTTrigger *trg in self.children)
+    {
+        LTTriggerSetValRule *valRule = [trg ruleToDeleteForChangesInObject:objName device:devName site:siteName];
+        if (valRule) [rulesToDelete addObject:valRule];
+    }
+    
+    return rulesToDelete;
+}
+
+- (void) _appendXMLForAppRule:(LTTriggerSetAppRule *)appRule to:(NSMutableString *)xmlString
+{
+    [xmlString appendFormat:@"<apprule>"];
+    if (appRule.identifier != 0) [xmlString appendFormat:@"<id>%i</id>", appRule.identifier];
+    if (appRule.siteName) [xmlString appendFormat:@"<site_name>%@</site_name>", appRule.siteName];
+    if (appRule.siteDesc) [xmlString appendFormat:@"<site_desc>%@</site_desc>", appRule.siteDesc];
+    if (appRule.devName) [xmlString appendFormat:@"<dev_name>%@</dev_name>", appRule.devName];
+    if (appRule.devDesc) [xmlString appendFormat:@"<dev_desc>%@</dev_desc>", appRule.devDesc];
+    if (appRule.objName) [xmlString appendFormat:@"<obj_name>%@</obj_name>", appRule.objName];
+    if (appRule.objDesc) [xmlString appendFormat:@"<obj_desc>%@</obj_desc>", appRule.objDesc];
+    [xmlString appendFormat:@"<applyflag>%i</applyflag>", appRule.applyFlag];
+    [xmlString appendFormat:@"</apprule>"];
+}
+
+- (void) _appendXMLForValRule:(LTTriggerSetValRule *)valRule to:(NSMutableString *)xmlString
+{
+    [xmlString appendFormat:@"<valrule>"];
+    if (valRule.identifier != 0) [xmlString appendFormat:@"<id>%i</id>", valRule.identifier];
+    if (valRule.siteName) [xmlString appendFormat:@"<site_name>%@</site_name>", valRule.siteName];
+    if (valRule.siteDesc) [xmlString appendFormat:@"<site_desc>%@</site_desc>", valRule.siteDesc];
+    if (valRule.devName) [xmlString appendFormat:@"<dev_name>%@</dev_name>", valRule.devName];
+    if (valRule.devDesc) [xmlString appendFormat:@"<dev_desc>%@</dev_desc>", valRule.devDesc];
+    if (valRule.objName) [xmlString appendFormat:@"<obj_name>%@</obj_name>", valRule.objName];
+    if (valRule.objDesc) [xmlString appendFormat:@"<obj_desc>%@</obj_desc>", valRule.objDesc];
+    if (valRule.trgName) [xmlString appendFormat:@"<trg_name>%@</trg_name>", valRule.trgName];
+    if (valRule.trgDesc) [xmlString appendFormat:@"<trg_desc>%@</trg_desc>", valRule.trgDesc];
+    if (valRule.xValue) [xmlString appendFormat:@"<xval>%@</xval>", valRule.xValue];
+    if (valRule.yValue) [xmlString appendFormat:@"<yval>%@</yval>", valRule.yValue];
+    [xmlString appendFormat:@"<duration>%i</duration>", valRule.duration];
+    [xmlString appendFormat:@"<trg_type_num>%i</trg_type_num>", valRule.triggerType];
+    [xmlString appendFormat:@"<adminstate_num>%i</adminstate_num>", valRule.adminState];            
+    [xmlString appendFormat:@"</valrule>"];    
+}
+
 - (void) sendRuleUpdatesForScopeObject:(NSString *)objName device:(NSString *)devName site:(NSString *)siteName
 {
     /* Get rules */
-    NSArray *rules = [self rulesToUpdateForChangesInObject:objName
+    NSArray *rulesToUpdate = [self rulesToUpdateForChangesInObject:objName
                                                     device:devName
                                                       site:siteName];
-    if (!rules || rules.count < 1) 
+    NSArray *rulesToDelete = [self rulesToDeleteForChangesInObject:objName
+                                                            device:devName
+                                                              site:siteName];
+    if ((!rulesToUpdate || rulesToUpdate.count < 1) && (!rulesToDelete || rulesToDelete.count < 1))
     {
         self.ruleUpdateInProgress = NO;
-        NSLog (@"%@ no rules to update!", self);
         return;
     }
     
@@ -144,54 +202,41 @@
     [xmlString appendFormat:@"<tset_name>%@</tset_name>", self.name];
     [xmlString appendFormat:@"<met_name>%@</met_name>", self.metric.name];
 	[xmlString appendString:@"<update>"];   // Rules to be updated (add/edit)
-    for (id rule in rules)
+    for (id rule in rulesToUpdate)
     {
         if ([rule isMemberOfClass:[LTTriggerSetAppRule class]])
         {
             LTTriggerSetAppRule *appRule = (LTTriggerSetAppRule *)rule;
-            [xmlString appendFormat:@"<apprule>"];
-            if (appRule.identifier != 0) [xmlString appendFormat:@"<id>%i</id>", appRule.identifier];
-            if (appRule.siteName) [xmlString appendFormat:@"<site_name>%@</site_name>", appRule.siteName];
-            if (appRule.siteDesc) [xmlString appendFormat:@"<site_desc>%@</site_desc>", appRule.siteDesc];
-            if (appRule.devName) [xmlString appendFormat:@"<dev_name>%@</dev_name>", appRule.devName];
-            if (appRule.devDesc) [xmlString appendFormat:@"<dev_desc>%@</dev_desc>", appRule.devDesc];
-            if (appRule.objName) [xmlString appendFormat:@"<obj_name>%@</obj_name>", appRule.objName];
-            if (appRule.objDesc) [xmlString appendFormat:@"<obj_desc>%@</obj_desc>", appRule.objDesc];
-            [xmlString appendFormat:@"<applyflag>%i</applyflag>", appRule.applyFlag];
-            [xmlString appendFormat:@"</apprule>"];
+            [self _appendXMLForAppRule:appRule to:xmlString];
         }
         else if ([rule isMemberOfClass:[LTTriggerSetValRule class]])
         {
             LTTriggerSetValRule *valRule = (LTTriggerSetValRule *)rule;
-            [xmlString appendFormat:@"<valrule>"];
-            if (valRule.identifier != 0) [xmlString appendFormat:@"<id>%i</id>", valRule.identifier];
-            if (valRule.siteName) [xmlString appendFormat:@"<site_name>%@</site_name>", valRule.siteName];
-            if (valRule.siteDesc) [xmlString appendFormat:@"<site_desc>%@</site_desc>", valRule.siteDesc];
-            if (valRule.devName) [xmlString appendFormat:@"<dev_name>%@</dev_name>", valRule.devName];
-            if (valRule.devDesc) [xmlString appendFormat:@"<dev_desc>%@</dev_desc>", valRule.devDesc];
-            if (valRule.objName) [xmlString appendFormat:@"<obj_name>%@</obj_name>", valRule.objName];
-            if (valRule.objDesc) [xmlString appendFormat:@"<obj_desc>%@</obj_desc>", valRule.objDesc];
-            if (valRule.trgName) [xmlString appendFormat:@"<trg_name>%@</trg_name>", valRule.trgName];
-            if (valRule.trgDesc) [xmlString appendFormat:@"<trg_desc>%@</trg_desc>", valRule.trgDesc];
-            if (valRule.xValue) [xmlString appendFormat:@"<xval>%@</xval>", valRule.xValue];
-            if (valRule.yValue) [xmlString appendFormat:@"<yval>%@</yval>", valRule.yValue];
-            [xmlString appendFormat:@"<duration>%i</duration>", valRule.duration];
-            [xmlString appendFormat:@"<trg_type_num>%i</trg_type_num>", valRule.triggerType];
-            [xmlString appendFormat:@"<adminstate_num>%i</adminstate_num>", valRule.adminState];            
-            [xmlString appendFormat:@"</valrule>"];
+            [self _appendXMLForValRule:valRule to:xmlString];
         }
     }
 	[xmlString appendString:@"</update>"];
+	[xmlString appendString:@"<delete>"];   // Rules to be updated (add/edit)
+    for (id rule in rulesToDelete)
+    {
+        if ([rule isMemberOfClass:[LTTriggerSetAppRule class]])
+        {
+            LTTriggerSetAppRule *appRule = (LTTriggerSetAppRule *)rule;
+            [self _appendXMLForAppRule:appRule to:xmlString];
+        }
+        else if ([rule isMemberOfClass:[LTTriggerSetValRule class]])
+        {
+            LTTriggerSetValRule *valRule = (LTTriggerSetValRule *)rule;
+            [self _appendXMLForValRule:valRule to:xmlString];
+        }
+    }
+	[xmlString appendString:@"</delete>"];
 	[xmlString appendString:@"</rules>"];
 
-    NSLog(@"XML for Rule Update is '%@'", xmlString);
-	
 	/* Create request */
 	NSMutableURLRequest *theRequest= [NSMutableURLRequest requestWithURL:[self.object urlForXml:@"triggerset_bulkupdate" timestamp:0]
 															 cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
 														 timeoutInterval:60.0];
-    
-    NSLog(@"Update req is %@", theRequest);
     
 	/* Outbound XML doc to be sent */
 	NSString *formBoundary = [[NSProcessInfo processInfo] globallyUniqueString];

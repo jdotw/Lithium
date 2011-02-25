@@ -604,14 +604,13 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog (@"Index %i", buttonIndex);
 	if (buttonIndex == 0)
 	{
 		/* Add to Favorites */
 		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 		[appDelegate.favoritesController addToFavorites:self.metric];
 	}
-    else if (buttonIndex == 1)
+    else if (buttonIndex == 1 && UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
     {
         /* Adjust Triggers */
         LTTriggerSetTableViewController *vc = [[[LTTriggerSetTableViewController alloc] initWithMetric:self.metric] autorelease];

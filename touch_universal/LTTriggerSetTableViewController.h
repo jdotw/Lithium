@@ -20,6 +20,10 @@
     UISegmentedControl *devScopeSegment;
     UISegmentedControl *siteScopeSegment;
     
+    UISwitch *objScopeSwitch;
+    UISwitch *devScopeSwitch;
+    UISwitch *siteScopeSwitch;
+    
     LTTriggerSetList *tsetList;
 }
 

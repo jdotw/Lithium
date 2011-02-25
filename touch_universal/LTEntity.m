@@ -792,7 +792,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
         /* Start at the metric */
         LTTriggerSet *tset = (LTTriggerSet *)self;
         entity = tset.parent;
-        NSLog (@"parentOfType on %@ using entity %@ from tset.parent", self, entity);
     }
 
     /* Special handling for triggers (created by triggersetlist) */
@@ -801,7 +800,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
         /* Start at the metric */
         LTTrigger *trg = (LTTrigger *)self;
         entity = trg.parent;
-        NSLog (@"parentOfType on %@ using entity %@ from trg.parent", self, entity);
     }
 
 	/* Will return self if self.type == type */

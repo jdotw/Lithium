@@ -112,7 +112,7 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
             }
 
             /* Add or update the rule */
-            if (rule->id != 0) i_triggerset_apprule_update (self, obj, tset, rule);
+            if (rule->id != 0) i_triggerset_apprule_update_exclusive (self, obj, tset, rule);
             else i_triggerset_apprule_add_exclusive (self, obj, tset, rule);
           }
           else if (strcmp((char *)update_node->name, "valrule")==0)
@@ -143,7 +143,7 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
             }
 
             /* Add or update the rule */
-            if (rule->id != 0) i_triggerset_valrule_update (self, obj, tset, rule);
+            if (rule->id != 0) i_triggerset_valrule_update_exclusive (self, obj, tset, rule);
             else i_triggerset_valrule_add_exclusive (self, obj, tset, rule); 
           }
         }

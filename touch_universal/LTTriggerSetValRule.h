@@ -29,5 +29,6 @@
 @property (nonatomic,assign) int adminState;
 
 - (LTTriggerSetValRule *) moreSpecificRule:(LTTriggerSetValRule *)otherRule;
+- (BOOL) hasTheSameEffectAs:(LTTriggerSetValRule *)matchRule;
 
 @end

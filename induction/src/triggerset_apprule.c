@@ -66,7 +66,7 @@ int i_triggerset_apprule_add (i_resource *self, i_object *obj, i_triggerset *tse
 int i_triggerset_apprule_add_exclusive (i_resource *self, i_object *obj, i_triggerset *tset, i_triggerset_apprule *rule)
 {
   /* Remove any other fully specific match */
-  i_triggerset_apprule_sql_delete_specific (self, obj, tset);
+  i_triggerset_apprule_sql_delete_exclusive (self, obj, tset, rule);
 
   /* Add rule normally */
   i_triggerset_apprule_add (self, obj, tset, rule);
@@ -82,6 +82,17 @@ int i_triggerset_apprule_update (i_resource *self, i_object *obj, i_triggerset *
   num = i_triggerset_apprule_sql_update (self, rule, tset);
   if (num != 0)
   { i_printf (1, "i_triggerset_apprule_update failed to add new rule to SQL"); return -1; }
+
+  return 0;
+}
+
+int i_triggerset_apprule_update_exclusive (i_resource *self, i_object *obj, i_triggerset *tset, i_triggerset_apprule *rule)
+{
+  /* Remove any other fully specific match */
+  i_triggerset_apprule_sql_delete_exclusive (self, obj, tset, rule);
+
+  /* Add rule normally */
+  i_triggerset_apprule_update (self, obj, tset, rule);
 
   return 0;
 }
