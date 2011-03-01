@@ -197,30 +197,13 @@
 	}
     	
     /* Rack vs. Non-Rack Setup */
-    if (UI_USER_INTERFACE_IDIOM()==UIUserInterfaceIdiomPad)
+    if (entity.type < ENT_DEVICE)
     {
-        /* iPad Table Setup */
-        if (entity.type < ENT_DEVICE)
+        /* Cust/Site/Device navigation */
+        if (!entity || (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation]) || entity.type == ENT_SITE)
         {
-            /* Cust/Site/Device navigation */
-            if (!entity || (entity.type == ENT_CUSTOMER && [self _groupDevicesByLocation]) || entity.type == ENT_SITE)
-            {
-                /* Draw rack-style for Cores, Site+Device and Device list */
-                self.drawAsRack = YES;
-            }
-        }
-    }
-    else
-    {
-        /* iPhone Table Setup */
-        if (entity.type < ENT_DEVICE)
-        {
-            /* Cust/Site/Device navigation */
-            if (entity.type != ENT_CUSTOMER && ![self _groupDevicesByLocation])
-            {
-                /* Not a list of sites, draw a rack */
-                self.drawAsRack = YES;
-            }
+            /* Draw rack-style for Cores, Site+Device and Device list */
+            self.drawAsRack = YES;
         }
     }
     
@@ -1142,21 +1125,34 @@
 	}	
 
     /* Sort list */
+    NSSortDescriptor *opStateSort = [[[NSSortDescriptor alloc] initWithKey:@"opState" ascending:NO] autorelease];
+    NSSortDescriptor *summarySort = [[[NSSortDescriptor alloc] initWithKey:@"showInSummary" ascending:NO] autorelease];
+    NSSortDescriptor *triggerSort = [[[NSSortDescriptor alloc] initWithKey:@"hasTriggers" ascending:NO] autorelease];
+    NSSortDescriptor *graphableSort = [[[NSSortDescriptor alloc] initWithKey:@"recordEnabled" ascending:NO] autorelease];
+    NSSortDescriptor *descSort = [[[NSSortDescriptor alloc] initWithKey:@"desc" ascending:YES selector:@selector(localizedCompare:)] autorelease];
+    NSMutableArray *sortDescriptors = [NSMutableArray array];
+    
+    /* Sort by opstate first if configured */
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"LTSetupSortDevicesByStatus"])
+    { [sortDescriptors addObject:opStateSort]; }
+    
+    /* Type-specific sorting setup */
     if (entity.type == 5)
     {
-        /* Sort metric list by triggers/no-triggers and recording method */
-        NSSortDescriptor *opStateSortDesc = [[[NSSortDescriptor alloc] initWithKey:@"opState" ascending:NO] autorelease];
-        
-        NSSortDescriptor *summarySortDesc = [[[NSSortDescriptor alloc] initWithKey:@"showInSummary" ascending:NO] autorelease];
-        NSSortDescriptor *triggerSortDesc = [[[NSSortDescriptor alloc] initWithKey:@"hasTriggers" ascending:NO] autorelease];
-        NSSortDescriptor *graphableSortDesc = [[[NSSortDescriptor alloc] initWithKey:@"recordEnabled" ascending:NO] autorelease];
-        [children sortUsingDescriptors:[NSArray arrayWithObjects:opStateSortDesc, summarySortDesc, triggerSortDesc, graphableSortDesc, nil]];
+        /* Sort metric list by triggers/no-triggers and recording method and desc */
+        [sortDescriptors addObject:summarySort];
+        [sortDescriptors addObject:triggerSort];
+        [sortDescriptors addObject:graphableSort];
+        [sortDescriptors addObject:descSort];
     }
     else
     {
         /* Default sort: By description */
-        NSSortDescriptor *sortDesc = [[[NSSortDescriptor alloc] initWithKey:@"desc" ascending:YES selector:@selector(localizedCompare:)] autorelease];
-        [children sortUsingDescriptors:[NSArray arrayWithObjects:sortDesc, nil]];			
+        [sortDescriptors addObject:descSort];
+    }
+    if (sortDescriptors.count)
+    {
+        [children sortUsingDescriptors:sortDescriptors];
     }
 }
 

@@ -110,9 +110,13 @@
 @property (nonatomic,assign) int type;
 @property (nonatomic,copy) NSString *name;
 @property (nonatomic,copy) NSString *desc;
+@property (nonatomic,readonly) NSString *descOrAlias;
+@property (nonatomic,readonly) NSString *alias;
+@property (nonatomic,readonly) BOOL hasAlias;
 @property (nonatomic,assign) int adminState;
 @property (nonatomic,assign) int opState;
 @property (nonatomic,copy) NSString *currentValue;
+@property (nonatomic,assign) float currentFloatValue;
 @property (nonatomic,retain) NSMutableArray *values;
 @property (nonatomic,copy) NSString *maxValue;
 @property (nonatomic,assign) NSTimeInterval refreshInterval;
@@ -184,6 +188,8 @@
 @property (nonatomic,assign) BOOL isNew;
 
 @property (nonatomic,readonly) UIColor *opStateTintColor;
+@property (nonatomic,readonly) NSArray *valueMetrics;
+
 @property (nonatomic,readonly) LTEntity *valueMetric;
 
 @property (nonatomic,retain) LTGroup *groupParent;

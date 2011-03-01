@@ -21,43 +21,64 @@
 
 - (void) dealloc
 {
-    [_valueEntity release];
+    /* Remove value metric observers */
+    for (LTEntity *valueMetric in _valueMetrics)
+    {
+        /* Remove old */
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:kLTEntityValueChanged
+                                                      object:valueMetric];
+    }
+    
+    /* Release ivars */
+    [_valueMetrics release];
+    
     [super dealloc];
 }
 
 - (void) valueEntityValueChanged:(NSNotification *)note
 {
-    self.detailTextLabel.text = _valueEntity.currentValue;
+    if (_valueMetrics.count > 0)
+    {
+        NSSortDescriptor *sortDesc = [NSSortDescriptor sortDescriptorWithKey:@"currentFloatValue" ascending:NO];
+        NSArray *sortedValueMetrics = [_valueMetrics sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
+        self.detailTextLabel.text = [[sortedValueMetrics objectAtIndex:0] currentValue];
+    }
+    else self.detailTextLabel.text = nil;
     [self setNeedsLayout];
 }
 
 - (void) entityChildrenChanged:(NSNotification *)note
 {
-    if (self.entity.valueMetric != _valueEntity)
+    /* Remove old valueMetrics observers */
+    for (LTEntity *valueMetric in _valueMetrics)
     {
-        /* Value Metric has changed */
-        if (_valueEntity)
-        {
-            /* Remove old */
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:kLTEntityValueChanged
-                                                          object:_valueEntity];
-            [_valueEntity release];
-            _valueEntity = nil;
-        }
-        
-        /* Add new */
-        if (self.entity.valueMetric)
-        {
-            _valueEntity = [self.entity.valueMetric retain];
-            
-            /* Add and fire value changed notification */
-            [self valueEntityValueChanged:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(valueEntityValueChanged:)
-                                                         name:kLTEntityValueChanged
-                                                       object:_valueEntity];
-        }
+        /* Remove old */
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:kLTEntityValueChanged
+                                                      object:valueMetric];
+    }
+    
+    /* Set new value metrics array */
+    [_valueMetrics release];
+    _valueMetrics = [[self.entity valueMetrics] copy];
+
+    /* Force update of value labels */
+    [self valueEntityValueChanged:nil];
+    
+    /* Add new valueMetrics observers */
+    for (LTEntity *valueMetric in _valueMetrics)
+    {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(valueEntityValueChanged:)
+                                                     name:kLTEntityValueChanged
+                                                   object:valueMetric];
+    }
+    
+    /* Check for alias */
+    if (self.entity.hasAlias)
+    {
+        self.showAlias = YES;
     }
 }
 
@@ -69,14 +90,6 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:kLTEntityChildrenChanged
                                                       object:self.entity];
-    }
-    if (_valueEntity)
-    {
-        [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                        name:kLTEntityValueChanged
-                                                      object:_valueEntity];
-        [_valueEntity release];
-        _valueEntity = nil;
     }
     
     /* Call super to set property */

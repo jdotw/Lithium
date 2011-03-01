@@ -323,9 +323,13 @@
 		else if ([CellIdentifier isEqualToString:@"Subtitle"])
 		{
 			cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+            cell.backgroundView = [[LTSubDeviceTableViewCellBackgroundView alloc] initWithFrame:CGRectZero];
 		}
 		else
-		{ cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease]; }
+		{ 
+            cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease]; 
+            cell.backgroundView = [[LTSubDeviceTableViewCellBackgroundView alloc] initWithFrame:CGRectZero];
+        }
     }
 
     /* Setup the Cell */

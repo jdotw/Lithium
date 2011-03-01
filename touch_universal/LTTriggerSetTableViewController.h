@@ -16,10 +16,6 @@
 {
     UISwitch *enabledSwitch;
     
-    UISegmentedControl *objScopeSegment;
-    UISegmentedControl *devScopeSegment;
-    UISegmentedControl *siteScopeSegment;
-    
     UISwitch *objScopeSwitch;
     UISwitch *devScopeSwitch;
     UISwitch *siteScopeSwitch;

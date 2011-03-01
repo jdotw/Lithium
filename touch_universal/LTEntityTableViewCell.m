@@ -12,7 +12,7 @@
 
 @implementation LTEntityTableViewCell
 
-@synthesize entity, drawAsRack=_drawAsRack, showLocation;
+@synthesize entity, drawAsRack=_drawAsRack, showLocation, showAlias;
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -112,6 +112,13 @@
     
     self.locationLabel.text = self.entity.longLocationString;
     
+    [self setNeedsLayout];
+}
+
+- (void) setShowAlias:(BOOL)value
+{
+    showLocation = YES;
+    self.locationLabel.text = self.entity.alias;
     [self setNeedsLayout];
 }
 

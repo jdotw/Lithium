@@ -132,6 +132,18 @@
 		107204F5130E1B990035CD3D /* LTTriggerSetValRule.m in Sources */ = {isa = PBXBuildFile; fileRef = 107204F4130E1B970035CD3D /* LTTriggerSetValRule.m */; };
 		107204F8130E22FE0035CD3D /* LTTriggerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107204F7130E22FD0035CD3D /* LTTriggerTableViewController.m */; };
 		107819121290A797006E60F4 /* navlist.png in Resources */ = {isa = PBXBuildFile; fileRef = 107819111290A797006E60F4 /* navlist.png */; };
+		107AF47A131C607400CAD0F2 /* HTNotifier.strings in Resources */ = {isa = PBXBuildFile; fileRef = 107AF45B131C607400CAD0F2 /* HTNotifier.strings */; };
+		107AF47B131C607400CAD0F2 /* HTFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 107AF461131C607400CAD0F2 /* HTFunctions.m */; };
+		107AF47C131C607400CAD0F2 /* HTNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = 107AF463131C607400CAD0F2 /* HTNotice.m */; };
+		107AF47D131C607400CAD0F2 /* HTNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 107AF465131C607400CAD0F2 /* HTNotifier.m */; };
+		107AF47E131C607400CAD0F2 /* HTNotifier_iOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 107AF467131C607400CAD0F2 /* HTNotifier_iOS.m */; };
+		107AF47F131C607400CAD0F2 /* HTNotifier_Mac.m in Sources */ = {isa = PBXBuildFile; fileRef = 107AF469131C607400CAD0F2 /* HTNotifier_Mac.m */; };
+		107AF480131C607400CAD0F2 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 107AF470131C607400CAD0F2 /* DDXMLDocument.m */; };
+		107AF481131C607400CAD0F2 /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 107AF472131C607400CAD0F2 /* DDXMLElement.m */; };
+		107AF482131C607400CAD0F2 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 107AF474131C607400CAD0F2 /* DDXMLElementAdditions.m */; };
+		107AF483131C607400CAD0F2 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 107AF476131C607400CAD0F2 /* DDXMLNode.m */; };
+		107AF484131C607400CAD0F2 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 107AF479131C607400CAD0F2 /* NSStringAdditions.m */; };
+		107AF486131C60A700CAD0F2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 107AF485131C60A600CAD0F2 /* libxml2.dylib */; };
 		107C3278127FB97F00C2321F /* LTObjectIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 107C3276127FB97F00C2321F /* LTObjectIconViewController.m */; };
 		107C3279127FB97F00C2321F /* LTObjectIconViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */; };
 		108742C4129325D6002FAC11 /* LTTableViewCellBack-Gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 108742C2129325D6002FAC11 /* LTTableViewCellBack-Gray.png */; };
@@ -435,6 +447,36 @@
 		107204F6130E22FD0035CD3D /* LTTriggerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTTriggerTableViewController.h; sourceTree = "<group>"; };
 		107204F7130E22FD0035CD3D /* LTTriggerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTTriggerTableViewController.m; sourceTree = "<group>"; };
 		107819111290A797006E60F4 /* navlist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navlist.png; sourceTree = "<group>"; };
+		107AF45C131C607400CAD0F2 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/HTNotifier.strings; sourceTree = "<group>"; };
+		107AF45D131C607400CAD0F2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/HTNotifier.strings; sourceTree = "<group>"; };
+		107AF45E131C607400CAD0F2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/HTNotifier.strings; sourceTree = "<group>"; };
+		107AF45F131C607400CAD0F2 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HTNotifier.strings; sourceTree = "<group>"; };
+		107AF460131C607400CAD0F2 /* HTFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTFunctions.h; sourceTree = "<group>"; };
+		107AF461131C607400CAD0F2 /* HTFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTFunctions.m; sourceTree = "<group>"; };
+		107AF462131C607400CAD0F2 /* HTNotice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTNotice.h; sourceTree = "<group>"; };
+		107AF463131C607400CAD0F2 /* HTNotice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTNotice.m; sourceTree = "<group>"; };
+		107AF464131C607400CAD0F2 /* HTNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTNotifier.h; sourceTree = "<group>"; };
+		107AF465131C607400CAD0F2 /* HTNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTNotifier.m; sourceTree = "<group>"; };
+		107AF466131C607400CAD0F2 /* HTNotifier_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTNotifier_iOS.h; sourceTree = "<group>"; };
+		107AF467131C607400CAD0F2 /* HTNotifier_iOS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTNotifier_iOS.m; sourceTree = "<group>"; };
+		107AF468131C607400CAD0F2 /* HTNotifier_Mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTNotifier_Mac.h; sourceTree = "<group>"; };
+		107AF469131C607400CAD0F2 /* HTNotifier_Mac.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTNotifier_Mac.m; sourceTree = "<group>"; };
+		107AF46A131C607400CAD0F2 /* HTNotifierDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTNotifierDelegate.h; sourceTree = "<group>"; };
+		107AF46B131C607400CAD0F2 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/HTNotifier.strings; sourceTree = "<group>"; };
+		107AF46C131C607400CAD0F2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/HTNotifier.strings; sourceTree = "<group>"; };
+		107AF46E131C607400CAD0F2 /* DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXML.h; sourceTree = "<group>"; };
+		107AF46F131C607400CAD0F2 /* DDXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLDocument.h; sourceTree = "<group>"; };
+		107AF470131C607400CAD0F2 /* DDXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLDocument.m; sourceTree = "<group>"; };
+		107AF471131C607400CAD0F2 /* DDXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElement.h; sourceTree = "<group>"; };
+		107AF472131C607400CAD0F2 /* DDXMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElement.m; sourceTree = "<group>"; };
+		107AF473131C607400CAD0F2 /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
+		107AF474131C607400CAD0F2 /* DDXMLElementAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElementAdditions.m; sourceTree = "<group>"; };
+		107AF475131C607400CAD0F2 /* DDXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLNode.h; sourceTree = "<group>"; };
+		107AF476131C607400CAD0F2 /* DDXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLNode.m; sourceTree = "<group>"; };
+		107AF477131C607400CAD0F2 /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
+		107AF478131C607400CAD0F2 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
+		107AF479131C607400CAD0F2 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
+		107AF485131C60A600CAD0F2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		107C3275127FB97F00C2321F /* LTObjectIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTObjectIconViewController.h; sourceTree = "<group>"; };
 		107C3276127FB97F00C2321F /* LTObjectIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTObjectIconViewController.m; sourceTree = "<group>"; };
 		107C3277127FB97F00C2321F /* LTObjectIconViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LTObjectIconViewController.xib; sourceTree = "<group>"; };
@@ -578,6 +620,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				107AF486131C60A700CAD0F2 /* libxml2.dylib in Frameworks */,
 				104C8DDD13022F3F0067B1C8 /* libz.dylib in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -674,7 +717,7 @@
 			name = "Container Scroller";
 			sourceTree = "<group>";
 		};
-		1030FA35130DC96E0083A749 /* Trigger Adjustment */ = {
+		1030FA35130DC96E0083A749 /* Trigger Adjustment (iPad Only) */ = {
 			isa = PBXGroup;
 			children = (
 				10AECF88130DDBB7001EFCB9 /* LTTriggerSetTableViewController.h */,
@@ -682,7 +725,7 @@
 				107204F6130E22FD0035CD3D /* LTTriggerTableViewController.h */,
 				107204F7130E22FD0035CD3D /* LTTriggerTableViewController.m */,
 			);
-			name = "Trigger Adjustment";
+			name = "Trigger Adjustment (iPad Only)";
 			sourceTree = "<group>";
 		};
 		1030FA39130DCB010083A749 /* Triggers */ = {
@@ -865,12 +908,12 @@
 		105EDE7211BC392000B294B4 /* UI Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1030FA35130DC96E0083A749 /* Trigger Adjustment */,
 				105EDEB711BC392000B294B4 /* Generic Table View */,
 				109E815612FCD84700265BAF /* Table View Header and Footer Views */,
 				10A73B4B12FBADB0005CFDD5 /* Table View Cells */,
 				10934AB011BEA0F5009EF1F7 /* Graph View */,
 				10C3F46B11BF53FD00CBD469 /* Modal Progress */,
+				1030FA35130DC96E0083A749 /* Trigger Adjustment (iPad Only) */,
 				102C692111BCE8BB0032D043 /* Device View (iPad Only) */,
 				105EDEB311BC392000B294B4 /* Authentication View */,
 				105EDEA711BC392000B294B4 /* Favorites Tab */,
@@ -1085,6 +1128,44 @@
 				1066F2E212F60A7000487979 /* LTDeviceEditLocationListTableViewController.m */,
 			);
 			name = "Location Selection";
+			sourceTree = "<group>";
+		};
+		107AF45A131C607400CAD0F2 /* hoptoadnotifier */ = {
+			isa = PBXGroup;
+			children = (
+				107AF45B131C607400CAD0F2 /* HTNotifier.strings */,
+				107AF460131C607400CAD0F2 /* HTFunctions.h */,
+				107AF461131C607400CAD0F2 /* HTFunctions.m */,
+				107AF462131C607400CAD0F2 /* HTNotice.h */,
+				107AF463131C607400CAD0F2 /* HTNotice.m */,
+				107AF464131C607400CAD0F2 /* HTNotifier.h */,
+				107AF465131C607400CAD0F2 /* HTNotifier.m */,
+				107AF466131C607400CAD0F2 /* HTNotifier_iOS.h */,
+				107AF467131C607400CAD0F2 /* HTNotifier_iOS.m */,
+				107AF468131C607400CAD0F2 /* HTNotifier_Mac.h */,
+				107AF469131C607400CAD0F2 /* HTNotifier_Mac.m */,
+				107AF46A131C607400CAD0F2 /* HTNotifierDelegate.h */,
+			);
+			path = hoptoadnotifier;
+			sourceTree = "<group>";
+		};
+		107AF46D131C607400CAD0F2 /* kissxml */ = {
+			isa = PBXGroup;
+			children = (
+				107AF46E131C607400CAD0F2 /* DDXML.h */,
+				107AF46F131C607400CAD0F2 /* DDXMLDocument.h */,
+				107AF470131C607400CAD0F2 /* DDXMLDocument.m */,
+				107AF471131C607400CAD0F2 /* DDXMLElement.h */,
+				107AF472131C607400CAD0F2 /* DDXMLElement.m */,
+				107AF473131C607400CAD0F2 /* DDXMLElementAdditions.h */,
+				107AF474131C607400CAD0F2 /* DDXMLElementAdditions.m */,
+				107AF475131C607400CAD0F2 /* DDXMLNode.h */,
+				107AF476131C607400CAD0F2 /* DDXMLNode.m */,
+				107AF477131C607400CAD0F2 /* DDXMLPrivate.h */,
+				107AF478131C607400CAD0F2 /* NSStringAdditions.h */,
+				107AF479131C607400CAD0F2 /* NSStringAdditions.m */,
+			);
+			path = kissxml;
 			sourceTree = "<group>";
 		};
 		107C3271127FB95400C2321F /* Object Scroller */ = {
@@ -1364,6 +1445,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				107AF485131C60A600CAD0F2 /* libxml2.dylib */,
 				10665F021304F72F007152B2 /* Icons */,
 				1010B92312F6654F0071E18D /* Settings.bundle */,
 				105EDF1411BC39C500B294B4 /* Resources */,
@@ -1383,6 +1465,8 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				107AF45A131C607400CAD0F2 /* hoptoadnotifier */,
+				107AF46D131C607400CAD0F2 /* kissxml */,
 				1029AD2413053B1500F03EE5 /* EGOTableViewPullRefresh */,
 				104C8DD513022E4E0067B1C8 /* TBXML */,
 				32CA4F630368D1EE00C91783 /* LithiumTouchUniversal_Prefix.pch */,
@@ -1438,6 +1522,12 @@
 				Japanese,
 				French,
 				German,
+				de,
+				en,
+				es,
+				fr,
+				ro,
+				ru,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -1596,6 +1686,7 @@
 				10F63D8A130B5AA600B7FAA9 /* IncidentFlag-Red@2x.png in Resources */,
 				10F63D8B130B5AA600B7FAA9 /* IncidentFlag-Yellow@2x.png in Resources */,
 				10F63D8D130B5B4200B7FAA9 /* tools_grey_16@2x.tif in Resources */,
+				107AF47A131C607400CAD0F2 /* HTNotifier.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1693,10 +1784,36 @@
 				107204EF130E11050035CD3D /* LTTriggerSetAppRule.m in Sources */,
 				107204F5130E1B990035CD3D /* LTTriggerSetValRule.m in Sources */,
 				107204F8130E22FE0035CD3D /* LTTriggerTableViewController.m in Sources */,
+				107AF47B131C607400CAD0F2 /* HTFunctions.m in Sources */,
+				107AF47C131C607400CAD0F2 /* HTNotice.m in Sources */,
+				107AF47D131C607400CAD0F2 /* HTNotifier.m in Sources */,
+				107AF47E131C607400CAD0F2 /* HTNotifier_iOS.m in Sources */,
+				107AF47F131C607400CAD0F2 /* HTNotifier_Mac.m in Sources */,
+				107AF480131C607400CAD0F2 /* DDXMLDocument.m in Sources */,
+				107AF481131C607400CAD0F2 /* DDXMLElement.m in Sources */,
+				107AF482131C607400CAD0F2 /* DDXMLElementAdditions.m in Sources */,
+				107AF483131C607400CAD0F2 /* DDXMLNode.m in Sources */,
+				107AF484131C607400CAD0F2 /* NSStringAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		107AF45B131C607400CAD0F2 /* HTNotifier.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				107AF45C131C607400CAD0F2 /* de */,
+				107AF45D131C607400CAD0F2 /* en */,
+				107AF45E131C607400CAD0F2 /* es */,
+				107AF45F131C607400CAD0F2 /* fr */,
+				107AF46B131C607400CAD0F2 /* ro */,
+				107AF46C131C607400CAD0F2 /* ru */,
+			);
+			name = HTNotifier.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		10C74E5E12F8F7EC0079A0DE /* Ad Hoc */ = {
@@ -1708,6 +1825,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
@@ -1770,6 +1888,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1787,11 +1906,12 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos4.2;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

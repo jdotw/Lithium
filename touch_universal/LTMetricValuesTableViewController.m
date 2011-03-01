@@ -9,6 +9,7 @@
 #import "LTMetricValuesTableViewController.h"
 #import "LTMetricValue.h"
 #import "LTTableViewCell.h"
+#import "LTSubDeviceTableViewCellBackgroundView.h"
 
 @implementation LTMetricValuesTableViewController
 
@@ -79,6 +80,7 @@
     if (cell == nil) 
 	{
         cell = [[[LTTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+        cell.backgroundView = [[LTSubDeviceTableViewCellBackgroundView alloc] initWithFrame:CGRectZero];
     }
     
     // Set up the cell...

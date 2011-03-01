@@ -18,6 +18,6 @@
 	LTMetricHistoryList *historyList;
 }
 
-@property (assign) LTEntity *metric;
+@property (retain,nonatomic) LTEntity *metric;
 
 @end

@@ -36,26 +36,20 @@
         enabledSwitch.backgroundColor = [UIColor clearColor];
         [enabledSwitch addTarget:self action:@selector(enabledChanged:) forControlEvents:UIControlEventValueChanged];
 
-        /* Object Scope Segment */
-        objScopeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:self.metric.object.desc, @"All Objects", nil]];
-        objScopeSegment.backgroundColor = [UIColor clearColor];
-        objScopeSegment.frame = CGRectMake(0., 0., 313., 40.);
-        [objScopeSegment setSelectedSegmentIndex:0];
-        [objScopeSegment addTarget:self action:@selector(objScopeChanged:) forControlEvents:UIControlEventValueChanged];
+        /* Object Scope Switch */
+        objScopeSwitch = [[UISwitch alloc] initWithFrame:switchFrame];
+        objScopeSwitch.backgroundColor = [UIColor clearColor];
+        [objScopeSwitch addTarget:self action:@selector(objScopeChanged:) forControlEvents:UIControlEventValueChanged];
 
-        /* Device Scope Segment */
-        devScopeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:self.metric.device.desc, @"All Devices", nil]];
-        devScopeSegment.backgroundColor = [UIColor clearColor];
-        devScopeSegment.frame = CGRectMake(0., 0., 313., 40.);
-        [devScopeSegment setSelectedSegmentIndex:0];
-        [devScopeSegment addTarget:self action:@selector(devScopeChanged:) forControlEvents:UIControlEventValueChanged];
+        /* Device Scope Switch */
+        devScopeSwitch = [[UISwitch alloc] initWithFrame:switchFrame];
+        devScopeSwitch.backgroundColor = [UIColor clearColor];
+        [devScopeSwitch addTarget:self action:@selector(devScopeChanged:) forControlEvents:UIControlEventValueChanged];
 
-        /* Device Scope Segment */
-        siteScopeSegment = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:self.metric.site.desc, @"All Sites", nil]];
-        siteScopeSegment.backgroundColor = [UIColor clearColor];
-        siteScopeSegment.frame = CGRectMake(0., 0., 313., 40.);
-        [siteScopeSegment setSelectedSegmentIndex:0];
-        [siteScopeSegment addTarget:self action:@selector(siteScopeChanged:) forControlEvents:UIControlEventValueChanged];
+        /* Site Scope Switch */
+        siteScopeSwitch = [[UISwitch alloc] initWithFrame:switchFrame];
+        siteScopeSwitch.backgroundColor = [UIColor clearColor];
+        [siteScopeSwitch addTarget:self action:@selector(siteScopeChanged:) forControlEvents:UIControlEventValueChanged];
 
     }
     return self;
@@ -67,9 +61,9 @@
     self.tset = nil;
     [tsetList release];
     [enabledSwitch release];
-    [objScopeSegment release];
-    [devScopeSegment release];
-    [siteScopeSegment release];
+    [objScopeSwitch release];
+    [devScopeSwitch release];
+    [siteScopeSwitch release];
     [super dealloc];
 }
 
@@ -212,7 +206,8 @@
             return self.tset.children.count;
         case 2:
             /* Scope */
-            return 3;
+            if (devScopeSwitch.on) return 3;
+            else return 2;
         default:
             return 0;
     }
@@ -226,6 +221,44 @@
         default:
             return nil;
     }
+}
+
+- (NSString *) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 2)
+    {
+        NSMutableString *scopeString = [NSMutableString stringWithFormat:@"The changes will be applied to"];
+
+        if (objScopeSwitch.on)
+        {
+            [scopeString appendFormat:@" all %@ objects", self.metric.container.desc];
+        }
+        else
+        {
+            [scopeString appendFormat:@" the '%@' object", self.metric.object.desc];
+        }
+        
+        if (devScopeSwitch.on)
+        {
+            [scopeString appendFormat:@", on all devices"];
+        }
+        else
+        {
+            [scopeString appendFormat:@", on the '%@' device", self.metric.device.desc];
+        }
+        
+        if (siteScopeSwitch.on)
+        {
+            [scopeString appendFormat:@", at all locations"];
+        }
+        else
+        {
+            [scopeString appendFormat:@", at the '%@' location", self.metric.site.desc];
+        }
+        
+        return scopeString;
+    }
+    else return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -262,16 +295,18 @@
         switch (indexPath.row)
         {
             case 0:
-                cell.textLabel.text = @"Objects";
-                cell.accessoryView = objScopeSegment;
+                cell.textLabel.text = [NSString stringWithFormat:@"Apply to all %@", self.metric.container.desc];
+                if (![self.metric.container.desc hasSuffix:@"s"]) 
+                { cell.textLabel.text = [NSString stringWithFormat:@"%@ Objects", cell.textLabel.text]; } // Add Objects
+                cell.accessoryView = objScopeSwitch;
                 break;
             case 1:
-                cell.textLabel.text = @"Devices";
-                cell.accessoryView = devScopeSegment;
+                cell.textLabel.text = @"On All Devices";
+                cell.accessoryView = devScopeSwitch;
                 break;
             case 2:
-                cell.textLabel.text = @"Locations";
-                cell.accessoryView = siteScopeSegment;
+                cell.textLabel.text = @"At All Locations";
+                cell.accessoryView = siteScopeSwitch;
                 break;
         }
     }
@@ -318,17 +353,17 @@
 
 - (void) objScopeChanged:(id)sender
 {
-    
+    [self.tableView reloadData];    // Updates the scope statement in the footer
 }
 
 - (void) devScopeChanged:(id)sender
 {
-    
+    [self.tableView reloadData];    // Updates the scope statement in the footer    
 }
 
 - (void) siteScopeChanged:(id)sender
 {
-
+    [self.tableView reloadData];    // Updates the scope statement in the footer
 }
 
 - (void) saveTouched:(id)sender
@@ -339,9 +374,9 @@
         NSString *siteName = nil;
         NSString *devName = nil;
         NSString *objName = nil;
-        if (siteScopeSegment.selectedSegmentIndex == 0) siteName = self.tset.site.name;
-        if (devScopeSegment.selectedSegmentIndex == 0) devName = self.tset.device.name;
-        if (objScopeSegment.selectedSegmentIndex == 0) objName = self.tset.object.name;
+        if (!siteScopeSwitch.on) siteName = self.tset.site.name;
+        if (!devScopeSwitch.on) devName = self.tset.device.name;
+        if (!objScopeSwitch.on) objName = self.tset.object.name;
         self.tset.delegate = self;
         [self.tset sendRuleUpdatesForScopeObject:objName
                                           device:devName

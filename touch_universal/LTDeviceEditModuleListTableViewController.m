@@ -35,6 +35,8 @@ static NSMutableDictionary *staticModuleDescDict = nil;
 		[staticModuleDescDict setObject:@"Infortrend Controller" forKey:@"infortrend"];
 		[staticModuleDescDict setObject:@"NetApp Filer" forKey:@"filer"];
 		[staticModuleDescDict setObject:@"Qlogic Fibre Channel Switch" forKey:@"qlogic"];
+		[staticModuleDescDict setObject:@"Brocade Fibre Channel Switch" forKey:@"brocadefcsw"];
+		[staticModuleDescDict setObject:@"Generic Fibre Channel Switch" forKey:@"genericfcswitch"];
 		[staticModuleDescDict setObject:@"3Com Switch" forKey:@"3com"];
 		[staticModuleDescDict setObject:@"Allied Telesyn Switch" forKey:@"alliedtelesyn"];
 		[staticModuleDescDict setObject:@"Cisco Router/Switch/Firewall" forKey:@"cisco"];
@@ -110,14 +112,19 @@ static NSMutableDictionary *staticModuleDescDict = nil;
     // Return the number of rows in the section.
 	switch (section) {
 		case 0:
+            /* Server/Workstation */
 			return 6;
 		case 1:
-			return 6;
+            /* Storage */
+			return 8;
 		case 2:
+            /* Network */
 			return 10;
 		case 3:
+            /* Generic */
 			return 4;
 		case 4:
+            /* Custom */
 			return customModuleKeys.count;
 		default:
 			return 0;
@@ -173,6 +180,12 @@ static NSMutableDictionary *staticModuleDescDict = nil;
 					break;
 				case 5:
 					vendorModuleName = @"qlogic";
+					break;
+				case 6:
+					vendorModuleName = @"brocadefcsw";
+					break;
+				case 7:
+					vendorModuleName = @"genericfcswitch";
 					break;
 				default:
 					break;

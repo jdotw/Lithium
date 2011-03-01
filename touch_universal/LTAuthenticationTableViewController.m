@@ -21,7 +21,7 @@
 - (id)initWithStyle:(UITableViewStyle)style 
 {
     // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if (self = [super initWithStyle:style]) 
+    if ((self = [super initWithStyle:style])) 
 	{
     }
     return self;
@@ -239,7 +239,6 @@
 	NSMutableArray *completed = [NSMutableArray array];
 	for (NSMutableDictionary *connDict in connections)
 	{
-		LTEntity *entity = [connDict objectForKey:@"entity"];
 		LTEntity *customer = [connDict objectForKey:@"customer"];
 		if (customer != curCustomer)
 		{ continue; }
@@ -248,7 +247,6 @@
 		
 		NSURLConnection *connection = [connDict objectForKey:@"connection"];
 		[connection cancel];
-		[entity connection:connection didFailWithError:nil];
 		
 		[completed addObject:connDict];
 	}

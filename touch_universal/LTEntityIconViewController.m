@@ -52,7 +52,7 @@
 	[_entity release];
 	_entity = [entity retain];
 	
-	label.text = self.entity.desc;
+	label.text = self.entity.descOrAlias;
     graphView.entity = entity;
     
     /* Add state change observer */

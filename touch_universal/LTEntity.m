@@ -405,6 +405,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
                     currentValueChanged = YES; 
                 }
                 self.currentValue = [[curValue.stringValue copy] autorelease];  // Done the long way round to catch a mem leak
+                self.currentFloatValue = curValue.floatValue;
                 currentValueSet = YES;
             }
             if (currentValueChanged)
@@ -479,8 +480,13 @@ static NSMutableDictionary *_xmlTranslation = nil;
              * ensure that when the "Grouped by Location" view mode is used
              * in the entity table view that the device list is sorted properly
              */
-            NSSortDescriptor *sortDesc = [[[NSSortDescriptor alloc] initWithKey:@"desc" ascending:YES selector:@selector(localizedCompare:)] autorelease];
-            [children sortUsingDescriptors:[NSArray arrayWithObjects:sortDesc, nil]];			
+            NSSortDescriptor *opStateSort = [[[NSSortDescriptor alloc] initWithKey:@"opState" ascending:NO] autorelease];
+            NSSortDescriptor *descSort = [[[NSSortDescriptor alloc] initWithKey:@"desc" ascending:YES selector:@selector(localizedCompare:)] autorelease];
+            NSMutableArray *sortDescriptors = [NSMutableArray array];
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"LTSetupSortDevicesByStatus"])
+            { [sortDescriptors addObject:opStateSort]; }
+            [sortDescriptors addObject:descSort];
+            [children sortUsingDescriptors:sortDescriptors];
         }
     }
     
@@ -645,6 +651,37 @@ static NSMutableDictionary *_xmlTranslation = nil;
 @synthesize type;
 @synthesize name;
 @synthesize desc;
+- (NSString *) descOrAlias
+{
+    /* Returns either the desc or the current 
+     * value of an alias metric if one is present
+     */
+    if (self.hasAlias)
+    {
+        /* There's an alias available, use it */
+        return self.alias;
+    }
+    else
+    { return desc; }    
+}
+- (BOOL) hasAlias
+{
+    if (self.type == 5 
+        && [self.childDict objectForKey:@"alias"] 
+        && [[[self.childDict objectForKey:@"alias"] currentValue] length] > 0
+        )
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }    
+}
+- (NSString *) alias
+{
+    return [[self.childDict objectForKey:@"alias"] currentValue];
+}
 @synthesize deviceResourceAddress;
 - (NSString *) deviceResourceAddress
 {
@@ -843,6 +880,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
     }
 }
 @synthesize currentValue;
+@synthesize currentFloatValue;
 @synthesize maxValue;
 @synthesize hasBeenRefreshed;
 @synthesize coreDeployment;
@@ -1002,12 +1040,12 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 @synthesize lastRefreshFailed;
 
-- (LTEntity *) valueMetric
+- (NSArray *) valueMetrics
 {
     /* Returns the 'best' or most appropriate metric entity
      * that can be used to show a value for the given entity
      */
-    if (self.type == 6) return self;
+    if (self.type == 6) return [NSArray arrayWithObject:self];
     
     /* Locate an object */
     LTEntity *obj = nil;
@@ -1015,31 +1053,42 @@ static NSMutableDictionary *_xmlTranslation = nil;
     { obj = [self.children objectAtIndex:0]; }
     else if (self.type == 5) obj = self;
     
-    /* Iterate through metrics */
-    LTEntity *valueMetric = nil;
+    /* Iterate through metrics to find candidates */
+    NSMutableArray *triggersAndPercentage = [NSMutableArray array];
+    NSMutableArray *percentage = [NSMutableArray array];
+    NSMutableArray *triggersOnly = [NSMutableArray array];    
     for (LTEntity *metric in obj.children)
     {
         /* Prefer metrics that are a percentage, and have triggers */
         if (metric.hasTriggers && metric.isPercentage) 
         {
             /* Best match found */
-            valueMetric = metric;
-            break;
+            [triggersAndPercentage addObject:metric];
         }
-        else if (!valueMetric && metric.isPercentage)
+        else if (metric.isPercentage)
         {
             /* First percentage */
-            valueMetric = metric;
-            break;
+            [percentage addObject:metric];
         }
-        else if (!valueMetric && metric.hasTriggers)
+        else if (metric.hasTriggers)
         {
             /* First non-percentage with triggers */
-            valueMetric = metric;
-            break;
+            [triggersOnly addObject:metric];
         }
     }
-    return valueMetric;
+    
+    /* Decide which is the best */
+    if (triggersAndPercentage.count) return triggersAndPercentage;
+    else if (percentage.count) return percentage;
+    else if (triggersOnly.count) return triggersOnly;
+    else return nil;
+}
+
+- (LTEntity *) valueMetric
+{
+    NSArray *valueMetrics = [self valueMetrics];
+    if (valueMetrics.count > 0) return [valueMetrics objectAtIndex:0];
+    else return nil;
 }
 
 @synthesize  groupParent;

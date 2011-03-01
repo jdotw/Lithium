@@ -14,11 +14,16 @@
 #import "LTGroupTableViewController.h"
 #import "LTFavoritesTableViewController.h"
 #import "LTIncidentListTableViewController.h"
+#import "HTNotifier.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions 
 {   
+    /* Crash Check */
+    [HTNotifier startNotifierWithAPIKey:@"6817361debdb146d4b4bb5d4c2eff55e"
+                        environmentName:HTNotifierDevelopmentEnvironment];
+    
  	/* Setup Defaults */
 	NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
 	[defaults setObject:[NSNumber numberWithBool:YES] forKey:kDeviceListGroupByLocation];

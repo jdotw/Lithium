@@ -14,7 +14,7 @@
 
 @interface LTObjectEntityTableViewCell : LTHardwareEntityTableViewCell 
 {
-    LTEntity *_valueEntity;
+    NSArray *_valueMetrics;
 }
 
 @end
