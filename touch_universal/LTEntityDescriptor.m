@@ -234,6 +234,29 @@
 	return [[NSKeyedUnarchiver unarchiveObjectWithData:data] retain];
 }
 
+- (void) dealloc
+{
+    [name release];
+    [desc release];
+    [custName release];
+    [custDesc release];
+    [siteName release];
+    [siteDesc release];
+    [siteSuburb release];
+    [devName release];
+    [devDesc release];
+    [cntName release];
+    [cntDesc release];
+    [objName release];
+    [objDesc release];
+    [metName release];
+    [metDesc release];
+    [trgName release];
+    [trgDesc release];
+    [resourceAddress release];
+    [super dealloc];
+}
+
 #pragma mark "XML Methods"
 
 - (NSString *) xmlNodeString

@@ -176,7 +176,7 @@
 - (UITextField *)createTextField
 {
 	CGRect frame = CGRectMake(0.0, 0.0, 160, 23);
-	UITextField *returnTextField = [[UITextField alloc] initWithFrame:frame];
+	UITextField *returnTextField = [[[UITextField alloc] initWithFrame:frame] autorelease];
     
 	returnTextField.borderStyle = UITextBorderStyleNone;
     returnTextField.textColor = [UIColor blackColor];
@@ -205,11 +205,11 @@
 			[[NSUserDefaults standardUserDefaults] removeObjectForKey:[NSString stringWithFormat:@"Password-%@-%@", customer.ipAddress, customer.name]];
 		}
 		
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Authentication Cleared"
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Authentication Cleared"
 														message:@"The saved authentication credentials have been forgotten. Next time you start Lithium Touch you will be prompted to login."
 													   delegate:self
 											  cancelButtonTitle:@"OK"
-											 otherButtonTitles:nil];
+											 otherButtonTitles:nil] autorelease];
 		[alert show];
 		[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	}
@@ -223,11 +223,11 @@
 										   receiveNotifications:NO] performReset];
 			
 		}
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notifications Reset"
+		UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Notifications Reset"
 														message:@"The list Core Deployments that this device is bound to for Push Notifications has been reset. Next time you start Lithium Touch the deployment memberships will be re-established."
 													   delegate:self
 											  cancelButtonTitle:@"OK"
-											  otherButtonTitles:nil];
+											  otherButtonTitles:nil] autorelease];
 		[alert show];
 		[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	}

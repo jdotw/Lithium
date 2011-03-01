@@ -84,12 +84,11 @@
 
 - (UITextField *) propertyTextField
 {
-	UITextField *returnTextField = [[UITextField alloc] initWithFrame:CGRectMake(0., 0., 200.0, 23.)];
+	UITextField *returnTextField = [[[UITextField alloc] initWithFrame:CGRectMake(0., 0., 200.0, 23.)] autorelease];
 	returnTextField.textAlignment = UITextAlignmentRight;
 	returnTextField.borderStyle = UITextBorderStyleNone;
     returnTextField.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1.0];
 	returnTextField.font = [UIFont systemFontOfSize:17.0];
-    returnTextField.placeholder;
     returnTextField.backgroundColor = [UIColor clearColor];
 	returnTextField.autocorrectionType = UITextAutocorrectionTypeNo;	// no auto correction support
 	returnTextField.delegate = self;
@@ -103,7 +102,7 @@
 
 - (UISwitch *) propertySwitch
 {
-	UISwitch *switchCtl = [[UISwitch alloc] initWithFrame:CGRectMake(0.0, 0.0, 94.0, 27.0)];
+	UISwitch *switchCtl = [[[UISwitch alloc] initWithFrame:CGRectMake(0.0, 0.0, 94.0, 27.0)] autorelease];
 	switchCtl.backgroundColor = [UIColor clearColor];
 	return switchCtl;
 }

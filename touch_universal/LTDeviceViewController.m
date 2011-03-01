@@ -432,7 +432,7 @@
 
 		[UIView animateWithDuration:0.25 
 						 animations:^{ graphEnclosingView.frame = graphRect; objectEnclosingView.frame = objectRect; horizontalScrollDropShadowView.frame = dropRect; }
-						 completion:^(BOOL finished){ objectEnclosingView.hidden = YES; }];
+						 completion:^(BOOL finished){ if (finished) objectEnclosingView.hidden = YES; }];
 
 		objectScrollViewIsHidden = YES;
 
@@ -459,7 +459,8 @@
 		objectEnclosingView.hidden = NO;
 		
 		[UIView animateWithDuration:0.25 
-						 animations:^{ graphEnclosingView.frame = graphRect; objectEnclosingView.frame = objectRect; horizontalScrollDropShadowView.frame = dropRect; }];
+						 animations:^{ graphEnclosingView.frame = graphRect; objectEnclosingView.frame = objectRect; horizontalScrollDropShadowView.frame = dropRect; }
+                         completion:^(BOOL finished){ if (finished) objectEnclosingView.hidden = NO; }];
 		
 		objectScrollViewIsHidden = NO;
 		

@@ -155,11 +155,11 @@
     else
     {
         /* No triggersets found! */
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Triggers Found"
+        UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"No Triggers Found"
                                                         message:@"There does not seem to be any triggers defined for this metric"
                                                        delegate:self
                                               cancelButtonTitle:@"Dismiss"
-                                              otherButtonTitles: nil];
+                                               otherButtonTitles: nil] autorelease];
         [alert show];
     }
 }

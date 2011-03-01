@@ -142,7 +142,6 @@ static float tapeVectors[16][2] = {
     self.textLabel.frame = CGRectZero;
     self.detailTextLabel.frame = CGRectZero;
     
-    NSLog (@"Asked to layuoit %@", self);
     /* Layout the ticket image -- image is always 288x40 */
     CGFloat ticketImageHeight = 50.;
     CGFloat ticketWidth = 288.;
@@ -191,10 +190,5 @@ static float tapeVectors[16][2] = {
     }
 
 }
-
-//- (void)willTransitionToState:(UITableViewCellStateMask)state
-//{
-//    NSLog (@"%@ got willTransitionToState:", self);
-//}
 
 @end

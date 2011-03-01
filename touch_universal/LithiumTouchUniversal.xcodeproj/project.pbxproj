@@ -1821,7 +1821,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CURRENT_PROJECT_VERSION = 8643;
+				CURRENT_PROJECT_VERSION = 8644;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1874,7 +1874,7 @@
 				GCC_PREFIX_HEADER = LithiumTouchUniversal_Prefix.pch;
 				INFOPLIST_FILE = "LithiumTouchUniversal-Info.plist";
 				PRODUCT_NAME = Lithium;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "75339988-C068-4FCA-A90F-5828E9E11DBE";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2F80DB8B-A698-4078-965E-B2B00FE6BFF0";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1884,7 +1884,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8643;
+				CURRENT_PROJECT_VERSION = 8644;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1902,7 +1902,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CURRENT_PROJECT_VERSION = 8643;
+				CURRENT_PROJECT_VERSION = 8644;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

@@ -60,6 +60,7 @@
 		UITapGestureRecognizer *touchRecog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(legendTapped:)];
 		touchRecog.numberOfTapsRequired = 1;
 		[self addGestureRecognizer:touchRecog];
+        [touchRecog release];
     }
     return self;
 }
@@ -70,13 +71,13 @@
 	UITableViewController *vc;
     if (self.entity.type == 6) 
     {
-        vc = [[LTMetricTableViewController alloc] initWithMetric:self.entity];
+        vc = [[[LTMetricTableViewController alloc] initWithMetric:self.entity] autorelease];
     }
     else
     {
-        vc = [[LTEntityTableViewController alloc] initWithEntity:self.entity];
+        vc = [[[LTEntityTableViewController alloc] initWithEntity:self.entity] autorelease];
     }
-	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+	UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
 	UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:nav];
 	if (self.frame.size.height > 0. && self.frame.size.width > 0.)
 	{
