@@ -618,7 +618,7 @@
     {
         /* Adjust Triggers */
         LTTriggerSetTableViewController *vc = [[[LTTriggerSetTableViewController alloc] initWithMetric:self.metric] autorelease];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
         nav.modalPresentationStyle = UIModalPresentationFormSheet;
         [self.navigationController presentModalViewController:nav animated:YES];
     }

@@ -83,14 +83,13 @@
 	if (recog.state == UIGestureRecognizerStateBegan)
 	{
 		CGPoint touchPoint = [recog locationOfTouch:0 inView:self.view];
-		LTEntityTableViewController *vc = [[LTEntityTableViewController alloc] initWithEntity:self.entity];
-		UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+		LTEntityTableViewController *vc = [[[LTEntityTableViewController alloc] initWithEntity:self.entity] autorelease];
+		UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
 		UIPopoverController *pop = [[UIPopoverController alloc] initWithContentViewController:nav];
 		[pop presentPopoverFromRect:CGRectMake(touchPoint.x, touchPoint.y, 1.0, 1.0)
 							 inView:self.view
 		   permittedArrowDirections:UIPopoverArrowDirectionAny
 						   animated:YES];
-		[vc release];
 	}
 }
 

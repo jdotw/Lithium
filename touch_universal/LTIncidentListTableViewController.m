@@ -473,9 +473,9 @@
     // Set up the cell...
 	LTIncidentListGroup *group = (LTIncidentListGroup *) [sortedChildren objectAtIndex:indexPath.section];
 	LTIncident *incident = [group.children objectAtIndex:[indexPath row]];
-	if (sortSegment && sortSegment.selectedSegmentIndex == 0)
+	if ((sortSegment && sortSegment.selectedSegmentIndex == 0) || self.device)
 	{
-		/* By-Device Display */
+		/* By-Device or Device-Specific Display */
 		cell.incidentLabel.text = [NSString stringWithFormat:@"%@ %@ %@ %@", incident.entityDescriptor.cntDesc, incident.entityDescriptor.objDesc, incident.entityDescriptor.metDesc, incident.entityDescriptor.trgDesc];
 		cell.detailTextLabel.text = [NSString stringWithFormat:@"Reached or exceeded %@ for %@", incident.raisedValue, [self incidentActiveIntervalString:incident]];
 	}
