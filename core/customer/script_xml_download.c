@@ -104,7 +104,7 @@ int xml_script_download (i_resource *self, i_xml_request *req)
     struct timeval now;
     gettimeofday (&now, NULL);
     char *prefix;
-    asprintf (&prefix, "script-%li-%i-", now.tv_sec, now.tv_usec);
+    asprintf (&prefix, "script-%li-%i-", now.tv_sec, (int)now.tv_usec);
     temp_config_file = tempnam(NULL, prefix);
 
     /* Write to temp file */

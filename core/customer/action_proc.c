@@ -190,7 +190,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     struct timeval now;
     gettimeofday (&now, NULL);
     char *prefix;
-    asprintf (&prefix, "action-%li-%li-%i-", proc->incid, now.tv_sec, now.tv_usec);
+    asprintf (&prefix, "action-%li-%li-%i-", proc->incid, now.tv_sec, (int)now.tv_usec);
     proc->temp_config_file = tempnam(NULL, prefix);
     free (prefix);
     
