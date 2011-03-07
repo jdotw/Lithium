@@ -124,6 +124,17 @@ fi
 # Fix Scripts
 /Library/Lithium/LithiumCore.app/Contents/MacOS/repairscripts.sh
 
+# Remove junk fontconfig path
+# /Users/jwilson/Source/Lithium/build_framework/deps/rrdtool/rrdtool-bundle-1.4-i386/stage/var/cache/fontconfig
+
+rm -rf /Users/jwilson/Source/Lithium/build_framework/deps/rrdtool/rrdtool-bundle-1.4-i386
+rmdir /Users/jwilson/Source/Lithium/build_framework/deps/rrdtool
+rmdir /Users/jwilson/Source/Lithium/build_framework/deps
+rmdir /Users/jwilson/Source/Lithium/build_framework
+rmdir /Users/jwilson/Source/Lithium
+rmdir /Users/jwilson/Source
+rmdir /Users/jwilson
+
 # Re-start Lithium
 echo "Restarting Lithium (database, clientd, mars, lithium)"
 launchctl load -w /Library/LaunchDaemons/com.lithiumcorp.database.plist
