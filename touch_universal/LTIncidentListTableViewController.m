@@ -299,6 +299,7 @@
 	
 	/* Refresh */
 	[self refresh];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated 

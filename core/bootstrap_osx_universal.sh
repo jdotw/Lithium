@@ -20,6 +20,7 @@ CONFIGURE_PATHS="--prefix=$PREFIX --bindir=$PREFIX/Contents/MacOS --sbindir=$PRE
 ARGS="--disable-dependency-tracking $CONFIGURE_PATHS"
 echo "Running './configure $ARGS'"
 PATH="/Xcode3/usr/bin:/Xcode3/usr/sbin:$PATH:/Library/Lithium/LithiumCore.app/Contents/MacOS" \
+CC="/Xcode3/usr/bin/gcc" \
 CFLAGS="-mmacosx-version-min=10.5 -isysroot /Xcode3/SDKs/MacOSX10.5.sdk -arch i386 -arch ppc -I/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Headers" \
 LDFLAGS="-Wl,-syslibroot,/Xcode3/SDKs/MacOSX10.5.sdk -L/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries" \
 ./configure $ARGS --localstatedir='/Library/Application Support/Lithium/Monitoring Data/History'

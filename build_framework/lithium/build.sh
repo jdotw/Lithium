@@ -35,18 +35,20 @@ mkdir -p "$DSYM_PATH"
 
 cd "$BASEDIR/../../induction"
 
-make distclean
+/Xcode3/usr/bin/make distclean
 ./bootstrap_osx_universal.sh
 if [ $? -ne 0 ]; then
   echo "ERROR: Induction failed to bootstrap"
   exit 1
 fi
-make -j`sysctl -n hw.ncpu`
+PATH=/Xcode3/usr/bin:/Xcode3/usr/sbin:$PATH \
+/Xcode3/usr/bin/make -j`sysctl -n hw.ncpu`
 if [ $? -ne 0 ]; then
   echo "ERROR: Induction failed to build"
   exit 1
 fi
-make install
+PATH=/Xcode3/usr/bin:/Xcode3/usr/sbin:$PATH \
+/Xcode3/usr/bin/make install
 if [ $? -ne 0 ]; then
   echo "ERROR: Induction failed to install"
   exit 1
@@ -58,18 +60,20 @@ fi
 
 cd "$BASEDIR/../../core"
 
-make distclean
+/Xcode3/usr/bin/make distclean
 ./bootstrap_osx_universal.sh
 if [ $? -ne 0 ]; then
   echo "ERROR: Lithium Core failed to bootstrap"
   exit 1
 fi
-make -j`sysctl -n hw.ncpu`
+PATH=/Xcode3/usr/bin:/Xcode3/usr/sbin:$PATH \
+/Xcode3/usr/bin/make -j`sysctl -n hw.ncpu`
 if [ $? -ne 0 ]; then
   echo "ERROR: Lithium Core failed to build"
   exit 1
 fi
-make install
+PATH=/Xcode3/usr/bin:/Xcode3/usr/sbin:$PATH \
+/Xcode3/usr/bin/make install
 if [ $? -ne 0 ]; then
   echo "ERROR: Lithium Core failed to install"
   exit 1
@@ -82,20 +86,20 @@ fi
 PREFIX=/Library/Lithium/LithiumCore.app
 FWPREFIX=/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0
 
-dsymutil -o "$DSYM_PATH/induction.dSYM" "$FWPREFIX/Libraries/libinduction-$BUILDNUM.0.dylib"
-dsymutil -o "$DSYM_PATH/lithium.dSYM" "$PREFIX/Contents/MacOS/lithium"
-dsymutil -o "$DSYM_PATH/mars.dSYM" "$FWPREFIX/Libraries/lithium/mars.so"
-dsymutil -o "$DSYM_PATH/admin.dSYM" "$FWPREFIX/Libraries/lithium/admin.so"
-dsymutil -o "$DSYM_PATH/client_handler.dSYM" "$FWPREFIX/Libraries/lithium/client_handler.so"
-dsymutil -o "$DSYM_PATH/core.dSYM" "$FWPREFIX/Libraries/lithium/core.so"
-dsymutil -o "$DSYM_PATH/customer.dSYM" "$FWPREFIX/Libraries/lithium/customer.so"
-dsymutil -o "$DSYM_PATH/device.dSYM" "$FWPREFIX/Libraries/lithium/device.so"
+/Xcode3/usr/bin/dsymutil -o "$DSYM_PATH/induction.dSYM" "$FWPREFIX/Libraries/libinduction-$BUILDNUM.0.dylib"
+/Xcode3/usr/bin/dsymutil -o "$DSYM_PATH/lithium.dSYM" "$PREFIX/Contents/MacOS/lithium"
+/Xcode3/usr/bin/dsymutil -o "$DSYM_PATH/mars.dSYM" "$FWPREFIX/Libraries/lithium/mars.so"
+/Xcode3/usr/bin/dsymutil -o "$DSYM_PATH/admin.dSYM" "$FWPREFIX/Libraries/lithium/admin.so"
+/Xcode3/usr/bin/dsymutil -o "$DSYM_PATH/client_handler.dSYM" "$FWPREFIX/Libraries/lithium/client_handler.so"
+/Xcode3/usr/bin/dsymutil -o "$DSYM_PATH/core.dSYM" "$FWPREFIX/Libraries/lithium/core.so"
+/Xcode3/usr/bin/dsymutil -o "$DSYM_PATH/customer.dSYM" "$FWPREFIX/Libraries/lithium/customer.so"
+/Xcode3/usr/bin/dsymutil -o "$DSYM_PATH/device.dSYM" "$FWPREFIX/Libraries/lithium/device.so"
 for i in vendor_*
 do
   if [ -d $i ]; then
     cd $i
     MOD_NAME=`echo $i | sed s/vendor_//g`
-    dsymutil -o "$DSYM_PATH/$MOD_NAME.dSYM" "$FWPREFIX/Libraries/lithium/vendor_modules/$MOD_NAME.so"
+    /Xcode3/usr/bin/dsymutil -o "$DSYM_PATH/$MOD_NAME.dSYM" "$FWPREFIX/Libraries/lithium/vendor_modules/$MOD_NAME.so"
     cd ..
   fi
 done
