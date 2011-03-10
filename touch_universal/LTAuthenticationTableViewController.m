@@ -40,15 +40,15 @@
 	self.navigationItem.rightBarButtonItem.title = @"Log In";
 	self.navigationItem.prompt = @"Log In to Lithium Core";
 	self.navigationController.navigationBar.tintColor = [UIColor colorWithWhite:120.0/255.0 alpha:1.0];
-	usernameTextField = [self createTextField];
+	usernameTextField = [[self createTextField] retain];
 	usernameTextField.placeholder = @"username";
 	usernameTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-	passwordTextField = [self createTextField];
+	passwordTextField = [[self createTextField] retain];
 	passwordTextField.placeholder = @"password";
 	usernameTextField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	passwordTextField.secureTextEntry = YES;
 	
-	rememberSwitch = [self createSwitchControl];
+	rememberSwitch = [[self createSwitchControl] retain];
 	rememberSwitch.on = YES;
 }
 
@@ -204,8 +204,16 @@
 		
 		if (rememberSwitch.on)
 		{
-			[[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text forKey:[NSString stringWithFormat:@"Username-%@-%@", customer.ipAddress, customer.name]];
-			[[NSUserDefaults standardUserDefaults] setObject:passwordTextField.text forKey:[NSString stringWithFormat:@"Password-%@-%@", customer.ipAddress, customer.name]];	
+            if (usernameTextField.text)
+            { [[NSUserDefaults standardUserDefaults] setObject:usernameTextField.text 
+                                                        forKey:[NSString stringWithFormat:@"Username-%@-%@", customer.ipAddress, customer.name]]; }
+            else
+            { [[NSUserDefaults standardUserDefaults] removeObjectForKey:[NSString stringWithFormat:@"Username-%@-%@", customer.ipAddress, customer.name]]; }
+            if (passwordTextField.text)
+            { [[NSUserDefaults standardUserDefaults] setObject:passwordTextField.text 
+                                                        forKey:[NSString stringWithFormat:@"Password-%@-%@", customer.ipAddress, customer.name]];	}
+            else 
+            { [[NSUserDefaults standardUserDefaults] removeObjectForKey:[NSString stringWithFormat:@"Password-%@-%@", customer.ipAddress, customer.name]]; }
 			[[NSUserDefaults standardUserDefaults] synchronize];
 		}
 		
@@ -285,10 +293,10 @@
 	}
 	
 	NSMutableDictionary *connDict = [NSMutableDictionary dictionary];
-	[connDict setObject:customer forKey:@"customer"];
-	[connDict setObject:entity forKey:@"entity"];
-	[connDict setObject:challenge forKey:@"challenge"];
-	[connDict setObject:connection forKey:@"connection"];
+	if (customer) [connDict setObject:customer forKey:@"customer"];
+	if (entity) [connDict setObject:entity forKey:@"entity"];
+	if (challenge) [connDict setObject:challenge forKey:@"challenge"];
+	if (connection) [connDict setObject:connection forKey:@"connection"];
 	[connDict setObject:[NSNumber numberWithInt:previousFailureCount] forKey:@"previousFailureCount"];
 	[connections addObject:connDict];
 	
@@ -377,6 +385,7 @@
 	[connections release];
 	[usernameTextField release];
 	[passwordTextField release];
+    [rememberSwitch release];
 	
     [super dealloc];
 }

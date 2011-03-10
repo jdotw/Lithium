@@ -42,14 +42,14 @@
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
 																							 target:self action:@selector(save:)] autorelease];
 	 
-	addressTextField = [self createTextField];
+	addressTextField = [[self createTextField] retain];
 	addressTextField.placeholder = @"lithium.yourcompany.com";
 	if (self.editCore)
 	{
 		addressTextField.text = self.editCore.ipAddress;
 	}
 	
-	descTextField = [self createTextField];
+	descTextField = [[self createTextField] retain];
 	descTextField.placeholder = @"Lithium";
 	if (self.editCore)
 	{
@@ -57,7 +57,7 @@
 	}
 	
 	CGRect frame = CGRectMake(0.0, 0.0, 94.0, 27.0);
-	useSSLSwitch = 	[[[UISwitch alloc] initWithFrame:frame] autorelease];
+	useSSLSwitch = [[UISwitch alloc] initWithFrame:frame];
 	useSSLSwitch.backgroundColor = [UIColor clearColor];
 	
 	self.tableView.allowsSelection = YES;
@@ -311,6 +311,9 @@
 
 - (void)dealloc 
 {
+    [addressTextField release];
+    [useSSLSwitch release];
+    [descTextField release];
 	[editCore release];
     [super dealloc];
 }

@@ -122,33 +122,33 @@
 		{ self.site = [self.customer.children objectAtIndex:0]; }
 		
 		/* Create Labels for properties */
-		devDesc = [self propertyTextField];
+		devDesc = [[self propertyTextField] retain];
 		devDesc.placeholder = @"Description";
-		devIPAddress = [self propertyTextField];
+		devIPAddress = [[self propertyTextField] retain];
 		devIPAddress.placeholder = @"IP Address";
-		devLOMPassword = [self propertyTextField];
+		devLOMPassword = [[self propertyTextField] retain];
 		devLOMPassword.placeholder = @"LOM IP Address";
-		devSNMPCommunity = [self propertyTextField];
+		devSNMPCommunity = [[self propertyTextField] retain];
 		devSNMPCommunity.placeholder = @"SNMP Community";
-		devSNMPAuthPassword = [self propertyTextField];
+		devSNMPAuthPassword = [[self propertyTextField] retain];
 		devSNMPAuthPassword.secureTextEntry = YES;
 		devSNMPAuthPassword.placeholder = @"Password";
-		devSNMPPrivacyPassword = [self propertyTextField];
+		devSNMPPrivacyPassword = [[self propertyTextField] retain];
 		devSNMPPrivacyPassword.secureTextEntry = YES;
 		devSNMPPrivacyPassword.placeholder = @"Password";
-		devUsername = [self propertyTextField];
+		devUsername = [[self propertyTextField] retain];
 		devUsername.placeholder = @"Username";
-		devPassword = [self propertyTextField];
+		devPassword = [[self propertyTextField] retain];
 		devPassword.placeholder = @"Password";
 		devPassword.secureTextEntry = YES;
-		devLOMUsername = [self propertyTextField];
+		devLOMUsername = [[self propertyTextField] retain];
 		devLOMUsername.placeholder = @"LOM Username";
-		devLOMPassword = [self propertyTextField];
+		devLOMPassword = [[self propertyTextField] retain];
 		devLOMPassword.placeholder = @"LOM Password";
 		devLOMPassword.secureTextEntry = YES;
-		devUseICMP = [self propertySwitch];
-		devUseLOM = [self propertySwitch];
-		devUseProcessList = [self propertySwitch];		
+		devUseICMP = [[self propertySwitch] retain];
+		devUseLOM = [[self propertySwitch] retain];
+		devUseProcessList = [[self propertySwitch] retain];		
     }
     return self;	
 }
