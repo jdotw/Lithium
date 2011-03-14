@@ -1,4 +1,8 @@
+#ifdef linux
+#include <db4/db.h>
+#else
 #include <db.h>
+#endif
 
 typedef struct
 {
