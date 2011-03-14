@@ -305,9 +305,6 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       }
       else if (strcmp(obj->desc_str, "Cached memory") == 0)
       {
-        /* Log */
-        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Cached Memory data", obj->desc_str);
-
         /* Clean */
         if (ram->cached_alloc) { i_entity_deregister (self, ENTITY(ram->cached_alloc)); i_entity_free (ENTITY(ram->cached_alloc)); ram->cached_alloc = NULL;}
         if (ram->cached) { i_entity_deregister (self, ENTITY(ram->cached)); i_entity_free (ENTITY(ram->cached)); ram->cached = NULL; }
@@ -316,8 +313,8 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         ram->cached_alloc = l_snmp_metric_create (self, real_obj, "cached_alloc", "Cached Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
         ram->cached_alloc->hidden = 1;
 
-        /* Cached Total */
-        ram->cached = l_snmp_metric_create (self, real_obj, "cached", "Cached", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_RRD, 0);
+        /* Cached Total -- Uses 'size' OID, not 'Used' (Used is not populated) */
+        ram->cached = l_snmp_metric_create (self, real_obj, "cached", "Cached", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_RRD, 0);
         ram->cached->alloc_unit_met = ram->cached_alloc;
         ram->cached->valstr_func = i_string_volume_metric;
         ram->cached->unit_str = strdup ("byte");
@@ -326,6 +323,9 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         
         /* Mark the ram container as needing a rebuild */
         static_ram_cnt_invalidated = 1;
+        
+        /* Log */
+        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Cached Memory data (%s.%s)", obj->desc_str, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr);
       }
       else if ((strcmp(obj->desc_str, "Memory buffers") == 0 || strcmp(obj->desc_str, "Memory Buffers") == 0))
       {
@@ -340,8 +340,8 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         ram->buffers_alloc = l_snmp_metric_create (self, real_obj, "buffers_alloc", "Buffer Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
         ram->buffers_alloc->hidden = 1;
 
-        /* Buffered Total */
-        ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_RRD, 0);
+        /* Buffered Total -- Uses 'size' OID, not 'used' (Used is not populated) */
+        ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_RRD, 0);
         ram->buffers->alloc_unit_met = ram->buffers_alloc;
         ram->buffers->valstr_func = i_string_volume_metric;
         ram->buffers->unit_str = strdup ("byte");
@@ -353,9 +353,6 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       }
       else if (strcmp(obj->desc_str, "Shared memory") == 0)
       {
-        /* Log */
-        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Shared Memory data", obj->desc_str);
-
         /* Clean */
         if (ram->shared_alloc) { i_entity_deregister (self, ENTITY(ram->shared_alloc)); i_entity_free (ENTITY(ram->shared_alloc)); ram->shared_alloc = NULL; }
         if (ram->shared) { i_entity_deregister (self, ENTITY(ram->shared)); i_entity_free (ENTITY(ram->shared)); ram->shared = NULL; }
@@ -364,8 +361,8 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         ram->shared_alloc = l_snmp_metric_create (self, real_obj, "shared_alloc", "Shared Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
         ram->shared_alloc->hidden = 1;
 
-        /* Shared Total */
-        ram->shared = l_snmp_metric_create (self, real_obj, "shared", "Shared", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_RRD, 0);
+        /* Shared Total -- Uses 'size' OID, not 'used' (Used is not populated) */
+        ram->shared = l_snmp_metric_create (self, real_obj, "shared", "Shared", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_RRD, 0);
         ram->shared->alloc_unit_met = ram->shared_alloc;
         ram->shared->valstr_func = i_string_volume_metric;
         ram->shared->unit_str = strdup ("byte");
@@ -374,6 +371,10 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         
         /* Mark the ram container as needing a rebuild */
         static_ram_cnt_invalidated = 1;
+        
+        /* Log */
+        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Shared Memory data (%s.%s)", obj->desc_str, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr);
+
       }
     }
   }

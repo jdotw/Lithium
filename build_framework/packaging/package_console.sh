@@ -25,7 +25,7 @@ BASEDIR=$PWD
 #
 
 cd "$SRCDIR"
-agvtool bump -all
+#agvtool bump -all
 BUILDNUM=`agvtool mvers | grep '^Found CFBundleShortVersionString of'  | awk '{ print $4 }' | sed 's/\"//g'`
 
 echo "Build number is $BUILDNUM"
