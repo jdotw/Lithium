@@ -51,7 +51,16 @@ int l_group_enable (i_resource *self)
   }
   if (pgres) { PQclear (pgres); pgres = NULL; }
 
-  /* Get next case ID */
+  /* Perform table maintenance
+   *
+   * - Delete all orphan group entities 
+   */
+  pgres = PQexec(pgconn, "DELETE FROM group_entities where id IN (select group_entities.id from group_entities left join devices on devices.name = group_entities.dev_name and devices.site = group_entities.site_name left join sites on sites.name = group_entities.site_name WHERE devices.uuid IS NULL OR sites.name is NULL)");
+  if (!pgres || PQresultStatus(pgres) != PGRES_TUPLES_OK || (PQntuples(pgres)) < 1)
+  { i_printf(0, "l_group_enable warning: failed to perform table maintenance (%s)", PQresultErrorMessage (pgres)); }
+  if (pgres) { PQclear (pgres); pgres = NULL; }
+
+  /* Get next group ID */
   pgres = PQexec (pgconn, "SELECT nextval('groups_id_seq')");
   if (pgres && PQresultStatus(pgres) == PGRES_TUPLES_OK && PQntuples(pgres) > 0)
   {

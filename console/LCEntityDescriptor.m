@@ -9,7 +9,7 @@
 #import "LCEntityDescriptor.h"
 #import "LCEntity.h"
 #import "LCCustomerList.h"
-
+#import "LCDebug.h"
 
 @implementation LCEntityDescriptor
 
@@ -349,6 +349,8 @@
 						
 					}
 				}
+				
+				LCDebug(@"LCEntityDescriptor creating missing %i:%@ (%@) under %i:%@", type, nameString, descString, currentParent.type, currentParent.name);
 				
 				/* Create missing entity */
 				if (type == 1)
