@@ -1,0 +1,150 @@
+#include <stdlib.h>
+#include <string.h>
+
+#include <induction.h>
+#include <induction/hashtable.h>
+#include <induction/cement.h>
+#include <induction/entity.h>
+#include <induction/socket.h>
+#include <induction/message.h>
+#include <induction/msgproc.h>
+#include <induction/postgresql.h>
+#include <induction/list.h>
+#include <induction/hierarchy.h>
+#include <induction/form.h>
+#include <induction/auth.h>
+#include <induction/data.h>
+#include <induction/callback.h>
+#include <induction/incident.h>
+
+#include "case.h"
+#include "incident.h"
+
+/*
+ * Incident Sub-System - Incident/Case Binding 
+ */
+
+/* Binding based on a case */
+
+int l_incident_bind_case (i_resource *self, l_case *cas)
+{
+  /* Bind a new case to unhandled incidents */
+  i_entity_descriptor *case_ent;
+
+  for (i_list_move_head(cas->ent_list); (case_ent=i_list_restore(cas->ent_list))!=NULL; i_list_move_next(cas->ent_list))
+  {
+    /* Attempt to bind entity to UH incident */
+    l_incident_bind_case_entity (self, cas->id, case_ent);
+  }
+
+  return 0;
+}
+
+int l_incident_bind_case_entity (i_resource *self, long caseid, i_entity_descriptor *ent)
+{
+  int num;
+  i_incident *inc;
+  i_list *inc_uhlist;
+
+  /* Check caseid */
+  if (caseid < 1) return -1;
+  
+  /* Search for matching UH incident */
+  inc_uhlist = l_incident_uhlist ();
+  for (i_list_move_head(inc_uhlist); (inc=i_list_restore(inc_uhlist))!=NULL; i_list_move_next(inc_uhlist))
+  {
+    num = l_incident_bind_entitymatch (ent, inc->ent);
+    if (num == 0)
+    {
+      /* Match found, set caseid and remove from UH list */
+      inc->caseid = caseid;
+      i_list_delete (inc_uhlist);
+      l_incident_sql_update (self, inc);
+      break;
+    }
+  }
+
+  return 0;
+}
+
+/* Binding based on an incident */
+
+int l_incident_bind_incident (i_resource *self, i_incident *inc)
+{
+  /* Bind a new incident to open cases */
+  char *type_str;
+  i_callback *cb;
+
+  /* Load matching case entities */
+  asprintf (&type_str, "%i", inc->ent->type);
+  cb = l_case_entity_sql_list (self, NULL, CASE_STATE_OPEN_NUMSTR, type_str, inc->ent->site_name, 
+    inc->ent->dev_name, inc->ent->cnt_name, inc->ent->obj_name, inc->ent->met_name, NULL, 
+    NULL, NULL, l_incident_bind_incident_casecb, inc);
+  free (type_str);
+  if (!cb) return -1;
+
+  return 0;
+}
+
+int l_incident_bind_incident_casecb (i_resource *self, i_list *list, void *passdata)
+{
+  /* Loop through returned cases */
+  l_case *cas;
+  i_list *inc_uhlist;
+  i_incident *inc = passdata;
+
+  /* Check for a case */
+  if (list->size < 1) return -1;
+
+  /* Check incident still exists */
+  inc_uhlist = l_incident_uhlist ();
+  if (i_list_search(inc_uhlist, inc) != 0) return -1;
+
+  /* Bind */
+  i_list_move_head (list);
+  cas = i_list_restore (list);
+  if (cas && cas->id > 0)
+  { 
+    /* Set case ID */
+    inc->caseid = cas->id;
+
+    /* Remove from unhandled list */
+    i_list_delete (inc_uhlist);
+
+    /* Perform SQL update */
+    l_incident_sql_update (self, inc);
+
+    /* Adjust action as necessary */
+    l_action_incident_boundtocase (self, inc);
+  }
+
+  return -1;    /* Don't keep the list */
+}
+
+/* Matching */
+
+int l_incident_bind_entitymatch (i_entity_descriptor *case_ent, i_entity_descriptor *inc_ent)
+{
+  /* Compares the two entities and returns 0 
+   * if the two match enough for a case/incident binding.
+   *
+   * An inc_ent type of ENT_TRIGGER is allowed to be
+   * bound to an ENT_METRIC case_ent. In all other 
+   * instances, a full match is needed
+   */
+
+  /* Check type */
+  if (inc_ent->type == case_ent->type || (inc_ent->type != ENT_TRIGGER && case_ent->type != ENT_METRIC))
+  {
+    /* Types are ok, Check hierarchy */
+    if (case_ent->type >= ENT_SITE && strcmp(case_ent->site_name, inc_ent->site_name) != 0) return -1;
+    if (case_ent->type >= ENT_DEVICE && strcmp(case_ent->dev_name, inc_ent->dev_name) != 0) return -1;
+    if (case_ent->type >= ENT_CONTAINER && strcmp(case_ent->cnt_name, inc_ent->cnt_name) != 0) return -1;
+    if (case_ent->type >= ENT_OBJECT && strcmp(case_ent->obj_name, inc_ent->obj_name) != 0) return -1;
+    if (case_ent->type >= ENT_METRIC && strcmp(case_ent->met_name, inc_ent->met_name) != 0) return -1;
+    if (case_ent->type >= ENT_TRIGGER && strcmp(case_ent->trg_name, inc_ent->trg_name) != 0) return -1;
+  }
+  else return -1;   /* Types don't match */
+
+  return 0;
+}

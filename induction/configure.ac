@@ -17,7 +17,7 @@ AC_DEFINE_UNQUOTED(LITHIUM_VERSION, "${VERSION}")
 AC_DEFINE_UNQUOTED(INDUCTION_VERSION, "${VERSION}")
 
 dnl Checks for programs.
-AC_PROG_CC
+AC_PROG_CC_C99
 AC_ISC_POSIX
 AC_PROG_LIBTOOL
 AC_PROG_INSTALL
@@ -31,7 +31,7 @@ AC_SEARCH_LIBS(dlopen, dl, , AC_MSG_ERROR([Cannot build without dlopen]))
 AC_SEARCH_LIBS(crypt, crypto)
 
 # Check for DB4
-AC_SEARCH_LIBS(db_version, db-4, , AC_MSG_ERROR([Cannot build without DB4]))
+AC_SEARCH_LIBS(db_version, db, , AC_MSG_ERROR([Cannot build without DB4]))
 
 # Platform Check
 echo "TARGET: ${target}"
@@ -77,7 +77,8 @@ AC_SEARCH_LIBS(perl_alloc, perl)
 AC_CHECK_HEADER(dns_sd.h, AC_DEFINE(HAVE_DNS_SD), )
 
 # Set custom CFLAGS/LDFLAGS
-CFLAGS="$CFLAGS -W -Wall -Wno-unused-parameter -Werror"
+CFLAGS="$CFLAGS  -W -Wall -Wno-unused -Wno-declaration-after-statement -Werror"
+LDFLAGS="$LDFLAGS"
 
 dnl ###########################################
 dnl Create makefiles

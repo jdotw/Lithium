@@ -82,7 +82,7 @@ AC_SEARCH_LIBS(perl_alloc, perl)
 AC_CHECK_HEADER(dns_sd.h, AC_DEFINE(HAVE_DNS_SD), )
 
 # Set custom CFLAGS/LDFLAGS
-CFLAGS="$CFLAGS -W -Wall -Wno-unused-parameter -Werror -I.."
+CFLAGS="$CFLAGS -W -Wall -Wno-unused-parameter -Wno-declaration-after-statement -Werror -I.."
 
 dnl ###########################################
 dnl Create makefiles

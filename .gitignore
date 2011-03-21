@@ -42,3 +42,4 @@ lithium/device/snmp.h
 lithium/device/stamp-h[0-9]*
 lithium/include/lithium.h
 lithium/include/stamp-h[0-9]*
+rpm-build-*

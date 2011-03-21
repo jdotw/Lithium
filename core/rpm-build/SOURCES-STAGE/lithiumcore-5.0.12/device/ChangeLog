@@ -1,0 +1,399 @@
+Thu May 19 12:53:34 EST 2005  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added snmp_hrcpu and snmp_users
+
+Mon May 16 17:25:44 EST 2005  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added 'core' profile support
+
+Fri Dec 03 18:34:41 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added packet rate row to snmp_iface objform tput table
+  * Rename 'Data Rate' row to 'Bit Rate' in snmp_iface objform
+
+----[ 4.6.6 - 'Worth' ]------------------------------------------------
+
+Mon Nov 08 18:02:02 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added dialup profile handling for avail triggers
+
+Mon Nov 08 17:56:34 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added snmp_route routing table subsystem
+
+----[ 4.6.5 - 'Coil' ]------------------------------------------------
+
+Sat Oct 23 13:48:01 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Set kbase value to 1024 for iface, swrun and storage byte metrics
+
+----[ 4.6.4 - "Flow" ]-------------------------------------------------
+----[ 4.6.3 ]----------------------------------------------------------
+----[ 4.6.2 ]----------------------------------------------------------
+----[ 4.6.1 ]----------------------------------------------------------
+
+Thu Apr 22 14:12:29 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Removed SNMP session piggy backing
+  * l_snmp_session_open_device sets device_session flag
+  * Ensured all snmp_sessions are opened using session_open_device
+
+Wed Apr 21 12:55:44 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Fixed asprint format/params bug in l_snmp_metric_refresh_getcb
+  * Fixed double free of interface by item_list destructor and
+    objfact_clean
+  * Fixed same item struct double free in ipaddr, storage, avail, 
+    icmp, swrun
+  * Fixed double free of sysinfo item in snmp_sysinfo_disable
+    (destructor and manual free)
+
+----[ 4.6.0 ]----------------------------------------------------------
+
+Sat Jan 17 23:26:45 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Cement-based availability/responsetime tracking is functional
+
+Sat Jan 17 13:36:09 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Removed use of snmp_resptime as response time is now part
+  of the cement-based l_avail system.
+
+Fri Jan 16 19:14:22 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Began work on the new cement-based availability sub-system 
+
+Tue Jan 13 12:31:09 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Altered behaviour of snmp_metric_refresh to set the value based
+  on the metric type, not the pdu type.
+
+Thu Jan 08 00:17:34 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added snmp_ipaddr sub-system (ipAdEnt tree)
+  * Added ipaddr to iface linking
+
+Wed Jan 07 00:06:10 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Modified behaviour of snmp_objfact and the snmp_metric_create func
+    such than an index_oidstr is used to represent the part of the OID
+    that unique represents the object being created.
+
+Tue Jan 06 12:30:58 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added retry-interval refresh method to snmp_objfact
+
+Mon Jan 05 22:28:53 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Began conversion of hrswrun to cement-based swrun
+  * Cement-ised the snmp_objfact (each fact is an obj)
+  * Added object maintenance to snmp_objfact
+  * Added refresh functionality to snmp_objfact
+
+Sun Jan 04 00:20:06 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Added in/out octets to iface and successfully tested the rate 
+    autocalc metric with these values to generate bps readings
+
+Fri Jan 02 00:21:20 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * Began work on converting the old snmpiflist system to the cement
+    based snmpiface
+
+Thu Jan 01 16:39:02 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * The very basics of the cement entity refresh system work
+
+Thu Jan 01 16:04:04 EST 2004  James Wilson <jwilson@lithiumcorp.com>
+
+  * snmp_get_oid now accepts oid *name instead of an oid_str
+  * added snmp_get_oid_str to handle gets for oid_str
+
+Mon Dec 29 15:39:58 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Converted to the name_str and desc_str variable standard
+
+Sat Dec 27 23:36:50 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Began conversion of SNMP iflist to Cement
+
+Tue Dec 23 23:41:42 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Began conversion to induction 4.6 headers
+
+Sun Dec 14 23:35:25 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Changed snmp.h to be ./configure generated
+
+Sat Nov 08 16:37:46 EST 2003  James Wilson <jwilson@lithiumcorp.com>
+
+  * Fixed hrswrun status not showing up properly (was using type
+    var instead status to get string)
+
+Sun Nov 02 14:42:39 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added navform link to ip registry
+
+Sat Nov 01 21:17:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed iflist refresh getting stuck in a refresh_in_progress state forever
+    when a device has a period of downtime
+  * Fixed iflist refresh interface callback not being freed if terminate is
+    not called by the snmp callback. (added interface->refresh_callback)
+
+Sat Nov 01 20:17:20 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed occured / occurred typo
+
+Sat Nov 01 19:10:04 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed error handling of snmp_send (returns 0 on error, not -1)
+
+Sat Nov 01 15:07:54 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added navform link for inventory
+
+Fri Oct 24 19:16:34 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * iflist formsection uses lastchange_sec for last change value
+
+Fri Oct 24 17:46:33 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed iflists *_calculated values being stuck at 1
+
+Thu Oct 23 12:51:35 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed setting of NULLPDU error code in l_snmp_walk (relies on pducallback
+  set value)
+
+Tue Oct 21 18:42:33 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * snmp_iflist_refresh works with new integrated reqdata in i_interface
+  * Added 'else' to "if (reqid ==" statements in iflist_refresh_interface
+
+Tue Oct 21 13:02:17 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added missing pducallback cancellers for snmp_iflist
+    uptime, lastchange and discont variables
+  * Modified iflist refresh code to work with the reqdata
+    (reqids etc) integrated into the i_interface struct
+
+Mon Oct 20 14:55:49 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted hrstorage rrd_graph calls to a single rrd_graph_dwmy call
+
+Mon Oct 20 12:06:11 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed string enums from hrswrun and hrstorage 
+    in favour of (entity)_str style functions
+  * Change use of sprint_objid to snprint_objid in snmp_walk
+  * Removed all unused variables
+  * Builds without warnings under OS X 10.3
+
+Mon Oct 20 11:37:59 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed timeout config variables from l_snmp_*
+
+Fri Oct 10 19:07:48 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed segfault in iflist_list which can occur when their are IPs
+    in the ipAdEndIfIndex tree but no matching interfaces
+
+Fri Oct 10 16:40:22 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added net-snmp support
+
+Fri Oct 10 12:18:07 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed handling of OID Not increasing and callbacks in snmp_walk
+
+Fri Oct 10 12:01:55 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added l_snmp_session_error_string
+
+Wed Oct 08 22:10:48 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * avail and snmp_resptime only calls i_rrd_graph if a consolidated
+    data point (rrd term) has elapsed
+
+Sat Oct 04 18:37:29 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed extraneous use of PG_FLAG_BEGIN|END
+
+Sun Sep 28 15:36:40 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Converted snmp_iflist_bytecount to async postgres interaction
+
+Sun Sep 21 02:01:51 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed rapid status setting/unsetting if vendor detection fails
+
+Sun Sep 21 00:03:05 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * iflist_formsection uses bps_current to detemine currency of bps
+  * fixed double freeing bug in iflist_formsection (in/out bps string)
+  * Added error and discard stats to iflist_form_main
+
+Sat Sep 20 18:20:27 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * iflist x_per_second values are only calculated if the previous
+    value was current. 
+  * Removed extraneous calls to gettimeofday from iflist_refresh
+
+Wed Sep 10 21:04:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed i_printf messages in hrswrun.c
+
+Sun Sep 07 13:54:32 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Builds under OS X
+
+Wed Sep 03 11:55:07 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed debug message in bytecount_update
+
+Wed Sep 03 00:56:14 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed bytecount_update only updating bc_day
+  * Fixed bytecount_update initialising todays bc twice
+
+Tue Sep 02 21:42:16 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * bytecount_get uses strtoul instead of overflowing atol
+  * It would appear that bytecounting now works
+  * If there is no discontinuity but actual < last_actual the
+    whole value of actual is used as the diff.
+
+Tue Sep 02 20:40:09 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Redid bytecount_update to combine day and month updates and
+    also changed the order of bc initialisation etc.
+  * Improved handling of status/errors in bytecount_update
+
+Tue Sep 02 02:00:59 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Change %li to %lu for unsigned longs in iflist_bytecount
+
+Sun Aug 31 20:15:07 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added ability to enable/disable bytecount in iflist_config
+
+Sun Aug 31 13:56:56 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added init_time timeval struct to sysinfo
+  * More work on snmp_iflist_bytecount
+  * Modified snmp_session_open/close to do session biggybacking
+
+Sun Aug 31 01:14:34 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Began work on sql-stored bytecount totals
+  * Fixed iflist stuck-in-refresh problem
+  * iflist properly refreshed lastchange and discontinuity
+
+Sun Aug 24 14:59:06 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed hrprocessor_config_enable/disable
+  * Added snmp_sysinfo_formsection
+  * Added snmp_sysinfo_config
+  * Added snmp_sysinfo_refresh
+  * Added snmp_sysinfo_probe
+
+Sat Aug 23 14:56:15 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed segfault due to early session freeing in snmp_*_probe.c
+  * Fixed segfault due to calling 0x0 at snmp_iflist_refresh_interface.c
+  * iflist OIDs not supported by the host wont be polled
+  * Added byte counts to iflist_form_ifmain
+  * Began work on snmp_sysinfo
+
+Mon Aug 18 20:01:51 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed threshold being re-registered in hrprocessor_refresh
+
+Sun Aug 17 22:19:19 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * l_snmp now uses its own l_snmp_session struct (instead of ucd-snmp's)
+  * converted snmp code to use l_snmp_session
+  * remove availability recording from everything except snmp pdu processing
+  * l_snmp now properly uses the ucd-snmp timeout/retry mechanisms
+
+Sun Aug 10 22:55:54 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed date selector on availability
+  * Fixed date selector on snmp_resptime
+  * Began work on improved snmp session/request handling
+  * Date selector fixes retro-fitted to 4.5.1
+
+Sat Aug 09 14:22:29 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * iflist_list_populate only populates static info
+  * Added errors, discards, packets and last change metrics to iflist
+
+Sun Jul 20 15:15:46 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed many form_title not freed mem leaks in forms
+
+Sat Jul 19 13:57:24 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Availability is enabled by default
+  * Enabling snmp enables snmp_resptime
+
+Fri Jul 18 22:08:12 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added 'flags' to snmpwalk to disable/enable OID increase checking
+
+Fri Jul 18 00:33:35 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Removed use of global_resource_info
+
+Wed Jul 16 16:38:35 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Makefile.am now installed snmp.h in include/lithium/snmp.h
+
+Sat Jul 12 20:00:08 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Moved availability and all snmp code from induction to this module
+
+Sun May 04 01:20:58 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Fixed bug with statusconfig form not removing old form on update
+
+Tue Apr 29 00:00:53 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * All forms converted to 4.5.0 spec
+  * Builds under 4.5.0 spec
+
+Tue Jan 21 23:53:38 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Moved l_vendor struct and set/get to i_vendor
+
+Mon Jan 20 17:48:08 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added i_form_merge to form_resource_config
+
+Thu Jan 16 18:24:26 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Added logging
+
+Tue Jan 14 01:29:18 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Changed mainform/navform ordering
+  * Added link to site
+
+Wed Jan 08 18:51:34 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Changed references of Primary IP to Management IP
+
+Wed Jan 01 19:29:17 EST 2003  James Wilson <jim@lithiumcorp.com>
+
+  * Updated nagivation form
+
+Sat Dec 28 19:02:48 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Added form_navigation.c
+
+Sat Jul 20 00:38:59 EST 2002  James Wilson <jim@lithiumcorp.com>
+
+  * Created
+
+

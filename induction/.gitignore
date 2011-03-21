@@ -2,4 +2,4 @@ build-stamp
 COPYING
 INSTALL
 src/build_config.h
-
+rpm-build
