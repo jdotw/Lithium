@@ -1,0 +1,11 @@
+<?php
+
+global $default_node_ip, $default_construct_path, $default_config_path, $default_work_path, $default_module_path;
+
+$default_node_ip = "127.0.0.1";
+$default_construct_path = "/usr/bin/";
+$default_config_path = "/usr/etc/lithium";
+$default_work_path = "/usr/var/lithium";
+$default_module_path = "/usr/lib/lithium";
+
+?>

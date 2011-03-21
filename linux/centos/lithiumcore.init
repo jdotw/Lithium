@@ -1,0 +1,70 @@
+#!/bin/bash
+# lithiumcore init file for lithiumcore
+#
+# chkconfig: - 50 50
+# description: Lithium Core
+#
+# processname: /usr/bin/lithium
+# config: /usr/etc/lithium/node.conf
+
+# source function library
+. /etc/init.d/functions
+
+OPTIONS="-q core.so"
+if [ -e /etc/sysconfig/lithiumcore.options ]; then
+  . /etc/sysconfig/lithiumcore.options
+fi
+
+RETVAL=0
+prog="lithium"
+
+start() {
+        echo -n $"Starting $prog: "
+        if [ $UID -ne 0 ]; then
+                RETVAL=1
+                failure
+        else
+                daemon /usr/bin/start_lithium.sh
+                RETVAL=$?
+        fi;
+        echo 
+        return $RETVAL
+}
+
+stop() {
+        echo -n $"Stopping $prog: "
+        if [ $UID -ne 0 ]; then
+                RETVAL=1
+                failure
+        else
+                killproc /usr/bin/lithium
+        fi;
+        echo
+        return $RETVAL
+}
+
+restart(){
+	stop
+	start
+}
+
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  restart)
+	restart
+        ;;
+  status)
+        status lithiumcore
+	RETVAL=$?
+        ;;
+  *)
+	echo $"Usage: $0 {start|stop|status|restart}"
+	RETVAL=1
+esac
+
+exit $RETVAL

@@ -1,4 +1,5 @@
 make distclean
+rm configure
 rm config.*
 
 if test -x /usr/bin/libtoolize; then

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>dir (Gem)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/rubygems.rb, line 140</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dir</span>
+                  <span class="ruby-comment cmt">### Debian ###</span>
+                  <span class="ruby-comment cmt">#@gem_home ||= nil</span>
+      <span class="ruby-identifier">set_home</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'GEM_HOME'</span>]) <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'GEM_HOME'</span>]
+      <span class="ruby-ivar">@gem_home</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;/var/lib/gems&quot;</span>, <span class="ruby-constant">Config</span><span class="ruby-operator">::</span><span class="ruby-constant">CONFIG</span>[<span class="ruby-value str">'ruby_version'</span>])
+      <span class="ruby-comment cmt">#set_home(ENV['GEM_HOME'] || default_dir) unless @gem_home</span>
+                  <span class="ruby-comment cmt">##############</span>
+      <span class="ruby-ivar">@gem_home</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+BASEDIR=$PWD
+
+cd ../core_admin
+
+BUILDNUM=`cat Info.plist | grep -A1 CFBundleShortVersionString | grep string | sed 's/\s*<string>\(.*\)<\/string>/\1/g'`
+BUILDNUM_SHORT=`cat Info.plist | grep -A1 CFBundleVersion | grep string | sed 's/\s*<string>\(.*\)<\/string>/\1/g'`
+
+cd $BASEDIR
+
+cat debian/changelog.template | sed "s/VERS/$BUILDNUM/" | sed "s/BUILD/$BUILDNUM_SHORT/" > debian/changelog
