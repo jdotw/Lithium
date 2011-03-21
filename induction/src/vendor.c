@@ -203,7 +203,7 @@ i_list* i_vendor_list (i_resource *self)
     lseek (fd, 0, SEEK_SET);
     size_t len = lseek (fd, 0, SEEK_END);
     char *buf = (char *) malloc (sizeof(len)+1);
-    read (fd, buf, len);
+    size_t written = read (fd, buf, len);
     close (fd);
     buf[len] = '\0';
 

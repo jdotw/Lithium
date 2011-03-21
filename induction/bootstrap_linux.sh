@@ -1,3 +1,7 @@
+make distclean
+rm configure
+rm config.*
+
 if test -x /usr/bin/libtoolize; then
   echo -n "Running 'libtoolize' ... "
   libtoolize --force
@@ -19,4 +23,5 @@ echo -n "Running 'automake' ... "
 automake -a
 echo "Done"
 
+CFLAGS="-I/usr/include/db4" \
 ./configure --host=i486-linux-gnu --build=i486-linux-gnu --prefix=/usr --mandir=${prefix}/share/man --infodir=${prefix}/share/info CFLAGS= LDFLAGS=-Wl,-z,defs

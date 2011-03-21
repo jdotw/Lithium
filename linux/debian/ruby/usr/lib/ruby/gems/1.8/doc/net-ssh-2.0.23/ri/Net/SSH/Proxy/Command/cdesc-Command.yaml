@@ -1,0 +1,32 @@
+--- !ruby/object:RI::ClassDescription 
+attributes: 
+- !ruby/object:RI::Attribute 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: The command line for the session
+  name: command_line
+  rw: R
+- !ruby/object:RI::Attribute 
+  comment: 
+  - !ruby/struct:SM::Flow::P 
+    body: The command line template
+  name: command_line_template
+  rw: R
+class_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: new
+comment: 
+- !ruby/struct:SM::Flow::P 
+  body: "An implementation of a command proxy. To use it, instantiate it, then pass the instantiated object via the :proxy key to Net::SSH.start:"
+- !ruby/struct:SM::Flow::VERB 
+  body: "  require 'net/ssh/proxy/command'\n\n  proxy = Net::SSH::Proxy::Command.new('ssh relay nc %h %p')\n  Net::SSH.start('host', 'user', :proxy =&gt; proxy) do |ssh|\n    ...\n  end\n"
+constants: []
+
+full_name: Net::SSH::Proxy::Command
+includes: []
+
+instance_methods: 
+- !ruby/object:RI::MethodSummary 
+  name: open
+name: Command
+superclass: Object

@@ -8,6 +8,8 @@
 build
 *.xcodeproj/*pbxuser
 *.xcodeproj/*mode1v3
+*.xcodeproj/*xcworkspace
+*.xcodeproj/xcuserdata
 m4
 autom4te.cache
 aclocal.m4
@@ -40,3 +42,4 @@ lithium/device/snmp.h
 lithium/device/stamp-h[0-9]*
 lithium/include/lithium.h
 lithium/include/stamp-h[0-9]*
+rpm-build-*

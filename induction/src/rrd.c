@@ -133,7 +133,8 @@ i_rrdtool_cmd* i_rrd_update_rrdcached (i_resource *self, char *filename, char *a
   free (escaped_filename);
 
   nbytes = strlen(buf);
-  write(socket_fd, buf, nbytes);
+  nbytes = write(socket_fd, buf, nbytes);
+  if (nbytes < 1) i_printf(1, "i_rrd_update_rrdcached failed to write to socket"); 
   free(buf);
 
   char resp[1024];
