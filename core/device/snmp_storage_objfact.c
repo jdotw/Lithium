@@ -327,10 +327,14 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         /* Log */
         i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Cached Memory data (%s.%s)", obj->desc_str, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr);
       }
-      else if ((strcmp(obj->desc_str, "Memory buffers") == 0 || strcmp(obj->desc_str, "Memory Buffers") == 0))
+      else if (strcmp(obj->desc_str, "Memory buffers") == 0)
       {
+        /* Memory buffers -- Lowercase b on buffers is used on Debian hosts
+         * anf there is only a Size variable present. The size variable should
+         * be tracked to monitor the amount of buffers
+         */
         /* Log */
-        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using it for Memory Buffers data", obj->desc_str);
+        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using the 'SIZE' metric for Memory Buffers data", obj->desc_str);
 
         /* Clean */
         if (ram->buffers_alloc) { i_entity_deregister (self, ENTITY(ram->buffers_alloc)); i_entity_free (ENTITY(ram->buffers_alloc)); ram->buffers_alloc = NULL; }
@@ -342,6 +346,34 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
 
         /* Buffered Total -- Uses 'size' OID, not 'used' (Used is not populated) */
         ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_RRD, 0);
+        ram->buffers->alloc_unit_met = ram->buffers_alloc;
+        ram->buffers->valstr_func = i_string_volume_metric;
+        ram->buffers->unit_str = strdup ("byte");
+        ram->buffers->kbase = 1024;
+        ram->buffers->record_defaultflag = 1;
+        
+        /* Mark the ram container as needing a rebuild */
+        static_ram_cnt_invalidated = 1;
+      }
+      else if (strcmp(obj->desc_str, "Memory Buffers") == 0)
+      {
+        /* Memory Buffers -- Capital B on Buffers is used on CentOS/RedHat
+         * hosts and there is both a Size and Used variable present. The Used
+         * value should be monitored as the gauge
+         */
+        /* Log */
+        i_printf(0, "l_snmp_storage_objfact_fab encountered '%s' object, using the 'USED' metric for Memory Buffers data", obj->desc_str);
+
+        /* Clean */
+        if (ram->buffers_alloc) { i_entity_deregister (self, ENTITY(ram->buffers_alloc)); i_entity_free (ENTITY(ram->buffers_alloc)); ram->buffers_alloc = NULL; }
+        if (ram->buffers) { i_entity_deregister (self, ENTITY(ram->buffers)); i_entity_free (ENTITY(ram->buffers)); ram->buffers = NULL; }
+
+        /* Buffered Alloc units */
+        ram->buffers_alloc = l_snmp_metric_create (self, real_obj, "buffers_alloc", "Buffer Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
+        ram->buffers_alloc->hidden = 1;
+
+        /* Buffered Total -- Uses 'Used' OID */
+        ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_RRD, 0);
         ram->buffers->alloc_unit_met = ram->buffers_alloc;
         ram->buffers->valstr_func = i_string_volume_metric;
         ram->buffers->unit_str = strdup ("byte");
