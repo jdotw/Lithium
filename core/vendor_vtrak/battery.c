@@ -73,12 +73,11 @@ int v_battery_enable (i_resource *self, int enclosure, char *oidindex_str)
 
   i_triggerset *tset;
 
-  /* Operational Status */
-// Disabled due to silly string matching
-//  tset = i_triggerset_create ("opstate", "Operational Status", "opstate");
-//  i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_STRING, TRGTYPE_NOTEQUAL, 0, "FullyCharged", 0, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
-//  i_triggerset_assign (self, static_cnt, tset);
-//
+  /* Operational status */
+  tset = i_triggerset_create ("opstate", "Operational Status", "opstate");
+  i_triggerset_addtrg (self, tset, "reconditioning", "Reconditioning", VALTYPE_STRING, TRGTYPE_EQUAL, 0, "Recondition", 0, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
+  i_triggerset_assign (self, static_cnt, tset);
+
   /* Battery remaining */
   tset = i_triggerset_create ("remaining", "Capacity Remaining", "remaining");
   i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_GAUGE, TRGTYPE_RANGE, 20, NULL, 60, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
