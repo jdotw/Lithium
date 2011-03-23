@@ -3,6 +3,7 @@
 #include <libxml/parser.h>
 #include <uuid/uuid.h>
 #include <ctype.h>
+#include <unistd.h>
 
 #include <induction.h>
 #include <induction/hashtable.h>
@@ -108,7 +109,7 @@ i_customer* l_customer_add (i_resource *self, char *name_str, char *desc_str, ch
     char *query;
 
     /* Create query */
-    asprintf (&query, "INSERT INTO customers (name, descr, baseurl) VALUES ('%s', '%s', '%s')", cust->name_str, cust->desc_str, cust->baseurl_str);
+    asprintf (&query, "INSERT INTO customers (name, descr, baseurl, default_customer, use_lithium_db) VALUES ('%s', '%s', '%s', '%i', '%i')", cust->name_str, cust->desc_str, cust->baseurl_str, cust->default_customer, cust->use_lithium_db);
 
     /* Execute query */
     num = i_pg_async_query_exec (self, conn, query, 0, l_customer_sqlcb, "add");
@@ -141,7 +142,7 @@ int l_customer_update (i_resource *self, i_customer *cust)
   { i_printf (1, "l_customer_update failed to open SQL connection for customer %s", cust->name_str); return -1; }
 
   /* Create query */
-  asprintf (&query, "UPDATE customers SET descr='%s', baseurl='%s' WHERE name='%s'", cust->desc_str, cust->baseurl_str, cust->name_str); 
+  asprintf (&query, "UPDATE customers SET descr='%s', baseurl='%s', default_customer='%i', use_lithium_db='%i' WHERE name='%s'", cust->desc_str, cust->baseurl_str, cust->default_customer, cust->use_lithium_db, cust->name_str); 
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_customer_sqlcb, "update");
@@ -240,12 +241,12 @@ int l_customer_loadall (i_resource *self)
   if (l_lic_max_customers() > 0)
   { 
     char *query_str;
-    asprintf (&query_str, "SELECT name, descr, baseurl, uuid FROM customers LIMIT %i ORDER BY name ASC", l_lic_max_customers());
+    asprintf (&query_str, "SELECT name, descr, baseurl, uuid, default_customer, use_lithium_db FROM customers LIMIT %i ORDER BY name ASC", l_lic_max_customers());
     res = PQexec (pgconn, query_str);
     i_printf (1, "l_customer_loadall encforcing limit of %i customers", l_lic_max_customers());
   }
   else
-  { res = PQexec (pgconn, "SELECT name, descr, baseurl, uuid FROM customers ORDER BY name ASC"); }
+  { res = PQexec (pgconn, "SELECT name, descr, baseurl, uuid, default_customer, use_lithium_db FROM customers ORDER BY name ASC"); }
   if (!res || PQresultStatus(res) != PGRES_TUPLES_OK)
   { 
     i_printf (1, "l_customer_loadall failed to execute SELECT query for the customers table");
@@ -262,6 +263,8 @@ int l_customer_loadall (i_resource *self)
     char *desc_str;
     char *baseurl_str;
     char *uuid_str;
+    char *default_customer_str;
+    char *use_lithium_db_str;
     i_customer *cust;
 
     /* Name */
@@ -282,8 +285,36 @@ int l_customer_loadall (i_resource *self)
     /* UUID */
     uuid_str = PQgetvalue (res, row, 3);
 
+    /* Default */
+    default_customer_str = PQgetvalue (res, row, 4);
+
+    /* Use Lithium DB */
+    use_lithium_db_str = PQgetvalue (res, row, 5);
+
+    /* Check for a default customer */
+    i_printf(0, "DEBUG: default_customer_str is %s use_lithium_db_str is %s", default_customer_str, use_lithium_db_str);
+    if (default_customer_str && strcmp(default_customer_str, "t")==0)
+    {
+      /* This is a default customer, auto-set the desc to the hostname */
+      static char hostname[256];
+      int num = gethostname(hostname, 255);
+      if (num == 0)
+      {
+        /* Got Hostname */
+        desc_str = hostname;
+      }
+      else
+      {
+        /* Failed to get hostname, use UnknownHost */
+        desc_str = "Unknown Host";
+      }
+      i_printf(0, "l_customer_loadall default customer desc set to %s", desc_str);
+    }
+
     /* Create cust */
     cust = i_customer_create (name_str, desc_str, baseurl_str);
+    if (default_customer_str && strcmp(default_customer_str, "t")==0) cust->default_customer = 1;
+    if (use_lithium_db_str && strcmp(use_lithium_db_str, "t")==0) cust->use_lithium_db = 1;
     free (name_str);
     name_str = NULL;
     if (!cust)
@@ -348,13 +379,13 @@ int l_customer_initsql (i_resource *self)
   if (!result || PQresultStatus(result) != PGRES_TUPLES_OK || (PQntuples(result)) < 1)
   {
     /* customers table not in database */
-    result = PQexec (pgconn, "CREATE TABLE customers (name varchar, descr varchar, baseurl varchar, uuid varchar)");
+    result = PQexec (pgconn, "CREATE TABLE customers (name varchar, descr varchar, baseurl varchar, uuid varchar, default_customer boolean, use_lithium_db, boolean)");
     if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
     { i_printf (1, "l_customer_initsql failed to create customers table (%s)", PQresultErrorMessage (result)); }
   }
   PQclear(result);
 
-  /* Update table */
+  /* Update table -- uuid */
   result = PQexec (pgconn, "SELECT column_name from information_schema.columns WHERE table_name='customers' AND column_name='uuid' ORDER BY ordinal_position");
   if (!result || PQresultStatus(result) != PGRES_TUPLES_OK || (PQntuples(result)) < 1)
   {
@@ -363,7 +394,33 @@ int l_customer_initsql (i_resource *self)
     i_printf (0, "l_customer_initsql version-specific check: 'uuid' column missing, attempting to add it");
     result = PQexec (pgconn, "ALTER TABLE customers ADD COLUMN uuid varchar");
     if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
-    { i_printf (1, "l_customer_initsql failed to add username column (%s)", PQresultErrorMessage (result)); }
+    { i_printf (1, "l_customer_initsql failed to add uuid column (%s)", PQresultErrorMessage (result)); }
+  }
+  if (result) { PQclear(result); result = NULL; }
+
+  /* Update table -- default_customer */
+  result = PQexec (pgconn, "SELECT column_name from information_schema.columns WHERE table_name='customers' AND column_name='default_customer' ORDER BY ordinal_position");
+  if (!result || PQresultStatus(result) != PGRES_TUPLES_OK || (PQntuples(result)) < 1)
+  {
+    /* default_customer column not in customers table */
+    if (result) { PQclear(result); result = NULL; }
+    i_printf (0, "l_customer_initsql version-specific check: 'default_customer' column missing, attempting to add it");
+    result = PQexec (pgconn, "ALTER TABLE customers ADD COLUMN default_customer boolean");
+    if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
+    { i_printf (1, "l_customer_initsql failed to add default_customer column (%s)", PQresultErrorMessage (result)); }
+  }
+  if (result) { PQclear(result); result = NULL; }
+
+  /* Update table -- use_lithium_db */
+  result = PQexec (pgconn, "SELECT column_name from information_schema.columns WHERE table_name='customers' AND column_name='use_lithium_db' ORDER BY ordinal_position");
+  if (!result || PQresultStatus(result) != PGRES_TUPLES_OK || (PQntuples(result)) < 1)
+  {
+    /* uuid column not in customers table */
+    if (result) { PQclear(result); result = NULL; }
+    i_printf (0, "l_customer_initsql version-specific check: 'use_lithium_db' column missing, attempting to add it");
+    result = PQexec (pgconn, "ALTER TABLE customers ADD COLUMN use_lithium_db boolean");
+    if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
+    { i_printf (1, "l_customer_initsql failed to add use_lithium_db column (%s)", PQresultErrorMessage (result)); }
   }
   if (result) { PQclear(result); result = NULL; }
 

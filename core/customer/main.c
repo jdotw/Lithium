@@ -130,11 +130,14 @@ int module_init (i_resource *self)
   self->hierarchy->cust->xml_func = l_customer_xmlfunc;
 
   /* Create database */
-  asprintf (&str, "customer_%s", self->hierarchy->cust->name_str);
-  num = i_pg_checkcreate_db (self, str);
-  free (str);
-  if (num != 0)
-  { i_printf (1, "module_init failed to create SQL database for customer %s", self->hierarchy->cust->name_str); return -1; }
+  if (self->hierarchy->cust->use_lithium_db == 0)
+  {
+    asprintf (&str, "customer_%s", self->hierarchy->cust->name_str);
+    num = i_pg_checkcreate_db (self, str);
+    free (str);
+    if (num != 0)
+    { i_printf (1, "module_init failed to create SQL database for customer %s", self->hierarchy->cust->name_str); return -1; }
+  }
 
   /* Configure customer entity */
   self->hierarchy->cust->navtree_func = l_navtree_func_cust;

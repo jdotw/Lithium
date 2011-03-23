@@ -6,6 +6,8 @@
 #include "files.h"
 #include "list.h"
 #include "configfile.h"
+#include "hierarchy.h"
+#include "customer.h"
 
 static int static_enabled;
 static i_list *static_conn_list;
@@ -202,7 +204,17 @@ i_pg_async_conn* i_pg_async_conn_open_customer (i_resource *self)
   if (static_customer_conn)
   { static_customer_conn->usage++; return static_customer_conn; }
 
-  asprintf (&dbname, "customer_%s", self->customer_id);
+  /* Check which db to ue */
+  if (self->hierarchy->cust && self->hierarchy->cust->use_lithium_db == 1)
+  {
+    dbname = strdup("lithium");
+  }
+  else
+  {
+    asprintf (&dbname, "customer_%s", self->customer_id);
+  }
+
+  /* Open conn */
   conn = i_pg_async_conn_open (self, dbname);
   free (dbname);
   if (!conn)

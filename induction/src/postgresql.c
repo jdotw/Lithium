@@ -5,6 +5,8 @@
 #include "postgresql.h"
 #include "files.h"
 #include "configfile.h"
+#include "hierarchy.h"
+#include "customer.h"
 
 /* Connection related functions */
 
@@ -60,7 +62,17 @@ PGconn* i_pg_connect_customer (i_resource *self)
   if (!self || !self->customer_id)
   { i_printf (1, "i_pg_connect called with either NULL self or NULL self->customer_id"); return NULL; }
 
-  asprintf (&dbname, "customer_%s", self->customer_id);
+  if (self->hierarchy->cust && self->hierarchy->cust->use_lithium_db == 1)
+  {
+    /* Use the 'lithium' db */
+    dbname = strdup("lithium");
+  }
+  else
+  {
+    /* Use the 'customer_name' db */
+    asprintf (&dbname, "customer_%s", self->customer_id);
+  }
+
   conn = i_pg_connect (self, dbname);
   free (dbname);
   if (!conn)

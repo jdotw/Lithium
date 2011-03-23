@@ -77,6 +77,8 @@ char* i_customer_data (i_customer *cust, int *datasizeptr)
    * char *baseurl_len
    * int uuid_len
    * char *uuid_str
+   * int default_customer
+   * int use_lithium_db
    */
   int datasize;
   char *data;
@@ -87,7 +89,7 @@ char* i_customer_data (i_customer *cust, int *datasizeptr)
   uuid_unparse_lower (cust->uuid, uuid_str);
 
   /* Calc data size */
-  datasize = (4 * sizeof(int)) + sizeof(unsigned short);
+  datasize = (6 * sizeof(int)) + sizeof(unsigned short);
   if (cust->name_str) datasize += strlen (cust->name_str)+1;
   if (cust->desc_str) datasize += strlen (cust->desc_str)+1;
   if (cust->baseurl_str) datasize += strlen (cust->baseurl_str)+1;
@@ -124,6 +126,16 @@ char* i_customer_data (i_customer *cust, int *datasizeptr)
   if (!dataptr)
   { i_printf (1, "i_customer_data failed to add uuid_str to data"); free (data); return NULL; }
 
+  /* Default Customer */
+  dataptr = i_data_add_int(data, dataptr, datasize, &cust->default_customer);
+  if (!dataptr) 
+  { i_printf(1, "i_customer_data failed to add default_customer flag"); free (data); return NULL; }
+
+  /* Use Lithium DB */
+  dataptr = i_data_add_int(data, dataptr, datasize, &cust->use_lithium_db);
+  if (!dataptr) 
+  { i_printf(1, "i_customer_data failed to add use_lithium_db flag"); free (data); return NULL; }
+
   /* Set datasizeptr */
   memcpy (datasizeptr, &datasize, sizeof(int));
 
@@ -138,6 +150,8 @@ i_customer* i_customer_struct (char *data, int datasize)
   char *desc_str;
   char *baseurl_str;
   char *uuid_str;
+  int default_customer;
+  int use_lithium_db;
   char *dataptr = data;
   i_customer *cust;
 
@@ -171,8 +185,20 @@ i_customer* i_customer_struct (char *data, int datasize)
   { i_printf (1, "i_customer_struct failed to get uuid_str from data"); if (name_str) free (name_str); if (desc_str) free (desc_str); return NULL; }
   dataptr += offset;
 
+  /* Default Customer */
+  default_customer = i_data_get_int (data, dataptr, datasize, &offset);
+  if (offset < 1) 
+  { i_printf (1, "i_customer_struct failed to get default_customer from data"); return NULL; }
+
+  /* Use Lithium DB */
+  use_lithium_db = i_data_get_int (data, dataptr, datasize, &offset);
+  if (offset < 1) 
+  { i_printf (1, "i_customer_struct failed to get use_lithium_db from data"); return NULL; }
+
   /* Create customer struct */
   cust = i_customer_create (name_str, desc_str, baseurl_str);
+  cust->default_customer = default_customer;
+  cust->use_lithium_db = use_lithium_db;
   uuid_parse (uuid_str, cust->uuid);
   if (name_str) free (name_str);
   if (desc_str) free (desc_str); 

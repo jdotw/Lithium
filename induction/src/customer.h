@@ -8,8 +8,8 @@ typedef struct i_customer_s
 
   /* Entity Identifiers */
   unsigned short ent_type;
-  char *name_str;
-  char *desc_str;
+  char *name_str;                               /* If NULL in SQL, the UUID field is used */
+  char *desc_str;                               /* If NULL in SQL, the hostname is used */
   struct i_entity_s *parent;                    /* Parent entity */
   uuid_t uuid;                                  /* UUID */
   char *desc_esc_str;                           /* Escaped */
@@ -85,6 +85,8 @@ typedef struct i_customer_s
 
   int licensed;                                 /* 0=Not-Licensed / 1=Licensed */
   char *baseurl_str;                            /* Base HTTP URL for customer */
+  int default_customer;                         /* 1=This is the default customer created on install */
+  int use_lithium_db;                           /* 1=The 'lithium' database should be used for the customer */
   
 } i_customer;
 
