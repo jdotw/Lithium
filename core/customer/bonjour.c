@@ -41,6 +41,11 @@ i_list* l_bonjour_browser_list ()
 
 int l_bonjour_enable (i_resource *self)
 {
+#ifdef linux
+  /* Bonjour Browsing Not Supported Under Linux */
+  return 0;
+#endif
+
   /* Create browser list */
   static_browser_list = i_list_create ();
   

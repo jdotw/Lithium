@@ -72,6 +72,9 @@ rm -rf "$LIBBUILDDIR/induction-$BUILDNUM-root"
 #
 #
 
+# Install Induction
+rpm -U rpm-build-induction/RPMS/i386/*
+
 # Create source tarball
 
 cd "$BASEDIR/core"

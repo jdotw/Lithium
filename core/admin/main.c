@@ -143,7 +143,7 @@ int module_entry (i_resource *self)
     memset(&txt_record, 0, 43);
     snprintf(txt_record, 43, "\x029uuid=%36s", uuid_buf);
     DNSServiceRef service;
-    DNSServiceRegister (&service, 0, 0, NULL, "_lithium._tcp", NULL, NULL, htons(51180), 42, txt_record, NULL, NULL);
+    DNSServiceRegister (&service, 0, 0, NULL, "_lithium._tcp", NULL, NULL, htons(51143), 42, txt_record, NULL, NULL);
   }
 #endif
   

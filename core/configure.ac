@@ -80,6 +80,7 @@ AC_SEARCH_LIBS(perl_alloc, perl)
 
 # Check for DNS-SD
 AC_CHECK_HEADER(dns_sd.h, AC_DEFINE(HAVE_DNS_SD), )
+AC_SEARCH_LIBS(DNSServiceRegister, dns_sd)
 
 # Set custom CFLAGS/LDFLAGS
 CFLAGS="$CFLAGS -W -Wall -Wno-unused-parameter -Wno-declaration-after-statement -Werror -I.."

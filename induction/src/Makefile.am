@@ -80,6 +80,7 @@ libinduction_la_SOURCES = printf.c \
                           auth.c \
                           user.c \
                           userdb.c \
+                          user_sql.c \
                           customer.c \
                           contact_info.c \
                           contact_profile.c \

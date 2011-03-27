@@ -379,7 +379,7 @@ int l_customer_initsql (i_resource *self)
   if (!result || PQresultStatus(result) != PGRES_TUPLES_OK || (PQntuples(result)) < 1)
   {
     /* customers table not in database */
-    result = PQexec (pgconn, "CREATE TABLE customers (name varchar, descr varchar, baseurl varchar, uuid varchar, default_customer boolean, use_lithium_db, boolean)");
+    result = PQexec (pgconn, "CREATE TABLE customers (name varchar, descr varchar, baseurl varchar, uuid varchar, default_customer boolean, use_lithium_db boolean)");
     if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
     { i_printf (1, "l_customer_initsql failed to create customers table (%s)", PQresultErrorMessage (result)); }
   }

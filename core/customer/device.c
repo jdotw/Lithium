@@ -475,7 +475,7 @@ int l_device_initsql (i_resource *self)
   {
     /* devices table not in database */
     if (result) { PQclear(result); result = NULL; }
-    result = PQexec (pgconn, "CREATE TABLE devices (site varchar, name varchar, descr varchar, ip varchar, lom_ip varchar, snmpversion integer, snmpcomm varchar, snmpauthpass varchar, snmpprivpass varchar, snmpauthmethod integer, snmpprivenc varchar, username varchar, password varchar, lom_username varchar, lom_password varchar, vendor varchar, profile varchar, refresh_interval integer, longlat point, protocol integer, icmp integer, lithiumsnmp integer, swrun integer, nagios integer, lom integer, xsan integer, uuid varchar)");
+    result = PQexec (pgconn, "CREATE TABLE devices (site varchar, name varchar, descr varchar, ip varchar, lom_ip varchar, snmpversion integer, snmpcomm varchar, snmpauthpass varchar, snmpprivpass varchar, snmpauthmethod integer, snmpprivenc varchar, username varchar, password varchar, lom_username varchar, lom_password varchar, vendor varchar, profile varchar, refresh_interval integer, longlat point, protocol integer, icmp integer, lithiumsnmp integer, swrun integer, nagios integer, lom integer, xsan integer, uuid varchar, minimum_action_severity integer)");
     if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
     { i_printf (1, "l_device_initsql failed to create devices table (%s)", PQresultErrorMessage (result)); }
 
