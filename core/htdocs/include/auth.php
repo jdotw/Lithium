@@ -37,4 +37,11 @@ function authenticate ()
   $username = $_SERVER["PHP_AUTH_USER"];
   $password = $_SERVER["PHP_AUTH_PW"];    
 }
+
+function auth_required ($custaddr)
+{
+  actuate ("a_auth_required", "'$custaddr'", &$ret_val);
+  if ($ret_val == 5) return false;
+  else return true;
+}
 ?>

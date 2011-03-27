@@ -14,11 +14,15 @@ if(!file_exists("profile.php"))
 include ("profile.php");
 include ("../include/standard.php");
 
-/* Get/Check username/password is supplied */
-$username = authenticate ();
-
 /* Get customer resource address */
 $custaddr = customer_resaddr ($customer_id_str);
+
+/* Get/Check username/password is supplied */
+if (auth_required($custaddr))
+{
+  /* Only to authentication if required */
+  $username = authenticate ();
+}
 
 /* Setup variables */
 if ($action == "form_get") { $menu_res = $resaddr; $menu_ent = $entaddr; }              /* Form Get */

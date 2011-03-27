@@ -19,7 +19,6 @@
 #include <induction/user.h>
 #include <induction/notification.h>
 #include <induction/timeutil.h>
-#include <induction/userdb.h>
 #include <induction/incident.h>
 
 #include "email.h"
@@ -107,7 +106,7 @@ int l_incident_notify (i_resource *self, i_incident *inc)
   { i_printf (1, "l_incident_notify failed to create note struct"); return -1; }
 
   /* Get Userlist */
-  userlist = i_userdb_get_all (self);
+  userlist = i_user_sql_list(self);
   if (!userlist)
   {
     i_printf (1, "l_incident_notify failed to get user list whilst processing a notification");

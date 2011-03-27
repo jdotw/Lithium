@@ -5,6 +5,8 @@
 #include <induction/message.h>
 #include <induction/socket.h>
 #include <induction/respond.h>
+#include <induction/list.h>
+#include <induction/user.h>
 
 #include "authentication.h"
 
@@ -107,4 +109,28 @@ int l_authentication_check_handler (i_resource *self, i_socket *sock, i_message 
   i_authentication_free (auth); /* Duplicated in l_authentication_verify for callback use */
 
   return 0;
+}
+
+int l_authentication_required_handler (i_resource *self, i_socket *sock, i_message *msg, void *passdata)
+{
+  /* Check to see if authentication is required for this customer. If it is, 
+   * return a 0 integer in the data. If auth is not required, return a 5
+   * integer in the data
+   */
+
+  int response = 0;
+  i_list *user_list = i_user_sql_list(self);
+  if (!user_list || user_list->size == 0)
+  {
+    /* No users, no auth */
+    response = 5;
+  }
+
+  long msgid = i_message_send (self, MSG_AUTH_REQUIRED, &response, sizeof(int), msg->src, MSG_FLAG_RESP, msg->msgid);
+  if (msgid == -1)
+  {
+    i_printf(1, "l_authentication_required_handler failed to response to a MSG_AUTH_REQUIRED request");
+  }
+
+  return 0; // Keep handler alive
 }

@@ -10,7 +10,6 @@
 #include <induction/list.h>
 #include <induction/hierarchy.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
 
 #include "infstat.h"
 
@@ -200,7 +199,7 @@ int form_infstat_issue_edit (i_resource *self, i_form_reqdata *reqdata)
 
   if (reqdata->auth->level >= AUTH_LEVEL_STAFF)
   {
-    user_list = i_userdb_get_all (self);
+    user_list = i_user_sql_list (self);
     admin_item = i_form_dropdown_create ("adminuser", "Administrative Lead");
     tech_item = i_form_dropdown_create ("techuser", "Technical Lead");
     for (i_list_move_head(user_list); (user=i_list_restore(user_list))!=NULL; i_list_move_next(user_list))
@@ -214,13 +213,13 @@ int form_infstat_issue_edit (i_resource *self, i_form_reqdata *reqdata)
   }
   else
   { 
-    user = i_userdb_get (self, adminlead_username);
+    user = i_user_sql_get (self, adminlead_username);
     if (user)
     { i_form_string_add (reqdata->form_out, "adminuser", "Administrative Lead", user->fullname); i_user_free (user); }
     else
     { i_form_string_add (reqdata->form_out, "adminuser", "Administrative Lead", "None Set"); }
 
-    user = i_userdb_get (self, techlead_username);
+    user = i_user_sql_get (self, techlead_username);
     if (user)
     { i_form_string_add (reqdata->form_out, "techuser", "Technical Lead", user->fullname); i_user_free (user); }
     else
@@ -352,7 +351,7 @@ int form_infstat_issue_edit_submit (i_resource *self, i_form_reqdata *reqdata)
   opt = i_form_get_value_for_item (reqdata->form_in, "adminuser");
   if (!opt)
   { i_form_string_add (reqdata->form_out, "error", "Error", "Issue administrative lead user not found in form"); l_infstat_issue_free (issue); return 1; }
-  user = i_userdb_get (self, (char *)opt->data);
+  user = i_user_sql_get (self, (char *)opt->data);
   if (user)
   { i_list_enqueue (issue->adminusername_list, strdup(user->auth->username)); i_user_free (user); }
   else
@@ -361,7 +360,7 @@ int form_infstat_issue_edit_submit (i_resource *self, i_form_reqdata *reqdata)
   opt = i_form_get_value_for_item (reqdata->form_in, "techuser");
   if (!opt)
   { i_form_string_add (reqdata->form_out, "error", "Error", "Issue technical lead user not found in form"); l_infstat_issue_free (issue); return 1; }
-  user = i_userdb_get (self, (char *)opt->data);
+  user = i_user_sql_get (self, (char *)opt->data);
   if (user)
   { i_list_enqueue (issue->techusername_list, strdup(user->auth->username)); i_user_free (user); }
   else

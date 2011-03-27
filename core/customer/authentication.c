@@ -6,7 +6,7 @@
 #include <induction/files.h>
 #include <induction/configfile.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
+#include <induction/list.h>
 
 #include "authentication.h"
 
@@ -46,52 +46,50 @@ int l_authentication_verify (i_resource *self, i_authentication *passauth, AUTH_
   }
   if (str) free (str);
 
-  /* Get the user record from the DB */
-  user = i_userdb_get (self, auth->username); 
-  if (!user)
+  /* Check to see if any users are configured */
+  i_list *user_list = i_user_sql_list(self);
+  if (!user_list || user_list->size == 0)
   {
-    /* Username not found in the local user database.
-     * At this point we refer the authentication request to
-     * the NOC resource to see if the authentication credentials
-     * can be verified by it.
-     */
-
-    int num;
-
-    num = i_authentication_verify (self, self->owner, auth, callback_func, passdata);
-    i_authentication_free (auth); /* Duped by i_authentication_verify */
-    if (num != 0)
-    {
-      i_printf (1, "l_authentication_verify failed to refer authentication to NOC");
-      return -1;
-    }
-
-    return 1;   /* Referred */
-  }
-
-  /* The username in the auth credentials was found in the use
-   * database. Authentication is attempted on these credentials
-   * 
-   * Compare the user authentication data to the supplied auth data
-   */
-
-  num = i_authentication_compare (user->auth, auth);
-  if (num == 0)
-  {
-    i_printf (2, "l_authentication_verify successfully authenticated username %s", auth->username);
-  
-    auth->level = user->auth->level;
+    /* No user configured, this means any auth is allowed */
+    auth->level = AUTH_LEVEL_MASTER;
     num = callback_func (self, auth, AUTH_RESULT_OK, passdata);
     i_authentication_free (auth); /* our local copy */
-    i_user_free (user);
     return 0;
   }
-  
-  i_printf (2, "l_authentication_verify password incorrect for %s", auth->username);
-  auth->level = 0;
-  num = callback_func (self, auth, AUTH_RESULT_DENIED, passdata);
-  i_authentication_free (auth); /* our local copy */
-  i_user_free (user);
+
+  /* Get the user record from the DB */
+  user = i_user_sql_get (self, auth->username); 
+  if (user)
+  {
+    /* The username in the auth credentials was found in the use
+     * database. Authentication is attempted on these credentials
+     * 
+     * Compare the user authentication data to the supplied auth data
+     */
+
+    num = i_authentication_compare (user->auth, auth);
+    if (num == 0)
+    {
+      i_printf (2, "l_authentication_verify successfully authenticated username %s", auth->username);
+      auth->level = user->auth->level;
+      num = callback_func (self, auth, AUTH_RESULT_OK, passdata);
+      i_authentication_free (auth); /* our local copy */
+    }
+    else
+    {
+      i_printf (2, "l_authentication_verify password incorrect for %s", auth->username);
+      auth->level = 0;
+      num = callback_func (self, auth, AUTH_RESULT_DENIED, passdata);
+      i_authentication_free (auth); /* our local copy */
+    }
+  }
+  else
+  {
+    i_printf (2, "l_authentication_verify user %s not found", auth->username);
+    auth->level = 0;
+    num = callback_func (self, auth, AUTH_RESULT_DENIED, passdata);
+    i_authentication_free (auth); /* our local copy */
+  }
 
   return 0; 
 }

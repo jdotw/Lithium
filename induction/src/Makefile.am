@@ -239,7 +239,6 @@ indinclude_HEADERS = version.h \
 					 msgproc.h \
 					 auth.h \
 					 user.h \
-					 userdb.h \
 					 customer.h \
 					 contact.h \
 					 event.h \

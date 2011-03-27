@@ -18,7 +18,6 @@
 #include "snmpagent.h"
 #include "config.h"
 #include "customer.h"
-#include "userauth.h"
 #include "lic_admin.h"
 
 #ifdef HAVE_DNS_SD
@@ -65,7 +64,6 @@ int module_init (i_resource *self)
    */
 
   int num;
-  i_msgproc_handler *hdlr;
   
   i_printf (0, "module_init entered.");
   
@@ -74,11 +72,6 @@ int module_init (i_resource *self)
   if (num != 0)
   { i_printf (1, "module_entry warning, failed to enable i_log"); }
   
-  /* MSG_AUTH_VERIFY handler */
-  hdlr = i_msgproc_handler_add (self, self->core_socket, MSG_AUTH_VERIFY, l_userauth_handler, NULL);
-  if (!hdlr)
-  { i_printf (1, "module_init failed to add handler for MSG_AUTH_VERIFY"); }
-
   /* Enable async postgres */
   num = i_pg_async_enable (self);
   if (num != 0)

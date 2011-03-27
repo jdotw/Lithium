@@ -30,7 +30,6 @@ int l_msgproc_child_default_from_client (i_resource *self, i_socket *sock, i_mes
   i_socket *client_socket = passdata;
 
   /* Update reqtime */
-//  l_reqtime_reqrecvd ();
   i_printf (2, "l_msgproc_child_default_from_client message recvd type %i", msg->type);
 
   /* Print message info */
@@ -74,16 +73,7 @@ int l_msgproc_child_default_from_client (i_resource *self, i_socket *sock, i_mes
   }
 
   /* Authenticate / Authorise the message */
-
-  if (!self->auth)
-  {
-    i_printf (1, "l_msgproc_child_default_from_client called with no authentication credentials in self");
-    module_shutdown (self);
-    exit (1);
-    return 0;
-  }
-
-  if (self->auth->level < 1)
+  if (self->auth->level < 1 && msg->type != MSG_AUTH_REQUIRED)
   {
     /* Not yet authenticated, perform authenticity verification */
     i_message *dup_msg;
@@ -123,18 +113,13 @@ int l_msgproc_child_default_from_client (i_resource *self, i_socket *sock, i_mes
     /* dup_msg will be freed by l_msgproc_client_message_auth_cb
      * either already or when it is called by the callback 
      */
-    
-    /* Update reqtime */
-//    l_reqtime_authsent ();
-
   }
   else
   {
-    /* Authentication has already been performed */
+    /* Authentication has already been performed,
+     * or this is a request to see if auth is required
+     */
     l_relay_to_client_core (self, msg, client_socket);
-
-    /* Update reqtime */
-//    l_reqtime_reqrelayed ();
   }
 
   return 0;

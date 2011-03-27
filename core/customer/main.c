@@ -33,6 +33,7 @@
 #include <induction/xml.h>
 #include <induction/contact.h>
 #include <induction/path.h>
+#include <induction/user.h>
 
 #include "config.h"
 #include "lic.h"
@@ -147,6 +148,9 @@ int module_init (i_resource *self)
   if (num != 0)
   { i_printf (1, "module_init failed to enable async postgres sub-system"); return -1; }
 
+  /* Initialize userdb */
+  i_user_sql_init(self);
+
   /* Initialise search cache */
   l_searchcache_init(self);
 
@@ -222,6 +226,10 @@ int module_init (i_resource *self)
   { i_printf (1, "module_init warning, failed to enable vrack documents"); }
 
   /* Install required message handlers */
+  hdlr = i_msgproc_handler_add (self, self->core_socket, MSG_AUTH_REQUIRED, l_authentication_required_handler, NULL);
+  if (!hdlr)
+  { i_printf (1, "module_init failed to add handler for MSG_AUTH_REQUIRED"); return -1; }
+
   hdlr = i_msgproc_handler_add (self, self->core_socket, MSG_AUTH_VERIFY, l_authentication_check_handler, NULL);
   if (!hdlr)
   { i_printf (1, "module_init failed to add handler for MSG_AUTH_VERIFY"); return -1; }

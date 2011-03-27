@@ -7,7 +7,6 @@
 #include <induction/auth.h>
 #include <induction/socket.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
 #include <induction/contact.h>
 
 #include "notification_handler.h"
@@ -34,7 +33,7 @@ int l_notification_handler (i_resource *self, i_socket *sock, i_message *msg, vo
     return 0;
   }
 
-  userlist = i_userdb_get_all (self);
+  userlist = i_user_sql_list(self);
   if (!userlist)
   {
     i_printf (1, "l_notification_handler failed to get user list whilst processing a notification");

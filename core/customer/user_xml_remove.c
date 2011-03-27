@@ -21,7 +21,6 @@
 #include <induction/timer.h>
 #include <induction/xml.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
 #include <induction/auth.h>
 
 #include "user.h"
@@ -56,7 +55,7 @@ int xml_user_remove (i_resource *self, i_xml_request *req)
   }
 
   /* Remove old user */
-  i_userdb_del (self, user->auth->username);
+  i_user_sql_delete (self, user->auth->username);
 
   /* Create return xml */
   req->xml_out = i_xml_create ();

@@ -24,11 +24,6 @@ customer_la_SOURCES = main.c \
 					  devtest_xraid.c \
 					  devtest_snmp.c \
 					  device_xml_test.c \
-                      user_form_list.c \
-                      user_form_add.c \
-                      user_form_page.c \
-					  user_form_edit.c \
-                      user_form_remove.c \
 					  user_xml_list.c \
 					  user_xml_update.c \
 					  user_xml_remove.c \

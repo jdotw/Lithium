@@ -5,7 +5,6 @@ admin_la_SOURCES = main.c \
 				   customer.c \
 				   customer_sort.c \
 				   customer_resource.c \
-				   userauth.c \
 				   autoconf.c \
 				   restart.c \
 				   restart_form.c \

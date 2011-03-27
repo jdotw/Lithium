@@ -13,7 +13,6 @@
 #include <induction/construct.h>
 #include <induction/list.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
 #include <induction/postgresql.h>
 #include <induction/callback.h>
 
@@ -96,7 +95,7 @@ int l_case_form_edit_casecb (i_resource *self, i_list *list, void *passdata)
 
   fitem = i_form_dropdown_create ("owner", "Owner");
   i_form_dropdown_add_option (fitem, "admin", "Administrator", 0);
-  userlist = i_userdb_get_all (self);
+  userlist = i_user_sql_list(self);
   for (i_list_move_head(userlist); (user=i_list_restore(userlist))!=NULL; i_list_move_next(userlist))
   {
     i_form_dropdown_add_option (fitem, user->auth->username, user->fullname, 0);

@@ -40,6 +40,7 @@
 
 #define MSG_AUTH_VERIFY 60                    /* Authentication related 60-69 */
 #define MSG_AUTH_DENIED 61
+#define MSG_AUTH_REQUIRED 62                  /* Queries whether or not credentials are required */
 
 #define MSG_IP_REGISTER 70                    /* IP Registry Related 70-79 */
 #define MSG_IP_SETNETMASK 71

@@ -17,7 +17,6 @@
 #include <induction/vendor.h>
 #include <induction/contact.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
 #include <induction/version.h>
 
 #include "customer_xml.h"

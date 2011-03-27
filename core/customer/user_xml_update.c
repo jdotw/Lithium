@@ -22,7 +22,6 @@
 #include <induction/timer.h>
 #include <induction/xml.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
 #include <induction/auth.h>
 
 #include "user.h"
@@ -78,7 +77,7 @@ int xml_user_update (i_resource *self, i_xml_request *req)
   if (!username_str) return -1;
 
   /* Get existing */
-  user = i_userdb_get (self, username_str);
+  user = i_user_sql_get (self, username_str);
   if (!user)
   {
     user = i_user_create ();
@@ -105,10 +104,10 @@ int xml_user_update (i_resource *self, i_xml_request *req)
 
   /* Remove old user */
   if (perform_delete)
-  { i_userdb_del (self, user->auth->username); }
+  { i_user_sql_delete (self, user->auth->username); }
 
   /* Add User */
-  num = i_userdb_put (self, user);
+  num = i_user_sql_insert (self, user);
   if (num != 0)
   { i_printf (1, "xml_user_add failed to add new user to db"); }
   

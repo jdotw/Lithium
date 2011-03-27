@@ -15,7 +15,6 @@
 #include <induction/hierarchy.h>
 #include <induction/list.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
 #include <induction/postgresql.h>
 #include <induction/timeutil.h>
 #include <induction/callback.h>

@@ -2,14 +2,19 @@
 #include <string.h>
 
 #include "induction.h"
-#include "userdb.h"
 #include "user.h"
 #include "bdb.h"
 #include "list.h"
 #include "files.h"
 #include "auth.h"
+#include "postgresql.h"
+#include "configfile.h"
 
 static i_list *static_usercache_list;
+int i_user_sql_init_cache(i_resource *self);
+int i_user_sql_invalidate_cache();
+
+struct i_list_s* i_userdb_get_all (i_resource *self); // Legacy for import
 
 /* Process profile SQL Operations */
 
@@ -33,7 +38,7 @@ int i_user_sql_init (i_resource *self)
     if (result) PQclear (result);
 
     /* users table not in database */
-    result = PQexec (pgconn, "CREATE TABLE users (username varchar, fullname varchar, password varchar, access integer)");
+    result = PQexec (pgconn, "CREATE TABLE users (username varchar, fullname varchar, password varchar, level integer)");
     if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
     { i_printf (1, "i_user_sql_init failed to create users table (%s)", PQresultErrorMessage (result)); }
     PQclear(result);
@@ -44,18 +49,18 @@ int i_user_sql_init (i_resource *self)
     for (i_list_move_head(userdb); (user=i_list_restore(userdb))!=NULL; i_list_move_next(userdb))
     {
       char *username_esc;
-      if (user->auth->username_str) asprintf(&username_esc, "'%s'", user->auth->username_str);
+      if (user->auth->username) asprintf(&username_esc, "'%s'", user->auth->username);
       else username_esc = strdup("NULL");
       char *fullname_esc;
-      if (user->fullname_str) asprintf(&fullname_esc, "'%s'", user->fullname_str);
+      if (user->fullname) asprintf(&fullname_esc, "'%s'", user->fullname);
       else fullname_esc = strdup("NULL");
       char *password_esc;
-      if (user->auth->password_str) asprintf(&password_esc, "'%s'", user->auth->password_str);
+      if (user->auth->password) asprintf(&password_esc, "'%s'", user->auth->password);
       else password_esc = strdup("NULL");
 
       char *query;
-      asprintf(&query, "INSERT INTO users (username, fullame, password, access) VALUES (%s, %s, %s, %i)", 
-        username_esc, fullname_esc, password_esc, user->auth->access);
+      asprintf(&query, "INSERT INTO users (username, fullame, password, level) VALUES (%s, %s, %s, %i)", 
+        username_esc, fullname_esc, password_esc, user->auth->level);
       free(username_esc);
       free(fullname_esc);
       free(password_esc);
@@ -63,7 +68,7 @@ int i_user_sql_init (i_resource *self)
       result = PQexec(pgconn, query);
       free(query);
       if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
-      { i_printf (1, "i_user_sql_init failed to import user.db record for %s (%s)", user->auth->username_str, PQresultErrorMessage (result)); }
+      { i_printf (1, "i_user_sql_init failed to import user.db record for %s (%s)", user->auth->username, PQresultErrorMessage (result)); }
       PQclear(result);
     }
     if (userdb) i_list_free(userdb);
@@ -75,7 +80,7 @@ int i_user_sql_init (i_resource *self)
       char *master_pass = i_configfile_get (self, NODECONF_FILE, "master_user", "password", 0);
 
       char *query;
-      asprintf(&query, "INSERT INTO users (username, fullname, password, access) VALUES ('%s', '%s', '%s', %i)",
+      asprintf(&query, "INSERT INTO users (username, fullname, password, level) VALUES ('%s', '%s', '%s', %i)",
         master_user, "Global Admin", master_pass, AUTH_LEVEL_MASTER);
 
       result = PQexec(pgconn, query);
@@ -142,34 +147,32 @@ int i_user_sql_insert (i_resource *self, i_user *user)
   char *query;
 
   /* Connect to SQL */
-  /* Open conn */
   i_pg_async_conn *conn = i_pg_async_conn_open_customer (self);
   if (!conn)
   { i_printf (1, "i_user_sql_insert failed to open SQL db connection"); return -1; }
 
   /* Create query */
-  char *fullname_esc = i_postgres_escape (user->fullname_str);
+  char *fullname_esc = i_postgres_escape (user->fullname);
   char *username_esc = i_postgres_escape (user->auth->username);
   char *password_esc = i_postgres_escape (user->auth->password);
-  asprintf (&query, "INSERT INTO users (fullname, username, password, access) VALUES ('%s', '%s', '%s', '%i');",
+  asprintf (&query, "INSERT INTO users (fullname, username, password, level) VALUES ('%s', '%s', '%s', '%i');",
     fullname_esc, username_esc, password_esc, user->auth->level);
   free (fullname_esc);
   free (username_esc);
   free (password_esc);
 
   /* Exec query */
-  num = i_pg_async_query_exec (self, conn, query, 0, i_user_sql_cb, NULL);
+  int num = i_pg_async_query_exec (self, conn, query, 0, i_user_sql_cb, NULL);
   free (query);
   if (num != 0)
-  { i_printf (1, "i_user_sql_insert failed to insert user record for %s (%s)", user->auth->username_str, user->fullname_str); return -1; }
-  PQclear (pgres);
+  { i_printf (1, "i_user_sql_insert failed to insert user record for %s (%s)", user->auth->username, user->fullname); return -1; }
 
   /* Cache is invalidated on callback */
 
   return 0;
 }
 
-int i_user_sql_update (i_resource *self, l_procpro *procpro)
+int i_user_sql_update (i_resource *self, i_user *user)
 {
   int num;
 
@@ -179,11 +182,11 @@ int i_user_sql_update (i_resource *self, l_procpro *procpro)
   { i_printf (1, "i_user_sql_update failed to open SQL db connection"); return -1; }
 
   /* Create query */
-  char *fullname_esc = i_postgres_escape (user->fullname_str);
+  char *fullname_esc = i_postgres_escape (user->fullname);
   char *username_esc = i_postgres_escape (user->auth->username);
   char *password_esc = i_postgres_escape (user->auth->password);
   char *query;
-  asprintf (&query, "UPDATE users SET fullname='%s', password='%s', access=%i WHERE username='%s'",
+  asprintf (&query, "UPDATE users SET fullname='%s', password='%s', level=%i WHERE username='%s'",
     fullname_esc, password_esc, user->auth->level, username_esc);
   free (fullname_esc);
   free (username_esc);
@@ -193,7 +196,7 @@ int i_user_sql_update (i_resource *self, l_procpro *procpro)
   num = i_pg_async_query_exec (self, conn, query, 0, i_user_sql_cb, NULL);
   free (query);
   if (num != 0)
-  { i_printf (1, "i_user_sql_update failed to execute UPDATE for procpro %li", procpro->id); return -1; }
+  { i_printf (1, "i_user_sql_update failed to execute UPDATE for %s", user->auth->username); return -1; }
   
   /* Cache is invalidated on callback */
 
@@ -214,7 +217,7 @@ int i_user_sql_delete (i_resource *self, char *username_str)
   /* Create query */
   char *username_esc = i_postgres_escape (username_str);
   asprintf (&query, "DELETE FROM users WHERE username='%s'", username_esc);
-  free(userame_esc);
+  free(username_esc);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, i_user_sql_cb, NULL);
@@ -239,9 +242,10 @@ int i_user_sql_invalidate_cache()
     i_list_free(static_usercache_list);
     static_usercache_list = NULL;
   }
+  return 0;
 }
 
-int i_user_sql_init_cache()
+int i_user_sql_init_cache(i_resource *self)
 {
   /* Synchronously load the list of users (and cache it) */
   
@@ -255,8 +259,8 @@ int i_user_sql_init_cache()
   i_list_set_destructor(static_usercache_list, i_user_free);
 
   /* Query */
-  char *query = "SELECT username, fullname, password, access FROM users";
-  PGresult *result = PGexec(conn, query);
+  char *query = "SELECT username, fullname, password, level FROM users";
+  PGresult *result = PQexec(conn, query);
   if (result && PQresultStatus(result)==PGRES_TUPLES_OK)
   {
     int row_count = PQntuples(result);
@@ -266,13 +270,13 @@ int i_user_sql_init_cache()
       char *username_str = PQgetvalue(result, y, 0);
       char *fullname_str = PQgetvalue(result, y, 1);
       char *password_str = PQgetvalue(result, y, 2);
-      char *access_str = PQgetvalue(result, y, 3);
+      char *level_str = PQgetvalue(result, y, 3);
 
       i_user *user = i_user_create();
-      if (username_str && strlen(username_str) > 0) user->auth->username_str = strdup(username_str);
-      if (password_str && strlen(password_str) > 0) user->auth->password_str = strdup(password_str);
-      if (fullname_str && strlen(fullname_str) > 0) user->fullname_str = strdup(fullname_str);
-      if (access_str && strlen(access_str) > 0) user->access = atoi(access_str);
+      if (username_str && strlen(username_str) > 0) user->auth->username = strdup(username_str);
+      if (password_str && strlen(password_str) > 0) user->auth->password = strdup(password_str);
+      if (fullname_str && strlen(fullname_str) > 0) user->fullname = strdup(fullname_str);
+      if (level_str && strlen(level_str) > 0) user->auth->level = atoi(level_str);
       i_list_enqueue(static_usercache_list, user);
     }
   }

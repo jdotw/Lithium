@@ -160,7 +160,7 @@ void a_form_render_image (i_form_item *item)
 
     gettimeofday (&now, NULL);
 
-    asprintf (&cache_file, "%li-%li-%i-%s", now.tv_sec, now.tv_usec, getpid(), filename);
+    asprintf (&cache_file, "%li-%li-%i-%s", now.tv_sec, (long)now.tv_usec, getpid(), filename);
     
     cache_file_unique = i_path_glue (cache_path, cache_file);
     free (cache_path);
@@ -193,7 +193,7 @@ void a_form_render_image (i_form_item *item)
   num = a_form_render_link (item, 0, 0, 0);
   if (filename)
   {
-    asprintf (&filename_unique, "%li-%li-%i-%s", now.tv_sec, now.tv_usec, getpid(), filename);
+    asprintf (&filename_unique, "%li-%li-%i-%s", now.tv_sec, (long)now.tv_usec, getpid(), filename);
     printf ("<IMG SRC=cache/%s>", filename_unique);
     free (filename_unique);
   }

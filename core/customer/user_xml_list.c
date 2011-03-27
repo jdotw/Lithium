@@ -21,9 +21,7 @@
 #include <induction/timer.h>
 #include <induction/xml.h>
 #include <induction/auth.h>
-#include <induction/contact.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
 #include <induction/configfile.h>
 #include <induction/files.h>
 
@@ -44,7 +42,6 @@ int xml_user_list (i_resource *self, i_xml_request *req)
   xmlNodePtr root_node = NULL;
   xmlNodePtr user_node;
   char *str;
-  char *admin_username;
 
   /* Create XML */
   xml = i_xml_create ();
@@ -56,25 +53,8 @@ int xml_user_list (i_resource *self, i_xml_request *req)
   root_node = xmlNewNode(NULL, BAD_CAST "user_list");
   xmlDocSetRootElement(xml->doc, root_node);
 
-  /* Admin User */
-  user_node = xmlNewNode (NULL, BAD_CAST "user");
-  admin_username = i_configfile_get (self, NODECONF_FILE, "master_user", "username", 0);
-  if (admin_username)
-  {
-    xmlNewChild (user_node, NULL, BAD_CAST "username", BAD_CAST admin_username);
-    free (admin_username);
-  }
-  else
-  { xmlNewChild (user_node, NULL, BAD_CAST "username", BAD_CAST "admin"); }
-  xmlNewChild (user_node, NULL, BAD_CAST "level", BAD_CAST "Administrator");
-  xmlNewChild (user_node, NULL, BAD_CAST "level_num", BAD_CAST "1024");
-  xmlNewChild (user_node, NULL, BAD_CAST "fullname", BAD_CAST "Administrator");
-  xmlNewChild (user_node, NULL, BAD_CAST "title", BAD_CAST "Global Master User");
-  xmlNewChild (user_node, NULL, BAD_CAST "global_admin", BAD_CAST "1");
-  xmlAddChild (root_node, user_node);
-
   /* User list */
-  user_list = i_userdb_get_all (self);
+  user_list = i_user_sql_list(self);
   for (i_list_move_head(user_list); (user=i_list_restore(user_list))!=NULL; i_list_move_next(user_list))
   {
     user_node = xmlNewNode (NULL, BAD_CAST "user");
@@ -91,25 +71,6 @@ int xml_user_list (i_resource *self, i_xml_request *req)
     xmlNewChild (user_node, NULL, BAD_CAST "level_num", BAD_CAST str);
     free (str);
     xmlNewChild (user_node, NULL, BAD_CAST "fullname", BAD_CAST user->fullname);
-    xmlNewChild (user_node, NULL, BAD_CAST "title", BAD_CAST user->title);
-    if (user->contact)
-    {
-      i_contact_info *contact;
-
-      xmlNewChild (user_node, NULL, BAD_CAST "email", BAD_CAST user->contact->email);
-      asprintf (&str, "%i", user->contact->hours);
-      xmlNewChild (user_node, NULL, BAD_CAST "hours", BAD_CAST str);
-      free (str);
-
-      if (user->contact->office)
-      { l_user_xml_contact (user_node, user->contact->office, "office"); }
-      if (user->contact->mobile)
-      { l_user_xml_contact (user_node, user->contact->mobile, "mobile"); }
-      if (user->contact->after_hours)
-      { l_user_xml_contact (user_node, user->contact->after_hours, "after_hours"); }
-      for (i_list_move_head(user->contact->others); (contact=i_list_restore(user->contact->others))!=NULL; i_list_move_next(user->contact->others))
-      { l_user_xml_contact (user_node, contact, "other"); }
-    }
 
     xmlAddChild (root_node, user_node);
   }
@@ -121,18 +82,4 @@ int xml_user_list (i_resource *self, i_xml_request *req)
   return 1;
 }
 
-void l_user_xml_contact (xmlNodePtr user_node, i_contact_info *contact, char *name_str)
-{
-  xmlNodePtr contact_node;
-
-  contact_node = xmlNewNode (NULL, BAD_CAST "contact");
-  xmlNewChild (contact_node, NULL, BAD_CAST "name", BAD_CAST name_str);
-  xmlNewChild (contact_node, NULL, BAD_CAST "phone", BAD_CAST contact->phone);
-  xmlNewChild (contact_node, NULL, BAD_CAST "address_1", BAD_CAST contact->address_1);
-  xmlNewChild (contact_node, NULL, BAD_CAST "address_2", BAD_CAST contact->address_2);
-  xmlNewChild (contact_node, NULL, BAD_CAST "address_3", BAD_CAST contact->address_3);
-  xmlNewChild (contact_node, NULL, BAD_CAST "notes", BAD_CAST contact->notes);
-
-  xmlAddChild (user_node, contact_node);
-}
 

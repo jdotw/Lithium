@@ -9,7 +9,6 @@
 #include <induction/postgresql.h>
 #include <induction/list.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
 
 #include "infstat.h"
 
@@ -76,14 +75,14 @@ int l_infstat_cat_formsection (i_resource *self, i_form_reqdata *reqdata, l_infs
     i_list_move_head (issue->adminusername_list);
     username = i_list_restore (issue->adminusername_list);
     if (username)
-    { adminlead = i_userdb_get (self, username); }
+    { adminlead = i_user_sql_get (self, username); }
     else
     { adminlead = NULL; }
 
     i_list_move_head (issue->techusername_list);
     username = i_list_restore (issue->techusername_list);
     if (username)
-    { techlead = i_userdb_get (self, username); }
+    { techlead = i_user_sql_get (self, username); }
     else
     { techlead = NULL; }
 
