@@ -19,6 +19,7 @@
     /* Process each customer */
     print "<customer>";
     print "<name>" . $r[1] . "</name>";
+    print "<desc>" . $r[0] . "</desc>";
     if ($_SERVER['HTTPS'] == "on")
     { $protocol = "https://"; }
     else

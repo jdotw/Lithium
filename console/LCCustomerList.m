@@ -337,6 +337,7 @@ static LCCustomerList *masterlist = nil;
 			LCCoreDeployment *deployment = [[[LCCoreDeployment alloc] init] autorelease];
 			deployment.address = ipString;
 			deployment.port = ntohs(port);
+			if (deployment.port == 51143 || deployment.port == 443) deployment.useSSL = YES;
 			deployment.isDynamic = YES;
 			if ([dynamicDeploymentDict objectForKey:[deployment url]])
 			{

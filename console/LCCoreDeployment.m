@@ -36,7 +36,8 @@
 	
 	/* Set Defaults */
 	self.statusInteger = -1;
-	self.port = 51180;
+//	self.port = 51180;
+	self.port = 51143; // Default to SSL
 	
 	return self;
 }
@@ -213,10 +214,10 @@
 		code] <= NSURLErrorServerCertificateHasBadDate && [error code] >= 
 		NSURLErrorServerCertificateNotYetValid)    // handle certificate failures
 	{
-//		/* A certificate error occurred... prompt the 
-//		 * user to see if they would like to attempt to 
-//		 * add it as a trusted cert 
-//		 */
+		/* A certificate error occurred... prompt the 
+		 * user to see if they would like to attempt to 
+		 * add it as a trusted cert 
+		 */
 //		NSString *message = [NSString stringWithFormat:@"Server certificate error at %@", [self url]];
 //		NSAlert *alert = [NSAlert alertWithMessageText:message
 //										 defaultButton:@"Trust Certificate"
@@ -226,29 +227,29 @@
 //		[alert setAlertStyle:NSCriticalAlertStyle];
 //		int button = [alert runModal];
 //		if (button == NSAlertDefaultReturn)
-//		{			
+		{			
 			NSURL *failingURL = [[error userInfo] objectForKey:@"NSErrorFailingURLKey"];
-//			NSArray *badCerts = [[error userInfo] objectForKey:@"NSErrorPeerCertificateChainKey"];
-//			SecPolicySearchRef policySearch;
-//			if (SecPolicySearchCreate(CSSM_CERT_X_509v3, &CSSMOID_APPLE_TP_SSL, 
-//									  NULL, &policySearch) == noErr)
-//			{
-//				SecPolicyRef policy;
-//				while (SecPolicySearchCopyNext(policySearch, &policy) == noErr)    // this should only go through once
-//				{
-//					SecTrustRef trust;
-//					if (SecTrustCreateWithCertificates((CFArrayRef)badCerts, policy, &trust) == noErr)
-//					{
-//						CFRelease(trust);
-//						CFRelease(policy);
-//						CFRelease(policySearch);
+			NSArray *badCerts = [[error userInfo] objectForKey:@"NSErrorPeerCertificateChainKey"];
+			SecPolicySearchRef policySearch;
+			if (SecPolicySearchCreate(CSSM_CERT_X_509v3, &CSSMOID_APPLE_TP_SSL, 
+									  NULL, &policySearch) == noErr)
+			{
+				SecPolicyRef policy;
+				while (SecPolicySearchCopyNext(policySearch, &policy) == noErr)    // this should only go through once
+				{
+					SecTrustRef trust;
+					if (SecTrustCreateWithCertificates((CFArrayRef)badCerts, policy, &trust) == noErr)
+					{
+						CFRelease(trust);
+						CFRelease(policy);
+						CFRelease(policySearch);
 						[NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:[failingURL host]];
 						[NSTimer scheduledTimerWithTimeInterval:0.0 target:self selector:@selector(refreshDeployment) userInfo:nil repeats:NO];
-//						break;
-//					}				
-//				}
-//			}
-//		}
+						break;
+					}				
+				}
+			}
+		}
 //		else if (button == NSAlertAlternateReturn)
 //		{ [[LCPreferencesController alloc] init]; }
 	}
@@ -355,6 +356,8 @@
 														url:[curXMLDictionary objectForKey:@"baseurl"]];
 			if (cust)
 			{
+				[cust setDesc:[curXMLDictionary objectForKey:@"desc"]];
+				[cust setCoreDeployment:self];
 				[[LCCustomerList masterList] insertObject:cust inArrayAtIndex:[[LCCustomerList masterArray] count]]; 
 				if ([cust name]) [[LCCustomerList masterDict] setObject:cust forKey:[cust name]];
 				[cust setAutoRefresh:YES];

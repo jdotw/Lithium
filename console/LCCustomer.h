@@ -20,6 +20,8 @@
 #import "LCDocumentList.h"
 #import "LCGroupTree.h"
 
+@class LCCoreDeployment;
+
 @interface LCCustomer : LCEntity 
 {
 	/* Customer Properties */
@@ -70,6 +72,9 @@
 	
 	/* Auto-Refresh */
 	NSTimer *customerRefreshTimer;
+	
+	/* Core */
+	LCCoreDeployment *coreDeployment;
 }
 
 #define LIC_NONE 0
@@ -145,6 +150,7 @@
 @property (nonatomic,retain) NSTimer *thawTimer;
 @property (readonly) NSMutableArray *persistentWindows;
 @property (nonatomic,retain) NSTimer *customerRefreshTimer;
+@property (nonatomic,assign) LCCoreDeployment *coreDeployment;
 
 
 @end

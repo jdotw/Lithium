@@ -74,7 +74,6 @@ int xml_user_list (i_resource *self, i_xml_request *req)
 
     xmlAddChild (root_node, user_node);
   }
-  i_list_free (user_list);
     
   /* Finished */
   req->xml_out = xml;

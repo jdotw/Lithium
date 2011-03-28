@@ -128,7 +128,6 @@ int main (int argc, char *argv[])
     self->node = i_configfile_get (self, NODECONF_FILE, "id", "node", 0);
     log_level_str = i_configfile_get (self, NODECONF_FILE, "logging", "level", 0);
     if (log_level_str) { self->log_level = atoi (log_level_str); free (log_level_str); }
-    else { self->log_level = 1; }
   }
   if (!self->plexus) 
   {

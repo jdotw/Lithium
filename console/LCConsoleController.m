@@ -580,6 +580,28 @@ static LCConsoleController *masterController = NULL;
 	[[LCFeedbackController alloc] initForWindow:nil];
 }
 
+- (IBAction) installHelpClicked:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lithium5.com/tutorials/installation/"]];
+}
+
+- (IBAction) addDevicesHelpClicked:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lithium5.com/tutorials/add-devices-to-monitor/"]];
+}
+
+- (IBAction) thresholdsHelpClicked:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lithium5.com/tutorials/triggers/"]];
+}
+
+- (IBAction) appMonitoringHelpClicked:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lithium5.com/tutorials/app-monitoring/"]];
+}
+
+
+
 #pragma mark "Menu Methods"
 
 - (NSMenu *) executeActionMenu

@@ -24,7 +24,6 @@
 #include <induction/auth.h>
 #include <induction/contact.h>
 #include <induction/user.h>
-#include <induction/userdb.h>
 #include <induction/configfile.h>
 #include <induction/files.h>
 

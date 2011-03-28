@@ -24,6 +24,8 @@ function actuate ($funct, $args, &$ret_val)
   $username = $_SERVER["PHP_AUTH_USER"];
   $password = $_SERVER["PHP_AUTH_PW"];
 
+//  printf("EXEC: ". $default_construct_path . "lithium -n '$ip' -u '$username' -p '$password' -C '$customer_id_str' -r '$default_work_path' -c '$default_config_path' -m '$default_module_path' -e -q actuator.so $funct $args");
+
   $line = exec ($default_construct_path . "lithium -n '$ip' -u '$username' -p '$password' -C '$customer_id_str' -r '$default_work_path' -c '$default_config_path' -m '$default_module_path' -e -q actuator.so $funct $args", $ret_array, &$ret_val);
 
   $output = "";

@@ -330,4 +330,6 @@
 @synthesize groupTree;
 @synthesize limitedLicense;
 
+@synthesize coreDeployment;
+
 @end

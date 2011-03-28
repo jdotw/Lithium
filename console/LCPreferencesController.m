@@ -259,8 +259,9 @@ static LCPreferencesController *masterController = nil;
 {
 	/* Window Setup */
 	[addCoreAddressField setStringValue:@""];
-	[addCorePortField setStringValue:@"51180"];
+	[addCorePortField setStringValue:@"51143"];
 	[addCoreOKButton setTitle:@"Add"];
+	self.addCoreUseSSL = YES;
 	[[self window] makeFirstResponder:addCoreAddressField];
 	
 	/* Begin Sheet */

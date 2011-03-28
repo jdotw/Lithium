@@ -3,8 +3,13 @@
 include ("profile.php");
 include ("../include/standard.php");
 
-/* Get/Check username and password */
-$username = authenticate ();
+/* Get/Check username/password is supplied */
+$auth_required = auth_required(customer_resaddr($customer_id_str));
+if ($auth_required == true)
+{
+  /* Only to authentication if required */
+  $username = authenticate ();
+}
 
 /*
  * Sanity checking
@@ -52,7 +57,7 @@ if ($ret_val == 0)
 }
  
 /* Check for auth-failure */
-if ($ret_val == 15 || $ret_val == 1)
+if (($ret_val == 15 || $ret_val == 1) && $auth_required == true)
 {
   /* Re-prompt for auth */
   authenticate_headers ();

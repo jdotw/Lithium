@@ -122,7 +122,6 @@ int l_incident_notify (i_resource *self, i_incident *inc)
     if (user->contact && user->contact->email)
     { l_email_send (self, user, note); }
   }
-  i_list_free (userlist);
 
   /* 
    * Free Notification

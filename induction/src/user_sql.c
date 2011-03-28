@@ -10,7 +10,7 @@
 #include "postgresql.h"
 #include "configfile.h"
 
-static i_list *static_usercache_list;
+static i_list *static_usercache_list = NULL;
 int i_user_sql_init_cache(i_resource *self);
 int i_user_sql_invalidate_cache();
 

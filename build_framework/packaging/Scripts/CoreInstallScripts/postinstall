@@ -19,6 +19,10 @@ if [ -e /Lithium/etc/lithium/node.conf ]; then
 fi
 
 # Touch config and make it writeable by lithium
+if [ ! -e "/Library/Preferences/Lithium/lithium/node.conf" ]; then
+  # Install a default node.conf file
+  cp /Library/Lithium/LithiumCore.app/Contents/Resources/conf/node.conf /Library/Preferences/Lithium/lithium/node.conf
+fi
 touch /Library/Preferences/Lithium/lithium/node.conf
 chown lithium:admin /Library/Preferences/Lithium/lithium/node.conf
 chmod ug+rw /Library/Preferences/Lithium/lithium/node.conf
@@ -43,6 +47,7 @@ if [ ! -e "$PGPATH/PG_VERSION" ]; then
     exit 1
   fi
   createusers=1
+  createcustomer=1
 else
   # Ensure DB is owned correctly
   echo "Setting file permissions on embedded PostgreSQL database"
@@ -51,6 +56,7 @@ else
   if [ "$?" != "0" ]; then
     echo "Warning: Failed to set ownership of database"
   fi
+  createcustomer=0
 fi
 
 # Copy LaunchDaemons
@@ -141,5 +147,56 @@ launchctl load -w /Library/LaunchDaemons/com.lithiumcorp.database.plist
 launchctl load -w /Library/LaunchDaemons/com.lithiumcorp.clientd.plist
 launchctl load -w /Library/LaunchDaemons/com.lithiumcorp.mars.plist
 launchctl load -w /Library/LaunchDaemons/com.lithiumcorp.lithium.plist
+
+# Check to see if the default customer needs to be created 
+# this will be the case if the database was initialized 
+if [ $createcustomer == 1 ]; then
+  echo "Creating default customer"
+  CUSTOMER_UUID=`uuidgen | tr [:upper:] [:lower:]`
+
+  # Wait for database to come up (60 sec max)
+  for i in {1..60}
+  do
+    echo "Checking if database is up"
+    /Library/Lithium/LithiumCore.app/Contents/MacOS/psql -l -U lithium
+    if [ $? == 0 ]; then
+      echo "Database is up!"
+      break
+    else
+      echo "Database is not up... still waiting.. ($i/60)"
+    fi
+    sleep 1
+  done
+
+  # Create customers table and add customer record
+  /Library/Lithium/LithiumCore.app/Contents/MacOS/createdb -U "lithium" "lithium"
+  /Library/Lithium/LithiumCore.app/Contents/MacOS/psql -U lithium -c "CREATE TABLE customers (name varchar, descr varchar, baseurl varchar, uuid varchar, default_customer boolean, use_lithium_db boolean)"
+  /Library/Lithium/LithiumCore.app/Contents/MacOS/psql -U lithium -c "INSERT INTO customers (name, descr, uuid, default_customer, use_lithium_db) VALUES ('$CUSTOMER_UUID', 'CoreVM', '$CUSTOMER_UUID', true, true)"
+
+  # Create www path for customer
+  mkdir "/Library/Application Support/Lithium/ClientService/Resources/htdocs/$CUSTOMER_UUID"
+
+  # Generate a profile.php for the customer
+  echo "<?php" > "/Library/Application Support/Lithium/ClientService/Resources/htdocs/$CUSTOMER_UUID/profile.php"
+  echo "" >> "/Library/Application Support/Lithium/ClientService/Resources/htdocs/$CUSTOMER_UUID/profile.php"
+  echo "\$customer_id_str = \"$CUSTOMER_UUID\";" >> "/Library/Application Support/Lithium/ClientService/Resources/htdocs/$CUSTOMER_UUID/profile.php"
+  echo "\$customer_name = \"$CUSTOMER_UUID\";" >> "/Library/Application Support/Lithium/ClientService/Resources/htdocs/$CUSTOMER_UUID/profile.php"
+  echo "" >> "/Library/Application Support/Lithium/ClientService/Resources/htdocs/$CUSTOMER_UUID/profile.php"
+  echo "?>" >> "/Library/Application Support/Lithium/ClientService/Resources/htdocs/$CUSTOMER_UUID/profile.php"
+  touch "/Library/Application Support/Lithium/ClientService/Resources/htdocs/default/profile.php"
+
+  # Repair the web path to link files
+  /Library/Lithium/LithiumCore.app/Contents/MacOS/repairweb.sh
+
+  # Create monitoring data path
+  mkdir -p "/Library/Application Support/Lithium/Monitoring Data/History/lithium/customer-$CUSTOMER_UUID"
+
+  # Repair scripts to link them into place
+  /Library/Lithium/LithiumCore.app/Contents/MacOS/repairscripts.sh
+
+  # Killall to force restart
+  killall lithium
+
+fi
 
 exit 0

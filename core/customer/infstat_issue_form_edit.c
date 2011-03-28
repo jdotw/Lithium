@@ -209,7 +209,6 @@ int form_infstat_issue_edit (i_resource *self, i_form_reqdata *reqdata)
     }
     i_form_add_item (reqdata->form_out, admin_item);
     i_form_add_item (reqdata->form_out, tech_item);
-    i_list_free (user_list);
   }
   else
   { 

@@ -52,7 +52,7 @@ int a_auth_required (i_resource *self, int argc, char *argv[], int optind)
   /* Add callback for response */
   i_msgproc_callback_add (self, self->core_socket, msgid, MSG_TIMEOUT_SEC, 0, a_auth_required_msgcb, NULL);
 
-  return 0;
+  return 1;
 }
 
 
