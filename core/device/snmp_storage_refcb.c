@@ -43,8 +43,6 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
   l_snmp_storage_item *store = (l_snmp_storage_item *) obj->itemptr;
   int apply_usedpc_trigger = 0;
 
-  i_printf(0, "DEBUG: l_snmp_storage_obj_refcb called for store %s", obj->desc_str);
-
   if (l_snmp_xsnmp_enabled())
   {
     /* Use the Xsnmp 'writeable' parameter to determine whether or
@@ -54,7 +52,6 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
     
     /* Get current value */
     i_metric_value *val = i_metric_curval (store->writeable);
-    i_printf(0, "DEBUG: l_snmp_storage_obj_refcb(%s): Using Xsnmp MIB to determine read/write status (%i)", obj->desc_str, val ? val->integer : -1);
     if (!val) return 0;
 
     /* Enable used_pc trigger depending on whether or not the store is writable*/
@@ -72,7 +69,6 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
      */
 
     i_metric_value *access_val = i_metric_curval(store->access);
-    i_printf(0, "DEBUG: l_snmp_storage_obj_refcb(%s): Using HRFILESYS MIB to determine read/write status (%i)", obj->desc_str, access_val ? access_val->integer : -1);
     if (!access_val) return 0;
 
     /* Enable used_pc trigger if access is 1 (readWrite) */
@@ -92,7 +88,6 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
 
     /* Get current type value */
     val = i_metric_curval (store->typeoid);
-    i_printf(0, "DEBUG: l_snmp_storage_obj_refcb(%s): Using HRSTORAGE (Type) MIB to determine read/write status (%i)", obj->desc_str, val ? val->integer : -1);
     if (!val || val->oid_len < 10) return 0;
     oid = val->oid;
 

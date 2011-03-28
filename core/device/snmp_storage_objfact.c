@@ -427,11 +427,22 @@ int l_snmp_storage_objfact_ctrl (i_resource *self, i_container *cnt, int result,
     /* No errors, set item list state to NORMAL */
     cnt->item_list_state = ITEMLIST_STATE_NORMAL;
 
-    /* If Xsnmp is not used, enable hrFilesys to augment storage info */
+    /* If Xsnmp is not used, enable/refresh hrFilesys to augment storage info */
     if (!l_snmp_xsnmp_enabled() && !l_snmp_hrfilesys_enabled())
     { 
-      i_printf (0, "l_snmp_storage_enable automatically enabling hrfilesys to augment hrstorage info without Xsnmp"); 
-      l_snmp_hrfilesys_enable (self); 
+      if (l_snmp_hrfilesys_enabled())
+      {
+        /* Refresh the hrfilesys objfact */
+        i_printf (0, "l_snmp_storage_objfact_ctrl automatically REFRESHING hrfilesys to augment hrstorage info without Xsnmp"); 
+        l_snmp_objfact *hrfilesys_objfact = l_snmp_hrfilesys_objfact();
+        i_entity_refresh (self, ENTITY(hrfilesys_objfact->obj), REFFLAG_AUTO, NULL, NULL);
+      }
+      else
+      {
+        /* Enable hrfilesys for additional info */
+        i_printf (0, "l_snmp_storage_objfact_ctrl automatically enabling hrfilesys to augment hrstorage info without Xsnmp"); 
+        l_snmp_hrfilesys_enable (self); 
+      }
     }
 
     /* Xsnmp is not used, and the RAM container needs rebuilding */

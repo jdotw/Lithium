@@ -41,6 +41,7 @@ int l_snmp_hrfilesys_objfact_fab (i_resource *self, i_container *cnt, i_object *
     if (store_item && store_item->index == (unsigned long) *pdu->variables->val.integer)
     { 
       /* Match found! */
+      i_printf(0, "DEBUG: l_snmp_hrfilesys_objfact_fab matching store found for index %lu (%s)", *pdu->variables->val.integer, obj->desc_str);
       break; 
     }
   }
@@ -62,18 +63,27 @@ int l_snmp_hrfilesys_objfact_fab (i_resource *self, i_container *cnt, i_object *
    */
 
   /* Remote Mount-Point */
-  store_item->remote_mp = l_snmp_metric_create (self, store_obj, "remote_mp", "Remote Mount-Point", METRIC_STRING, ".1.3.6.1.2.1.25.3.8.1.3", index_oidstr, RECMETHOD_NONE, 0);
+  if (!store_item->remote_mp) 
+  {
+    store_item->remote_mp = l_snmp_metric_create (self, store_obj, "remote_mp", "Remote Mount-Point", METRIC_STRING, ".1.3.6.1.2.1.25.3.8.1.3", index_oidstr, RECMETHOD_NONE, 0);
+  }
 
   /* Access */
-  store_item->access = l_snmp_metric_create (self, store_obj, "access", "Access", METRIC_INTEGER, ".1.3.6.1.2.1.25.3.8.1.5", index_oidstr, RECMETHOD_NONE, 0);
-  i_metric_enumstr_add (store_item->access, 1, "Read/Write");
-  i_metric_enumstr_add (store_item->access, 2, "Read Only");
-  store_item->access->summary_flag = 1;
+  if (!store_item->access)
+  {
+    store_item->access = l_snmp_metric_create (self, store_obj, "access", "Access", METRIC_INTEGER, ".1.3.6.1.2.1.25.3.8.1.5", index_oidstr, RECMETHOD_NONE, 0);
+    i_metric_enumstr_add (store_item->access, 1, "Read/Write");
+    i_metric_enumstr_add (store_item->access, 2, "Read Only");
+    store_item->access->summary_flag = 1;
+  }
 
   /* Bootable */
-  store_item->bootable = l_snmp_metric_create (self, store_obj, "bootable", "Bootable", METRIC_INTEGER, ".1.3.6.1.2.1.25.3.8.1.6", index_oidstr, RECMETHOD_NONE, 0);
-  i_metric_enumstr_add (store_item->bootable, 1, "Yes");
-  i_metric_enumstr_add (store_item->bootable, 2, "No");
+  if (!store_item->bootable)
+  {
+    store_item->bootable = l_snmp_metric_create (self, store_obj, "bootable", "Bootable", METRIC_INTEGER, ".1.3.6.1.2.1.25.3.8.1.6", index_oidstr, RECMETHOD_NONE, 0);
+    i_metric_enumstr_add (store_item->bootable, 1, "Yes");
+    i_metric_enumstr_add (store_item->bootable, 2, "No");
+  }
 
   /*
    * End Metric Creation

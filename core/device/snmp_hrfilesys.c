@@ -31,6 +31,10 @@ static int static_hrfilesys_enabled = 0;
 int l_snmp_hrfilesys_enabled()
 { return static_hrfilesys_enabled; }
 
+static l_snmp_objfact* static_hrfilesys_objfact = NULL;
+l_snmp_objfact* l_snmp_hrfilesys_objfact()
+{ return static_hrfilesys_objfact; }
+
 /* Sub-System Enable */
 
 int l_snmp_hrfilesys_enable (i_resource *self)
