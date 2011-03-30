@@ -74,7 +74,7 @@
 	NSTimer *customerRefreshTimer;
 	
 	/* Core */
-	LCCoreDeployment *coreDeployment;
+	LCCoreDeployment *coreDeployment;	
 }
 
 #define LIC_NONE 0

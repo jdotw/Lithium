@@ -85,6 +85,11 @@ int l_customer_xmlfunc (i_customer *cust, xmlNodePtr cust_node)
   xmlNewChild (cust_node, NULL, BAD_CAST "license_limited", BAD_CAST str);
   free (str);
 
+  /* Configured flag */
+  asprintf (&str, "%i", cust->configured);
+  xmlNewChild (cust_node, NULL, BAD_CAST "configured", BAD_CAST str);
+  free (str);
+
   /* Vendor module list */
   xmlNodePtr vendor_root_node = xmlNewNode(NULL, BAD_CAST "custom_module_list");
   i_list *vendor_list = i_vendor_list (global_self);

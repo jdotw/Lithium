@@ -7,9 +7,12 @@
 //
 
 #import "LCCustomer.h"
+#import "LCCustomerList.h"
+#import "LCConsoleController.h"
 #import "LCCase.h"
 #import "LCServiceList.h"
 #import "LCSite.h"
+#import "LCCoreSetupWindowController.h"
 
 @implementation LCCustomer
 
@@ -29,6 +32,7 @@
 	self.node = initNode;
 	self.url = initBaseURL;
 	self.browserViewType = 1;
+	self.isConfigured = YES;		// Default for legacy LithiumCore versions 
 	
 	/* Setup XML Translations */
 	[self.xmlTranslation setObject:@"licenseType" forKey:@"license_type"];
@@ -249,17 +253,42 @@
 	/* Perform super-class handling of XMLRequestFinished:(id)sender */
 	[super XMLRequestFinished:sender];
 	
-	/* Perform related-list refresh operations if this refresh was successful */
-	if (successfulRefresh)
+	/* Check to see if we are configured */
+	if (self.isConfigured)
 	{
-		[userList refreshWithPriority:XMLREQ_PRIO_NORMAL];
-		[vendorList refreshWithPriority:XMLREQ_PRIO_NORMAL];
-		[serviceList refreshWithPriority:XMLREQ_PRIO_NORMAL];
-		[processProfileList refreshWithPriority:XMLREQ_PRIO_NORMAL];
-		[xsanList refreshWithPriority:XMLREQ_PRIO_NORMAL];		
-		[lunList refreshWithPriority:XMLREQ_PRIO_NORMAL];
-		[documentList refreshWithPriority:XMLREQ_PRIO_NORMAL];
-		[groupTree refreshWithPriority:XMLREQ_PRIO_NORMAL];
+		/* Perform related-list refresh operations if this refresh was successful */
+		if (successfulRefresh)
+		{
+			[userList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+			[vendorList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+			[serviceList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+			[processProfileList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+			[xsanList refreshWithPriority:XMLREQ_PRIO_NORMAL];		
+			[lunList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+			[documentList refreshWithPriority:XMLREQ_PRIO_NORMAL];
+			[groupTree refreshWithPriority:XMLREQ_PRIO_NORMAL];
+		}
+	}
+	else 
+	{
+		/* This customer is not yet configured; the LCCoreSetupWindowController
+		 * should be used to configure it 
+		 */
+		
+		NSLog (@"UNCONFIGURED CUSTOMER: %@", self.name);
+		
+		if ([[LCCustomerList masterArray] count] == 1)
+		{
+			/* We're the only customer present; show the sheet to 
+			 * perform the initial setup
+			 */
+			LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:self] autorelease];
+			[NSApp beginSheet:[wc window]
+			   modalForWindow:[[[LCConsoleController masterController] browserForSheet] window]
+				modalDelegate:nil
+			   didEndSelector:nil
+				  contextInfo:nil];
+		}
 	}
 }
 

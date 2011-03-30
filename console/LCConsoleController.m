@@ -39,13 +39,11 @@
 #import "LC255IsFalseTransformer.h"
 #import "LCBlueDotTransformer.h"
 #import "LCXServiceDotTransformer.h"
-#import "LCDeploymentWizardController.h"
 #import "LCHasActionsTransformer.h"
 #import "LCActionHasRunTransformer.h"
 #import "LCZeroIsUnlimitedTransformer.h"
 #import "LCErrorLogWindowController.h"
 #import "LCErrorLog.h"
-#import "LCBetaRegistrationWindowController.h"
 #import "UKCrashReporter.h"
 #import "LCFeedbackController.h"
 #import "LCDateAgoTranformer.h"
@@ -521,11 +519,6 @@ static LCConsoleController *masterController = NULL;
 - (IBAction) caseSearchClicked:(id)sender
 { 
 	[[LCCaseSearchController alloc] init];
-}
-
-- (IBAction) newWatcherWindow:(id)sender
-{
-	[[LCWatcherWindowController alloc] init];
 }
 
 - (IBAction) newGraphWindow:(id)sender

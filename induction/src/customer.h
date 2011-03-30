@@ -87,6 +87,7 @@ typedef struct i_customer_s
   char *baseurl_str;                            /* Base HTTP URL for customer */
   int default_customer;                         /* 1=This is the default customer created on install */
   int use_lithium_db;                           /* 1=The 'lithium' database should be used for the customer */
+  int configured;                               /* 1=The initial 'coresetup' has been performed */
   
 } i_customer;
 

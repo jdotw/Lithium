@@ -79,6 +79,7 @@ char* i_customer_data (i_customer *cust, int *datasizeptr)
    * char *uuid_str
    * int default_customer
    * int use_lithium_db
+   * int configured
    */
   int datasize;
   char *data;
@@ -89,7 +90,7 @@ char* i_customer_data (i_customer *cust, int *datasizeptr)
   uuid_unparse_lower (cust->uuid, uuid_str);
 
   /* Calc data size */
-  datasize = (6 * sizeof(int)) + sizeof(unsigned short);
+  datasize = (7 * sizeof(int)) + sizeof(unsigned short);
   if (cust->name_str) datasize += strlen (cust->name_str)+1;
   if (cust->desc_str) datasize += strlen (cust->desc_str)+1;
   if (cust->baseurl_str) datasize += strlen (cust->baseurl_str)+1;
@@ -136,6 +137,11 @@ char* i_customer_data (i_customer *cust, int *datasizeptr)
   if (!dataptr) 
   { i_printf(1, "i_customer_data failed to add use_lithium_db flag"); free (data); return NULL; }
 
+  /* Configured */
+  dataptr = i_data_add_int(data, dataptr, datasize, &cust->configured);
+  if (!dataptr) 
+  { i_printf(1, "i_customer_data failed to add configured flag"); free (data); return NULL; }
+
   /* Set datasizeptr */
   memcpy (datasizeptr, &datasize, sizeof(int));
 
@@ -152,6 +158,7 @@ i_customer* i_customer_struct (char *data, int datasize)
   char *uuid_str;
   int default_customer;
   int use_lithium_db;
+  int configured;
   char *dataptr = data;
   i_customer *cust;
 
@@ -189,16 +196,25 @@ i_customer* i_customer_struct (char *data, int datasize)
   default_customer = i_data_get_int (data, dataptr, datasize, &offset);
   if (offset < 1) 
   { i_printf (1, "i_customer_struct failed to get default_customer from data"); return NULL; }
+  dataptr += offset;
 
   /* Use Lithium DB */
   use_lithium_db = i_data_get_int (data, dataptr, datasize, &offset);
   if (offset < 1) 
   { i_printf (1, "i_customer_struct failed to get use_lithium_db from data"); return NULL; }
+  dataptr += offset;
+
+  /* Configured */
+  configured = i_data_get_int (data, dataptr, datasize, &offset);
+  if (offset < 1) 
+  { i_printf (1, "i_customer_struct failed to get configured from data"); return NULL; }
+  dataptr += offset;
 
   /* Create customer struct */
   cust = i_customer_create (name_str, desc_str, baseurl_str);
   cust->default_customer = default_customer;
   cust->use_lithium_db = use_lithium_db;
+  cust->configured = configured;
   uuid_parse (uuid_str, cust->uuid);
   if (name_str) free (name_str);
   if (desc_str) free (desc_str); 

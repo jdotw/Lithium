@@ -164,10 +164,9 @@ int l_customer_remove (i_resource *self, i_customer *cust)
 {
   int num;
   i_list *cust_list;
-  i_pg_async_conn *conn;
 
   /* Open Conn */
-  conn = i_pg_async_conn_open (self, "lithium");
+  i_pg_async_conn *conn = i_pg_async_conn_open (self, "lithium");
   if (conn)
   {
     char *query;
@@ -241,12 +240,12 @@ int l_customer_loadall (i_resource *self)
   if (l_lic_max_customers() > 0)
   { 
     char *query_str;
-    asprintf (&query_str, "SELECT name, descr, baseurl, uuid, default_customer, use_lithium_db FROM customers LIMIT %i ORDER BY name ASC", l_lic_max_customers());
+    asprintf (&query_str, "SELECT name, descr, baseurl, uuid, default_customer, use_lithium_db, configured FROM customers LIMIT %i ORDER BY name ASC", l_lic_max_customers());
     res = PQexec (pgconn, query_str);
     i_printf (1, "l_customer_loadall encforcing limit of %i customers", l_lic_max_customers());
   }
   else
-  { res = PQexec (pgconn, "SELECT name, descr, baseurl, uuid, default_customer, use_lithium_db FROM customers ORDER BY name ASC"); }
+  { res = PQexec (pgconn, "SELECT name, descr, baseurl, uuid, default_customer, use_lithium_db, configured FROM customers ORDER BY name ASC"); }
   if (!res || PQresultStatus(res) != PGRES_TUPLES_OK)
   { 
     i_printf (1, "l_customer_loadall failed to execute SELECT query for the customers table");
@@ -265,6 +264,7 @@ int l_customer_loadall (i_resource *self)
     char *uuid_str;
     char *default_customer_str;
     char *use_lithium_db_str;
+    char *configured_str;
     i_customer *cust;
 
     /* Name */
@@ -291,8 +291,10 @@ int l_customer_loadall (i_resource *self)
     /* Use Lithium DB */
     use_lithium_db_str = PQgetvalue (res, row, 5);
 
+    /* Configured */
+    configured_str = PQgetvalue(res, row, 6);
+
     /* Check for a default customer */
-    i_printf(0, "DEBUG: default_customer_str is %s use_lithium_db_str is %s", default_customer_str, use_lithium_db_str);
     if (default_customer_str && strcmp(default_customer_str, "t")==0)
     {
       /* This is a default customer, auto-set the desc to the hostname */
@@ -315,6 +317,13 @@ int l_customer_loadall (i_resource *self)
     cust = i_customer_create (name_str, desc_str, baseurl_str);
     if (default_customer_str && strcmp(default_customer_str, "t")==0) cust->default_customer = 1;
     if (use_lithium_db_str && strcmp(use_lithium_db_str, "t")==0) cust->use_lithium_db = 1;
+    if (configured_str)
+    {
+      if (strcmp(configured_str, "f")==0) cust->configured = 0;
+      else if (strcmp(configured_str, "t")==0) cust->configured = 1;
+    }
+    else
+    { cust->configured = 1; }
     free (name_str);
     name_str = NULL;
     if (!cust)
@@ -415,10 +424,27 @@ int l_customer_initsql (i_resource *self)
   result = PQexec (pgconn, "SELECT column_name from information_schema.columns WHERE table_name='customers' AND column_name='use_lithium_db' ORDER BY ordinal_position");
   if (!result || PQresultStatus(result) != PGRES_TUPLES_OK || (PQntuples(result)) < 1)
   {
-    /* uuid column not in customers table */
+    /* 'use_lithium_db' column not in customers table */
     if (result) { PQclear(result); result = NULL; }
     i_printf (0, "l_customer_initsql version-specific check: 'use_lithium_db' column missing, attempting to add it");
     result = PQexec (pgconn, "ALTER TABLE customers ADD COLUMN use_lithium_db boolean");
+    if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
+    { i_printf (1, "l_customer_initsql failed to add use_lithium_db column (%s)", PQresultErrorMessage (result)); }
+  }
+  if (result) { PQclear(result); result = NULL; }
+
+  /* Update table -- configured */
+  result = PQexec (pgconn, "SELECT column_name from information_schema.columns WHERE table_name='customers' AND column_name='configured' ORDER BY ordinal_position");
+  if (!result || PQresultStatus(result) != PGRES_TUPLES_OK || (PQntuples(result)) < 1)
+  {
+    /* 'configured' column not in customers table */
+    if (result) { PQclear(result); result = NULL; }
+    i_printf (0, "l_customer_initsql version-specific check: 'configured' column missing, attempting to add it");
+    result = PQexec (pgconn, "ALTER TABLE customers ADD COLUMN configured boolean");
+    if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
+    { i_printf (1, "l_customer_initsql failed to add use_lithium_db column (%s)", PQresultErrorMessage (result)); }
+    if (result) { PQclear(result); result = NULL; }
+    result = PQexec (pgconn, "UPDATE customers SET configured = true");   // Set all existing customers to 'configured'
     if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
     { i_printf (1, "l_customer_initsql failed to add use_lithium_db column (%s)", PQresultErrorMessage (result)); }
   }

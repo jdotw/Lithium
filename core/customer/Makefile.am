@@ -255,7 +255,8 @@ customer_la_SOURCES = main.c \
 					  modb_xml_script_list.c \
 					  imagecache.c \
 					  searchcache_xml.c \
-					  searchcache.c
+					  searchcache.c \
+					  coresetup_xml.c
 
 customer_la_LDFLAGS = -module @MODULE_LDFLAGS@
 

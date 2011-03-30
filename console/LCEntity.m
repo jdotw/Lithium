@@ -61,6 +61,7 @@
 	[self.xmlTranslation setObject:@"syncVersion" forKey:@"sync_version"];
 	[self.xmlTranslation setObject:@"resourceAddressString" forKey:@"resaddr"];
 	[self.xmlTranslation setObject:@"isLicensed" forKey:@"licensed"];
+	[self.xmlTranslation setObject:@"isConfigured" forKey:@"configured"];
 	[self.xmlTranslation setObject:@"resource_started" forKey:@"resourceStarted"];
 
 	/* Set initial state */
@@ -454,15 +455,15 @@
 			/* Check for customer */
 			if (self.type == 1)
 			{
-				/* Check for no devices */
-				NSArray *devices = [self valueForKeyPath:@"children.@unionOfArrays.children"];
-				if ([devices count] < 1 && !assistShown &&
-					![[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"LCAssist_%@_doNotShowAgain", [self name]]])
-				{ 
-					[[LCAssistController alloc] initForCustomer:self];
-					assistShown = YES;
-					[[LCConsoleController masterController] setShowingAssistant:YES];
-				}
+//				/* Check for no devices */
+//				NSArray *devices = [self valueForKeyPath:@"children.@unionOfArrays.children"];
+//				if ([devices count] < 1 && !assistShown &&
+//					![[NSUserDefaults standardUserDefaults] boolForKey:[NSString stringWithFormat:@"LCAssist_%@_doNotShowAgain", [self name]]])
+//				{ 
+//					[[LCAssistController alloc] initForCustomer:self];
+//					assistShown = YES;
+//					[[LCConsoleController masterController] setShowingAssistant:YES];
+//				}
 				
 				/* Update Browser Tree */
 				[[NSNotificationCenter defaultCenter] postNotificationName:@"BrowserTreeItemAdded" object:self];
@@ -933,6 +934,7 @@
 @synthesize syncVersion;
 @synthesize resourceStarted;
 @synthesize isLicensed;
+@synthesize isConfigured;
 @synthesize presenceConfirmed;
 @synthesize childrenPopulated;
 @synthesize refreshInProgress;

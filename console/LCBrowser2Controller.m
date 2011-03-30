@@ -14,22 +14,17 @@
 #import "LCMetricHistoryWindowController.h"
 #import "LCTriggerTuningWindowController.h"
 #import "LCMetricAnalysisWindowController.h"
-#import "LCXRDeviceView.h"
-#import "LCXSDeviceView.h"
-#import "LCWAPView.h"
 #import "LCConsoleController.h"
 #import "LCIncidentController.h"
 #import "LCActionListWindowController.h"
 #import "LCActionScriptManagerController.h"
 #import "LCServiceEditWindowController.h"
 #import "LCServiceScriptManagerController.h"
-#import "LCBlankDeviceView.h"
 #import "LCBrowserTreeDevicesRoot.h"
 #import "LCDeviceEditController.h"
 #import "LCLithiumSetupWindowController.h"
 #import "LCIncmgrController.h"
 #import "LCCaseSearchController.h"
-#import "LCUPSDeviceView.h"
 #import "LCResetTriggerRulesWindowController.h"
 #import "LCAssistController.h"
 #import "LCPreferencesController.h"
@@ -42,7 +37,6 @@
 #import "LCBrowserIncidentsContentController.h"
 #import "LCBrowserCasesContentController.h"
 #import "LCBrowserTreeIncidents.h"
-#import "LCBetaRegistrationWindowController.h"
 #import "UKCrashReporter.h"
 #import "LCFeedbackController.h"
 #import "LCBrowserTreeCases.h"
@@ -71,6 +65,7 @@
 #import "LCBrowserTreeCoreProperty.h"
 #import "LCBrowserTreeCoreDeployment.h"
 #import "LCProcessProfileEditWindowController.h"
+#import "LCCoreSetupWindowController.h"
 
 static NSMutableArray *activeControllers = nil;
 
@@ -713,6 +708,21 @@ static NSMutableArray *activeControllers = nil;
 	{
 		self.treeSelectedEntity = nil;
 	}
+	
+	/* Check to see if it's an unconfigured customer */
+	if (![self.treeSelectedEntity.customer isConfigured])
+	{
+		/* Unconfigured customer selected! */
+		LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:self.treeSelectedEntity.customer] autorelease];
+		[NSApp beginSheet:[wc window]
+		   modalForWindow:[self window]
+			modalDelegate:nil
+		   didEndSelector:nil
+			  contextInfo:nil];
+		
+		return;
+	}		
+	
 	
 	/* Set Content View etc based on selection */
 	if ([treeSelectedObject class] == [LCCustomer class])
@@ -2017,7 +2027,7 @@ static NSMutableArray *activeControllers = nil;
 		{ customer = [[LCCustomerList masterArray] objectAtIndex:0]; }
 	}
 
-	[[LCAssistController alloc] initForCustomer:customer];
+//	[[LCAssistController alloc] initForCustomer:customer];
 }
 		
 #pragma mark "LITHIUM.Web URL Methods"

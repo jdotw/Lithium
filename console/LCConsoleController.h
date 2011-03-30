@@ -69,7 +69,6 @@
 - (IBAction) newBrowser:(id)sender;
 - (IBAction) preferencesClicked:(id)sender;
 - (IBAction) caseSearchClicked:(id)sender;
-- (IBAction) newWatcherWindow:(id)sender;
 - (IBAction) newGraphWindow:(id)sender;
 - (IBAction) newMultiGraphWindow:(id)sender;
 - (IBAction) onlineDocsClicked:(id)sender;

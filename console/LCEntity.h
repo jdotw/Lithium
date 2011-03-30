@@ -78,6 +78,7 @@
 	BOOL presenceConfirmed;			/* Found in refresh vs locateEntity: */
 	BOOL assistShown;
 	BOOL isLicensed;
+	BOOL isConfigured;
 	BOOL resourceStarted;
 	int browserViewType;
 }
@@ -164,6 +165,7 @@
 @property unsigned long syncVersion;
 @property (nonatomic,copy) NSString *uuidString;
 @property BOOL isLicensed;
+@property BOOL isConfigured;
 @property BOOL resourceStarted;
 @property BOOL presenceConfirmed;
 @property BOOL childrenPopulated;
