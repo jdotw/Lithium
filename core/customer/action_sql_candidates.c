@@ -94,6 +94,8 @@ i_callback* l_action_sql_load_candidates (i_resource *self, i_incident *inc, int
    */
   asprintf (&req->incident_match_str, "(site_name='%s' OR site_name IS NULL) AND (dev_name='%s' OR dev_name IS NULL) AND (cnt_name='%s' OR cnt_name IS NULL) AND (obj_name='%s' OR obj_name IS NULL) AND (met_name='%s' OR met_name IS NULL) AND (trg_name='%s' OR trg_name IS NULL)", inc->ent->site_name, inc->ent->dev_name, inc->ent->cnt_name, inc->ent->obj_name, inc->ent->met_name, inc->ent->trg_name);
 
+  i_printf(0, "DEBUG: Query is %s", query);
+
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_action_sql_load_candidates_actioncb, cb);
   free (query);

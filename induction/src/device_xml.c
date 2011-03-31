@@ -92,9 +92,20 @@ void i_device_xml (i_entity *ent, xmlNodePtr ent_node, unsigned short flags)
     asprintf (&str, "%i", dev->mark);
     xmlNewChild (ent_node, NULL, BAD_CAST "mark", BAD_CAST str);
     free (str);
-    asprintf (&str, "%i", dev->minimum_action_severity);
-    xmlNewChild (ent_node, NULL, BAD_CAST "minimum_action_severity", BAD_CAST str);
-    free (str);
+
+    if (global_self->type == RES_CUSTOMER)
+    {
+      /* The minimum action severity is owned by the customer and may be 
+       * changed on the fly in the customer but not reflected in the device.
+       * Only present the minimum_action_severity via the customer
+       */
+      int min_sev = dev->minimum_action_severity;
+      if (min_sev < 1) min_sev = 1; // Enforce minimum of 1 (All Alerts)
+      if (min_sev > 4) min_sev = 4; // Enforce maximum of 4 (No Alerts) 
+      asprintf (&str, "%i", min_sev);
+      xmlNewChild (ent_node, NULL, BAD_CAST "minimum_action_severity", BAD_CAST str);
+      free (str);
+    }
   }
   asprintf (&str, "%i", dev->icmp);
   xmlNewChild (ent_node, NULL, BAD_CAST "icmp", BAD_CAST str);
