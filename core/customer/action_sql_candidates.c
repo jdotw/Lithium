@@ -86,15 +86,13 @@ i_callback* l_action_sql_load_candidates (i_resource *self, i_incident *inc, int
   else if (now_tm->tm_wday == 6) daymask = 32;
 
   /* Create query */
-  asprintf (&query, "SELECT id, descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script, log_output, (SELECT count(*) FROM action_entities WHERE action_entities.action=actions.id) AS entities FROM actions WHERE enabled='1' AND (daymask & %i) > 0 AND (timefilter='0' OR (starthour >= %i AND endhour < %i))", daymask, now_tm->tm_hour, now_tm->tm_hour);
+  asprintf (&query, "SELECT id, descr, enabled, activation, delay, rerun, rerundelay, timefilter, daymask, starthour, endhour, script, log_output, (SELECT count(*) FROM action_entities WHERE action_entities.action=actions.id) AS entities FROM actions WHERE enabled='1' AND (daymask & %i) > 0 AND (timefilter='0' OR (starthour <= %i AND endhour > %i))", daymask, now_tm->tm_hour, now_tm->tm_hour);
 
   /* Create incident/entity match string 
    *
    * We do this now because we can't rely on the incident hanging around
    */
   asprintf (&req->incident_match_str, "(site_name='%s' OR site_name IS NULL) AND (dev_name='%s' OR dev_name IS NULL) AND (cnt_name='%s' OR cnt_name IS NULL) AND (obj_name='%s' OR obj_name IS NULL) AND (met_name='%s' OR met_name IS NULL) AND (trg_name='%s' OR trg_name IS NULL)", inc->ent->site_name, inc->ent->dev_name, inc->ent->cnt_name, inc->ent->obj_name, inc->ent->met_name, inc->ent->trg_name);
-
-  i_printf(0, "DEBUG: Query is %s", query);
 
   /* Execute query */
   num = i_pg_async_query_exec (self, conn, query, 0, l_action_sql_load_candidates_actioncb, cb);
