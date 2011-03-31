@@ -710,7 +710,7 @@ static NSMutableArray *activeControllers = nil;
 	}
 	
 	/* Check to see if it's an unconfigured customer */
-	if (![self.treeSelectedEntity.customer isConfigured])
+	if (self.treeSelectedEntity.customer && ![self.treeSelectedEntity.customer isConfigured])
 	{
 		/* Unconfigured customer selected! */
 		LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:self.treeSelectedEntity.customer] autorelease];

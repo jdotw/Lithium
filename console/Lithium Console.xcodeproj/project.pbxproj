@@ -657,6 +657,7 @@
 		10741F2C0E974A000010644D /* OverlayMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10741F1E0E974A000010644D /* OverlayMenu.xib */; };
 		10741F300E974D070010644D /* Browser2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10741F2F0E974D070010644D /* Browser2.xib */; };
 		107D848110BB257F00045CD8 /* NoDot.tif in Resources */ = {isa = PBXBuildFile; fileRef = 107D848010BB257F00045CD8 /* NoDot.tif */; };
+		10808EB21344112200180D3F /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 10808EB11344112200180D3F /* MAAttachedWindow.m */; };
 		108167C70FAE3809005A9A11 /* LCBrowserTreeDiscoveryRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = 108167C60FAE3809005A9A11 /* LCBrowserTreeDiscoveryRoot.m */; };
 		108167CD0FAE38A6005A9A11 /* LCBrowserTreeBonjour.m in Sources */ = {isa = PBXBuildFile; fileRef = 108167CC0FAE38A6005A9A11 /* LCBrowserTreeBonjour.m */; };
 		108167D00FAE38BE005A9A11 /* LCBrowserTreeNetworkScan.m in Sources */ = {isa = PBXBuildFile; fileRef = 108167CF0FAE38BE005A9A11 /* LCBrowserTreeNetworkScan.m */; };
@@ -1823,6 +1824,8 @@
 		10741F1E0E974A000010644D /* OverlayMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OverlayMenu.xib; sourceTree = "<group>"; };
 		10741F2F0E974D070010644D /* Browser2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Browser2.xib; sourceTree = "<group>"; };
 		107D848010BB257F00045CD8 /* NoDot.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = NoDot.tif; sourceTree = "<group>"; };
+		10808EB01344112200180D3F /* MAAttachedWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAAttachedWindow.h; sourceTree = "<group>"; };
+		10808EB11344112200180D3F /* MAAttachedWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAAttachedWindow.m; sourceTree = "<group>"; };
 		108167C50FAE3809005A9A11 /* LCBrowserTreeDiscoveryRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCBrowserTreeDiscoveryRoot.h; sourceTree = "<group>"; };
 		108167C60FAE3809005A9A11 /* LCBrowserTreeDiscoveryRoot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCBrowserTreeDiscoveryRoot.m; sourceTree = "<group>"; };
 		108167CB0FAE38A6005A9A11 /* LCBrowserTreeBonjour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCBrowserTreeBonjour.h; sourceTree = "<group>"; };
@@ -4720,6 +4723,8 @@
 			children = (
 				32CA4F630368D1EE00C91783 /* Lithium Console_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				10808EB01344112200180D3F /* MAAttachedWindow.h */,
+				10808EB11344112200180D3F /* MAAttachedWindow.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -5562,6 +5567,7 @@
 				10FA3927134158A400CA2E38 /* LCCoreSetupWindowController.m in Sources */,
 				10FA395613416DA600CA2E38 /* LCDemoLicense.m in Sources */,
 				10FA395D13416DB000CA2E38 /* LCLicense.m in Sources */,
+				10808EB21344112200180D3F /* MAAttachedWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

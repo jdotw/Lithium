@@ -67,6 +67,7 @@
 	/* Set initial state */
 	self.refreshSuccessful = YES;
 	self.opState = -1;
+	self.isConfigured = YES;
 	
 	return self;
 }

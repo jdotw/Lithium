@@ -43,6 +43,7 @@
 	NSString *demoEmail;
 	NSString *demoCompany;
 	NSString *licenseKey;
+	BOOL usingExistingLicense;
 	
 	/* License Activation */
 	NSString *licName;
@@ -58,6 +59,7 @@
 	NSString *authUsername;
 	NSString *authPassword;
 	NSString *authPasswordConfirm;
+	BOOL authRequired;
 	
 	/* XML Request */
 	LCXMLRequest *coreSetupRequest;
@@ -81,11 +83,13 @@
 @property (nonatomic,retain) NSString *licName;
 @property (nonatomic,retain) NSString *licEmail;
 @property (nonatomic,retain) NSString *licCompany;
+@property (nonatomic,assign) BOOL usingExistingLicense;
 
 @property (nonatomic,assign) int authTypeIndex;
 @property (nonatomic,retain) NSString *authUsername;
 @property (nonatomic,retain) NSString *authPassword;
 @property (nonatomic,retain) NSString *authPasswordConfirm;
+@property (nonatomic,assign) BOOL authRequired;
 
 @property (nonatomic,assign) BOOL canGoBack;
 @property (nonatomic,assign) BOOL canGoNext;

@@ -32,7 +32,7 @@
 	self.node = initNode;
 	self.url = initBaseURL;
 	self.browserViewType = 1;
-	self.isConfigured = YES;		// Default for legacy LithiumCore versions 
+	self.isConfigured = YES;
 	
 	/* Setup XML Translations */
 	[self.xmlTranslation setObject:@"licenseType" forKey:@"license_type"];

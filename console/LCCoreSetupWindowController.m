@@ -21,13 +21,6 @@
 
 @implementation LCCoreSetupWindowController
 
-@synthesize status, operationInProgress;
-@synthesize licenseTypeIndex, demoName, demoEmail, demoCompany, licenseKey;
-@synthesize licName, licCompany, licEmail;
-@synthesize authTypeIndex, authUsername, authPassword, authPasswordConfirm;
-@synthesize canGoBack, canGoNext; 
-@synthesize customer;
-
 #pragma mark Initialization
 
 - (id) initWithCustomer:(LCCustomer *)initCustomer
@@ -36,6 +29,7 @@
 	if (!self) return nil;
 	
 	self.customer = initCustomer;
+	self.authRequired = YES;
 	
 	return self;
 }
@@ -44,6 +38,47 @@
 {
 	NSLog (@"%@ DEALLOC", self);
 	[super dealloc];
+}
+
+#pragma mark Properties
+
+@synthesize status, operationInProgress;
+@synthesize licenseTypeIndex, demoName, demoEmail, demoCompany, licenseKey;
+@synthesize licName, licCompany, licEmail;
+@synthesize authTypeIndex, authUsername, authPassword, authPasswordConfirm;
+@synthesize canGoBack, canGoNext; 
+@synthesize customer;
+@synthesize usingExistingLicense;
+@synthesize authRequired;
+
+- (void) setLicenseTypeIndex:(int)value
+{
+	licenseTypeIndex = value;
+	if (licenseTypeIndex == 0)
+	{
+		/* Demo */
+		self.usingExistingLicense = NO;
+	}
+	else 
+	{
+		/* Using Exisring */
+		self.usingExistingLicense = YES;
+	}
+}
+
+- (void) setAuthTypeIndex:(int)value
+{
+	authTypeIndex = value;
+	if (authTypeIndex == 0)
+	{
+		/* Supplied Auth */
+		self.authRequired = YES;
+	}
+	else
+	{
+		/* No Auth */
+		self.authRequired = NO;
+	}
 }
 
 #pragma mark Navigation
