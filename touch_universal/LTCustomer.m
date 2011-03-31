@@ -91,15 +91,16 @@
 
 - (void) setUuidString:(NSString *)value
 {
-	if ([value isEqualToString:self.uuidString]) return;	
 	[super setUuidString:value];
 	
-	if ([(AppDelegate *)[[UIApplication sharedApplication] delegate] pushToken])
+	if (!pushRegistrationSent && [(AppDelegate *)[[UIApplication sharedApplication] delegate] pushToken])
 	{
+        NSLog (@"Registering for APNS on %@", self.desc);
 		LTPushRegistrationRequest *pushReq = [[LTPushRegistrationRequest alloc] initWithCustomer:self
 																						   token:[(AppDelegate *)[[UIApplication sharedApplication] delegate] pushToken]
 																			receiveNotifications:YES];
 		[pushReq performRequest];
+        pushRegistrationSent = YES;
 	}
 	
 }											  

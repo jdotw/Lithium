@@ -805,12 +805,11 @@
 	}
 	else
 	{
-		AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
 		if ([indexPath section] == 0)
 		{
-			if ([indexPath row] < appDelegate.coreDeployments.count)
+			if ([indexPath row] < children.count)
 			{ 
-				LTCoreDeployment *deployment = [appDelegate.coreDeployments objectAtIndex:indexPath.row];
+				LTCoreDeployment *deployment = [children objectAtIndex:indexPath.row];
 				if (deployment.discovered) return NO;
 				else return YES;
 			}

@@ -19,6 +19,8 @@
 	LTIncidentList *incidentList;
 	
 	id groupTree;
+    
+    BOOL pushRegistrationSent;
 }
 
 @property (copy) NSString *url;

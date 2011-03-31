@@ -48,6 +48,7 @@
 	
 	/* Register for push */
 #ifndef DEMO
+    NSLog(@"Attempting to register for PUSH");
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound|UIRemoteNotificationTypeAlert];
 #endif
 	
@@ -82,9 +83,13 @@
     [window makeKeyAndVisible];
 	
 	/* Initialize net browser */
-	coreServiceBrowser = [[NSNetServiceBrowser alloc] init];
-	coreServiceBrowser.delegate = self;
-	[coreServiceBrowser searchForServicesOfType:@"_lithium._tcp" inDomain:@""];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"LTSetupUseDiscoveredDeployments"])
+    {
+        NSLog (@"Using Discovered!");
+        coreServiceBrowser = [[NSNetServiceBrowser alloc] init];
+        coreServiceBrowser.delegate = self;
+        [coreServiceBrowser searchForServicesOfType:@"_lithium._tcp" inDomain:@""];
+    }
 
 	/* CHeck for at lease one core deployment */
 	[NSTimer scheduledTimerWithTimeInterval:1.0
@@ -161,11 +166,13 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+    NSLog (@"Got token %@", deviceToken);
 	self.pushToken = deviceToken;
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
+    NSLog (@"Push rego failed: %@", error);
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo

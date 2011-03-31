@@ -5,6 +5,22 @@
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Lithium Deployments</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Use Discovered Deployments</string>
+			<key>Key</key>
+			<string>LTSetupUseDiscoveredDeployments</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
 			<key>Title</key>
 			<string>Devices</string>
 			<key>Type</key>
@@ -21,14 +37,14 @@
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Sort by Status</string>
-			<key>Key</key>
-			<string>LTSetupSortDevicesByStatus</string>
 			<key>DefaultValue</key>
 			<false/>
+			<key>Key</key>
+			<string>LTSetupSortDevicesByStatus</string>
+			<key>Title</key>
+			<string>Sort by Status</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
 			<key>Title</key>
