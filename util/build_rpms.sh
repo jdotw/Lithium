@@ -36,6 +36,9 @@ mkdir BUILD RPMS SOURCES SPECS SRPMS
 
 cd "$BASEDIR/induction"
 sudo make distclean
+sudo rm configure
+sudo rm config.*
+sudo ./bootstrap_linux.sh
 cd ..
 
 cd "$LIBBUILDDIR"
@@ -73,12 +76,16 @@ rm -rf "$LIBBUILDDIR/induction-$BUILDNUM-root"
 #
 
 # Install Induction
-rpm -U rpm-build-induction/RPMS/i386/*
+cd "$BASEDIR/rpm-build-induction/RPMS/i386"
+sudo rpm -U *rpm
 
 # Create source tarball
 
 cd "$BASEDIR/core"
 sudo make distclean
+sudo rm configure
+sudo rm config.*
+sudo ./bootstrap_linux.sh
 cd ..
 
 cd "$COREBUILDDIR"

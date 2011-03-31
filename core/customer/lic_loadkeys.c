@@ -26,6 +26,8 @@
 
 #include "lic.h"
 
+int _b64decode(unsigned char* str);
+
 /* Load */
 
 l_lic_key* l_lic_key_create ()
@@ -121,7 +123,7 @@ i_list* l_lic_loadkeys (i_resource *self)
       {
         unsigned char dst[strlen(key->enc_str)+1];
         unsigned char *src = (unsigned char *) strdup (key->enc_str);
-        int src_size = b64decode(src);
+        int src_size = _b64decode(src);
         num = RSA_public_decrypt(src_size, src, dst, rsa_key, RSA_PKCS1_PADDING);
         if (num != -1)
         {
@@ -406,7 +408,7 @@ l_lic_key* l_lic_validate_key (i_resource *self, char *enckey_str)
     {
       unsigned char dst[strlen(key->enc_str)+1];
       unsigned char *src = (unsigned char *) strdup (key->enc_str);
-      int src_size = b64decode(src);
+      int src_size = _b64decode(src);
       num = RSA_public_decrypt(src_size, src, dst, rsa_key, RSA_PKCS1_PADDING);
       if (num != -1)
       {
@@ -550,7 +552,7 @@ l_lic_key* l_lic_validate_key (i_resource *self, char *enckey_str)
   return key;
 }
 
-int b64decode(unsigned char* str)
+int _b64decode(unsigned char* str)
 {
     unsigned char *cur, *start;
     int d, dlast, phase;

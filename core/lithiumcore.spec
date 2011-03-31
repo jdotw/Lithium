@@ -38,7 +38,7 @@ cp ../../../linux/centos/lithiumcore.init $RPM_BUILD_ROOT/usr/bin/lithiumcore.in
 cp ../../../linux/centos/start_lithium.sh $RPM_BUILD_ROOT/usr/bin/start_lithium.sh
 cp ../../../linux/centos/httpd.conf $RPM_BUILD_ROOT/usr/share/conf/httpd.conf
 cp ../../../linux/centos/ssl.conf $RPM_BUILD_ROOT/usr/share/conf/ssl.conf
-cp ../../../linux/centos/node.conf $RPM_BUILD_ROOT/usr/share/conf/node.conf
+cp ../../../linux/centos/node.conf $RPM_BUILD_ROOT/usr/share/conf/node.conf.linux
 cp ../../../linux/centos/banner $RPM_BUILD_ROOT/usr/share/conf/banner
 chmod ug+x $RPM_BUILD_ROOT/usr/bin/start_lithium.sh
 make install prefix=$RPM_BUILD_ROOT/usr
@@ -52,3 +52,7 @@ make install prefix=$RPM_BUILD_ROOT/usr
 /var
 /usr/local
 
+%post
+if [ -e /etc/init.d/lithiumcore ]; then
+  /etc/init.d/lithiumcore restart
+fi

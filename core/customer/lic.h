@@ -22,7 +22,6 @@ struct l_lic_entitlement_s* l_lic_load_entitlement (i_resource *self);
 
 i_list* l_lic_loadkeys (i_resource *self);
 struct l_lic_key_s* l_lic_validate_key (i_resource *self, char *enckey_str);
-int b64decode(unsigned char* str);
 
 /* lic_entitlement.c */
 
