@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="99"/>
+			<integer value="2"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -126,7 +126,7 @@
 								<object class="NSTabViewItem" id="176104250">
 									<string key="NSIdentifier">license</string>
 									<object class="NSView" key="NSView" id="582255086">
-										<nil key="NSNextResponder"/>
+										<reference key="NSNextResponder" ref="143179655"/>
 										<int key="NSvFlags">256</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -657,6 +657,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											</object>
 										</object>
 										<string key="NSFrameSize">{641, 389}</string>
+										<reference key="NSSuperview" ref="143179655"/>
 									</object>
 									<string key="NSLabel">License</string>
 									<reference key="NSColor" ref="1059435278"/>
@@ -1300,7 +1301,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<object class="NSTabViewItem" id="661176999">
 									<string key="NSIdentifier">done</string>
 									<object class="NSView" key="NSView" id="226729527">
-										<reference key="NSNextResponder" ref="143179655"/>
+										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1402,20 +1403,19 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											</object>
 										</object>
 										<string key="NSFrameSize">{641, 389}</string>
-										<reference key="NSSuperview" ref="143179655"/>
 									</object>
 									<string key="NSLabel">Done</string>
 									<reference key="NSColor" ref="1059435278"/>
 									<reference key="NSTabView" ref="143179655"/>
 								</object>
 							</object>
-							<reference key="NSSelectedTabViewItem" ref="661176999"/>
+							<reference key="NSSelectedTabViewItem" ref="176104250"/>
 							<reference key="NSFont" ref="863035821"/>
 							<int key="NSTvFlags">6</int>
 							<bool key="NSAllowTruncatedLabels">YES</bool>
 							<object class="NSMutableArray" key="NSSubviews">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<reference ref="226729527"/>
+								<reference ref="582255086"/>
 							</object>
 						</object>
 						<object class="NSProgressIndicator" id="595411546">
@@ -1482,6 +1482,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>authPasswordConfirm</string>
 					<string>usingExistingLicense</string>
 					<string>authRequired</string>
+					<string>canGoNext</string>
+					<string>canGoBack</string>
 				</object>
 				<bool key="NSEditable">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
@@ -1521,38 +1523,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="destination" ref="461710620"/>
 					</object>
 					<int key="connectionID">144</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: canGoNext</string>
-						<reference key="source" ref="489383769"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="489383769"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: canGoNext</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">canGoNext</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">149</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: canGoBack</string>
-						<reference key="source" ref="185660660"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="185660660"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: canGoBack</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">canGoBack</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">150</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -1967,7 +1937,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="label">enabled: selection.usingExistingLicense</string>
 						<reference key="source" ref="943566791"/>
 						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
+						<object class="NSNibBindingConnector" key="connector" id="279547383">
 							<reference key="NSSource" ref="943566791"/>
 							<reference key="NSDestination" ref="414082875"/>
 							<string key="NSLabel">enabled: selection.usingExistingLicense</string>
@@ -2073,6 +2043,135 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</object>
 					</object>
 					<int key="connectionID">219</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: selection.usingExistingLicense</string>
+						<reference key="source" ref="943566791"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="943566791"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">hidden: selection.usingExistingLicense</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">selection.usingExistingLicense</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<reference key="NSPreviousConnector" ref="279547383"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">221</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.operationInProgress</string>
+						<reference key="source" ref="185660660"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector" id="528254090">
+							<reference key="NSSource" ref="185660660"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">enabled: selection.operationInProgress</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.operationInProgress</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">230</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: selection.canGoBack</string>
+						<reference key="source" ref="185660660"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="185660660"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">enabled2: selection.canGoBack</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">selection.canGoBack</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="528254090"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">231</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: selection.operationInProgress</string>
+						<reference key="source" ref="489383769"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector" id="28381544">
+							<reference key="NSSource" ref="489383769"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">enabled: selection.operationInProgress</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">selection.operationInProgress</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">232</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: selection.canGoNext</string>
+						<reference key="source" ref="489383769"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="489383769"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">enabled2: selection.canGoNext</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">selection.canGoNext</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="28381544"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">233</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3387,7 +3486,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">219</int>
+			<int key="maxID">233</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

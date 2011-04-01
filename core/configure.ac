@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(construct/main.c)
 
-VERSION=5.0.15
+VERSION=5.0.16
 PACKAGE=lithium
 
 AC_CANONICAL_TARGET

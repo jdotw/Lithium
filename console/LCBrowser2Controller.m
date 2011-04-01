@@ -1475,12 +1475,25 @@ static NSMutableArray *activeControllers = nil;
 	LCSite *site = [menuItem representedObject];
 	if (site)
 	{
-		LCDeviceEditController *editController = [[LCDeviceEditController alloc] initForNewDeviceAtSite:site];
-		[NSApp beginSheet:[editController window]
-		   modalForWindow:[self window]
-			modalDelegate:self
-		   didEndSelector:nil
-			  contextInfo:nil];
+		if (site.customer && ![site.customer isConfigured])
+		{
+			/* Unconfigured customer selected! */
+			LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:site.customer] autorelease];
+			[NSApp beginSheet:[wc window]
+			   modalForWindow:[self window]
+				modalDelegate:nil
+			   didEndSelector:nil
+				  contextInfo:nil];
+		}
+		else 
+		{
+			LCDeviceEditController *editController = [[LCDeviceEditController alloc] initForNewDeviceAtSite:site];
+			[NSApp beginSheet:[editController window]
+			   modalForWindow:[self window]
+				modalDelegate:self
+			   didEndSelector:nil
+				  contextInfo:nil];			
+		}
 	}
 }
 
@@ -1489,7 +1502,20 @@ static NSMutableArray *activeControllers = nil;
 	LCSite *site = [menuItem representedObject];
 	if (site)
 	{
-		[[LCDeviceEditController alloc] initForImportFromCSVAtSite:site windowForSheet:[self window]];
+		if (site.customer && ![site.customer isConfigured])
+		{
+			/* Unconfigured customer selected! */
+			LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:site.customer] autorelease];
+			[NSApp beginSheet:[wc window]
+			   modalForWindow:[self window]
+				modalDelegate:nil
+			   didEndSelector:nil
+				  contextInfo:nil];
+		}
+		else
+		{
+			[[LCDeviceEditController alloc] initForImportFromCSVAtSite:site windowForSheet:[self window]];
+		}
 	}
 }
 
@@ -1498,12 +1524,26 @@ static NSMutableArray *activeControllers = nil;
 	LCSite *site = [menuItem representedObject];
 	if (site)
 	{
-		LCDeviceEditController *editController = [[LCDeviceEditController alloc] initForImportFromARDAtSite:site windowForSheet:[self window]];
-		[NSApp beginSheet:[editController window]
-		   modalForWindow:[self window]
-			modalDelegate:self
-		   didEndSelector:nil
-			  contextInfo:nil];
+		if (site.customer && ![site.customer isConfigured])
+		{
+			/* Unconfigured customer selected! */
+			LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:site.customer] autorelease];
+			[NSApp beginSheet:[wc window]
+			   modalForWindow:[self window]
+				modalDelegate:nil
+			   didEndSelector:nil
+				  contextInfo:nil];
+		}
+		else 
+		{
+			LCDeviceEditController *editController = [[LCDeviceEditController alloc] initForImportFromARDAtSite:site windowForSheet:[self window]];
+			[NSApp beginSheet:[editController window]
+			   modalForWindow:[self window]
+				modalDelegate:self
+			   didEndSelector:nil
+				  contextInfo:nil];
+			
+		}
 	}
 }
 
@@ -1512,12 +1552,26 @@ static NSMutableArray *activeControllers = nil;
 	LCCustomer *customer = [menuItem representedObject];
 	if (customer)
 	{ 
-		LCSiteEditController *editController = [[LCSiteEditController alloc] initForNewSiteAtCustomer:customer]; 
-		[NSApp beginSheet:[editController window]
-		   modalForWindow:[self window]
-			modalDelegate:self
-		   didEndSelector:nil
-			  contextInfo:nil];
+		if (![customer isConfigured])
+		{
+			/* Unconfigured customer selected! */
+			LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:customer] autorelease];
+			[NSApp beginSheet:[wc window]
+			   modalForWindow:[self window]
+				modalDelegate:nil
+			   didEndSelector:nil
+				  contextInfo:nil];
+		}
+		else 
+		{
+			LCSiteEditController *editController = [[LCSiteEditController alloc] initForNewSiteAtCustomer:customer]; 
+			[NSApp beginSheet:[editController window]
+			   modalForWindow:[self window]
+				modalDelegate:self
+			   didEndSelector:nil
+				  contextInfo:nil];
+			
+		}		
 	}
 }
 

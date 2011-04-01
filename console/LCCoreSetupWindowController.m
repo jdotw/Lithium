@@ -249,6 +249,7 @@
 
 	if (request.success)
 	{
+		self.customer.isConfigured = YES;	// Update the flag because the next refresh may need auth
 		[self showDoneTab];
 	}
 	else 
@@ -304,6 +305,7 @@
 	[coreSetupRequest setDelegate:self];
 	[coreSetupRequest setXMLDelegate:self];
 	[coreSetupRequest setPriority:XMLREQ_PRIO_HIGH];	
+	[coreSetupRequest setDebug:YES];
 	self.operationInProgress = YES;
 	self.status = @"Sending setup information to Lithium Core";
 	[coreSetupRequest performAsyncRequest];

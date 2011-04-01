@@ -21,14 +21,24 @@ echo "Build number is $BUILDNUM"
 # Scp 
 #
 
+#cd "$DMGDIR"
+#scp *Console*$BUILDNUM*dmg www.lithiumcorp.com:/www/download.lithiumcorp.com/lithium5/console
+
+#
+# Amazon AWS
+#
+
 cd "$DMGDIR"
-scp *Console*$BUILDNUM*dmg www.lithiumcorp.com:/www/download.lithiumcorp.com/lithium5/console
+mkdir -p "AWS/console"
+cp LithiumConsole-$BUILDNUM.dmg "AWS/console/LithiumConsole-$BUILDNUM.dmg"
+s3put -d 2 -c 100 -b l5release -g public-read -p "AWS" AWS/console/LithiumConsole-$BUILDNUM.dmg
+rm -rf "AWS"
 
 #
 # Link 
 #
 
-ssh $USER@www.lithiumcorp.com "ln -sf /www/download.lithiumcorp.com/lithium5/console/LithiumConsole-$BUILDNUM.dmg /www/download.lithiumcorp.com/lithium5/console/LithiumConsole-CURRENT.dmg"
+#ssh $USER@www.lithiumcorp.com "ln -sf /www/download.lithiumcorp.com/lithium5/console/LithiumConsole-$BUILDNUM.dmg /www/download.lithiumcorp.com/lithium5/console/LithiumConsole-CURRENT.dmg"
 
 # 
 # Clean up

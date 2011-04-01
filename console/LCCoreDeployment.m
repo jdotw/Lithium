@@ -253,6 +253,18 @@
 //		else if (button == NSAlertAlternateReturn)
 //		{ [[LCPreferencesController alloc] init]; }
 	}
+	else 
+	{
+		/* Non-Cert Error, set status */
+		[self setStatusInteger:3];
+		[self setStatus:[[error localizedDescription] capitalizedString]];
+		[self setStatusIcon:[NSImage imageNamed:@"stop_48.tif"]];
+		[self setErrorEncountered:YES]; 
+		if (!testMode) [self displayAlert];
+		[LCError logError:[NSString stringWithFormat:@"Failed to retrieve XML Customer List from %@", [self url]]
+			  forCustomer:nil
+				 fullText:[NSString stringWithFormat:@"Error: %@", [[error localizedDescription] capitalizedString]]];		
+	}
 	
 	/* Release data */
 	[receivedData release];
@@ -261,16 +273,6 @@
 	/* Release connection */
 	urlConn = nil;
 	[connection release];
-
-	/* Set Status */
-	[self setStatusInteger:3];
-	[self setStatus:[[error localizedDescription] capitalizedString]];
-	[self setStatusIcon:[NSImage imageNamed:@"stop_48.tif"]];
-	[self setErrorEncountered:YES]; 
-	if (!testMode) [self displayAlert];
-	[LCError logError:[NSString stringWithFormat:@"Failed to retrieve XML Customer List from %@", [self url]]
-		  forCustomer:nil
-			 fullText:[NSString stringWithFormat:@"Error: %@", [[error localizedDescription] capitalizedString]]];
 	
 	/* Set refresh flag */
 	[self setRefreshInProgress:NO];

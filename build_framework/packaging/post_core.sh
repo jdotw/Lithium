@@ -21,16 +21,29 @@ echo "Build number is $BUILDNUM"
 # Scp 
 #
 
+#cd "$DMGDIR"
+#scp *Core*$BUILDNUM*dmg www.lithiumcorp.com:/www/download.lithiumcorp.com/lithium5/core/osx
+#scp *Core*$BUILDNUM*zip www.lithiumcorp.com:/www/download.lithiumcorp.com/lithium5/core/osx/updater
+
+#
+# Amazon AWS
+#
+
 cd "$DMGDIR"
-scp *Core*$BUILDNUM*dmg www.lithiumcorp.com:/www/download.lithiumcorp.com/lithium5/core/osx
-scp *Core*$BUILDNUM*zip www.lithiumcorp.com:/www/download.lithiumcorp.com/lithium5/core/osx/updater
+mkdir -p "AWS/core/osx"
+mkdir -p "AWS/core/osx/updater"
+cp LithiumCore-$BUILDNUM.dmg "AWS/core/osx/LithiumCore-$BUILDNUM.dmg"
+cp Lithium-Core-$BUILDNUM.zip "AWS/core/osx/updater/Lithium-Core-$BUILDNUM.zip"
+s3put -d 2 -c 100 -b l5release -g public-read -p "AWS" AWS/core/osx/LithiumCore-$BUILDNUM.dmg
+s3put -d 2 -c 100 -b l5release -g public-read -p "AWS" AWS/core/osx/updater/Lithium-Core-$BUILDNUM.zip
+rm -rf "AWS"
 
 #
 # Link 
 #
 
-ssh $USER@www.lithiumcorp.com "ln -sf /www/download.lithiumcorp.com/lithium5/core/osx/LithiumCore-$BUILDNUM.dmg /www/download.lithiumcorp.com/lithium5/core/osx/LithiumCore-CURRENT.dmg"
-ssh $USER@www.lithiumcorp.com "ln -sf /www/download.lithiumcorp.com/lithium5/core/osx/updater/Lithium-Core-$BUILDNUM.zip /www/download.lithiumcorp.com/lithium5/core/osx/updater/Lithium-Core-CURRENT.zip"
+#ssh $USER@www.lithiumcorp.com "ln -sf /www/download.lithiumcorp.com/lithium5/core/osx/LithiumCore-$BUILDNUM.dmg /www/download.lithiumcorp.com/lithium5/core/osx/LithiumCore-CURRENT.dmg"
+#ssh $USER@www.lithiumcorp.com "ln -sf /www/download.lithiumcorp.com/lithium5/core/osx/updater/Lithium-Core-$BUILDNUM.zip /www/download.lithiumcorp.com/lithium5/core/osx/updater/Lithium-Core-CURRENT.zip"
 
 # 
 # Clean up
