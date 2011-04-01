@@ -465,14 +465,6 @@ int i_triggerset_valrule_sql_delete_exclusive (i_resource *self, i_object *obj, 
   
   char *tmp;
 
-//  if (rule->site_name && rule->dev_name && rule->obj_name)
-//  {
-    /* This rule is fully qualified, there's no need to delete anything below
-     * it because it is already the most specific
-     */
-//    return 0;
-//  }
-
   /* Connect */
   i_pg_async_conn *conn = i_pg_async_conn_open_customer (self);
   if (!conn)

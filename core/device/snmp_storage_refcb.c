@@ -58,6 +58,7 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
     if (val->integer == 1 && !store->usedpc_trigger_applied)
     {
       apply_usedpc_trigger = 1;
+      i_printf(0, "DEBUG: l_snmp_storage_obj_refcb(%s): setting apply_usedpc_trigger to 1", obj->desc_str);
     }
   }
   else if (l_snmp_hrfilesys_enabled())
@@ -74,6 +75,7 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
     if (access_val->integer == 1 && !store->usedpc_trigger_applied)
     {
       apply_usedpc_trigger = 1;
+      i_printf(0, "DEBUG: l_snmp_storage_obj_refcb(%s): setting apply_usedpc_trigger to 1", obj->desc_str);
     }
   }
   else
@@ -104,21 +106,35 @@ int l_snmp_storage_obj_refcb (i_resource *self, i_entity *ent, void *passdata)
       {
         i_adminstate_change (self, ENTITY(child_met), ENTADMIN_DISABLED);
       }
+      i_printf(0, "DEBUG: l_snmp_storage_obj_refcb(%s): disabled all metrics", obj->desc_str);
     }
     else
     { 
       apply_usedpc_trigger = 1; 
+      i_printf(0, "DEBUG: l_snmp_storage_obj_refcb(%s): setting apply_usedpc_trigger to 1", obj->desc_str);
     }
   } 
 
   if (apply_usedpc_trigger == 1 && !store->usedpc_trigger_applied)
   {
-    /* Volume is writeable, apply used_pc triggerset */
-    i_triggerset *tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
+    /* Volume is writeable, apply used_pc and used triggersets */
+    i_triggerset *tset;
+   
+    i_printf(0, "DEBUG: l_snmp_storage_obj_refcb(%s): applied percent used and used triggersets", obj->desc_str);
+    
+    tset = i_triggerset_create ("used_pc", "Percent Used", "used_pc");
     i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 80, NULL, 97, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
     i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_RANGE, 97, NULL, 99, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
     i_triggerset_addtrg (self, tset, "critical", "Critical", VALTYPE_FLOAT, TRGTYPE_GT, 99, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
     i_triggerset_assign_obj (self, obj, tset);
+    
+    tset = i_triggerset_create ("used", "Used", "used");
+    i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_FLOAT, TRGTYPE_RANGE, 0, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+    i_triggerset_addtrg (self, tset, "impaired", "Impaired", VALTYPE_FLOAT, TRGTYPE_RANGE, 0, NULL, 0, NULL, 0, ENTSTATE_IMPAIRED, TSET_FLAG_VALAPPLY);
+    i_triggerset_addtrg (self, tset, "critical", "Critical", VALTYPE_FLOAT, TRGTYPE_GT, 0, NULL, 0, NULL, 0, ENTSTATE_CRITICAL, TSET_FLAG_VALAPPLY);
+    tset->default_applyflag = 0;  // Not enabled by default
+    i_triggerset_assign_obj (self, obj, tset);
+    
     store->usedpc_trigger_applied = 1;
     i_triggerset_evalapprules_allsets (self, obj);
   }

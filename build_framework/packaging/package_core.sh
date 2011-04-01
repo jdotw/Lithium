@@ -68,7 +68,6 @@ if [ $? -ne 0 ]; then
 fi
 
 cd "$CONSOLESRCDIR"
-agvtool bump -all
 CONSOLEBUILDNUM=`agvtool mvers | grep '^Found CFBundleShortVersionString of'  | awk '{ print $4 }' | sed 's/\"//g'`
 echo "Console Build number is $CONSOLEBUILDNUM"
 

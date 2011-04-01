@@ -419,14 +419,6 @@ int i_triggerset_apprule_sql_delete_exclusive (i_resource *self, i_object *obj, 
 
   char *tmp;
 
-  if (rule->site_name && rule->dev_name && rule->obj_name)
-  {
-    /* This rule is fully qualified, there's no need to delete anything below
-     * it because it is already the most specific
-     */
-    return 0;
-  }
-
   /* Connect */
   i_pg_async_conn *conn = i_pg_async_conn_open_customer (self);
   if (!conn)
@@ -448,39 +440,67 @@ int i_triggerset_apprule_sql_delete_exclusive (i_resource *self, i_object *obj, 
 
   /* Add filters for site/dev/obj specifics 
    *
-   * This statement should only delete rules that are MORE specific, that is
-   * it should delete rows where the column is NOT NULL if it is NULL in the
-   * rule
+   * This statement should only delete rules that are AS-SPECIFIC or MORE specific, that is
+   * it should delete rows where the column is NOT NULL if it is NULL in the rule
+   * or if the rule is a direct march for the specificity of the supplied rule
    */
-  if (rule->site_name || rule->dev_name || rule->obj_name)
+
+  /* Add the parameters to delete the AS-SPECIFIC rules */
+  char *site_match_str = strdup("IS NULL");
+  char *dev_match_str = strdup("IS NULL");
+  char *obj_match_str = strdup("IS NULL");
+  if (rule->site_name) { free(site_match_str); asprintf(&site_match_str, "= '%s'", rule->site_name); }
+  if (rule->dev_name) { free(dev_match_str); asprintf(&dev_match_str, "= '%s'", rule->dev_name); }
+  if (rule->obj_name) { free(obj_match_str); asprintf(&obj_match_str, "= '%s'", rule->obj_name); }
+  asprintf(&tmp, "%s AND ((site_name %s AND dev_name %s AND obj_name %s)", query, site_match_str, dev_match_str, obj_match_str);
+  free(query);
+  query = tmp;
+
+  /* Add the query parameters needed to delete MORE-SPECIFIC rules */
+  if (!rule->site_name || !rule->dev_name || !rule->obj_name)
   {
-    /* There's atleast one criteria on the rule, so selective filters
-     * should be used to only delete rules more specific that this rule
+    /* There's atleast one wildcard criteria on the rule, so selective filters
+     * should be used to only delete rules more specific than this rule. That
+     * is, where the supplied rule has a wildcard, this query should delete
+     * any rule that has a specific value set
      */
+
+    asprintf (&tmp, "%s OR (", query);
+    free (query);
+    query = tmp;
+
+    char *and_condition = "";
 
     /* If there's no site specific (all sites), delete any site-specific rule */
     if (!rule->site_name)
     {
-      asprintf(&tmp, "%s AND site_name IS NOT NULL", query);
+      asprintf(&tmp, "%s %s site_name IS NOT NULL", query, and_condition);
       free(query);
       query = tmp;
+      and_condition = "AND";
     }
 
     /* If there's no device (all devices), delete any dev-specific rule */
     if (!rule->dev_name)
     {
-      asprintf(&tmp, "%s AND dev_name IS NOT NULL", query);
+      asprintf(&tmp, "%s %s dev_name IS NOT NULL", query, and_condition);
       free(query);
       query = tmp;
+      and_condition = "AND";
     }
 
     /* If there's no object (all objects), delete any obj-specific rule */
     if (!rule->obj_name)
     {
-      asprintf(&tmp, "%s AND obj_name IS NOT NULL", query);
+      asprintf(&tmp, "%s %s obj_name IS NOT NULL", query, and_condition);
       free(query);
       query = tmp;
+      and_condition = "AND";
     }
+
+    asprintf (&tmp, "%s)", query);
+    free (query);
+    query = tmp;
   }
   else
   {
@@ -489,6 +509,10 @@ int i_triggerset_apprule_sql_delete_exclusive (i_resource *self, i_object *obj, 
      * rules present for this cnt/tset/trg
      */
   }
+
+  asprintf(&tmp, "%s)", query);
+  free(query);
+  query = tmp;
 
   /* DEBUG */
   i_printf(1, "i_triggerset_apprule_sql_delete_exclusive QUERY: %s", query);

@@ -204,6 +204,7 @@ i_list* i_vendor_list (i_resource *self)
     size_t len = lseek (fd, 0, SEEK_END);
     char *buf = (char *) malloc (sizeof(len)+1);
     size_t written = read (fd, buf, len);
+    if (written < 1) i_printf(1, "i_vendor_list failed to read file");
     close (fd);
     buf[len] = '\0';
 

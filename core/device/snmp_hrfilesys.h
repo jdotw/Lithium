@@ -1,4 +1,5 @@
 /* snmp_hrfilesys.c */
+struct l_snmp_objfact_s* l_snmp_hrfilesys_objfact();
 int l_snmp_hrfilesys_enable (i_resource *self);
 int l_snmp_hrfilesys_enabled();
 
