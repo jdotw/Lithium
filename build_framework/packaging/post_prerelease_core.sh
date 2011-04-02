@@ -33,7 +33,7 @@ cd "$DMGDIR"
 cd "$DMGDIR"
 mkdir -p "AWS/core/osx"
 cp LithiumCore-$BUILDNUM.dmg "AWS/core/osx/LithiumCore-$BUILDNUM.$BUILDNUM_SHORT.dmg"
-s3put -d 2 -c 100 -b l5prerelease -g public-read -p "AWS" AWS/core/osx/LithiumCore-$BUILDNUM.$BUILDNUM_SHORT.dmg
+s3put -d 2 -c 100 -b l5prerelease -g public-read -p "$PWD/AWS/" "$PWD/AWS/core/osx/"
 rm -rf "AWS"
 
 # 
