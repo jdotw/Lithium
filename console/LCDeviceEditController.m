@@ -345,6 +345,8 @@
 	/* Set defaults */
 	[self setSnmpVersion:1];
 	[self setRefreshInterval:60];
+	[self setSnmpCommunity:[[NSUserDefaults standardUserDefaults] objectForKey:@"DeviceEditLastUsedSNMPCommunity"]];
+	if (![self snmpCommunity]) [self setSnmpCommunity:@"public"];
 	
 	/* Load NIB */
 	[self window];
@@ -946,6 +948,10 @@
 	/* Perform */
 	testMode = NO;
 	[self performAddUpdateOrTest];	
+	
+	/* Remember the SNMP community */
+	[[NSUserDefaults standardUserDefaults] setObject:[self snmpCommunity] forKey:@"DeviceEditLastUsedSNMPCommunity"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (IBAction) testClicked:(id)sender

@@ -728,6 +728,7 @@
 		10F227FA0FA43BE700837F9D /* UKSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F227C30FA439BB00837F9D /* UKSystemInfo.m */; };
 		10F227FB0FA43BE800837F9D /* UKCrashReporter.nib in Resources */ = {isa = PBXBuildFile; fileRef = 10F227C40FA439BB00837F9D /* UKCrashReporter.nib */; };
 		10F2280E0FA43C4900837F9D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10F2280D0FA43C4900837F9D /* AddressBook.framework */; };
+		10F3299F1346B82200823D70 /* CoreSetupDone.png in Resources */ = {isa = PBXBuildFile; fileRef = 10F3299E1346B82200823D70 /* CoreSetupDone.png */; };
 		10F3C7F30FE060290045558A /* NSURLRequest-SSLHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F3C7F20FE060290045558A /* NSURLRequest-SSLHack.m */; };
 		10F408AB103E7ACD001B6AF4 /* LCBrowserTreeItemRoot.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F408AA103E7ACD001B6AF4 /* LCBrowserTreeItemRoot.m */; };
 		10F40908103E9129001B6AF4 /* mortgage_16.tif in Resources */ = {isa = PBXBuildFile; fileRef = 10F40907103E9129001B6AF4 /* mortgage_16.tif */; };
@@ -1938,6 +1939,7 @@
 		10F227C70FA439E800837F9D /* UKCrashReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UKCrashReporter.m; sourceTree = "<group>"; };
 		10F227C80FA439E900837F9D /* UKCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UKCrashReporter.h; sourceTree = "<group>"; };
 		10F2280D0FA43C4900837F9D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
+		10F3299E1346B82200823D70 /* CoreSetupDone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CoreSetupDone.png; sourceTree = "<group>"; };
 		10F3C7F10FE060290045558A /* NSURLRequest-SSLHack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest-SSLHack.h"; sourceTree = "<group>"; };
 		10F3C7F20FE060290045558A /* NSURLRequest-SSLHack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest-SSLHack.m"; sourceTree = "<group>"; };
 		10F408A9103E7ACD001B6AF4 /* LCBrowserTreeItemRoot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCBrowserTreeItemRoot.h; sourceTree = "<group>"; };
@@ -4287,6 +4289,7 @@
 				10FA392113414F8200CA2E38 /* CoreSetupWindow.xib */,
 				10FA3925134158A400CA2E38 /* LCCoreSetupWindowController.h */,
 				10FA3926134158A400CA2E38 /* LCCoreSetupWindowController.m */,
+				10F3299E1346B82200823D70 /* CoreSetupDone.png */,
 			);
 			name = "Core Setup";
 			sourceTree = "<group>";
@@ -5130,6 +5133,7 @@
 				1012A5D11277C0FE00B8529A /* ActionFilterContents.xib in Resources */,
 				10FA392213414F8200CA2E38 /* CoreSetupWindow.xib in Resources */,
 				10FA3B761342C94F00CA2E38 /* question_small.png in Resources */,
+				10F3299F1346B82200823D70 /* CoreSetupDone.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5636,7 +5640,7 @@
 					i386,
 					ppc,
 				);
-				CURRENT_PROJECT_VERSION = 6405;
+				CURRENT_PROJECT_VERSION = 6406;
 				FRAMEWORK_SEARCH_PATHS = "../Frameworks/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -5722,7 +5726,7 @@
 					i386,
 					ppc,
 				);
-				CURRENT_PROJECT_VERSION = 6405;
+				CURRENT_PROJECT_VERSION = 6406;
 				FRAMEWORK_SEARCH_PATHS = "../Frameworks/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = unsupported;
