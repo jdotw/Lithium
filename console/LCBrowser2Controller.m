@@ -719,8 +719,6 @@ static NSMutableArray *activeControllers = nil;
 			modalDelegate:nil
 		   didEndSelector:nil
 			  contextInfo:nil];
-		
-		return;
 	}		
 	
 	
