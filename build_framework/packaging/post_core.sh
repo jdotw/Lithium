@@ -34,8 +34,8 @@ mkdir -p "AWS/core/osx"
 mkdir -p "AWS/core/osx/updater"
 cp LithiumCore-$BUILDNUM.dmg "AWS/core/osx/LithiumCore-$BUILDNUM.dmg"
 cp Lithium-Core-$BUILDNUM.zip "AWS/core/osx/updater/Lithium-Core-$BUILDNUM.zip"
-s3put -d 2 -c 100 -b l5release -g public-read -p "AWS" AWS/core/osx/LithiumCore-$BUILDNUM.dmg
-s3put -d 2 -c 100 -b l5release -g public-read -p "AWS" AWS/core/osx/updater/Lithium-Core-$BUILDNUM.zip
+s3put -d 2 -c 100 -b l5release -g public-read -p "$PWD/AWS/" "$PWD/AWS/core/osx/LithiumCore-$BUILDNUM.dmg"
+s3put -d 2 -c 100 -b l5release -g public-read -p "$PWD/AWS/" "$PWD/AWS/core/osx/updater/Lithium-Core-$BUILDNUM.zip"
 rm -rf "AWS"
 
 #

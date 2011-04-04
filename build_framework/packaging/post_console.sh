@@ -31,7 +31,7 @@ echo "Build number is $BUILDNUM"
 cd "$DMGDIR"
 mkdir -p "AWS/console"
 cp LithiumConsole-$BUILDNUM.dmg "AWS/console/LithiumConsole-$BUILDNUM.dmg"
-s3put -d 2 -c 100 -b l5release -g public-read -p "AWS" AWS/console/LithiumConsole-$BUILDNUM.dmg
+s3put -d 2 -c 100 -b l5release -g public-read -p "$PWD/AWS/" "$PWD/AWS/console/LithiumConsole-$BUILDNUM.dmg"
 rm -rf "AWS"
 
 #
