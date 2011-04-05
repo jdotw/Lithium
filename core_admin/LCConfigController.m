@@ -212,8 +212,8 @@ static LCConfigController *masterController;
 	
 	/* Master User */
 	[config appendFormat:@"<section master_user>\n"];
-	[config appendFormat:@"  username \"%@\"\n", adminUsername];
-	[config appendFormat:@"  password \"%@\"\n", adminPassword];
+	[config appendFormat:@"\n"];
+	[config appendFormat:@"\n"];
 	[config appendFormat:@"</master_user>\n\n"];
 	
 	/* Postgres */
