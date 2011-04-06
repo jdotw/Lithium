@@ -20,28 +20,6 @@
 	[self statusClicked:self];
 
 	[window makeKeyAndOrderFront:self];
-	
-	/* Check for import */
-	BOOL import = [l49ImportController checkForExistingInstall];
-	
-	/* Check if deployment is setup */
-	if (!import)
-	{
-		NSString *profile = [NSString stringWithContentsOfFile:@"/Library/Application Support/Lithium/ClientService/Resources/htdocs/default/profile.php" 
-													  encoding:NSUTF8StringEncoding
-														 error:nil];
-		if (!profile)
-		{
-			/* Web-Based Setup has not been run */
-			[setupController runSetupWizard:self];
-		}
-		else
-		{
-			/* Check for crashes */
-			[crashReporter checkForCrashes];
-		}
-	}
-	
 }
 
 #pragma mark "Toolbar Methods"
