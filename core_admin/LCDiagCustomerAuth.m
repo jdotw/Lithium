@@ -77,12 +77,12 @@
 -(void) connection:(NSURLConnection *)connection
 		didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *) challenge
 {
-	NSURLCredential *cred;
-	cred = [NSURLCredential credentialWithUser:[[LCConfigController masterController] adminUsername]
-									  password:[[LCConfigController masterController] adminPassword]
-								   persistence:NSURLCredentialPersistenceForSession];
-	[[challenge sender] useCredential:cred
-		   forAuthenticationChallenge:challenge];	
+//	NSURLCredential *cred;
+//	cred = [NSURLCredential credentialWithUser:[[LCConfigController masterController] adminUsername]
+//									  password:[[LCConfigController masterController] adminPassword]
+//								   persistence:NSURLCredentialPersistenceForSession];
+//	[[challenge sender] useCredential:cred
+//		   forAuthenticationChallenge:challenge];	
 }
 
 -(void) connectionDidFinishLoading:(NSURLConnection *) connection
