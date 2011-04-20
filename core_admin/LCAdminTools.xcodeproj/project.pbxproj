@@ -25,7 +25,6 @@
 		102E3A720C87D1CF000F4BF7 /* stop_32.tif in Resources */ = {isa = PBXBuildFile; fileRef = 102E3A710C87D1CF000F4BF7 /* stop_32.tif */; };
 		102E3B640C87DAE7000F4BF7 /* LCRestoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102E3B630C87DAE7000F4BF7 /* LCRestoreController.m */; };
 		102E3CD70C880A40000F4BF7 /* LCConfigController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102E3CD60C880A40000F4BF7 /* LCConfigController.m */; };
-		102E3D530C881CFF000F4BF7 /* LCSetupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 102E3D520C881CFF000F4BF7 /* LCSetupController.m */; };
 		102E47320C895278000F4BF7 /* LCContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 102E47310C895278000F4BF7 /* LCContentView.m */; };
 		102E473F0C895289000F4BF7 /* slateback.png in Resources */ = {isa = PBXBuildFile; fileRef = 102E473E0C895289000F4BF7 /* slateback.png */; };
 		102E475E0C895472000F4BF7 /* LCShadowTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 102E475B0C895472000F4BF7 /* LCShadowTextField.m */; };
@@ -43,11 +42,8 @@
 		102E47D90C895A63000F4BF7 /* tableheaderback.png in Resources */ = {isa = PBXBuildFile; fileRef = 102E47D80C895A63000F4BF7 /* tableheaderback.png */; };
 		102E47EB0C895A7B000F4BF7 /* LCRoundedBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 102E47EA0C895A7B000F4BF7 /* LCRoundedBezierPath.m */; };
 		102E47FB0C895A92000F4BF7 /* LCTriangleBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 102E47FA0C895A92000F4BF7 /* LCTriangleBezierPath.m */; };
-		103395DB0FD48C600086112A /* LC49ImportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 103395DA0FD48C600086112A /* LC49ImportController.m */; };
-		103395DE0FD48C7E0086112A /* LC49ImportHelperTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 103395DD0FD48C7E0086112A /* LC49ImportHelperTool.m */; };
 		103395E30FD492720086112A /* BlueDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 103395E20FD492720086112A /* BlueDot.tiff */; };
 		103395E50FD492880086112A /* GreyDot.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 103395E40FD492880086112A /* GreyDot.tiff */; };
-		103397330FD4C5A30086112A /* LC49ImportTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 103397320FD4C5A30086112A /* LC49ImportTask.m */; };
 		103720E90CABA64400EBD850 /* LCDiagController.m in Sources */ = {isa = PBXBuildFile; fileRef = 103720E80CABA64400EBD850 /* LCDiagController.m */; };
 		103720FE0CABA8C900EBD850 /* task_32.tif in Resources */ = {isa = PBXBuildFile; fileRef = 103720FD0CABA8C900EBD850 /* task_32.tif */; };
 		1037211B0CABAA1F00EBD850 /* LCDiagTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1037211A0CABAA1F00EBD850 /* LCDiagTest.m */; };
@@ -168,8 +164,6 @@
 		102E3B630C87DAE7000F4BF7 /* LCRestoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCRestoreController.m; sourceTree = "<group>"; };
 		102E3CD50C880A40000F4BF7 /* LCConfigController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCConfigController.h; sourceTree = "<group>"; };
 		102E3CD60C880A40000F4BF7 /* LCConfigController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCConfigController.m; sourceTree = "<group>"; };
-		102E3D510C881CFF000F4BF7 /* LCSetupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCSetupController.h; sourceTree = "<group>"; };
-		102E3D520C881CFF000F4BF7 /* LCSetupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCSetupController.m; sourceTree = "<group>"; };
 		102E47300C895278000F4BF7 /* LCContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCContentView.h; sourceTree = "<group>"; };
 		102E47310C895278000F4BF7 /* LCContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCContentView.m; sourceTree = "<group>"; };
 		102E473E0C895289000F4BF7 /* slateback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slateback.png; sourceTree = "<group>"; };
@@ -199,14 +193,8 @@
 		102E47EA0C895A7B000F4BF7 /* LCRoundedBezierPath.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LCRoundedBezierPath.m; sourceTree = "<group>"; };
 		102E47F90C895A92000F4BF7 /* LCTriangleBezierPath.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LCTriangleBezierPath.h; sourceTree = "<group>"; };
 		102E47FA0C895A92000F4BF7 /* LCTriangleBezierPath.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = LCTriangleBezierPath.m; sourceTree = "<group>"; };
-		103395D90FD48C600086112A /* LC49ImportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LC49ImportController.h; sourceTree = "<group>"; };
-		103395DA0FD48C600086112A /* LC49ImportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LC49ImportController.m; sourceTree = "<group>"; };
-		103395DC0FD48C7E0086112A /* LC49ImportHelperTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LC49ImportHelperTool.h; sourceTree = "<group>"; };
-		103395DD0FD48C7E0086112A /* LC49ImportHelperTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LC49ImportHelperTool.m; sourceTree = "<group>"; };
 		103395E20FD492720086112A /* BlueDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BlueDot.tiff; sourceTree = "<group>"; };
 		103395E40FD492880086112A /* GreyDot.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = GreyDot.tiff; sourceTree = "<group>"; };
-		103397310FD4C5A30086112A /* LC49ImportTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LC49ImportTask.h; sourceTree = "<group>"; };
-		103397320FD4C5A30086112A /* LC49ImportTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LC49ImportTask.m; sourceTree = "<group>"; };
 		103720E70CABA64400EBD850 /* LCDiagController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCDiagController.h; sourceTree = "<group>"; };
 		103720E80CABA64400EBD850 /* LCDiagController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCDiagController.m; sourceTree = "<group>"; };
 		103720FD0CABA8C900EBD850 /* task_32.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = task_32.tif; sourceTree = "<group>"; };
@@ -852,25 +840,14 @@
 			name = Config;
 			sourceTree = "<group>";
 		};
-		102E3D500C881CEA000F4BF7 /* Setup */ = {
-			isa = PBXGroup;
-			children = (
-				102E3D510C881CFF000F4BF7 /* LCSetupController.h */,
-				102E3D520C881CFF000F4BF7 /* LCSetupController.m */,
-			);
-			name = Setup;
-			sourceTree = "<group>";
-		};
 		102E472D0C895236000F4BF7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				10519566114E13AE0014D4D9 /* Modules Controller */,
 				10294CFD106CA7480046E1D7 /* License Controller */,
 				103A54BE1068C2FF00D60288 /* Customers */,
-				103395D80FD48C480086112A /* L49 Import */,
 				1069A57A0FB7FB1F009963C6 /* Update */,
 				103720E60CABA61F00EBD850 /* Diagnostic */,
-				102E3D500C881CEA000F4BF7 /* Setup */,
 				102E3CD40C880A34000F4BF7 /* Config */,
 				102E3B610C87DAD9000F4BF7 /* Restore */,
 				10F77A550C87A6720043B89D /* Backup */,
@@ -922,19 +899,6 @@
 				103A54861068BD5D00D60288 /* LCBrowserTableHeaderView.m */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		103395D80FD48C480086112A /* L49 Import */ = {
-			isa = PBXGroup;
-			children = (
-				103395D90FD48C600086112A /* LC49ImportController.h */,
-				103395DA0FD48C600086112A /* LC49ImportController.m */,
-				103395DC0FD48C7E0086112A /* LC49ImportHelperTool.h */,
-				103395DD0FD48C7E0086112A /* LC49ImportHelperTool.m */,
-				103397310FD4C5A30086112A /* LC49ImportTask.h */,
-				103397320FD4C5A30086112A /* LC49ImportTask.m */,
-			);
-			name = "L49 Import";
 			sourceTree = "<group>";
 		};
 		103720E60CABA61F00EBD850 /* Diagnostic */ = {
@@ -2097,7 +2061,6 @@
 				10F77A600C87A68E0043B89D /* LCBackupController.m in Sources */,
 				102E3B640C87DAE7000F4BF7 /* LCRestoreController.m in Sources */,
 				102E3CD70C880A40000F4BF7 /* LCConfigController.m in Sources */,
-				102E3D530C881CFF000F4BF7 /* LCSetupController.m in Sources */,
 				102E47320C895278000F4BF7 /* LCContentView.m in Sources */,
 				102E475E0C895472000F4BF7 /* LCShadowTextField.m in Sources */,
 				102E475F0C895472000F4BF7 /* LCShadowTextFieldCell.m in Sources */,
@@ -2140,9 +2103,6 @@
 				1069A7A50FB8DE3B009963C6 /* LCHelperTool.m in Sources */,
 				1069A7BC0FB8E892009963C6 /* LCHelperToolDelegate.m in Sources */,
 				1069A8780FB8F3B6009963C6 /* LCHelperToolUpdate.m in Sources */,
-				103395DB0FD48C600086112A /* LC49ImportController.m in Sources */,
-				103395DE0FD48C7E0086112A /* LC49ImportHelperTool.m in Sources */,
-				103397330FD4C5A30086112A /* LC49ImportTask.m in Sources */,
 				103A54331068AB9500D60288 /* LCBrowserTableView.m in Sources */,
 				103A543A1068ABA700D60288 /* LCTableView.m in Sources */,
 				103A54871068BD5D00D60288 /* LCBrowserTableHeaderCell.m in Sources */,
@@ -2237,7 +2197,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
-				CURRENT_PROJECT_VERSION = 1312;
+				CURRENT_PROJECT_VERSION = 1316;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				LIBRARY_SEARCH_PATHS = /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumDatabase.framework/Libraries;
 				SDKROOT = macosx10.5;
@@ -2251,7 +2211,7 @@
 					i386,
 					ppc,
 				);
-				CURRENT_PROJECT_VERSION = 1312;
+				CURRENT_PROJECT_VERSION = 1316;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

@@ -14,8 +14,8 @@ BASEDIR=$PWD
 
 cd "$SRCDIR"
 BUILDNUM=`agvtool mvers | grep '^Found CFBundleShortVersionString of'  | awk '{ print $4 }' | sed 's/\"//g'`
-
-echo "Build number is $BUILDNUM"
+BUILDNUM_SHORT=`agvtool vers | grep '^ '  | sed 's/^    //g'`
+echo "Build number is $BUILDNUM ($BUILDNUM_SHORT)"
 
 #
 # Scp 
@@ -30,7 +30,7 @@ echo "Build number is $BUILDNUM"
 
 cd "$DMGDIR"
 mkdir -p "AWS/console"
-cp LithiumConsole-$BUILDNUM.dmg "AWS/console/LithiumConsole-$BUILDNUM.dmg"
+cp LithiumConsole-$BUILDNUM.dmg "AWS/console/LithiumConsole-$BUILDNUM.$BUILDNUM_SHORT.dmg"
 s3put -d 2 -c 100 -b l5release -g public-read -p "$PWD/AWS/" "$PWD/AWS/console/"
 rm -rf "AWS"
 

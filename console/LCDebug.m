@@ -10,9 +10,11 @@
 
 void LCDebug (NSString *format, ...)
 {
+#ifdef DEBUG
 	va_list ap;
 	va_start (ap, format);
 	NSLogv (format, ap);
 	va_end (ap);
+#endif
 }
 

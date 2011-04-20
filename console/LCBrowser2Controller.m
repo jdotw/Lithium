@@ -624,17 +624,20 @@ static NSMutableArray *activeControllers = nil;
 
 - (void) windowWillClose:(NSNotification *)notification
 {
-	[activeControllers removeObject:self];
-	self.contentViewController = nil;
-	
-	/* Remove KVO */
-	[browserTreeController removeObserver:self forKeyPath:@"selection"];	
-	
-	/* Notify ConsoleController */
-	[[LCConsoleController masterController] browserDidClose:self];
-	
-	/* Clear controller */
-	[controllerAlias setContent:nil];
+	if ([notification object] == [self window])
+	{
+		[activeControllers removeObject:self];
+		self.contentViewController = nil;
+		
+		/* Remove KVO */
+		[browserTreeController removeObserver:self forKeyPath:@"selection"];	
+		
+		/* Notify ConsoleController */
+		[[LCConsoleController masterController] browserDidClose:self];
+		
+		/* Clear controller */
+		[controllerAlias setContent:nil];
+	}
 }
 
 - (void) windowDidBecomeMain:(NSNotification *)aNotification
@@ -657,6 +660,17 @@ static NSMutableArray *activeControllers = nil;
 	/* Bump posotion in array */
 	[activeControllers removeObject:self];
 	[activeControllers addObject:self];
+}
+
+#pragma mark "Attached Window Delegate Methods"
+
+- (void) attachedWindowDidClose:(LCAttachedWindow *)attachedWindow
+{
+	if (attachedWindow == entityAddPopupWindow)
+	{
+		[entityAddPopupWindow release];
+		entityAddPopupWindow = nil;
+	}
 }
 
 #pragma mark "KVO Methods"
@@ -685,6 +699,19 @@ static NSMutableArray *activeControllers = nil;
 			self.treeSelectedObject = nil;			
 		}
 	}
+}
+
+#pragma mark "Core Stup"
+
+- (void) coreSetupSheetDidEnd:(id)sender
+{
+	entityAddPopupWindow = [[LCAttachedWindow alloc] initWithView:entityAddPopup
+												  attachedToPoint:NSMakePoint(0., NSMidY([entityTreeAddButton bounds])) 
+														 inWindow:[self window]
+														   onSide:MAPositionLeft
+													   atDistance:-10.];
+	[entityAddPopupWindow setDelegate:self];
+	[[self window] addChildWindow:entityAddPopupWindow ordered:NSWindowAbove];
 }
 
 #pragma mark "Tree Selection"
@@ -716,8 +743,8 @@ static NSMutableArray *activeControllers = nil;
 		LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:self.treeSelectedEntity.customer] autorelease];
 		[NSApp beginSheet:[wc window]
 		   modalForWindow:[self window]
-			modalDelegate:nil
-		   didEndSelector:nil
+			modalDelegate:self
+		   didEndSelector:@selector(coreSetupSheetDidEnd:)
 			  contextInfo:nil];
 	}		
 	
@@ -1124,6 +1151,12 @@ static NSMutableArray *activeControllers = nil;
 
 - (IBAction) entityTreeAddButtonClicked:(id)sender
 {
+	/* Remove popup if present */
+	if (entityAddPopupWindow)
+	{
+		[entityAddPopupWindow closeAttachedWindow];
+	}
+	
 	/* Clear old */
 	while ([[[addDeviceMenuItem submenu] itemArray] count] > 0) 
 	{ [[addDeviceMenuItem submenu] removeItemAtIndex:0]; }
@@ -1479,8 +1512,8 @@ static NSMutableArray *activeControllers = nil;
 			LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:site.customer] autorelease];
 			[NSApp beginSheet:[wc window]
 			   modalForWindow:[self window]
-				modalDelegate:nil
-			   didEndSelector:nil
+				modalDelegate:self
+			   didEndSelector:@selector(coreSetupSheetDidEnd:)
 				  contextInfo:nil];
 		}
 		else 
@@ -1506,8 +1539,8 @@ static NSMutableArray *activeControllers = nil;
 			LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:site.customer] autorelease];
 			[NSApp beginSheet:[wc window]
 			   modalForWindow:[self window]
-				modalDelegate:nil
-			   didEndSelector:nil
+				modalDelegate:self
+			   didEndSelector:@selector(coreSetupSheetDidEnd:)
 				  contextInfo:nil];
 		}
 		else
@@ -1528,8 +1561,8 @@ static NSMutableArray *activeControllers = nil;
 			LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:site.customer] autorelease];
 			[NSApp beginSheet:[wc window]
 			   modalForWindow:[self window]
-				modalDelegate:nil
-			   didEndSelector:nil
+				modalDelegate:self
+			   didEndSelector:@selector(coreSetupSheetDidEnd:)
 				  contextInfo:nil];
 		}
 		else 
@@ -1556,8 +1589,8 @@ static NSMutableArray *activeControllers = nil;
 			LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:customer] autorelease];
 			[NSApp beginSheet:[wc window]
 			   modalForWindow:[self window]
-				modalDelegate:nil
-			   didEndSelector:nil
+				modalDelegate:self
+			   didEndSelector:@selector(coreSetupSheetDidEnd:)
 				  contextInfo:nil];
 		}
 		else 

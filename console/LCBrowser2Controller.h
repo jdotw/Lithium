@@ -30,8 +30,9 @@
 #import "LCBrowser2ContentViewController.h"
 #import "LCBrowserFlatBack.h"
 #import "LCBrowserSearchContentController.h"
+#import "LCAttachedWindow.h"
 
-@interface LCBrowser2Controller : NSWindowController
+@interface LCBrowser2Controller : NSWindowController 
 {
 	/* Toolbar */
 	NSToolbar *toolbar;
@@ -74,6 +75,10 @@
 	IBOutlet NSMenuItem *addGroupMenuItem;
 	IBOutlet NSMenuItem *addImportCSVMenuItem;
 	IBOutlet NSMenuItem *addImportARDMenuItem;
+	
+	/* Popups */
+	IBOutlet NSView *entityAddPopup;
+	LCAttachedWindow *entityAddPopupWindow;
 	
 	/* Tree Selection */
 	id treeSelectedObject;

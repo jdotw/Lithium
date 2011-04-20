@@ -275,8 +275,6 @@
 		 * should be used to configure it 
 		 */
 		
-		NSLog (@"UNCONFIGURED CUSTOMER: %@", self.name);
-		
 		if ([[LCCustomerList masterArray] count] == 1)
 		{
 			/* We're the only customer present; show the sheet to 
@@ -285,8 +283,8 @@
 			LCCoreSetupWindowController *wc = [[[LCCoreSetupWindowController alloc] initWithCustomer:self] autorelease];
 			[NSApp beginSheet:[wc window]
 			   modalForWindow:[[[LCConsoleController masterController] browserForSheet] window]
-				modalDelegate:nil
-			   didEndSelector:nil
+				modalDelegate:[[LCConsoleController masterController] browserForSheet]
+			   didEndSelector:@selector(coreSetupSheetDidEnd:)
 				  contextInfo:nil];
 		}
 	}

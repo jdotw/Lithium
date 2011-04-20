@@ -8,10 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "LCSetupController.h"
 #import "LCCrashReporter.h"
 #import "LCUpdateController.h"
-#import "LC49ImportController.h"
 #import "LCCustomerController.h"
 #import "LCLicenseController.h"
 #import "LCModulesController.h"
@@ -28,10 +26,8 @@
 	IBOutlet NSWindow *window;
 	IBOutlet NSTabView *tabView;
 	IBOutlet NSWindow *setupWizard;
-	IBOutlet LCSetupController *setupController;
 	IBOutlet LCCrashReporter *crashReporter;
 	IBOutlet LCUpdateController *updateController;
-	IBOutlet LC49ImportController *l49ImportController;
 	IBOutlet LCCustomerController *customerController;
 	IBOutlet LCLicenseController *licenseController;
 	IBOutlet LCModulesController *modulesController;

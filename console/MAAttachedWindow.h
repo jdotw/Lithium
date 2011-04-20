@@ -95,7 +95,7 @@ typedef enum _MAWindowPosition {
             Default: 0.
  */
 
-- (MAAttachedWindow *)initWithView:(NSView *)view           // designated initializer
+- (id)initWithView:(NSView *)view           // designated initializer
                    attachedToPoint:(NSPoint)point 
                           inWindow:(NSWindow *)window 
                             onSide:(MAWindowPosition)side 

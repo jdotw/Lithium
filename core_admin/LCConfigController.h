@@ -12,10 +12,6 @@
 {
 	IBOutlet NSWindow *window;
 	
-	NSString *adminUsername;
-	NSString *adminPassword;
-	NSString *adminPasswordConfirm;
-	
 	NSString *dbUsername;
 	NSString *dbPassword;
 	NSString *dbPasswordConfirm;
@@ -43,12 +39,6 @@
 - (NSString *) writeConfig;
 
 #pragma mark "Accessors"
-- (NSString *) adminUsername;
-- (void) setAdminUsername:(NSString *)string;
-- (NSString *) adminPassword;
-- (void) setAdminPassword:(NSString *)string;
-- (NSString *) adminPasswordConfirm;
-- (void) setAdminPasswordConfirm:(NSString *)string;
 - (NSString *) dbUsername;
 - (void) setDbUsername:(NSString *)string;
 - (NSString *) dbPassword;

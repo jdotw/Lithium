@@ -438,6 +438,17 @@ int l_incident_handler_clear (i_resource *self, i_socket *sock, i_message *msg, 
        */
       l_action_incident_clear (self, local_inc);
     }
+    else
+    {
+      /* This is a multi-occurrence incident, the 
+       * clear will be handled by the self-destruct timer
+       * In the mean time, all actions should be silenced.
+       * This will prevent any delayed or re-run actions 
+       * from firing while the incident is cleared and
+       * awaiting self-destruction
+       */
+      l_action_incident_silence(self, local_inc);
+    }
 
     /* Remove from list and table */
     inc_list->p = local_inc->listp;

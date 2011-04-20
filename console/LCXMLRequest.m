@@ -258,8 +258,6 @@
 
 	[activity setStatus:@"Received authentication challenge"];
 	
-	NSLog(@"AUTH: %@", urlConn);
-	
 	/* Check to see if the customer has been disabled */
 	if ([cust disabled])
 	{

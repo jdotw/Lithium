@@ -39,10 +39,6 @@ static LCConfigController *masterController;
 	}
 	else
 	{
-		[self setAdminUsername:@"admin"];
-		[self setDbUsername:@"lithium"];
-		[self setDbPassword:@"lithium"];
-		[self setDbPasswordConfirm:@"lithium"];
 		[self setDbHostname:@"localhost"];
 		[self setDbPort:@"51132"];
 		[self setHttpRoot:@"/Library/Application Support/Lithium/ClientService/Resources/htdocs"];
@@ -52,8 +48,6 @@ static LCConfigController *masterController;
 
 - (void) dealloc
 {
-	[adminUsername release];
-	[adminPassword release];
 	[dbUsername release];
 	[dbPassword release];
 	[dbHostname release];
@@ -66,21 +60,6 @@ static LCConfigController *masterController;
 
 - (IBAction) saveConfigClicked:(id)sender
 {
-	/* Check Admin Password */
-	if (![adminPassword isEqualToString:adminPasswordConfirm])
-	{
-		alert = [[[NSAlert alloc] init] autorelease];
-		[alert addButtonWithTitle:@"Try Again"];
-		[alert setMessageText:@"Passwords to not match."];
-		[alert setInformativeText:@"The Administrator passwords do not match. Please re-enter and try again."];
-		[alert setAlertStyle:NSWarningAlertStyle];
-		[alert beginSheetModalForWindow:window
-						  modalDelegate:self
-						 didEndSelector:@selector(sheetEnded)
-							contextInfo:nil];
-		return;
-	}
-
 	/* Check Database Password */
 	if (![dbPassword isEqualToString:dbPasswordConfirm])
 	{
@@ -153,13 +132,6 @@ static LCConfigController *masterController;
 		/* Interpret line */
 		switch (i)
 		{
-			case 11:
-				[self setAdminUsername:value];
-				break;
-			case 12:
-				[self setAdminPassword:value];
-				[self setAdminPasswordConfirm:value];
-				break;
 			case 16:
 				[self setDbUsername:value];
 				break;
@@ -258,33 +230,6 @@ static LCConfigController *masterController;
 }
 
 #pragma mark "Accessors"
-
-- (NSString *) adminUsername
-{ return adminUsername; }
-
-- (void) setAdminUsername:(NSString *)string
-{
-	[adminUsername release];
-	adminUsername = [string retain];
-}
-
-- (NSString *) adminPassword
-{ return adminPassword; }
-
-- (void) setAdminPassword:(NSString *)string
-{
-	[adminPassword release];
-	adminPassword = [string retain];
-}
-
-- (NSString *) adminPasswordConfirm
-{ return adminPasswordConfirm; }
-
-- (void) setAdminPasswordConfirm:(NSString *)string
-{
-	[adminPasswordConfirm release];
-	adminPasswordConfirm = [string retain];
-}
 
 - (NSString *) dbUsername
 { return dbUsername; }

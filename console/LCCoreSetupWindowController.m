@@ -36,7 +36,6 @@
 
 - (void) dealloc
 {
-	NSLog (@"%@ DEALLOC", self);
 	[super dealloc];
 }
 
@@ -134,16 +133,15 @@
 		self.demoCompany = [me valueForProperty:kABOrganizationProperty];
 		self.licCompany = self.demoCompany;
 		ABMutableMultiValue *emailAddresses = [me valueForProperty:kABEmailProperty];
-		NSLog(@"email: %@", emailAddresses);
 		unsigned             addyIndex      = 0, addyCount = [emailAddresses count];
 		if (addyCount) 
 		{
 			for (; addyIndex < addyCount; addyIndex++) {
 				[demoEmailComboBox addItemWithObjectValue:[emailAddresses valueAtIndex:addyIndex]];
 				[licEmailComboBox addItemWithObjectValue:[emailAddresses valueAtIndex:addyIndex]];
+				if (!self.demoEmail) self.demoEmail = [emailAddresses valueAtIndex:addyIndex];
+				if (!self.licEmail) self.licEmail = [emailAddresses valueAtIndex:addyIndex];
 			}
-			[demoEmailComboBox selectItemAtIndex:0];
-			[licEmailComboBox selectItemAtIndex:0];
 		}
 	}
 	
@@ -153,7 +151,6 @@
 
 - (void) windowWillClose:(NSNotification *)notification
 {
-	NSLog (@"%@ Window will close", self);
 	[controllerAlias setContent:nil];
 }
 
@@ -170,8 +167,6 @@
 
 	self.operationInProgress = NO;
 	
-	NSLog (@"GOT KEY: %@", signedLicenseKey);
-
 	[self showAuthSetupTab];
 }
 
@@ -305,7 +300,6 @@
 	[coreSetupRequest setDelegate:self];
 	[coreSetupRequest setXMLDelegate:self];
 	[coreSetupRequest setPriority:XMLREQ_PRIO_HIGH];	
-	[coreSetupRequest setDebug:YES];
 	self.operationInProgress = YES;
 	self.status = @"Sending setup information to Lithium Core";
 	[coreSetupRequest performAsyncRequest];

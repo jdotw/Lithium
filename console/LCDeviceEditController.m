@@ -15,6 +15,8 @@
 #import "LCDeviceEditController.h"
 #import "LCDevice.h"
 #import "LCContainer.h"
+#import "LCAttachedWindow.h"
+#import "LCAttachedWindowView.h"
 
 @implementation LCDeviceEditController
 
@@ -437,6 +439,17 @@
 	[self buildModuleMenuWithSelection:[deviceEntity vendor]];
 }
 
+#pragma mark "Attached Window Delegate"
+
+- (void) attachedWindowDidClose:(LCAttachedWindow *)attachedWindow
+{
+	if (attachedWindow == snmpHelpWindow)
+	{
+		[snmpHelpWindow release];
+		snmpHelpWindow = nil;
+	}
+}
+
 #pragma mark "General Accessors"
 
 @synthesize deviceEntity;
@@ -540,6 +553,16 @@
 
 @synthesize profile;
 @synthesize vendor;
+- (void) setVendor:(NSString *)value
+{
+	[vendor release];
+	vendor = [value copy];
+	
+	if (snmpHelpWindow)
+	{
+		[snmpHelpWindow closeAttachedWindow];
+	}
+}
 
 @synthesize refreshInterval;
 @synthesize osxProtocol;
@@ -1044,6 +1067,32 @@
 {
 	for (LCDeviceEditTemplate *template in multipleTemplates)
 	{ template.enabled = template.enabled ? NO : YES; }		
+}
+
+- (IBAction) snmpHelpClicked:(id)sender
+{
+	if (!snmpHelpWindow)
+	{
+		LCAttachedWindowView *view = snmpHelpView;
+		if ([vendor hasPrefix:@"osx_"] || [vendor hasPrefix:@"xserve_"])
+		{ 
+			view = snmpHelpViewForMac; 
+		}
+		NSPoint pointInButton = NSMakePoint(NSMaxX([snmpHelpButton bounds]), NSMidY([snmpHelpButton bounds]));
+		snmpHelpWindow = [[LCAttachedWindow alloc] initWithView:view
+												attachedToPoint:[snmpHelpButton convertPoint:pointInButton toView:nil]
+													   inWindow:[snmpHelpButton window]
+														 onSide:MAPositionRight
+													 atDistance:0.];
+		[snmpHelpWindow setDelegate:self];
+		[[snmpHelpButton window] addChildWindow:snmpHelpWindow
+										ordered:NSWindowAbove];
+	}
+}
+
+- (IBAction) learnAboutXsnmpClicked:(id)sender
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://xsnmp.com"]];
 }
 
 #pragma mark "Status Accessors"

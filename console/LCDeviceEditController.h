@@ -20,6 +20,8 @@
 #define ADD_MODE_SINGLE 0
 #define ADD_MODE_MULTIPLE 1
 
+@class LCAttachedWindow, LCAttachedWindowView;
+
 @interface LCDeviceEditController : NSWindowController 
 {
 	/* Related objects */
@@ -86,7 +88,11 @@
 	IBOutlet NSTextField *usernameTextField;
 	IBOutlet NSTextField *raidPasswordTextField;
 	IBOutlet NSView *csvOpenAccessoryView;
-	
+	IBOutlet NSButton *snmpHelpButton;
+	IBOutlet LCAttachedWindowView *snmpHelpView;
+	IBOutlet LCAttachedWindowView *snmpHelpViewForMac;
+	IBOutlet LCAttachedWindow *snmpHelpWindow;
+
 	/* Window for Sheet*/
 	NSWindow *windowForSheet;
 	
@@ -124,8 +130,6 @@
 - (LCDeviceEditController *) init;
 - (void) dealloc;
 
-
-
 #pragma mark "String Utilities"
 - (NSString *) incrementNumberInString:(NSString *)originalString;
 
@@ -152,6 +156,8 @@
 - (IBAction) importSelectAllClicked:(id)sender;
 - (IBAction) importSelectNoneClicked:(id)sender;
 - (IBAction) importToggleAllClicked:(id)sender;
+- (IBAction) snmpHelpClicked:(id)sender;
+- (IBAction) learnAboutXsnmpClicked:(id)sender;
 
 #pragma mark "Template Properties"
 @property (nonatomic, retain) LCDeviceEditTemplate *singleTemplate;

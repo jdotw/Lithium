@@ -202,6 +202,7 @@ int l_action_incident_run_action (i_resource *self, struct l_action_s *action);
 int l_action_incident_reruntimercb (i_resource *self, struct i_timer_s *timer, void *passdata);
 int l_action_incident_transition (i_resource *self, struct i_incident_s *inc);
 int l_action_incident_clear (i_resource *self, struct i_incident_s *inc);
+int l_action_incident_silence (i_resource *self, struct i_incident_s *inc);
 int l_action_incident_boundtocase (i_resource *self, struct i_incident_s *inc);
 
 /* action_xml.c */

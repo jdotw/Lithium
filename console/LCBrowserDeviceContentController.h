@@ -18,6 +18,8 @@
 #import "LCObjectTreeOutlineView.h"
 #import "LCGraphStadiumController.h"
 #import "LCBrowserHorizontalScroller.h"
+#import "LCAttachedWindowView.h"
+#import "LCAttachedWindow.h"
 
 @interface LCBrowserDeviceContentController : LCBrowser2ContentViewController
 {
@@ -51,6 +53,13 @@
 	IBOutlet NSMenu *objectMenu;
 	IBOutlet NSMenuItem *objectMenuTitleItem;
 	IBOutlet NSMenu *incidentPopUpAdjustMenu;
+	IBOutlet NSButton *deviceSettingsButton;
+	
+	/* Availability Popup */
+	IBOutlet LCAttachedWindowView *availAttachedWindowView;
+	IBOutlet NSTextField *availAttachedWindowProtocolLabel;
+	LCAttachedWindow *availAttachedWindow;
+	BOOL availAttachedWindowShown;
 
 	/* Selection */
 	LCEntity *selectedEntity;

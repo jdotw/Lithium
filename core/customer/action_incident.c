@@ -246,6 +246,28 @@ int l_action_incident_clear (i_resource *self, i_incident *inc)
   return 0;
 }
 
+int l_action_incident_silence (i_resource *self, i_incident *inc)
+{
+  /* Disable any delayed running or re-running for 
+   * all actions under an incident
+   */
+
+  /* Process each of the incidents candidate actions */
+  l_action *action;
+  for (i_list_move_head(inc->action_list); (action=i_list_restore(inc->action_list))!=NULL; i_list_move_next(inc->action_list))
+  {
+    /* Check for a delay timer */
+    if (action->delay_timer)
+    { i_timer_remove (action->delay_timer); action->delay_timer = NULL; }
+
+    /* Check for a re-run timer */
+    if (action->rerun_timer)
+    { i_timer_remove (action->rerun_timer); action->rerun_timer = NULL; }
+  }
+
+  return 0;
+}
+
 /* Case binding */
 
 int l_action_incident_boundtocase (i_resource *self, i_incident *inc)

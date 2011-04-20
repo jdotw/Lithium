@@ -115,6 +115,7 @@
 - (void) removedFromBrowserWindow
 {
 	/* Shutdown and prepare to be autoreleased */
+	if (availAttachedWindow) [availAttachedWindow closeAttachedWindow];
 	[self clearProcessMenu:[[LCConsoleController masterController] processMonitorMenu]];
 	[inspectorController unbind:@"target"];
 	[containerTreeController removeObserver:self forKeyPath:@"selection"];
@@ -137,6 +138,17 @@
 	[selectedEntities release];
 	
 	[super dealloc];
+}
+
+#pragma mark - Attached Window Delegate
+
+- (void) attachedWindowDidClose:(LCAttachedWindow *)attachedWindow
+{
+	if (attachedWindow == availAttachedWindow)
+	{
+		[availAttachedWindow release];
+		availAttachedWindow = nil;
+	}
 }
 
 #pragma mark "Selection (KVO Observable)"
@@ -313,8 +325,48 @@
 
 - (void) deviceRefreshFinished:(NSNotification *)note
 {
+	/* Update stadium */
 	[stadiumController updateControllersAndLayers];
+	
+	/* Update menus */
 	[self buildProcessMenu:[[LCConsoleController masterController] processMonitorMenu]];
+	
+	/* Check availability */
+	if (!availAttachedWindowShown)
+	{
+		BOOL showAvailPopup = NO;
+		[availAttachedWindowProtocolLabel setStringValue:@""];
+		for (LCObject *availObj in [[self.device childNamed:@"avail"] children])
+		{
+			if ([[availObj name] isEqualToString:@"master"]) continue;
+			NSString *rawOKpercentValue = [availObj rawValueForMetricNamed:@"ok_pc"];
+			if (rawOKpercentValue && [rawOKpercentValue floatValue] < 50.)
+			{
+				NSString *protocolString;
+				if ([[availAttachedWindowProtocolLabel stringValue] length] > 0) 
+				{ protocolString = [[availAttachedWindowProtocolLabel stringValue] stringByAppendingFormat:@", %@", [availObj desc]]; }
+				else 
+				{ protocolString = [availObj desc]; }
+				[availAttachedWindowProtocolLabel setStringValue:protocolString];
+				showAvailPopup = YES;
+			}
+		}
+		if (showAvailPopup)
+		{
+			NSPoint pointRelToButton = NSMakePoint(NSMidX([deviceSettingsButton bounds]), NSMinY([deviceSettingsButton bounds]));
+			availAttachedWindow = [[LCAttachedWindow alloc] initWithView:availAttachedWindowView
+														 attachedToPoint:[deviceSettingsButton convertPoint:pointRelToButton
+																									 toView:nil]
+																inWindow:[self window]
+																  onSide:MAPositionTop
+															  atDistance:0.0];
+			[availAttachedWindow setDelegate:self];
+			[availAttachedWindow setAlertStyle:NSCriticalAlertStyle];
+			[[deviceSettingsButton window] addChildWindow:availAttachedWindow
+												  ordered:NSWindowAbove];
+			availAttachedWindowShown = YES;
+		}
+	}
 }
 
 #pragma mark "UI Validation"
@@ -763,6 +815,11 @@
 
 - (IBAction) editDeviceClicked:(id)sender
 {
+	if (availAttachedWindow)
+	{
+		[availAttachedWindow closeAttachedWindow];
+	}
+	
 	LCDeviceEditController *controller = [[LCDeviceEditController alloc] initWithDeviceToEdit:self.device];
 	[NSApp beginSheet:[controller window]
 	   modalForWindow:[browser window]
