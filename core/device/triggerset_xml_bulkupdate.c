@@ -50,15 +50,10 @@ int xml_triggerset_bulkupdate (i_resource *self, i_xml_request *xmlreq)
     xmlNodePtr root_node = xmlDocGetRootElement (xmlreq->xml_in->doc);
     if (!root_node) { i_printf(1, "xml_triggerset_bulkupdate failed to get root node"); return -1; }
 
-    i_printf(0, "Root Node is %p children is %p", root_node, root_node->children);
-    
     /* Iterate through XML */
     xmlNodePtr node = NULL;
     for (node = root_node->children; node; node = node->next)
     {
-      /* DEBUG */
-      i_printf(0, "ROOT: %s", node->name);
-
       /* Look for met_name and find triggerset and metric */
       if (strcmp((char *)node->name, "met_name")==0)
       {

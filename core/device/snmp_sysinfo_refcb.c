@@ -113,15 +113,12 @@ int l_snmp_sysinfo_descr_refcb (i_resource *self, i_entity *ent, void *passdata)
 
     /* Start storage objfact is present and not running */
     i_container *storage_cnt = l_snmp_storage_cnt ();
-    i_printf(0, "DEBUG: Sysinfo refresh done, storage container is %p", storage_cnt);
     if (storage_cnt)
     {
       l_snmp_objfact *storage_objfact = l_snmp_storage_objfact();
-      i_printf(0, "DEBUG: Sysinfo refresh done, storage objfact is %p (started = %i)", storage_objfact, storage_objfact ? storage_objfact->started : -1);
       if (storage_objfact && storage_objfact->started == 0)
       { 
         l_snmp_objfact_start (self, storage_objfact); 
-        i_printf(0, "DEBUG: Started objfact for storage");
       }
     }
 
