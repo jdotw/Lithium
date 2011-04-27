@@ -93,7 +93,7 @@ int module_init (i_resource *self)
   if (num != 0)
   { 
     i_printf (1, "module_init failed to initialise customer SQL table"); 
-//    i_timer_add (self, 5, 0, l_customer_initsql_retry, NULL);
+    i_timer_add (self, 5, 0, l_customer_initsql_retry, NULL);
   }
 
   return 0;

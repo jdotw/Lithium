@@ -490,7 +490,7 @@ int l_customer_initsql_retry (i_resource *self, i_timer *timer, void *passdata)
   { return -1; /* Kill Timer */ }
   else
   {
-    i_printf (1, "l_customer_initsql_retry failed to retry initialising sql, will keep trying");
+    i_printf (2, "l_customer_initsql_retry failed to retry initialising sql, will keep trying");
     return 0;
   } 
 } 

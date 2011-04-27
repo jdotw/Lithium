@@ -25,6 +25,9 @@ int i_user_sql_init (i_resource *self)
    * records imported into the new SQL table
    */
 
+  int import_userdb = 0;
+  int import_nodeconf = 0;
+
   /* Connect to SQL db */
   PGconn *pgconn = i_pg_connect_customer (self);
   if (!pgconn)
@@ -36,13 +39,46 @@ int i_user_sql_init (i_resource *self)
   {
     /* Clear first result */
     if (result) PQclear (result);
+    result = NULL;
 
     /* users table not in database */
     result = PQexec (pgconn, "CREATE TABLE users (username varchar, fullname varchar, password varchar, level integer)");
     if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
     { i_printf (1, "i_user_sql_init failed to create users table (%s)", PQresultErrorMessage (result)); }
-    PQclear(result);
+    if (result) PQclear(result);
+    result = NULL;
 
+    /* Set the import flags (both nodeconf and userdb) */
+    import_userdb = 1;
+    import_nodeconf = 1;
+  }
+  else
+  {
+    /* Table exists, see if it has the 'imported' column */
+    result = PQexec (pgconn, "SELECT column_name from information_schema.columns WHERE table_name='users' AND column_name='imported' ORDER BY ordinal_position");
+    if (!result || PQresultStatus(result) != PGRES_TUPLES_OK || (PQntuples(result)) < 1)
+    {
+      /* Add 'imported' column */
+      if (result) { PQclear(result); result = NULL; }
+      i_printf (0, "i_user_sql_init version-specific check: 'imported' column missing, attempting to add it");
+      result = PQexec (pgconn, "ALTER TABLE users ADD COLUMN imported boolean");
+      if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
+      { i_printf (1, "i_user_sql_init failed to add imported column (%s)", PQresultErrorMessage (result)); }
+
+      /* Set import flag (just userdb -- to fix 5.0.15.1319 bug of column name
+       * typo that prevent userdb imports from happening
+       */
+      import_userdb = 1;
+    }
+    if (result) { PQclear(result); result = NULL; }
+
+  }
+  if (result) PQclear(result);
+  result = NULL;
+
+  /* Import user.db if necessary */
+  if (import_userdb == 1)
+  {
     /* Import old userdb records */
     i_list *userdb = i_userdb_get_all(self);
     i_user *user;
@@ -59,7 +95,7 @@ int i_user_sql_init (i_resource *self)
       else password_esc = strdup("NULL");
 
       char *query;
-      asprintf(&query, "INSERT INTO users (username, fullame, password, level) VALUES (%s, %s, %s, %i)", 
+      asprintf(&query, "INSERT INTO users (username, fullname, password, level, imported) VALUES (%s, %s, %s, %i, true)", 
         username_esc, fullname_esc, password_esc, user->auth->level);
       free(username_esc);
       free(fullname_esc);
@@ -70,9 +106,14 @@ int i_user_sql_init (i_resource *self)
       if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
       { i_printf (1, "i_user_sql_init failed to import user.db record for %s (%s)", user->auth->username, PQresultErrorMessage (result)); }
       PQclear(result);
+      result = NULL;
     }
     if (userdb) i_list_free(userdb);
+  }
 
+  /* Import the node.conf master user if necessary */
+  if (import_nodeconf == 1)
+  {
     /* Import master admin user record */
     char *master_user = i_configfile_get (self, NODECONF_FILE, "master_user", "username", 0);
     if (master_user && strlen(master_user) > 0)
@@ -80,7 +121,7 @@ int i_user_sql_init (i_resource *self)
       char *master_pass = i_configfile_get (self, NODECONF_FILE, "master_user", "password", 0);
 
       char *query;
-      asprintf(&query, "INSERT INTO users (username, fullname, password, level) VALUES ('%s', '%s', '%s', %i)",
+      asprintf(&query, "INSERT INTO users (username, fullname, password, level, imported) VALUES ('%s', '%s', '%s', %i, true)",
         master_user, "Global Admin", master_pass, AUTH_LEVEL_MASTER);
 
       result = PQexec(pgconn, query);
@@ -88,14 +129,12 @@ int i_user_sql_init (i_resource *self)
       if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
       { i_printf (1, "i_user_sql_init failed to import global admin user (%s)", PQresultErrorMessage (result)); }
       PQclear(result);
+      result = NULL;
       
       if (master_pass) free(master_pass);
       free(master_user);
     }
-    
   }
-  else if (result)
-  { PQclear (result); }
 
   /* Close DB */
   i_pg_close (pgconn);
