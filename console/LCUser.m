@@ -24,8 +24,6 @@
 	[self.xmlTranslation setObject:@"password" forKey:@"password"];
 	[self.xmlTranslation setObject:@"confirmPassword" forKey:@"confirm_password"];
 	[self.xmlTranslation setObject:@"fullname" forKey:@"fullname"];
-	[self.xmlTranslation setObject:@"title" forKey:@"title"];
-	[self.xmlTranslation setObject:@"email" forKey:@"email"];
 	[self.xmlTranslation setObject:@"accessLevel" forKey:@"level_num"];
 	[self.xmlTranslation setObject:@"isGlobalAdmin" forKey:@"global_admin"];
 	
@@ -36,8 +34,6 @@
 {
 	[username release];
 	[fullname release];
-	[title release];
-	[email release];
 	[super dealloc];
 }
 
@@ -52,8 +48,6 @@
 @synthesize password;
 @synthesize confirmPassword;
 @synthesize fullname;
-@synthesize title;
-@synthesize email;
 @synthesize accessLevel;
 - (void) setAccessLevel:(int)value
 {

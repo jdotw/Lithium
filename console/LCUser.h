@@ -15,8 +15,6 @@
 	NSString *fullname;
 	NSString *password;
 	NSString *confirmPassword;
-	NSString *title;
-	NSString *email;
 	NSString *accessLevelString;
 	int accessLevel;
 	BOOL isGlobalAdmin;
@@ -29,8 +27,6 @@
 @property (nonatomic,copy) NSString *fullname;
 @property (nonatomic,copy) NSString *password;
 @property (nonatomic,copy) NSString *confirmPassword;
-@property (nonatomic,copy) NSString *title;
-@property (nonatomic,copy) NSString *email;
 @property (nonatomic,copy) NSString *accessLevelString;
 @property (nonatomic, assign) int accessLevel;
 @property (nonatomic, assign) BOOL isGlobalAdmin;

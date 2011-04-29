@@ -33,8 +33,6 @@
 	IBOutlet NSTextField *editSheetPassword;
 	IBOutlet NSTextField *editSheetConfirmPassword;
 	IBOutlet NSTextField *editSheetFullname;
-	IBOutlet NSTextField *editSheetTitle;
-	IBOutlet NSTextField *editSheetEmail;	
 	
 	/* Selection */
 	LCUser *selectedUser;

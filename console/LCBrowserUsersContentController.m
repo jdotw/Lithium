@@ -91,8 +91,6 @@
 	[editSheetPassword setBackgroundColor:[NSColor whiteColor]];
 	[editSheetConfirmPassword setBackgroundColor:[NSColor whiteColor]];
 	[editSheetFullname setBackgroundColor:[NSColor whiteColor]];
-	[editSheetTitle setBackgroundColor:[NSColor whiteColor]];
-	[editSheetEmail setBackgroundColor:[NSColor whiteColor]];
 
 	/* Check password */
 	if (!editUser.password || [editUser.password length] < 1) 
