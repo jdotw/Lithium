@@ -42,7 +42,7 @@ int i_user_sql_init (i_resource *self)
     result = NULL;
 
     /* users table not in database */
-    result = PQexec (pgconn, "CREATE TABLE users (username varchar, fullname varchar, password varchar, level integer)");
+    result = PQexec (pgconn, "CREATE TABLE users (username varchar, fullname varchar, password varchar, level integer, imported boolean)");
     if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
     { i_printf (1, "i_user_sql_init failed to create users table (%s)", PQresultErrorMessage (result)); }
     if (result) PQclear(result);

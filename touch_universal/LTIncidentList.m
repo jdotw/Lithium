@@ -216,8 +216,13 @@
                 if (newCount != incidentCount)
                 {
                     incidentCount = newCount;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"LTIncidentListCountUpdated" object:self];
                 }
+                
+                /* Post the notification even if there's no change because
+                 * a zero list size, which is technically not a change, 
+                 * is significant for resetting the badge value
+                 */
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"LTIncidentListCountUpdated" object:self];
             }
         }
 	
