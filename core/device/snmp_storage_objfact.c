@@ -95,27 +95,27 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
       i_triggerset_addtrg (self, tset, "warning", "Warning", VALTYPE_INTEGER, TRGTYPE_EQUAL, 2, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
       i_triggerset_assign_obj (self, obj, tset);
 
-      store->size = l_snmp_metric_create (self, obj, "size", "Size", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.4.1.1.4", index_oidstr, RECMETHOD_NONE, 0);
+      store->size = l_snmp_metric_create (self, obj, "size", "Size", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.4.1.1.4", index_oidstr, RECMETHOD_NONE, 0);
       store->size->alloc_unit = 1024 * 1024;
       store->size->valstr_func = i_string_volume_metric;
       store->size->unit_str = strdup ("byte");
       store->size->kbase = 1024;
       store->size->summary_flag = 1;
 
-      store->used = l_snmp_metric_create (self, obj, "used", "Used", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.4.1.1.5", index_oidstr, RECMETHOD_RRD, 0);
+      store->used = l_snmp_metric_create (self, obj, "used", "Used", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.4.1.1.5", index_oidstr, RECMETHOD_RRD, 0);
       store->used->record_defaultflag = 1;
       store->used->alloc_unit = 1024 * 1024;
       store->used->valstr_func = i_string_volume_metric;
       store->used->unit_str = strdup ("byte");
       store->used->kbase = 1024;
 
-      store->free = l_snmp_metric_create (self, obj, "free", "Free", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.4.1.1.6", index_oidstr, RECMETHOD_NONE, 0);
+      store->free = l_snmp_metric_create (self, obj, "free", "Free", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.4.1.1.6", index_oidstr, RECMETHOD_NONE, 0);
       store->free->alloc_unit = 1024 * 1024;
       store->free->valstr_func = i_string_volume_metric;
       store->free->unit_str = strdup ("byte");
       store->free->kbase = 1024;
 
-      store->used_pc = l_snmp_metric_create (self, obj, "used_pc", "Used Percent", METRIC_GAUGE, ".1.3.6.1.4.1.20038.2.1.4.1.1.7", index_oidstr, RECMETHOD_RRD, 0);
+      store->used_pc = l_snmp_metric_create (self, obj, "used_pc", "Used Percent", METRIC_INTEGER, ".1.3.6.1.4.1.20038.2.1.4.1.1.7", index_oidstr, RECMETHOD_RRD, 0);
       store->used_pc->record_defaultflag = 1;
       store->used_pc->unit_str = strdup ("%");
 
@@ -161,16 +161,16 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
 
       store->typeoid = l_snmp_metric_create (self, obj, "typeoid", "Type OID", METRIC_OID, ".1.3.6.1.2.1.25.2.3.1.2", index_oidstr, RECMETHOD_NONE, 0);
 
-      store->alloc_units = l_snmp_metric_create (self, obj, "alloc_units", "Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
+      store->alloc_units = l_snmp_metric_create (self, obj, "alloc_units", "Allocation Units", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
       store->alloc_units->prio--;
 
-      store->size = l_snmp_metric_create (self, obj, "size", "Size", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
+      store->size = l_snmp_metric_create (self, obj, "size", "Size", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
       store->size->alloc_unit_met = store->alloc_units;
       store->size->valstr_func = i_string_volume_metric;
       store->size->unit_str = strdup ("byte");
       store->size->kbase = 1024;
 
-      store->used = l_snmp_metric_create (self, obj, "used", "Used", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_NONE, 0);
+      store->used = l_snmp_metric_create (self, obj, "used", "Used", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_NONE, 0);
       store->used->alloc_unit_met = store->alloc_units;
       store->used->valstr_func = i_string_volume_metric;
       store->used->unit_str = strdup ("byte");
@@ -228,11 +228,11 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         if (ram->real_free) { i_entity_deregister (self, ENTITY(ram->real_free)); i_entity_free (ENTITY(ram->real_free)); ram->real_free = NULL; }
     
         /* Physical Alloc units */
-        ram->real_alloc = l_snmp_metric_create (self, real_obj, "real_alloc", "Physical Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
+        ram->real_alloc = l_snmp_metric_create (self, real_obj, "real_alloc", "Physical Allocation Units", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
         ram->real_alloc->hidden = 1;
 
         /* Physical Total */
-        ram->real_total = l_snmp_metric_create (self, real_obj, "real_total", "Total", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
+        ram->real_total = l_snmp_metric_create (self, real_obj, "real_total", "Total", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
         ram->real_total->alloc_unit_met = ram->real_alloc;
         ram->real_total->valstr_func = i_string_volume_metric;
         ram->real_total->unit_str = strdup ("byte");
@@ -240,7 +240,7 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         ram->real_total->summary_flag = 1;
 
         /* Physical Used */
-        ram->real_used = l_snmp_metric_create (self, real_obj, "real_used", "Used", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_RRD, 0);
+        ram->real_used = l_snmp_metric_create (self, real_obj, "real_used", "Used", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_RRD, 0);
         ram->real_used->alloc_unit_met = ram->real_alloc;
         ram->real_used->valstr_func = i_string_volume_metric;
         ram->real_used->unit_str = strdup ("byte");
@@ -270,11 +270,11 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         if (ram->swap_usedpc) { i_entity_deregister (self, ENTITY(ram->swap_usedpc)); i_entity_free (ENTITY(ram->swap_usedpc)); ram->swap_usedpc = NULL; }
 
         /* Swap Alloc units */
-        ram->swap_alloc = l_snmp_metric_create (self, swap_obj, "swap_alloc", "Swap Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
+        ram->swap_alloc = l_snmp_metric_create (self, swap_obj, "swap_alloc", "Swap Allocation Units", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
         ram->swap_alloc->hidden = 1;
 
         /* Swap Total */
-        ram->swap_total = l_snmp_metric_create (self, swap_obj, "swap_total", "Total", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
+        ram->swap_total = l_snmp_metric_create (self, swap_obj, "swap_total", "Total", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_NONE, 0);
         ram->swap_total->alloc_unit_met = ram->swap_alloc;
         ram->swap_total->valstr_func = i_string_volume_metric;
         ram->swap_total->unit_str = strdup ("byte");
@@ -282,7 +282,7 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         ram->swap_total->summary_flag = 1;
 
         /* Swap Used */
-        ram->swap_used = l_snmp_metric_create (self, swap_obj, "swap_used", "Used", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_RRD, 0);
+        ram->swap_used = l_snmp_metric_create (self, swap_obj, "swap_used", "Used", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_RRD, 0);
         ram->swap_used->alloc_unit_met = ram->swap_alloc;
         ram->swap_used->valstr_func = i_string_volume_metric;
         ram->swap_used->unit_str = strdup ("byte");
@@ -310,11 +310,11 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         if (ram->cached) { i_entity_deregister (self, ENTITY(ram->cached)); i_entity_free (ENTITY(ram->cached)); ram->cached = NULL; }
 
         /* Cached Alloc units */
-        ram->cached_alloc = l_snmp_metric_create (self, real_obj, "cached_alloc", "Cached Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
+        ram->cached_alloc = l_snmp_metric_create (self, real_obj, "cached_alloc", "Cached Allocation Units", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
         ram->cached_alloc->hidden = 1;
 
         /* Cached Total -- Uses 'size' OID, not 'Used' (Used is not populated) */
-        ram->cached = l_snmp_metric_create (self, real_obj, "cached", "Cached", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_RRD, 0);
+        ram->cached = l_snmp_metric_create (self, real_obj, "cached", "Cached", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_RRD, 0);
         ram->cached->alloc_unit_met = ram->cached_alloc;
         ram->cached->valstr_func = i_string_volume_metric;
         ram->cached->unit_str = strdup ("byte");
@@ -341,11 +341,11 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         if (ram->buffers) { i_entity_deregister (self, ENTITY(ram->buffers)); i_entity_free (ENTITY(ram->buffers)); ram->buffers = NULL; }
 
         /* Buffered Alloc units */
-        ram->buffers_alloc = l_snmp_metric_create (self, real_obj, "buffers_alloc", "Buffer Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
+        ram->buffers_alloc = l_snmp_metric_create (self, real_obj, "buffers_alloc", "Buffer Allocation Units", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
         ram->buffers_alloc->hidden = 1;
 
         /* Buffered Total -- Uses 'size' OID, not 'used' (Used is not populated) */
-        ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_RRD, 0);
+        ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_RRD, 0);
         ram->buffers->alloc_unit_met = ram->buffers_alloc;
         ram->buffers->valstr_func = i_string_volume_metric;
         ram->buffers->unit_str = strdup ("byte");
@@ -369,11 +369,11 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         if (ram->buffers) { i_entity_deregister (self, ENTITY(ram->buffers)); i_entity_free (ENTITY(ram->buffers)); ram->buffers = NULL; }
 
         /* Buffered Alloc units */
-        ram->buffers_alloc = l_snmp_metric_create (self, real_obj, "buffers_alloc", "Buffer Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
+        ram->buffers_alloc = l_snmp_metric_create (self, real_obj, "buffers_alloc", "Buffer Allocation Units", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
         ram->buffers_alloc->hidden = 1;
 
         /* Buffered Total -- Uses 'Used' OID */
-        ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_RRD, 0);
+        ram->buffers = l_snmp_metric_create (self, real_obj, "buffers", "Buffers", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.6", index_oidstr, RECMETHOD_RRD, 0);
         ram->buffers->alloc_unit_met = ram->buffers_alloc;
         ram->buffers->valstr_func = i_string_volume_metric;
         ram->buffers->unit_str = strdup ("byte");
@@ -390,11 +390,11 @@ int l_snmp_storage_objfact_fab (i_resource *self, i_container *cnt, i_object *ob
         if (ram->shared) { i_entity_deregister (self, ENTITY(ram->shared)); i_entity_free (ENTITY(ram->shared)); ram->shared = NULL; }
 
         /* Shared Alloc units */
-        ram->shared_alloc = l_snmp_metric_create (self, real_obj, "shared_alloc", "Shared Allocation Units", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
+        ram->shared_alloc = l_snmp_metric_create (self, real_obj, "shared_alloc", "Shared Allocation Units", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.4", index_oidstr, RECMETHOD_NONE, 0);
         ram->shared_alloc->hidden = 1;
 
         /* Shared Total -- Uses 'size' OID, not 'used' (Used is not populated) */
-        ram->shared = l_snmp_metric_create (self, real_obj, "shared", "Shared", METRIC_GAUGE, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_RRD, 0);
+        ram->shared = l_snmp_metric_create (self, real_obj, "shared", "Shared", METRIC_INTEGER, ".1.3.6.1.2.1.25.2.3.1.5", index_oidstr, RECMETHOD_RRD, 0);
         ram->shared->alloc_unit_met = ram->shared_alloc;
         ram->shared->valstr_func = i_string_volume_metric;
         ram->shared->unit_str = strdup ("byte");
