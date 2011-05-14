@@ -16,7 +16,6 @@
 #include <induction/site.h>
 #include <induction/device.h>
 #include <induction/hierarchy.h>
-#include <induction/contact.h>
 #include <induction/socket.h>
 #include <induction/message.h>
 #include <induction/timer.h>
@@ -46,8 +45,6 @@ int xml_user_update (i_resource *self, i_xml_request *req)
   char *username_str = NULL;
   char *password_str = NULL;
   char *fullname_str = NULL;
-  char *title_str = NULL;
-  char *email_str = NULL;
   int auth_level = 0;
 
   root_node = xmlDocGetRootElement (req->xml_in->doc);
@@ -63,10 +60,6 @@ int xml_user_update (i_resource *self, i_xml_request *req)
     { password_str = strdup (str); }
     else if (!strcmp((char *)node->name, "fullname") && str)
     { fullname_str = strdup (str); }
-    else if (!strcmp((char *)node->name, "title") && str)
-    { title_str = strdup (str); }
-    else if (!strcmp((char *)node->name, "email") && str)
-    { email_str = strdup (str); }
     else if (!strcmp((char *)node->name, "level_num") && str)
     { auth_level = atoi (str); }
 
@@ -77,30 +70,26 @@ int xml_user_update (i_resource *self, i_xml_request *req)
   if (!username_str) return -1;
 
   /* Get existing */
+  int free_user = 0;
   user = i_user_sql_get (self, username_str);
   if (!user)
   {
     user = i_user_create ();
     user->auth->username = strdup (username_str);
-    user->contact = i_contact_profile_create ();
-    user->contact->hours = HOURS_24x7;
-    user->contact->office = i_contact_info_create ();
-    user->contact->mobile = i_contact_info_create ();
     user->auth->customer_id = strdup (self->hierarchy->cust_name);
+    free_user = 1;  // Only free it if we created it
   }
   else
-  { perform_delete = 1; }
+  { 
+    perform_delete = 1; 
+  }
 
   /* Update User */
+  user->auth->level = auth_level;
   if (password_str && strcmp(password_str, "********") != 0) 
   { if (user->auth->password) free (user->auth->password); user->auth->password = strdup (password_str); }
   if (fullname_str) 
   { if (user->fullname) free (user->fullname); user->fullname = strdup (fullname_str); }
-  if (title_str) 
-  { if (user->title) free (user->title); user->title = strdup (title_str); }
-  if (email_str) 
-  { if (user->contact->email) free (user->contact->email); user->contact->email = strdup (email_str); }
-  user->auth->level = auth_level;
 
   /* Remove old user */
   if (perform_delete)
@@ -118,12 +107,10 @@ int xml_user_update (i_resource *self, i_xml_request *req)
   xmlDocSetRootElement (req->xml_out->doc, root_node);
 
   /* Clean up */
-  i_user_free (user);
+  if (user && free_user == 1) i_user_free (user);
   if (username_str) free (username_str);
   if (password_str) free (password_str);
   if (fullname_str) free (fullname_str);
-  if (title_str) free (title_str);
-  if (email_str) free (email_str);
 
   return 1; 
 }

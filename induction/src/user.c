@@ -14,7 +14,6 @@ void i_user_free (void *userptr)
   if (!user) return;
 
   if (user->fullname) free (user->fullname);
-  if (user->title) free (user->title);
   if (user->auth) i_authentication_free (user->auth);
   if (user->contact) i_contact_profile_free (user->contact);
 
@@ -56,8 +55,6 @@ char* i_user_struct_to_data (i_user *user, int *datasizeptr)
    *
    * int fullname_datasize
    * char *fullname
-   * int title_datasize
-   * char *title
    *
    */
 
@@ -88,9 +85,8 @@ char* i_user_struct_to_data (i_user *user, int *datasizeptr)
     return NULL;
   }
 
-  datasize = (4*sizeof(int)) + auth_datasize + contact_datasize;
+  datasize = (3*sizeof(int)) + auth_datasize + contact_datasize;
   if (user->fullname) datasize += strlen(user->fullname)+1;
-  if (user->title) datasize += strlen(user->title)+1;
   
   data = (char *) malloc (datasize);
   if (!data)
@@ -123,10 +119,6 @@ char* i_user_struct_to_data (i_user *user, int *datasizeptr)
   }
   
   dataptr = i_data_add_string (data, dataptr, datasize, user->fullname);
-  if (!data)
-  { i_printf (1, "i_user_struct_to_data failed to add user->fullname to data block"); free (data); return NULL; }
- 
-  dataptr = i_data_add_string (data, dataptr, datasize, user->title);
   if (!data)
   { i_printf (1, "i_user_struct_to_data failed to add user->fullname to data block"); free (data); return NULL; }
  
@@ -195,16 +187,11 @@ i_user* i_user_data_to_struct (char *data, unsigned int datasize)
     return NULL;
   }
 
-  /* Username / Title / Etc */
+  /* Username / Etc */
 
   user->fullname = i_data_get_string (data, dataptr, datasize, &offset);
   if (offset < 1)
   { i_printf (1, "i_user_data_to_struct failed to get fullname from data block"); i_user_free (user); return NULL; }
-  dataptr += offset;
-
-  user->title = i_data_get_string (data, dataptr, datasize, &offset);
-  if (offset < 1)
-  { i_printf (1, "i_user_data_to_struct failed to get title from data block"); i_user_free (user); return NULL; }
   dataptr += offset;
 
   /* Finished */

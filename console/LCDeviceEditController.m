@@ -169,7 +169,7 @@
 	[self setConfirmPassword:[self password]];
 	[self setLomConfirmPassword:[self lomPassword]];
 	if (refreshInterval != 30 && refreshInterval != 60 && refreshInterval != 120 
-		&& refreshInterval != 300 && refreshInterval != 600)
+		&& refreshInterval != 300 && refreshInterval != 600 && refreshInterval != 1800 && refreshInterval != 3600)
 	{ self.refreshInterval = 300; }
 	[addButton setTitle:@"Save"];
 
@@ -195,7 +195,7 @@
 	[self setLomPassword:nil];
 	[self setLomConfirmPassword:[self lomPassword]];
 	if (refreshInterval != 30 && refreshInterval != 60 && refreshInterval != 120 
-		&& refreshInterval != 300 && refreshInterval != 600)
+		&& refreshInterval != 300 && refreshInterval != 600 && refreshInterval != 1800 && refreshInterval != 3600)
 	{ self.refreshInterval = 300; }
 	[addButton setTitle:@"Add"];
 	

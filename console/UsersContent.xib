@@ -12,9 +12,9 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="7"/>
-			<integer value="63"/>
+			<integer value="62"/>
 			<integer value="26"/>
+			<integer value="7"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -130,13 +130,13 @@
 												<reference key="NSTableView" ref="913548173"/>
 											</object>
 											<object class="NSTableColumn" id="45781971">
-												<double key="NSWidth">115</double>
+												<double key="NSWidth">311</double>
 												<double key="NSMinWidth">10</double>
 												<double key="NSMaxWidth">1000</double>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
 													<int key="NSCellFlags">75628096</int>
 													<int key="NSCellFlags2">2048</int>
-													<string key="NSContents">Full Name.</string>
+													<string key="NSContents">Full Name</string>
 													<reference key="NSSupport" ref="24"/>
 													<reference key="NSBackgroundColor" ref="307366667"/>
 													<reference key="NSTextColor" ref="286803478"/>
@@ -153,56 +153,8 @@
 												<bool key="NSIsResizeable">YES</bool>
 												<reference key="NSTableView" ref="913548173"/>
 											</object>
-											<object class="NSTableColumn" id="928208434">
-												<double key="NSWidth">94</double>
-												<double key="NSMinWidth">29</double>
-												<double key="NSMaxWidth">1000</double>
-												<object class="NSTableHeaderCell" key="NSHeaderCell">
-													<int key="NSCellFlags">75628096</int>
-													<int key="NSCellFlags2">2048</int>
-													<string key="NSContents">Title</string>
-													<reference key="NSSupport" ref="24"/>
-													<reference key="NSBackgroundColor" ref="307366667"/>
-													<reference key="NSTextColor" ref="286803478"/>
-												</object>
-												<object class="NSTextFieldCell" key="NSDataCell" id="429263200">
-													<int key="NSCellFlags">337772032</int>
-													<int key="NSCellFlags2">0</int>
-													<reference key="NSSupport" ref="22"/>
-													<reference key="NSControlView" ref="913548173"/>
-													<reference key="NSBackgroundColor" ref="654003102"/>
-													<reference key="NSTextColor" ref="886695444"/>
-												</object>
-												<int key="NSResizingMask">3</int>
-												<bool key="NSIsResizeable">YES</bool>
-												<reference key="NSTableView" ref="913548173"/>
-											</object>
-											<object class="NSTableColumn" id="1030866118">
-												<double key="NSWidth">136</double>
-												<double key="NSMinWidth">32</double>
-												<double key="NSMaxWidth">1000</double>
-												<object class="NSTableHeaderCell" key="NSHeaderCell">
-													<int key="NSCellFlags">75628096</int>
-													<int key="NSCellFlags2">2048</int>
-													<string key="NSContents">Email</string>
-													<reference key="NSSupport" ref="24"/>
-													<reference key="NSBackgroundColor" ref="307366667"/>
-													<reference key="NSTextColor" ref="286803478"/>
-												</object>
-												<object class="NSTextFieldCell" key="NSDataCell" id="749596603">
-													<int key="NSCellFlags">337772032</int>
-													<int key="NSCellFlags2">0</int>
-													<reference key="NSSupport" ref="22"/>
-													<reference key="NSControlView" ref="913548173"/>
-													<reference key="NSBackgroundColor" ref="654003102"/>
-													<reference key="NSTextColor" ref="886695444"/>
-												</object>
-												<int key="NSResizingMask">3</int>
-												<bool key="NSIsResizeable">YES</bool>
-												<reference key="NSTableView" ref="913548173"/>
-											</object>
 											<object class="NSTableColumn" id="872120757">
-												<double key="NSWidth">118</double>
+												<double key="NSWidth">158</double>
 												<double key="NSMinWidth">75</double>
 												<double key="NSMaxWidth">1000</double>
 												<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -901,46 +853,6 @@
 					<int key="connectionID">47</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects.title</string>
-						<reference key="source" ref="928208434"/>
-						<reference key="destination" ref="478503875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="928208434"/>
-							<reference key="NSDestination" ref="478503875"/>
-							<string key="NSLabel">value: arrangedObjects.title</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects.title</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEditable</string>
-								<boolean value="YES" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">48</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects.email</string>
-						<reference key="source" ref="1030866118"/>
-						<reference key="destination" ref="478503875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1030866118"/>
-							<reference key="NSDestination" ref="478503875"/>
-							<string key="NSLabel">value: arrangedObjects.email</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects.email</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEditable</string>
-								<boolean value="YES" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">49</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">addNewUserClicked:</string>
 						<reference key="source" ref="1001"/>
@@ -1559,9 +1471,7 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="872120757"/>
-							<reference ref="1030866118"/>
 							<reference ref="430886620"/>
-							<reference ref="928208434"/>
 							<reference ref="45781971"/>
 						</object>
 						<reference key="parent" ref="746581130"/>
@@ -1576,29 +1486,11 @@
 						<reference key="parent" ref="913548173"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">15</int>
-						<reference key="object" ref="1030866118"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="749596603"/>
-						</object>
-						<reference key="parent" ref="913548173"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">16</int>
 						<reference key="object" ref="430886620"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="306806347"/>
-						</object>
-						<reference key="parent" ref="913548173"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">17</int>
-						<reference key="object" ref="928208434"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="429263200"/>
 						</object>
 						<reference key="parent" ref="913548173"/>
 					</object>
@@ -1617,19 +1509,9 @@
 						<reference key="parent" ref="45781971"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">22</int>
-						<reference key="object" ref="429263200"/>
-						<reference key="parent" ref="928208434"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">23</int>
 						<reference key="object" ref="306806347"/>
 						<reference key="parent" ref="430886620"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">24</int>
-						<reference key="object" ref="749596603"/>
-						<reference key="parent" ref="1030866118"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">25</int>
@@ -2018,26 +1900,16 @@
 					<string>141.IBPluginDependency</string>
 					<string>142.IBPluginDependency</string>
 					<string>143.IBPluginDependency</string>
-					<string>15.IBPluginDependency</string>
-					<string>15.ImportedFromIB2</string>
 					<string>16.IBPluginDependency</string>
 					<string>16.ImportedFromIB2</string>
-					<string>17.IBPluginDependency</string>
-					<string>17.ImportedFromIB2</string>
 					<string>19.IBPluginDependency</string>
 					<string>19.ImportedFromIB2</string>
 					<string>20.CustomClassName</string>
 					<string>20.IBPluginDependency</string>
 					<string>20.ImportedFromIB2</string>
-					<string>22.CustomClassName</string>
-					<string>22.IBPluginDependency</string>
-					<string>22.ImportedFromIB2</string>
 					<string>23.CustomClassName</string>
 					<string>23.IBPluginDependency</string>
 					<string>23.ImportedFromIB2</string>
-					<string>24.CustomClassName</string>
-					<string>24.IBPluginDependency</string>
-					<string>24.ImportedFromIB2</string>
 					<string>25.CustomClassName</string>
 					<string>25.IBPluginDependency</string>
 					<string>25.ImportedFromIB2</string>
@@ -2132,16 +2004,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="1"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="1"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="1"/>
-					<string>LCShadowTextFieldCell</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="1"/>
-					<string>LCShadowTextFieldCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>LCShadowTextFieldCell</string>
@@ -2365,12 +2227,10 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>editSheet</string>
 							<string>editSheetConfirmPassword</string>
-							<string>editSheetEmail</string>
 							<string>editSheetFullname</string>
 							<string>editSheetLabel</string>
 							<string>editSheetOKButton</string>
 							<string>editSheetPassword</string>
-							<string>editSheetTitle</string>
 							<string>editSheetUsername</string>
 							<string>userArrayController</string>
 						</object>
@@ -2380,9 +2240,7 @@
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
-							<string>NSTextField</string>
 							<string>NSButton</string>
-							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSArrayController</string>
@@ -2394,12 +2252,10 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>editSheet</string>
 							<string>editSheetConfirmPassword</string>
-							<string>editSheetEmail</string>
 							<string>editSheetFullname</string>
 							<string>editSheetLabel</string>
 							<string>editSheetOKButton</string>
 							<string>editSheetPassword</string>
-							<string>editSheetTitle</string>
 							<string>editSheetUsername</string>
 							<string>userArrayController</string>
 						</object>
@@ -2411,10 +2267,6 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">editSheetConfirmPassword</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">editSheetEmail</string>
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -2431,10 +2283,6 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">editSheetPassword</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">editSheetTitle</string>
 								<string key="candidateClassName">NSTextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">

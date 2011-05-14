@@ -47,5 +47,5 @@ cd $BASEDIR
 #
 
 #echo "Uploaded to http://download.lithiumcorp.com/lithium5/core/osx/prerelease/LithiumCore-$BUILDNUM.$BUILDNUM_SHORT.dmg"
-echo "Uploaded to http://s3.amazonaws.com/l5prerelease/LithiumCore-$BUILDNUM.$BUILDNUM_SHORT.dmg"
+echo "Uploaded to http://s3.amazonaws.com/l5prerelease/core/osx/LithiumCore-$BUILDNUM.$BUILDNUM_SHORT.dmg"
 
