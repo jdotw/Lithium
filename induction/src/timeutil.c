@@ -127,6 +127,7 @@ time_t i_time_monthend (time_t ref_sec, struct tm *tm)
   ref_tm.tm_hour = 0;                           /* Go to the first hour of this day */
   ref_tm.tm_min = 0;                            /* Go to the first min of this day */
   ref_tm.tm_sec = 0;                            /* Go to the first sec of this day */
+  ref_tm.tm_isdst = -1;                            /* Auto-Calc DST */
 
   /* Move back on second */
 
@@ -154,6 +155,7 @@ time_t i_time_monthstart (time_t ref_sec, struct tm *tm)
   ref_tm.tm_hour = 0;                           /* Go to the first hour of this day */
   ref_tm.tm_min = 0;                            /* Go to the first min of this day */
   ref_tm.tm_sec = 0;                            /* Go to the first sec of this day */
+  ref_tm.tm_isdst = -1;                         /* Auto-Calc DST */
 
   month_start = mktime (&ref_tm);               /* Get the seconds for the first second in the first day of the next month */
   localtime_r (&month_start, tm);               /* Set value of tm pointer passed to this func */
@@ -190,6 +192,7 @@ time_t i_time_yearstart (time_t now, struct tm *tm)
   nowtm.tm_hour = 0;
   nowtm.tm_mon = 0;
   nowtm.tm_mday = 1;
+  nowtm.tm_isdst = -1;
 
   year_start = mktime (&nowtm);
   localtime_r (&year_start, tm);
@@ -202,13 +205,17 @@ time_t i_time_yearend (time_t now, struct tm *tm)
   time_t year_end;
   struct tm nowtm;
 
+
   localtime_r (&now, &nowtm);
+  
   nowtm.tm_sec = 0;
   nowtm.tm_min = 0;
   nowtm.tm_hour = 0;
   nowtm.tm_mon = 0;
   nowtm.tm_mday = 1;
+  nowtm.tm_yday = 0;
   nowtm.tm_year++;
+  nowtm.tm_isdst = -1;
 
   year_end = mktime (&nowtm);
   year_end--;

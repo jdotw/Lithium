@@ -1642,70 +1642,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.demoName</string>
-						<reference key="source" ref="845614187"/>
-						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="845614187"/>
-							<reference key="NSDestination" ref="414082875"/>
-							<string key="NSLabel">value: selection.demoName</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.demoName</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">168</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.demoEmail</string>
-						<reference key="source" ref="360706606"/>
-						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="360706606"/>
-							<reference key="NSDestination" ref="414082875"/>
-							<string key="NSLabel">value: selection.demoEmail</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.demoEmail</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">169</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.demoCompany</string>
-						<reference key="source" ref="27124450"/>
-						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="27124450"/>
-							<reference key="NSDestination" ref="414082875"/>
-							<string key="NSLabel">value: selection.demoCompany</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.demoCompany</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">170</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.licenseKey</string>
-						<reference key="source" ref="943566791"/>
-						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="943566791"/>
-							<reference key="NSDestination" ref="414082875"/>
-							<string key="NSLabel">value: selection.licenseKey</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.licenseKey</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">171</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">animate: selection.operationInProgress</string>
 						<reference key="source" ref="595411546"/>
 						<reference key="destination" ref="414082875"/>
@@ -1754,54 +1690,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.licName</string>
-						<reference key="source" ref="68074286"/>
-						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="68074286"/>
-							<reference key="NSDestination" ref="414082875"/>
-							<string key="NSLabel">value: selection.licName</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.licName</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">175</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.licCompany</string>
-						<reference key="source" ref="798493597"/>
-						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="798493597"/>
-							<reference key="NSDestination" ref="414082875"/>
-							<string key="NSLabel">value: selection.licCompany</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.licCompany</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">176</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.licEmail</string>
-						<reference key="source" ref="204078869"/>
-						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="204078869"/>
-							<reference key="NSDestination" ref="414082875"/>
-							<string key="NSLabel">value: selection.licEmail</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.licEmail</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">177</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
 						<string key="label">selectedIndex: selection.authTypeIndex</string>
 						<reference key="source" ref="421143164"/>
 						<reference key="destination" ref="414082875"/>
@@ -1815,54 +1703,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</object>
 					</object>
 					<int key="connectionID">179</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.authUsername</string>
-						<reference key="source" ref="299622410"/>
-						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="299622410"/>
-							<reference key="NSDestination" ref="414082875"/>
-							<string key="NSLabel">value: selection.authUsername</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.authUsername</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">180</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.authPassword</string>
-						<reference key="source" ref="843023420"/>
-						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="843023420"/>
-							<reference key="NSDestination" ref="414082875"/>
-							<string key="NSLabel">value: selection.authPassword</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.authPassword</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">185</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.authPasswordConfirm</string>
-						<reference key="source" ref="499059420"/>
-						<reference key="destination" ref="414082875"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="499059420"/>
-							<reference key="NSDestination" ref="414082875"/>
-							<string key="NSLabel">value: selection.authPasswordConfirm</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.authPasswordConfirm</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">186</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -2208,6 +2048,206 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</object>
 					</object>
 					<int key="connectionID">233</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.licenseKey</string>
+						<reference key="source" ref="943566791"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="943566791"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">value: selection.licenseKey</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.licenseKey</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">236</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.demoName</string>
+						<reference key="source" ref="845614187"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="845614187"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">value: selection.demoName</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.demoName</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">237</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.demoEmail</string>
+						<reference key="source" ref="360706606"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="360706606"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">value: selection.demoEmail</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.demoEmail</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">238</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.demoCompany</string>
+						<reference key="source" ref="27124450"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="27124450"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">value: selection.demoCompany</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.demoCompany</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">239</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.licName</string>
+						<reference key="source" ref="68074286"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="68074286"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">value: selection.licName</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.licName</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">240</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.licCompany</string>
+						<reference key="source" ref="798493597"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="798493597"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">value: selection.licCompany</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.licCompany</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">243</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.licEmail</string>
+						<reference key="source" ref="204078869"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="204078869"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">value: selection.licEmail</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.licEmail</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">244</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.authUsername</string>
+						<reference key="source" ref="299622410"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="299622410"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">value: selection.authUsername</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.authUsername</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">245</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.authPassword</string>
+						<reference key="source" ref="843023420"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="843023420"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">value: selection.authPassword</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.authPassword</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">246</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: selection.authPasswordConfirm</string>
+						<reference key="source" ref="499059420"/>
+						<reference key="destination" ref="414082875"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="499059420"/>
+							<reference key="NSDestination" ref="414082875"/>
+							<string key="NSLabel">value: selection.authPasswordConfirm</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">selection.authPasswordConfirm</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSContinuouslyUpdatesValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">247</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3252,9 +3292,9 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>{{1113, 147}, {627, 444}}</string>
+					<string>{{819, 147}, {627, 444}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{1113, 147}, {627, 444}}</string>
+					<string>{{819, 147}, {627, 444}}</string>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3569,7 +3609,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">235</int>
+			<int key="maxID">247</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

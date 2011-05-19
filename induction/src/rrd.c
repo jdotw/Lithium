@@ -226,8 +226,6 @@ i_rrdtool_cmd* i_rrd_graph (i_resource *self, char *filename, time_t start_sec, 
 
   asprintf (&command_str, "graph '%s' %s -a PNG -E -c FONT#010101FF -c CANVAS#FFFFFF00 -c BACK#F6F6F600 -c SHADEA#F6F6F600 -c SHADEB#F6F6F600 -b %u %s %s %s %s %s %s", filename, daemon_str, kbase, start_str, end_str, title_str, y_label_str, font_str, arg_str);
 
-  i_printf(0, "RRD: %s", command_str);
-
   free (start_str);
   free (end_str);
   free (title_str);

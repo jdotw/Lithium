@@ -60,6 +60,7 @@
 
 - (BOOL) isValid
 {
+	NSLog(@"Validating %@", self.key);
 	if ([self.key length] > 30 && [self.key length] < 50)
 	{
 		/* eKey requiring activation */
