@@ -38,6 +38,7 @@
 		UILongPressGestureRecognizer *longRecog = [[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(graphLongTouch:)] autorelease];
 		[self addGestureRecognizer:longRecog];
 		
+        graphRequestCache = [[NSMutableDictionary dictionary] retain];
     }
     return self;
 }
@@ -96,7 +97,6 @@
 	CGFloat secondsPerPixel = (zoomScale * visibleSeconds) / CGRectGetWidth(self.superview.frame);
 	
 	/* Check for cached request */
-	if (!graphRequestCache) graphRequestCache = [[NSMutableDictionary dictionary] retain];
     @synchronized(graphRequestCache)
     {
         LTMetricGraphRequest *graphReq = [graphRequestCache objectForKey:NSStringFromCGRect(clipRect)];

@@ -347,7 +347,7 @@
 			NSSortDescriptor *sortDesc = [[[NSSortDescriptor alloc] initWithKey:@"floatValue" ascending:YES] autorelease];
 			NSArray *sortedValues = [metric.values sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDesc]];
 			NSString *string = [NSString stringWithFormat:@"%@ - %@", [[sortedValues objectAtIndex:0] stringValue], [[sortedValues lastObject] stringValue]];
-			NSTimeInterval elapsedTime = [[(LTMetricValue *)[metric.values lastObject] timestamp] timeIntervalSinceDate:[(LTMetricValue *)[metric.values objectAtIndex:0] timestamp]];
+			NSTimeInterval elapsedTime = [[(LTMetricValue *)[metric.values objectAtIndex:0] timestamp] timeIntervalSinceDate:[(LTMetricValue *)[metric.values lastObject] timestamp]];
 			cell.textLabel.text = string;
 			cell.detailTextLabel.text = [NSString stringWithFormat:@"Over the last %@", [self intervalString:elapsedTime]];
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

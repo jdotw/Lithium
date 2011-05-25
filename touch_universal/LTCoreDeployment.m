@@ -41,6 +41,7 @@
 	self.desc = [decoder decodeObjectForKey:@"desc"];
 	self.enabled = [decoder decodeBoolForKey:@"enabled"];
 	self.useSSL = [decoder decodeBoolForKey:@"useSSL"];
+    NSLog(@"useSSL loaded as %i", self.useSSL);
 	self.uuidString = [decoder decodeObjectForKey:@"uuidString"];
 	self.name = self.ipAddress;
 	if ([self.desc length] < 1)
@@ -73,12 +74,14 @@
 	if (self.refreshInProgress) return;
 	
 	/* Download the Customer List */
-	NSString *protocol = self.customer.coreDeployment.useSSL ? @"https" : @"http";
-	NSString *port =  self.customer.coreDeployment.useSSL ? @"51143" : @"51180";
+    NSLog(@"CoreDep %@ useSSL is %i", self.desc, self.useSSL);
+	NSString *protocol = self.useSSL ? @"https" : @"http";
+	NSString *port =  self.useSSL ? @"51143" : @"51180";
 	NSURLRequest *theRequest= [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@://%@:%@/console.php", 
 																				 protocol, self.ipAddress, port]]
 											  cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
 										  timeoutInterval:60.0];
+    NSLog(@"CoreDep refresh is %@", theRequest);
 	NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 	if (theConnection) 
 	{

@@ -123,6 +123,7 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (NSString *) urlPrefix
 {
+    NSLog(@"URL PRefix for %@ useSSL is %i", self.desc, self.customer.coreDeployment.useSSL);
 	NSString *protocol = self.customer.coreDeployment.useSSL ? @"https" : @"http";
 	NSString *port =  self.customer.coreDeployment.useSSL ? @"51143" : @"51180";
 	return [NSString stringWithFormat:@"%@://%@:%@/%@", protocol, self.customer.ipAddress, port, self.customer.name];
@@ -383,41 +384,31 @@ static NSMutableDictionary *_xmlTranslation = nil;
     /* Create local autorelease pool */
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
+    /* Remove all existing values */
+    [self.values removeAllObjects];
+    
 	/* Update local properties and value */
-    BOOL currentValueSet = NO;
+    NSMutableArray *receivedValues = [NSMutableArray array];
     for (node=node->firstChild; node; node = node->nextSibling)
     {
         if (strcmp(node->name, "value")==0)
         {
-            /* Create Value */
-            LTMetricValue *curValue = [LTMetricValue new];
-            curValue.stringValue = [TBXML textForElementNamed:@"valstr" parentElement:node];
-            curValue.floatValue = [[TBXML textForElementNamed:@"valstr_raw" parentElement:node] floatValue];
-            curValue.timestamp = [NSDate dateWithTimeIntervalSince1970:[[TBXML textForElementNamed:@"tstamp_sec" parentElement:node] floatValue]];
+            /* Values are received in chronological order
+             * with the NEWEST value being received LAST
+             */
             
-            /* Set entity current value */
-            BOOL currentValueChanged = NO;      // Changes to YES if currentValue is present and updated
-            if (!currentValueSet)
-            {
-                if (![self.currentValue isEqualToString:curValue.stringValue] && !self.isNew)
-                { 
-                    /* A currentValue was set and has now changed, always notify */
-                    currentValueChanged = YES; 
-                }
-                self.currentValue = [[curValue.stringValue copy] autorelease];  // Done the long way round to catch a mem leak
-                self.currentFloatValue = curValue.floatValue;
-                currentValueSet = YES;
-            }
-            if (currentValueChanged)
-            {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kLTEntityValueChanged object:self];
-            }
+            /* Create Value */
+            LTMetricValue *value = [LTMetricValue new];
+            value.stringValue = [TBXML textForElementNamed:@"valstr" parentElement:node];
+            value.floatValue = [[TBXML textForElementNamed:@"valstr_raw" parentElement:node] floatValue];
+            value.timestamp = [NSDate dateWithTimeIntervalSince1970:[[TBXML textForElementNamed:@"tstamp_sec" parentElement:node] floatValue]];            
 			
             /* Enqueue */
             if (!self.values)
             { values = [[NSMutableArray array] retain]; }
-            [values addObject:curValue];
-            [curValue release];
+            [values insertObject:value atIndex:0];
+            [value release];
+            [receivedValues insertObject:value atIndex:0];
         }
         else
         {
@@ -425,7 +416,23 @@ static NSMutableDictionary *_xmlTranslation = nil;
             [self setXmlValueUsingNode:node forKey:[TBXML elementName:node]];
         }
     }
-
+    if (receivedValues.count > 0)
+    {
+        LTMetricValue *newestValue = [receivedValues objectAtIndex:0];
+        if (![self.currentValue isEqualToString:newestValue.stringValue] || self.currentFloatValue != newestValue.floatValue)
+        { 
+            /* The current value has changed, send notification */
+            self.currentValue = newestValue.stringValue;
+            self.currentFloatValue = newestValue.floatValue;
+            
+            if (!self.isNew)
+            { 
+                [[NSNotificationCenter defaultCenter] postNotificationName:kLTEntityValueChanged object:self]; 
+            }
+        }
+    }
+    
+    
     /* Drain autorelease pool */
     [pool drain];
     pool = nil;

@@ -59,6 +59,10 @@
 	CGRect frame = CGRectMake(0.0, 0.0, 94.0, 27.0);
 	useSSLSwitch = [[UISwitch alloc] initWithFrame:frame];
 	useSSLSwitch.backgroundColor = [UIColor clearColor];
+    if (self.editCore)
+    {
+        useSSLSwitch.on = self.editCore.useSSL;
+    }
 	
 	self.tableView.allowsSelection = YES;
 }
