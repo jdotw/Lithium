@@ -117,6 +117,10 @@ int l_snmp_storage_enable (i_resource *self)
     return -1; 
     }
   }
+  else
+  { 
+    i_printf (0, "l_snmp_storage_enable delaying start of storage resource objfact until sysinfo is known");
+  }
 
   return 0;  
 }
