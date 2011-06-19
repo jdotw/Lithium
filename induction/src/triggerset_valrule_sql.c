@@ -561,10 +561,6 @@ int i_triggerset_valrule_sql_delete_exclusive (i_resource *self, i_object *obj, 
   free(query);
   query = tmp;
 
-  /* DEBUG */
-  i_printf(1, "i_triggerset_valrule_sql_delete_exclusive QUERY: %s", query);
-  /* END DEBUG */
-
   /* Execute command */
   int num = i_pg_async_query_exec (self, conn, query, 0, i_triggerset_valrule_sql_sqlcb, tset);
   free (query);
@@ -888,10 +884,6 @@ i_list* i_triggerset_valrule_sql_load_sync (i_resource *self, i_triggerset *tset
       yval_str = result[11 + (y * cols)];
       duration_str = result[12 + (y * cols)];
       adminstate_str = result[13 + (y * cols)];
-
-      /* DEBUG */
-      i_printf(0, "DEBUG(obj=%p/%s): row=%i id=%s site=%s dev=%s obj=%s x=%s y=%s duration=%s admin=%s", obj, obj ? obj->name_str : NULL, y, id_str, site_name, dev_name, obj_name, xval_str, yval_str, duration_str, adminstate_str);
-      /* END DEBUG */
 
       /* Rule */
       rule = i_triggerset_valrule_create ();

@@ -49,10 +49,6 @@ int m_socket_readcb (i_resource *self, i_socket *sock, void *passdata)
   bufptr += sizeof(uint32_t);
   char *command_str = strdup (bufptr);
 
-  /* DEBUG */
-  i_printf(0, "RECVD: '%s'", command_str);
-  /* END DEBUG */
-
   /* Execute command */
   m_rrd_exec (self, priority, command_str);
   free (command_str);

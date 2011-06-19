@@ -514,10 +514,6 @@ int i_triggerset_apprule_sql_delete_exclusive (i_resource *self, i_object *obj, 
   free(query);
   query = tmp;
 
-  /* DEBUG */
-  i_printf(1, "i_triggerset_apprule_sql_delete_exclusive QUERY: %s", query);
-  /* END DEBUG */
-
   /* Execute command */
   int num = i_pg_async_query_exec (self, conn, query, 0, i_triggerset_apprule_sql_sqlcb, tset);
   free (query);

@@ -41,7 +41,6 @@ int l_snmp_hrfilesys_objfact_fab (i_resource *self, i_container *cnt, i_object *
     if (store_item && store_item->index == (unsigned long) *pdu->variables->val.integer)
     { 
       /* Match found! */
-      i_printf(0, "DEBUG: l_snmp_hrfilesys_objfact_fab matching store found for index %lu (%s)", *pdu->variables->val.integer, obj->desc_str);
       break; 
     }
   }
