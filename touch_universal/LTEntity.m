@@ -123,7 +123,6 @@ static NSMutableDictionary *_xmlTranslation = nil;
 
 - (NSString *) urlPrefix
 {
-    NSLog(@"URL PRefix for %@ useSSL is %i", self.desc, self.customer.coreDeployment.useSSL);
 	NSString *protocol = self.customer.coreDeployment.useSSL ? @"https" : @"http";
 	NSString *port =  self.customer.coreDeployment.useSSL ? @"51143" : @"51180";
 	return [NSString stringWithFormat:@"%@://%@:%@/%@", protocol, self.customer.ipAddress, port, self.customer.name];

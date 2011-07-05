@@ -95,7 +95,6 @@
 	
 	if (!pushRegistrationSent && [(AppDelegate *)[[UIApplication sharedApplication] delegate] pushToken])
 	{
-        NSLog (@"Registering for APNS on %@", self.desc);
 		LTPushRegistrationRequest *pushReq = [[LTPushRegistrationRequest alloc] initWithCustomer:self
 																						   token:[(AppDelegate *)[[UIApplication sharedApplication] delegate] pushToken]
 																			receiveNotifications:YES];

@@ -85,7 +85,6 @@
 	/* Initialize net browser */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"LTSetupUseDiscoveredDeployments"])
     {
-        NSLog (@"Using Discovered!");
         coreServiceBrowser = [[NSNetServiceBrowser alloc] init];
         coreServiceBrowser.delegate = self;
         [coreServiceBrowser searchForServicesOfType:@"_lithium._tcp" inDomain:@""];
