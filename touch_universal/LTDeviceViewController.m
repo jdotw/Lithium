@@ -185,7 +185,9 @@
         /* Refresh is not happening, fake a callback to 
          * the refresh finished notification
          */
-        [self deviceRefreshFinished:nil];
+        [self performSelector:@selector(deviceRefreshFinished:) 
+                   withObject:nil
+                   afterDelay:0.];
     }
 }
 

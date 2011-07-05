@@ -22,7 +22,7 @@
 {   
     /* Crash Check */
     [HTNotifier startNotifierWithAPIKey:@"6817361debdb146d4b4bb5d4c2eff55e"
-                        environmentName:HTNotifierDevelopmentEnvironment];
+                        environmentName:HTNotifierReleaseEnvironment];
     
  	/* Setup Defaults */
 	NSMutableDictionary *defaults = [NSMutableDictionary dictionary];

@@ -12,7 +12,7 @@
 
 @class LTCustomer;
 
-@interface LTAPIRequest : NSOperation 
+@interface LTAPIRequest : NSOperation <NSURLConnectionDelegate, NSURLConnectionDataDelegate>
 {
 	NSMutableURLRequest *urlReq;
 	

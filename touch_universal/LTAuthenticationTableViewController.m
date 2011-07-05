@@ -254,7 +254,7 @@
 		[self forgetCredentialsForCustomer:customer];
 		
 		NSURLConnection *connection = [connDict objectForKey:@"connection"];
-		[connection cancel];
+        if ([connection respondsToSelector:@selector(cancel)]) [connection cancel];
 		
 		[completed addObject:connDict];
 	}
