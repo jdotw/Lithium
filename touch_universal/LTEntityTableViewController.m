@@ -73,9 +73,9 @@
     /* Remove general observers */
 	AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"RefreshFinished" object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentAdded" object:appDelegate];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentAdded" object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentUpdated" object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentRemoved" object:appDelegate];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"CoreDeploymentRemoved" object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"LTCoreDeploymentReachabilityChanged" object:nil];
     
     /* nil the entity to remove observers and release */
@@ -233,13 +233,13 @@
 	/* We are the root-level controller, observe core deployment and customer changes */
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(coreDeploymentArrayUpdated:)
-												 name:@"CoreDeploymentAdded" object:appDelegate];
+												 name:@"CoreDeploymentAdded" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(coreDeploymentArrayUpdated:)
 												 name:@"CoreDeploymentUpdated" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(coreDeploymentArrayUpdated:)
-												 name:@"CoreDeploymentRemoved" object:appDelegate];
+												 name:@"CoreDeploymentRemoved" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(coreDeploymentReachabilityChanged:)
 												 name:@"LTCoreDeploymentReachabilityChanged" object:nil];

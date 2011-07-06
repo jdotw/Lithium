@@ -58,14 +58,6 @@
 }
 
 
-- (void) dealloc
-{
-	[name release];
-	[desc release];
-	[ipAddress release];
-	[super dealloc];
-}
-
 #pragma mark "Refresh (Customer List)"
 
 - (void) refresh

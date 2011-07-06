@@ -85,6 +85,7 @@
 	/* Initialize net browser */
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"LTSetupUseDiscoveredDeployments"])
     {
+        NSLog(@"Listening for discovered deployments");
         coreServiceBrowser = [[NSNetServiceBrowser alloc] init];
         coreServiceBrowser.delegate = self;
         [coreServiceBrowser searchForServicesOfType:@"_lithium._tcp" inDomain:@""];
@@ -184,6 +185,8 @@
 
 - (void) netServiceDidResolveAddress:(NSNetService *)netService
 {
+    NSLog(@"RESOLVED: %@", netService.hostName);
+
 	if ([[netService hostName] hasSuffix:@"members.mac.com"] || [[netService hostName] hasSuffix:@"members.mac.com."])
 	{
 		/* Skip members.mac.com resolutions */
@@ -215,6 +218,7 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
 {
+    NSLog(@"FOUND: %@", netService.hostName);
 	if ([[netService hostName] hasSuffix:@"members.mac.com"] || [[netService hostName] hasSuffix:@"members.mac.com."])
 	{
 		/* Skip members.mac.com resolutions */
