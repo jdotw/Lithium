@@ -80,6 +80,38 @@ if [ $? -ne 0 ]; then
 fi
 
 #
+# Fix library paths for Lion
+#
+
+# Patch lithium executable
+echo "Patching lithium"
+install_name_tool -change /usr/lib/libnetsnmpagent.15.dylib /usr/lib/libnetsnmpagent.dylib /Library/Lithium/LithiumCore.app/Contents/MacOS/lithium
+install_name_tool -change /usr/lib/libnetsnmphelpers.15.dylib /usr/lib/libnetsnmphelpers.dylib /Library/Lithium/LithiumCore.app/Contents/MacOS/lithium
+install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmibs.dylib /Library/Lithium/LithiumCore.app/Contents/MacOS/lithium
+
+# Patch induction
+echo "Patching induction"
+install_name_tool -change /usr/lib/libnetsnmpagent.15.dylib /usr/lib/libnetsnmpagent.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.dylib
+install_name_tool -change /usr/lib/libnetsnmphelpers.15.dylib /usr/lib/libnetsnmphelpers.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.dylib
+install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmibs.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.dylib
+
+# Patch the modules
+for i in /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/lithium/*so
+do
+  echo "Patching $i"
+  install_name_tool -change /usr/lib/libnetsnmpagent.15.dylib /usr/lib/libnetsnmpagent.dylib $i
+  install_name_tool -change /usr/lib/libnetsnmphelpers.15.dylib /usr/lib/libnetsnmphelpers.dylib $i
+  install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmibs.dylib $i
+done
+for i in /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/lithium/vendor_modules/*so
+do
+  echo "Patching $i"
+  install_name_tool -change /usr/lib/libnetsnmpagent.15.dylib /usr/lib/libnetsnmpagent.dylib $i
+  install_name_tool -change /usr/lib/libnetsnmphelpers.15.dylib /usr/lib/libnetsnmphelpers.dylib $i
+  install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmibs.dylib $i
+done
+
+#
 # Capture dSYM
 # 
 

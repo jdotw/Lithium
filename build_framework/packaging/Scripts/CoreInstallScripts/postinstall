@@ -171,7 +171,7 @@ if [ $createcustomer == 1 ]; then
   # Create customers table and add customer record
   /Library/Lithium/LithiumCore.app/Contents/MacOS/createdb -U "lithium" "lithium"
   /Library/Lithium/LithiumCore.app/Contents/MacOS/psql -U lithium -c "CREATE TABLE customers (name varchar, descr varchar, baseurl varchar, uuid varchar, default_customer boolean, use_lithium_db boolean, configured boolean)"
-  /Library/Lithium/LithiumCore.app/Contents/MacOS/psql -U lithium -c "INSERT INTO customers (name, descr, uuid, default_customer, use_lithium_db, configured) VALUES ('$CUSTOMER_UUID', 'CoreVM', '$CUSTOMER_UUID', true, true, false)"
+  /Library/Lithium/LithiumCore.app/Contents/MacOS/psql -U lithium -c "INSERT INTO customers (name, descr, uuid, default_customer, use_lithium_db, configured) VALUES ('$CUSTOMER_UUID', 'Core', '$CUSTOMER_UUID', true, true, false)"
 
   # Create www path for customer
   mkdir "/Library/Application Support/Lithium/ClientService/Resources/htdocs/$CUSTOMER_UUID"
