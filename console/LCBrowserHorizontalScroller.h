@@ -14,7 +14,7 @@
 }
 
 #pragma mark Drawing
-- (void) drawRect:(NSRect)rect;
+//- (void) drawRect:(NSRect)rect;
 - (void)drawParts;
 - (void)drawKnob;
 - (void) drawKnobSlot;

@@ -13,6 +13,11 @@
 
 #pragma mark Drawing
 
+- (void) drawKnobSlotInRect:(NSRect)slotRect highlight:(BOOL)flag
+{
+	// prevents a white background in Lion
+}
+
 - (void) drawRect:(NSRect)rect
 {
 	/* Background */
