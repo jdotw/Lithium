@@ -91,9 +91,9 @@ install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmi
 
 # Patch induction
 echo "Patching induction"
-install_name_tool -change /usr/lib/libnetsnmpagent.15.dylib /usr/lib/libnetsnmpagent.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.dylib
-install_name_tool -change /usr/lib/libnetsnmphelpers.15.dylib /usr/lib/libnetsnmphelpers.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.dylib
-install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmibs.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.dylib
+install_name_tool -change /usr/lib/libnetsnmpagent.15.dylib /usr/lib/libnetsnmpagent.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.5.dylib
+install_name_tool -change /usr/lib/libnetsnmphelpers.15.dylib /usr/lib/libnetsnmphelpers.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.5.dylib
+install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmibs.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.5.dylib
 
 # Patch the modules
 for i in /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/lithium/*so
