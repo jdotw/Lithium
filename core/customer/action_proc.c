@@ -396,7 +396,11 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     else
     {
       /* No incident */
+#ifdef OS_DARWIN
       asprintf (&shell_command, "env '%s' '%s' '%s'", perlenv, fullpath, proc->command_str);
+#else
+      asprintf (&shell_command, "/usr/local/perl5.12/bin/perl '-X' '%s' '%s' '%s'", perlenv, fullpath, proc->command_str);
+#endif
     }
 
     if (proc->log_output)
