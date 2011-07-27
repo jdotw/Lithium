@@ -280,7 +280,7 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
 #ifdef OS_DARWIN
   char *perlenv = "PERL5LIB=/Library/Lithium/LithiumCore.app/Contents/Resources/Perl";
 #else
-  char *perlenv = "PERL5LIB=/usr/local/lib/perl/5.8:/usr/local/share/perl/5.8:/usr/local/lib/perl5:/usr/local/share/perl5";
+  char *perlenv = "";
 #endif
   char *fullpath;
   asprintf (&fullpath, "%s/action_scripts/%s", self->root, proc->script_file);
@@ -364,9 +364,13 @@ int l_action_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
       { asprintf(&config_file_str, " '%s'", proc->temp_config_file); }
       else
       { config_file_str = strdup(""); }
-
+#ifdef OS_DARWIN
       asprintf (&shell_command, "env '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s'%s 2>&1",
         perlenv, fullpath, proc->command_str, incid_str, proc->entaddr_str, 
+#else
+      asprintf (&shell_command, "/usr/local/perl5.12/bin/perl '-X' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s'%s 2>&1",
+        fullpath, proc->command_str, incid_str, proc->entaddr_str, 
+#endif
         opstate_str, proc->cust_desc, proc->site_desc, proc->dev_desc, proc->cnt_desc, proc->obj_desc, 
         proc->met_desc, proc->trg_desc, runcount_str, start_str, end_str, highest_opstate_str, 
         lowest_opstate_str, prev_opstate_str, proc->prev_trg_desc ? : "N/A", 
