@@ -91,19 +91,19 @@ install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmi
 
 # Patch induction
 echo "Patching induction"
-install_name_tool -change /usr/lib/libnetsnmpagent.15.dylib /usr/lib/libnetsnmpagent.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.5.dylib
-install_name_tool -change /usr/lib/libnetsnmphelpers.15.dylib /usr/lib/libnetsnmphelpers.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.5.dylib
-install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmibs.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/libinduction.5.dylib
+install_name_tool -change /usr/lib/libnetsnmpagent.15.dylib /usr/lib/libnetsnmpagent.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries/libinduction.5.dylib
+install_name_tool -change /usr/lib/libnetsnmphelpers.15.dylib /usr/lib/libnetsnmphelpers.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries/libinduction.5.dylib
+install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmibs.dylib /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries/libinduction.5.dylib
 
 # Patch the modules
-for i in /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/lithium/*so
+for i in /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries/lithium/*so
 do
   echo "Patching $i"
   install_name_tool -change /usr/lib/libnetsnmpagent.15.dylib /usr/lib/libnetsnmpagent.dylib $i
   install_name_tool -change /usr/lib/libnetsnmphelpers.15.dylib /usr/lib/libnetsnmphelpers.dylib $i
   install_name_tool -change /usr/lib/libnetsnmpmibs.15.dylib /usr/lib/libnetsnmpmibs.dylib $i
 done
-for i in /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Libraries/lithium/vendor_modules/*so
+for i in /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries/lithium/vendor_modules/*so
 do
   echo "Patching $i"
   install_name_tool -change /usr/lib/libnetsnmpagent.15.dylib /usr/lib/libnetsnmpagent.dylib $i
