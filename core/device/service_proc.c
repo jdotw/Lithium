@@ -269,13 +269,16 @@ int l_service_exec_configvar_cb (i_resource *self, i_list *list, void *passdata)
     /* Exec */
 #ifdef OS_DARWIN
     char *perlenv = "PERL5LIB=/Library/Lithium/LithiumCore.app/Contents/Resources/Perl";    
-#else
-    char *perlenv = "";    
-#endif
     if (proc->temp_config_file && strlen(proc->temp_config_file) > 0)
     { num = execlp ("env", "env", perlenv, fullpath, proc->command_str, proc->temp_config_file, NULL); }
     else
-    { num = execlp ("/usr/local/perl5.12/bin/perl", "perl", "-X", fullpath, proc->command_str, NULL); }
+    { num = execlp ("env", "env", perlenv, fullpath, proc->command_str, NULL); }
+#else
+    if (proc->temp_config_file && strlen(proc->temp_config_file) > 0)
+    { num = execlp ("/usr/local/perl5.12/bin/perl", "perl", "-X", fullpath, proc->command_str, proc->temp_config_file, NULL); }
+    else
+    { num = execlp ("/usr/local/perl5.12/bin/perl", "-X", fullpath, proc->command_str, NULL); }
+#endif
     if (num == -1)
     {
       fprintf (stdout, "execlp error");
