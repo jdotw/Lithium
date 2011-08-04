@@ -75,7 +75,7 @@ l_icmp_echo_callback* l_icmp_echo_send (i_resource *self, char *host_str, size_t
   { i_printf (1, "l_icmp_echo_send failed to create socket struct"); return NULL; }
 
   /* Create socket */
-  callback->socket->sockfd = socket (AF_INET, SOCK_DGRAM, IPPROTO_ICMP);
+  callback->socket->sockfd = socket (AF_INET, SOCK_RAW, IPPROTO_ICMP);
   if (callback->socket->sockfd == -1)
   { i_printf (1, "l_icmp_echo_send failed to create sockfd (%s)", strerror(errno)); l_icmp_echo_callback_free (callback); return NULL; }
 
