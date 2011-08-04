@@ -64,7 +64,8 @@ int l_snmp_iface_objfact_fab (i_resource *self, i_container *cnt, i_object *obj,
       strstr(obj->desc_str, "vnic") ||
       strstr(obj->desc_str, "vmnet") ||
       strstr(obj->desc_str, "utun") ||
-      strstr(obj->desc_str, "ppp"))
+      strstr(obj->desc_str, "ppp") ||
+      strlen(obj->desc_str) < 1)
   { return -1; }
 
   /* Load/Apply Refresh config */
