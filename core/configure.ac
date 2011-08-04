@@ -72,12 +72,8 @@ AC_SEARCH_LIBS(uuid_parse, uuid, , AC_MSG_ERROR([Cannot build without libuuid]))
 
 # Check for libcurl
 CFLAGS="$CFLAGS `curl-config --cflags`"
-<<<<<<< HEAD
-LDFLAGS="$LDFLAGS -lcurl"
-=======
 LDFLAGS="$LDFLAGS `curl-config --libs`"
 #LDFLAGS="-L/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries -lcurl -arch i386 -lssl -lcrypto -lz"
->>>>>>> dd60005c237cc7145991366c99a43a22215f3952
 AC_SEARCH_LIBS(curl_multi_init, curl, , AC_MSG_ERROR([Cannot build without libcurl]))
 
 # Check for perl
