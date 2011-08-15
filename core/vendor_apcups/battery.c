@@ -86,7 +86,7 @@ int v_battery_enable (i_resource *self)
   i_triggerset_assign (self, static_cnt, tset);
   
   tset = i_triggerset_create ("battpack_badcount", "Battery Pack Bad Count", "battpack_badcount");
-  i_triggerset_addtrg (self, tset, "nonzero", "Non-Zero", VALTYPE_INTEGER, TRGTYPE_NOTEQUAL, 0, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
+  i_triggerset_addtrg (self, tset, "nonzero", "Non-Zero", VALTYPE_GAUGE, TRGTYPE_GT, 0, NULL, 0, NULL, 0, ENTSTATE_WARNING, TSET_FLAG_VALAPPLY);
   i_triggerset_assign (self, static_cnt, tset);
   
   /* Create item list */
