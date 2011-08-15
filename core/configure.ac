@@ -72,7 +72,7 @@ AC_SEARCH_LIBS(uuid_parse, uuid, , AC_MSG_ERROR([Cannot build without libuuid]))
 
 # Check for libcurl
 CFLAGS="$CFLAGS `curl-config --cflags`"
-LDFLAGS="$LDFLAGS `curl-config --libs`"
+LDFLAGS="-L/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries -lcurl -arch i386 -lssl -lcrypto -lz"
 AC_SEARCH_LIBS(curl_multi_init, curl, , AC_MSG_ERROR([Cannot build without libcurl]))
 
 # Check for perl
@@ -83,7 +83,7 @@ AC_CHECK_HEADER(dns_sd.h, AC_DEFINE(HAVE_DNS_SD), )
 AC_SEARCH_LIBS(DNSServiceRegister, dns_sd)
 
 # Set custom CFLAGS/LDFLAGS
-CFLAGS="$CFLAGS -W -Wall -Wno-unused-parameter -Wno-declaration-after-statement -Werror -I.."
+CFLAGS="$CFLAGS -W -Wall -Wno-unused-parameter -Wno-declaration-after-statement -I.."
 
 dnl ###########################################
 dnl Create makefiles
