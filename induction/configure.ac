@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(src/loop.c)
 
-VERSION=5.0.17
+VERSION=5.0.18
 PACKAGE=libinduction
 
 AC_CANONICAL_TARGET
