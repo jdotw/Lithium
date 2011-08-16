@@ -31,9 +31,10 @@ make
 mkdir -p $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/usr/bin
 mkdir -p $RPM_BUILD_ROOT/usr/share/conf
+mkdir -p $RPM_BUILD_ROOT/usr/local
 cp ../../../linux/lcrrd* $RPM_BUILD_ROOT/usr/bin
 cp -r ../../../linux/ruby/* $RPM_BUILD_ROOT
-cp -r ../../../linux/perl/* $RPM_BUILD_ROOT
+cp -r ../../../linux/perl5.12 $RPM_BUILD_ROOT/usr/local/
 cp ../../../linux/centos/lithiumcore.init $RPM_BUILD_ROOT/usr/bin/lithiumcore.init
 cp ../../../linux/centos/start_lithium.sh $RPM_BUILD_ROOT/usr/bin/start_lithium.sh
 cp ../../../linux/centos/httpd.conf $RPM_BUILD_ROOT/usr/share/conf/httpd.conf

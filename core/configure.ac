@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(construct/main.c)
 
-VERSION=5.0.17
+VERSION=5.0.18
 PACKAGE=lithium
 
 AC_CANONICAL_TARGET
@@ -72,7 +72,8 @@ AC_SEARCH_LIBS(uuid_parse, uuid, , AC_MSG_ERROR([Cannot build without libuuid]))
 
 # Check for libcurl
 CFLAGS="$CFLAGS `curl-config --cflags`"
-LDFLAGS="-L/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries -lcurl -arch i386 -lssl -lcrypto -lz"
+LDFLAGS="$LDFLAGS `curl-config --libs`"
+#LDFLAGS="-L/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries -lcurl -arch i386 -lssl -lcrypto -lz"
 AC_SEARCH_LIBS(curl_multi_init, curl, , AC_MSG_ERROR([Cannot build without libcurl]))
 
 # Check for perl
