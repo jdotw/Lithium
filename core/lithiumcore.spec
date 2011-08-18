@@ -41,6 +41,8 @@ cp ../../../linux/centos/httpd.conf $RPM_BUILD_ROOT/usr/share/conf/httpd.conf
 cp ../../../linux/centos/ssl.conf $RPM_BUILD_ROOT/usr/share/conf/ssl.conf
 cp ../../../linux/centos/node.conf $RPM_BUILD_ROOT/usr/share/conf/node.conf.linux
 cp ../../../linux/centos/banner $RPM_BUILD_ROOT/usr/share/conf/banner
+cp ../../../linux/centos/snmpd.options $RPM_BUILD_ROOT/usr/share/conf/snmpd.options
+cp ../../../linux/centos/php.ini $RPM_BUILD_ROOT/usr/share/conf/php.ini
 chmod ug+x $RPM_BUILD_ROOT/usr/bin/start_lithium.sh
 make install prefix=$RPM_BUILD_ROOT/usr
 
