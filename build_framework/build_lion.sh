@@ -9,6 +9,6 @@ if [ $UID -ne 0 ]; then
   exit 1
 fi
 
-./build_deps.sh
-./build_lithium.sh
+./build_deps_lion.sh
+./build_lithium_lion.sh
 

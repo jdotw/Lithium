@@ -3,7 +3,6 @@
 
 #include "induction.h"
 #include "user.h"
-#include "bdb.h"
 #include "list.h"
 #include "files.h"
 #include "auth.h"
@@ -14,8 +13,6 @@ static i_list *static_usercache_list = NULL;
 int i_user_sql_init_cache(i_resource *self);
 int i_user_sql_invalidate_cache();
 
-struct i_list_s* i_userdb_get_all (i_resource *self); // Legacy for import
-
 /* Process profile SQL Operations */
 
 int i_user_sql_init (i_resource *self)
@@ -25,7 +22,6 @@ int i_user_sql_init (i_resource *self)
    * records imported into the new SQL table
    */
 
-  int import_userdb = 0;
   int import_nodeconf = 0;
 
   /* Connect to SQL db */
@@ -48,8 +44,7 @@ int i_user_sql_init (i_resource *self)
     if (result) PQclear(result);
     result = NULL;
 
-    /* Set the import flags (both nodeconf and userdb) */
-    import_userdb = 1;
+    /* Set the import flags */
     import_nodeconf = 1;
   }
   else
@@ -64,52 +59,12 @@ int i_user_sql_init (i_resource *self)
       result = PQexec (pgconn, "ALTER TABLE users ADD COLUMN imported boolean");
       if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
       { i_printf (1, "i_user_sql_init failed to add imported column (%s)", PQresultErrorMessage (result)); }
-
-      /* Set import flag (just userdb -- to fix 5.0.15.1319 bug of column name
-       * typo that prevent userdb imports from happening
-       */
-      import_userdb = 1;
     }
     if (result) { PQclear(result); result = NULL; }
 
   }
   if (result) PQclear(result);
   result = NULL;
-
-  /* Import user.db if necessary */
-  if (import_userdb == 1)
-  {
-    /* Import old userdb records */
-    i_list *userdb = i_userdb_get_all(self);
-    i_user *user;
-    for (i_list_move_head(userdb); (user=i_list_restore(userdb))!=NULL; i_list_move_next(userdb))
-    {
-      char *username_esc;
-      if (user->auth->username) asprintf(&username_esc, "'%s'", user->auth->username);
-      else username_esc = strdup("NULL");
-      char *fullname_esc;
-      if (user->fullname) asprintf(&fullname_esc, "'%s'", user->fullname);
-      else fullname_esc = strdup("NULL");
-      char *password_esc;
-      if (user->auth->password) asprintf(&password_esc, "'%s'", user->auth->password);
-      else password_esc = strdup("NULL");
-
-      char *query;
-      asprintf(&query, "INSERT INTO users (username, fullname, password, level, imported) VALUES (%s, %s, %s, %i, true)", 
-        username_esc, fullname_esc, password_esc, user->auth->level);
-      free(username_esc);
-      free(fullname_esc);
-      free(password_esc);
-      
-      result = PQexec(pgconn, query);
-      free(query);
-      if (!result || PQresultStatus(result) != PGRES_COMMAND_OK)
-      { i_printf (1, "i_user_sql_init failed to import user.db record for %s (%s)", user->auth->username, PQresultErrorMessage (result)); }
-      PQclear(result);
-      result = NULL;
-    }
-    if (userdb) i_list_free(userdb);
-  }
 
   /* Import the node.conf master user if necessary */
   if (import_nodeconf == 1)

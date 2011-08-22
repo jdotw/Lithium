@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -19,7 +20,6 @@
 #include "site.h"
 #include "device.h"
 #include "auth.h"
-#include "bdb.h"
 #include "data.h"
 #include "list.h"
 #include "log.h"

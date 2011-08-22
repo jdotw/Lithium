@@ -21,8 +21,7 @@ libinduction_la_SOURCES = printf.c \
                           hash_ip.c \
                           hash_resource.c \
                           hostname.c \
-                          bdb.c \
-                          str.c \
+						  str.c \
                           message.c \
                           message_send.c \
                           message_write.c \
@@ -59,7 +58,6 @@ libinduction_la_SOURCES = printf.c \
                           form_denied.c \
                           form_metgraph.c \
                           form_metgraph_large.c \
-                          formdb.c \
                           configfile.c \
                           data.c \
                           loop.c \
@@ -79,7 +77,6 @@ libinduction_la_SOURCES = printf.c \
                           msgproc_process.c \
                           auth.c \
                           user.c \
-                          userdb.c \
                           user_sql.c \
                           customer.c \
                           contact_info.c \
@@ -222,11 +219,9 @@ indinclude_HEADERS = version.h \
 					 socket.h \
 					 hashtable.h \
 					 hostname.h \
-					 bdb.h \
 					 str.h \
 					 files.h \
 					 form.h \
-					 formdb.h \
 					 configfile.h \
 					 data.h \
 					 loop.h \

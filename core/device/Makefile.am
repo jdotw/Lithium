@@ -19,7 +19,6 @@ device_la_SOURCES = main.c \
 					avail_refresh.c \
 					avail_object.c \
                     snmp.c \
-                    snmp_config.c \
                     snmp_session.c \
                     snmp_fdset.c \
                     snmp_util.c \

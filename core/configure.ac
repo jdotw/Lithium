@@ -45,9 +45,6 @@ AC_SEARCH_LIBS(crypt, crypto)
 AC_CHECK_HEADER(induction.h)
 AC_SEARCH_LIBS(i_loop, induction, , AC_MSG_ERROR([Cannot build without Lithium Induction]))
 
-# Check for DB4
-AC_SEARCH_LIBS(db_version, db-4, , AC_MSG_ERROR([Cannot build without DB4]))
-
 # Check for PostgreSQL
 CFLAGS="$CFLAGS -I`pg_config --includedir`"
 LDFLAGS="$LDFLAGS -L`pg_config --libdir`"
@@ -58,7 +55,7 @@ AC_SEARCH_LIBS(PQexec, pq, , AC_MSG_ERROR([Cannot build without PostgreSQL]))
 AC_SEARCH_LIBS(sqlite3_open,  sqlite3, , AC_MSG_ERROR([Cannot build without sqlite3]))
 
 # Check for SNMP Libs
-CFLAGS="$CFLAGS `net-snmp-config --cflags`"
+CFLAGS="$CFLAGS `net-snmp-config --cflags | sed 's/-DMACOSX_DEPLOYMENT_TARGET=10.7 //g'`"
 LDFLAGS="$LDFLAGS `net-snmp-config --agent-libs`"
 AC_SEARCH_LIBS(init_snmp,  netsnmp, , AC_MSG_ERROR([Cannot build without Net-SNMP]))
 
@@ -72,7 +69,7 @@ AC_SEARCH_LIBS(uuid_parse, uuid, , AC_MSG_ERROR([Cannot build without libuuid]))
 
 # Check for libcurl
 CFLAGS="$CFLAGS `curl-config --cflags`"
-LDFLAGS="$LDFLAGS -L/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries -lcurl -arch i386 -lssl -lcrypto -lz"
+LDFLAGS="$LDFLAGS -lcurl -lssl -lcrypto -lz"
 #LDFLAGS="-L/Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Versions/5.0/Libraries -lcurl -arch i386 -lssl -lcrypto -lz"
 AC_SEARCH_LIBS(curl_multi_init, curl, , AC_MSG_ERROR([Cannot build without libcurl]))
 

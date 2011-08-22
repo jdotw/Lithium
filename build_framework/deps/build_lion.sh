@@ -10,14 +10,6 @@ BASEDIR=$PWD
 # Build
 #
 
-cd mysql
-bash -l ./build_lion.sh
-if [ $? -ne 0 ]; then 
-  echo "ERROR: Failed to build MySQL Client"
-  exit 1
-fi
-cd ..
-
 cd ipmitool
 bash -l ./build_lion.sh
 if [ $? -ne 0 ]; then 
@@ -40,6 +32,11 @@ if [ $? -ne 0 ]; then
   echo "ERROR: Failed to build PostgreSQL"
   exit 1
 fi
+bash -l ./build_lion_64.sh
+if [ $? -ne 0 ]; then 
+  echo "ERROR: Failed to build PostgreSQL"
+  exit 1
+fi
 cd ..
 
 cd rrdtool
@@ -50,10 +47,18 @@ if [ $? -ne 0 ]; then
 fi
 cd ..
 
-cd universal
+cd httpd
 bash -l ./build_lion.sh
 if [ $? -ne 0 ]; then 
-  echo "ERROR: Failed to build universal depenencies"
+  echo "ERROR: Failed to build apache"
+  exit 1
+fi
+cd ..
+
+cd php
+bash -l ./build_lion.sh
+if [ $? -ne 0 ]; then 
+  echo "ERROR: Failed to build php"
   exit 1
 fi
 cd ..
