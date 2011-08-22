@@ -40,7 +40,6 @@ cd $POSTGRES
 CC="/usr/bin/gcc-4.2" \
 CFLAGS="$ARCHTARGET -mmacosx-version-min=$OSTARGET -isysroot $SDK -Wl,-search_paths_first -O" \
 LDFLAGS="$ARCHTARGET -lz -liconv -ltcl" \
-#LD="gcc -mmacosx-version-min=$OSTARGET -isysroot $SDK -nostartfiles $ARCHTARGET" \
 MACOSX_DEPLOYMENT_TARGET=$OSTARGET
 if [ $? -ne 0 ]; then
   echo "ERROR: Failed to configure PostgreSQL"
