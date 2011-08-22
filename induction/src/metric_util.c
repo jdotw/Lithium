@@ -374,12 +374,14 @@ double i_metric_valflt (i_metric *met, i_metric_value *val)
   }
 
   /* Create floating point representation */
+//  if (strcmp(met->name_str, "size")==0) i_printf(0, "i_metric_valflt (%s) met type is %i (int=%li, count=%lu gauge=%lu)", met->obj->name_str, met->met_type, val->integer, val->count, val->gauge); // DEBUG
   switch (met->met_type)
   {
     case METRIC_INTEGER:
       valflt = (double) val->integer;
       break;
     case METRIC_COUNT:
+//      if (strcmp(met->name_str, "size")==0) i_printf(0, "i_metric_valflt (%s) count is %lu (float=%.2f)", met->obj->name_str, val->count, (double)val->count); // DEBUG
       valflt = (double) val->count;
       break;
     case METRIC_COUNT64:
@@ -425,6 +427,9 @@ double i_metric_valflt (i_metric *met, i_metric_value *val)
   }
   else
   { alloc_unit = met->alloc_unit; }
+
+ // if (strcmp(met->name_str, "size")==0) i_printf(0, "i_metric_valflt (%s) alloc_unit calc is %.2f x %.2f = %.2f", met->obj->name_str, valflt, (double)alloc_unit, (valflt * (double) alloc_unit)); // DEBUG
+
   valflt = valflt * (double) alloc_unit;
 
   /* Perform div_by */
@@ -434,6 +439,8 @@ double i_metric_valflt (i_metric *met, i_metric_value *val)
   /* Perform multiply_by */
   valflt = valflt * met->multiply_by;
 
+//  if (strcmp(met->name_str, "size")==0) i_printf(0, "i_metric_valflt (%s) returning %.2f", met->obj->name_str, valflt); // DEBUG
+  
   return valflt;
 }
 

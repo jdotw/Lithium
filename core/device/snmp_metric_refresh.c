@@ -214,7 +214,8 @@ int l_snmp_metric_refresh_getcb (i_resource *self, l_snmp_session *session, int 
       case METRIC_COUNT:
         if (pdu->variables->val.integer)
         { 
-          val->count = (unsigned long) *pdu->variables->val.integer; 
+          val->count = (unsigned long) *pdu->variables->val.integer;
+//          if (strcmp(met->name_str, "size")==0) i_printf(0, "pdu for (%s) set to %ld (%ld) len is %i", met->obj->name_str, val->count, (unsigned long) *pdu->variables->val.integer, pdu->variables->val_len);
           check_overflow_unsigned (&val->count);
         }
         else
