@@ -62,7 +62,7 @@
 	[super drawWithFrame:rect inView:controlView];
 }
 
-- (void)drawSortIndicatorWithFrame:(NSRect)rect inView:(NSView *)controlView ascending:(BOOL)ascending priority:(int)priority
+- (void)drawSortIndicatorWithFrame:(NSRect)rect inView:(NSView *)controlView ascending:(BOOL)ascending priority:(NSInteger)priority
 {
 	if (priority == 0)
 	{

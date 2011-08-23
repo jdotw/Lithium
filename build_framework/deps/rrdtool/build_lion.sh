@@ -13,6 +13,9 @@ if [ -e "cache/lcrrdtool_lion" ]; then
   cp cache/lcrrdtool_lion $LITHIUMPATH/lcrrdtool
   cp cache/lcrrdupdate_lion $LITHIUMPATH/lcrrdupdate
   cp cache/lcrrdcached_lion $LITHIUMPATH/lcrrdcached
+  mkdir -p /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Resources
+  rm -rf /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Resources/fonts
+  cp -r cache/fonts /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumCore.framework/Resources/fonts
   echo "[OK] Used cached LCRRDtool Build for Lion"
   exit 0
 fi
