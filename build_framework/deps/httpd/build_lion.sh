@@ -57,3 +57,4 @@ rm -rf $HTTPD
 cp $BASEDIR/configs/httpd/clientd.conf /Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/clientd.conf
 cp $BASEDIR/configs/httpd/httpd-ssl.conf /Library/Lithium/LithiumCore.app/Contents/Resources/ClientService/extra/httpd-ssl.conf
 
+
