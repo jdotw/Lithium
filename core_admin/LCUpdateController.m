@@ -6,6 +6,9 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#include <sys/types.h>
+#include <sys/sysctl.h>
+
 #import "LCUpdateController.h"
 #import "LCHelperToolUpdate.h"
 
@@ -18,6 +21,24 @@
 	self.userCanCancel = YES;
 	[contentTabView selectTabViewItemWithIdentifier:@"noupdate"];
 	[noUpdateMessage setStringValue:@""];
+	
+	/* Check CPU Type */
+	int buf;
+	size_t len = 0;
+	if (sysctlbyname("hw.optional.x86_64", NULL, &len, NULL, 0) == 0
+		&& sizeof(buf) >= len)
+	{
+		if (sysctlbyname("hw.optional.x86_64", &buf, &len, NULL, 0) == 0
+			&& buf == 1)
+		{ 
+			NSLog(@"x86_64 Processor present");
+			self.x86_64 = YES; 
+		}
+		else 
+		{ NSLog(@"x86+64 Processor NOT present (secondary check returned != 0 or buf != 1)", buf); }
+	}
+	else
+	{ NSLog(@"x86_64 Processor NOT Present (initial check return != 0)"); }
 }
 
 #pragma mark "Check for Update Methods"
@@ -27,8 +48,13 @@
 	/* Show content tab */
 	[contentTabView selectTabViewItemWithIdentifier:@"check"];
 	
+	/* Select URL based on processor type */
+	NSURL *appcastUrl;
+	if (self.x86_64) appcastUrl = [NSURL URLWithString:@"https://secure.lithiumcorp.com.au/appcast/core_osx_64.xml"];
+	else appcastUrl = [NSURL URLWithString:@"https://secure.lithiumcorp.com.au/appcast/core_osx.xml"];
+	
 	/* Download version information */
-	NSMutableURLRequest *urlReq = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://secure.lithiumcorp.com.au/appcast/core_osx.xml"]
+	NSMutableURLRequest *urlReq = [NSMutableURLRequest requestWithURL:appcastUrl
 														   cachePolicy:NSURLRequestReloadIgnoringCacheData
 													   timeoutInterval:10.0];
 	checkUrlConn = [[NSURLConnection connectionWithRequest:urlReq delegate:self] retain];
@@ -49,7 +75,7 @@
 
 - (IBAction) moreInfoClicked:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lithiumcorp.com/lithium5/download-lithium/"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://lithiumcorp.com/lithium5/get-lithium/"]];
 }
 
 - (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -404,6 +430,7 @@
 @synthesize userCanCancel;
 @synthesize updateOperation;
 @synthesize recentlyUpdated;
+@synthesize x86_64;
 
 @end
 

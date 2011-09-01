@@ -194,7 +194,6 @@
 		1032DE6D0E85ECEE00C66029 /* LCCaseLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032DD020E85ECEC00C66029 /* LCCaseLogEntry.m */; };
 		1032DE6E0E85ECEE00C66029 /* LCCaseEntityList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032DD040E85ECEC00C66029 /* LCCaseEntityList.m */; };
 		1032DE6F0E85ECEE00C66029 /* LCCaseSmallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032DD060E85ECEC00C66029 /* LCCaseSmallViewController.m */; };
-		1032DE730E85ECEE00C66029 /* LCCoreInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032DD0D0E85ECEC00C66029 /* LCCoreInfoController.m */; };
 		1032DE740E85ECEE00C66029 /* LCCoreInfoResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032DD0F0E85ECEC00C66029 /* LCCoreInfoResource.m */; };
 		1032DE770E85ECEE00C66029 /* LCCoreLicenseKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032DD160E85ECED00C66029 /* LCCoreLicenseKey.m */; };
 		1032DE780E85ECEE00C66029 /* LCCoreLicenseKeyList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1032DD180E85ECED00C66029 /* LCCoreLicenseKeyList.m */; };
@@ -5249,7 +5248,6 @@
 				1032DE6D0E85ECEE00C66029 /* LCCaseLogEntry.m in Sources */,
 				1032DE6E0E85ECEE00C66029 /* LCCaseEntityList.m in Sources */,
 				1032DE6F0E85ECEE00C66029 /* LCCaseSmallViewController.m in Sources */,
-				1032DE730E85ECEE00C66029 /* LCCoreInfoController.m in Sources */,
 				1032DE740E85ECEE00C66029 /* LCCoreInfoResource.m in Sources */,
 				1032DE770E85ECEE00C66029 /* LCCoreLicenseKey.m in Sources */,
 				1032DE780E85ECEE00C66029 /* LCCoreLicenseKeyList.m in Sources */,
@@ -5656,7 +5654,7 @@
 					i386,
 					ppc,
 				);
-				CURRENT_PROJECT_VERSION = 6451;
+				CURRENT_PROJECT_VERSION = 6502;
 				FRAMEWORK_SEARCH_PATHS = "../Frameworks/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -5742,7 +5740,7 @@
 					i386,
 					ppc,
 				);
-				CURRENT_PROJECT_VERSION = 6451;
+				CURRENT_PROJECT_VERSION = 6502;
 				FRAMEWORK_SEARCH_PATHS = "../Frameworks/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = unsupported;
