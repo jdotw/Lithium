@@ -44,6 +44,9 @@
 	BOOL userCanCancel;
 	NSString *updateOperation;
 	BOOL recentlyUpdated;
+	
+	/* CPU Type */
+	BOOL x86_64;
 }
 
 #pragma mark "Check for Update Methods"
@@ -72,6 +75,9 @@
 @property (assign) BOOL userCanCancel;
 @property (copy) NSString *updateOperation;
 @property (assign) BOOL recentlyUpdated;
+
+#pragma mark "CPU Support"
+@property (assign) BOOL x86_64;
 
 @end
 
