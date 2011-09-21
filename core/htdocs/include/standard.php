@@ -72,7 +72,6 @@ function standard_menu ($menu_res)
 	print "<TD><A HREF=$site_link>Sites</A></TD>\n";
 	print "<TD><A HREF=$incident_link>Incidents</A></TD>\n";
 	print "<TD><A HREF=$case_link>Cases</A></TD>\n";
-    print "<TD><A HREF=$users_link>Users</A></TD>\n";
 	print "<TD><A HREF=http://support.lithiumcorp.com>Documentation</A></TD>\n";
   }
 

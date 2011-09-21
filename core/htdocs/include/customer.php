@@ -11,7 +11,6 @@ function customer_menu ($id_string)
   return "
           <TABLE>
           <TR><TD><A HREF=$home_link>Home</A></TD></TR>
-          <TR><TD><A HREF=$users_link>Users</A></TD></TR>
           </TABLE>
           ";
 }
