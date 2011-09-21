@@ -40,7 +40,7 @@
 	char *dirname = "/Library/Preferences/Lithium/lithium/module_builder";
 	DIR *dir = opendir (dirname);
 	if (!dir)
-	{ NSLog(@"refreshModules failed to open module path '%@'", dirname); return; }
+	{ NSLog(@"refreshModules failed to open module path '%s'", dirname); return; }
 	
 	/* Traverse */
 	struct dirent *dirent;

@@ -269,7 +269,7 @@
 	updateDownloadResponse = [response retain];
 }
 
-- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(unsigned)length
+- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
 {
 	/* Update percentage */
     long expectedLength=[updateDownloadResponse expectedContentLength];	

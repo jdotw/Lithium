@@ -2196,29 +2196,28 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
-				CURRENT_PROJECT_VERSION = 1343;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CURRENT_PROJECT_VERSION = 1356;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				LIBRARY_SEARCH_PATHS = /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumDatabase.framework/Libraries;
+				LIBRARY_SEARCH_PATHS = /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumDatabase64.framework/Versions/5.0/Libraries/;
 				SDKROOT = macosx10.5;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-				);
-				CURRENT_PROJECT_VERSION = 1343;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CURRENT_PROJECT_VERSION = 1356;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				LIBRARY_SEARCH_PATHS = /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumDatabase.framework/Libraries;
+				LIBRARY_SEARCH_PATHS = /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumDatabase64.framework/Versions/5.0/Libraries/;
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};

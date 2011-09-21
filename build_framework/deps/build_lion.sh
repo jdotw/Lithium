@@ -10,6 +10,14 @@ BASEDIR=$PWD
 # Build
 #
 
+cd netsnmp
+bash -l ./build_lion.sh
+if [ $? -ne 0 ]; then 
+  echo "ERROR: Failed to build Net-SNMP"
+  exit 1
+fi
+cd ..
+
 cd ipmitool
 bash -l ./build_lion.sh
 if [ $? -ne 0 ]; then 

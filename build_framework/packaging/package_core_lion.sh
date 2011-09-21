@@ -61,7 +61,7 @@ fi
 #
 
 cd "$PKGDIR"
-./package_console_lion.sh
+./package_console.sh
 if [ $? -ne 0 ]; then
   echo "ERROR: Failed to package Lithium Console"
   exit 1
@@ -77,7 +77,7 @@ echo "Console Build number is $CONSOLEBUILDNUM"
 
 cd "$COREADMINSRCDIR"
 
-/Developer/usr/bin/xcodebuild -project "LCAdminTools.xcodeproj" \
+/Xcode3/usr/bin/xcodebuild -project "LCAdminTools.xcodeproj" \
   -alltargets \
   -configuration "Release" \
   -sdk "macosx10.5" \
@@ -86,7 +86,7 @@ cd "$COREADMINSRCDIR"
   OBJROOT="$PKGDIR/1. Applications/Core Admin" \
   clean
 
-/Developer/usr/bin/xcodebuild -project "LCAdminTools.xcodeproj" \
+/Xcode3/usr/bin/xcodebuild -project "LCAdminTools.xcodeproj" \
   -alltargets \
   -configuration "Release" \
   -sdk "macosx10.5" \
@@ -111,7 +111,7 @@ cp -r "$PKGDIR/1. Applications/Core Admin/Release/Lithium Core Admin.app.dSYM" "
 # Create Installer Package
 #
 
-/Developer/usr/bin/packagemaker \
+/Xcode3/usr/bin/packagemaker \
   --doc "$PKGDIR/3. Distribution Package/Lithium Core 5.0.pmdoc" \
   --out "$INSTALLERDIR/Lithium-Core-$COREBUILDNUM.pkg" \
   --title "Lithium Core $COREBUILDNUM Installer"
@@ -119,6 +119,8 @@ cp -r "$PKGDIR/1. Applications/Core Admin/Release/Lithium Core Admin.app.dSYM" "
 cd "$INSTALLERDIR"
 zip -r "$DMGDIR/Lithium-Core-$COREBUILDNUM.zip" "Lithium-Core-$COREBUILDNUM.pkg"
 
+exit 5
+ 
 #
 # Clean Core Build Directory
 # 

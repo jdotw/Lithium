@@ -90,4 +90,10 @@ cp * $PREFIX/Contents/Resources/DefaultPreferences/Database
 cd $BASEDIR
 rm -rf build
 
+rm -rf /Library/Lithium/LithiumCore.app/Contents/Frameworks/LithiumDatabase64.framework/Versions/5.0/doc
+
+rm -rf /Library/Lithium/LithiumCore.app/Contents/Resources/man*
+
+rm -rf /Library/Lithium/LithiumCore.app/doc
+
 echo "[OK] Universal Binary build of PostgreSQL completed successfully"

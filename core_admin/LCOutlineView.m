@@ -14,11 +14,11 @@
 // CoreGraphics gradient helpers
 
 typedef struct {
-	float red1, green1, blue1, alpha1;
-	float red2, green2, blue2, alpha2;
+	CGFloat red1, green1, blue1, alpha1;
+	CGFloat red2, green2, blue2, alpha2;
 } _twoColorsType;
 
-void _linearColorBlendFunction4(void *info, const float *in, float *out)
+void _linearColorBlendFunction4(void *info, const CGFloat *in, CGFloat *out)
 {
 	_twoColorsType *twoColors = info;
 	
@@ -177,7 +177,7 @@ static const CGFunctionCallbacks linearFunctionCallbacks = {0,
 {
 	// Take the color apart
 	NSColor *alternateSelectedControlColor = [NSColor alternateSelectedControlColor];
-	float hue, saturation, brightness, alpha;
+	CGFloat hue, saturation, brightness, alpha;
 	[[alternateSelectedControlColor colorUsingColorSpaceName:NSDeviceRGBColorSpace] getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
 	alpha=0.5;
 	
@@ -215,15 +215,15 @@ static const CGFunctionCallbacks linearFunctionCallbacks = {0,
 					blue:&twoColors->blue1 alpha:&twoColors->alpha1];
 	[darkerColor getRed:&twoColors->red2 green:&twoColors->green2
 				   blue:&twoColors->blue2 alpha:&twoColors->alpha2];
-	static const float domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0};
+	static const CGFloat domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0};
 	CGFunctionRef linearBlendFunctionRef = CGFunctionCreate(twoColors, 1, domainAndRange, 4, domainAndRange, &linearFunctionCallbacks);
 	
 	NSIndexSet *selectedRowIndexes = [self selectedRowIndexes];
-	unsigned int rowIndex = [selectedRowIndexes indexGreaterThanOrEqualToIndex:0];
+	NSInteger rowIndex = [selectedRowIndexes indexGreaterThanOrEqualToIndex:0];
 	
 	while (rowIndex != NSNotFound) 
 	{
-		unsigned int endOfCurrentRunRowIndex, newRowIndex = rowIndex;
+		NSInteger endOfCurrentRunRowIndex, newRowIndex = rowIndex;
 		do 
 		{
 			endOfCurrentRunRowIndex = newRowIndex;
@@ -254,13 +254,13 @@ static const CGFunctionCallbacks linearFunctionCallbacks = {0,
 	CGColorSpaceRelease(colorSpace);	
 }
 
-- (void)selectRow:(int)row byExtendingSelection:(BOOL)extend;
+- (void)selectRow:(NSInteger)row byExtendingSelection:(BOOL)extend;
 {
 	[super selectRow:row byExtendingSelection:extend];
 	[self setNeedsDisplay:YES]; 
 }
 
-- (void)deselectRow:(int)row;
+- (void)deselectRow:(NSInteger)row;
 {
 	[super deselectRow:row];
 	[self setNeedsDisplay:YES]; 
