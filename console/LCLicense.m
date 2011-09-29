@@ -64,16 +64,19 @@
 	if ([self.key length] > 30 && [self.key length] < 50)
 	{
 		/* eKey requiring activation */
+        NSLog(@"Key is valid but needs activation");
 		return YES;
 	}
 	else if ([self.key length] >= 50)
 	{
 		/* Signed key does not need activation */
+        NSLog(@"Key is valid and does NOT need activation");
 		return YES;
 	}
 	else 
 	{
 		/* Invalid size */
+        NSLog(@"Key is invalid, the size is wrong");
 		return NO;
 	}
 }

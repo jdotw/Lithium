@@ -53,9 +53,14 @@ int xml_coresetup (i_resource *self, i_xml_request *req)
   req->xml_out->doc = xmlNewDoc (BAD_CAST "1.0");
   root_node = xmlNewNode (NULL, BAD_CAST "result");
   xmlDocSetRootElement (req->xml_out->doc, root_node);
+
+  /* DEBUG */
+  i_printf(0, "DEBUG: key_str is '%s'", key_str);
+  /* END DEBUG */
   
   /* Add the license key */
   l_lic_key *key = l_lic_validate_key (self, key_str);
+  i_printf(0, "DEBUG: key is '%p' (status is %i)", key, key ? key->status : -1);
   if (key && key->status == KEY_VALID)
   {
     /* Valid key */

@@ -337,6 +337,8 @@
 		else if (existingLicense.isValid)
 		{
 			/* License is already activated */
+            signedLicenseKey = [self.licenseKey copy];
+            NSLog(@"BUG FIX: Setting signedLicenseKey to %@", signedLicenseKey);
 			[self showAuthSetupTab]; //	Move on to auth
 		}
 		else 

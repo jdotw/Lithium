@@ -119,8 +119,6 @@ cp -r "$PKGDIR/1. Applications/Core Admin/Release/Lithium Core Admin.app.dSYM" "
 cd "$INSTALLERDIR"
 zip -r "$DMGDIR/Lithium-Core-$COREBUILDNUM.zip" "Lithium-Core-$COREBUILDNUM.pkg"
 
-exit 5
- 
 #
 # Clean Core Build Directory
 # 
