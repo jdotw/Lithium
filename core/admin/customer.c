@@ -295,7 +295,7 @@ int l_customer_loadall (i_resource *self)
     configured_str = PQgetvalue(res, row, 6);
 
     /* Check for a default customer */
-    if (default_customer_str && strcmp(default_customer_str, "t")==0 && strcmp(desc_str, "CoreVM")==0)
+    if (default_customer_str && strcmp(default_customer_str, "t")==0 && (strcmp(desc_str, "CoreVM")==0 || strcmp(desc_str, "Core")==0))
     {
       /* This is a default customer, auto-set the desc to the hostname */
       static char hostname[256];
