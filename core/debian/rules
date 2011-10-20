@@ -40,7 +40,7 @@ endif
 	autoconf
 	automake -a
 
-	./configure $(CROSS) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
+	./configure $(CROSS) --prefix=/usr --localstatedir=/lithium/var --datadir=/lithium/share --sysconfdir=/lithium/etc --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
 
 
 build: build-stamp
@@ -79,8 +79,13 @@ install: build
 
 	# Move perl and ruby files into place
 	mkdir -p $(CURDIR)/debian/tmp/usr/local
-	cp -rp $(CURDIR)/debian/perl/usr $(CURDIR)/debian/tmp/
-	cp -rp $(CURDIR)/debian/ruby/* $(CURDIR)/debian/tmp/
+	mkdir -p $(CURDIR)/debian/tmp/usr/bin
+	cp -rp $(CURDIR)/../linux/perl5.12 $(CURDIR)/debian/tmp/usr/local
+	cp -rp $(CURDIR)/../linux/ruby/* $(CURDIR)/debian/tmp
+	cp -rp $(CURDIR)/../linux/*rrd* $(CURDIR)/debian/tmp/usr/bin
+	find $(CURDIR)/../linux/*rrd* | sed 's/^\/usr\/local\/src\/lithium\/core\/\.\.\/linux/debian\/tmp\/usr\/bin/g' > $(CURDIR)/debian/install
+	find $(CURDIR)/../linux/perl5.12 | sed 's/^\/usr\/local\/src\/lithium\/core\/\.\.\/linux/debian\/tmp\/usr\/local/g' >> $(CURDIR)/debian/install
+	find $(CURDIR)/../linux/ruby | sed 's/^\/usr\/local\/src\/lithium\/core\/\.\.\/linux\/ruby/debian\/tmp/g' >> $(CURDIR)/debian/install
 
 # Build architecture-independent files here.
 binary-indep: build install

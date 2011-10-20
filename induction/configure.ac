@@ -74,7 +74,7 @@ AC_SEARCH_LIBS(perl_alloc, perl)
 AC_CHECK_HEADER(dns_sd.h, AC_DEFINE(HAVE_DNS_SD), )
 
 # Set custom CFLAGS/LDFLAGS
-CFLAGS="$CFLAGS  -W -Wall -Wno-unused -Wno-declaration-after-statement -Wno-unused-parameter -Werror"
+CFLAGS="$CFLAGS  -W -Wall -Wno-unused -Wno-declaration-after-statement -Wno-unused-parameter -Wno-unused-result -Werror"
 LDFLAGS="$LDFLAGS"
 
 dnl ###########################################

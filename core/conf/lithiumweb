@@ -1,0 +1,23 @@
+<VirtualHost *:80 *:51180>
+	ServerAdmin webmaster@localhost
+
+	DocumentRoot /lithium/share/htdocs
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /lithium/share/htdocs/>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ErrorLog /var/log/apache2/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	#LogLevel warn
+	#CustomLog /var/log/apache2/access.log combined
+
+</VirtualHost>

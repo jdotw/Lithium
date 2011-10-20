@@ -1,0 +1,10 @@
+/lithium/var/log/lithium/*.log
+{
+	rotate 7
+	daily
+	copytruncate
+	missingok
+	notifempty
+	compress
+}
+

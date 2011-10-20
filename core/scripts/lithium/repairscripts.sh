@@ -6,8 +6,8 @@ if [ -e '/Library/Lithium/LithiumCore.app' ] ; then
   LITHIUMDATA="/Library/Application Support/Lithium/Monitoring Data/History/lithium"
   SCRIPTPATH="/Library/Lithium/LithiumCore.app/Contents/Resources"
 else
-  LITHIUMDATA="/usr/var/lithium"
-  SCRIPTPATH="/usr/share"
+  LITHIUMDATA="/lithium/var/lithium"
+  SCRIPTPATH="/lithium/share"
 fi
 
 if [ -e "$LITHIUMDATA" ] ; then

@@ -22,4 +22,4 @@ echo -n "Running 'automake' ... "
 automake -a
 echo "Done"
 
-./configure --build i486-linux-gnu --prefix=/usr --mandir=${prefix}/share/man --infodir=${prefix}/share/info
+./configure --build i486-linux-gnu --prefix=/usr --localstatedir=/lithium/var --datadir=/lithium/share --sysconfdir=/lithium/etc --mandir=${prefix}/share/man --infodir=${prefix}/share/info

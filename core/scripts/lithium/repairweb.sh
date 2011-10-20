@@ -5,7 +5,7 @@
 if [ -e '/Library/Lithium/LithiumCore.app' ] ; then
   HTDOCSPATH="/Library/Application Support/Lithium/ClientService/Resources/htdocs"
 else
-  HTDOCSPATH="/usr/share/htdocs"
+  HTDOCSPATH="/lithium/share/htdocs"
 fi
 
 
