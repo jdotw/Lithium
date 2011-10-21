@@ -13,6 +13,7 @@ BASEDIR=$PWD
 #
 
 cd "$SRCDIR"
+
 BUILDNUM=`agvtool mvers | grep '^Found CFBundleShortVersionString of'  | awk '{ print $4 }' | sed 's/\"//g'`
 BUILDNUM_SHORT=`agvtool vers | grep '^ '  | sed 's/^    //g'`
 echo "Build number is $BUILDNUM ($BUILDNUM_SHORT)"
