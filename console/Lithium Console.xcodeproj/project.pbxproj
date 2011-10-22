@@ -5654,7 +5654,7 @@
 					i386,
 					ppc,
 				);
-				CURRENT_PROJECT_VERSION = 6608;
+				CURRENT_PROJECT_VERSION = 6609;
 				FRAMEWORK_SEARCH_PATHS = "../Frameworks/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -5740,7 +5740,7 @@
 					i386,
 					ppc,
 				);
-				CURRENT_PROJECT_VERSION = 6608;
+				CURRENT_PROJECT_VERSION = 6609;
 				FRAMEWORK_SEARCH_PATHS = "../Frameworks/**";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = unsupported;
