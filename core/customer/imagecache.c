@@ -61,7 +61,7 @@ int l_imagecache_purge_specific (i_resource *self, time_t max_age)
 #ifdef OS_DARWIN
   asprintf (&dirname, "/Library/Application Support/Lithium/ClientService/Resources/htdocs/%s/image_cache", self->hierarchy->cust->name_str);
 #else
-  asprintf (&dirname, "/var/www/%s/image_cache", self->hierarchy->cust->name_str);
+  asprintf (&dirname, "/lithium/share/htdocs/%s/image_cache", self->hierarchy->cust->name_str);
 #endif
   DIR *dir = opendir (dirname);
   if (!dir)

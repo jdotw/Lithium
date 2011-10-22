@@ -40,7 +40,7 @@ endif
 	autoconf
 	automake -a
 
-	./configure $(CROSS) --prefix=/usr --localstatedir=/lithium/var --datadir=/lithium/share --sysconfdir=/lithium/etc --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
+	./configure $(CROSS) --prefix=/usr --localstatedir=/lithium/var --datadir=/lithium/share --sysconfdir=/lithium/etc --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info CFLAGS="$(CFLAGS) -Wno-unused-result" LDFLAGS="$(LDFLAGS)"
 
 
 build: build-stamp

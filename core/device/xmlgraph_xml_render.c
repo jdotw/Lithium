@@ -453,7 +453,7 @@ int xml_xmlgraph_render (i_resource *self, i_xml_request *xmlreq)
 #ifdef OS_DARWIN
   asprintf (&imagefullpath, "/Library/Application Support/Lithium/ClientService/Resources/htdocs/%s/image_cache/%s", self->hierarchy->cust->name_str, imagefile); 
 #else
-  asprintf (&imagefullpath, "/var/www/%s/image_cache/%s", self->hierarchy->cust->name_str, imagefile); 
+  asprintf (&imagefullpath, "/lithium/share/htdocs/%s/image_cache/%s", self->hierarchy->cust->name_str, imagefile); 
 #endif
   free (imagefile);
 
