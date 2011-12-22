@@ -1,7 +1,7 @@
-#!/usr/local/perl5.12/bin/perl
-    eval 'exec /usr/local/perl5.12/bin/perl -S $0 ${1+"$@"}'
-	if $running_under_some_shell;
-#!/usr/bin/perl -w
+#!/usr/local/perl5.12/bin/perl -w
+
+eval 'exec /usr/local/perl5.12/bin/perl -w -S $0 ${1+"$@"}'
+    if 0; # not running under some shell
 
 use strict;
 use IO::File;

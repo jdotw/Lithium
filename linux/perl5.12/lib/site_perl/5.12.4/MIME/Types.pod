@@ -16,6 +16,30 @@ MIME::Types - Definition of MIME types
 
 =head1 DESCRIPTION
 
+=head2 MIME::Types and mod_perl
+
+This module uses a DATA handle to read all the types at first
+instantiation, which doesn't play nicely with mod_perl and fork.
+
+When you use this module with mod_perl, add this to C<startup.pl>
+
+   use MIME::Types;
+   BEGIN { MIME::Types->new() }
+
+Now, the type definitions will get parsed before the processes are spawned.
+
+=head2 MIME::Types and daemons (fork)
+
+If your program uses fork (usually for a daemon), then the situation
+is a bit like with mod_perl before: you want to have the type table
+initialized before you start forking. So, first call
+
+   my $mt = MIME::Types->new;
+
+Later, each time you create this object (you may, of course, also reuse
+the object you create here) you will get access to the same global table
+of types.
+
 MIME types are used in MIME compliant lines, for instance as part
 of e-mail and HTTP traffic, to indicate the type of content which is
 transmitted.  Sometimes real knowledge about a mime-type is need.
@@ -33,20 +57,20 @@ look at File::TypeInfo.
 
 =head2 Instantiation
 
-MIME::Types-E<gt>B<new>(OPTIONS)
-
 =over 4
+
+=item MIME::Types-E<gt>B<new>(OPTIONS)
 
 Create a new C<MIME::Types> object which manages the data.  In the current
 implementation, it does not matter whether you create this object often
 within your program, but in the future this may change.
 
- Option       --Default
- only_complete  <false>
+ -Option       --Default
+  only_complete  <false>
 
-. only_complete => BOOLEAN
+=over 2
 
-=over 4
+=item only_complete => BOOLEAN
 
 Only include complete MIME type definitions: requires at least one known
 extension.  This will reduce the number of entries --and with that the
@@ -62,9 +86,9 @@ information.
 
 =head2 Knowledge
 
-$obj-E<gt>B<addType>(TYPE, ...)
-
 =over 4
+
+=item $obj-E<gt>B<addType>(TYPE, ...)
 
 Add one or more TYPEs to the set of known types.  Each TYPE is a
 C<MIME::Type> which must be experimental: either the main-type or
@@ -76,19 +100,11 @@ was produced when an unknown IANA type was added.  This has been
 removed, because some people need that to get their application
 to work locally... broken applications...
 
-=back
-
-$obj-E<gt>B<extensions>
-
-=over 4
+=item $obj-E<gt>B<extensions>
 
 Returns a list of all defined extensions.
 
-=back
-
-$obj-E<gt>B<mimeTypeOf>(FILENAME)
-
-=over 4
+=item $obj-E<gt>B<mimeTypeOf>(FILENAME)
 
 Returns the C<MIME::Type> object which belongs to the FILENAME (or simply
 its filename extension) or C<undef> if the file type is unknown.  The extension
@@ -105,11 +121,7 @@ example: use of mimeTypeOf()
  my MIME::Type  $mime = $types->mimeTypeOf('jpg');
  print $mime->isBinary;
 
-=back
-
-$obj-E<gt>B<type>(STRING)
-
-=over 4
+=item $obj-E<gt>B<type>(STRING)
 
 Return the C<MIME::Type> which describes the type related to STRING.  One
 type may be described more than once.  Different extensions is use for
@@ -117,11 +129,7 @@ this type, and different operating systems may cause more than one
 C<MIME::Type> object to be defined.  In scalar context, only the first
 is returned.
 
-=back
-
-$obj-E<gt>B<types>
-
-=over 4
+=item $obj-E<gt>B<types>
 
 Returns a list of all defined mime-types
 
@@ -133,9 +141,9 @@ The next functions are provided for backward compatibility with MIME::Types
 versions 0.06 and below.  This code originates from Jeff Okamoto
 F<okamoto@corp.hp.com> and others.
 
-B<by_mediatype>(TYPE)
-
 =over 4
+
+=item B<by_mediatype>(TYPE)
 
 This function takes a media type and returns a list or anonymous array of
 anonymous three-element arrays whose values are the file name suffix used to
@@ -145,11 +153,7 @@ TYPE can be a full type name (contains '/', and will be matched in full),
 a partial type (which is used as regular expression) or a real regular
 expression.
 
-=back
-
-B<by_suffix>(FILENAME|SUFFIX)
-
-=over 4
+=item B<by_suffix>(FILENAME|SUFFIX)
 
 Like C<mimeTypeOf>, but does not return an C<MIME::Type> object. If the file
 +type is unknown, both the returned media type and encoding are empty strings.
@@ -162,11 +166,7 @@ example: use of function by_suffix()
  my $refdata =  by_suffix 'image.gif';
  my ($mediatype, $encoding) = @$refdata;
 
-=back
-
-B<import_mime_types>
-
-=over 4
+=item B<import_mime_types>
 
 This method has been removed: mime-types are only useful if understood
 by many parties.  Therefore, the IANA assigns names which can be used.
@@ -178,12 +178,12 @@ missing, please contact the maintainer for inclussion.
 
 =head1 SEE ALSO
 
-This module is part of MIME-Types distribution version 1.31,
-built on September 21, 2010. Website: F<http://perl.overmeer.net/mimetypes/>
+This module is part of MIME-Types distribution version 1.32,
+built on August 18, 2011. Website: F<http://perl.overmeer.net/mimetypes/>
 
 =head1 LICENSE
 
-Copyrights 1999,2001-2010 by Mark Overmeer. For other contributors see ChangeLog.
+Copyrights 1999,2001-2011 by Mark Overmeer. For other contributors see ChangeLog.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

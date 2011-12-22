@@ -10,7 +10,7 @@ BEGIN {
 	@ISA = qw(Exporter);
 }
 
-$VERSION = "0.09";
+$VERSION = "0.11";
 
 $VERSION = eval $VERSION;
 
@@ -157,12 +157,19 @@ Try::Tiny - minimal try/catch with proper localization of $@
 
 =head1 SYNOPSIS
 
+You can use Try::Tiny's C<try> and C<catch> to expect and handle exceptional
+conditions, avoiding quirks in Perl and common mistakes:
+
 	# handle errors with a catch handler
 	try {
 		die "foo";
 	} catch {
 		warn "caught error: $_"; # not $@
 	};
+
+You can also use it like a stanalone C<eval> to catch and ignore any error
+conditions.  Obviously, this is an extreme measure not to be undertaken
+lightly:
 
 	# just silence errors
 	try {
@@ -282,8 +289,10 @@ you to locate cleanup code which cannot be done via C<local()> e.g. closing a fi
 handle.
 
 When invoked, the finally block is passed the error that was caught.  If no
-error was caught, it is passed nothing.  In other words, the following code
-does just what you would expect:
+error was caught, it is passed nothing.  (Note that the finally block does not
+localize C<$_> with the error, since unlike in a catch block, there is no way
+to know if C<$_ == undef> implies that there were no errors.) In other words,
+the following code does just what you would expect:
 
   try {
     die_sometimes();
@@ -446,12 +455,32 @@ or
 C<return> returns from the C<try> block, not from the parent sub (note that
 this is also how C<eval> works, but not how L<TryCatch> works):
 
-	sub bar {
-		try { return "foo" };
-		return "baz";
-	}
+  sub parent_sub {
+      try {
+          die;
+      }
+      catch {
+          return;
+      };
 
-	say bar(); # "baz"
+      say "this text WILL be displayed, even though an exception is thrown";
+  }
+
+Instead, you should capture the return value:
+
+  sub parent_sub {
+      my $success = try {
+          die;
+          1;
+      }
+      return unless $success;
+
+      say "This text WILL NEVER appear!";
+  }
+
+Note that if you have a catch block, it must return undef for this to work,
+since if a catch block exists, its return value is returned in place of undef
+when an exception is thrown.
 
 =item *
 

@@ -1,11 +1,11 @@
-# Copyrights 1999,2001-2010 by Mark Overmeer.
+# Copyrights 1999,2001-2011 by Mark Overmeer.
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 1.06.
+# Pod stripped from pm file by OODoc 2.00.
 
 package MIME::Types;
 use vars '$VERSION';
-$VERSION = '1.31';
+$VERSION = '1.32';
 
 
 use strict;
@@ -24,6 +24,7 @@ sub init($)
     {   local $_;
         local $/  = "\n";
 
+        my $rewind = tell DATA;
         while(<DATA>)
         {   chomp;
             next if !length $_ or substr($_, 0, 1) eq '#';
@@ -42,7 +43,7 @@ sub init($)
               , system     => $os
               );
         }
-        close DATA;
+        seek DATA, $rewind, 0;  # for forked/mod_perl when badly implemented
     }
 
     $self;

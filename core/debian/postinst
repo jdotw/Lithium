@@ -6,9 +6,11 @@ update-rc.d lithiumcore defaults
 
 # Restart Core
 if which invoke-rc.d >/dev/null 2>&1; then
-  invoke-rc.d lithiumcore restart
+  invoke-rc.d lithiumcore stop
+  invoke-rc.d lithiumcore start
 else
-  /etc/init.d/lithiumcore restart
+  /etc/init.d/lithiumcore stop
+  /etc/init.d/lithiumcore start
 fi
 
 # Restart Apache

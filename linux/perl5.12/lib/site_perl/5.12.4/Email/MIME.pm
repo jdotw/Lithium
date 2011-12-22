@@ -21,7 +21,7 @@ Email::MIME - Easy MIME message parsing.
 
 =head1 VERSION
 
-version 1.908
+version 1.910
 
 =head1 SYNOPSIS
 
@@ -56,13 +56,13 @@ version 1.908
               disposition  => "attachment",
               charset      => "US-ASCII",
           },
-          body => "Hello there!",
+          body_str => "Hello there!",
       ),
   );
 
   my $email = Email::MIME->create(
-      header => [ From => 'casey@geeknest.com' ],
-      parts  => [ @parts ],
+      header_str => [ From => 'casey@geeknest.com' ],
+      parts      => [ @parts ],
   );
 
   # nesting parts
@@ -74,17 +74,17 @@ version 1.908
   );
   
   # standard modifications
-  $email->header_set( 'X-PoweredBy' => 'RT v3.0'      );
-  $email->header_set( To            => rcpts()        );
-  $email->header_set( Cc            => aux_rcpts()    );
-  $email->header_set( Bcc           => sekrit_rcpts() );
+  $email->header_str_set( 'X-PoweredBy' => 'RT v3.0'      );
+  $email->header_str_set( To            => rcpts()        );
+  $email->header_str_set( Cc            => aux_rcpts()    );
+  $email->header_str_set( Bcc           => sekrit_rcpts() );
 
   # more advanced
   $_->encoding_set( 'base64' ) for $email->parts;
   
   # Quick multipart creation
   my $quicky = Email::MIME->create(
-      header => [
+      header_str => [
           From => 'my@address',
           To   => 'your@address',
       ],
@@ -111,7 +111,7 @@ very long. Added to that, you have:
 
 =cut
 
-our $VERSION = '1.908';
+our $VERSION = '1.910';
 
 our $CREATOR = 'Email::MIME::Creator';
 
@@ -130,21 +130,25 @@ sub new {
 =head2 create
 
   my $single = Email::MIME->create(
-    header     => [ ... ],
+    header_str => [ ... ],
+    body_str   => '...',
     attributes => { ... },
-    body       => '...',
   );
   
   my $multi = Email::MIME->create(
-    header     => [ ... ],
-    attributes => { ... },
+    header_str => [ ... ],
     parts      => [ ... ],
+    attributes => { ... },
   );
 
-This method creates a new MIME part. The C<header> parameter is a lis of
-headers to include in the message. C<attributes> is a hash of MIME
-attributes to assign to the part, and may override portions of the
-header set in the C<header> parameter.
+This method creates a new MIME part. The C<header_str> parameter is a list of
+headers pairs to include in the message. The value for each pair is expected to
+be a text string that will be MIME-encoded as needed.  A similar C<header>
+parameter can be provided in addition to or instead of C<header_str>.  Its
+values will be used verbatim.
+
+C<attributes> is a hash of MIME attributes to assign to the part, and may
+override portions of the header set in the C<header> parameter.
 
 The C<parts> parameter is a list reference containing C<Email::MIME>
 objects. Elements of the C<parts> list can also be a non-reference
@@ -693,9 +697,9 @@ sub parts_add {
 
   $email->walk_parts(sub {
       my ($part) = @_;
-      return if $part->parts > 1; # multipart
+      return if $part->subparts; # multipart
       
-      if ( $part->content_type =~ m[text/html] ) {
+      if ( $part->content_type =~ m[text/html]i ) {
           my $body = $part->body;
           $body =~ s/<link [^>]+>//; # simple filter example
           $part->body_set( $body );

@@ -1,6 +1,6 @@
 package DateTime::TimeZone;
-BEGIN {
-  $DateTime::TimeZone::VERSION = '1.35';
+{
+  $DateTime::TimeZone::VERSION = '1.40';
 }
 
 use 5.006;
@@ -561,7 +561,7 @@ DateTime::TimeZone - Time zone object base class and factory
 
 =head1 VERSION
 
-version 1.35
+version 1.40
 
 =head1 SYNOPSIS
 
@@ -786,8 +786,8 @@ your module with Storable.
 
 =head1 SUPPORT
 
-Support for this module is provided via the datetime@perl.org email
-list. See http://datetime.perl.org/?MailingList for details.
+Support for this module is provided via the datetime@perl.org email list. See
+http://datetime.perl.org/wiki/datetime/page/Mailing_List for details.
 
 Please submit bugs to the CPAN RT system at
 http://rt.cpan.org/NoAuth/ReportBug.html?Queue=datetime%3A%3Atimezone

@@ -10,7 +10,7 @@ use Test::NoWarnings::Warning ();
 
 use vars qw( $VERSION @EXPORT_OK @ISA $do_end_test );
 BEGIN {
-	$VERSION   = '1.02';
+	$VERSION   = '1.03';
 	@ISA       = 'Exporter';
 	@EXPORT_OK = qw(
 		clear_warnings had_no_warnings warnings
@@ -290,7 +290,7 @@ Adam Kennedy E<lt>adamk@cpan.orgE<gt>
 
 Copyright 2003 - 2007 Fergal Daly.
 
-Some parts copyright 2010 Adam Kennedy.
+Some parts copyright 2010 - 2011 Adam Kennedy.
 
 This program is free software and comes with no warranty. It is distributed
 under the LGPL license

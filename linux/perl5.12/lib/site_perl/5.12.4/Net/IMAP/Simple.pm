@@ -9,7 +9,7 @@ use IO::Socket;
 use IO::Select;
 use Net::IMAP::Simple::PipeSocket;
 
-our $VERSION = "1.2023";
+our $VERSION = "1.2026";
 
 BEGIN {
     # I'd really rather the pause/cpan indexers miss this "package"
@@ -466,7 +466,7 @@ sub deleted {
 sub range2list {
     my $self_or_class = shift;
     my %h;
-    my @items = sort {$a<=>$b} grep {!$h{$_}++} map { m/(\d+):(\d+)/ ? ($1 .. $2) : ($_) } split(m/[,\s]+/, shift);
+    my @items = grep {!$h{$_}++} map { m/(\d+):(\d+)/ ? ($1 .. $2) : ($_) } split(m/[,\s]+/, shift);
 
     return @items;
 }
@@ -525,7 +525,7 @@ sub search {
     # add rfc5256 sort, requires charset :(
     if ($sort) {
         $sort = uc $sort;
-        $cmd = "SORT ($sort) \"$charset\"";
+        $cmd = ($uidm ? "UID ": "") . "SORT ($sort) \"$charset\"";
     }
 
     my @seq;
